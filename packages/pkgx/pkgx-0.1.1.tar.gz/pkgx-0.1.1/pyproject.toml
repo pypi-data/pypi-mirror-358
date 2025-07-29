@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pkgx"
+version = "0.1.1"
+description = "Universal Package Manager - A wrapper for various system package managers"
+requires-python = ">=3.8"
+authors = [
+    {name = "pkgx Development", email = "smurfjuggler@gmail.com"}
+]
+readme = "README.md"
+license = {text = "MIT"}
+keywords = ["package-manager", "wrapper", "cli", "universal"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: System :: Systems Administration",
+    "Topic :: Utilities",
+]
+dependencies = [
+    # No external dependencies - using only standard library
+]
+
+[project.urls]
+home-page = "https://github.com/udkyo/pkgx"
+repository = "https://github.com/udkyo/pkgx"
+documentation = "https://github.com/udkyo/pkgx#README.md"
+
+[project.scripts]
+pkgx = "pkgx.cli:main"
