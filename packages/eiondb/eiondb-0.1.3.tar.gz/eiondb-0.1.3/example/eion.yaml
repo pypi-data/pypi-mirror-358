@@ -1,0 +1,47 @@
+common:
+  log:
+    level: info
+    format: json
+  
+  http:
+    host: 0.0.0.0
+    port: 8080
+    max_request_size: 5242880
+  
+  auth:
+    cluster_api_key: "eion_cluster_your_key_here"  # Replace with your actual cluster API key
+  
+  postgres:
+    user: eion
+    password: password
+    host: localhost
+    port: 5432
+    database: eion
+    schema_name: public
+    read_timeout: 30
+    write_timeout: 30
+    max_open_connections: 25
+  
+  redis:
+    host: localhost
+    port: 6379
+    password: ""
+    database: 0
+  
+  carbon:
+    locale: en
+  
+  memory:
+    enable_extraction: true
+    vector_store_type: postgres
+    token_counter_type: simple
+  
+  numa:
+    enabled: true
+    openai_api_key: ""  # Optional - for advanced LLM features
+    embedding_model: "all-MiniLM-L6-v2"
+    neo4j:
+      uri: "bolt://localhost:7687"
+      username: "neo4j"
+      password: "password"
+      database: "neo4j" 
