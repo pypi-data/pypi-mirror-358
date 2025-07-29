@@ -1,0 +1,5 @@
+# Custom exceptions
+"""
+exceptions.py
+"""
+
