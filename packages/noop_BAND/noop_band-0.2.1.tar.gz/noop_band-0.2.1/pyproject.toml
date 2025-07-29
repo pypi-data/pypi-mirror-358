@@ -1,0 +1,20 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[project]
+name = "noop_BAND"
+version = "0.2.1"
+authors = [
+  {name = "Bill Anderson", email = "band@acm.org"}
+]
+description = "An example package"
+readme = "README.md"
+homepage = "https://github.com/band/noop-package/noop"
+
+dependencies = [
+  "python>=3.11"
+]
+
+[project.scripts]
+noop = "noop_BAND.noop:main"
