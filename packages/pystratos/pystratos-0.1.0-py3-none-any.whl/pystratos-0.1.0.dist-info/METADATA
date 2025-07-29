@@ -1,0 +1,80 @@
+Metadata-Version: 2.3
+Name: pystratos
+Version: 0.1.0
+Summary: A Python client library for interacting with Stratos APIs. ...
+License: BSD-3-Clause
+Author: m-bo-one
+Author-email: bogdankurinniy.dev1@gmail.com
+Requires-Python: >=3.9, !=2.7.*, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, !=3.6.*, !=3.7.*, !=3.8.*
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Web Environment
+Classifier: Framework :: AsyncIO
+Classifier: Framework :: Trio
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Provides-Extra: crypto
+Requires-Dist: cryptography (>=45.0.4,<46.0.0) ; extra == "crypto"
+Requires-Dist: httpx (>=0.28.1,<0.29.0)
+Project-URL: Homepage, https://www.thestratos.org/
+Project-URL: Repository, https://github.com/stratosnet/pystratos
+Description-Content-Type: text/markdown
+
+# Pystratos
+
+Pystratos is a fully-featured Python 3 client library for interacting with Stratos services.
+
+Install Pystratos using pip:
+
+```shell
+$ pip install pystratos
+```
+
+## Usage examples
+
+Simple high-level interface for SPFS:
+
+```pycon
+import asyncio
+
+import pystratos
+
+async def main():
+    async with pystratos.AsyncSpfsClient(timeout=10) as client:
+        data = b"test data"
+        resp = await client.add(data, filename="test")
+        print(resp)
+
+
+asyncio.run(main())
+```
+
+or with file encryption
+
+```pycon
+import asyncio
+
+import pystratos
+
+async def main():
+    async with pystratos.AsyncSpfsClient(timeout=10, encryption_key=b"wZcZyNXewdPeFdpv19SAlOTgfsM4aBY27ZKREReuFfM=") as client:
+        with open("<your_file_path>", "rb") as f:
+            resp = await client.add(f, filename="test")
+            content = await client.cat(resp["Hash"])
+            print(f"{content=}")
+
+
+asyncio.run(main())
+```
+
+NOTE: You need to install optional dep `pystratos[crypto]` for encryption
+
