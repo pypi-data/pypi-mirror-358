@@ -1,0 +1,26 @@
+[project]
+name = "py3-debug"
+version = "0.0.1"
+authors = [{name="Talbot3", email="1796560392@qq.com"}]
+description = "py3-debug 是一款开源辅助 debug 工具注解库，可帮助重新生成类方法调用信息。"
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/Talbot3/py3-debug"   
+Issues = "https://github.com/Talbot3/py3-debug/issues"   
+
+[build-system]
+requires = ["setuptools>=46.1.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools]
+package-dir = {"debug" = "src/debug"}

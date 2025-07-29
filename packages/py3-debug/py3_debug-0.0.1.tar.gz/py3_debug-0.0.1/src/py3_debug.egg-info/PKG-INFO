@@ -1,0 +1,33 @@
+Metadata-Version: 2.4
+Name: py3-debug
+Version: 0.0.1
+Summary: py3-debug 是一款开源辅助 debug 工具注解库，可帮助重新生成类方法调用信息。
+Author-email: Talbot3 <1796560392@qq.com>
+Project-URL: Homepage, https://github.com/Talbot3/py3-debug
+Project-URL: Issues, https://github.com/Talbot3/py3-debug/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
+# py3-debug
+类级注解，自动为所有方法增加文件信息，类名，方法名，参数名信息，以支持回调链路追踪
+
+![show](https://github.com/Talbot3/py3-debug/blob/main/截屏2025-06-21%2018.43.54.png)
+
+```python
+import debug
+# 使用示例
+@debug
+class Calculator:
+    def add(self, a, b):
+        return a + b
+    def sub(self, a, b):
+        return a - b
+    def mul(self, a, b):
+        return a * b
+    def div(self, a, b):
+        return a / b
+```
