@@ -1,0 +1,21 @@
+[console_scripts]
+geoslurper = geoslurp.cli.geoslurper:main
+
+[geoslurp.dbfuncs]
+loadfile = geoslurp.plugins.dbfunc.readfile:readfile
+maskgeom = geoslurp.plugins.dbfunc.maskgeom:gs_maskgeom
+max_pfaf = geoslurp.plugins.dset.hydrosheds:max_upstream_pfaf_id
+
+[geoslurp.dsetfactories]
+geoshapes = geoslurp.plugins.dset.geoshapes:getGeoshapesDsets
+gleamdset = geoslurp.plugins.dset.gleam:getGleamDsets
+glofas = geoslurp.plugins.dset.glofas:getGloFASDsets
+grdcsets = geoslurp.plugins.dset.grdc:getGRDCDsets
+hydroshedsbasins = geoslurp.plugins.dset.hydrosheds:getHyBasins
+icedraindiv = geoslurp.plugins.dset.icedraindiv:getDrainDivDsets
+naturalearth = geoslurp.plugins.dset.naturalearth:getNaturalEarthDsets
+oceansub = geoslurp.plugins.dset.ne_ocean_fast:getOceanFastDsets
+
+[geoslurp.viewfactories]
+graceview = geoslurp.plugins.views.graceviews:getGRACEviews
+grdcviews = geoslurp.plugins.dset.grdc:getGRDCviews
