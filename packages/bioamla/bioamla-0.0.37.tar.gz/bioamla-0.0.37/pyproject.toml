@@ -1,0 +1,49 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "bioamla"
+version = "0.0.37"
+authors = [
+  { name="John McMeen", email="johnmcmeen@gmail.com" },
+]
+description = "Bioacoustics & Machine Learning Applications"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+  "novus-pytils",
+  "click",
+  "torch",
+  "torchvision", 
+  "torchaudio",
+  "transformers[torch]", 
+  "datasets[audio]",
+  "audiomentations", 
+  "evaluate", 
+  "tensorboardX",
+  "fastapi[standard]",
+  "pydub[mp3]",
+]
+
+[project.scripts]
+wave = "bioamla.cli.wave:main"
+waves = "bioamla.cli.waves:main" 
+audio = "bioamla.cli.audio:main"
+ast = "bioamla.cli.ast:main"
+ast-predict = "bioamla.cli.ast_predict:main"
+ast-finetune = "bioamla.cli.ast_finetune:main"
+ast-batch-inference = "bioamla.cli.ast_batch_inference:main"
+extract = "bioamla.cli.extract:main"
+diag = "bioamla.cli.diag:main"
+gpu = "bioamla.cli.gpu:main"
+test = "bioamla.cli.test:main"
+zip = "bioamla.cli.zip:main"
+
+
+[project.urls]
+Homepage = "https://github.com/jmcmeen/bioamla"
