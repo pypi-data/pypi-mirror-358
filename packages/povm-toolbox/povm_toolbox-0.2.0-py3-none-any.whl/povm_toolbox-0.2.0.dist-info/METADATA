@@ -1,0 +1,197 @@
+Metadata-Version: 2.4
+Name: povm_toolbox
+Version: 0.2.0
+Summary: A toolbox for the implementation of positive operator-valued measures (POVMs).
+Project-URL: Documentation, https://qiskit-community.github.io/povm-toolbox/
+Project-URL: Changelog, https://qiskit-community.github.io/povm-toolbox/release-notes.html
+Project-URL: Repository, https://github.com/qiskit-community/povm-toolbox
+License-Expression: Apache-2.0
+License-File: LICENSE.txt
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Natural Language :: English
+Classifier: Operating System :: MacOS
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Scientific/Engineering :: Physics
+Requires-Python: >=3.9
+Requires-Dist: matplotlib!=3.9.1.post1
+Requires-Dist: numba>=0.59
+Requires-Dist: numpy>=1.23
+Requires-Dist: qiskit-ibm-runtime>=0.24
+Requires-Dist: qiskit<3,>=1.4
+Provides-Extra: basetest
+Requires-Dist: pytest-cov>=5.0; extra == 'basetest'
+Requires-Dist: pytest-subtests>=0.14; extra == 'basetest'
+Requires-Dist: pytest>=8.0; extra == 'basetest'
+Provides-Extra: dev
+Requires-Dist: jupyter-sphinx; extra == 'dev'
+Requires-Dist: mypy==1.16.0; extra == 'dev'
+Requires-Dist: nbmake>=1.5.0; extra == 'dev'
+Requires-Dist: nbqa>=1.8.5; extra == 'dev'
+Requires-Dist: nbsphinx>=0.9.4; extra == 'dev'
+Requires-Dist: pylatexenc; extra == 'dev'
+Requires-Dist: pylint==3.3.7; extra == 'dev'
+Requires-Dist: pytest-cov>=5.0; extra == 'dev'
+Requires-Dist: pytest-doctestplus>=1.2.1; extra == 'dev'
+Requires-Dist: pytest-subtests>=0.14; extra == 'dev'
+Requires-Dist: pytest>=8.0; extra == 'dev'
+Requires-Dist: qiskit-sphinx-theme~=2.0.0; extra == 'dev'
+Requires-Dist: reno>=4.1; extra == 'dev'
+Requires-Dist: ruff==0.11.12; extra == 'dev'
+Requires-Dist: sphinx-autodoc-typehints; extra == 'dev'
+Requires-Dist: sphinx-copybutton; extra == 'dev'
+Requires-Dist: sphinx-design; extra == 'dev'
+Requires-Dist: toml>=0.9.6; extra == 'dev'
+Requires-Dist: tox>=4.4.3; extra == 'dev'
+Requires-Dist: typos>=1.20.0; extra == 'dev'
+Provides-Extra: docs
+Requires-Dist: jupyter-sphinx; extra == 'docs'
+Requires-Dist: nbsphinx>=0.9.4; extra == 'docs'
+Requires-Dist: pytest-cov>=5.0; extra == 'docs'
+Requires-Dist: pytest-doctestplus>=1.2.1; extra == 'docs'
+Requires-Dist: pytest-subtests>=0.14; extra == 'docs'
+Requires-Dist: pytest>=8.0; extra == 'docs'
+Requires-Dist: qiskit-sphinx-theme~=2.0.0; extra == 'docs'
+Requires-Dist: reno>=4.1; extra == 'docs'
+Requires-Dist: sphinx-autodoc-typehints; extra == 'docs'
+Requires-Dist: sphinx-copybutton; extra == 'docs'
+Requires-Dist: sphinx-design; extra == 'docs'
+Provides-Extra: doctest
+Requires-Dist: pytest-cov>=5.0; extra == 'doctest'
+Requires-Dist: pytest-doctestplus>=1.2.1; extra == 'doctest'
+Requires-Dist: pytest-subtests>=0.14; extra == 'doctest'
+Requires-Dist: pytest>=8.0; extra == 'doctest'
+Provides-Extra: lint
+Requires-Dist: mypy==1.16.0; extra == 'lint'
+Requires-Dist: nbqa>=1.8.5; extra == 'lint'
+Requires-Dist: pylint==3.3.7; extra == 'lint'
+Requires-Dist: reno>=4.1; extra == 'lint'
+Requires-Dist: ruff==0.11.12; extra == 'lint'
+Requires-Dist: toml>=0.9.6; extra == 'lint'
+Requires-Dist: typos>=1.20.0; extra == 'lint'
+Provides-Extra: nbtest
+Requires-Dist: nbmake>=1.5.0; extra == 'nbtest'
+Requires-Dist: pytest-cov>=5.0; extra == 'nbtest'
+Requires-Dist: pytest-subtests>=0.14; extra == 'nbtest'
+Requires-Dist: pytest>=8.0; extra == 'nbtest'
+Provides-Extra: notebook-dependencies
+Requires-Dist: pylatexenc; extra == 'notebook-dependencies'
+Provides-Extra: style
+Requires-Dist: nbqa>=1.8.5; extra == 'style'
+Requires-Dist: ruff==0.11.12; extra == 'style'
+Requires-Dist: typos>=1.20.0; extra == 'style'
+Provides-Extra: test
+Requires-Dist: pytest-cov>=5.0; extra == 'test'
+Requires-Dist: pytest-subtests>=0.14; extra == 'test'
+Requires-Dist: pytest>=8.0; extra == 'test'
+Description-Content-Type: text/markdown
+
+<!-- SHIELDS -->
+<div align="left">
+
+  [![Release](https://img.shields.io/pypi/v/povm-toolbox.svg?label=Release)](https://github.com/qiskit-community/povm-toolbox/releases)
+  ![Platform](https://img.shields.io/badge/%F0%9F%92%BB%20Platform-Linux%20%7C%20macOS%20%7C%20Windows-informational)
+  [![Python](https://img.shields.io/pypi/pyversions/povm-toolbox?label=Python&logo=python)](https://www.python.org/)
+  [![Qiskit](https://img.shields.io/badge/Qiskit%20-%20%3E%3D1.4%20-%20%236133BD?logo=Qiskit)](https://github.com/Qiskit/qiskit)
+<br />
+  [![Docs (stable)](https://img.shields.io/badge/%F0%9F%93%84%20Docs-stable-blue.svg)](https://qiskit-community.github.io/povm-toolbox/)
+  [![License](https://img.shields.io/github/license/qiskit-community/povm-toolbox?label=License)](LICENSE.txt)
+  [![Downloads](https://img.shields.io/pypi/dm/povm-toolbox.svg?label=Downloads)](https://pypi.org/project/povm-toolbox/)
+  [![Tests](https://github.com/qiskit-community/povm-toolbox/actions/workflows/test_latest_versions.yml/badge.svg)](https://github.com/qiskit-community/povm-toolbox/actions/workflows/test_latest_versions.yml)
+  [![Coverage](https://coveralls.io/repos/github/qiskit-community/povm-toolbox/badge.svg?branch=main)](https://coveralls.io/github/qiskit-community/povm-toolbox?branch=main)
+</div>
+
+# POVMs
+
+### Table of contents
+
+* [About](#about)
+* [Documentation](#documentation)
+* [Installation](#installation)
+* [Deprecation Policy](#deprecation-policy)
+* [Contributing](#contributing)
+* [Citation](#citation)
+* [License](#license)
+
+----------------------------------------------------------------------------------------------------
+
+### About
+
+![overview](https://raw.githubusercontent.com/qiskit-community/povm-toolbox/main/docs/_static/read-me-figure.jpg)
+
+This is a toolbox for working with positive operator-valued measures (POVMs).
+It enables users to use POVMs for sampling the state of quantum circuits (see
+also `povm_toolbox.sampler`) and compute expectation values of any observable of
+interest (see also `povm_toolbox.post_processor`).
+The toolbox includes a library of pre-defined POVMs (see `povm_toolbox.library`)
+which provide ready-to-go POVM circuit definitions. You can also implement your
+own POVM circuits by following the provided interface.
+Additionally, you can work with POVMs on a quantum-informational theoretical
+footing (see `povm_toolbox.quantum_info`).
+
+
+----------------------------------------------------------------------------------------------------
+
+### Documentation
+
+All documentation is available at https://qiskit-community.github.io/povm-toolbox/.
+
+----------------------------------------------------------------------------------------------------
+
+### Installation
+
+We encourage installing this package via `pip`, when possible:
+
+```bash
+pip install 'povm-toolbox'
+```
+
+For more installation information refer to these [installation instructions](docs/install.rst).
+
+----------------------------------------------------------------------------------------------------
+
+### Deprecation Policy
+
+We follow [semantic versioning](https://semver.org/) and are guided by the principles in
+[Qiskit's deprecation policy](https://github.com/Qiskit/qiskit/blob/main/DEPRECATION.md).
+We may occasionally make breaking changes in order to improve the user experience.
+When possible, we will keep old interfaces and mark them as deprecated, as long as they can co-exist with the
+new ones.
+Each substantial improvement, breaking change, or deprecation will be documented in the
+[release notes](https://qiskit-community.github.io/povm-toolbox/release-notes.html).
+
+----------------------------------------------------------------------------------------------------
+
+### Contributing
+
+The source code is available [on GitHub](https://github.com/qiskit-community/povm-toolbox).
+
+The developer guide is located at [CONTRIBUTING.md](https://github.com/qiskit-community/povm-toolbox/blob/main/CONTRIBUTING.md)
+in the root of this project's repository.
+By participating, you are expected to uphold Qiskit's [code of conduct](https://github.com/Qiskit/qiskit/blob/main/CODE_OF_CONDUCT.md).
+
+We use [GitHub issues](https://github.com/qiskit-community/povm-toolbox/issues/new/choose) for tracking requests and bugs.
+
+----------------------------------------------------------------------------------------------------
+
+### Citation
+
+If you use this project, please cite the following reference:
+
+> Laurin E. Fischer, Timothée Dao, Ivano Tavernelli, and Francesco Tacchino
+> "Dual-frame optimization for informationally complete quantum measurements"
+> Phys. Rev. A 109, 062415
+> DOI: https://doi.org/10.1103/PhysRevA.109.062415
+
+----------------------------------------------------------------------------------------------------
+
+### License
+
+[Apache License 2.0](LICENSE.txt)
