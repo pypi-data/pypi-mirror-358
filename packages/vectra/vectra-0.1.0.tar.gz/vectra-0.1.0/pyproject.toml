@@ -1,0 +1,31 @@
+[project]
+name = "vectra"
+version = "0.1.0"
+description = "Vector Transformations and Thermostats for ASE Atoms and Molecules"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+    { name = "Fabian Zills", email = "fzills@icp.uni-stuttgart.de" },
+]
+license = "MIT"
+dependencies = [
+    "ase>=3.25.0",
+    "numpy>=2.3.0",
+    "rdkit2ase>=0.1.8",
+]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=6.29.5",
+    "mace-torch>=0.3.13",
+    "pytest>=8.4.1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.urls]
+Repository = "https://github.com/zincware/vectra"
+Releases = "https://github.com/zincware/vectra/releases"
+Discord = "https://discord.gg/7ncfwhsnm4"
