@@ -1,0 +1,27 @@
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+from __future__ import annotations
+
+from typing import Dict, Iterable, Optional
+from typing_extensions import Required, Annotated, TypedDict
+
+from ...._utils import PropertyInfo
+from ...base_request_context_param import BaseRequestContextParam
+
+__all__ = ["RowUpdateParams", "Row"]
+
+
+class RowUpdateParams(TypedDict, total=False):
+    rows: Required[Iterable[Row]]
+
+    context: BaseRequestContextParam
+
+
+class Row(TypedDict, total=False):
+    public_id: Required[Annotated[str, PropertyInfo(alias="publicId")]]
+
+    row_data: Required[Annotated[Dict[str, Optional[object]], PropertyInfo(alias="rowData")]]
+
+    context: BaseRequestContextParam
+
+    sort_order: Annotated[float, PropertyInfo(alias="sortOrder")]
