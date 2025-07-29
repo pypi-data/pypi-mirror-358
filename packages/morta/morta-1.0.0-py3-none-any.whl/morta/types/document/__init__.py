@@ -1,0 +1,19 @@
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+from __future__ import annotations
+
+from .document import Document as Document
+from .section_create_params import SectionCreateParams as SectionCreateParams
+from .section_update_params import SectionUpdateParams as SectionUpdateParams
+from .duplicate_global_params import DuplicateGlobalParams as DuplicateGlobalParams
+from .section_create_response import SectionCreateResponse as SectionCreateResponse
+from .section_delete_response import SectionDeleteResponse as SectionDeleteResponse
+from .section_retrieve_params import SectionRetrieveParams as SectionRetrieveParams
+from .section_update_response import SectionUpdateResponse as SectionUpdateResponse
+from .section_restore_response import SectionRestoreResponse as SectionRestoreResponse
+from .duplicate_global_response import DuplicateGlobalResponse as DuplicateGlobalResponse
+from .section_retrieve_response import SectionRetrieveResponse as SectionRetrieveResponse
+from .duplicate_duplicate_params import DuplicateDuplicateParams as DuplicateDuplicateParams
+from .section_duplicate_response import SectionDuplicateResponse as SectionDuplicateResponse
+from .create_document_section_param import CreateDocumentSectionParam as CreateDocumentSectionParam
+from .section_duplicate_async_response import SectionDuplicateAsyncResponse as SectionDuplicateAsyncResponse

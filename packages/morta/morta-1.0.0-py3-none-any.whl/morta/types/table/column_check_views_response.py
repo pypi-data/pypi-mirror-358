@@ -1,0 +1,14 @@
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+from typing import List, Optional
+
+from ..._models import BaseModel
+from .table_view import TableView
+
+__all__ = ["ColumnCheckViewsResponse"]
+
+
+class ColumnCheckViewsResponse(BaseModel):
+    data: Optional[List[TableView]] = None
+
+    metadata: Optional[object] = None
