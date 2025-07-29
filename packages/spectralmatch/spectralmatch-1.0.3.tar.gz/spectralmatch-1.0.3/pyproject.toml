@@ -1,0 +1,74 @@
+[build-system]
+requires = [
+    "setuptools>=61.0",
+    "wheel"
+]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = { find = { include = ["spectralmatch*"], exclude = ["spectralmatch_qgis*"] } }
+
+[project]
+name = "spectralmatch"
+version = "1.0.3"
+description = "Global and local spectral matching of 2 or more overlapping rasters"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Kanoa Lindiwe", email = "cankanoa@gmail.com"}
+]
+maintainers = [
+    {name = "Joseph Emile Honour Percival", email = "ipercival@gmail.com"}
+]
+keywords = ['histogram matching', 'spectral matching', 'image enhancement', 'remote sensing', 'geographic information systems(gis)', 'radiometric correction', 'raster statistics', 'QGIS plugin', 'image normalization', 'contrast adjustment', 'satellite imagery', 'uas/drone imagery', 'multispectral', 'geospatial', 'raster transformation', 'digital image processing', 'environmental monitoring', 'seamlines', 'mosaicing']
+requires-python = ">=3.9, <3.13"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
+
+dependencies = [
+    "numpy>=2.2.3",
+    "rasterio>=1.4.3",
+    "gdal>=3.10.2",
+    "scipy>=1.15.2",
+    "fiona>=1.10.1",
+    "omnicloudmask>=1.0.11",
+    "geopandas>=1.0.1",
+    "scikit-image>=0.25.2",
+    "opencv-python>=4.11.0.86",
+    "fire>=0.7.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-mock>=3.14.0",
+    "pytest-cov>=4.0.0",
+    "flake8>=6.0.0",
+    "black>=23.0.0",
+    "pre-commit>=4.1.0"
+]
+
+docs = [
+    "mkdocs>=1.4.0",
+    "mkdocs-material>=9.0.0",
+    "mkdocs-jupyter>=0.24.0",
+    "mkdocstrings>=0.21.0",
+    "mkdocstrings-python>=0.10.0",
+    "mkdocs-git-revision-date-localized-plugin>=1.4.7",
+    "pymdown-extensions>=9.10",
+    "mkdocs-gen-files>=0.5.0",
+]
+
+qgis-build = [
+    "build"
+]
+
+[project.urls]
+"Bug Tracker" = "https://github.com/cankanoa/spectralmatch"
+"Source" = "https://github.com/cankanoa/spectralmatch"
+
+[project.scripts]
+spectralmatch = "spectralmatch.cli:main"
