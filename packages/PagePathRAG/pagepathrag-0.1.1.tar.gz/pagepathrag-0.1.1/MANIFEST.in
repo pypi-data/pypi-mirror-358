@@ -1,0 +1,25 @@
+include README.md
+include LICENSE
+include ACKNOWLEDGMENTS.md
+include requirements.txt
+include MANIFEST.in
+
+# 包含所有Python文件
+recursive-include PagePathRAG *.py
+recursive-include PathRAG *.py
+
+# 排除测试文件和其他不需要的文件
+recursive-exclude test *
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+recursive-exclude * *.so
+recursive-exclude * .DS_Store
+recursive-exclude * .git*
+
+# 排除开发相关文件
+exclude .gitignore
+exclude *.yaml
+exclude *.yml
+exclude *.cfg
+exclude tox.ini
+global-exclude *.pyc 
