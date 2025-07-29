@@ -1,0 +1,147 @@
+Metadata-Version: 2.3
+Name: dtwheel
+Version: 0.1.0
+Summary: Intuitive Datetime Manipulation for Python
+License: MIT
+Keywords: datetime,date,time,utility,timezones
+Author: Your Name
+Author-email: ucsa8005@gmail.com
+Requires-Python: >=3.9,<4.0
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Dist: tzdata (>=2024.1,<2025.0)
+Project-URL: Homepage, https://github.com/UdhayChandra/dtwheel
+Project-URL: Repository, https://github.com/UdhayChandra/dtwheel
+Description-Content-Type: text/markdown
+
+
+---
+# DTwheel: Intuitive Datetime Manipulation
+
+## Overview
+
+**Purpose**:
+**DTwheel** is a lean, intuitive, and highly readable Python library designed to simplify everyday datetime operations. It acts as a friendly facade over Python's built-in `datetime` objects, empowering you to navigate and manipulate dates and times with ease, clarity, and minimal boilerplate.
+
+---
+
+## Why DTwheel?
+
+**Purpose**:
+Python's `datetime` module is powerful, but common tasks like finding *"tomorrow's date"*, *"next Tuesday"*, or formatting dates into specific strings often require verbose code. While other libraries offer robust solutions, they sometimes introduce their own datetime objects or bring along large dependency trees—not ideal for lightweight daily operations.
+
+**DTwheel** fills this gap by providing:
+
+* ✅ **Readability**: Express common operations in nearly plain English.
+* 🪶 **Minimal Dependencies**: Built primarily on the standard library (`datetime`, `zoneinfo`).
+* 🔁 **Native `datetime` Objects**: Returns standard `datetime.datetime` or `datetime.date` objects—fully compatible with existing codebases.
+* 🔄 **Intuitive Design**: Inspired by the cyclical nature of time—operations like `tomorrow()`, `next_week()`, and `last_month()` feel natural.
+* ⚙️ **Sensible Defaults**: Assumes current time/date if not specified, simplifying common use cases.
+* 🧾 **Easy Formatting & Conversion**: Shortcuts for popular output formats and parsing.
+* 🌐 **Cross-Platform**: Works seamlessly across all major operating systems.
+
+> DTwheel doesn't aim to replace `datetime`. It's a helper—a tool to make your journey through time data smoother and more intuitive.
+
+---
+
+## Installation
+
+**Purpose**:
+DTwheel is available on [PyPI](https://pypi.org/project/dtwheel/). You can install it using `pip`:
+
+```bash
+pip install dtwheel
+```
+
+For development (recommended), use Poetry:
+
+```bash
+poetry install --with dev
+```
+
+---
+
+## Quick Start
+
+**Purpose**:
+Get a taste of DTwheel's simplicity with these immediate examples:
+
+```python
+import dtwheel as dt
+from datetime import datetime, date
+
+# Current time and date
+current_dt = dt.now()
+print(f"Current datetime: {current_dt}")
+
+today_date = dt.today()
+print(f"Today's date: {today_date}")
+
+# Relative time
+tomorrow_date = dt.tomorrow()
+print(f"Tomorrow's date: {tomorrow_date}")
+
+# Next specific weekday
+next_monday_date = dt.next_monday()
+print(f"Next Monday's date: {next_monday_date}")
+
+# Date arithmetic using timedelta helpers
+five_days_later = today_date + dt.days(5)
+print(f"5 days from now: {five_days_later}")
+
+# Precise month/year arithmetic (handles rollovers)
+next_month_date = dt.next_month(date(2025, 1, 31))  # Jan 31 + 1 month -> Feb 28
+print(f"Next month from Jan 31: {next_month_date}")
+
+# Formatting
+iso_format = dt.to_iso(current_dt)
+print(f"ISO 8601: {iso_format}")
+
+# Parsing
+parsed_dt = dt.parse("2025-12-25 10:30:00")
+print(f"Parsed datetime: {parsed_dt}")
+
+# Timezone awareness (Python 3.9+ `zoneinfo`)
+dt.set_default_timezone("America/New_York")
+ny_now = dt.now()
+print(f"Current datetime in New York: {ny_now}")
+```
+
+---
+
+## Documentation
+
+**Purpose**:
+For comprehensive details, usage examples, and API reference:
+
+📚 Full documentation is available in the [`docs/`](docs/) directory or on the **[DTwheel GitHub Pages](https://udhaychandra.github.io/dtwheel)** site.
+
+---
+
+## Contributing
+
+**Purpose**:
+We welcome contributions from the community!
+
+🛠 Please refer to the [CONTRIBUTING.md](CONTRIBUTING.md) file for guidelines on how to get involved, report bugs, or suggest features.
+
+---
+
+## License
+
+**Purpose**:
+This project is open-source and distributed under a permissive license.
+
+📄 Licensed under the [MIT License](LICENSE) – see the file for details.
+
+---
+
