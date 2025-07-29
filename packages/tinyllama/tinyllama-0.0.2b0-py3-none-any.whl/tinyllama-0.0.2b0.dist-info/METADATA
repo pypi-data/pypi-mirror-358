@@ -1,0 +1,460 @@
+Metadata-Version: 2.4
+Name: tinyllama
+Version: 0.0.2b0
+Summary: Model classes and pre-training utilities for a tiny version of Llama in PyTorch.
+Project-URL: repository, https://github.com/miftahmoha/tinyllama
+Author-email: Achraf Miftah <m.miftah.achraf@gmail.com>
+License:                                 Apache License
+                                   Version 2.0, January 2004
+                                http://www.apache.org/licenses/
+        
+           TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+        
+           1. Definitions.
+        
+              "License" shall mean the terms and conditions for use, reproduction,
+              and distribution as defined by Sections 1 through 9 of this document.
+        
+              "Licensor" shall mean the copyright owner or entity authorized by
+              the copyright owner that is granting the License.
+        
+              "Legal Entity" shall mean the union of the acting entity and all
+              other entities that control, are controlled by, or are under common
+              control with that entity. For the purposes of this definition,
+              "control" means (i) the power, direct or indirect, to cause the
+              direction or management of such entity, whether by contract or
+              otherwise, or (ii) ownership of fifty percent (50%) or more of the
+              outstanding shares, or (iii) beneficial ownership of such entity.
+        
+              "You" (or "Your") shall mean an individual or Legal Entity
+              exercising permissions granted by this License.
+        
+              "Source" form shall mean the preferred form for making modifications,
+              including but not limited to software source code, documentation
+              source, and configuration files.
+        
+              "Object" form shall mean any form resulting from mechanical
+              transformation or translation of a Source form, including but
+              not limited to compiled object code, generated documentation,
+              and conversions to other media types.
+        
+              "Work" shall mean the work of authorship, whether in Source or
+              Object form, made available under the License, as indicated by a
+              copyright notice that is included in or attached to the work
+              (an example is provided in the Appendix below).
+        
+              "Derivative Works" shall mean any work, whether in Source or Object
+              form, that is based on (or derived from) the Work and for which the
+              editorial revisions, annotations, elaborations, or other modifications
+              represent, as a whole, an original work of authorship. For the purposes
+              of this License, Derivative Works shall not include works that remain
+              separable from, or merely link (or bind by name) to the interfaces of,
+              the Work and Derivative Works thereof.
+        
+              "Contribution" shall mean any work of authorship, including
+              the original version of the Work and any modifications or additions
+              to that Work or Derivative Works thereof, that is intentionally
+              submitted to Licensor for inclusion in the Work by the copyright owner
+              or by an individual or Legal Entity authorized to submit on behalf of
+              the copyright owner. For the purposes of this definition, "submitted"
+              means any form of electronic, verbal, or written communication sent
+              to the Licensor or its representatives, including but not limited to
+              communication on electronic mailing lists, source code control systems,
+              and issue tracking systems that are managed by, or on behalf of, the
+              Licensor for the purpose of discussing and improving the Work, but
+              excluding communication that is conspicuously marked or otherwise
+              designated in writing by the copyright owner as "Not a Contribution."
+        
+              "Contributor" shall mean Licensor and any individual or Legal Entity
+              on behalf of whom a Contribution has been received by Licensor and
+              subsequently incorporated within the Work.
+        
+           2. Grant of Copyright License. Subject to the terms and conditions of
+              this License, each Contributor hereby grants to You a perpetual,
+              worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+              copyright license to reproduce, prepare Derivative Works of,
+              publicly display, publicly perform, sublicense, and distribute the
+              Work and such Derivative Works in Source or Object form.
+        
+           3. Grant of Patent License. Subject to the terms and conditions of
+              this License, each Contributor hereby grants to You a perpetual,
+              worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+              (except as stated in this section) patent license to make, have made,
+              use, offer to sell, sell, import, and otherwise transfer the Work,
+              where such license applies only to those patent claims licensable
+              by such Contributor that are necessarily infringed by their
+              Contribution(s) alone or by combination of their Contribution(s)
+              with the Work to which such Contribution(s) was submitted. If You
+              institute patent litigation against any entity (including a
+              cross-claim or counterclaim in a lawsuit) alleging that the Work
+              or a Contribution incorporated within the Work constitutes direct
+              or contributory patent infringement, then any patent licenses
+              granted to You under this License for that Work shall terminate
+              as of the date such litigation is filed.
+        
+           4. Redistribution. You may reproduce and distribute copies of the
+              Work or Derivative Works thereof in any medium, with or without
+              modifications, and in Source or Object form, provided that You
+              meet the following conditions:
+        
+              (a) You must give any other recipients of the Work or
+                  Derivative Works a copy of this License; and
+        
+              (b) You must cause any modified files to carry prominent notices
+                  stating that You changed the files; and
+        
+              (c) You must retain, in the Source form of any Derivative Works
+                  that You distribute, all copyright, patent, trademark, and
+                  attribution notices from the Source form of the Work,
+                  excluding those notices that do not pertain to any part of
+                  the Derivative Works; and
+        
+              (d) If the Work includes a "NOTICE" text file as part of its
+                  distribution, then any Derivative Works that You distribute must
+                  include a readable copy of the attribution notices contained
+                  within such NOTICE file, excluding those notices that do not
+                  pertain to any part of the Derivative Works, in at least one
+                  of the following places: within a NOTICE text file distributed
+                  as part of the Derivative Works; within the Source form or
+                  documentation, if provided along with the Derivative Works; or,
+                  within a display generated by the Derivative Works, if and
+                  wherever such third-party notices normally appear. The contents
+                  of the NOTICE file are for informational purposes only and
+                  do not modify the License. You may add Your own attribution
+                  notices within Derivative Works that You distribute, alongside
+                  or as an addendum to the NOTICE text from the Work, provided
+                  that such additional attribution notices cannot be construed
+                  as modifying the License.
+        
+              You may add Your own copyright statement to Your modifications and
+              may provide additional or different license terms and conditions
+              for use, reproduction, or distribution of Your modifications, or
+              for any such Derivative Works as a whole, provided Your use,
+              reproduction, and distribution of the Work otherwise complies with
+              the conditions stated in this License.
+        
+           5. Submission of Contributions. Unless You explicitly state otherwise,
+              any Contribution intentionally submitted for inclusion in the Work
+              by You to the Licensor shall be under the terms and conditions of
+              this License, without any additional terms or conditions.
+              Notwithstanding the above, nothing herein shall supersede or modify
+              the terms of any separate license agreement you may have executed
+              with Licensor regarding such Contributions.
+        
+           6. Trademarks. This License does not grant permission to use the trade
+              names, trademarks, service marks, or product names of the Licensor,
+              except as required for reasonable and customary use in describing the
+              origin of the Work and reproducing the content of the NOTICE file.
+        
+           7. Disclaimer of Warranty. Unless required by applicable law or
+              agreed to in writing, Licensor provides the Work (and each
+              Contributor provides its Contributions) on an "AS IS" BASIS,
+              WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+              implied, including, without limitation, any warranties or conditions
+              of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+              PARTICULAR PURPOSE. You are solely responsible for determining the
+              appropriateness of using or redistributing the Work and assume any
+              risks associated with Your exercise of permissions under this License.
+        
+           8. Limitation of Liability. In no event and under no legal theory,
+              whether in tort (including negligence), contract, or otherwise,
+              unless required by applicable law (such as deliberate and grossly
+              negligent acts) or agreed to in writing, shall any Contributor be
+              liable to You for damages, including any direct, indirect, special,
+              incidental, or consequential damages of any character arising as a
+              result of this License or out of the use or inability to use the
+              Work (including but not limited to damages for loss of goodwill,
+              work stoppage, computer failure or malfunction, or any and all
+              other commercial damages or losses), even if such Contributor
+              has been advised of the possibility of such damages.
+        
+           9. Accepting Warranty or Additional Liability. While redistributing
+              the Work or Derivative Works thereof, You may choose to offer,
+              and charge a fee for, acceptance of support, warranty, indemnity,
+              or other liability obligations and/or rights consistent with this
+              License. However, in accepting such obligations, You may act only
+              on Your own behalf and on Your sole responsibility, not on behalf
+              of any other Contributor, and only if You agree to indemnify,
+              defend, and hold each Contributor harmless for any liability
+              incurred by, or claims asserted against, such Contributor by reason
+              of your accepting any such warranty or additional liability.
+        
+           END OF TERMS AND CONDITIONS
+        
+           APPENDIX: How to apply the Apache License to your work.
+        
+              To apply the Apache License to your work, attach the following
+              boilerplate notice, with the fields enclosed by brackets "[]"
+              replaced with your own identifying information. (Don't include
+              the brackets!)  The text should be enclosed in the appropriate
+              comment syntax for the file format. We also recommend that a
+              file or class name and description of purpose be included on the
+              same "printed page" as the copyright notice for easier
+              identification within third-party archives.
+        
+           Copyright [2024] [miftahmoha]
+        
+           Licensed under the Apache License, Version 2.0 (the "License");
+           you may not use this file except in compliance with the License.
+           You may obtain a copy of the License at
+        
+               http://www.apache.org/licenses/LICENSE-2.0
+        
+           Unless required by applicable law or agreed to in writing, software
+           distributed under the License is distributed on an "AS IS" BASIS,
+           WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+           See the License for the specific language governing permissions and
+           limitations under the License. 
+License-File: LICENSE
+Keywords: deep-learning,llama,llm,tinyllama
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Information Technology
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Classifier: Topic :: Scientific/Engineering :: Mathematics
+Requires-Python: ~=3.9
+Requires-Dist: matplotlib
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: pypdf2
+Requires-Dist: pystan
+Requires-Dist: torch
+Requires-Dist: tqdm
+Provides-Extra: dev
+Requires-Dist: pip-tools; extra == 'dev'
+Requires-Dist: pytest; extra == 'dev'
+Description-Content-Type: text/markdown
+
+<div align="center">
+  
+# ~ _tinyllama_ ~
+
+<img src="https://github.com/miftahmoha/tinyllama/assets/102898329/43f42dfc-6b6c-4865-bdde-952785674fde" alt="TinyLlama Logo" width=550></img>
+
+
+_Model classes and pre-training utilities for a tiny version of Llama in PyTorch._
+
+</div>
+
+## Installation
+
+``` bash
+pip install tinyllama
+```
+
+## Parsing
+
+```python
+# ".txt" files
+from tinyllama.readers import get_text
+corpus = get_text("./txt_path")
+
+# ".pdf" files
+from tinyllama.readers import get_pdf_text
+corpus = get_pdf_text("./pdf_path")
+```
+
+## Pre-training a model
+
+### Initializing a tokenizer
+
+With a simple character-level tokenizer:
+
+```python
+from tinyllama.tokenizers import CharacterTokenizer
+tokenizer = CharacterTokenizer()
+```
+
+To turn a corpus into tokens:
+
+```python
+tokens  = tokenizer.tokenize(corpus)
+```
+
+### Initializing a Llama model
+
+```python
+from tinyllama import Llama
+model = Llama(context_window=500, emb_dim=10, n_heads=2, n_blocks=2, vocab_size=tokenizer.vocab_size)
+```
+
+#### Multi-Query attention
+
+Multi-query attention allows for a reduction in the number of queries and keys inside a multi-head attention block, reducing the number of parameters in the process and having the heads share queries and keys instead.
+
+```python
+model = Llama(context_window=500, emb_dim=10, n_heads=2, n_blocks=2, gq_ratio=1/2, vocab_size=tokenizer.vocab_size)
+```
+
+The parameter `gq_ratio` represents the ratio $\frac{number \  of \ queries/keys}{number \ of \ heads}$, `1/2` means dividing the number of queries and keys by 2. The default value is set to 1.
+
+### Launching a pre-training job
+
+```python
+from tinyllama import TrainConfig, Trainer
+TrainConfig = TrainConfig(batch_size=32, epochs=64, lr=1e-3, log_interval=50)
+Trainer = Trainer(TrainConfig)
+Trainer.run(model, tokens)
+```
+
+Logs are disabled by default, to activate set environment variable `DISABLE_LOGS` to 0 with `DISABLE_LOGS=0 python3 file.py`. 
+
+## Insight
+
+Insight class runs a training job on a clone model and returns information related to the training state. 
+
+To disable cloning, set `tune_on_clone` to `False`, you can set a custom training configuration for tuning with the argument `TUNE_CONFIG = TrainConfig(..)`.
+
+### Gradients
+
+Returns a histogram representing the distribution of the gradients with mean, standard deviation, and saturation.
+
+A high saturation is an indication that the model is not learning, very low saturation ≈0% indicates that it's learning way too much _(not very good)_.
+
+#### Activations (SwiGLU layers)
+
+Note that a training job is necessary, you don't want to keep those values in memory since you need to store the tensors at each forward pass. Before training, those values are _hooked_ and then _retrieved_.
+
+```python
+from tinyllama.insight import SwigluInsight, SwigluPath
+
+SwigluInsight_ = SwigluInsight(track_direction=SwigluPath.BACKWARD)
+SwigluInsight_.run(model, tokens)
+```
+
+If your model is learning correctly, saturation should stabilize as you go deeper into the layers. We've got only three SwiGLU activation functions for the moment, so such an effect will be difficult to notice.
+
+<div align="center"> <img src="https://github.com/user-attachments/assets/e2286e68-f138-4df5-b55e-86b31caeace7" alt="swiglu" width=500></img> </div>
+
+![data2](https://github.com/user-attachments/assets/26e348a9-76d0-44b3-9c2a-bf34974f7479)
+
+We could improve the above, the last activation layer is still saturated though.
+
+<div align="center"> <img src="https://github.com/user-attachments/assets/13085dcd-9d12-4a69-8685-9d9f40738d77" alt="swiglu" width=500></img> </div>
+
+![data4](https://github.com/user-attachments/assets/51919dc8-d642-4408-b016-8221cfa79151)
+
+By default, `track_direction` is set to `SwigluPath.BACKWARD`. If you want to look at the forward activation, set it to `SwigluPath.FORWARD`.
+
+#### Parameters
+
+```python
+from tinyllama.insight import GradInsight
+GradInsight_ = GradInsight(num_params_to_track=1500)
+GradInsight_.run(model)
+```
+
+<div align="center"> <img src="https://github.com/user-attachments/assets/1779b234-097d-4a33-8088-e5ae2c728836" alt="gradients" width=500></img> </div>
+
+![data1](https://github.com/user-attachments/assets/d16d38e2-eaae-4dac-b18c-6dec962978bc)
+
+This is an example of a high saturation, also we don't see a well-rounded distribution.
+
+What a good distribution of gradients should approximately be:
+
+<div align="center"> <img src="https://github.com/user-attachments/assets/1a1df014-57b0-475c-baf3-2929a58fd611" alt="gradients" width=500></img> </div>
+
+![data3](https://github.com/user-attachments/assets/9572d054-0d82-4b88-bbcd-58b51148898c)
+
+To avoid clutter, the legend is disabled. If you're tracking a small number of parameters, set argument `show_params_name` to `True`.
+
+### Gradient over data ratio $\frac{l_r \cdot grad}{data}$
+
+Returns a plot representing the gradient/data ratio in each step of the training. 
+
+```python
+from tinyllama.insight import GdrInsight
+GdrInsight = GdrInsight(num_params_to_track=50, num_iters=1500)
+GdrInsight.run(model, tokens)
+```
+
+Ratios should stabilize as training goes, high values mean the network is learning way too fast _(not good)_ while low values mean that it's learning way too slow _(not good as well)_. Usually, you want to observe values in the `1e-2` ~ `1e-3` range.
+
+Below is an example that shows a model hardly learning from the data:
+
+<div align="center"> <img src="https://github.com/user-attachments/assets/2c6cf791-b435-4fb3-a57f-4fc764ee2ab0" alt="gdratio" width=500></img> </div>
+
+Through adjustments on some hyperparameters and increasing the volume of the data, we improved the learning quality of the model:
+
+<div align="center"> <img src="https://github.com/user-attachments/assets/d391db4f-f967-4eeb-a3e4-b07b2f967abf" alt="gdratio" width=500></img> </div>
+
+To avoid clutter, the legend is disabled. If you're tracking a small number of parameters, set argument `show_params_name` to `True`.
+
+### Learning rate
+
+Returns a plot representing the loss for each learning rate, _the scale for the argument start and end is logarithmic_. 
+
+```python
+from tinyllama.insight import LrInsight                                                                                                         
+LrInsight_ = LrInsight(start=-5, end=0, n_lrs=50)
+LrInsight_.run(model, tokens)
+```
+
+<div align="center"> <img src="https://github.com/user-attachments/assets/bbd8f8c7-5d20-4e2e-a27f-72f42b777e05" alt="lr" width=500></img> </div>
+
+For each `lr`, we set an `epoch` of `1`. Feel free to change it with the argument `epochs_for_each`.
+
+### Hyperparameter tuning
+
+Plots and returns a tuple containing (1) training data points and the associated loss _(evaluated with training)_ and (2) testing data points and their **estimated** loss _(evaluated with a Gaussian process)_.
+
+To disable plots, set the environment variable `DISABLE_PLOT` to 0.
+
+```python
+from tinyllama.gptuner import GPTuneConfig, GPTune
+GPTuneConfig = GPTuneConfig(max_num_training_samples=100, hyperparams_to_tune=["emb_dim", "n_heads"], l_bounds=[10, 2], u_bounds=[50, 5], max_num_evaluations=500)
+GPTune = GPTune(GPTuneConfig)
+XY_train, XY_test = GPTune.run(model, tokens, TrainConfig)
+```
+
+`GPTune` predicts the loss of different hyperparameter configurations without running full training cycles. It uses a Gaussian process model that learns from a small set of evaluated training samples to estimate performance across the entire hyperparameter space.
+
+`max_num_training_samples`: sets the number of training samples, more training samples means better overall coverage of the space which will lead to better precision. The samples are extracted using a Latin hypercube, depending on how the space is constrained (intervals where hyperparameters lie), there'll be a maximum number of samples that can fit into the space.
+
+`l_bounds`: sets the lower bounds of each hyperparameter, following the order of `hyperparams_to_tune`.
+
+`u_bounds`: sets the upper bounds of each hyperparameter, following the order of `hyperparams_to_tune`.
+
+`hyperparams_to_tune`: sets the hyperparameters to tune, the others are extracted from the model.
+
+`hyperparams_to_plot`: sets the hyperparameters to plot, it must be of length `<= 2` and a subset of `hyperparams_to_tune`.
+
+`max_num_evaluation_samples`: sets the numbers of evaluations, the same observation concerning the constrained space in which the number of integer samples is finite.
+
+The number of hyparameters needs to be <= 2 to get a plot, if you still want to get a plot of a subset, use `hyperparams_to_plot` argument to the list of hyperparameters that you want to plot.
+
+```python
+from tinyllama.gptuner import GPTuneConfig, GPTune
+GPTuneConfig = GPTuneConfig(max_num_training_samples=100, hyperparams_to_tune=[""emb_dim"", "n_heads", "context_window"], hyperparams_to_plot=["epochs", "n_heads"] l_bounds=[10, 2, 150], u_bounds=[50, 5, 250], max_num_evaluations=500)
+GPTune = GPTune(GPTuneConfig)
+GPTune.run(model, tokens, TrainConfig)
+```
+
+<div align="center"> <img src="https://github.com/user-attachments/assets/d31f9027-7dde-4d3a-bdd8-06a5f03bed38" alt="gptune_3d" width=500></img> </div>
+
+You can also have 1D plots.
+
+```python
+from tinyllama.gptuner import GPTuneConfig, GPTune
+GPTuneConfig = GPTuneConfig(max_num_training_samples=100, hyperparams_to_tune=["epochs", "n_heads", "context_window"], hyperparams_to_plot=["n_heads"] l_bounds=[10, 2, 150], u_bounds=[50, 5, 250], max_num_evaluations=500)
+GPTune = GPTune(GPTuneConfig)
+GPTune.run(model, tokens, TrainConfig)
+```
+
+<div align="center"> <img src="https://github.com/user-attachments/assets/1c4c28d9-7c2e-44a9-885e-4370f45f08d9" alt="gptune_2d" width=500></img> </div>
+
+
+## Generating
+
+Generates a response to a prompt.
+
+```python
+from tinyllama import generate
+# kv_cache is set to True by default
+generate(model, prompt, max_tokens=900, kv_cache=True)
+```
