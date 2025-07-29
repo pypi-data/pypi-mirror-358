@@ -1,0 +1,134 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "addon-odoo-wheel"
+description = "Generic and simple build backend for a single Odoo addon"
+version = "0.0.3"
+readme = "README.md"
+license = "MIT"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Topic :: Software Development :: Build Tools",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Framework :: Odoo",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "packaging",
+    "wheel",
+    "manifestoo-core",
+    "typing-extensions>=4.7.1",
+    "importlib-metadata>=6.8.0",
+]
+
+authors = [
+    { name = "Alexis Pasquier", email = "alexis.pasquier@mangono.fr" },
+]
+
+[project.urls]
+Homepage = "https://gitlab.mangono.io/odoo/addon-odoo-wheel"
+Source = "https://gitlab.mangono.io/odoo/addon-odoo-wheel"
+Tracker = "https://gitlab.mangono.io/odoo/addon-odoo-wheel/-/issues"
+
+[project.entry-points."odoo-addon-contributor"]
+oca = "addon_odoo_wheel.contributors:OcaContributor"
+mangono = "addon_odoo_wheel.contributors:MangonoContributor"
+odoo = "addon_odoo_wheel.contributors:OdooContributor"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build]
+exclude = [
+    "/.github",
+]
+
+[tool.pytest.ini_options]
+addopts = [
+    "--ignore=odoo_filestore_s3",
+]
+testpaths = [
+    "tests",
+    "integration",
+]
+
+
+# coverage
+
+[tool.coverage.run]
+branch = true
+source_pkgs = ["addon_odoo_wheel"]
+
+[tool.coverage.paths]
+source = ["src", ".tox/*/site-packages"]
+
+[tool.coverage.report]
+show_missing = true
+exclude_lines = [
+    "pragma: no cover",
+]
+
+# ruff
+
+[tool.ruff]
+line-length = 120 # Allow lines to be as long as 120 characters
+show-fixes = true # By default, always enumerate fixed violations
+output-format = "full" # Always show source code snippets
+fix = true
+target-version = "py37"
+
+[tool.ruff.format]
+exclude = ["setup/*"]
+docstring-code-format = true
+
+[tool.ruff.lint]
+extend-select = [
+    "B",
+    "C90",
+    "E501", # line too long (default 88)
+    "I", # isort
+    "UP", # pyupgrade
+    "PERF",
+]
+extend-safe-fixes = ["UP008"]
+ignore = ["UP037"]
+exclude = ["setup/*"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401", "I001"]  # ignore unused and unsorted imports in __init__.py
+"__manifest__.py" = ["B018"]  # useless expression
+"*/tests/**/*.py" = [
+    "ANN201", # Disable expected return type on test function
+    # at least this three should be fine in tests:
+    "S101", # asserts allowed in tests...
+    "ARG", # Unused function args -> fixtures nevertheless are functionally relevant...
+    "FBT", # Don't care about booleans as positional arguments in tests, e.g. via @pytest.mark.parametrize()
+    # The below are debateable
+    "PLR2004", # Magic value used in comparison, ...
+    "S311", # Standard pseudo-random generators are not suitable for cryptographic purposes
+]
+
+
+
+[tool.ruff.lint.mccabe]
+max-complexity = 13
+
+[tool.ruff.lint.isort]
+known-first-party = ["mangono_odoo_wheeler"]
+combine-as-imports = true
+
+[dependency-groups]
+dev = [
+    "pytest>=7.4.4",
+    "pytest-cov>=4.1.0",
+    "build>=1.1.1",
+    "whool>=1.2",
+]
