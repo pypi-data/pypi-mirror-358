@@ -1,0 +1,21 @@
+# Sharp Cocoro SDK Development Environment
+# Copy this file to .envrc and update with your actual values
+
+# API credentials - store in chainenv for security
+export APP_SECRET=$(chainenv get SHARPCOCORO_APP_SECRET)
+export APP_KEY=$(chainenv get SHARPCOCORO_APP_KEY)
+
+# Development settings
+export PYTHONPATH="${PWD}:${PYTHONPATH}"
+export UV_PROJECT_ENVIRONMENT=.venv
+
+# Optional: Enable debug logging
+# export COCORO_DEBUG=1
+
+# Instructions:
+# 1. Install direnv: https://direnv.net/docs/installation.html
+# 2. Copy this file: cp .envrc.example .envrc
+# 3. Store secrets in chainenv:
+#    chainenv update SHARPCOCORO_APP_SECRET 'your-app-secret'
+#    chainenv update SHARPCOCORO_APP_KEY 'your-app-key'
+# 4. Allow direnv: direnv allow

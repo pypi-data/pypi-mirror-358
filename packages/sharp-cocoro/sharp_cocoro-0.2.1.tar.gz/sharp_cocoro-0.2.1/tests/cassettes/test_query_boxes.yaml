@@ -1,0 +1,95 @@
+interactions:
+- request:
+    body: '{"terminalAppId":"https://db.cloudlabs.sharp.co.jp/clpf/key/REDACTED"}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      content-length:
+      - '105'
+      content-type:
+      - application/json; charset=utf-8
+      host:
+      - hms.cloudlabs.sharp.co.jp
+      user-agent:
+      - smartlink_v200i Mozilla/5.0 (iPad; CPU OS 14_3 like Mac OS X) AppleWebKit/605.1.15
+        (KHTML, like Gecko) Mobile/15E148
+    method: POST
+    uri: https://hms.cloudlabs.sharp.co.jp/hems/pfApi/ta/setting/login/?appSecret=REDACTED&serviceName=iClub
+  response:
+    body:
+      string: '{"errorCode":null,"errorMessage":null}'
+    headers:
+      Cache-Control:
+      - no-cache, no-store, post-check=0, pre-check=0, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 27 Jun 2025 04:59:37 GMT
+      Expires:
+      - Thu, 01 Dec 1994 16:00:00 GMT
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Set-Cookie:
+      - JSESSIONID=REDACTED; Path=/hems/pfApi; Secure; HttpOnly
+      Transfer-Encoding:
+      - chunked
+      X-Content-Type-Options:
+      - nosniff
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      content-type:
+      - application/json; charset=utf-8
+      host:
+      - hms.cloudlabs.sharp.co.jp
+      user-agent:
+      - smartlink_v200i Mozilla/5.0 (iPad; CPU OS 14_3 like Mac OS X) AppleWebKit/605.1.15
+        (KHTML, like Gecko) Mobile/15E148
+    method: GET
+    uri: https://hms.cloudlabs.sharp.co.jp/hems/pfApi/ta/setting/boxInfo/?appSecret=REDACTED&mode=other
+  response:
+    body:
+      string: "{\"box\":[{\"boxId\":\"REDACTED\",\"maxFlag\":false,\"pairingFlag\":true,\"pairedTerminalNum\":7,\"timezone\":\"Asia/Tokyo\",\"terminalAppInfo\":[{\"terminalAppId\":\"https://db.cloudlabs.sharp.co.jp/clpf/key/REDACTED\",\"appName\":\"spremote_i:1:2.2.16\",\"userNumber\":0},{\"terminalAppId\":\"https://db.cloudlabs.sharp.co.jp/clpf/key/REDACTED\",\"appName\":\"cocorohome_a:2.12.04\",\"userNumber\":0},{\"terminalAppId\":\"https://db.cloudlabs.sharp.co.jp/clpf/key/REDACTED\",\"appName\":\"spremote_a:1:2.2.16\",\"userNumber\":0},{\"terminalAppId\":\"https://db.cloudlabs.sharp.co.jp/clpf/key/REDACTED\",\"appName\":\"spremote_a:1:2.2.16\",\"userNumber\":0},{\"terminalAppId\":\"https://db.cloudlabs.sharp.co.jp/clpf/key/REDACTED\",\"appName\":\"spremote_i:1:2.2.17\",\"userNumber\":0},{\"terminalAppId\":\"https://db.cloudlabs.sharp.co.jp/clpf/key/REDACTED\",\"appName\":\"spremote_a:1:2.2.17\",\"userNumber\":0},{\"terminalAppId\":\"https://db.cloudlabs.sharp.co.jp/clpf/key/REDACTED\",\"appName\":\"spremote_i:1:2.2.17\",\"userNumber\":0},{\"terminalAppId\":\"https://db.cloudlabs.sharp.co.jp/clpf/key/REDACTED\",\"appName\":\"spremote_i:1:2.2.17\",\"userNumber\":0}],\"echonetData\":[{\"maker\":\"SHARP\",\"series\":null,\"model\":\"AY-J22S-W\",\"serialNumber\":null,\"echonetNode\":\"28-c1-3c-ff-6f-e1\",\"echonetObject\":\"013001\",\"echonetAttr\":\"01300105ff0172058a030000058c0c41592d4a3232532d570000009d100f80818688898fa0a1b0b3cff1f2f3fa9e0c0b80818f93a0a1b0b3cff9fa9f11238d85818a818191000181890901820a13\",\"echonetProperty\":\"01300105ff01721e800130810100820400004a00840202ac85040028ea5b860c080000057800000000000000880142890203ff8b033130348f0142930141a00138a10144b00142b30112ba01fdbb011bbe0120c60102cf0141f0200413225b19004206100002000200000000000000000000000000004a50190001f1024142f2023131f3023131f40400000000f50400000000f6800000000000000000000000000013a9298a0000000000000000000000000000000000000000002be4000020140000275731540f00955b1100300000003284888f48bdbdbebebebfbfc0c1c1c2c5c7c9c97878787878787374747473740000004444454444444444444444433a0000232323232323232323232323210000780000f93003000002000000000000000000000000020400000000ffffff00ffff0000000000000000000000000000010000000000fa5044000000000000000000000000000000010000000000010000002400000014000000000000010042000000000000000007ff000000000000000078000000000000000000000000000000000000000000fd200401030000040000001000000057000000000000000000000000000000000000\",\"deviceId\":1323247,\"simulPerfModeFlag\":false,\"propertyUpdatedAt\":\"2025-06-27T13:53:26\",\"labelData\":{\"id\":1121067,\"place\":\"\u30EA\u30D3\u30F3\u30B0\",\"name\":\"\u30EA\u30D3\u30F3\u30B0\u306E\u30A8\u30A2\u30B3\u30F3\",\"deviceType\":\"AIR_CON\",\"zipCd\":\"1540004\",\"yomi\":\"\",\"lSubInfo\":\"{\\\"room_data\\\":{\\\"size\\\":
+        30.0, \\\"struct\\\": \\\"prefab\\\", \\\"unit\\\": \\\"tatami\\\"}}\"}}]}]}"
+    headers:
+      Cache-Control:
+      - no-cache, no-store, post-check=0, pre-check=0, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 27 Jun 2025 04:59:37 GMT
+      Expires:
+      - Thu, 01 Dec 1994 16:00:00 GMT
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Set-Cookie:
+      - JSESSIONID=REDACTED; Path=/hems/pfApi; Secure; HttpOnly
+      Transfer-Encoding:
+      - chunked
+      X-Content-Type-Options:
+      - nosniff
+    status:
+      code: 200
+      message: OK
+version: 1
