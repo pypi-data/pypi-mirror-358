@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pysmartlogger"
+version = "1.3.0"
+description = "A cross-platform Python library that adds colorful logging capabilities to the standard logging module"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Mohammad Rasol Esfandiari", email = "mrasolesfandiari@gmail.com"}
+]
+maintainers = [
+    {name = "Mohammad Rasol Esfandiari", email = "mrasolesfandiari@gmail.com"}
+]
+keywords = ["logging", "colors", "terminal", "cross-platform", "python"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Logging",
+    "Topic :: Terminals",
+    "Environment :: Console"
+]
+requires-python = ">=3.8"
+
+[project.urls]
+Homepage = "https://github.com/DeepPythonist/smartlogger"
+Repository = "https://github.com/DeepPythonist/smartlogger"
+Issues = "https://github.com/DeepPythonist/smartlogger/issues"
+Changelog = "https://github.com/DeepPythonist/smartlogger/blob/master/CHANGELOG.md"
+
+[tool.setuptools]
+packages = ["smartlogger", "smartlogger.core", "smartlogger.config", "smartlogger.utils"]
+
+[tool.setuptools.package-dir]
+"" = "." 
