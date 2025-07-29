@@ -1,0 +1,114 @@
+Metadata-Version: 2.4
+Name: cueai-architect
+Version: 0.1.2
+Summary: Modular AI Architecture Components based on the Collective Unified Equation (CUE) Framework
+Author-email: CUE Framework Research Team <cue-research@example.com>
+Maintainer-email: Karl Farah Ambrosius <karlambrosius@outlook.com.au>
+License: MIT
+Project-URL: Homepage, https://github.com/cue-framework/cueai-architect
+Project-URL: Documentation, https://cueai-architect.readthedocs.io
+Project-URL: Repository, https://github.com/cue-framework/cueai-architect.git
+Project-URL: Issues, https://github.com/cue-framework/cueai-architect/issues
+Keywords: consciousness,quantum,neural-networks,geometric-deep-learning,renormalization-group,fiber-bundles,artificial-intelligence,cue-framework
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Scientific/Engineering :: Physics
+Classifier: Topic :: Scientific/Engineering :: Mathematics
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: numpy>=1.21.0
+Requires-Dist: scipy>=1.7.0
+Requires-Dist: torch>=1.12.0
+Requires-Dist: matplotlib>=3.5.0
+Requires-Dist: plotly>=5.0.0
+Requires-Dist: networkx>=2.6.0
+Requires-Dist: sympy>=1.9.0
+Requires-Dist: scikit-learn>=1.0.0
+Requires-Dist: pandas>=1.3.0
+Requires-Dist: tqdm>=4.60.0
+Requires-Dist: pydantic>=1.8.0
+Requires-Dist: typing-extensions>=4.0.0
+Provides-Extra: dev
+Requires-Dist: pytest>=6.0.0; extra == "dev"
+Requires-Dist: pytest-cov>=3.0.0; extra == "dev"
+Requires-Dist: black>=22.0.0; extra == "dev"
+Requires-Dist: flake8>=4.0.0; extra == "dev"
+Requires-Dist: mypy>=0.900; extra == "dev"
+Requires-Dist: pre-commit>=2.15.0; extra == "dev"
+Provides-Extra: docs
+Requires-Dist: sphinx>=4.0.0; extra == "docs"
+Requires-Dist: sphinx-rtd-theme>=1.0.0; extra == "docs"
+Requires-Dist: myst-parser>=0.17.0; extra == "docs"
+Provides-Extra: experimental
+Requires-Dist: qiskit>=0.39.0; extra == "experimental"
+Requires-Dist: pennylane>=0.25.0; extra == "experimental"
+Requires-Dist: jax>=0.3.0; extra == "experimental"
+Requires-Dist: jaxlib>=0.3.0; extra == "experimental"
+
+# CUE-AI Architect
+
+**Modular AI Architecture Components based on the Collective Unified Equation (CUE) Framework**
+
+[![PyPI version](https://badge.fury.io/py/cueai-architect.svg)](https://badge.fury.io/py/cueai-architect)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Documentation Status](https://readthedocs.org/projects/cueai-architect/badge/?version=latest)](https://cueai-architect.readthedocs.io/en/latest/?badge=latest)
+
+## Overview
+
+The CUE-AI Architect is a comprehensive Python package that implements 100 modular AI architecture components based on the revolutionary Collective Unified Equation (CUE) Framework by Karl Farah Ambrosius. This framework provides a geometric approach to consciousness-matter unification, offering novel solutions to quantum measurement problems and geometric interpretations of consciousness compatible with known physics. The package has been meticulously structured to ensure robust imports and modularity, resolving previous internal import challenges.
+
+## Key Features
+
+🧠 **Consciousness Integration**: Native support for consciousness as a geometric structure (DΨ fiber bundle)
+⚛️ **Quantum-Consciousness Interface**: Advanced quantum measurement coupling and decoherence modeling
+🌊 **RG Flow Dynamics**: Complete renormalization group flow implementation with fixed point analysis
+📐 **Geometric Deep Learning**: Fiber bundle neural networks and curvature-aware architectures
+🔬 **Experimental Interfaces**: Direct connections to quantum optics and gravitational wave experiments
+🏗️ **Modular Design**: 100 independent, composable modules across 14 specialized categories, now with a fully resolved and robust internal package structure.
+
+## Installation
+
+\`\`\`bash
+# Install from PyPI
+pip install cueai-architect
+
+# Install with experimental dependencies
+pip install cueai-architect[experimental]
+
+# Install for development
+pip install cueai-architect[dev]
+\`\`\`
+
+## Quick Start
+
+\`\`\`python
+import cueai_architect as cue
+
+# Initialize the CUE framework
+framework = cue.CUEApplicationManager()
+
+# Create consciousness-coupled neural architecture
+model = cue.ConsciousnessTransformer(
+    consciousness_dim=128,
+    fiber_bundle_layers=6,
+    rg_flow_enabled=True
+)
+
+# Simulate consciousness-matter coupling
+simulator = cue.ConsciousnessFieldSimulator()
+results = simulator.run_coherence_simulation(
+    duration=1000,
+    consciousness_coupling=0.1
+)
+
+# Analyze RG flow dynamics
+rg_analyzer = cue.RGFlowIntegrator()
+fixed_points = rg_analyzer.find_critical_points()
