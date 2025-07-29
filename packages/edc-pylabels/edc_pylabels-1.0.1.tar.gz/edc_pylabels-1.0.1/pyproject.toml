@@ -1,0 +1,53 @@
+[project]
+name = "edc-pylabels"
+dynamic = ["version"]
+description = "Project to integrate django-pylabels into clinicedc/edc projects"
+readme = "README.md"
+dependencies = ['django-pylabels']
+requires-python = '>=3.12'
+keywords = ['Django clinic/edc EDC avery pylabels']
+authors = [{name="Erik van Widenfelt", email="ew2789@gmail.com"}]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+]
+license = {file = "LICENSE"}
+
+[build-system]
+requires = ["setuptools>=60", "setuptools-scm>=8.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+version_file="_version.py"
+
+[tool.black]
+line-length = 95
+target-version = ["py312"]
+
+[tool.isort]
+profile = "black"
+py_version = "312"
+skip = [".tox", ".eggs"]
+
+[tool.coverage.run]
+parallel = false
+branch = true
+source = ["edc_pylabels"]
+
+[tool.coverage.paths]
+source = ["edc_pylabels"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+exclude_lines = [
+  "pragma: no cover",
+  "if TYPE_CHECKING:",
+]
+
+[tool.setuptools.packages.find]
+include = ["edc_pylabels*", "edc_pylabels/templates/*.html"]
+exclude = ["edc_pylabels.tests*"]
+namespaces = false  # true by default
