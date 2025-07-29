@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$ref": "#/FWorker",
+  "FWorker": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "oneOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "query": {
+        "type": "string"
+      },
+      "category": {
+        "oneOf": [
+          {
+            "type": "null"
+          },
+          {
+            "type": "string"
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        ]
+      },
+      "env": {
+        "type": "object"
+      }
+    },
+    "required": [
+      "name",
+      "category",
+      "query"
+    ]
+  }
+}
