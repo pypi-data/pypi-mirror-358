@@ -1,0 +1,41 @@
+[envs]
+environments = prod, dev, stage, local
+default = dev
+
+# --- App Configuration ---
+[app]
+name = "MyApp"
+version = [prod]:1.0.0 [dev]:0.1.0 [stage]:0.2.0 [local]:0.3.0
+description = "Unified configuration across environments"
+author = "John Doe"
+
+# --- Database Configuration ---
+[db]
+host = [prod]:prod-db.example.com [dev]:dev-db.example.com [*]:localhost       # ctest
+port = 5432
+user = [prod]:prod_user1 [*]:local_user
+password = [prod]:prod_#.!`~apass [*]:dev_pass
+database = [prod]:prod_db [dev]:dev_db [*]:local_db
+
+# --- AWS Configurations ---`
+[aws]
+access_key = [prod]:"PROD_AWS_ACCESS_KEY" [dev]:"DEV_AWS_ACCESS_KEY" [*]:"LOCAL_AWS_ACCESS_KEY"
+[aws.s3]
+bucket = [prod]:myapp-prod-bucket [dev]:myapp-dev-bucket [*]:local-bucket
+region = [*]:us-east-1
+
+[aws.sqs]
+queue = [prod]:myapp-prod-queue [dev]:myapp-dev-queue [*]:myapp-local-queue
+
+# --- Nested Service Configurations ---
+[services.cache.redis]
+url = [prod]:redis://prod.example.com:6379 [dev]:redis://dev.example.com:6379 [*]:redis://localhost:6379
+db = [*]:0
+
+[services.cache.memcached]
+host = [*]:localhost
+port = [*]:11211
+
+# --- Logging ---
+[logging]
+level = [prod]:error [dev]:debug [stage]:info [local]:debug
