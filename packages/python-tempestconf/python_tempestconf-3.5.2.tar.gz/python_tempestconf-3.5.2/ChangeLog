@@ -1,0 +1,469 @@
+CHANGES
+=======
+
+3.5.2
+-----
+
+* Update jobs for the current cycle runtime
+* Pass arguments as additional arguments to \`connect\`
+* Update releasenotes 3.5.1
+
+3.5.1
+-----
+
+* Discover Watcher service
+* Make reading of deployer options case sensitive
+* Update releasenotes 3.5.0
+
+3.5.0
+-----
+
+* Add a job on rocky linux
+* Put admin-2023-1 job to n-v
+* Populate image.http\_qcow2\_image
+* Use custom TLS certificate if provided
+* Remove refstack jobs and plugins one make n-v
+* Do not assume vol.encryption is enabled when barbican is on
+* Remove packstack jobs
+* Fix super() usage for proper initialization of config file
+* Accept network id or name
+* Prioritize external network named public
+* Set scenario.dhcp\_client to dhcpcd by default
+* Update jobs for the current cycle
+* Update default cirros image to 0.6.2
+
+3.4.2
+-----
+
+* Update jobs for the current release
+* Fix compute, volume, and share endpoint discovery
+
+3.4.1
+-----
+
+* Support Admin admin user and role
+* fix: un-hardcode v3 credentials
+* Drop tripleo-ci-centos-9 jobs
+* Do not run a few dns tests from designate plugin
+* Add fips job
+* Fix tox<4 issue for zed job
+* Switch to bobcat testing runtime
+* Handle when there is no volume backend available
+* Unblocking CI by n-v a few jobs
+* Releasenotes for 3.4.0
+
+3.4.0
+-----
+
+* Do not disable live migration by default
+* Change auth.tempest\_roles default value
+* Remove skipped test from designate-tempest-plugin
+* Return designate tests to admin-plugins job
+* Fix opendev-tox-docs job
+* Update jobs for Antelope development cycle
+* Remove volumev2 from volume service
+* Add SRBAC jobs
+* Change class variables to instance variables
+* Remove designate tests from admin-plugins job
+* Fix cinder-backup logic
+* [share] Add support for thin\_provisioning
+* Swith to packstack-centos-9 job
+* [CI] Fix manila tempest plugin issue in W/V
+* Drop py3.6/7, T, U jobs and fix neutron discovery
+* Unskip devstack-admin-plugins job
+* Update jobs for Zed development cycle
+
+3.3.0
+-----
+
+* Fix TestImageService's unit tests
+* discoverability may not be defined on object-storage-feature-enabled
+* Add multistore image option
+* Fix no floating\_network\_name option
+* Move TripleO zuul jobs layout to centos9 only for master branch
+* Use run-tempest-26 in stable/train job
+* Use python-manilaclient from source
+* Remove references to live\_migrate\_migrate\_instance
+* Fix scenario010 job configuration
+* Uncomment jobs, part 1
+* Make release notes part of the documentation
+* Publish docs to docs.opendev.org
+* Switch testing to Yoga testing runtime
+* Reflect osf/ to openinfra/ namespace rename
+* [Trivial] Fix swift's extension discovery
+* Fix extension discovery for object\_storage
+* Use assertCountEqual instead of assertItemsEqual
+* Use Xena zuul job template
+* Update default cirros version to 0.5.2
+
+3.2.1
+-----
+
+* Updating download\_with\_retry function
+* Stop trying to use identity URI if dashboard URL exists
+* setup.cfg: Replace dashes with underscores
+* Add wallaby job
+* Release 3.2.0 releasenotes
+
+3.2.0
+-----
+
+* Manila: Add snapshot capabilities in [share]
+* Inclusive jargon
+* Switch to packstack centos8-stream base job
+* Skip test\_create\_update\_server\_with\_subnet
+* Manila: Set multitenancy\_enabled in [share]
+* Fix manila backend\_names and enable\_protocols
+* Fix share endpoint discovery
+* Add alternative image to be downloaded
+* Fix placement endpoint discovery
+* Enable barbican service
+* Fix a typo in a role var
+* Fix doc style issues and fix some typos
+* Don't run refstack jobs on irrelevant files change
+* Set ssl cert option for horizon service
+* Remove deprecated scenario image option
+* Release 3.1.0 releasenotes
+* Enable neutron port security for Octavia tests
+
+3.1.0
+-----
+
+* Add placement service versions discovery
+* Remove deprecated volume API config options
+* Get ssl opts to every service class
+* Replace refstack-client job
+* Remove OS\_AUTH\_URL workaround
+* Fix and improve SSL configuration
+* Replace stein jobs by ussuri and victoria ones
+* Fix doc, releasenotes plus build pdf
+* Add irrelevant-files to the provider job
+* Remove six.PY3 conditions
+* Fix flake8 errors
+* Migrate to content provider jobs/templates
+* Run unit tests by py38 as well
+
+3.0.2
+-----
+
+* Edit assert to support py2
+* Fix aliases in .zuul.yaml
+* Anchor irrelevant files in .zuul.yaml
+
+3.0.1
+-----
+
+* Edit unit test base class inheritance
+
+3.0.0
+-----
+
+* [share] Specify supported protocols
+* Improve octavia tempest plugin configuration
+* Fix packstack jobs and improve playbook's style
+* Update DEFAULT\_FLAVOR\_{RAM, \_ALT} >= 128
+* Added virtualenv and tox installation
+* Update jobs for interop repos renaming
+* Fix heat plugin support
+* Make name of the demo user unique
+* Make packstack jobs non voting
+* Switch to newer openstackdocstheme and reno versions
+* Update constraints handling
+* Fix install-plugins role
+* Add pep8 job
+* Use unittest.mock instead of third party mock
+* Cleanup py27 support
+* Change role setting for octavia
+* Switch to c8 based tripleo standalone jobs
+* Added Mistral service type workflowv2
+* Fix TypeError on configparser
+* Replace yaml.load() with yaml.safe\_load()
+* Use centos8 in packstack jobs
+* Fix the python 3 support and drop python 2 and 3.5
+* Add support for storage pools
+* Discover Barbican service
+
+2.5.0
+-----
+
+* Remove support of nova-network
+* Update compute config only when compute section exists
+* Decode bytes data to string
+* Create networks only when network service is enabled
+* Replace ostempest job with plain tripleo standalone
+
+2.4.0
+-----
+
+* Don't use name of a service as a key
+* Add train jobs, make master packstack non voting
+* Fix section of s3\_url and ec2\_url
+* Collect openstack services logs after tempest run
+* Enable designate service
+* Set compute/min\_compute\_nodes
+* Discover Designate service
+* Use https for cirros image
+* Sync Sphinx requirement
+* Update the constraints url
+* Allow discover-tempest-config to run with no nova or glance endpoint
+
+2.3.0
+-----
+
+* Remove leftover os\_client\_config references
+* Replace os-client-config module by openstacksdk
+* Add Queens, Rocky and Stein job
+* Don't fail when heat-plugin is missing a value
+* Add return value for mocked urllib3 request()
+* Add a retry when downloading a file
+* Fix devstack/packstack job permission denied issue
+* Update api-ref location
+
+2.2.1
+-----
+
+* Deprecate api\_extensions of compute service
+* Fix checking for volume backup
+* Clear the difference between service type and name
+* Edit doc regarding override values
+* Update default cirros image to 0.4.0
+* Fix checking of roles
+* Add a job for tempest plugins
+* Remove heat\_stack\_owner role assigning to user
+
+2.2.0
+-----
+
+* Replace git.openstack.org URLs with opendev.org URLs
+* OpenDev Migration Patch
+* Fix no \_member\_ role found
+* Add option for converting images
+* Add heat\_plugin support
+* Introduce post\_configuration method
+* Move disabling of logging to the test base file
+* Allow to specify min flavor memory and disk size
+* Add RNG device to images and flavours
+* Replace openstack.org git:// URLs with https://
+* Run with builtin manila wsgi
+* Add support for microversions for compute
+* Remove aodh\_plugin option
+* Remove SERVICE\_NAMES
+* Implement set\_availability method
+* Add tripleo-ci-centos-7-standalone-os-tempest job
+* add python 3.7 unit test job
+* Enable manila plugin in devstack
+* Add support for manila api microversion
+* Update image flavor to have some disk
+
+2.1.0
+-----
+
+* Set refstack-client-\*-tempestconf voting again
+* Added python-tempestconf-tempest-devstack-admin/demo-py3
+* Fix diff in gates
+* Replace tripleo-scenario002-multinode with scenario002-standalone
+* Fixed SafeConfigParser deprecation warning for py3
+* Update hacking version
+* Add unit test for profile feature
+* Add profile argument
+* Add argument which allows users to add extensions
+* Adapt python-tempestconf to python3
+* Handle Forbidden exception when creating role
+* Change openstack-dev to openstack-discuss
+* Fix flaky unit tests
+* Constraint flake8 and pyflakes versions
+* Add Python 3.6 classifier to setup.cfg
+* Set region\_name from os-client-config to set identity.region
+* Remove unnecessary CLI options from roles
+* Different concurrency for tempest and accounts
+* Fix api microversion discover procedure
+* Add python 3.6 unit test job
+* Set use\_dynamic\_credentials with a priority
+* Skip api.compute.servers tests
+* use include\_tasks instead of include
+* fix tox python3 overrides
+* Removed older version of python added 3.5
+* Use openstack-tox-cover template
+* Add refstack-client-devstack-tempestconf job
+* add python 3.6 unit test job
+* switch documentation job to new PTI
+* import zuul job settings from project-config
+* Remove static class loader
+
+2.0.0
+-----
+
+* Add support for volume api microversion
+* Create utils.py
+* Don't expose credentials
+* Fix role readme
+* Fix identity url version detection
+* Final doc check
+* Removing dependence of SERVICE\_EXTENSION\_KEY
+* Removing dependence from SERVICE\_VERSIONS
+* Fix: return the flavor ID on autodetection
+* Fix: make sure that keystone\_v3\_support is a boolean
+* Use the common cover job instead of a custom one
+* horizon: don't error out for certificate issues
+* Document CLI options
+* Allow usage images already in glance
+* Add User Guide documentation
+* Document integration of the tool
+* Fix identity URL parsing
+* Return False if healthcheck api failed
+* Add etc/ to .gitignore
+* Remove documented parts from README
+* Improve flavor detection
+* Add Contributor Guide
+* Fix http\_image uploading to glance
+* Document installation process
+* Fix documentation structure
+* Replace tripleo job
+* Switch ansible module command with copy
+* Collecting tempest files
+* Fix object store feature-enabled config
+* Remove default-overrides.conf
+* Add release note link in README
+* More Python 3 porting: filter and map, one import
+* Fix check\_service\_status
+* More compatibility with Python 3
+* Remove the content of default-overrides.conf
+* Configure tempest for Octavia tests
+* Replace tenant by project, part 2
+* Use healthcheck api to determine swift service
+* Fix operator\_role value for account-generator
+* Fix boto method
+* Generate accounts.yaml
+* Fix username is not defined warning
+* Fix identity service url for v3
+* Allow non admin users to upload image to glance
+* Remove admin\_\*  from identity section
+* Replace tenant by project, part 1
+* Switch to openstackdocstheme (doc and release notes)
+* Remove image.http\_image from playbook
+* fix url
+* Fix broken link in readme
+* List and create swift roles
+* Move configuring of services to services class
+* Validation support
+* Don't expose user credentials
+* Load deployer input file automatically
+* Enhancements in nova support
+* Add missing params' description
+* Fix identity v3 ext discovery
+* Store volumev2 and v3 extensions as well
+* Filter deprecated versions out
+* Make tempestconf easier to use as an library
+* Use volume v3 service client as the default
+* Fixing download of the cirros image
+* Load basic default config
+* Improve role docs, remove unused var
+* A service can have no endpoints
+* Fix flaky unit test
+* Enable discovering of mistral service
+* Trivial: Update pypi url to new url
+* Use --non-admin for non admin users in zuul jobs
+* Refactor to improve modularity, scalability, OOP
+* Roles for managing clouds.yaml file
+* Fix failing of listing services
+* fix a typo in documentation
+* Split ClientManager
+* Decouple TempestConf class
+* Split main to smaller functions
+
+1.1.4
+-----
+
+* Fix discovery of identity versions
+* Fixed {test,-}.requirements.txt
+* zuul: fix the parent of the packstack jobs, concurrency
+* Change attribute of zuul projects
+* Zuul: Remove project name
+* Cleaned setup.cfg for OpenStack release
+* add mock for test\_create\_flavor\_not\_allowed
+* Set scenario.img\_file from the name of the image
+* Don't refetch same image over and over
+* Add initial .zuul file, devstack and packstack job
+* Add support for new doc PTI jobs
+* Do not use -y for package install
+* Add test coverage calculation
+* Switch to use stestr for unit tests
+* gitignore: add .stestr
+* configure\_horizon: allow to parse ipv6 url
+* Change default image name
+* Add zuul layout to run a TripleO job
+* Switch endpoint\_type to publicURL
+* Fix api\_discovery with keystone v3
+* Discover services only if there is an endpoint
+* Skip TestService.test\_do\_get failing unit tests
+* Updated README with updated links
+* Update .gitreview: point to review.openstack.org
+* Fixed get\_version method for identity v3
+* Set usage of v3 clients, deal with endpoint URLs
+
+1.1.3
+-----
+
+* Change ImagesClient API call
+* Fix ceilometer detection
+* Check if volume service is enabled before check cinder backup
+* Default to cirros-0.3.5
+* Do not specify endpoint type
+* Replace volume for volumev3
+* Checking cinder backup service
+
+1.1.2
+-----
+
+* Fix setting of admin\_password
+* Fix --remove option
+* Add new parameter in place of deprecated one
+* Add support for admin parameters moving to auth
+* Adding validation section in default-overrides.conf
+
+1.1.1
+-----
+
+* Unsetting the security\_compliance flag
+
+1.1.0
+-----
+
+* Add os-client-config support
+* Enable keystone feature flags
+* Add ability to remove any option from tempest.conf
+* Convert the README from Markdown to reStructuredText
+* Rename IdentityV3Client to IdentityClient
+* Simplify base files hierarchy
+* Update readme
+* Split tests to multiple files
+* Added remaining unit tests for config\_tempest.py
+* Remove old compatibility stuff for sahara
+* Added network.remove-extension option
+* Add unit tests for tempest\_config module
+* Add unit tests for tempest\_config module
+* Add unit tests for tempest\_config module
+* Initiate public\_network\_name to None
+* Set public\_network\_name also when network ID is provided
+* Fix string arguments in a call to logger.info
+
+1.0.0
+-----
+
+* Add unit tests
+* Fixed discover-config-tempest to read default-overrides.conf from tempest-workspace/etc
+* Fix config\_tempest failing due to v3 on ocata
+* Enables Hacking extensions H106,H203,H904
+* Enable configuration of manila service
+* Start using reno for release notes
+* Fixed tests and doc build
+* Adding floating\_network\_name to network section
+* Refactored python-tempestconf to work with devstack
+* Fix pep8 compliance
+* Add gerrithub to .gitreview
+* edited
+* deleted unwanted files
+* default conf file
+* tempest\_config\_tool
+* added requirements
+* Initial Cookiecutter Commit

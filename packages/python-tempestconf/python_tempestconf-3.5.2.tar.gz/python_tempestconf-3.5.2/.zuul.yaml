@@ -1,0 +1,285 @@
+- project:
+    templates:
+      - openstack-cover-jobs
+      - release-notes-jobs-python3
+    check:
+      jobs:
+        - openstack-tox-pep8
+        - openstack-tox-py310
+        - openstack-tox-py311
+        - openstack-tox-py312
+        - python-tempestconf-tempest-devstack-admin
+        - python-tempestconf-tempest-devstack-admin-2024-1
+        - python-tempestconf-tempest-devstack-admin-2024-2
+        - python-tempestconf-tempest-devstack-admin-2025-1
+        - python-tempestconf-tempest-devstack-admin-fips-centos9:
+            voting: false
+        - python-tempestconf-tempest-devstack-admin-rocky:
+            voting: false
+        - python-tempestconf-tempest-devstack-demo
+        - python-tempestconf-tempest-devstack-admin-plugins:
+            voting: false
+        - python-tempestconf-tempest-devstack-enforce-scope-new-defaults-admin
+        - python-tempestconf-tempest-devstack-enforce-scope-new-defaults-demo
+        - opendev-tox-docs
+    gate:
+      jobs:
+        - openstack-tox-pep8
+        - openstack-tox-py310
+        - openstack-tox-py311
+        - openstack-tox-py312
+        - python-tempestconf-tempest-devstack-admin
+        - python-tempestconf-tempest-devstack-admin-2024-1
+        - python-tempestconf-tempest-devstack-admin-2024-2
+        - python-tempestconf-tempest-devstack-admin-2025-1
+        #- python-tempestconf-tempest-devstack-admin-rocky
+        - python-tempestconf-tempest-devstack-demo
+        #- python-tempestconf-tempest-devstack-admin-plugins
+        - opendev-tox-docs
+    promote:
+      jobs:
+        - opendev-promote-docs
+    experimental:
+      jobs:
+        - python-tempestconf-tempest-devstack-demo-2024-1
+        - python-tempestconf-tempest-devstack-demo-2024-2
+        - python-tempestconf-tempest-devstack-demo-2025-1
+
+
+- job:
+    name: python-tempestconf-devstack-base
+    parent: devstack
+    nodeset: openstack-single-node-noble
+    description: Base job for python-tempestconf on a devstack environment
+    required-projects:
+      - openstack/heat
+      - openstack/heat-tempest-plugin
+      - openstack/manila
+      - openstack/manila-ui
+      - openstack/manila-tempest-plugin
+      - openstack/python-manilaclient
+      - openinfra/python-tempestconf
+      - openstack/tempest
+      - openstack/devstack
+      - openstack/designate
+      - openstack/designate-tempest-plugin
+      - openstack/barbican
+      - openstack/barbican-tempest-plugin
+      - openstack/requirements
+    roles:
+      - zuul: openinfra/python-tempestconf
+      - zuul: openstack/tempest
+      - zuul: openstack/devstack
+    vars:
+      zuul_copy_output:
+        '{{ devstack_base_dir }}/tempest/tempest.log': logs
+        '{{ devstack_base_dir }}/tempest/etc/tempest.conf': logs
+        '{{ zuul.project.src_dir }}/etc/accounts.yaml': logs
+      tempestconf_pip_virtualenv_python: "python3"
+      devstack_plugins:
+        heat: https://opendev.org/openstack/heat
+        manila: https://opendev.org/openstack/manila
+        manila-ui: https://opendev.org/openstack/manila-ui
+        designate: https://opendev.org/openstack/designate
+        barbican: https://opendev.org/openstack/barbican
+      devstack_localrc:
+        USE_PYTHON3: True
+        MANILA_USE_UWSGI: False
+        MANILA_USE_MOD_WSGI: False
+        LIBS_FROM_GIT: python-manilaclient
+      devstack_services: &devstack_services
+        h-eng: True
+        h-api: True
+        h-api-cfn: True
+        h-api-cw: True
+        designate: True
+        designate-central: True
+        designate-api: True
+        designate-worker: True
+        designate-producer: True
+        designate-mdns: True
+        barbican: True
+    irrelevant-files: &irrelevant-files
+      - config_tempest/tests/.*$
+      - ^doc/.*$
+      - ^releasenotes/.*$
+      - ^.*\.rst$
+
+- job:
+    name: python-tempestconf-devstack-enforce-scope-new-defaults-base
+    parent: python-tempestconf-devstack-base
+    description: Base job for python-tempestconf on a devstack environment with enforce scope and new defaults enabled
+    vars:
+      devstack_localrc:
+        # NOTE(rpopelka) We need to keep keystone scope check disabled as
+        # it still has system scope enabled in it's policies. When keystone
+        # updates it's policies, the scope check can be set to True also.
+        NOVA_ENFORCE_SCOPE: True
+        CINDER_ENFORCE_SCOPE: True
+        GLANCE_ENFORCE_SCOPE: True
+        NEUTRON_ENFORCE_SCOPE: True
+
+- job:
+    name: python-tempestconf-tempest-devstack-admin-plugins
+    parent: python-tempestconf-devstack-base
+    description: |
+      Tempest job for python-tempestconf on a devstack environment as the admin user.
+    run: playbooks/python-tempestconf-tempest-devstack.yaml
+    vars:
+      # creator role is required for Barbican tests
+      additional_tempestconf_params: "auth.tempest_roles creator image_signature_verification.enforced False"
+      test_regex:
+        - 'designate_tempest_plugin'
+        - 'heat_tempest_plugin'
+        - 'barbican_tempest_plugin'
+      exclude_regex:
+        - 'heat_tempest_plugin.tests.functional.test_nova_server_networks.CreateServerTest.test_create_update_server_with_subnet'
+        - 'heat_tempest_plugin.tests.scenario.test_volumes.VolumeBackupRestoreIntegrationTest.test_cinder_volume_create_backup_restore'
+        - 'heat_tempest_plugin.tests.scenario.test_server_software_config.SoftwareConfigIntegrationTest.test_server_software_config'
+        - 'heat_tempest_plugin.tests.scenario.test_server_signal.ServerSignalIntegrationTest.test_server_signal_userdata_format_software_config'
+        - 'heat_tempest_plugin.tests.scenario.test_aodh_alarm.AodhAlarmTest.test_alarm'
+        - 'heat_tempest_plugin.tests.scenario.test_server_cfn_init.CfnInitIntegrationTest.test_server_cfn_init'
+        - 'heat_tempest_plugin.tests.scenario.test_base_resources.BasicResourcesTest.test_base_resources_integration'
+        - 'heat_tempest_plugin.tests.functional.test_os_wait_condition.OSWaitCondition.test_create_stack_with_multi_signal_waitcondition'
+        - 'designate_tempest_plugin.tests.scenario.v2.test_recordsets.RecordsetsTest'
+      user: admin
+      cloud_user: devstack-admin
+      plugins_paths:
+        - "{{ ansible_user_dir }}/{{ zuul.projects['opendev.org/openstack/heat-tempest-plugin'].src_dir }}"
+        - "{{ ansible_user_dir }}/{{ zuul.projects['opendev.org/openstack/designate-tempest-plugin'].src_dir }}"
+        - "{{ ansible_user_dir }}/{{ zuul.projects['opendev.org/openstack/barbican-tempest-plugin'].src_dir }}"
+      tempest_concurrency: 2
+      ensure_tox_version: '<4'
+
+- job:
+    name: python-tempestconf-tempest-devstack-admin
+    parent: python-tempestconf-devstack-base
+    description: |
+      Tempest job for python-tempestconf on a devstack environment as the admin user.
+    run: playbooks/python-tempestconf-tempest-devstack.yaml
+    vars:
+      user: admin
+      cloud_user: devstack-admin
+      tempest_concurrency: 2
+
+- job:
+    name: python-tempestconf-tempest-devstack-admin-rocky
+    parent: python-tempestconf-tempest-devstack-admin
+    description: |
+      Tempest job for python-tempestconf on a devstack environment as the admin user on rocky linux.
+    nodeset: devstack-single-node-rockylinux-9
+
+- job:
+    name: python-tempestconf-tempest-devstack-admin-fips-centos9
+    parent: python-tempestconf-tempest-devstack-admin
+    description: |
+      Tempest job for python-tempestconf on a devstack environment as the admin user (fips enabled).
+    nodeset: devstack-single-node-centos-9-stream
+    vars:
+      devstack_localrc:
+        GLOBAL_VENV: false
+      configure_swap_size: 4096
+      nslookup_target: 'opendev.org'
+      enable_fips: true
+
+- job:
+    name: python-tempestconf-tempest-devstack-admin-2023-2
+    parent: python-tempestconf-tempest-devstack-admin
+    nodeset: openstack-single-node-jammy
+    override-checkout: stable/2023.2
+    vars:
+      branch: stable/2023.2
+
+- job:
+    name: python-tempestconf-tempest-devstack-admin-2024-1
+    parent: python-tempestconf-tempest-devstack-admin
+    nodeset: openstack-single-node-jammy
+    override-checkout: stable/2024.1
+    vars:
+      branch: stable/2024.1
+
+- job:
+    name: python-tempestconf-tempest-devstack-admin-2024-2
+    parent: python-tempestconf-tempest-devstack-admin
+    override-checkout: stable/2024.2
+    vars:
+      branch: stable/2024.2
+
+- job:
+    name: python-tempestconf-tempest-devstack-admin-2025-1
+    parent: python-tempestconf-tempest-devstack-admin
+    override-checkout: stable/2025.1
+    vars:
+      branch: stable/2025.1
+
+- job:
+    name: python-tempestconf-tempest-devstack-demo
+    parent: python-tempestconf-devstack-base
+    description: |
+      Tempest job for python-tempestconf on a devstack environment as the demo user.
+    run: playbooks/python-tempestconf-tempest-devstack.yaml
+    vars:
+      additional_tempestconf_params: "auth.tempest_roles member"
+      user: demo
+      cloud_user: devstack
+      test_demo: true
+      cloud_admin: devstack-admin
+      # concurrency is reduced in this job, because a minimal accounts
+      # file is used
+      tempest_concurrency: 1
+      # skip until https://storyboard.openstack.org/#!/story/2004209
+      # is resolved
+      tempest_exclude_regex: 'tempest.api.compute.servers'
+
+- job:
+    name: python-tempestconf-tempest-devstack-demo-2024-1
+    parent: python-tempestconf-tempest-devstack-demo
+    nodeset: openstack-single-node-jammy
+    override-checkout: stable/2024.1
+    vars:
+      branch: stable/2024.1
+
+- job:
+    name: python-tempestconf-tempest-devstack-demo-2024-2
+    parent: python-tempestconf-tempest-devstack-demo
+    override-checkout: stable/2024.2
+    vars:
+      branch: stable/2024.2
+
+- job:
+    name: python-tempestconf-tempest-devstack-demo-2025-1
+    parent: python-tempestconf-tempest-devstack-demo
+    override-checkout: stable/2025.1
+    vars:
+      branch: stable/2025.1
+
+- job:
+    name: python-tempestconf-tempest-devstack-enforce-scope-new-defaults-admin
+    parent: python-tempestconf-devstack-enforce-scope-new-defaults-base
+    description: |
+      Tempest job for python-tempestconf on a devstack environment with enforce scope and new defaults enabled as the admin user.
+    run: playbooks/python-tempestconf-tempest-devstack.yaml
+    vars:
+      user: admin
+      cloud_user: devstack-admin
+      tempest_concurrency: 2
+
+- job:
+    name: python-tempestconf-tempest-devstack-enforce-scope-new-defaults-demo
+    parent: python-tempestconf-devstack-enforce-scope-new-defaults-base
+    description: |
+      Tempest job for python-tempestconf on a devstack environment with enforce scope and new default enabled as the demo user.
+    run: playbooks/python-tempestconf-tempest-devstack.yaml
+    vars:
+      additional_tempestconf_params: "auth.tempest_roles member"
+      user: demo
+      cloud_user: devstack
+      test_demo: true
+      cloud_admin: devstack-admin
+      # concurrency is reduced in this job, because a minimal accounts
+      # file is used
+      tempest_concurrency: 1
+      # skip until https://storyboard.openstack.org/#!/story/2004209
+      # is resolved
+      tempest_exclude_regex: 'tempest.api.compute.servers'
+

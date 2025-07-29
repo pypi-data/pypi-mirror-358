@@ -1,0 +1,10 @@
+---
+features:
+  - |
+    From now on, python-tempestconf will set the following option by default
+
+    * ``CONF.scenario.dhcp_client dhcpcd``
+
+    The reason is that python-tempestconf sets cirros >= 0.6.0 as the default
+    image and cirros version since 0.6.0 use dhcpcd as a default dhcp client.
+

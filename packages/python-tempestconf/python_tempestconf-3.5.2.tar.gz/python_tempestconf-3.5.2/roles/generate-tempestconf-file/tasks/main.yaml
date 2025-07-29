@@ -1,0 +1,80 @@
+- block:
+  - debug:
+      var: source_credentials_commands
+
+  - name: Ensure python-virtualenv is present
+    include_role:
+      name: ensure-virtualenv
+
+  - name: Create python-tempestconf venv with latest pip, setuptools and pbr
+    pip:
+        virtualenv: "{{ virtualenvs.tempestconf }}"
+        name: "{{ item }}"
+        state: latest
+        virtualenv_python: "{{ tempestconf_pip_virtualenv_python|default(omit) }}"
+    with_items:
+        - pip
+        - setuptools
+        - pbr
+
+  - name: Debug, list tempestconf dir
+    shell: |
+        set -ex
+        ls -all .
+        pwd
+    args:
+        chdir: "{{ tempestconf_src_relative_path }}"
+
+  - name: Install python-tempestconf (with constraints)
+    shell: |
+        set -ex
+        export PATH=$PATH:/usr/local/sbin:/usr/sbin
+        source {{ virtualenvs.tempestconf }}/bin/activate
+        pip install -c {{ ansible_user_dir }}/{{ zuul.projects['opendev.org/openstack/requirements'].src_dir }}/upper-constraints.txt .
+    args:
+       chdir: "{{ tempestconf_src_relative_path }}"
+       executable: /bin/bash
+    when: branch is defined
+
+  - name: Install python-tempestconf
+    pip:
+        name: "."
+        virtualenv: "{{ virtualenvs.tempestconf }}"
+        chdir: "{{ tempestconf_src_relative_path }}"
+        virtualenv_python: "{{ tempestconf_pip_virtualenv_python|default(omit) }}"
+    when: branch is not defined
+
+  - name: Generate tempest configuration script
+    template:
+        src: generate-tempestconf.sh.j2
+        dest: "{{ tempestconf_src_relative_path }}/generate-tempestconf.sh"
+        mode: 0744
+
+  - include_tasks: test-demo-user.yaml
+    when: test_demo_user
+
+  - name: Generate tempest configuration file
+    shell: |
+        ./generate-tempestconf.sh
+    args:
+      chdir: "{{ tempestconf_src_relative_path }}"
+      executable: /bin/bash
+
+  # tempest role which will run tests has tempest in {{ devstack_base_dir }}
+  # location, therefore the file is copied there
+  - name: Copy tempest.conf to the tempest directory
+    become: yes
+    shell: |
+        set -x
+        cp {{ tempestconf_src_relative_path }}/etc/tempest.conf {{ devstack_base_dir }}/tempest/etc/tempest.conf
+    when: output_path is not defined
+
+  - name: Copy tempest.conf to the specified location
+    become: yes
+    shell: |
+        set -x
+        cp  {{ tempestconf_src_relative_path }}/etc/tempest.conf {{ output_path }}
+    when: output_path is defined
+
+  vars:
+    tempestconf_src_relative_path: "{{ zuul.projects['opendev.org/openinfra/python-tempestconf'].src_dir }}"

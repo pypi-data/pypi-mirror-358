@@ -1,0 +1,20 @@
+# Script to generate tempest.conf
+set -ex
+export PATH=$PATH:/usr/local/sbin:/usr/sbin
+source {{ virtualenvs.tempestconf }}/bin/activate
+{{ source_credentials_commands }}
+printenv
+discover-tempest-config \
+--debug \
+-v \
+{% if user == "admin" %}
+--create \
+{% else %}
+--non-admin \
+{% endif %}
+{% if test_demo_user and not create_accounts_file %}
+--test-accounts {{ test_accounts_file }} \
+{% elif test_demo_user and create_accounts_file %}
+--create-accounts-file ./etc/accounts.yaml \
+{% endif %}
+{{ additional_tempestconf_params }}

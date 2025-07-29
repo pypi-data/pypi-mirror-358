@@ -1,0 +1,9 @@
+---
+fixes:
+  - |
+    python-tempestconf will prioritize the external network named public when
+    auto-discovering an external network for tempest. The public network is
+    the network we end up using in most of the cases. This will help avoid
+    potential conflicts with other available external networks that are not
+    meant to be used by tempest. If no external network with name public is
+    found, the network discovered last will be used.

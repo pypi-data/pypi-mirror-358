@@ -1,0 +1,11 @@
+---
+features:
+  - |
+    Add a new argument ``--network`` to specify either a name or an id of
+    a network that will be set in tempest.conf and used by tempest to run
+    tests.
+deprecations:
+  - |
+    Argument ``--network-id`` is deprecated and will be removed in the future.
+    ``--network-id`` is replaced with ``--network`` that can be used to
+    specify both, network id or network name.
