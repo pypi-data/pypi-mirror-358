@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "translate-mcp-server"
+version = "1.0.9"
+description = "MCP服务器用于项目国际化，提供提取中文、翻译中文、替换文本功能"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "TranslateMcpServer", email = "example@example.com"}
+]
+keywords = ["i18n", "internationalization", "translation", "chinese", "english", "mcp", "server"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "mcp-server<=0.1.4",
+    "aliyun-python-sdk-core>=2.13.0",
+    "aliyun-python-sdk-alimt>=3.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/translate-mcp-server"
+Issues = "https://github.com/yourusername/translate-mcp-server/issues"
+
+[project.scripts]
+translate-mcp-server = "translate_mcp_server.cli:main"
