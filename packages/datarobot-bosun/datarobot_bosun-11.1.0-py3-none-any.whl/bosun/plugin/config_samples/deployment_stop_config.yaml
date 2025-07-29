@@ -1,0 +1,29 @@
+deploymentInfo:
+  modelArtifact: null
+  modelFormat: datarobot
+  keyValueConfig: {
+    }
+  modelId: 5f764a99c5306348792ac65f
+  name: bosun-100-4
+  description: ''
+  id: 6063c5d16af317c4b0636f90
+  modelExecutionType: dedicated
+peInfo:
+  keyValueConfig: {
+    }
+  deployments:
+  - 6063c5c917785b5bdf2e1b38
+  - 6063c5cb8cabd7e6e12e1a20
+  - 6063c5cd8cabd7e6e12e1a36
+  - 6063c5cf8cabd7e6e12e1a4c
+  createdBy: lior.amar@datarobot.com
+  name: bosun-100-deployments-test
+  description: ''
+  id: 60623e3b36066bf8561aea86
+  createdOn: '2021-03-29T20:53:15.814792Z'
+pluginConfig:
+  MLOPS_BOSUN_PRED_ENV_TYPE: ExternalCommand
+  MLOPS_BOSUN_PRED_ENV_PLATFORM: os
+  MLOPS_BOSUN_PRED_ENV_ID: 60623e3b36066bf8561aea86
+  MLOPS_BOSUN_PRED_ENV_ENABLE_MONITORING: false
+  command: /opt/ml/bosun/plugin-runner.sh  --plugin filesystem --private-config /opt/ml/bosun/conf/plugin.filesystem.conf.yaml

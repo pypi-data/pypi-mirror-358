@@ -1,0 +1,63 @@
+#  ---------------------------------------------------------------------------------
+#  Copyright (c) 2023 DataRobot, Inc. and its affiliates. All rights reserved.
+#  Last updated 2023.
+#
+#  DataRobot, Inc. Confidential.
+#  This is proprietary source code of DataRobot, Inc. and its affiliates.
+#
+#  This file and its contents are subject to DataRobot Tool and Utility Agreement.
+#  For details, see
+#  https://www.datarobot.com/wp-content/uploads/2021/07/DataRobot-Tool-and-Utility-Agreement.pdf.
+#  ---------------------------------------------------------------------------------
+version: 0.2
+env:
+  shell: bash
+phases:
+  pre_build:
+    commands:
+    - apt-get update
+    - apt-get install zip -y
+    - tar -czvf model.tar.gz $MODEL_PACKAGE
+    - aws s3 cp model.tar.gz $OUTPUT_MODEL_PATH
+    - 'echo Logging in to Amazon ECR: $AWS_ECR ...'
+    - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS
+      --password-stdin $AWS_ECR
+    - set -o noclobber
+    - echo "Creating Dockerfile base image cache $ECR_CACHE ..."
+    - echo 'FROM '"$ECR_CACHE"'datarobot/dropin-env-base-jdk:debian11-py3.9-jdk11.0.16-drum1.11.5-mlops9.2.8'  >| Dockerfile
+    - echo 'COPY dr_requirements.txt dr_requirements.txt' >> Dockerfile
+    - echo 'RUN pip3 install -U pip && pip3 install -U --upgrade-strategy eager --no-cache-dir -r dr_requirements.txt  && rm -rf dr_requirements.txt' >> Dockerfile
+    - echo 'ENV HOME=/opt CODE_DIR=/opt/code ADDRESS=0.0.0.0:8080' >> Dockerfile
+    - echo 'WORKDIR ${CODE_DIR}' >> Dockerfile
+    - echo 'COPY ./*.sh ${CODE_DIR}/' >> Dockerfile
+    - echo 'ENV WITH_ERROR_SERVER=1' >> Dockerfile
+    - echo '#ENV PRODUCTION=1 MAX_WORKERS=1 SHOW_STACKTRACE=1' >> Dockerfile
+    - echo 'COPY *.jar /opt/code/' >> Dockerfile
+    - echo 'COPY feature_types.json *classLabels.txt /opt/code/' >> Dockerfile
+    - echo 'EXPOSE 8080' >> Dockerfile
+    - echo 'RUN chgrp -R root /opt/code /var/log/nginx /var/lib/nginx && chmod -R g=u /opt/code /var/log/nginx /var/lib/nginx' >> Dockerfile
+    - echo 'ENTRYPOINT ["/opt/code/start_server.sh"]' >> Dockerfile
+    - echo Changing Dockerfile DONE
+    - echo Creating start_server.sh to support SageMaker...
+    - set -o noclobber
+    - echo '#!/bin/sh' >| start_server.sh
+    - echo 'echo "Starting Custom Model environment with DRUM prediction server"' >> start_server.sh
+    - echo 'env' >> start_server.sh
+    - echo "exec drum server --verbose --address localhost:8080" >> start_server.sh
+    - chmod +x start_server.sh
+    - echo Creating dr_requirements.txt ...
+    - echo "pandas<=2.0.3" >| dr_requirements.txt
+    - echo "pyarrow>=0.14.1,<=10.0.1" >> dr_requirements.txt
+    - echo "datarobot-mlops[aws]==10.0.7" >> dr_requirements.txt
+    - echo "datarobot-drum[uwsgi]==1.11.5" >> dr_requirements.txt
+  build:
+    commands:
+    - echo Build started on `date`
+    - echo Building the Docker image $ECR_REPO
+    - docker build -t $ECR_REPO .
+    - docker tag $ECR_REPO:latest $AWS_ECR/$ECR_REPO:$MODEL_ID
+  post_build:
+    commands:
+    - echo Build completed on `date`
+    - echo Pushing the Docker image to $AWS_ECR/$ECR_REPO:$MODEL_ID
+    - docker push $AWS_ECR/$ECR_REPO:$MODEL_ID

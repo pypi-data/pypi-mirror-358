@@ -1,0 +1,30 @@
+# NOTE:
+# 1. Version must be updated each time this file is updated.
+# 2. Update the "AZURE_BASE_ENVIRONMENT" with a newer base image.
+# 3. Conda version update triggers a new Environment version build.
+# 4. Use major changes only for critical updates. Major version change means all older
+#    deployments will be marked with a warning, asking users to re-launch their deployments.
+version: "1.2.1"
+name: datarobot-scoring-code
+channels:
+  - anaconda
+  - conda-forge
+dependencies:
+  - python==3.9.16
+  - pandas=1.5.3
+  - openjdk=11.0.13
+  - pip=23.0.1
+  - pip:
+      # Base packages for all online endpoints
+      - azureml-inference-server-http==1.0.0
+      - azureml-contrib-services==1.53.0
+      - inference-schema==1.7.0
+      # Base packages for all batch endpoints
+      - azureml-core==1.53.0
+      - azureml-dataset-runtime[pandas,fuse]==1.53.0
+      # Used for monitoring
+      - datarobot-mlops[kafka,azure,aggregator]==10.0.6
+      # Used to communicate with ScoringCode JAR
+      - datarobot-predict==1.5.0
+      # Used for online endpoint param validation
+      - pydantic==1.10.13

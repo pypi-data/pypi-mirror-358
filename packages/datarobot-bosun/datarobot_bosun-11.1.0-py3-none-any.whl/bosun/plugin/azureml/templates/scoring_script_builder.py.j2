@@ -1,0 +1,25 @@
+#  ---------------------------------------------------------------------------------
+#  Copyright (c) 2023 DataRobot, Inc. and its affiliates. All rights reserved.
+#  Last updated 2023.
+#
+#  DataRobot, Inc. Confidential.
+#  This is proprietary source code of DataRobot, Inc. and its affiliates.
+#
+#  This file and its contents are subject to DataRobot Tool and Utility Agreement.
+#  For details, see
+#  https://www.datarobot.com/wp-content/uploads/2021/07/DataRobot-Tool-and-Utility-Agreement.pdf.
+#  ---------------------------------------------------------------------------------
+
+{#
+   The prurpose of this file is to combine the common code with the specific scoring
+   code. This is so we can still leverage our Python linters and formatters for the
+   bulk of all the scoring code and we just have this one Jinja template that pulls
+   everything together.
+#}
+
+{% include score_script %}
+
+#
+# Below are common utility functions
+#
+{% include 'common.py' %}

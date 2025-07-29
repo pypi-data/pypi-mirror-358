@@ -1,0 +1,21 @@
+deploymentInfo: null
+peInfo:
+  id: 60623e3b36066bf8561aea86
+endpointInfo:
+  id: 64940c3f8d68d66381c7ecb8
+  name: test-endpoint
+  description: Test Endpoint description
+  predictionEnvironmentId: 60623e3b36066bf8561aea86
+  endpointType: online
+  authType: key
+  tags:
+    DataRobotEnvironmentId: test-environment-id
+  trafficSplit:
+    x: !!float '1'
+    y: !!float '99'
+pluginConfig:
+  MLOPS_BOSUN_PRED_ENV_TYPE: ExternalCommand
+  MLOPS_BOSUN_PRED_ENV_PLATFORM: os
+  MLOPS_BOSUN_PRED_ENV_ID: 60623e3b36066bf8561aea86
+  MLOPS_BOSUN_PRED_ENV_ENABLE_MONITORING: false
+  command: /opt/ml/bosun/plugin-runner.sh  --plugin azureml

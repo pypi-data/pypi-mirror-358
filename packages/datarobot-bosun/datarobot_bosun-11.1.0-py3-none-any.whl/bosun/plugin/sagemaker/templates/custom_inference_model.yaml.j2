@@ -1,0 +1,137 @@
+#  ---------------------------------------------------------------------------------
+#  Copyright (c) 2023 DataRobot, Inc. and its affiliates. All rights reserved.
+#  Last updated 2023.
+#
+#  DataRobot, Inc. Confidential.
+#  This is proprietary source code of DataRobot, Inc. and its affiliates.
+#
+#  This file and its contents are subject to DataRobot Tool and Utility Agreement.
+#  For details, see
+#  https://www.datarobot.com/wp-content/uploads/2021/07/DataRobot-Tool-and-Utility-Agreement.pdf.
+#  ---------------------------------------------------------------------------------
+version: 0.2
+env:
+  shell: bash
+phases:
+  pre_build:
+    commands:
+    - apt-get update
+    - apt-get install zip -y
+    - echo Unpacking content of "$MODEL_PACKAGE" to access the installation script...
+    - unzip $MODEL_PACKAGE
+    - echo Unpacking $MODEL_PACKAGE completed.
+    - echo Executing installation script...
+    - set -e
+    - SCRIPT_DIR_PATH="$(pwd)"
+    - TMP_PATH=${SCRIPT_DIR_PATH}
+    - INSTALL_REQS_SCRIPT=install_requirements.sh
+    - INSTALL_GENERATED_FILES_SCRIPT=install_generated_files.sh
+    - ADDITIONAL_ENV_VARS_TXT=additional_env_vars.txt
+    # all the model files are copied into /opt/code dir inside environment image
+    - MODEL_PATH_INSIDE_ENV_IMAGE="/opt/code"
+    - ENV_EXTRACT_PATH="${TMP_PATH}/env"
+    - MODEL_EXTRACT_DIR="model"
+    - MODEL_EXTRACT_PATH="${TMP_PATH}/${MODEL_EXTRACT_DIR}"
+    - MODEL_PACKAGE_EXTRACT_PATH="${TMP_PATH}/mlpkg"
+    - MLOPS_EXTRACT_PATH="${TMP_PATH}/mlops"
+    - DEPLOYMENT_CONFIG_FILE="${MODEL_PACKAGE_EXTRACT_PATH}/deployment_document.json"
+    - ENV_ARCHIVE_NAME=$(python3 -c "import sys, json; print(json.load(open('cm_pps_manifest.json'))['env'])")
+    - MODEL_ARCHIVE_NAME=$(python3 -c "import sys, json; print(json.load(open('cm_pps_manifest.json'))['model'])")
+    - ENV_ARCHIVE_FILE="${MODEL_PACKAGE_EXTRACT_PATH}/${ENV_ARCHIVE_NAME}"
+    - MODEL_ARCHIVE_FILE="${MODEL_PACKAGE_EXTRACT_PATH}/${MODEL_ARCHIVE_NAME}"
+    - echo "Extracting artifacts..."
+    - rm -rf "${ENV_EXTRACT_PATH}" "${MODEL_EXTRACT_PATH}" "${MODEL_PACKAGE_EXTRACT_PATH}"
+    - mkdir -p "${ENV_EXTRACT_PATH}"
+    - MODEL_PACKAGE=$(find "${TMP_PATH}" -name "model_*.mlpkg")
+    - echo "${MODEL_PACKAGE}" -d "${MODEL_PACKAGE_EXTRACT_PATH}"
+    - unzip "${MODEL_PACKAGE}" -d "${MODEL_PACKAGE_EXTRACT_PATH}"
+    - >
+      if [[ ${ENV_ARCHIVE_NAME: -7} == ".tar.gz" ]]; then
+        tar -xvf "${ENV_ARCHIVE_FILE}" -C "${ENV_EXTRACT_PATH}"
+      else
+        unzip "${ENV_ARCHIVE_FILE}" -d "${ENV_EXTRACT_PATH}"
+      fi
+    - mkdir -p "${MODEL_EXTRACT_PATH}"
+    - unzip "${MODEL_ARCHIVE_FILE}" -d "${MODEL_EXTRACT_PATH}"
+    - echo "Copying model files into environment directory..."
+    # copy full model dir into env dir
+    - cp -r "${MODEL_EXTRACT_PATH}" "${ENV_EXTRACT_PATH}"
+    # move INSTALL_REQS_SCRIPT from env/model to env/
+    - >-
+      if test -f ${INSTALL_REQS_SCRIPT}; then
+          mv "${INSTALL_REQS_SCRIPT}" ../
+      fi
+    # move INSTALL_GENERATED_FILES_SCRIPT from env/model to env/
+    - cd ${MODEL_EXTRACT_PATH}
+    - mv "${INSTALL_GENERATED_FILES_SCRIPT}" ${ENV_EXTRACT_PATH}
+    # move ADDITIONAL_ENV_VARS_TXT from env/model to env/
+    - mv "${ADDITIONAL_ENV_VARS_TXT}" ${ENV_EXTRACT_PATH}
+    - cd ${MODEL_PACKAGE_EXTRACT_PATH}
+    - cp "${DEPLOYMENT_CONFIG_FILE}" "${ENV_EXTRACT_PATH}"
+    - echo "Building environment docker image..."
+    - cd ${ENV_EXTRACT_PATH}
+    - cp Dockerfile Dockerfile.bak
+    - echo >> Dockerfile
+    # copy all the model files from model folder to /opt/code
+    - echo "COPY ${MODEL_EXTRACT_DIR}/ ${MODEL_PATH_INSIDE_ENV_IMAGE}" >> Dockerfile
+    - echo "COPY deployment_document.json ${MODEL_PATH_INSIDE_ENV_IMAGE}" >> Dockerfile
+    - >
+      if test -f ${INSTALL_REQS_SCRIPT}; then
+          echo "RUN cd ${MODEL_PATH_INSIDE_ENV_IMAGE} && chmod +x ${INSTALL_REQS_SCRIPT} && ./${INSTALL_REQS_SCRIPT}" >> Dockerfile
+      fi
+    # register env vars required for DRUM in Dockerfile
+    - cd ${ENV_EXTRACT_PATH}
+    - >
+      if test -f ${ADDITIONAL_ENV_VARS_TXT}; then
+        echo "ENV $(cat ${ADDITIONAL_ENV_VARS_TXT})" >> Dockerfile
+      fi
+    - echo "ENV DEPLOYMENT_CONFIG=${MODEL_PATH_INSIDE_ENV_IMAGE}/deployment_document.json" >> Dockerfile
+    - >
+      cd ${ENV_EXTRACT_PATH} &&
+      if test -f ${INSTALL_GENERATED_FILES_SCRIPT}; then
+          echo "RUN cd ${MODEL_PATH_INSIDE_ENV_IMAGE} && chmod +x ${INSTALL_GENERATED_FILES_SCRIPT} && ./${INSTALL_GENERATED_FILES_SCRIPT}" >> Dockerfile
+      fi
+    - echo "EXPOSE 8080" >> Dockerfile
+    - echo "RUN chgrp -R root ${MODEL_PATH_INSIDE_ENV_IMAGE} /var/log/nginx /var/lib/nginx && chmod -R g=u ${MODEL_PATH_INSIDE_ENV_IMAGE} /var/log/nginx /var/lib/nginx" >> Dockerfile
+    - echo "ENTRYPOINT [\"${MODEL_PATH_INSIDE_ENV_IMAGE}/start_server.sh\"]" >> Dockerfile
+    - echo Installation script completed.
+    - echo Creating model.tar.gz ...
+    - tar -czvf model.tar.gz model/*
+    - echo Creating model.tar.gz ... OK!
+    - echo Uploading model.tar.gz to $OUTPUT_MODEL_PATH ...
+    - aws s3 cp model.tar.gz $OUTPUT_MODEL_PATH
+    - echo Uploading model.tar.gz to $OUTPUT_MODEL_PATH ... OK!
+    - 'echo Logging in to Amazon ECR: $AWS_ECR ...'
+    - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS
+      --password-stdin $AWS_ECR
+    - echo Reading Dockerfile base image...
+    - docker_from_statement=$(echo "$a" | sed -n -e '/^FROM /p' Dockerfile)
+    - echo $docker_from_statement
+    - cached_base_image=$(echo "$docker_from_statement" | sed "s|FROM |$ECR_CACHE|g")
+    - echo Caching DockerHub base image
+    - echo $cached_base_image
+    - docker pull $cached_base_image
+    - sleep 10
+    - 'sed -i "s@$docker_from_statement@FROM $cached_base_image@g" Dockerfile'
+    - echo Changing Dockerfile DONE
+    - echo Creating start_server.sh to support SageMaker...
+    - set -o noclobber
+    - echo '#!/bin/sh' >| start_server.sh
+    - echo 'echo "Starting Custom Model environment with DRUM prediction server"' >> start_server.sh
+    - echo 'env' >> start_server.sh
+    - echo "exec drum server --verbose --address localhost:8080" >> start_server.sh
+    - echo Modifying dr_requirements.txt ...
+    - sed -i '/^datarobot-drum/d' dr_requirements.txt
+    - echo "datarobot-mlops[aws]==10.0.7" >> dr_requirements.txt
+    - echo "datarobot-drum[uwsgi]==1.11.5" >> dr_requirements.txt
+  build:
+    commands:
+    - echo Build started on `date`
+    - echo Building the Docker image $ECR_REPO
+    - docker build -t $ECR_REPO .
+    - docker tag $ECR_REPO:latest $AWS_ECR/$ECR_REPO:$MODEL_ID
+  post_build:
+    commands:
+    - echo Build completed on `date`
+    - echo Pushing the Docker image to $AWS_ECR/$ECR_REPO:$MODEL_ID
+    - docker push $AWS_ECR/$ECR_REPO:$MODEL_ID
