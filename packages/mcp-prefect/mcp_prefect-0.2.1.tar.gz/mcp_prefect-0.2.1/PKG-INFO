@@ -1,0 +1,203 @@
+Metadata-Version: 2.4
+Name: mcp-prefect
+Version: 0.2.1
+Summary: MCP Server for Prefect
+Author-email: James Munsch <james.a.munsch@gmail.com>
+License: MIT
+Requires-Python: >=3.12
+Requires-Dist: aiosqlite==0.21.0
+Requires-Dist: alembic==1.16.2
+Requires-Dist: annotated-types==0.7.0
+Requires-Dist: anyio==4.9.0
+Requires-Dist: apprise==1.9.3
+Requires-Dist: asgi-lifespan==2.1.0
+Requires-Dist: asyncpg==0.30.0
+Requires-Dist: attrs==25.3.0
+Requires-Dist: authlib==1.6.0
+Requires-Dist: cachetools==6.1.0
+Requires-Dist: certifi==2025.6.15
+Requires-Dist: cffi==1.17.1
+Requires-Dist: charset-normalizer==3.4.2
+Requires-Dist: click==8.1.8
+Requires-Dist: cloudpickle==3.1.1
+Requires-Dist: colorama==0.4.6
+Requires-Dist: coolname==2.2.0
+Requires-Dist: cryptography==45.0.4
+Requires-Dist: dateparser==1.2.2
+Requires-Dist: deprecated==1.2.18
+Requires-Dist: docker==7.1.0
+Requires-Dist: exceptiongroup==1.3.0
+Requires-Dist: fastapi==0.115.14
+Requires-Dist: fastmcp==2.9.2
+Requires-Dist: fsspec==2025.5.1
+Requires-Dist: graphviz==0.21
+Requires-Dist: greenlet==3.2.3
+Requires-Dist: griffe==1.7.3
+Requires-Dist: h11==0.16.0
+Requires-Dist: h2==4.2.0
+Requires-Dist: hpack==4.1.0
+Requires-Dist: httpcore==1.0.9
+Requires-Dist: httpx-sse==0.4.1
+Requires-Dist: httpx==0.28.1
+Requires-Dist: humanize==4.12.3
+Requires-Dist: hyperframe==6.1.0
+Requires-Dist: idna==3.10
+Requires-Dist: importlib-metadata==8.7.0
+Requires-Dist: jinja2-humanize-extension==0.4.0
+Requires-Dist: jinja2==3.1.6
+Requires-Dist: jsonpatch==1.33
+Requires-Dist: jsonpointer==3.0.0
+Requires-Dist: jsonschema-specifications==2025.4.1
+Requires-Dist: jsonschema==4.24.0
+Requires-Dist: mako==1.3.10
+Requires-Dist: markdown-it-py==3.0.0
+Requires-Dist: markdown==3.8.2
+Requires-Dist: markupsafe==3.0.2
+Requires-Dist: mcp-prefect==0.1.1
+Requires-Dist: mcp==1.9.4
+Requires-Dist: mdurl==0.1.2
+Requires-Dist: oauthlib==3.3.1
+Requires-Dist: openapi-pydantic==0.5.1
+Requires-Dist: opentelemetry-api==1.34.1
+Requires-Dist: orjson==3.10.18
+Requires-Dist: packaging==25.0
+Requires-Dist: pathspec==0.12.1
+Requires-Dist: pendulum==3.1.0
+Requires-Dist: pip==24.2
+Requires-Dist: prefect==3.4.6
+Requires-Dist: prometheus-client==0.22.1
+Requires-Dist: pycparser==2.22
+Requires-Dist: pydantic-core==2.33.2
+Requires-Dist: pydantic-extra-types==2.10.5
+Requires-Dist: pydantic-settings==2.10.1
+Requires-Dist: pydantic==2.11.7
+Requires-Dist: pygments==2.19.2
+Requires-Dist: pyproject-freeze==0.1.1
+Requires-Dist: python-dateutil==2.9.0.post0
+Requires-Dist: python-dotenv==1.1.1
+Requires-Dist: python-multipart==0.0.20
+Requires-Dist: python-slugify==8.0.4
+Requires-Dist: python-socks==2.7.1
+Requires-Dist: pytz==2025.2
+Requires-Dist: pyyaml==6.0.2
+Requires-Dist: readchar==4.2.1
+Requires-Dist: referencing==0.36.2
+Requires-Dist: regex==2024.11.6
+Requires-Dist: requests-oauthlib==2.0.0
+Requires-Dist: requests==2.32.4
+Requires-Dist: rfc3339-validator==0.1.4
+Requires-Dist: rich==14.0.0
+Requires-Dist: rpds-py==0.25.1
+Requires-Dist: ruamel-yaml-clib==0.2.12
+Requires-Dist: ruamel-yaml==0.18.14
+Requires-Dist: shellingham==1.5.4
+Requires-Dist: six==1.17.0
+Requires-Dist: sniffio==1.3.1
+Requires-Dist: sqlalchemy==2.0.41
+Requires-Dist: sse-starlette==2.3.6
+Requires-Dist: starlette==0.46.2
+Requires-Dist: text-unidecode==1.3
+Requires-Dist: time-machine==2.16.0
+Requires-Dist: toml==0.10.2
+Requires-Dist: tomlkit==0.13.2
+Requires-Dist: typer==0.16.0
+Requires-Dist: typing-extensions==4.14.0
+Requires-Dist: typing-inspection==0.4.1
+Requires-Dist: tzdata==2025.2
+Requires-Dist: tzlocal==5.3.1
+Requires-Dist: ujson==5.10.0
+Requires-Dist: urllib3==2.5.0
+Requires-Dist: uv==0.7.15
+Requires-Dist: uvicorn==0.34.3
+Requires-Dist: websockets==15.0.1
+Requires-Dist: wrapt==1.17.2
+Requires-Dist: zipp==3.23.0
+Provides-Extra: dev
+Requires-Dist: black>=23.0.0; extra == 'dev'
+Requires-Dist: isort>=5.0.0; extra == 'dev'
+Requires-Dist: mypy>=1.0.0; extra == 'dev'
+Requires-Dist: pytest-asyncio>=0.21.1; extra == 'dev'
+Requires-Dist: pytest>=7.0.0; extra == 'dev'
+Description-Content-Type: text/markdown
+
+# Prefect MCP Server
+
+A Model Context Protocol (MCP) server implementation for [Prefect](https://www.prefect.io/), allowing AI assistants to interact with Prefect through natural language.
+
+## Features
+
+This MCP server provides access to the following Prefect APIs:
+
+- **Flow Management**: List, get, and delete flows
+- **Flow Run Management**: Create, monitor, and control flow runs
+- **Deployment Management**: Manage deployments and their schedules
+- **Task Run Management**: Monitor and control task runs
+- **Work Queue Management**: Create and manage work queues
+- **Block Management**: Access block types and documents
+- **Variable Management**: Create and manage variables
+- **Workspace Management**: Get information about workspaces
+
+
+## Configuration
+
+Set the following environment variables:
+
+```bash
+export PREFECT_API_URL="http://localhost:4200/api"  # URL of your Prefect API
+export PREFECT_API_KEY="your_api_key"               # Your Prefect API key (if using Prefect Cloud)
+```
+
+## Usage
+
+Run the MCP server, and prefect:
+
+```
+docker compose up
+```
+
+## Example Input
+
+Once connected, an AI assistant can help users interact with Prefect using natural language. Examples:
+
+- "Show me all my flows"
+- "List all failed flow runs from yesterday"
+- "Trigger the 'data-processing' deployment"
+- "Pause the schedule for the 'daily-reporting' deployment"
+- "What's the status of my last ETL flow run?"
+
+## Development
+
+Several of the endpoints have yet to be implemented
+
+### Adding New Functions
+
+To add a new function to an existing API:
+
+1. Add the function to the appropriate module in `src/mcp_prefect`
+2. Add the function to the `get_all_functions()` list in the module
+
+To add a new API type:
+
+1. Add the new type to `APIType` in `enums.py`
+2. Create a new module in `src/prefect/`
+3. Update `main.py` to include the new API type
+
+
+Example usage:
+
+```
+{
+  "mcpServers": {
+    "mcp-prefect": {
+      "command": "mcp-prefect",
+      "args": [
+        "--transport", "sse"
+      ],
+      "env": {
+        "PYTHONPATH": "/path/to/your/project/directory"
+      },
+      "cwd": "/path/to/your/project/directory"
+    }
+  }
+}
+```
