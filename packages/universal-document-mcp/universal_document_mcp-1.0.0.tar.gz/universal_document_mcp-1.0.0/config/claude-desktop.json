@@ -1,0 +1,37 @@
+{
+  "mcpServers": {
+    "universal-document-converter": {
+      "command": "python",
+      "args": ["-m", "universal_document_mcp.server"],
+      "env": {
+        "PYTHONPATH": ".",
+        "LOG_LEVEL": "INFO"
+      },
+      "description": "Universal Document Converter - AI-powered markdown to PDF conversion with Mermaid diagram support",
+      "capabilities": [
+        "tools",
+        "resources"
+      ],
+      "settings": {
+        "workspace": "auto",
+        "ai_enabled": false,
+        "auto_install_deps": true
+      }
+    }
+  },
+  "globalShortcuts": {
+    "convertDocument": {
+      "key": "Ctrl+Shift+C",
+      "description": "Quick document conversion",
+      "action": "trigger_tool",
+      "tool": "convert_document_md_to_pdf"
+    }
+  },
+  "ui": {
+    "theme": "auto",
+    "notifications": {
+      "conversion_complete": true,
+      "errors": true
+    }
+  }
+}

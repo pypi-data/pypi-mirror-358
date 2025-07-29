@@ -1,0 +1,60 @@
+{
+  "mcpServers": {
+    "universal-document-converter": {
+      "command": "python",
+      "args": ["-m", "universal_document_mcp.server"],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}",
+        "LOG_LEVEL": "INFO",
+        "WORKSPACE_ROOT": "${workspaceFolder}"
+      },
+      "description": "Universal Document Converter for VS Code",
+      "icon": "$(file-pdf)",
+      "category": "Document Processing",
+      "capabilities": [
+        "tools",
+        "resources"
+      ],
+      "settings": {
+        "workspace": "${workspaceFolder}",
+        "ai_enabled": true,
+        "auto_backup": true,
+        "output_directory": "output"
+      },
+      "triggers": [
+        "convert markdown",
+        "md to pdf",
+        "document conversion",
+        "mermaid pdf",
+        "export pdf"
+      ]
+    }
+  },
+  "vscode": {
+    "commands": [
+      {
+        "command": "cline.convertDocument",
+        "title": "Convert Document to PDF",
+        "category": "Cline",
+        "icon": "$(file-pdf)"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "cline.convertDocument",
+        "key": "ctrl+shift+p",
+        "when": "editorTextFocus && resourceExtname == .md"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "cline.convertDocument",
+          "when": "resourceExtname == .md",
+          "group": "navigation"
+        }
+      ]
+    }
+  }
+}

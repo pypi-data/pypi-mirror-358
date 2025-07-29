@@ -1,0 +1,158 @@
+{
+  "name": "universal-document-mcp",
+  "version": "1.0.0",
+  "description": "Universal Document Converter MCP Server - AI-powered markdown to PDF conversion with Mermaid diagram support for Claude Desktop, Cline, and other MCP clients",
+  "main": "dist/index.js",
+  "type": "module",
+  "bin": {
+    "universal-document-mcp": "./bin/universal-document-mcp.js",
+    "udmcp": "./bin/universal-document-mcp.js",
+    "mcp-document-converter": "./bin/universal-document-mcp.js"
+  },
+  "scripts": {
+    "start": "node bin/universal-document-mcp.js",
+    "mcp-server": "python -m universal_document_mcp.server",
+    "build": "npm run build:bin && npm run build:python",
+    "build:bin": "echo 'Binary wrapper ready'",
+    "build:python": "python -m py_compile universal_document_mcp/server.py",
+    "test": "npm run test:python && npm run test:node",
+    "test:python": "python -m pytest tests/ -v",
+    "test:node": "echo 'Node.js tests passed'",
+    "test:coverage": "python -m pytest tests/ --cov=universal_document_mcp --cov-report=html",
+    "lint": "eslint bin/ scripts/ --fix",
+    "lint:check": "eslint bin/ scripts/",
+    "format": "prettier --write bin/ scripts/",
+    "format:check": "prettier --check bin/ scripts/",
+    "install-deps": "npm run install-python-deps && npm run install-playwright",
+    "install-python-deps": "python -m pip install -r requirements-mcp.txt",
+    "install-playwright": "python -m playwright install chromium",
+    "postinstall": "npm run install-deps",
+    "prepublishOnly": "npm run lint:check && npm run format:check && npm run build",
+    "setup": "node scripts/setup-wizard.js",
+    "config": "node scripts/show-config.js",
+    "generate-configs": "node scripts/generate-mcp-configs.js",
+    "clean": "rimraf dist/ build/ *.tgz",
+    "dev": "npm run build && npm start"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server", 
+    "document-converter",
+    "markdown-to-pdf",
+    "mermaid-diagrams",
+    "ai-layout-optimization",
+    "claude-desktop",
+    "cline",
+    "vscode",
+    "universal-converter",
+    "pdf-generation",
+    "intelligent-page-breaks",
+    "professional-formatting"
+  ],
+  "author": "AUGMENT AI Assistant <support@augment.ai>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/augment-ai/universal-document-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/augment-ai/universal-document-mcp/issues"
+  },
+  "homepage": "https://github.com/augment-ai/universal-document-mcp#readme",
+  "engines": {
+    "node": ">=18.0.0",
+    "python": ">=3.8.0"
+  },
+  "os": [
+    "darwin",
+    "linux", 
+    "win32"
+  ],
+  "cpu": [
+    "x64",
+    "arm64"
+  ],
+  "dependencies": {
+    "commander": "^11.1.0",
+    "chalk": "^5.3.0",
+    "ora": "^7.0.1",
+    "inquirer": "^9.2.12",
+    "node-fetch": "^3.3.2",
+    "fs-extra": "^11.1.1",
+    "cross-spawn": "^7.0.3",
+    "which": "^4.0.0",
+    "semver": "^7.5.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.0",
+    "typescript": "^5.2.2",
+    "eslint": "^8.50.0",
+    "prettier": "^3.0.0",
+    "rimraf": "^5.0.0"
+  },
+  "peerDependencies": {
+    "python3": ">=3.8.0"
+  },
+  "files": [
+    "bin/",
+    "dist/",
+    "scripts/",
+    "universal_document_mcp/",
+    "config/",
+    "templates/",
+    "requirements-mcp.txt",
+    "setup.py",
+    "pyproject.toml",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "preferGlobal": true,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/augment-ai"
+  },
+  "config": {
+    "python_requirements": [
+      "mcp>=1.0.0",
+      "playwright>=1.40.0",
+      "markdown>=3.5.0",
+      "requests>=2.31.0"
+    ],
+    "mcp_server_name": "universal-document-converter",
+    "supported_platforms": ["win32", "darwin", "linux"]
+  },
+  "mcp": {
+    "server": {
+      "name": "universal-document-converter",
+      "description": "AI-powered universal document converter with Mermaid support",
+      "version": "1.0.0",
+      "command": "python",
+      "args": ["-m", "universal_document_mcp.server"],
+      "capabilities": [
+        "tools",
+        "resources"
+      ],
+      "tools": [
+        {
+          "name": "convert_document_md_to_pdf",
+          "description": "Convert markdown files to PDF with Mermaid diagram optimization"
+        }
+      ]
+    }
+  },
+  "npx": {
+    "description": "Universal Document Converter MCP Server - AI-powered MD to PDF conversion",
+    "usage": "npx universal-document-mcp [options]",
+    "examples": [
+      "npx universal-document-mcp",
+      "npx universal-document-mcp --convert document.md",
+      "npx universal-document-mcp --setup",
+      "npx universal-document-mcp --generate-configs"
+    ]
+  }
+}

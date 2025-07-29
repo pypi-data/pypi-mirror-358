@@ -1,0 +1,50 @@
+# Include documentation files
+include README.md
+include INSTALL.md
+include LICENSE
+include CHANGELOG.md
+include CONTRIBUTING.md
+
+# Include configuration files
+include pyproject.toml
+include requirements-mcp.txt
+include package.json
+
+# Include configuration templates
+recursive-include config *.json
+
+# Include scripts
+recursive-include scripts *.py *.js *.sh *.ps1
+
+# Include binary wrappers
+recursive-include bin *.js
+
+# Include templates and static files
+recursive-include templates *.html *.css
+recursive-include static *.css *.svg *.png
+
+# Include the Python package
+recursive-include universal_document_mcp *.py
+
+# Exclude development and build files
+exclude .gitignore
+exclude .env*
+exclude *.log
+exclude test_*.md
+exclude temp_*.md
+
+# Exclude cache and build directories
+recursive-exclude __pycache__ *
+recursive-exclude *.egg-info *
+recursive-exclude build *
+recursive-exclude dist *
+recursive-exclude .pytest_cache *
+recursive-exclude node_modules *
+
+# Exclude IDE files
+recursive-exclude .vscode *
+recursive-exclude .idea *
+
+# Exclude OS files
+exclude .DS_Store
+exclude Thumbs.db

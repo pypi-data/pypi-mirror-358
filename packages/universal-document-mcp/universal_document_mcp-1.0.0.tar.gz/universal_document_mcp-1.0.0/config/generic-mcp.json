@@ -1,0 +1,92 @@
+{
+  "name": "universal-document-converter",
+  "version": "1.0.0",
+  "description": "Universal Document Converter MCP Server - AI-powered markdown to PDF conversion with Mermaid diagram support",
+  "server": {
+    "command": "python",
+    "args": ["-m", "universal_document_mcp.server"],
+    "env": {
+      "PYTHONPATH": ".",
+      "LOG_LEVEL": "INFO"
+    },
+    "cwd": null,
+    "timeout": 30000
+  },
+  "capabilities": {
+    "tools": {
+      "listChanged": true
+    },
+    "resources": {
+      "subscribe": true,
+      "listChanged": true
+    }
+  },
+  "tools": [
+    {
+      "name": "convert_document_md_to_pdf",
+      "description": "Convert markdown files to PDF with Mermaid diagram optimization",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "markdown_file": {
+            "type": "string",
+            "description": "Path to the markdown file to convert"
+          },
+          "optimize_diagrams": {
+            "type": "boolean",
+            "description": "Whether to optimize Mermaid diagrams for better PDF rendering",
+            "default": true
+          },
+          "ai_layout_optimization": {
+            "type": "boolean",
+            "description": "Enable AI-powered intelligent page layout and break optimization",
+            "default": false
+          },
+          "output_directory": {
+            "type": "string",
+            "description": "Custom output directory (relative to workspace root)",
+            "default": "output"
+          }
+        },
+        "required": ["markdown_file"]
+      }
+    }
+  ],
+  "resources": [
+    {
+      "uri": "file://workspace",
+      "name": "Workspace Files",
+      "description": "Access to workspace markdown files"
+    }
+  ],
+  "settings": {
+    "workspace": "auto",
+    "ai_enabled": false,
+    "auto_backup": true,
+    "output_format": "pdf",
+    "diagram_optimization": true
+  },
+  "triggers": [
+    "convert markdown",
+    "md to pdf", 
+    "document conversion",
+    "mermaid pdf",
+    "export pdf",
+    "convert: md -> html -> pdf"
+  ],
+  "installation": {
+    "python": {
+      "command": "pip install universal-document-mcp",
+      "requirements": [
+        "mcp>=1.0.0",
+        "playwright>=1.40.0",
+        "markdown>=3.5.0",
+        "requests>=2.31.0"
+      ]
+    },
+    "npm": {
+      "command": "npm install -g universal-document-mcp",
+      "alternative": "npx universal-document-mcp"
+    }
+  }
+}

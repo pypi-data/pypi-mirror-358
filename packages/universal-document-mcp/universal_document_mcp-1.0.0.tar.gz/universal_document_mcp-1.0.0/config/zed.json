@@ -1,0 +1,28 @@
+{
+  "mcp_servers": {
+    "universal-document-converter": {
+      "command": "python",
+      "args": ["-m", "universal_document_mcp.server"],
+      "env": {
+        "PYTHONPATH": ".",
+        "LOG_LEVEL": "INFO"
+      },
+      "description": "Universal Document Converter for Zed Editor",
+      "capabilities": [
+        "tools",
+        "resources"
+      ],
+      "settings": {
+        "workspace": "auto",
+        "ai_enabled": true
+      }
+    }
+  },
+  "zed": {
+    "integration": {
+      "file_associations": [".md", ".markdown"],
+      "context_menu": true,
+      "command_palette": true
+    }
+  }
+}

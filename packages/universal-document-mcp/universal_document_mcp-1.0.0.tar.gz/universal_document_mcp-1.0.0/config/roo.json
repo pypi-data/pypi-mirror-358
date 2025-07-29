@@ -1,0 +1,41 @@
+{
+  "servers": {
+    "universal-document-converter": {
+      "command": "python",
+      "args": ["-m", "universal_document_mcp.server"],
+      "env": {
+        "PYTHONPATH": ".",
+        "LOG_LEVEL": "INFO"
+      },
+      "description": "Universal Document Converter for Roo",
+      "version": "1.0.0",
+      "capabilities": [
+        "tools",
+        "resources"
+      ],
+      "config": {
+        "workspace": "auto",
+        "ai_enabled": true,
+        "auto_install": true
+      }
+    }
+  },
+  "roo": {
+    "integration": {
+      "auto_detect_markdown": true,
+      "suggest_conversion": true,
+      "batch_processing": true
+    },
+    "ui": {
+      "show_progress": true,
+      "notifications": true,
+      "quick_actions": [
+        {
+          "name": "Convert to PDF",
+          "command": "convert_document_md_to_pdf",
+          "icon": "pdf"
+        }
+      ]
+    }
+  }
+}

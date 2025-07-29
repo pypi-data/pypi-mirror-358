@@ -1,0 +1,26 @@
+{
+  "mcpServers": {
+    "universal-document-converter": {
+      "command": "python",
+      "args": ["-m", "universal_document_mcp.server"],
+      "env": {
+        "PYTHONPATH": ".",
+        "LOG_LEVEL": "INFO"
+      },
+      "description": "Universal Document Converter for Continue",
+      "capabilities": [
+        "tools"
+      ],
+      "settings": {
+        "workspace": "auto",
+        "ai_enabled": true
+      }
+    }
+  },
+  "continue": {
+    "integration": {
+      "auto_suggest": true,
+      "context_aware": true
+    }
+  }
+}
