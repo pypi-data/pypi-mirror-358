@@ -1,0 +1,25 @@
+[package]
+name = "pymeocap"
+version = "2.0.0"
+edition = "2021"
+
+publish = false
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+name = "pymeocap"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.24", features = ["extension-module"] }
+nusb.workspace = true
+meocap_driver.workspace = true
+trackers.workspace = true
+protocol.workspace = true
+tokio = { workspace = true, features = ["io-util", "macros", "time", "sync"] }
+log.workspace = true
+pyo3-async-runtimes = { version = "0.24", features = ["attributes", "tokio-runtime"] }
+simple_logger = "4.2.0"
+
+[features]
+raw = ["meocap_driver/raw"]

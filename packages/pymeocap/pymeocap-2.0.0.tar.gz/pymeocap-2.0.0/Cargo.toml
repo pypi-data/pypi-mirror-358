@@ -1,0 +1,44 @@
+[workspace]
+members = ["meocap_driver/bindings/pymeocap"]
+resolver = "2"
+
+[patch.Meocap]
+# protocol = { path = "../OpenMeocap/protocol" }
+trackers = { path = "./meocap_driver/trackers" }
+meocap_driver = { path = "./meocap_driver/meocap_driver" }
+meocap_proto = { path = "./meocap_proto" }
+meocap_optimizer = { path = "./meocap_optimizer" }
+meocap_inferencer = { path = "./meocap_inferencer" }
+meocap_core = { path = "./meocap_core" }
+meocap_sdk = { path = "./meocap_sdk" }
+
+[workspace.dependencies]
+thiserror = "1.0.47"
+nalgebra = "0.33"
+tokio = { version = "1" }
+log = "0.4"
+crossbeam = { version = "0.8.2", features = ["crossbeam-queue"] }
+ring-channel = "0.12"
+nusb =  { version = "0.2.0-beta", registry = "Meocap" }
+
+protocol = { version = "2.0.1", registry = "Meocap", default-features = false }
+trackers = { version = "1.0.1", registry = "Meocap" }
+meocap_proto = { version = "2.0.0", registry = "Meocap" }
+meocap_driver = { version = "2.0.1", registry = "Meocap" }
+meocap_core = { version = "2.0.0", registry = "Meocap" }
+meocap_optimizer = { version = "2.0.0", registry = "Meocap" }
+meocap_inferencer = { version = "2.0.0", registry = "Meocap" }
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = 3
+strip = true
+debug = false
+
+[profile.bench]
+codegen-units = 1
+lto = true
+opt-level = 3
+debug = true
+
