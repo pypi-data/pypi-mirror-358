@@ -1,0 +1,62 @@
+Metadata-Version: 2.3
+Name: estceque
+Version: 0.5
+Summary: Elasticsearch ingest pipeline validation
+Keywords: elasticsearch,es_query,es-query,ingest
+Author: Thomas Touhey
+Author-email: thomas@touhey.fr
+Requires-Python: >=3.9,<4.0
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: System Administrators
+Classifier: License :: CeCILL-C Free Software License Agreement (CECILL-C)
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Typing :: Typed
+Requires-Dist: annotated-types (>=0.7,<0.8)
+Requires-Dist: dissec (>=1.0,<2.0)
+Requires-Dist: eval-type-backport (>=0.2,<0.3) ; python_version < "3.10"
+Requires-Dist: pydantic (>=2.7,<3)
+Requires-Dist: typing-extensions (>=4.12,<5)
+Project-URL: Bug Tracker, https://gitlab.com/kaquel/estceque/-/issues
+Project-URL: Documentation, https://estceque.touhey.pro/
+Project-URL: Homepage, https://estceque.touhey.pro/
+Project-URL: Source Code, https://gitlab.com/kaquel/estceque
+Description-Content-Type: text/x-rst
+
+``estceque`` -- Elasticsearch ingest pipeline validation
+========================================================
+
+``estceque`` (*ElasticSearch Transform Conversion (and) Encapsulation QUEry*)
+is a Python module for parsing and rendering Elasticsearch ingest pipelines.
+
+As described in `Validating ingest pipelines`_, you can validate Elasticsearch
+ingest pipelines using ``estceque`` with the following snippet:
+
+.. code-block:: python
+
+    from estceque import validate_ingest_pipeline_processors
+
+    raw_pipeline = {
+        "name": "hello",
+        "processors": [
+            {"json": {"field": "message"}},
+        ],
+    }
+
+    print(validate_ingest_pipeline_processors(raw_pipeline))
+
+The project is present at the following locations:
+
+* `Official website and documentation at estceque.touhey.pro <Website_>`_;
+* `estceque repository on Gitlab <Gitlab repository_>`_;
+* `estceque project on PyPI <PyPI project_>`_.
+
+.. _Validating ingest pipelines:
+    https://estceque.touhey.pro/developer-guides/
+    validating-ingest-pipelines.html
+.. _Website: https://estceque.touhey.pro/
+.. _Gitlab repository: https://gitlab.com/kaquel/estceque
+.. _PyPI project: https://pypi.org/project/estceque/
+
