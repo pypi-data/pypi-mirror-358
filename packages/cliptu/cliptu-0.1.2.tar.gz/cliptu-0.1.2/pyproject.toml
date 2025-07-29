@@ -1,0 +1,29 @@
+# We have two install possibilities: install with transcribe and be forced to use python3.12, or install without and use the latest python you desire.
+# poetry install -E transcribe # to include transcribe.py and faster-whisper
+# poetry install # otherwise
+
+[tool.poetry]
+name = "cliptu"
+version = "0.1.2"
+description = ""
+authors = ["Adam Zakaria <adam.p.zakaria@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.9.0"
+flask = "^3.0.3"
+psutil = "*"
+flask-cors = "^4.0.1"
+glob2 = "*"
+boto3 = "*"
+ffmpeg = "*"
+elasticsearch = "*"
+tiktoken = "*"
+faster-whisper = { version = "1.1.1", optional = true, markers = "python_version == '3.12'" }
+
+[tool.poetry.extras]
+transcribe = ["faster-whisper"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
