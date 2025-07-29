@@ -1,0 +1,42 @@
+Metadata-Version: 2.4
+Name: assyst
+Version: 0.4.0
+Summary: Reference implentation of the Automated Small Symmetric Structure Training method.
+Author-email: Marvin Poul <pmrv@posteo.de>
+Project-URL: Repository, https://github.com/eisenforschung/assyst
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: <3.13,>=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: structuretoolkit[pyxtal]==0.0.32
+Requires-Dist: pyxtal<1.0.10,>=1
+Requires-Dist: tqdm<5,>=4
+Requires-Dist: ase<4,>=3
+Requires-Dist: matplotlib<4,>=3
+Requires-Dist: numpy<3,>1
+Requires-Dist: pandas<3,>=2.2
+Provides-Extra: grace
+Requires-Dist: tensorpotential<0.5.2,>=0.5.1; extra == "grace"
+Dynamic: license-file
+
+[![Documentation Status](https://readthedocs.org/projects/assyst/badge/?version=latest)](https://assyst.readthedocs.io/en/latest/?badge=latest)
+
+# ASSYST or _Automated Small SYmmetric Structure Training_
+
+A minimal reference implementation of ASSYST method to generate transferable training data for machine learning potentials, see also the corresponding [paper](https://doi.org/10.1038/s41524-025-01669-4).
+
+Please use the following citation when referencing the method in your work.
+
+```
+@article{poul2025automated,
+  title={Automated generation of structure datasets for machine learning potentials and alloys},
+  volume={11},
+  DOI={10.1038/s41524-025-01669-4},
+  number={1},
+  journal={npj Computational Materials},
+  author={Poul, Marvin and Huber, Liam and Neugebauer, J\"org},
+  year={2025},
+  month={Jun}
+}
+```
