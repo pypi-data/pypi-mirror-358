@@ -1,0 +1,35 @@
+Metadata-Version: 2.4
+Name: mypydie
+Version: 0.31
+Summary: dier
+Author: Norman Koch
+Platform: Linux
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: author
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: license-file
+Dynamic: platform
+Dynamic: summary
+
+# dier
+Tiny module helpful for debugging.
+
+# How to use?
+
+```python
+import dier from mypydie
+
+dier(any_datastructure)
+```
+
+This will exit. If you do 
+
+```python
+import dier from mypydie
+
+dier(any_datastructure, exit=0)
+```
+
+it won't.
