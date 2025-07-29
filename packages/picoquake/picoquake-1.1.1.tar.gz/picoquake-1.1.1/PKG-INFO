@@ -1,0 +1,63 @@
+Metadata-Version: 2.4
+Name: picoquake
+Version: 1.1.1
+Summary: PicoQuake USB vibration sensor library.
+Project-URL: Repository, https://github.com/PLab-SI/PicoQuake
+Project-URL: Documentation, https://plab-si.github.io/PicoQuake/
+Author-email: Nejc Planinsek <nejc@plab.si>
+License-File: LICENSE.txt
+Keywords: IMU,accelerometer,data acquisition,gyroscope,picoquake,vibration
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.9
+Requires-Dist: cobs~=1.2
+Requires-Dist: protobuf~=3.20
+Requires-Dist: pyserial~=3.5
+Requires-Dist: tomli~=1.1; python_version < '3.11'
+Provides-Extra: plot
+Requires-Dist: matplotlib~=3.4; extra == 'plot'
+Requires-Dist: numpy~=1.19; extra == 'plot'
+Requires-Dist: scipy~=1.6; extra == 'plot'
+Provides-Extra: test
+Requires-Dist: matplotlib~=3.4; extra == 'test'
+Requires-Dist: numpy~=1.19; extra == 'test'
+Requires-Dist: pytest~=6.2; extra == 'test'
+Requires-Dist: scipy~=1.6; extra == 'test'
+Description-Content-Type: text/markdown
+
+# PicoQuake
+
+Python library for the *PicoQuake* USB vibration sensor.
+
+# Installation
+
+## Requirements
+
+- *Windows*, *Linux* or *macOS*
+- [*Python*](https://www.python.org/downloads/) *3.9* or higher
+- [*pip*](https://pip.pypa.io/en/stable/installation/)
+
+## Basic installation
+
+```bash
+pip install picoquake
+```
+
+Recommended way to install if you don't need plotting capabilities. Only supports saving CSV data.
+
+## Plotting capabilities
+
+```bash
+pip install 'picoquake[plot]'
+```
+
+Enables creating diagrams in time and frequency domain. Additional dependencies will be installed:
+
+- *NumPy*
+- *SciPy*
+- *Matplotlib*
