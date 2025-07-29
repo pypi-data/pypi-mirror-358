@@ -1,0 +1,19 @@
+[project]
+name = "mcp-data-analyzer-cyj"
+version = "0.1.2"
+description = "car sales data analyzer mcp server"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp[cli]>=1.6.0",
+    "pandas>=2.2.3",
+    "seaborn>=0.13.2",
+    "twine>=6.1.0",
+    "openpyxl>=3.1.5",
+]
+[project.scripts]
+mcp-data-analyzer-cyj = "mcp_data_analyzer_cyj.cli:main"
+
+
+[tool.setuptools.packages.find]
+include = ["mcp_data_analyzer_cyj"]
