@@ -1,0 +1,34 @@
+Metadata-Version: 2.3
+Name: cliptu
+Version: 0.1.3
+Summary: 
+Author: Adam Zakaria
+Author-email: adam.p.zakaria@gmail.com
+Requires-Python: >=3.9.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Provides-Extra: transcribe
+Requires-Dist: boto3
+Requires-Dist: elasticsearch
+Requires-Dist: faster-whisper (==1.1.1) ; (python_version == "3.12") and (extra == "transcribe")
+Requires-Dist: ffmpeg
+Requires-Dist: flask (>=3.0.3,<4.0.0)
+Requires-Dist: flask-cors (>=4.0.1,<5.0.0)
+Requires-Dist: glob2
+Requires-Dist: psutil
+Requires-Dist: tiktoken
+Description-Content-Type: text/markdown
+
+# Introduction
+This repo really isn't fit for public use :) Contact adam.p.zakaria@gmail.com if you're curious about what it's all about.
+
+# Upload to Pypi
+```
+rm -rf dist/*
+poetry build
+twine upload dist/*
+```
