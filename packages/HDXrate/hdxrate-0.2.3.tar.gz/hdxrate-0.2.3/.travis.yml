@@ -1,0 +1,22 @@
+language: python
+python:
+- '3.6'
+- '3.7'
+- '3.8'
+- '3.9'
+install: pip install -r requirements.txt
+script:
+- python -m pytest tests
+before_deploy:
+- pip install setuptools wheel pbr
+deploy:
+  provider: pypi
+  distributions: sdist bdist_wheel
+  user: Jhsmit
+  password:
+    secure: S3ap5oQ+jIfGkQiOLLCMud6rjO+jUH1nWyEUIs/dkZhD5tjoIiGPNWkRgmbuI5QNK59my0WpfyWk0fTMMnSAgbI+3vr8QAvVIDi17ZXoBsD7YYjc4kgSbCuqCoDEFsXr6swv7u4ChBaqS9PkD5CTp/9h8Ay8Q9GTGOiMC4JN9wvEiIWfTzZRIbQum+Vn+ifLt0FZWPlFgjidUhfCwGS4Txywm4+32xjW/T5BP9xr/hc3DR5xzoTSmusQhAw8wVI0NaVXdV6hM2mWg0M/2QhsKDEqJVs9hOMiMEpHmCQWUlbmznuBM3wdIdUly8MrCnb1rBon6uREyaL9fOKLH7vFfRnFLwxZUl+G17tUoSnrSk1WCuao417vloaHGx3CmHGVj345JYTuo6xbIA14QNUq9RHGQof9y8QajzBNgeBP3E663MC97VfHHnnjPt5AgUv0n/YYIk2zbG6ME1x+9Px9fNjlqw7kwrLUEt43rUi3bYkCbFKELZyUQgIZoQKrY7I262ouSITzZQtOzpF6IgpErxfXLvfn2N+2/YcZ3AVHwlDMWjR6Gg+OEJmS3FvsQs7n9+1704fHmqKmszzsgmBTcvhppXuh3K8zINjyUbZmvEqANDO3ts8LpUEXKtsYvCVgBL01JAYPfatR/cmRsOeKyMZMDoZujJKHXHwKkx/bUNo=
+  edge: true
+  on:
+    tags: true
+    branch: master
+    python: 3.8
