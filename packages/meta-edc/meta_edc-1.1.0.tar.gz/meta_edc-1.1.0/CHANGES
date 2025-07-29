@@ -1,0 +1,652 @@
+Changes
+-------
+
+1.0.6
+-----
+- bump edc=1.0.9
+
+1.0.5
+-----
+- bump edc-pharmacy, edc=1.0.7
+- add django-admin-rangefilter as requirement
+
+1.0.4
+-----
+
+1.0.3
+-----
+- edc 1.0.2
+
+1.0.1
+-----
+- add subject transfer action to parent list of offschedule actions.
+  Fixes exception raised when taking a transferred subject off schedule.
+
+1.0.0
+-----
+- bump edc 1.0.0
+- fix issue with consent v1 action items raises duplicate identifier for some
+  instances. Add new migration to create missing action items.
+
+0.3.50
+------
+- bump edc 0.6.24
+
+0.3.48
+------
+- fix test
+
+0.3.47
+------
+- bump edc 0.6.22
+- protocol amnendment to extend followup from 36->48m
+    - add consent definition extension (v1.1)
+    - add SubjectConsentV1Ext
+    - require consent extension to followup passed
+      36m
+- updates to forms reference document
+    - standardise new line insertion
+    - fix trailing/end-of-file whitespace
+    - fix docstring insertion
+    - remove per-form timestamps
+    - regenerate document
+
+0.3.46
+------
+- bump edc 0.6.19
+
+0.3.45
+------
+- bump edc 0.6.18
+
+0.3.43
+------
+- watermark settings for labels and reports from env
+
+0.3.42
+-----
+- edc 0.6.17
+
+0.3.41
+------
+- add revised pharmacy module
+- edc 0.6.16
+
+0.3.38
+------
+- fix Endpoint admins to reference fbg_date not fbg_datetime
+
+0.3.37
+------
+- change Endpoint model datetime fields to date
+- fix datatype issues with glucose_endpoints dataframe
+- ensure glucose_endpoints dataframe generates for a
+  single patient with only OGTT, only FBG or both.
+- add insulin CRF to PRN forms
+
+0.3.36
+------
+- add form to Substitutions that validates against rando list
+
+0.3.35
+------
+- add report_datetime to IMP Substitutions changelists
+
+0.3.34
+------
+- add IMP Substitutions model and report
+- bump edc 0.6.11
+
+0.3.33
+------
+- fix issues with endpoint report / generate_endpoints command
+
+0.3.32
+------
+- bump edc 0.6.10
+
+0.3.31
+------
+- bump edc 0.6.9
+
+0.3.30
+------
+- migrate to update old fasting responses. Change fasting -> YES
+  non_fasting -> NO.
+- add additional Crf and Requisition cases to META REPORTS
+    Missing values for on-study patient
+    Missing Lab values for on-study patient
+
+0.3.29
+------
+- refactor view_definitions to use sql generators from
+  edc-qareports
+- add OnStudyMissingValues report to META Reports
+- bump edc 0.6.6
+
+0.3.27 - 0.3.28
+---------------
+- bump edc 0.6.5
+
+0.3.26
+------
+- add signal to recalculate Endpoint record if either model
+  GlucoseFBG or  Glucose is saved.
+- queue message on subject dashboard if subject reaches the protocol
+  glucose / DM endpoint.
+- bump edc 0.6.4
+
+0.3.25
+------
+- refactor GlucoseEndpointsByDate
+- add Endpoints report for ALL endpoints, not just those still
+  on study
+- improve navigation between endpoint reports and glucose summary
+- bump edc 0.6.3
+
+0.3.24
+------
+- add glucose summary
+- simplify DM referral baseline form
+
+0.3.23
+------
+- add report for missing OGTT at screening
+
+0.3.21
+------
+- bump edc 0.6.0, django-crypto-fields 0.4.2, Django 5.1
+
+0.3.19
+------
+- update for changes in edc-qareports, use django_db_views for
+  unmanaged SQL views
+- add Endpoints (DM) report
+- fix error in screening dataframe prep column waist circumference
+- bump edc==0.5.99
+- Django 5.1
+
+0.3.18
+------
+- add edc-qareports as a dependency and use in meta_reports
+- bump edc==0.5.93
+
+0.3.17
+------
+- updated edc version provides additional listfilters for
+  appointment model changelist.
+- bump edc==0.5.92
+
+0.3.16
+------
+- add Meta Reports section with unmanaged models for
+  DB VIEWS looking at sequentially missed and
+  unattended appointments.
+- add visits to main META visit schedule up to 48M
+- update/correct metadata rule to reflect when required:
+  "Glucose FBG/OGTT": MONTH12, MONTH24, MONTH36, MONTH48
+  "Glucose FBG Only": MONTH6, MONTH18, MONTH30, MONTH42
+  "Glucose FBG Only" rule applies for visits after
+  4MAR2024.
+- bump edc==0.5.91
+
+0.3.15
+------
+- add 'Account Management' link to home page ListGroup
+- add second visit to DM referral schedule, DmDiagnosis, DmDxResult table
+- rename in tables fasting_duration_min to delta, calc delta on save
+- add healtheconomicsupdate to month3 as singleton
+- bump edc==0.5.90
+
+0.3.12
+------
+- change Switch Sites and Logout ListGroup items from get to post
+- edc=0.5.80
+
+0.3.11
+------
+- add workflow DM Referral and DM Followup
+- rename model bloodresultsglu to glucosefbg
+- edc=0.5.78
+
+0.3.9
+-----
+- edc=0.5.75
+
+0.3.8
+-----
+- amendment
+- see edc readme
+
+0.3.7
+-----
+- see edc readme
+
+0.3.2
+------
+- diabetes followup form
+- add endpoint review questions to FBG/OGTT form
+- rename BloodResultsGlu to GlucoseFBG
+- fix issue with study medication incorrectly calculating refill
+  end datetime
+- edc 0.5.66
+
+0.3.1
+------
+- hotfix for followup exam not_evaluated
+
+0.3.0
+------
+- bump edc to 0.5.37 / py 3.11
+- remove references to `edc-reference`.
+
+0.2.41 (live release)
+------
+- fix cannot save Screening Part 3 with FBG date same as report date (#635)
+- bump to edc 0.4.98
+
+0.2.38
+------
+- add missing migrations (meta_ae and meta_subject)
+
+0.2.37
+------
+- bump edc=0.4.70 (fixes issue where CRFs for some participants cannot be
+  saved at month 12/15)
+- add Python 3.11 support
+- drop Django 4.0 support
+
+0.2.35
+------
+- Clinical exam: followup: reorder questions in hospitalisation section,
+  fix validation and clarify question prompt to catch ANY clinic or
+  hospital visit (meta-subject)
+- apply changes from edc-adverse-events related to withdrawing an AE
+  and investigator AE classification (meta-ae)
+- update for changes in edc-protocol-incident
+
+0.2.34
+------
+- add site question to screening form
+- limit choice to on FK to panel attr for requisitions
+- bump edc=0.4.49
+- bump edc-egfr=0.1.10
+
+0.2.32 - 0.2.33
+---------------
+- fix error raised when running update_forms_reference
+- update docs/forms_reference.md
+- update imports from edc_screening
+- bump edc=0.4.47
+
+0.2.30
+------
+- bump edc=0.4.46
+
+0.2.29
+------
+- bump edc=0.4.45
+- remove report_datetime validator for inline
+
+0.2.28
+------
+- bump edc=0.4.44
+
+0.2.11
+------
+- bump edc=0.4.30
+- update modelform, validators, models for changes to edc mixins
+- update view class declarations for changes to view mixins
+
+0.2.10
+------
+- bump edc=0.4.25
+- fix issue where eGFR not reading ethnicity
+- add migrations to recalc eGFR and drop notification
+
+0.2.9
+-----
+- bump edc=0.4.23
+- update pharmacy groups and roles
+- fix migration 0147 - remove constraint before removing
+  fields (meta_subject)
+
+0.2.8
+-----
+- bump edc=0.4.22
+
+0.2.7
+-----
+- bump edc=0.4.21
+- refactor for changed attrs `related_visit` and `related_visit_model_attr`.
+- upgrade edc-pharmacy to fix permissions issue
+- rework study medication report. link with pharmacy refill by dates only instead of
+  dates plus visit code/sequence.
+- remove nonexistent field `tracking identifier` from procotol incident admin.
+
+0.2.6
+-----
+- add migration to update missing SID in registered_subject table (meta_rando)
+
+0.2.5
+-----
+- minor fix for subject listboard. Changed custom search field to 'identity'
+
+0.2.4
+-----
+- bump edc=0.4.20 (permission changes)
+- downgrade to django 3.2.13
+
+0.2.3
+-----
+- bump edc=0.4.17
+- add migrations for action-identifier field
+
+0.2.2
+-----
+- bump edc=0.4.16
+- downgrade to django 4.0.7 (m2m html control issue)
+- refactor imports from edc-model-admin
+- add migrations for models with action-identifier
+
+0.1.94 -0.2.0
+-------------
+- bump edc=0.4.12
+- upgrade to django 4.1
+- upgrade django-crypto-fields, django-revision
+- add lipids to AE Actions
+- add query button to subject consent
+- fix isue with negative GFR percentage triggering notification
+- default screening P2 agree_to_p3 to NA
+- change insulin units to MICRO_IU_MILLILITER
+- add p3_ltfu to screening admin list_filter
+
+
+0.1.93
+------
+- fix migration meta_subject 0131
+- bump edc=0.4.0
+
+0.1.92
+------
+- bump edc==0.3.99
+- remove unused screening part four
+- fix / refactor auth permissions
+- use SIMPLE_HISTORY_PERMISSIONS_ENABLED=True instead of
+  SIMPLE_HISTORY_REVERT_DISABLED. Requires erikvw/django-simple-history
+  until PR is accepted.
+- set next action to LTFU if last visit more than 182 days past
+- refactor bloodresultrft factory call, override form help_text
+- data fix migration for missing action identifiers in
+  subjectvisitmissed
+- data fix migration for rx where medication not selected in m2m
+- data fix migration to recalculate eGFR and store old value in new
+  field (old_egfr_value)
+
+0.1.91
+------
+- remove UPT metadata rule
+-
+
+0.1.90
+------
+- bump edc=0.3.97
+- update imports
+- update modelform and modeladmin classes using
+  subject_identifier and action_identifier
+- remove sentry and sauce from settings / templates
+- add "contact_number" to P2 and P3
+- use AppointmentListFilter on screening modeladmin
+- data migration to update existing records for missing/missing_count
+  variables in lab result forms
+- change visits to 5-day clinic from 7-day
+
+0.1.89
+------
+- bump edc=0.3.96
+- require insulin for Mwananyamala and Temeke only
+- make Eq53dl and sf12 persistant singletons
+
+0.1.86 - 0.1.88
+---------------
+- add off study medication form and action item, remove
+  questions on medication pause
+- add subject transfer form
+- fix issue with birth outcomes as an inline
+- update end of study form, reorg admin class, add additional
+  form validation, update reasons on model, get and validate dates
+  from supporting documents, separate out toxicity reasons, etc
+- update linkages between actions
+- remove post natal schedule
+- bump edc 0.3.94
+
+0.1.85
+------
+- bump to edc 0.3.93
+
+0.1.82 -0.1.84
+--------------
+- minor fixes
+
+0.1.81
+------
+- add eGFR notification for a creatinine that calcs to a 20% drop
+  in eGFR from baseline
+- add CRF status to each CRF
+- fix issues with eligibility allow invalid OGTT, refactor
+  eligibility calc in Eligibility class
+- only call eligibility class in save method - once
+- reuse display label as func instead of calling entire class
+- add PII group to pharmacists
+- separate offschedule forms from End of Study form. Update action
+  itens to only create EOS action after Offschedule forms are added.
+- remove EOS phase 2 code
+- check not on any schedule before allowing EOS submit
+- add detail to reasons ineligible key/value pairs
+- fix issue with pregnancy workflow
+- add additional questions to screening
+  - part 2: only accept appt date if patient agrees to P3
+  - part 2/3: ask for contact number, indicate patient will not
+    return after several attemps
+  - always allow P3 regardless of LTFU report in P2 (see signal)
+  - get appt date for repeat GLU
+  - add additional filters and columns to changelist for
+    subjectscreening with links to screen and subject
+    listboards/dashboards
+  - add date from HBA1C on screening form
+- use protocol incident model mixin instead of protocol violation
+  model mixin. Mostly changes choices and form validator
+- remove admin and form for original HE CRF
+- update forms reference
+- add canned views as a requirement
+- update build
+- bump edc
+- change VL from 6m to within 12m
+- fix pill count eval as int on medication adherence
+- incorporate changes to pharmacy prescriptions and refills
+- management command to create missing rx
+- change 1010 lower from 15 to 10 days
+- refactor from edc-blood-results to edc-lab-results
+
+0.1.80
+------
+- minor fix to HE form validator
+
+0.1.77 - 0.1.79
+---------------
+- add pregnancy, delivery, birth outcomes
+- add repeat glucose tests in screening part three
+- BMI normal range (5-60)
+- remove all conditional statements for PHASE2
+- remove sarscov2 requirement
+- remove PHASE2 randomizer
+- remove PHAS2 only tests
+- add part three report datetime to form
+- change fasting blood glucose field prefix from `ifg` to `fbg`
+- add <400 in last 6m question to P3 screening
+- add migrations
+
+0.1.76
+------
+- set week 2 lower bound to 3 days in window period
+- rename euro-qol auth groups in auths.py
+- rename rando groups in auths.py
+- add meta_pharmacy app
+- missing prescriptions management command
+- add StudyMedicationForm
+- create prescription in signal on consent post-save
+- update offstudy reasons in list_data.py
+- populate static pharmacy models in signal (apps.py)
+- separate admin class for Phase 3 EoS
+- update phase 3 withdrawal reasons (meta_prn.choices.py)
+- add EndOfStudyPhaseThreeForm, EndOfStudyPhaseThreeFormValidator
+- add last_seen_date, clinical_withdrawal_reason,
+  toxicity_withdrawal_reason to EoS model
+- refactor eligibility classes - part 1,2,3
+- add fasting_opinion question to glucose
+- PartFourFieldsModelMixin
+- ask "Was the subject enrolled in the META Phase 2 trial?" (part_one_fields_model_mixin.py)
+- remove oxygen_saturation
+- import from edc_qol
+- add to patient history: previous_arv_regimen_start_date
+- fix pdf report - point to FollowupVitals.weight (meta_reports)
+
+0.1.75
+------
+- bump edc to 0.3.50
+- add euro-qol eq5d3l at 2 week visit
+- empty models for study medication and concomitant medication
+
+0.1.74
+------
+- bump up edc to 0.3.49
+
+0.1.73
+------
+- bump up edc to 0.3.46
+
+0.1.71
+------
+- update auths for changes in edc-auth
+
+0.1.70
+------
+- separate Phase 2 and Phase 3 screening: inclusion
+  criteria, randomizer, table, etc (meta_screening)
+- add table randomizationlist (accessible in Phase 3) (meta_rando)
+- rename fields in model SubjectScreening` -- `stay_nearby`
+  to `stay_nearby_6` (meta_screening)
+- add fields to model SubjectScreening -- `has_dm`, `on_dm_medication`, `severe_htn`
+  (accessible in Phase 3) (meta_screening)
+- add fields to model SubjectScreening for BP 2X readings/avg
+  (accessible in Phase 3) (meta_screening)
+- add separate Phase 3 visit schedule / data collection schedule
+  (meta_visit_schedule)
+- add bloodresult utest_ids for MCH, MCHC, MCV. Migrate fields
+  into existing BloodResultsFbc (meta_subject)
+- add bloodresult utestids for CHOL. Migrate fields
+  into existing BloodResultsLipids (meta_subject)
+- add HepatitisTest model, add dyslipidaemia_rx to PatientHistory
+  model (accessible in Phase 3) (meta_subject)
+- require `edc_vitals` for field classes used in models PhysicalExam
+  and FollowupVitals (meta_subject)
+- add model StudyDrugRefill, AdditionalScreening
+  (accessible in Phase 3) (meta_subject)
+- add ComplicationsGlycemia (accessible for Phase 3 / pending)
+  (meta_subject)
+- require `edc-mnsi`. MNSI /  (accessible in Phase 3) (meta_subject)
+- add OtherArvRegimens model (accessible in Phase 3) (meta_subject)
+- add nullable fields to PatientHistory:
+  concomitant_medications, other_dyslipidaemia_rx
+  (accessible in Phase 3) (meta_subject)
+- add inline model OtherArvRegimensDetail to capture history of ARVs
+  (accessible in Phase 3) (meta_subject)
+- add fields to model FollowupVitals for BP 2X readings/avg
+  (accessible in Phase 3) (meta_subject)
+- leave 1X BP reading fields in FollowupVitals for Phase 2, make
+  nullable but required if in Admin (meta_subject)
+- create model BloodResultsIns (accessible in Phase 3) (meta_subject)
+- rename fields in model PatientHistory (0075):
+  diabetes_in_family->dm_in_family
+  diabetes_symptoms->dm_symptoms
+  hypertension_treatment->htn_treatment
+  on_hypertension_treatment->on_htn_treatment
+  other_diabetes_symptoms->other_dm_symptoms
+  other_hypertension_treatment->other_htn_treatment
+  (meta_subject)
+- add model HealthEconomicsSimple. Require on or after W2
+  (accessible in Phase 3) (meta_subject)
+- move Unblinding models from meta_prn to edc_unblinding (meta_prn)
+- rename field in model ProtocolDeviationViolation `violation_type` to `violation`.
+  Also change datatype from CharField to ForeignKey. Update data to match existing.
+  (meta_prn)
+- rename field in model ProtocolDeviationViolation `violation_type_other`
+  to `violation_other` (meta_prn)
+- Change datatype of field in model ProtocolDeviationViolation `actions_required`
+  from CharField to ForeignKey. Update data to match existing (meta_prn)
+
+0.1.66
+------
+- see docs for details of field name changes: docs/updates/1.65/renamed_fields.txt
+
+0.1.63
+------
+- evaluate glucose field values consistently in form validators
+- change fasted to fasting for consistency
+- update lab / utestid field to have "_value" suffix
+- update imports for classes moved out of respond africa
+
+0.1.60
+------
+- rename model ``Follow`` to ``FollowupExamination``
+- add HIV regimen to ``FollowupExamination`` in HIV section
+- improve validation for ``FollowupExamination``: ensure lists of G3/G4 symptoms do not overlap and are from the original list of symptoms; other minor validation checks.
+- add action to Followup Examination to notify of AE
+- update missed visit; rename to Subject Visit Missed and keep related list model in ``meta_lists``
+- change to LOST_TO_FOLLOWUP in lists, update existing instances
+- fix HbA1c form validation / grading
+- upgrade to edc==0.1.32
+
+0.1.57
+------
+- add Glucose (IFG, OGTT) CRF to 6m, 12m
+- add missed visit CRF
+- upgrade to edc==0.1.29
+
+0.1.56
+------
+- add sarscov2 permissions to CLINIC
+
+0.1.56
+------
+- sarscov2==0.1.9
+
+0.1.55
+------
+- add KAP links from subject listboard
+- use ``?next=`` querystring attr on KAP link
+
+0.1.54
+------
+- add hba1c, glu, fbc, lipids, etc to 6m
+- upgrade to edc==0.1.28
+
+0.1.52
+------
+- upgrade to edc==0.1.27
+- remove KAP model, add back with sarscov2 reuseable app
+- add links from screening listboard
+- meta_ae app is in progress
+
+0.1.51
+------
+- add Corona virus KAP form to DAY1 and as a PRN for those past DAY1
+
+0.1.50
+------
+- add Uganda hosts to ``nginx.conf`` and ``ALLOWED_HOSTS``
+- bump up edc==0.1.18
+
+0.1.46
+------
+- bump up to DJ>=3.0.3, python 3.8, edc==0.1.10
