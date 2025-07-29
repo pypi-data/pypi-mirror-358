@@ -1,0 +1,22 @@
+[package]
+name = "cfpyo3_rs_bindings"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description.workspace = true
+homepage.workspace = true
+repository.workspace = true
+readme = "README.md"
+keywords.workspace = true
+categories.workspace = true
+license-file.workspace = true
+
+[lib]
+name = "cfpyo3_bindings"
+crate-type = ["rlib"]
+
+[dependencies]
+cfpyo3_rs_core = { workspace = true }
+anyhow = { workspace = true }
+numpy = { workspace = true }
+pyo3 = { workspace = true }

@@ -1,0 +1,23 @@
+[package]
+name = "cfpyo3_rs_py"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description.workspace = true
+homepage.workspace = true
+repository.workspace = true
+readme.workspace = true
+keywords.workspace = true
+categories.workspace = true
+license-file.workspace = true
+
+[lib]
+name = "cfpyo3"
+crate-type = ["cdylib"]
+
+[dependencies]
+cfpyo3_rs_core = { workspace = true }
+cfpyo3_rs_bindings = { workspace = true }
+numpy = { workspace = true }
+pyo3 = { workspace = true }
+paste = "1.0.15"

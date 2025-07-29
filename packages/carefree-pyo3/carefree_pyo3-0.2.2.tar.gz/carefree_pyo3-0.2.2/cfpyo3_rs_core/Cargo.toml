@@ -1,0 +1,88 @@
+[package]
+name = "cfpyo3_rs_core"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description.workspace = true
+homepage.workspace = true
+repository.workspace = true
+readme = "README.md"
+keywords.workspace = true
+categories.workspace = true
+license-file.workspace = true
+
+[lib]
+name = "cfpyo3_core"
+crate-type = ["rlib"]
+bench = false
+
+[dependencies]
+anyhow = { workspace = true }
+bytes = { version = "1.7.2" }
+futures = "0.3.30"
+itertools = "0.13.0"
+md-5 = "0.10.6"
+num-traits = "0.2.19"
+numpy = { workspace = true }
+rayon = "1.10.0"
+
+ndarray-rand = { version = "0.14.0", optional = true }
+opendal = { version = "0.50.0", features = ["services-s3"], optional = true }
+rand = { version = "0.8.5", optional = true }
+redis = { version = "0.26.1", features = ["cluster"], optional = true }
+tokio = { version = "1.40.0", features = ["rt", "rt-multi-thread"], optional = true }
+memmap2 = "0.9.5"
+
+[dev-dependencies]
+criterion = { version = "0.5.1", features = ["html_reports"] }
+tempfile = "3.13.0"
+
+[features]
+default = []
+tokio = [
+    "dep:tokio",
+]
+io-source-opendal = [
+    "tokio",
+    "dep:opendal",
+]
+io-mem-redis = [
+    "dep:redis",
+]
+bench-io-mem-redis = [
+    "io-mem-redis",
+]
+async-queue = [
+    "tokio",
+]
+
+full = [
+    "io-source-opendal",
+    "io-mem-redis",
+    "async-queue",
+]
+bench-full = [
+    "full",
+    "bench-io-mem-redis",
+]
+
+criterion = [
+    "full",
+    "dep:rand",
+    "dep:ndarray-rand",
+]
+
+[[bench]]
+name = "array"
+harness = false
+required-features = ["criterion"]
+
+[[bench]]
+name = "convert"
+harness = false
+required-features = ["criterion"]
+
+[[bench]]
+name = "df"
+harness = false
+required-features = ["criterion"]
