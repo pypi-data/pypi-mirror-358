@@ -1,0 +1,222 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "svgg"
+version = "0.1.2"
+description = "SVG Generator - Universal tool for creating enhanced SVG files with embedded content"
+authors = ["Tom Sapletta <info@softreck.dev>"]
+license = "MIT"
+readme = "README.md"
+
+[project]
+name = "svgg"
+dynamic = ["version"]
+description = "SVG Generator - Universal tool for creating enhanced SVG files with embedded content"
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Tom Sapletta", email = "info@softreck.dev"},
+]
+maintainers = [
+    {name = "SVGG Development Team", email = "dev@svgg.org"},
+]
+keywords = [
+    "svg", "vector", "graphics", "embedding", "base64",
+    "documents", "archive", "bundle", "web", "export"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Graphics :: Graphics Conversion",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Archiving :: Packaging",
+    "Topic :: Text Processing :: Markup :: XML",
+    "Topic :: Utilities",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "click>=8.0.0",
+    "requests>=2.25.0",
+    "lxml>=4.6.0",
+    "pillow>=8.0.0",
+    "jinja2>=3.0.0",
+    "pyyaml>=6.0",
+    "gitpython>=3.1.0",
+    "python-magic>=0.4.24",
+    "tqdm>=4.60.0",
+    "colorama>=0.4.4",
+    "rich>=10.0.0",
+]
+
+[project.optional-dependencies]
+server = [
+    "flask>=2.0.0",
+    "fastapi>=0.68.0",
+    "uvicorn>=0.15.0",
+    "gunicorn>=20.1.0",
+]
+cloud = [
+    "boto3>=1.20.0",
+    "google-cloud-storage>=2.0.0",
+    "azure-storage-blob>=12.8.0",
+]
+docs = [
+    "sphinx>=4.0.0",
+    "sphinx-rtd-theme>=1.0.0",
+    "sphinx-click>=3.0.0",
+    "myst-parser>=0.17.0",
+]
+testing = [
+    "pytest>=6.0.0",
+    "pytest-cov>=3.0.0",
+    "pytest-mock>=3.6.0",
+    "pytest-xdist>=2.4.0",
+    "pytest-benchmark>=3.4.0",
+]
+dev = [
+    "black>=22.0.0",
+    "isort>=5.10.0",
+    "flake8>=4.0.0",
+    "mypy>=0.950",
+    "pre-commit>=2.17.0",
+    "bandit>=1.7.0",
+    "safety>=2.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/svgg/svgg"
+Documentation = "https://svgg.readthedocs.io/"
+Repository = "https://github.com/svgg/svgg"
+Changelog = "https://github.com/svgg/svgg/blob/main/CHANGELOG.md"
+"Issue Tracker" = "https://github.com/svgg/svgg/issues"
+
+[project.scripts]
+svgg = "svgg.cli.main:main"
+
+[tool.setuptools.dynamic]
+version = {attr = "svgg.version.__version__"}
+
+[tool.setuptools.packages.find]
+exclude = ["tests*", "examples*", "docs*"]
+
+[tool.setuptools.package-data]
+svgg = [
+    "templates/*.svg",
+    "templates/website/*.html",
+    "templates/website/assets/css/*.css",
+    "templates/website/assets/js/*.js",
+    "templates/website/assets/images/*",
+    "config/*.json",
+    "config/*.conf",
+]
+
+# Black configuration
+[tool.black]
+line-length = 88
+target-version = ['py38', 'py39', 'py310', 'py311', 'py312']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+# isort configuration
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+known_first_party = ["svgg"]
+known_third_party = ["click", "requests", "lxml", "PIL", "jinja2", "yaml", "git", "magic", "tqdm", "colorama", "rich"]
+
+# pytest configuration
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --strict-markers --strict-config"
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+    "performance: marks tests as performance tests",
+]
+
+# Coverage configuration
+[tool.coverage.run]
+source = ["svgg"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "setup.py",
+    "*/venv/*",
+    "*/.tox/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+
+# MyPy configuration
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = [
+    "lxml.*",
+    "PIL.*",
+    "git.*",
+    "magic.*",
+    "tqdm.*",
+    "colorama.*",
+    "rich.*",
+]
+ignore_missing_imports = true
+
+# Bandit configuration
+[tool.bandit]
+exclude_dirs = ["tests", "examples"]
+skips = ["B101", "B601"]
