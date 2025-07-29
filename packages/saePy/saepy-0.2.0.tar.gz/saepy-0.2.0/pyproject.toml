@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "saePy"
+version = "0.2.0"
+description = "Small Area Estimation Python package"
+readme = "README.md"
+authors = [{ name = "Agus Riyanto" }]
+requires-python = ">=3.8"
+dependencies = [
+    "numpy",
+    "scipy",
+    "polars",
+    "patsy"
+]
