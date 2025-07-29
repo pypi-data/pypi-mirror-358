@@ -1,0 +1,42 @@
+my_app:
+  README.md: |
+    # My Awesome App
+    
+    This is a simple Python application.
+    
+    ## Installation
+    ```bash
+    pip install -r requirements.txt
+    ```
+  
+  src:
+    main.py: |
+      def main():
+          print("Hello, World!")
+      
+      if __name__ == "__main__":
+          main()
+    
+    config.py: |
+      # Configuration settings
+      DEBUG = True
+      VERSION = "1.0.0"
+    
+    utils:
+      helpers.py: |
+        def format_name(name):
+            return name.strip().title()
+  
+  requirements.txt: |
+    pyyaml>=6.0
+    click>=8.0
+  
+  tests:
+    test_main.py: |
+      import unittest
+      from src.main import main
+      
+      class TestMain(unittest.TestCase):
+          def test_main(self):
+              # Add your tests here
+              pass
