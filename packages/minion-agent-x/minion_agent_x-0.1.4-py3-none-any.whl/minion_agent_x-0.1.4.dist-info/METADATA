@@ -1,0 +1,290 @@
+Metadata-Version: 2.4
+Name: minion-agent-x
+Version: 0.1.4
+Summary: An enhanced version of minion-agent with extended capabilities
+Author-email: femtozheng <femtozheng@example.com>
+License: MIT
+License-File: LICENSE
+Keywords: agent,ai,automation,browser,llm,mcp
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.11
+Requires-Dist: browser-use>=0.0.1
+Requires-Dist: loguru>=0.0.1
+Requires-Dist: python-dotenv>=1.0.0
+Requires-Dist: smolagents>=0.0.1
+Provides-Extra: all
+Requires-Dist: asyncio>=3.4.3; extra == 'all'
+Requires-Dist: commonmark; extra == 'all'
+Requires-Dist: datasets; extra == 'all'
+Requires-Dist: filelock; extra == 'all'
+Requires-Dist: google-adk; extra == 'all'
+Requires-Dist: gradio>=5.25.0; extra == 'all'
+Requires-Dist: langchain-core>=0.3.49; extra == 'all'
+Requires-Dist: langchain-openai>=0.3.11; extra == 'all'
+Requires-Dist: langchain-together>=0.3.0; extra == 'all'
+Requires-Dist: langchain>=0.3.23; extra == 'all'
+Requires-Dist: langgraph>=0.3.29; extra == 'all'
+Requires-Dist: litellm; extra == 'all'
+Requires-Dist: markdownify>=1.1.0; extra == 'all'
+Requires-Dist: mcp>=1.5.0; extra == 'all'
+Requires-Dist: minionx>=0.1.1; extra == 'all'
+Requires-Dist: nest-asyncio>=0.0.1; extra == 'all'
+Requires-Dist: nltk>=0.0.1; extra == 'all'
+Requires-Dist: openai>=1.75.0; extra == 'all'
+Requires-Dist: openinference-instrumentation-smolagents; extra == 'all'
+Requires-Dist: pandas>=1.5.0; extra == 'all'
+Requires-Dist: pandoc; extra == 'all'
+Requires-Dist: playwright>=1.51.0; extra == 'all'
+Requires-Dist: pydantic; extra == 'all'
+Requires-Dist: pymdown-extensions>=10.14.3; extra == 'all'
+Requires-Dist: pypandoc; extra == 'all'
+Requires-Dist: smolagents>=1.13.0; extra == 'all'
+Requires-Dist: smolagents[litellm,mcp]>=1.10.0; extra == 'all'
+Requires-Dist: smolagents[mcp]>=1.13.0; extra == 'all'
+Requires-Dist: tavily-python>=0.5.1; extra == 'all'
+Requires-Dist: tenacity>=9.0.0; extra == 'all'
+Requires-Dist: together>=1.3.5; extra == 'all'
+Requires-Dist: xhtml2pdf; extra == 'all'
+Provides-Extra: deep-research
+Requires-Dist: commonmark; extra == 'deep-research'
+Requires-Dist: datasets; extra == 'deep-research'
+Requires-Dist: filelock; extra == 'deep-research'
+Requires-Dist: gradio>=5.25.0; extra == 'deep-research'
+Requires-Dist: langchain-together>=0.3.0; extra == 'deep-research'
+Requires-Dist: langchain>=0.3.23; extra == 'deep-research'
+Requires-Dist: langgraph>=0.3.29; extra == 'deep-research'
+Requires-Dist: litellm; extra == 'deep-research'
+Requires-Dist: nest-asyncio>=0.0.1; extra == 'deep-research'
+Requires-Dist: pandas>=1.5.0; extra == 'deep-research'
+Requires-Dist: pandoc; extra == 'deep-research'
+Requires-Dist: pydantic; extra == 'deep-research'
+Requires-Dist: pymdown-extensions>=10.14.3; extra == 'deep-research'
+Requires-Dist: pypandoc; extra == 'deep-research'
+Requires-Dist: smolagents>=1.13.0; extra == 'deep-research'
+Requires-Dist: tavily-python>=0.5.1; extra == 'deep-research'
+Requires-Dist: tenacity>=9.0.0; extra == 'deep-research'
+Requires-Dist: together>=1.3.5; extra == 'deep-research'
+Requires-Dist: xhtml2pdf; extra == 'deep-research'
+Provides-Extra: dev
+Requires-Dist: black>=23.0.0; extra == 'dev'
+Requires-Dist: isort>=5.12.0; extra == 'dev'
+Requires-Dist: pytest>=7.0.0; extra == 'dev'
+Provides-Extra: google
+Requires-Dist: google-adk; extra == 'google'
+Requires-Dist: litellm; extra == 'google'
+Provides-Extra: mcp
+Requires-Dist: asyncio>=3.4.3; extra == 'mcp'
+Requires-Dist: langchain-core>=0.3.49; extra == 'mcp'
+Requires-Dist: langchain-openai>=0.3.11; extra == 'mcp'
+Requires-Dist: markdownify>=1.1.0; extra == 'mcp'
+Requires-Dist: mcp>=1.5.0; extra == 'mcp'
+Requires-Dist: openai>=1.75.0; extra == 'mcp'
+Requires-Dist: playwright>=1.51.0; extra == 'mcp'
+Requires-Dist: smolagents[mcp]>=1.13.0; extra == 'mcp'
+Provides-Extra: minion
+Requires-Dist: minionx>=0.1.1; extra == 'minion'
+Requires-Dist: nltk>=0.0.1; extra == 'minion'
+Provides-Extra: openai
+Requires-Dist: openai-agents>=0.0.7; extra == 'openai'
+Requires-Dist: openinference-instrumentation-openai-agents>=0.1.5; extra == 'openai'
+Provides-Extra: serve
+Requires-Dist: a2a-sdk>=0.2.5; extra == 'serve'
+Provides-Extra: smolagents
+Requires-Dist: openinference-instrumentation-smolagents; extra == 'smolagents'
+Requires-Dist: smolagents[litellm,mcp]>=1.10.0; extra == 'smolagents'
+Description-Content-Type: text/markdown
+
+**[![Documentation Status](https://img.shields.io/badge/documentation-brightgreen)](https://github.com/femto/minion-agent) 
+[![Install](https://img.shields.io/badge/get_started-blue)](https://github.com/femto/minion-agent) 
+[![Discord](https://dcbadge.limes.pink/api/server/HUC6xEK9aT?style=flat)](https://discord.gg/HUC6xEK9aT)
+[![Twitter Follow](https://img.shields.io/twitter/follow/femtowin?style=social)](https://x.com/femtowin)**
+# Minion Agent
+
+A simple agent framework that's capable of browser use + mcp + auto instrument + plan + deep research + more
+
+## 🎬 Demo Videos
+
+- [Compare Price Demo](https://youtu.be/O0RhA3eeDlg)
+- [Deep Research Demo](https://youtu.be/tOd56nagsT4)
+- [Generating Snake Game Demo](https://youtu.be/UBquRXD9ZJc)
+
+## Installation
+
+```bash
+pip install minion-agent-x
+```
+## Or from source
+```bash
+git clone git@github.com:femto/minion-agent.git
+cd minion-agent
+pip install -e .
+```
+
+## Usage
+
+Here's a simple example of how to use Minion Agent:
+
+```python
+from minion_agent import MinionAgent, AgentConfig, AgentFramework
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+async def main():
+    # Configure the agent
+    agent_config = AgentConfig(
+        model_id=os.environ.get("AZURE_DEPLOYMENT_NAME"),
+        name="research_assistant",
+        description="A helpful research assistant",
+        model_args={"azure_endpoint": os.environ.get("AZURE_OPENAI_ENDPOINT"),
+                    "api_key": os.environ.get("AZURE_OPENAI_API_KEY"),
+                    "api_version": os.environ.get("OPENAI_API_VERSION"),
+                    },
+        model_type="AzureOpenAIServerModel",  # use "AzureOpenAIServerModel" for auzre, use "OpenAIServerModel" for openai, use "LiteLLMModel" for litellm
+    )
+
+    agent = await MinionAgent.create(AgentFramework.SMOLAGENTS, agent_config)
+
+    # Run the agent with a question
+    result = agent.run("What are the latest developments in AI?")
+    print("Agent's response:", result)
+import asyncio
+asyncio.run(main())
+```
+
+see example.py
+see example_browser_use.py
+see example_with_managed_agents.py
+see example_deep_research.py
+see example_reason.py
+
+## Configuration
+
+The `AgentConfig` class accepts the following parameters:
+
+- `model_id`: The ID of the model to use (e.g., "gpt-4")
+- `name`: Name of the agent (default: "Minion")
+- `description`: Optional description of the agent
+- `instructions`: Optional system instructions for the agent
+- `tools`: List of tools the agent can use
+- `model_args`: Optional dictionary of model-specific arguments
+- `agent_args`: Optional dictionary of agent-specific arguments
+
+## MCP Tool Support
+
+Minion Agent supports Model Context Protocol (MCP) tools. Here's how to use them:
+
+### Standard MCP Tool
+
+```python
+from minion_agent.config import MCPTool
+
+agent_config = AgentConfig(
+    # ... other config options ...
+    tools=[
+        "minion_agent.tools.browser_tool.browser",  # Regular tools
+        MCPTool(
+            command="npx",
+            args=["-y", "@modelcontextprotocol/server-filesystem", "/path/to/workspace"]
+        )  # MCP tool
+    ]
+)
+```
+
+### SSE-based MCP Tool
+
+You can also use MCP tools over Server-Sent Events (SSE). This is useful for connecting to remote MCP servers:
+
+```python
+from minion_agent.config import MCPTool
+
+agent_config = AgentConfig(
+    # ... other config options ...
+    tools=[
+        MCPTool({"url": "http://localhost:8000/sse"}),  # SSE-based tool
+    ]
+)
+```
+
+⚠️ **Security Warning**: When using MCP servers over SSE, be extremely cautious and only connect to trusted and verified servers. Always verify the source and security of any MCP server before connecting.
+
+You can also use multiple MCP tools together:
+
+```python
+tools=[
+    MCPTool(command="npx", args=["..."]),  # Standard MCP tool
+    MCPTool({"url": "http://localhost:8000/sse"}),  # SSE-based tool
+    MCPTool({"url": "http://localhost:8001/sse"})   # Another SSE-based tool
+]
+```
+
+## Planning Support
+
+You can enable automatic planning by setting the `planning_interval` in `agent_args`:
+
+```python
+agent_config = AgentConfig(
+    # ... other config options ...
+    agent_args={
+        "planning_interval": 3,  # Agent will create a plan every 3 steps
+        "additional_authorized_imports": "*"
+    }
+)
+```
+
+The `planning_interval` parameter determines how often the agent should create a new plan. When set to 3, the agent will:
+1. Create an initial plan for the task
+2. Execute 3 steps according to the plan
+3. Re-evaluate and create a new plan based on progress
+4. Repeat until the task is complete
+
+## Environment Variables
+
+Make sure to set up your environment variables in a `.env` file:
+
+```env
+OPENAI_API_KEY=your_api_key_here
+```
+
+## Development
+
+To set up for development:
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/minion-agent.git
+cd minion-agent
+
+# Create a virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install development dependencies
+pip install -e ".[dev]"
+```
+
+## Deep Research
+
+See [Deep Research Documentation](docs/deep_research.md) for usage instructions.
+
+## Community
+
+Join our WeChat discussion group to connect with other users and get help:
+
+![WeChat Discussion Group](docs/images/wechat_group_qr.png)
+
+群聊: minion-agent讨论群
+
+## License
+
+MIT License
+
+
