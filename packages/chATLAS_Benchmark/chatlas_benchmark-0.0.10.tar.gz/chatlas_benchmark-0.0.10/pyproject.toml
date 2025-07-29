@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools-scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chATLAS_Benchmark"
+version = "0.0.10"
+description = "A Python package for LLM and RAG testing in high-energy physics applications (Originally for ATLAS in the chATLAS project)."
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "Apache-2.0"}
+authors = [
+    {name = "Ben Elliot", email = "Ben.Elliot27@outlook.com"}
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "numpy~=1.26.4",
+    "pandas~=2.2.3",
+    "SQLAlchemy~=2.0.35",
+    "nltk~=3.9.1",
+    "torch~=2.2.1 ; sys_platform == 'darwin' and platform_machine == 'x86_64'",
+    "sentence_transformers~=3.2.0",
+    "pathlib",
+    "dataclasses; python_version<'3.7'",
+    "openai",
+    "pytest",
+]
+
+[project.urls]
+Homepage = "https://gitlab.cern.ch/belliot/chatlas-packages/"
+Documentation = "https://chatlas-packages.docs.cern.ch/chATLAS_Benchmark/"
+
+[tool.setuptools.packages.find]
+include = ["chATLAS_Benchmark*"]
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cpu", marker = "sys_platform == 'darwin' and platform_machine == 'x86_64'" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
