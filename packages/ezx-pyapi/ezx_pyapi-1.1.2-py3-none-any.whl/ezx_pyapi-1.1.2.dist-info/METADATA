@@ -1,0 +1,120 @@
+Metadata-Version: 2.4
+Name: ezx-pyapi
+Version: 1.1.2
+Summary: EZX API client and message library for communicating with the iServer.
+Home-page: https://www.ezxinc.com/
+Author: EZX Inc.
+Author-email: support@ezxinc.com
+License: MIT
+Project-URL: Sample API Application, https://github.com/EZXInc/ezx-sample-py
+Project-URL: Documentation, https://github.com/EZXInc/ezx-sample-py/wiki
+Project-URL: Change Log, https://github.com/EZXInc/ezx-sample-py/blob/master/CHANGELOG-API.md
+Keywords: EZX iServer API trading
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8, <4
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: license-file
+Dynamic: project-url
+Dynamic: requires-python
+Dynamic: summary
+
+# EZX API
+
+EZX Api Network Client, messages and library functions for sending and receiving orders to the EZX iServer.  Release Notes can be viewed here: [CHANGELOG-API.md](https://github.com/EZXInc/ezx-sample-py/blob/master/CHANGELOG-API.md).
+
+
+# Installing
+
+
+```bash
+
+    pip install ezx-pyapi
+    
+```
+
+# Usage
+
+
+The iServer API is not really designed to be run interactively, although it is possible to do it, as shown below. 
+The easiest way to familiarize yourself with the API is to download and run the sample API app, [ezx-sample-py](https://github.com/EZXInc/ezx-sample-py), from Github.
+
+**Interactive Mode**
+
+
+```python
+
+	from interactive import * #this creates an interactive connection to the iserver
+	
+	
+	# send an order
+	from iserver.msgs.convenience_msgs import *
+	order = NewOrder('ZVZZT',1,100,1.25,'SIMU')
+	client.send_message(order)
+	
+	# type: show_help() to display avaialble functions in the interactive environment
+	
+	Available functions: (type help(function name) to see the parameters for the function.):
+	----------------------------------------------------------------------------------------
+	connect - Connect to the iserver.
+	stop - Disconnect from the iserver.  You will need to call the connect method again to reconnect.
+	status - Indicates connection status. if connected=True, then the client is logged in to the iserver.
+	show_help - Displays information about available functions.
+	----------------------------------------------------------------------------------------
+	
+	 status()
+	 iserver client connected=True. company=EROOM, user=test1
+	 
+	 # Replace an order
+	 client.send_message(ReplaceOrder(551, -1.24, 60))
+	 
+	 # Cancel an order
+	 client.send_message(CancelOrder(551))
+	 
+	 # disconnect
+	 stop()
+	 
+	
+```
+**More...**
+
+The default message handler just prints the responses from the server.  You can set your own handler as follows:
+
+```python
+
+	from iserver.msgs.OrderResponse import OrderResponse
+	
+	responses = []
+	import iserver.net
+	def my_msg_handler(msg_subtype: int, msg: EzxMsg):
+		iserver.net.empty_msg_handler(msg_subtype, msg) # print the message
+		# write your handling logic here.
+		responses.append(msg)
+		
+	client._msg_handler = my_msg_handler  # normally this is set in the ApiClient constructor
+	
+	client.send_message(order)
+			
+```
+
+Also see the [EZX API Quick Start Guide](https://docs.google.com/document/d/1VcAYjFDZfIbQCVmVN4CZ_U6d3O3dHbnFNuiIBec8L3M) for more details on the API.
+
+
+
+
+	
+
+    
