@@ -1,0 +1,67 @@
+[build-system]
+requires = ["setuptools>=67.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "test-pymd"
+version = "0.1.5"
+description = "Python GUI to convert a wide variety of files to Markdown format"
+readme = { file = "README.md", content-type = "text/markdown", charset = "utf-8" }
+license = { text = "MIT License" }
+authors = [{ name = "abascas", email = "a@gmail.com" }]
+dependencies = [
+    "markitdown[all]==0.1.1",
+    "chromologger==0.1.8",
+    "PySide6==6.9.0",
+    "sqlazo==0.1.5",
+    "chromolog==0.2.4"
+]
+requires-python = ">=3.7"
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: End Users/Desktop",
+    "Intended Audience :: Developers",
+    "Topic :: Utilities",
+    "Topic :: Text Processing :: Markup",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Environment :: X11 Applications :: Qt",
+    "Environment :: Win32 (MS Windows)",
+    "Environment :: MacOS X"
+]
+
+[project.scripts]
+pymd = "PYMD.__main__:main"
+
+[project.urls]
+Homepage = "https://github.com/testing/test"
+Repository = "https://github.com/testing/test"
+Issues = "https://github.com/testing/test/issues"
+
+[tool.setuptools]
+packages = ["PYMD"]
+package-dir = {"" = "src"}
+
+[tool.setuptools.package-data]
+PYMD = [
+    "database/*.py",
+    "logic/*",
+    "logs/*.py",
+    "models/*",
+    "utils/*",
+    "NOTICE",
+    "interface/*.py",
+    "interface/assets/img/*",
+    "interface/assets/img/language/*",
+    "interface/assets/img/logo-pymd/*",
+    "interface/translations/locale/*",
+    "interface/translations/others/*",
+    "OSL/*"
+]
