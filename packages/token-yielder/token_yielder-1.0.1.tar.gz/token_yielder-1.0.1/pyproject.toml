@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "token_yielder"
+version = "1.0.1"
+description = "PYTHON module to generate and rotate token"
+readme = "Readme.md"
+requires-python = ">=3.6"
+license = {text = "MIT"}
+authors = [
+  { name="Rakesh", email="rakeshpraneel@gmail.com" }
+]
+classifiers = [
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent"
+]
+
+[project.urls]
+Source = "https://github.com/rakeshpraneel/token-yielder"
+
+[tool.setuptools]
+packages = ["token_yielder"]
