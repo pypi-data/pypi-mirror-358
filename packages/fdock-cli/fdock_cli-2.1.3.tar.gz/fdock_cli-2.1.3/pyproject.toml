@@ -1,0 +1,52 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "fdock_cli"
+version = "2.1.3"
+description = "Un outil CLI puissant pour initialiser et gérer vos projets Python avec style !"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.7"
+authors = [
+    {name = "fdock", email = "fdock@example.com"},
+]
+keywords = ["cli", "python", "project", "initialization", "development", "tools"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: System :: Systems Administration",
+    "Topic :: Utilities",
+]
+
+[project.urls]
+Homepage = "https://github.com/fdock/fdock_cli"
+Repository = "https://github.com/fdock/fdock_cli"
+Issues = "https://github.com/fdock/fdock_cli/issues"
+Documentation = "https://github.com/fdock/fdock_cli#readme"
+
+[project.scripts]
+fdock = "fdock_cli.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["fdock_cli"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"fdock_cli/scripts" = "fdock_cli/scripts"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/fdock_cli",
+    "/README.md",
+] 
