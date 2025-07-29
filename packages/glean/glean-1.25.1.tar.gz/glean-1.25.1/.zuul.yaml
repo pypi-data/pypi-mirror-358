@@ -1,0 +1,48 @@
+- project:
+    check:
+      jobs:
+        - tox-pep8
+        - tox-py27:
+            nodeset: ubuntu-bionic
+        - tox-py36:
+            nodeset: ubuntu-bionic
+        - tox-py38:
+            nodeset: ubuntu-focal
+        - tox-py310:
+            nodeset: ubuntu-jammy
+        - tox-py311:
+            nodeset: debian-bookworm
+        - opendev-buildset-registry
+        - nodepool-build-image-siblings
+        - dib-nodepool-functional-openstack-gentoo-src:
+            voting: false
+        - dib-nodepool-functional-openstack-centos-9-stream-src
+        - dib-nodepool-functional-openstack-ubuntu-xenial-src
+        - dib-nodepool-functional-openstack-ubuntu-bionic-src
+        - dib-nodepool-functional-openstack-ubuntu-focal-src
+        - dib-nodepool-functional-openstack-debian-bullseye-src
+        - dib-nodepool-functional-openstack-rockylinux-8-containerfile-src
+    gate:
+      jobs:
+        - tox-pep8
+        - tox-py27:
+            nodeset: ubuntu-bionic
+        - tox-py36:
+            nodeset: ubuntu-bionic
+        - tox-py38:
+            nodeset: ubuntu-focal
+        - tox-py310:
+            nodeset: ubuntu-jammy
+        - tox-py311:
+            nodeset: debian-bookworm
+        - opendev-buildset-registry
+        - nodepool-build-image-siblings
+        - dib-nodepool-functional-openstack-centos-9-stream-src
+        - dib-nodepool-functional-openstack-ubuntu-xenial-src
+        - dib-nodepool-functional-openstack-ubuntu-bionic-src
+        - dib-nodepool-functional-openstack-ubuntu-focal-src
+        - dib-nodepool-functional-openstack-debian-bullseye-src
+        - dib-nodepool-functional-openstack-rockylinux-8-containerfile-src
+    post:
+      jobs:
+        - publish-openstack-python-branch-tarball
