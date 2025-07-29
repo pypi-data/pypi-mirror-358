@@ -1,0 +1,99 @@
+Metadata-Version: 2.4
+Name: meu_investimento_ferrufato
+Version: 0.2
+Summary: Uma biblioteca para cálculos de investimentos.
+Home-page: https://github.com/ferRufato/meu_investimento
+Author: Fernanda Rufato
+Author-email: nandaoliveira1985@terra.com.br
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-python
+Dynamic: summary
+
+# Meu Investimento 🚀
+
+Uma biblioteca Python simples e eficiente para cálculos de finanças pessoais, com funções para:
+
+- Retorno de investimento (%)
+- Juros compostos
+- Conversão de taxa anual para mensal
+- Cálculo do CAGR (Taxa de crescimento anual composta)
+
+---
+
+## 📦 Instalação
+
+Instale diretamente do PyPI:
+
+```bash
+pip install meu_investimento
+
+Ou instale localmente (durante o desenvolvimento):
+
+
+pip install dist/meu_investimento-0.1-py3-none-any.whl
+
+
+from investimentos import (
+    calcular_retorno_investimento,
+    calcular_juros_compostos,
+    converter_taxa_anual_para_mensal,
+    calcular_cagr
+)
+
+valor_inicial = 1000
+valor_final = 1500
+anos = 5
+taxa_anual = 12
+
+print(f"Retorno: {calcular_retorno_investimento(valor_inicial, valor_final):.2f}%")
+print(f"Juros compostos: R${calcular_juros_compostos(valor_inicial, 6, anos):.2f}")
+print(f"Taxa mensal equivalente: {converter_taxa_anual_para_mensal(taxa_anual)*100:.4f}%")
+print(f"CAGR: {calcular_cagr(valor_inicial, valor_final, anos):.2f}%")
+
+
+Funcionalidades
+
+calcular_retorno_investimento(valor_inicial, valor_final) → Retorno em %
+
+calcular_juros_compostos(principal, taxa_juros_anual, periodos) → Valor acumulado
+
+converter_taxa_anual_para_mensal(taxa_anual) → Taxa mensal efetiva
+
+calcular_cagr(valor_inicial, valor_final, anos) → CAGR em %
+
+Público-alvo
+Ideal para:
+
+Estudantes aprendendo matemática financeira
+
+Desenvolvedores que precisam de cálculos financeiros simples
+
+Qualquer pessoa que deseje automatizar análises básicas de investimentos
+
+Requisitos
+Python 3.6 ou superior
+
+Nenhuma dependência adicional (somente biblioteca padrão)
+
+
+Licença
+Este projeto está licenciado sob a MIT License. Veja o arquivo LICENSE para mais detalhes.
+
+
+
+
+
+
+```
