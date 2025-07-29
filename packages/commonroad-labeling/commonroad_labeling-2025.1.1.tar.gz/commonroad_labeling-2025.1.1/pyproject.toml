@@ -1,0 +1,76 @@
+[project]
+name = "commonroad-labeling"
+version = "2025.1.1"
+description = "Automatic labeling of CommonRoad scenarios."
+authors = [{name = "Florian Finkeldei", email = "florian.finkeldei@tum.de"}, {name = "Dzan Tabakovic", email ="dzan.tabakovic@tum.de"}]
+readme = "README.md"
+license = "BSD-3-Clause"
+requires-python = ">=3.10"
+dynamic = ["dependencies"]
+
+[project.urls]
+Documentation = "https://cps.pages.gitlab.lrz.de/commonroad/automatic-scenario-labeling"
+
+[tool.poetry]
+packages = [
+  {include = "commonroad_labeling"},
+  {include = "scripts"},
+  # The currently distributed version of commonroad-reactive-planner contains a bug, which breaks the metrics extraction.
+  # As PyPI does not allow git dependencies, the package must be vendored directly.
+  {from = "external/commonroad-reactive-planner", include = "commonroad_rp"}
+]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.12" # python constraint is given by commonroad-reactive-planner, which requires python<3.12.
+commonroad-io = ">=2024.3"
+commonroad-route-planner = ">=2025.1.0"
+commonroad-crime = ">=0.4.4"
+# Reactive planner contains a bug, which breaks the metrics extraction.
+# The fix is not yet merged upstream, therefore the package is vendored directly.
+# commonroad-reactive-planner = ">=2025.1"
+matplotlib = ">=3.5.2, < 3.9"
+pandas = "^2.2.2"
+scikit-learn = "^1.4"
+
+# Dependencies of commonroad-reactive-planner.
+networkx = ">=2.2"
+numpy = ">=1.22"
+methodtools = "^0.4.5"
+omegaconf = ">=2.1.1"
+scipy = ">=1.5.2"
+imageio = ">=2.13.5"
+triangle = ">=20230923"
+commonroad-drivability-checker = "^2025.1"
+commonroad-clcs = "^2025.1.1"
+commonroad_vehicle_models = ">=3.0.2"
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.3"
+black = "^24.1.1"
+isort = "^5.13.2"
+flake8 = "^7.0.0"
+pre-commit = "^3.6.0"
+
+[tool.poetry.group.docs]
+optional = true
+
+[tool.poetry.group.docs.dependencies]
+mkdocs = "^1.5.3"
+mkdocs-material = "^9.5.14"
+mkdocstrings-python = "^1.9.0"
+
+[tool.poetry.group.test]
+optional = true
+
+[tool.poetry.group.test.dependencies]
+coverage = "^7.4.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.coverage.run]
+source = ["commonroad_labeling"]
