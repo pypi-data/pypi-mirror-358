@@ -1,0 +1,16 @@
+[build-system]
+requires = ["scikit-build-core", "pybind11"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "graph_simulator"
+authors = [
+    {name = "Joakim B. Andersen", email = "blach.andersen@gmail.com"},
+]
+description = "A tool to simulate from graphs"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "pybind11>=2.13.6"
+]
+version = "0.2.9"

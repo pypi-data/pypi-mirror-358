@@ -1,0 +1,100 @@
+Metadata-Version: 2.2
+Name: graph_simulator
+Version: 0.2.9
+Summary: A tool to simulate from graphs
+Author-Email: "Joakim B. Andersen" <blach.andersen@gmail.com>
+Requires-Python: >=3.9
+Requires-Dist: pybind11>=2.13.6
+Description-Content-Type: text/markdown
+
+
+# `graph_simulator`
+
+**Fast library to simulate data from directed acyclic graphs (DAGs).**
+
+Dependencies between vertices in the graph are specified in a human-readable `YAML` file. For example, the simple graph \\( X \rightarrow Y \\) is specified by the YAML code below:
+
+```yaml
+X:
+  kernel:
+    type: "uniform"
+    sample_domain: [0, 1]
+    terms: null
+  dependencies: null
+
+Y:
+  kernel:
+    type: "linear"
+    sample_domain: [1, 1.5]
+    noise: 0.1
+    terms:
+      - intercept: 1
+        indicators: null
+        value: 0.5
+        variable:
+          1: "X"
+  dependencies:
+    1: ["X"]
+```
+
+Here, `X` does not have any parents, as specified by `dependencies: null`, and it is uniformly distributed with support \\( \{0, 1\} \\). In contrast, \\( Y_t \\) has a parent \\( X_{t-1} \\) (graphically we write \\( X_{t-1} \rightarrow Y_t \\)), which is specified by `1: ["X"]` under `dependencies` — interpreted as “X of lag 1”.
+
+In the `kernel` section, we see that `Y` depends on its parents linearly (`type: "linear"`), but takes a random value with probability 0.1 in \\( \{1, 1.5\} \\), as indicated by `noise: 0.1` and `sample_domain: [1, 1.5]`.
+
+The linear dependency is specified in the `terms` subsection. In this case, there is a single term composed of an intercept of value 1 (`intercept: 1`) plus a value of 0.5 (`value: 0.5`) times the value of “X at lag 1” (`1: "X"` under `variable`). Terms may, in addition, depend on indicator functions that can render the whole term zero.
+
+Thus, in the above example, we may write the functional form of \\( Y_t \\) as:
+
+```math
+Y_t =
+\begin{cases}
+  1 + 0.5 \cdot X_{t-1}, & \text{with probability } 0.9 \\\\
+  \text{Unif}(\{1, 1.5\}), & \text{with probability } 0.1
+\end{cases}
+```
+
+## Supported kernels:
+- `uniform`
+- `linear`
+- `poisson`
+- `binomial`
+- `mixed`
+- `constant`
+
+
+<!-- 
+# Readme...
+
+# python3 -m build .; python3 -m twine upload --skip-existing dist/* -->
+
+<!-- 
+Fast library to simulate data from directed acyclical graphs (DAGs). Dependencies between vertices in the graph are specified in \texttt{YAML} file. For example, the simple graph $X \rightarrow Y$ is specified by the YAML code below:
+\begin{lstlisting}[basicstyle=\bfseries\ttfamily, frame=none, breaklines=true, keywordstyle=\color{blue}]
+    X:
+        kernel:
+          type: "uniform"
+          sample_domain: [0, 1]
+          terms: null
+        dependencies: null
+    Y:
+        kernel:
+          type: "linear"
+          sample_domain: [1, 1.5]
+          noise: 0.1
+          terms:
+            - intercept: 1
+              indicators: null
+              value: 0.5
+              variable:
+                1: "X"
+        dependencies:
+        1: ["X"]
+\end{lstlisting}
+Here $X$ does not have any parents as specified by ``\texttt{dependencies:null}'', and it is uniformly distributed with support $\{0, 1\}$. In contrast $Y_t$ has a parent $X_{t-1}$ (graphically we write $X_{t-1} \rdedge Y_t$) which is specified by \texttt{1:["X"]} under \texttt{dependencies}---interpreted as ``X of lag 1''. In the \texttt{kernel} section we see that $Y$ depends on its parents linearly (\texttt{type:"linear"}) but takes a random value with probability 0.1 in $\{1, 1.5\}$ as indicated by \texttt{noise:0.1} and \texttt{sample domain:[1, 1.5]}. The linear dependency is specified in the \texttt{terms} subsection. In this case, there is a single term composed of an intercept of value 1 (\texttt{intercept:1}) plus a value of 0.5 (\texttt{value:0.5}) times the values of ``$X$ at lag 1'' (\texttt{1:"X"} under \texttt{variable}). Terms may, in addition, depend of indicator functions that can render the whole term zero. Thus, in the above example, we may write the functional form of $Y_t$ as
+\[
+    Y_t =
+    \begin{cases}
+        1 + 0.5 \cdot X_{t-1} ~ \textup{with probability} ~ 0.9 \\
+        \textup{Unif}(\{1, 1.5\}) ~ \textup{with probability} ~ 0.1
+    \end{cases}.
+\] -->

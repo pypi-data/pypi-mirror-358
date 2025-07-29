@@ -1,0 +1,85 @@
+X:
+  kernel:
+    type: "linear"
+    sample_domain: [0, 2]
+    lower_bound: 0
+    upper_bound: 2
+    noise: 0
+    terms:
+      - intercept: 0
+        indicators:
+        - type: "greater_than_value"
+          variable:
+            1: "X"
+          threshold: 1
+        value: 1
+        variables:
+          0: ["R"]
+          1: ["A"]
+      - intercept: 1
+        indicators:
+        - type: "greater_than_variable"
+          variable:
+            1: "A"
+          threshold:
+            2: "A"
+        value: 2
+        variables:
+          1: ["X"]
+      - intercept: 1.0
+        indicators:
+        - type: "equal_to"
+          variable:
+            1: "A"
+          threshold: 1.0
+        value: 0
+        variables: null
+      - intercept: 0
+        indicators: null
+        value: 2
+        variables:
+          1: ["X"]
+  dependencies:
+    0: ["R"]
+    1: ["A", "X"]
+    2: ["A"]
+A:
+  kernel:
+    type: "poisson"
+    limit:
+      value: 6
+      variables:
+        0: ["X"]
+    terms:
+      - intercept: 0
+        indicators: null
+        value: 1
+        variables:
+          0: ["X"]
+      - intercept: 0
+        indicators: null
+        value: 0.5
+        variables:
+          0: ["R"]  
+  dependencies:
+    0: ["X", "R"]
+R:
+  kernel:
+    type: "binomial"
+    sample_domain: [1, 2, 3]
+    dim: 3
+    terms: 
+    - intercept: 0
+      indicators: null
+      value: 1
+      variables:
+        1: ["X"]
+  dependencies:
+    1: ["A", "X"]
+Z:
+  kernel:
+    type: "constant"
+    noise: 0.1
+    value: 4
+    terms: null
+  dependencies: null
