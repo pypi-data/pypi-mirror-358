@@ -1,0 +1,23 @@
+[project]
+name = "url-version-finder"
+version = "0.0.1"
+description = "Find version within a url such as 'v1' or '1.1.1'"
+authors = [
+    {name = "skip"}
+]
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+]
+packages = [{ include = "url_version_finder" }]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4.1"
+black = "^25.1.0"
+isort = "^6.0.1"
+mypy = "^1.16.1"
+
