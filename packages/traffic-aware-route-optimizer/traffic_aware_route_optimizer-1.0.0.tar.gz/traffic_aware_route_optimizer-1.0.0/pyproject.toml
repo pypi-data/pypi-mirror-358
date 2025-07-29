@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "traffic-aware-route-optimizer"
+version = "1.0.0"
+description = "Traffic-aware route optimization using Google Routes API"
+authors = [{name = "Luis Ticas", email = "luis.ticas1@gmail.com"}]
+license = "MIT"
+readme = "README.md"
+requires-python = ">=3.8"
+keywords = ["route-optimization", "google-routes", "traffic-aware", "logistics", "navigation", "gis"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Scientific/Engineering :: GIS",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "pydantic>=2.0.0",
+    "googlemaps>=4.10.0",
+    "httpx>=0.24.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/lutic1/traffic-aware-route-optimizer"
+Repository = "https://github.com/lutic1/traffic-aware-route-optimizer.git"
+Issues = "https://github.com/lutic1/traffic-aware-route-optimizer/issues"
+Documentation = "https://github.com/lutic1/traffic-aware-route-optimizer#readme"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["route_planner*"]
+
+[tool.setuptools.package-data]
+route_planner = ["*.py"]
