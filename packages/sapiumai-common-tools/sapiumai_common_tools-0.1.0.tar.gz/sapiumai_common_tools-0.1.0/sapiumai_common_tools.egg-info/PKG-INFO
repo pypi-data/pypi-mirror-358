@@ -1,0 +1,62 @@
+Metadata-Version: 2.4
+Name: sapiumai_common_tools
+Version: 0.1.0
+Summary: Reusable utility functions
+Author-email: Mauricio Falck <mfalck@sapium.ai>
+License-Expression: MIT
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
+# sapiumai-common-tools
+
+A small utility library for Python projects, offering structured configuration loading, file-based logging, and access to project metadata from `pyproject.toml`.
+
+---
+
+## 📦 Installation
+
+Once published to PyPI:
+
+```bash
+pip install sapiumai-common-tools
+``` 
+for a local development environment:
+
+```bash
+pip install -e /path/to/this/repo
+``` 
+
+## 📁 Modules
+### config.py
+Loads application configuration from a config/config.json file.
+- load_config(): Parses the config file and returns a nested dictionary of settings.
+- config: A globally available variable holding the parsed config (or {} if loading fails).
+If the file is missing or unreadable, the logger will emit an error and fall back to an empty config.
+
+### info.py
+Extracts and exposes project metadata directly from pyproject.toml.
+- PROJECT_NAME
+- PROJECT_VERSION
+- PROJECT_DESCRIPTION
+Useful for embedding versioning or metadata into logs, APIs, or CLI banners.
+
+### logger.py
+Sets up a file-based logger with a standard format and severity level.
+- setup_logger -> Logger: Returns a configured logging.Logger instance that writes to ./logs/log.txt.
+Call this in any module to get consistent logging throughout your project.
+
+## Example Usage
+```python
+from sapiumai_common_tools.logger import setup_logger
+from sapiumai_common_tools.config import config
+from sapiumai_common_tools.info import PROJECT_NAME, PROJECT_VERSION
+
+logger = setup_logger(__name__)
+logger.info(f"{PROJECT_NAME} (v{PROJECT_VERSION}) is starting up…")
+logger.debug(f"Loaded config: {config}")
+```
+
+
+## 📄 License
+MIT License
