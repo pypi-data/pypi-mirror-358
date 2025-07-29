@@ -1,0 +1,70 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qemu-discord-rpc"
+version = "1.0.3"
+description = "Display running QEMU virtual machines as Discord Rich Presence status"
+readme = "README.md"
+requires-python = ">=3.6"
+license = {text = "GPL-3.0"}
+authors = [
+    {name = "qubixq", email = "83471324+qubixq@users.noreply.github.com"}
+]
+keywords = ["qemu", "discord", "rpc", "virtual-machine", "status", "rich-presence"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: Unix",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: System :: Emulators",
+    "Topic :: Communications :: Chat",
+    "Topic :: Utilities",
+    "Topic :: Games/Entertainment",
+]
+dependencies = [
+    "pypresence>=4.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "build",
+    "twine",
+    "pytest",
+    "black",
+    "flake8",
+]
+
+[project.urls]
+Homepage = "https://github.com/qubixq/qemu-discord-rpc"
+"Bug Reports" = "https://github.com/qubixq/qemu-discord-rpc/issues"
+"Source" = "https://github.com/qubixq/qemu-discord-rpc"
+"Documentation" = "https://github.com/qubixq/qemu-discord-rpc#readme"
+
+[project.scripts]
+qemu-discord-rpc = "qemu_discord_rpc:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["qemu_discord_rpc*"]
+
+[tool.setuptools.package-data]
+qemu_discord_rpc = ["*.json"]
+
+[tool.black]
+line-length = 88
+target-version = ['py36']
+
+[tool.setuptools]
+zip-safe = false
