@@ -1,0 +1,43 @@
+Metadata-Version: 2.4
+Name: gitactions
+Version: 0.11.7
+Summary: GitHub Actions is a package for testing github actions
+Author-email: Logan Lang <lllang@mix.wvu.edu>
+License-Expression: MIT
+Project-URL: Repository, https://github.com/lllang/gitactions
+Project-URL: Issues, https://github.com/lllang/gitactions/issues
+Project-URL: Changelog, https://github.com/lllang/gitactions/CHANGELOG.md
+Keywords: github,actions,testing
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: parquetdb
+Provides-Extra: tests
+Requires-Dist: pytest; extra == "tests"
+Requires-Dist: pytest-cov; extra == "tests"
+Provides-Extra: build
+Requires-Dist: openai; extra == "build"
+Requires-Dist: PyGithub; extra == "build"
+Requires-Dist: python-dotenv; extra == "build"
+Requires-Dist: requests; extra == "build"
+Requires-Dist: ipython; extra == "build"
+Requires-Dist: setuptools_scm; extra == "build"
+Requires-Dist: build; extra == "build"
+Provides-Extra: docs
+Requires-Dist: sphinx; extra == "docs"
+Requires-Dist: sphinx_rtd_theme; extra == "docs"
+Requires-Dist: sphinx-copybutton; extra == "docs"
+Requires-Dist: nbsphinx; extra == "docs"
+Requires-Dist: sphinx_design; extra == "docs"
+Requires-Dist: sphinx-new-tab-link; extra == "docs"
+Requires-Dist: sphinxcontrib-youtube; extra == "docs"
+Requires-Dist: sphinxcontrib-video; extra == "docs"
+Requires-Dist: pandoc; extra == "docs"
+Requires-Dist: furo; extra == "docs"
+Requires-Dist: numpydoc; extra == "docs"
+Provides-Extra: dev
+Requires-Dist: gitactions[build,docs,tests]; extra == "dev"
+Dynamic: license-file
+
+This repository is to test scripts for gtihub actions
