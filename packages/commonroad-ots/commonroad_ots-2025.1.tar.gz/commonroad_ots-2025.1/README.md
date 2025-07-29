@@ -1,0 +1,54 @@
+# CommonRoad - OpenTrafficSim Interface
+
+[![PyPI pyversions](https://img.shields.io/pypi/pyversions/commonroad-ots.svg)](https://pypi.python.org/pypi/commonroad-ots/)
+[![PyPI version fury.io](https://badge.fury.io/py/commonroad-ots.svg)](https://pypi.python.org/pypi/commonroad-ots/)
+[![PyPI download week](https://img.shields.io/pypi/dw/commonroad-ots.svg?label=PyPI%20downloads)](https://pypi.python.org/pypi/commonroad-ots/)
+[![PyPI download month](https://img.shields.io/pypi/dm/commonroad-ots.svg?label=PyPI%20downloads)](https://pypi.python.org/pypi/commonroad-ots/)
+[![PyPI license](https://img.shields.io/pypi/l/commonroad-ots.svg)](https://pypi.python.org/pypi/commonroad-ots/)
+
+
+Interface between [CommonRoad](commonroad.in.tum.de) and the traffic simulator [OpenTrafficSim (OTS)](opentrafficsim.org).
+
+It allows you to simulate CommonRoad scenarios with different abstraction levels (i.e. resimulation, delay, demand, infrastructure, random) in OTS and get the results as CommonRoad scenarios.
+
+## Quick Start
+
+### Installation
+
+The interface is available on PyPI and can easily be installed:
+
+```bash
+$ pip install commonroad-ots
+```
+
+Additionally, a working java installation is required to execute OTS. For Ubuntu you can use:
+```bash
+$ apt-get update && apt-get install -y default-jdk
+```
+
+OTS itself is distributed as a [python package](https://pypi.org/project/opentrafficsim/) and included as a dependency of this package. Therefore, no separate installation is necessary.
+
+
+### Example Usage
+
+The following example shows how to resimulate a given CommonRoad scenario:
+
+```python
+from pathlib import Path
+from commonroad.common.file_reader import CommonRoadFileReader
+from commonroad_ots.conversion.main import Conversion
+from commonroad_ots.abstractions.abstraction_level import AbstractionLevel
+from commonroad_ots.abstractions.simulation_execution import SimulationExecutor
+
+# Load recorded scenario
+scenario_path = Path("/path/to/commonroad/scenario.xml")
+scenario_rec, _ = CommonRoadFileReader(scenario_path).open()
+
+# Setup and execute simulation
+executor = SimulationExecutor(scenario_rec, AbstractionLevel.RESIMULATION, False, dict(), 1234, False, False)
+scenario_new, _, _, _, _ = executor.execute()
+```
+
+## Documentation
+
+The full documentation of the API and introductory examples can be found at [cps.pages.gitlab.lrz.de/commonroad/cr-ots-interface](https://cps.pages.gitlab.lrz.de/commonroad/cr-ots-interface).
