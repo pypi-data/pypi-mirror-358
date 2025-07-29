@@ -1,0 +1,72 @@
+[build-system]
+requires = ["setuptools>=75.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "brightwebapp"
+authors = [
+  { name="Michael Weinold", email="michaelphilippweinold+brightwebapp@gmail.com" }
+]
+maintainers = [
+  { name="Michael Weinold", email="michaelphilippweinold+brightwebapp@gmail.com" }
+]
+description = "A demonstrator Python package showcasing the integration of the Brightway framework with web applications."
+readme = "README.md"
+license = {text = "MIT"}
+dynamic = ["version"]
+# Add here all kinds of additional classifiers as defined under
+# https://pypi.org/classifiers/
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering"
+]
+requires-python = ">=3.9"
+dependencies = [
+  "pandas>=1.3.0",
+  "bw2data==4.5",
+  "bw2io==0.9.10",
+  "bw2calc==2.1",
+  "bw_graph_tools==0.6",
+  "plotly"
+]
+
+[project.optional-dependencies]
+testing = [
+    "pytest",
+    "pytest-cov",
+    "python-coveralls",
+]
+api = [
+  "fastapi",
+  "uvicorn[standard]",
+]
+
+
+[project.urls]
+source = "https://github.com/brightway-lca/brightwebapp"
+homepage = "https://brightwebapp.readthedocs.io"
+tracker = "https://github.com/brightway-lca/brightwebapp/issues"
+
+[tool.setuptools]
+include-package-data = true
+packages = [
+  "brightwebapp",
+]
+
+[tool.setuptools.package-data]
+"brightwebapp" = ["tests/fixtures/files/*.xlsx"]
+
+[tool.setuptools.dynamic]
+version = {attr = "brightwebapp.__version__"} 
+readme = {file = "README.md"}
+
+[tool.pytest.ini_options]
+testpaths = ["tests/*.py"] 
