@@ -1,0 +1,113 @@
+Metadata-Version: 2.1
+Name: pygbop
+Version: 0.2.7.53
+Summary: Geely GBOP Client
+Home-page: https://pypi.python.org/pypi/GbopApiClient
+Author: huang.xiaogang
+Author-email: huang.xiaogang@geely.com
+License: MIT
+Platform: UNKNOWN
+Classifier: Environment :: Web Environment
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Text Processing :: Indexing
+Classifier: Topic :: Utilities
+Classifier: Topic :: Internet
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: 3.14
+Description-Content-Type: text/markdown
+Requires-Dist: requests
+
+### Geely GBOP Client
+
+request demo:
+
+```python
+from pygbop import GbopApiClient, Method, BasicAuth
+
+auth = BasicAuth(access_key='xxxxxxxxxxxxxxxxx', secret_key='xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxx')
+client = GbopApiClient(auth, base_url='hello.api-dev.test.xxxxx.com')
+
+print('=============GET=============')
+params = {
+    'params1': '123',
+    'params3': ['s', 'w', 'k'],
+    'params2': '321',
+}
+res = client.execute(Method.GET, '/api/v1/hello', params)
+print(res.decode('utf-8'))
+
+print('=============POST=============')
+data = {'params3': 'testA', 'params4': 'testB'}
+res = client.execute(Method.POST, '/api/v1/demo', data=data)
+print(res.decode('utf-8'))
+
+print('=============POST2=============')
+params = {'params3': 'testA', 'params4': 'testB'}
+header = {'content-type':'application/json;charset=utf-8'}
+res = client.execute(Method.POST, '/api/v1/demo', params=params, data=data, header=header)
+print(res.decode('utf-8'))
+
+print('=============POST files=============')
+file_paths = ['/path/to/file1.txt', '/path/to/file2.jpg']
+files = [('file', (open(fp, 'rb'))) for fp in file_paths]
+res = client.execute(Method.POST, '/api/v1/demo', files=files)
+print(res.decode('utf-8'))
+for _, file_obj in files:
+    file_obj.close()
+
+
+print('=============response stream=============')
+for item in client.execute_with_stream(Method.POST, '/sse', params, data,
+                                            header={"Content-Type": "application/json"},
+                                            timeout=60):
+    print(item.decode('utf-8'))
+```
+
+cloud event push demo:
+
+```python
+from pygbop import CloudEventBasicAuth, EventPushClient
+
+auth = CloudEventBasicAuth(producer_group='xxxxxxx',
+                           subject='persistent://Information_Technology/xxxx/XXXX_EVENT',
+                           secret_token='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+event_push_client = EventPushClient(auth=auth, base_url='http://xxxx.dev.xxxxx.com')
+data = {
+    "message": "hello 喵啪斯"
+}
+response = event_push_client.push_message(data=data,
+                                          source='xx.cmdb',
+                                          type_='xx:cmdb:InstanceChanged')
+print(response.decode('utf-8'))
+```
+or
+```python
+from pygbop import CloudEventBasicAuth, EventPushClient
+
+auth = CloudEventBasicAuth(producer_group='xxxxxxx',
+                           subject='persistent://Information_Technology/xxxx/XXXX_EVENT',
+                           secret_token='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+event_push_client = EventPushClient(auth=auth, base_url='http://xxxx.dev.xxxxx.com')
+data = {
+    "message": "hello 喵啪斯"
+}
+response = event_push_client.push(data=data,
+                                  source='xx.cmdb',
+                                  type_='xx:cmdb:InstanceChanged')
+if response.result:
+    message_id = response.data
+else:
+    code = response.code
+    fail_message = response.message
+```
+
