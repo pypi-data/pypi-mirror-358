@@ -1,0 +1,44 @@
+[project]
+name = "gunbot-sdk-python"
+version = "0.1.0"
+description = "Official Gunbot SDK for Python"
+readme = {file = "README.md", content-type = "text/markdown"}
+requires-python = ">=3.9"
+license = "MIT"
+authors = [{name = "Gunbot", email = "support@gunbot.freshdesk.com"}]
+keywords = [
+  "gunbot", "python", "sdk", "api", "crypto-trading",
+  "trading-bot", "automated-trading", "stocks", "etf"
+]
+dependencies = [
+  "urllib3>=1.26",
+  "six>=1.16",
+  "certifi>=2023.7",
+  "python-dateutil>=2.9"
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Typing :: Typed"
+]
+
+[project.urls]
+"Homepage" = "https://www.gunbot.com"
+"Source"   = "https://github.com/gunthardeniro/gunbot-sdk-python"
+"Tracker"  = "https://github.com/gunthardeniro/gunbot-sdk-python/issues"
+
+[build-system]
+requires = ["setuptools>=68", "wheel", "build"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where   = ["."]
+include = ["gunbot_sdk*"]
+exclude = ["tests*", "docs*", "assets*"]
+
+[tool.setuptools.package-data]
+"gunbot_sdk" = ["py.typed"]  
