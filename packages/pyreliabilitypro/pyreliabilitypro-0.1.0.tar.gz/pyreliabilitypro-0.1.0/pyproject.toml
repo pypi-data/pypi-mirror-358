@@ -1,0 +1,60 @@
+# pyproject.toml
+
+# Part 1: Build System Configuration
+# This tells tools like pip what backend to use to build your project.
+# 'setuptools' is the most common and robust choice.
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+# Part 2: Project Metadata
+# This is the core information about your package that will appear on PyPI.
+[project]
+name = "pyreliabilitypro"
+version = "0.1.0" # Your initial version number
+authors = [
+    { name = "Santtosh Muniyandy", email = "santtosh6783@gmail.com" },
+]
+description = "A Python toolkit for reliability analysis (MTTF, Weibull) with CI/CD."
+readme = "README.md" # Specifies that your README.md should be the long description on PyPI.
+requires-python = ">=3.8" # Specifies the Python versions your package supports.
+license = { file = "LICENSE" }
+keywords = ["reliability", "weibull", "mttf", "failure analysis", "statistics", "engineering"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Education",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+# Runtime dependencies are listed here. This duplicates requirements.txt but is the modern standard.
+# When someone 'pip install pyreliabilitypro', these will be installed automatically.
+dependencies = [
+    "numpy",
+    "scipy",
+]
+
+# Part 3: Project URLs (Optional but highly recommended)
+# These links will appear on your PyPI project page.
+[project.urls]
+Homepage = "https://github.com/Santtosh19/PyReliabilityPro"
+"Bug Tracker" = "https://github.com/Santtosh19/PyReliabilityPro/issues"
+Repository = "https://github.com/Santtosh19/PyReliabilityPro"
+
+# Part 4: Setuptools specific configuration (Optional)
+# This tells setuptools where to find your actual package code.
+[tool.setuptools]
+packages = ["pyreliabilitypro", "pyreliabilitypro.core"]
+# An alternative is to use find:
+# [tool.setuptools.packages.find]
+# where = ["."]
+# include = ["pyreliabilitypro*"]
+# exclude = ["tests*"]
