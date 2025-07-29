@@ -1,0 +1,152 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mds-mcp"
+version = "0.1.2"
+description = "Model Cache Server - MCP server for downloading and caching ML models and datasets"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [
+    {name = "Kirk Xu", email = "adolfxuhj@163.com"},
+]
+maintainers = [
+    {name = "Kirk Xu", email = "adolfxuhj@163.com"},
+]
+keywords = ["mcp", "model-cache", "machine-learning", "huggingface", "datasets"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "fastmcp>=0.1.0",
+    "sentry-sdk>=2.0.0",
+    "python-dotenv>=1.0.0",
+    "datasets>=2.0.0",
+    "huggingface-hub>=0.20.0",
+    "transformers>=4.30.0",
+    "colorama>=0.4.6",
+    "torch>=2.7.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.4.1",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "isort>=5.0.0",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0",
+    "pre-commit>=3.0.0",
+    "types-colorama>=0.4.15",
+]
+
+[project.urls]
+Homepage = "https://github.com/kk-xuhj/mds-mcp"
+Repository = "https://github.com/kk-xuhj/mds-mcp"
+"Bug Tracker" = "https://github.com/kk-xuhj/mds-mcp/issues"
+Documentation = "https://github.com/kk-xuhj/mds-mcp#readme"
+
+[project.scripts]
+mds-mcp = "mds_mcp.main:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["mds_mcp"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/mds_mcp",
+    "/README.md",
+    "/LICENSE",
+]
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+line_length = 88
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+# Allow imports without stubs
+ignore_missing_imports = true
+
+# Specific module configurations
+[[tool.mypy.overrides]]
+module = ["colorama", "datasets", "transformers", "huggingface_hub"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+addopts = "-v --cov=mds_mcp --cov-report=term-missing --cov-report=html"
+
+[tool.coverage.run]
+source = ["mds_mcp"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203", "W503"]
