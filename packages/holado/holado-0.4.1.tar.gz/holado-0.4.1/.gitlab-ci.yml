@@ -1,0 +1,26 @@
+stages:
+  - docker-build-publish
+
+variables:
+  DOCKER_IMAGE_TAG: "20.10"
+ 
+docker-build-publish:
+  stage: docker-build-publish
+
+  image:
+    name: docker:${DOCKER_IMAGE_TAG}
+
+#  services:
+#    - name: docker:${DOCKER_IMAGE_TAG}-dind
+#      alias: thedockerhost
+
+  variables:
+    IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+#    DOCKER_HOST: "tcp://thedockerhost:2375"
+#    DOCKER_HOST: "tcp://docker:2376"
+#    DOCKER_TLS_CERTDIR: "/certs"
+  script:
+    - docker build -t ${IMAGE_TAG} .
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker push ${IMAGE_TAG}
+    
