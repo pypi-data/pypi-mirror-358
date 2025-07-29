@@ -1,0 +1,58 @@
+{
+    "config": {
+        "step": {
+            "reauth_confirm": {
+                "data_description": {
+                    "password": "Pasfhocal b\u00e1n n\u00f3 Enphase Cloud",
+                    "username": "Suite\u00e1la\u00ed n\u00f3 ainm \u00fas\u00e1ideora Enphase Cloud"
+                }
+            },
+            "reconfigure": {
+                "data_description": {
+                    "password": "Pasfhocal b\u00e1n n\u00f3 Enphase Cloud",
+                    "username": "Suite\u00e1la\u00ed n\u00f3 ainm \u00fas\u00e1ideora Enphase Cloud"
+                }
+            },
+            "user": {
+                "data_description": {
+                    "password": "Pasfhocal b\u00e1n n\u00f3 Enphase Cloud",
+                    "username": "Suite\u00e1la\u00ed n\u00f3 ainm \u00fas\u00e1ideora Enphase Cloud"
+                }
+            }
+        }
+    },
+    "entity": {
+        "sensor": {
+            "acb_battery_state": {
+                "state": {
+                    "charging": "Muirear\u00fa",
+                    "discharging": "Ag urscaoileadh"
+                }
+            }
+        }
+    },
+    "exceptions": {
+        "action_error": {
+            "message": "Theip ar {action} a fhorghn\u00edomh\u00fa do {entity}, \u00f3stach: {host}: {args}"
+        },
+        "authentication_error": {
+            "message": "Teip f\u00edordheimhnithe Envoy ar {host}: {args}"
+        },
+        "envoy_error": {
+            "message": "Earr\u00e1id ag cumars\u00e1id le Envoy API ar {host}: {args}"
+        },
+        "unexpected_device": {
+            "message": "Uimhir sraitheach Envoy gan choinne aimsithe ag {host}; bh\u00edothas ag s\u00fail le {expected_serial}, fuarthas {actual_serial}"
+        }
+    },
+    "options": {
+        "step": {
+            "init": {
+                "data_description": {
+                    "diagnostics_include_fixtures": "Cuir daingne\u00e1in san \u00e1ireamh sa tuarasc\u00e1il diagn\u00f3isice",
+                    "disable_keep_alive": "D\u2019fh\u00e9adfadh s\u00e9 fadhbanna cumars\u00e1ide a r\u00e9iteach le roinnt firmware Envoy."
+                }
+            }
+        }
+    }
+}

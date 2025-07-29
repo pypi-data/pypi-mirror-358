@@ -1,0 +1,37 @@
+{
+    "config": {
+        "error": {
+            "cannot_connect": "Impossibile connettersi",
+            "invalid_auth": "Autenticazione non valida",
+            "unknown": "Errore imprevisto"
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "api_key": "Chiave API"
+                }
+            }
+        }
+    },
+    "exceptions": {
+        "invalid_config_entry": {
+            "message": "Configurazione fornita non valida. Ricevuta {config_entry}"
+        }
+    },
+    "services": {
+        "generate_image": {
+            "fields": {
+                "prompt": {
+                    "description": "Il testo da trasformare in un'immagine",
+                    "example": "Una foto di un cane",
+                    "name": "Prompt"
+                },
+                "size": {
+                    "description": "La dimensione dell'immagine da generare",
+                    "name": "Dimensione"
+                }
+            },
+            "name": "Genera immagine"
+        }
+    }
+}
