@@ -1,0 +1,33 @@
+Metadata-Version: 2.4
+Name: xhsmcp
+Version: 0.1.10
+Summary: Add your description here
+Author-email: warriorsChampion <11158048+warriorschampion@user.noreply.gitee.com>
+Requires-Python: >=3.10
+Requires-Dist: build>=1.2.2.post1
+Requires-Dist: mcp[cli]>=1.9.4
+Requires-Dist: modelscope>=1.27.1
+Requires-Dist: numpy>=2.2.6
+Requires-Dist: opencv-python>=4.11.0.86
+Requires-Dist: pillow>=11.2.1
+Requires-Dist: torch>=2.7.1
+Requires-Dist: transformers>=4.52.4
+Requires-Dist: twine>=6.1.0
+Description-Content-Type: text/markdown
+
+uv python pin 3.10
+
+uv init --lib xnszmcp --python 3.10
+
+在src中添加核心代码，和__main__.py和__init__.py
+参照下方链接：
+https://community.modelscope.cn/684b87bc7e10b149bf1f9f0a.html
+https://blog.csdn.net/neweastsun/article/details/147448838
+
+uv add build twine "mcp[cli]" modelscope numpy opencv-python pillow torch transformers --python 3.10
+
+uv run -m build
+
+uv run -m twine upload dist/***.whl (需要有pypi上传token)
+
+我的经验，在pyproject.toml中加入index，速度可以飞快。然后一定要记得加上scripts
