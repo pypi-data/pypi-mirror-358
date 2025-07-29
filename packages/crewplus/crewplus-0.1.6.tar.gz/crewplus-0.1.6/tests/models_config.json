@@ -1,0 +1,77 @@
+{
+    "models": [
+        {
+            "id": 1,
+            "provider": "azure-openai",
+            "type": "inference",
+            "deployment_name": "gpt-o3mini-eastus2-RPM25",
+            "api_version": "2024-12-01-preview",
+            "api_base": "https://crewplus-eastus2.openai.azure.com",
+            "api_key": "c67cb5d0d8ae4aef81d7f42aeae274b6"
+        },
+        {
+            "id": 2,
+            "provider": "azure-openai",
+            "type": "ingestion",
+            "deployment_name": "gpt-4o",
+            "api_version": "2025-01-01-preview",
+            "api_base": "https://crewplus-eastus2.openai.azure.com",
+            "api_key": "c67cb5d0d8ae4aef81d7f42aeae274b6",
+            "temperature": 0.0
+        },    
+        {
+            "id": 3,
+            "provider": "azure-openai",
+            "type": "inference",
+            "deployment_name": "gpt-4.1",
+            "api_version": "2025-01-01-preview",
+            "api_base": "https://crewplus-eastus2.openai.azure.com",
+            "api_key": "c67cb5d0d8ae4aef81d7f42aeae274b6",
+            "temperature": 0.0
+        },             
+        {
+            "id": 4,
+            "provider": "azure-openai",
+            "type": "ingestion",
+            "deployment_name": "cpai-gpt4o-westus",
+            "api_version": "2025-01-01-preview",
+            "api_base": "https://crewplus-westus.openai.azure.com",
+            "api_key": "b93bc4d2ef8e4298bd8390002922d084",
+            "temperature": 0.0
+        },   
+        {
+            "id": 5,
+            "provider": "azure-openai-embeddings",
+            "type": "embedding",
+            "deployment_name": "cpai-text-embedding-ada-002-westus",
+            "api_version": "2024-02-01",
+            "api_base": "https://crewplus-westus.openai.azure.com",
+            "api_key": "b93bc4d2ef8e4298bd8390002922d084"
+        },       
+        {
+            "id": 6,
+            "provider": "azure-openai-embeddings",
+            "type": "embedding",
+            "deployment_name": "cpai-text-embedding-3-large-eastus2",
+            "api_version": "1",
+            "api_base": "https://crewplus-eastus2.openai.azure.com",
+            "api_key": "c67cb5d0d8ae4aef81d7f42aeae274b6"
+        },
+        {
+            "id": 7,
+            "provider": "google-genai",
+            "type": "inference",
+            "deployment_name": "gemini-2.5-flash",
+            "api_key": "AIzaSyDkZbcGcV7SB6OyN4XkK_sF2mzO2E-nKQk",
+            "temperature": 0.0
+        },
+        {
+            "id": 8,
+            "provider": "google-genai",
+            "type": "ingestion",
+            "deployment_name": "gemini-2.5-pro",
+            "api_key": "AIzaSyDkZbcGcV7SB6OyN4XkK_sF2mzO2E-nKQk",
+            "temperature": 0.0
+        }
+    ]
+}
