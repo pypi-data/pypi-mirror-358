@@ -1,0 +1,121 @@
+[build-system]
+requires = [
+    "setuptools >= 61.2",
+    "setuptools_scm[toml]>=3.4.3",
+    "wheel",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stpsf"
+description = "Creates simulated point spread functions for Space Telescopes (James Webb, Roman)"
+authors = [
+    { name = "Association of Universities for Research in Astronomy", email = "help@stsci.edu" },
+]
+license-files = ["LICENSE.md"]
+dynamic = [
+    "version",
+]
+readme = "README.rst"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.21.6",
+    "scipy>=1.5.0",
+    "matplotlib>=3.2.0",
+    "astropy>=5.1.0",
+    "photutils>=1.10.0",
+    "poppy>=1.0.0",
+    "pysiaf>=0.23.3",
+    "synphot>=1.0.0",
+    "astroquery>=0.4.6",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-astropy",
+]
+docs = [
+    "nbsphinx",
+    "sphinx",
+    "stsci_rtd_theme",
+    "sphinx-astropy",
+    "sphinx-automodapi",
+    "sphinx-issues",
+    "tomli; python_version <\"3.11\"",
+]
+
+[project.urls]
+Homepage = "http://stpsf.readthedocs.io/"
+github_project = "https://github.com/spacetelescope/stpsf"
+
+[tool.setuptools.packages.find]
+namespaces = false
+
+[tool.setuptools.package-data]
+"*" = [
+    "*.fits", "*.csv", "scripts/"
+]
+"stpsf.tests" = [
+    "data/*",
+]
+
+[tool.setuptools.exclude-package-data]
+"*" = ["docs/_build/","build/"]
+
+[tool.setuptools_scm]
+local_scheme = "no-local-version"
+write_to = "stpsf/version.py"
+
+[tool.pytest.ini_options]
+minversion = "2.2"
+testpaths = [
+    "stpsf/tests",
+]
+norecursedirs = [
+    "build",
+    "docs/_build",
+]
+astropy_header = "true"
+doctest_plus = "enabled"
+text_file_format = "rst"
+addopts = "-p no:warnings"
+
+[tool.coverage.run]
+source = [
+    "stpsf",
+]
+omit = [
+    "stpsf/conftest*",
+    "stpsf/tests/*",
+    "stpsf/*/tests/*",
+    "stpsf/*/*/tests/*",
+    "stpsf/version*",
+    "*/stpsf/conftest*",
+    "*/stpsf/tests/*",
+    "*/stpsf/*/tests/*",
+    "*/stpsf/*/*/tests/*",
+    "*/stpsf/version*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "except ImportError",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "def main(.*):",
+    "pragma: py{ignore_python_version}",
+]
+omit = [
+    "stpsf/conftest*",
+    "stpsf/tests/*",
+    "stpsf/*/tests/*",
+    "stpsf/*/*/tests/*",
+    "stpsf/version*",
+    "*/stpsf/conftest*",
+    "*/stpsf/tests/*",
+    "*/stpsf/*/tests/*",
+    "*/stpsf/*/*/tests/*",
+    "*/stpsf/version*",
+]

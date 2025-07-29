@@ -1,0 +1,77 @@
+Metadata-Version: 2.4
+Name: stpsf
+Version: 2.1.0
+Summary: Creates simulated point spread functions for Space Telescopes (James Webb, Roman)
+Author-email: Association of Universities for Research in Astronomy <help@stsci.edu>
+Project-URL: Homepage, http://stpsf.readthedocs.io/
+Project-URL: github_project, https://github.com/spacetelescope/stpsf
+Requires-Python: >=3.10
+Description-Content-Type: text/x-rst
+License-File: LICENSE.md
+Requires-Dist: numpy>=1.21.6
+Requires-Dist: scipy>=1.5.0
+Requires-Dist: matplotlib>=3.2.0
+Requires-Dist: astropy>=5.1.0
+Requires-Dist: photutils>=1.10.0
+Requires-Dist: poppy>=1.0.0
+Requires-Dist: pysiaf>=0.23.3
+Requires-Dist: synphot>=1.0.0
+Requires-Dist: astroquery>=0.4.6
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
+Requires-Dist: pytest-astropy; extra == "test"
+Provides-Extra: docs
+Requires-Dist: nbsphinx; extra == "docs"
+Requires-Dist: sphinx; extra == "docs"
+Requires-Dist: stsci_rtd_theme; extra == "docs"
+Requires-Dist: sphinx-astropy; extra == "docs"
+Requires-Dist: sphinx-automodapi; extra == "docs"
+Requires-Dist: sphinx-issues; extra == "docs"
+Requires-Dist: tomli; python_version < "3.11" and extra == "docs"
+Dynamic: license-file
+
+STPSF: Simulated Point Spread Functions for the James Webb and Nancy Grace Roman Space Telescopes
+===================================================================================================
+
+.. image:: https://github.com/spacetelescope/stpsf/blob/stable/docs/readme_fig.png?raw=true
+
+.. image:: https://img.shields.io/pypi/v/stpsf.svg
+   :target: https://pypi.python.org/pypi/stpsf
+   :alt: Badge showing current released PyPI version
+
+.. image:: https://github.com/spacetelescope/stpsf/workflows/CI/badge.svg?branch=develop
+   :target: https://github.com/spacetelescope/stpsf/actions
+   :alt: Github Actions CI Status
+
+.. image:: https://codecov.io/gh/spacetelescope/stpsf/branch/master/graph/badge.svg
+  :target: https://codecov.io/gh/spacetelescope/stpsf
+
+.. |Documentation Status| image:: https://img.shields.io/readthedocs/stpsf/latest.svg?logo=read%20the%20docs&logoColor=white&label=Docs&version=latest
+   :target: https://stpsf.readthedocs.io/en/latest/
+   :alt: Documentation Status
+
+.. image:: https://img.shields.io/badge/ascl-1504.007-blue.svg?colorB=262255
+   :target: http://ascl.net/1504.007
+
+
+**STPSF HAS BEEN MIGRATED FROM WEBBPSF**
+
+STPSF produces simulated PSFs for the James Webb Space Telescope, NASA's
+flagship infrared space telescope. STPSF can simulate images for any of the
+four science instruments plus the fine guidance sensor, including both direct
+imaging, coronagraphic, and spectroscopic modes.
+
+STPSF also supports simulating PSFs for the upcoming Nancy Grace Roman Space Telescope (formerly WFIRST),
+including its Wide Field Instrument and a preliminary version of the Coronagraph Instrument.
+
+.. note::
+
+   The current (Cycle 10) Roman WFI optical model was calculated by Goddard
+   Space Flight Center in September 2024.
+
+Documentation can be found online at https://stpsf.readthedocs.io
+
+STPSF requires input data for its simulations, including optical path
+difference (OPD) maps, filter transmission curves, and coronagraph Lyot mask
+shapes. These data files are not included in this source distribution.
+Please see the documentation to download the required data files.
