@@ -1,0 +1,22 @@
+[package]
+name = "caf-python"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Python bindings for CAF-AI security detection"
+
+[lib]
+name = "caf_ai"
+crate-type = ["cdylib"]
+
+[dependencies]
+caf-core = { path = "../caf-core" }
+caf-detectors = { path = "../caf-detectors" }
+caf-sdk = { path = "../caf-sdk" }
+pyo3 = { version = "0.22", features = ["extension-module", "abi3-py38"] }
+tokio = { workspace = true, features = ["macros", "rt"] }
+
+[build-dependencies]
+pyo3-build-config = "0.22"

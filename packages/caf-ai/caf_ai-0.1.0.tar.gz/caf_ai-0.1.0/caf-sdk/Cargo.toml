@@ -1,0 +1,19 @@
+[package]
+name = "caf-sdk"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "SDK for CAF-AI integration"
+
+[dependencies]
+caf-core = { path = "../caf-core" }
+caf-detectors = { path = "../caf-detectors" }
+async-trait.workspace = true
+tokio.workspace = true
+thiserror.workspace = true
+
+[[example]]
+name = "basic_detection"
+path = "examples/basic_detection.rs"

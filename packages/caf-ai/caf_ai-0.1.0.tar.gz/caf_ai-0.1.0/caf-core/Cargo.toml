@@ -1,0 +1,19 @@
+[package]
+name = "caf-core"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Core traits and types for CAF-AI detection system"
+
+[dependencies]
+async-trait.workspace = true
+thiserror.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+tokio = { workspace = true, optional = true }
+
+[features]
+default = []
+tokio-runtime = ["tokio"]
