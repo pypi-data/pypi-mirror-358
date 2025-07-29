@@ -1,0 +1,2492 @@
+
+/home/jithin/Documents/CSpark/kuttypy-gui/examples/C/hello-i2c:     file format elf32-avr
+
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+   8:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+   c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  10:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  14:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  18:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  1c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  20:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  24:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  28:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  2c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  30:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  34:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  38:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  3c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  40:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  44:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  48:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  4c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  50:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_copy_data>:
+  60:	10 e0       	ldi	r17, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	ec ec       	ldi	r30, 0xCC	; 204
+  68:	fa e0       	ldi	r31, 0x0A	; 10
+  6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
+  6c:	05 90       	lpm	r0, Z+
+  6e:	0d 92       	st	X+, r0
+  70:	a6 36       	cpi	r26, 0x66	; 102
+  72:	b1 07       	cpc	r27, r17
+  74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
+
+00000076 <__do_clear_bss>:
+  76:	20 e0       	ldi	r18, 0x00	; 0
+  78:	a6 e6       	ldi	r26, 0x66	; 102
+  7a:	b0 e0       	ldi	r27, 0x00	; 0
+  7c:	01 c0       	rjmp	.+2      	; 0x80 <.do_clear_bss_start>
+
+0000007e <.do_clear_bss_loop>:
+  7e:	1d 92       	st	X+, r1
+
+00000080 <.do_clear_bss_start>:
+  80:	ab 36       	cpi	r26, 0x6B	; 107
+  82:	b2 07       	cpc	r27, r18
+  84:	e1 f7       	brne	.-8      	; 0x7e <.do_clear_bss_loop>
+  86:	0e 94 58 05 	call	0xab0	; 0xab0 <main>
+  8a:	0c 94 64 05 	jmp	0xac8	; 0xac8 <_exit>
+
+0000008e <__bad_interrupt>:
+  8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000092 <i2c_init>:
+/*************************************************************************
+ Initialization of the I2C bus interface. Need to be called only once
+*************************************************************************/
+void i2c_init(void)
+{
+TWSR=0x00; TWBR=0x46 ; TWCR=0x04; //Init I2C
+  92:	11 b8       	out	0x01, r1	; 1
+  94:	86 e4       	ldi	r24, 0x46	; 70
+  96:	80 b9       	out	0x00, r24	; 0
+  98:	84 e0       	ldi	r24, 0x04	; 4
+  9a:	86 bf       	out	0x36, r24	; 54
+PORTC |= 3; //Enable SCL/SDA Pull up	
+  9c:	85 b3       	in	r24, 0x15	; 21
+  9e:	83 60       	ori	r24, 0x03	; 3
+  a0:	85 bb       	out	0x15, r24	; 21
+  a2:	08 95       	ret
+
+000000a4 <i2c_scan>:
+
+returns: total addresses found.
+*************************************************************************/
+
+uint8_t i2c_scan(uint8_t *data)
+{
+  a4:	fc 01       	movw	r30, r24
+	uint8_t found=0;
+	uint16_t timeout=11000;
+
+	DDRC |= 1  ;// SCL as output .
+  a6:	a0 9a       	sbi	0x14, 0	; 20
+	PORTC &= ~3; while(timeout--); PORTC |=3; //Pull SCL low. some sensors need this.
+  a8:	85 b3       	in	r24, 0x15	; 21
+  aa:	8c 7f       	andi	r24, 0xFC	; 252
+  ac:	85 bb       	out	0x15, r24	; 21
+  ae:	85 b3       	in	r24, 0x15	; 21
+  b0:	83 60       	ori	r24, 0x03	; 3
+  b2:	85 bb       	out	0x15, r24	; 21
+	DDRC &= ~3 ;// SCL as input
+  b4:	84 b3       	in	r24, 0x14	; 20
+  b6:	8c 7f       	andi	r24, 0xFC	; 252
+  b8:	84 bb       	out	0x14, r24	; 20
+	PORTC |= 3; //Enable SCL/SDA Pull up	
+  ba:	85 b3       	in	r24, 0x15	; 21
+  bc:	83 60       	ori	r24, 0x03	; 3
+  be:	85 bb       	out	0x15, r24	; 21
+  c0:	91 e0       	ldi	r25, 0x01	; 1
+  c2:	20 e5       	ldi	r18, 0x50	; 80
+  c4:	33 ec       	ldi	r19, 0xC3	; 195
+  c6:	80 e0       	ldi	r24, 0x00	; 0
+	timeout=50000;
+
+	for(uint8_t i = 1;i <= 127;i++){
+		TWCR = 0xA4;             // send a start bit on i2c bus
+  c8:	74 ea       	ldi	r23, 0xA4	; 164
+		while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+		TWDR = i<<1;          // load address of i2c device
+		TWCR = 0x84;             // transmit
+  ca:	64 e8       	ldi	r22, 0x84	; 132
+		asm("WDR");
+		if((TWSR&0xFC) == 0x18){   // SLA+W has been transmitted; ACK has been received
+			*(data++) = i;
+			found++;
+		}		
+		TWCR = 0x94;             // stop bit
+  cc:	54 e9       	ldi	r21, 0x94	; 148
+	DDRC &= ~3 ;// SCL as input
+	PORTC |= 3; //Enable SCL/SDA Pull up	
+	timeout=50000;
+
+	for(uint8_t i = 1;i <= 127;i++){
+		TWCR = 0xA4;             // send a start bit on i2c bus
+  ce:	76 bf       	out	0x36, r23	; 54
+		while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+  d0:	06 b6       	in	r0, 0x36	; 54
+  d2:	07 fe       	sbrs	r0, 7
+  d4:	06 c0       	rjmp	.+12     	; 0xe2 <i2c_scan+0x3e>
+  d6:	1b c0       	rjmp	.+54     	; 0x10e <i2c_scan+0x6a>
+  d8:	21 50       	subi	r18, 0x01	; 1
+  da:	31 09       	sbc	r19, r1
+  dc:	06 b6       	in	r0, 0x36	; 54
+  de:	07 fc       	sbrc	r0, 7
+  e0:	16 c0       	rjmp	.+44     	; 0x10e <i2c_scan+0x6a>
+  e2:	21 15       	cp	r18, r1
+  e4:	31 05       	cpc	r19, r1
+  e6:	c1 f7       	brne	.-16     	; 0xd8 <i2c_scan+0x34>
+		TWDR = i<<1;          // load address of i2c device
+  e8:	29 2f       	mov	r18, r25
+  ea:	22 0f       	add	r18, r18
+  ec:	23 b9       	out	0x03, r18	; 3
+		TWCR = 0x84;             // transmit
+  ee:	66 bf       	out	0x36, r22	; 54
+		while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+  f0:	06 b6       	in	r0, 0x36	; 54
+  f2:	07 fe       	sbrs	r0, 7
+  f4:	00 c0       	rjmp	.+0      	; 0xf6 <i2c_scan+0x52>
+	uint16_t timeout=11000;
+
+	DDRC |= 1  ;// SCL as output .
+	PORTC &= ~3; while(timeout--); PORTC |=3; //Pull SCL low. some sensors need this.
+	DDRC &= ~3 ;// SCL as input
+	PORTC |= 3; //Enable SCL/SDA Pull up	
+  f6:	20 e0       	ldi	r18, 0x00	; 0
+  f8:	30 e0       	ldi	r19, 0x00	; 0
+		TWCR = 0xA4;             // send a start bit on i2c bus
+		while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+		TWDR = i<<1;          // load address of i2c device
+		TWCR = 0x84;             // transmit
+		while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+		asm("WDR");
+  fa:	a8 95       	wdr
+		if((TWSR&0xFC) == 0x18){   // SLA+W has been transmitted; ACK has been received
+  fc:	41 b1       	in	r20, 0x01	; 1
+  fe:	4c 7f       	andi	r20, 0xFC	; 252
+ 100:	48 31       	cpi	r20, 0x18	; 24
+ 102:	e9 f0       	breq	.+58     	; 0x13e <i2c_scan+0x9a>
+			*(data++) = i;
+			found++;
+		}		
+		TWCR = 0x94;             // stop bit
+ 104:	56 bf       	out	0x36, r21	; 54
+	PORTC &= ~3; while(timeout--); PORTC |=3; //Pull SCL low. some sensors need this.
+	DDRC &= ~3 ;// SCL as input
+	PORTC |= 3; //Enable SCL/SDA Pull up	
+	timeout=50000;
+
+	for(uint8_t i = 1;i <= 127;i++){
+ 106:	9f 5f       	subi	r25, 0xFF	; 255
+ 108:	90 38       	cpi	r25, 0x80	; 128
+ 10a:	09 f7       	brne	.-62     	; 0xce <i2c_scan+0x2a>
+ 10c:	08 95       	ret
+		TWCR = 0xA4;             // send a start bit on i2c bus
+		while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+		TWDR = i<<1;          // load address of i2c device
+ 10e:	49 2f       	mov	r20, r25
+ 110:	44 0f       	add	r20, r20
+ 112:	43 b9       	out	0x03, r20	; 3
+		TWCR = 0x84;             // transmit
+ 114:	66 bf       	out	0x36, r22	; 54
+		while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+ 116:	06 b6       	in	r0, 0x36	; 54
+ 118:	07 fc       	sbrc	r0, 7
+ 11a:	ef cf       	rjmp	.-34     	; 0xfa <i2c_scan+0x56>
+ 11c:	21 15       	cp	r18, r1
+ 11e:	31 05       	cpc	r19, r1
+ 120:	21 f4       	brne	.+8      	; 0x12a <i2c_scan+0x86>
+ 122:	e9 cf       	rjmp	.-46     	; 0xf6 <i2c_scan+0x52>
+ 124:	21 15       	cp	r18, r1
+ 126:	31 05       	cpc	r19, r1
+ 128:	41 f3       	breq	.-48     	; 0xfa <i2c_scan+0x56>
+ 12a:	21 50       	subi	r18, 0x01	; 1
+ 12c:	31 09       	sbc	r19, r1
+ 12e:	06 b6       	in	r0, 0x36	; 54
+ 130:	07 fe       	sbrs	r0, 7
+ 132:	f8 cf       	rjmp	.-16     	; 0x124 <i2c_scan+0x80>
+		asm("WDR");
+ 134:	a8 95       	wdr
+		if((TWSR&0xFC) == 0x18){   // SLA+W has been transmitted; ACK has been received
+ 136:	41 b1       	in	r20, 0x01	; 1
+ 138:	4c 7f       	andi	r20, 0xFC	; 252
+ 13a:	48 31       	cpi	r20, 0x18	; 24
+ 13c:	19 f7       	brne	.-58     	; 0x104 <i2c_scan+0x60>
+			*(data++) = i;
+ 13e:	90 83       	st	Z, r25
+			found++;
+ 140:	8f 5f       	subi	r24, 0xFF	; 255
+		TWDR = i<<1;          // load address of i2c device
+		TWCR = 0x84;             // transmit
+		while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+		asm("WDR");
+		if((TWSR&0xFC) == 0x18){   // SLA+W has been transmitted; ACK has been received
+			*(data++) = i;
+ 142:	31 96       	adiw	r30, 0x01	; 1
+ 144:	df cf       	rjmp	.-66     	; 0x104 <i2c_scan+0x60>
+
+00000146 <i2c_write>:
+
+uint8_t i2c_write(uint8_t address, uint8_t *data, uint8_t numbytes)
+{
+
+	uint16_t timeout = 10000;
+	TWCR = 0xA4;                                                // send a start bit on i2c bus
+ 146:	94 ea       	ldi	r25, 0xA4	; 164
+ 148:	96 bf       	out	0x36, r25	; 54
+	while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+ 14a:	06 b6       	in	r0, 0x36	; 54
+ 14c:	07 fc       	sbrc	r0, 7
+ 14e:	44 c0       	rjmp	.+136    	; 0x1d8 <i2c_write+0x92>
+ 150:	20 e1       	ldi	r18, 0x10	; 16
+ 152:	37 e2       	ldi	r19, 0x27	; 39
+ 154:	03 c0       	rjmp	.+6      	; 0x15c <i2c_write+0x16>
+ 156:	21 15       	cp	r18, r1
+ 158:	31 05       	cpc	r19, r1
+ 15a:	a1 f1       	breq	.+104    	; 0x1c4 <i2c_write+0x7e>
+ 15c:	21 50       	subi	r18, 0x01	; 1
+ 15e:	31 09       	sbc	r19, r1
+ 160:	06 b6       	in	r0, 0x36	; 54
+ 162:	07 fe       	sbrs	r0, 7
+ 164:	f8 cf       	rjmp	.-16     	; 0x156 <i2c_write+0x10>
+	TWDR = address<<1;                                             // load address of i2c device
+ 166:	88 0f       	add	r24, r24
+ 168:	83 b9       	out	0x03, r24	; 3
+	TWCR = 0x84;                                                // transmit
+ 16a:	84 e8       	ldi	r24, 0x84	; 132
+ 16c:	86 bf       	out	0x36, r24	; 54
+	while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+ 16e:	06 b6       	in	r0, 0x36	; 54
+ 170:	07 fc       	sbrc	r0, 7
+ 172:	08 c0       	rjmp	.+16     	; 0x184 <i2c_write+0x3e>
+ 174:	21 15       	cp	r18, r1
+ 176:	31 05       	cpc	r19, r1
+ 178:	61 f1       	breq	.+88     	; 0x1d2 <i2c_write+0x8c>
+ 17a:	21 50       	subi	r18, 0x01	; 1
+ 17c:	31 09       	sbc	r19, r1
+ 17e:	06 b6       	in	r0, 0x36	; 54
+ 180:	07 fe       	sbrs	r0, 7
+ 182:	f8 cf       	rjmp	.-16     	; 0x174 <i2c_write+0x2e>
+
+	while(numbytes--){			//
+ 184:	8f ef       	ldi	r24, 0xFF	; 255
+ 186:	84 0f       	add	r24, r20
+ 188:	44 23       	and	r20, r20
+ 18a:	a1 f0       	breq	.+40     	; 0x1b4 <i2c_write+0x6e>
+ 18c:	fb 01       	movw	r30, r22
+		TWDR = *(data++);
+		TWCR = 0x84;                                                // transmit
+ 18e:	44 e8       	ldi	r20, 0x84	; 132
+	TWDR = address<<1;                                             // load address of i2c device
+	TWCR = 0x84;                                                // transmit
+	while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+
+	while(numbytes--){			//
+		TWDR = *(data++);
+ 190:	91 91       	ld	r25, Z+
+ 192:	93 b9       	out	0x03, r25	; 3
+		TWCR = 0x84;                                                // transmit
+ 194:	46 bf       	out	0x36, r20	; 54
+		while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+ 196:	06 b6       	in	r0, 0x36	; 54
+ 198:	07 fe       	sbrs	r0, 7
+ 19a:	06 c0       	rjmp	.+12     	; 0x1a8 <i2c_write+0x62>
+ 19c:	08 c0       	rjmp	.+16     	; 0x1ae <i2c_write+0x68>
+ 19e:	21 50       	subi	r18, 0x01	; 1
+ 1a0:	31 09       	sbc	r19, r1
+ 1a2:	06 b6       	in	r0, 0x36	; 54
+ 1a4:	07 fc       	sbrc	r0, 7
+ 1a6:	03 c0       	rjmp	.+6      	; 0x1ae <i2c_write+0x68>
+ 1a8:	21 15       	cp	r18, r1
+ 1aa:	31 05       	cpc	r19, r1
+ 1ac:	c1 f7       	brne	.-16     	; 0x19e <i2c_write+0x58>
+		asm("WDR");
+ 1ae:	a8 95       	wdr
+	while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+	TWDR = address<<1;                                             // load address of i2c device
+	TWCR = 0x84;                                                // transmit
+	while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+
+	while(numbytes--){			//
+ 1b0:	81 50       	subi	r24, 0x01	; 1
+ 1b2:	70 f7       	brcc	.-36     	; 0x190 <i2c_write+0x4a>
+		TWDR = *(data++);
+		TWCR = 0x84;                                                // transmit
+		while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+		asm("WDR");
+	}
+	TWCR = 0x94;                                                // stop bit
+ 1b4:	84 e9       	ldi	r24, 0x94	; 148
+ 1b6:	86 bf       	out	0x36, r24	; 54
+ 1b8:	81 e0       	ldi	r24, 0x01	; 1
+ 1ba:	23 2b       	or	r18, r19
+ 1bc:	11 f0       	breq	.+4      	; 0x1c2 <i2c_write+0x7c>
+ 1be:	80 e0       	ldi	r24, 0x00	; 0
+ 1c0:	08 95       	ret
+	if(timeout)return 0;		                                    // send timeout status
+	else return 1;
+}
+ 1c2:	08 95       	ret
+{
+
+	uint16_t timeout = 10000;
+	TWCR = 0xA4;                                                // send a start bit on i2c bus
+	while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+	TWDR = address<<1;                                             // load address of i2c device
+ 1c4:	88 0f       	add	r24, r24
+ 1c6:	83 b9       	out	0x03, r24	; 3
+	TWCR = 0x84;                                                // transmit
+ 1c8:	84 e8       	ldi	r24, 0x84	; 132
+ 1ca:	86 bf       	out	0x36, r24	; 54
+	while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+ 1cc:	06 b6       	in	r0, 0x36	; 54
+ 1ce:	07 fc       	sbrc	r0, 7
+ 1d0:	d9 cf       	rjmp	.-78     	; 0x184 <i2c_write+0x3e>
+*************************************************************************/
+
+uint8_t i2c_write(uint8_t address, uint8_t *data, uint8_t numbytes)
+{
+
+	uint16_t timeout = 10000;
+ 1d2:	20 e0       	ldi	r18, 0x00	; 0
+ 1d4:	30 e0       	ldi	r19, 0x00	; 0
+ 1d6:	d6 cf       	rjmp	.-84     	; 0x184 <i2c_write+0x3e>
+	TWCR = 0xA4;                                                // send a start bit on i2c bus
+	while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+	TWDR = address<<1;                                             // load address of i2c device
+ 1d8:	88 0f       	add	r24, r24
+ 1da:	83 b9       	out	0x03, r24	; 3
+	TWCR = 0x84;                                                // transmit
+ 1dc:	84 e8       	ldi	r24, 0x84	; 132
+ 1de:	86 bf       	out	0x36, r24	; 54
+*************************************************************************/
+
+uint8_t i2c_write(uint8_t address, uint8_t *data, uint8_t numbytes)
+{
+
+	uint16_t timeout = 10000;
+ 1e0:	20 e1       	ldi	r18, 0x10	; 16
+ 1e2:	37 e2       	ldi	r19, 0x27	; 39
+	TWCR = 0xA4;                                                // send a start bit on i2c bus
+	while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+	TWDR = address<<1;                                             // load address of i2c device
+	TWCR = 0x84;                                                // transmit
+	while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+ 1e4:	06 b6       	in	r0, 0x36	; 54
+ 1e6:	07 fe       	sbrs	r0, 7
+ 1e8:	c8 cf       	rjmp	.-112    	; 0x17a <i2c_write+0x34>
+ 1ea:	cc cf       	rjmp	.-104    	; 0x184 <i2c_write+0x3e>
+
+000001ec <i2c_read>:
+*************************************************************************/
+
+uint8_t i2c_read(uint8_t address, uint8_t reg, uint8_t *data, uint8_t numbytes)
+{
+	uint16_t timeout = 10000;
+	TWCR = 0xA4;                                   // send a start bit on i2c bus
+ 1ec:	94 ea       	ldi	r25, 0xA4	; 164
+ 1ee:	96 bf       	out	0x36, r25	; 54
+	while(!(TWCR & 0x80) && timeout)timeout--;    // wait for confirmation of transmit
+ 1f0:	06 b6       	in	r0, 0x36	; 54
+ 1f2:	07 fc       	sbrc	r0, 7
+ 1f4:	98 c0       	rjmp	.+304    	; 0x326 <i2c_read+0x13a>
+ 1f6:	e0 e1       	ldi	r30, 0x10	; 16
+ 1f8:	f7 e2       	ldi	r31, 0x27	; 39
+ 1fa:	02 c0       	rjmp	.+4      	; 0x200 <i2c_read+0x14>
+ 1fc:	30 97       	sbiw	r30, 0x00	; 0
+ 1fe:	11 f1       	breq	.+68     	; 0x244 <i2c_read+0x58>
+ 200:	31 97       	sbiw	r30, 0x01	; 1
+ 202:	06 b6       	in	r0, 0x36	; 54
+ 204:	07 fe       	sbrs	r0, 7
+ 206:	fa cf       	rjmp	.-12     	; 0x1fc <i2c_read+0x10>
+	TWDR = address<<1;                                // load address of i2c device
+ 208:	98 2f       	mov	r25, r24
+ 20a:	99 0f       	add	r25, r25
+ 20c:	93 b9       	out	0x03, r25	; 3
+	TWCR = 0x84;                                                // transmit
+ 20e:	94 e8       	ldi	r25, 0x84	; 132
+ 210:	96 bf       	out	0x36, r25	; 54
+	while(!(TWCR & 0x80) && timeout)timeout--;      // wait for confirmation of transmit
+ 212:	06 b6       	in	r0, 0x36	; 54
+ 214:	07 fc       	sbrc	r0, 7
+ 216:	06 c0       	rjmp	.+12     	; 0x224 <i2c_read+0x38>
+ 218:	30 97       	sbiw	r30, 0x00	; 0
+ 21a:	d1 f0       	breq	.+52     	; 0x250 <i2c_read+0x64>
+ 21c:	31 97       	sbiw	r30, 0x01	; 1
+ 21e:	06 b6       	in	r0, 0x36	; 54
+ 220:	07 fe       	sbrs	r0, 7
+ 222:	fa cf       	rjmp	.-12     	; 0x218 <i2c_read+0x2c>
+
+	TWDR = reg;		              // write the register to read from.
+ 224:	63 b9       	out	0x03, r22	; 3
+	TWCR = 0x84;                       // transmit
+ 226:	94 e8       	ldi	r25, 0x84	; 132
+ 228:	96 bf       	out	0x36, r25	; 54
+	while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+ 22a:	06 b6       	in	r0, 0x36	; 54
+ 22c:	07 fc       	sbrc	r0, 7
+ 22e:	18 c0       	rjmp	.+48     	; 0x260 <i2c_read+0x74>
+ 230:	30 97       	sbiw	r30, 0x00	; 0
+ 232:	19 f4       	brne	.+6      	; 0x23a <i2c_read+0x4e>
+ 234:	13 c0       	rjmp	.+38     	; 0x25c <i2c_read+0x70>
+ 236:	30 97       	sbiw	r30, 0x00	; 0
+ 238:	99 f0       	breq	.+38     	; 0x260 <i2c_read+0x74>
+ 23a:	31 97       	sbiw	r30, 0x01	; 1
+ 23c:	06 b6       	in	r0, 0x36	; 54
+ 23e:	07 fe       	sbrs	r0, 7
+ 240:	fa cf       	rjmp	.-12     	; 0x236 <i2c_read+0x4a>
+ 242:	0e c0       	rjmp	.+28     	; 0x260 <i2c_read+0x74>
+uint8_t i2c_read(uint8_t address, uint8_t reg, uint8_t *data, uint8_t numbytes)
+{
+	uint16_t timeout = 10000;
+	TWCR = 0xA4;                                   // send a start bit on i2c bus
+	while(!(TWCR & 0x80) && timeout)timeout--;    // wait for confirmation of transmit
+	TWDR = address<<1;                                // load address of i2c device
+ 244:	98 2f       	mov	r25, r24
+ 246:	99 0f       	add	r25, r25
+ 248:	93 b9       	out	0x03, r25	; 3
+	TWCR = 0x84;                                                // transmit
+ 24a:	94 e8       	ldi	r25, 0x84	; 132
+ 24c:	96 bf       	out	0x36, r25	; 54
+	while(!(TWCR & 0x80) && timeout)timeout--;      // wait for confirmation of transmit
+ 24e:	96 b7       	in	r25, 0x36	; 54
+
+	TWDR = reg;		              // write the register to read from.
+ 250:	63 b9       	out	0x03, r22	; 3
+	TWCR = 0x84;                       // transmit
+ 252:	94 e8       	ldi	r25, 0x84	; 132
+ 254:	96 bf       	out	0x36, r25	; 54
+	while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+ 256:	06 b6       	in	r0, 0x36	; 54
+ 258:	07 fe       	sbrs	r0, 7
+ 25a:	00 c0       	rjmp	.+0      	; 0x25c <i2c_read+0x70>
+returns: 0 if timeout, 1 if successful.
+*************************************************************************/
+
+uint8_t i2c_read(uint8_t address, uint8_t reg, uint8_t *data, uint8_t numbytes)
+{
+	uint16_t timeout = 10000;
+ 25c:	e0 e0       	ldi	r30, 0x00	; 0
+ 25e:	f0 e0       	ldi	r31, 0x00	; 0
+	while(!(TWCR & 0x80) && timeout)timeout--;      // wait for confirmation of transmit
+
+	TWDR = reg;		              // write the register to read from.
+	TWCR = 0x84;                       // transmit
+	while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+	asm("WDR");
+ 260:	a8 95       	wdr
+
+	TWCR = 0xA4;                                                // send a repeated start bit on i2c bus
+ 262:	94 ea       	ldi	r25, 0xA4	; 164
+ 264:	96 bf       	out	0x36, r25	; 54
+	while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+ 266:	06 b6       	in	r0, 0x36	; 54
+ 268:	07 fe       	sbrs	r0, 7
+ 26a:	05 c0       	rjmp	.+10     	; 0x276 <i2c_read+0x8a>
+ 26c:	47 c0       	rjmp	.+142    	; 0x2fc <i2c_read+0x110>
+ 26e:	31 97       	sbiw	r30, 0x01	; 1
+ 270:	06 b6       	in	r0, 0x36	; 54
+ 272:	07 fc       	sbrc	r0, 7
+ 274:	43 c0       	rjmp	.+134    	; 0x2fc <i2c_read+0x110>
+ 276:	30 97       	sbiw	r30, 0x00	; 0
+ 278:	d1 f7       	brne	.-12     	; 0x26e <i2c_read+0x82>
+	TWDR = address<<1|1;                                           // load address of i2c device [ READ MODE ]
+ 27a:	88 0f       	add	r24, r24
+ 27c:	81 60       	ori	r24, 0x01	; 1
+ 27e:	83 b9       	out	0x03, r24	; 3
+	TWCR = 0xC4;                                                // transmit
+ 280:	84 ec       	ldi	r24, 0xC4	; 196
+ 282:	86 bf       	out	0x36, r24	; 54
+	while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+ 284:	06 b6       	in	r0, 0x36	; 54
+ 286:	07 fe       	sbrs	r0, 7
+ 288:	00 c0       	rjmp	.+0      	; 0x28a <i2c_read+0x9e>
+	TWCR = 0x84;                                                // transmit
+	while(!(TWCR & 0x80) && timeout)timeout--;      // wait for confirmation of transmit
+
+	TWDR = reg;		              // write the register to read from.
+	TWCR = 0x84;                       // transmit
+	while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+ 28a:	e0 e0       	ldi	r30, 0x00	; 0
+ 28c:	f0 e0       	ldi	r31, 0x00	; 0
+	while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+	TWDR = address<<1|1;                                           // load address of i2c device [ READ MODE ]
+	TWCR = 0xC4;                                                // transmit
+	while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+
+	while(numbytes > 1){
+ 28e:	22 30       	cpi	r18, 0x02	; 2
+ 290:	c8 f0       	brcs	.+50     	; 0x2c4 <i2c_read+0xd8>
+ 292:	da 01       	movw	r26, r20
+ 294:	22 50       	subi	r18, 0x02	; 2
+ 296:	82 2f       	mov	r24, r18
+ 298:	90 e0       	ldi	r25, 0x00	; 0
+ 29a:	01 96       	adiw	r24, 0x01	; 1
+ 29c:	48 0f       	add	r20, r24
+ 29e:	59 1f       	adc	r21, r25
+		TWCR = 0xC4;                                 // transmit, ACK (byte request)
+ 2a0:	94 ec       	ldi	r25, 0xC4	; 196
+ 2a2:	96 bf       	out	0x36, r25	; 54
+		while(!(TWCR & 0x80) && timeout)timeout--;    // wait for confirmation of transmit
+ 2a4:	06 b6       	in	r0, 0x36	; 54
+ 2a6:	07 fe       	sbrs	r0, 7
+ 2a8:	05 c0       	rjmp	.+10     	; 0x2b4 <i2c_read+0xc8>
+ 2aa:	06 c0       	rjmp	.+12     	; 0x2b8 <i2c_read+0xcc>
+ 2ac:	31 97       	sbiw	r30, 0x01	; 1
+ 2ae:	06 b6       	in	r0, 0x36	; 54
+ 2b0:	07 fc       	sbrc	r0, 7
+ 2b2:	02 c0       	rjmp	.+4      	; 0x2b8 <i2c_read+0xcc>
+ 2b4:	30 97       	sbiw	r30, 0x00	; 0
+ 2b6:	d1 f7       	brne	.-12     	; 0x2ac <i2c_read+0xc0>
+		
+		*(data++) = TWDR;		            // and grab the target data
+ 2b8:	83 b1       	in	r24, 0x03	; 3
+ 2ba:	8d 93       	st	X+, r24
+		asm("WDR");
+ 2bc:	a8 95       	wdr
+	while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+	TWDR = address<<1|1;                                           // load address of i2c device [ READ MODE ]
+	TWCR = 0xC4;                                                // transmit
+	while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+
+	while(numbytes > 1){
+ 2be:	a4 17       	cp	r26, r20
+ 2c0:	b5 07       	cpc	r27, r21
+ 2c2:	79 f7       	brne	.-34     	; 0x2a2 <i2c_read+0xb6>
+		
+		*(data++) = TWDR;		            // and grab the target data
+		asm("WDR");
+		numbytes --;
+	}
+	TWCR = 0x84;                    	         // transmit, NACK (last byte request)
+ 2c4:	84 e8       	ldi	r24, 0x84	; 132
+ 2c6:	86 bf       	out	0x36, r24	; 54
+	while(!(TWCR & 0x80) && timeout)timeout--;       // wait for confirmation of transmit
+ 2c8:	06 b6       	in	r0, 0x36	; 54
+ 2ca:	07 fe       	sbrs	r0, 7
+ 2cc:	05 c0       	rjmp	.+10     	; 0x2d8 <i2c_read+0xec>
+ 2ce:	0d c0       	rjmp	.+26     	; 0x2ea <i2c_read+0xfe>
+ 2d0:	31 97       	sbiw	r30, 0x01	; 1
+ 2d2:	06 b6       	in	r0, 0x36	; 54
+ 2d4:	07 fc       	sbrc	r0, 7
+ 2d6:	09 c0       	rjmp	.+18     	; 0x2ea <i2c_read+0xfe>
+ 2d8:	30 97       	sbiw	r30, 0x00	; 0
+ 2da:	d1 f7       	brne	.-12     	; 0x2d0 <i2c_read+0xe4>
+	*(data++) = TWDR;         		          // and grab the target data
+ 2dc:	83 b1       	in	r24, 0x03	; 3
+ 2de:	fa 01       	movw	r30, r20
+ 2e0:	80 83       	st	Z, r24
+	TWCR = 0x94;                          	         // stop bit
+ 2e2:	84 e9       	ldi	r24, 0x94	; 148
+ 2e4:	86 bf       	out	0x36, r24	; 54
+
+	if(timeout)return 0;		        // send timeout status
+	else return 1;
+ 2e6:	81 e0       	ldi	r24, 0x01	; 1
+ 2e8:	08 95       	ret
+		asm("WDR");
+		numbytes --;
+	}
+	TWCR = 0x84;                    	         // transmit, NACK (last byte request)
+	while(!(TWCR & 0x80) && timeout)timeout--;       // wait for confirmation of transmit
+	*(data++) = TWDR;         		          // and grab the target data
+ 2ea:	83 b1       	in	r24, 0x03	; 3
+ 2ec:	da 01       	movw	r26, r20
+ 2ee:	8c 93       	st	X, r24
+	TWCR = 0x94;                          	         // stop bit
+ 2f0:	84 e9       	ldi	r24, 0x94	; 148
+ 2f2:	86 bf       	out	0x36, r24	; 54
+
+	if(timeout)return 0;		        // send timeout status
+ 2f4:	81 e0       	ldi	r24, 0x01	; 1
+ 2f6:	ef 2b       	or	r30, r31
+ 2f8:	a1 f4       	brne	.+40     	; 0x322 <i2c_read+0x136>
+	else return 1;
+}
+ 2fa:	08 95       	ret
+	while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+	asm("WDR");
+
+	TWCR = 0xA4;                                                // send a repeated start bit on i2c bus
+	while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+	TWDR = address<<1|1;                                           // load address of i2c device [ READ MODE ]
+ 2fc:	88 0f       	add	r24, r24
+ 2fe:	81 60       	ori	r24, 0x01	; 1
+ 300:	83 b9       	out	0x03, r24	; 3
+	TWCR = 0xC4;                                                // transmit
+ 302:	84 ec       	ldi	r24, 0xC4	; 196
+ 304:	86 bf       	out	0x36, r24	; 54
+	while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+ 306:	06 b6       	in	r0, 0x36	; 54
+ 308:	07 fc       	sbrc	r0, 7
+ 30a:	c1 cf       	rjmp	.-126    	; 0x28e <i2c_read+0xa2>
+ 30c:	30 97       	sbiw	r30, 0x00	; 0
+ 30e:	21 f4       	brne	.+8      	; 0x318 <i2c_read+0x12c>
+ 310:	bc cf       	rjmp	.-136    	; 0x28a <i2c_read+0x9e>
+ 312:	30 97       	sbiw	r30, 0x00	; 0
+ 314:	09 f4       	brne	.+2      	; 0x318 <i2c_read+0x12c>
+ 316:	bb cf       	rjmp	.-138    	; 0x28e <i2c_read+0xa2>
+ 318:	31 97       	sbiw	r30, 0x01	; 1
+ 31a:	06 b6       	in	r0, 0x36	; 54
+ 31c:	07 fe       	sbrs	r0, 7
+ 31e:	f9 cf       	rjmp	.-14     	; 0x312 <i2c_read+0x126>
+ 320:	b6 cf       	rjmp	.-148    	; 0x28e <i2c_read+0xa2>
+	TWCR = 0x84;                    	         // transmit, NACK (last byte request)
+	while(!(TWCR & 0x80) && timeout)timeout--;       // wait for confirmation of transmit
+	*(data++) = TWDR;         		          // and grab the target data
+	TWCR = 0x94;                          	         // stop bit
+
+	if(timeout)return 0;		        // send timeout status
+ 322:	80 e0       	ldi	r24, 0x00	; 0
+ 324:	08 95       	ret
+uint8_t i2c_read(uint8_t address, uint8_t reg, uint8_t *data, uint8_t numbytes)
+{
+	uint16_t timeout = 10000;
+	TWCR = 0xA4;                                   // send a start bit on i2c bus
+	while(!(TWCR & 0x80) && timeout)timeout--;    // wait for confirmation of transmit
+	TWDR = address<<1;                                // load address of i2c device
+ 326:	98 2f       	mov	r25, r24
+ 328:	99 0f       	add	r25, r25
+ 32a:	93 b9       	out	0x03, r25	; 3
+	TWCR = 0x84;                                                // transmit
+ 32c:	94 e8       	ldi	r25, 0x84	; 132
+ 32e:	96 bf       	out	0x36, r25	; 54
+	while(!(TWCR & 0x80) && timeout)timeout--;      // wait for confirmation of transmit
+ 330:	06 b6       	in	r0, 0x36	; 54
+ 332:	07 fc       	sbrc	r0, 7
+ 334:	03 c0       	rjmp	.+6      	; 0x33c <i2c_read+0x150>
+returns: 0 if timeout, 1 if successful.
+*************************************************************************/
+
+uint8_t i2c_read(uint8_t address, uint8_t reg, uint8_t *data, uint8_t numbytes)
+{
+	uint16_t timeout = 10000;
+ 336:	e0 e1       	ldi	r30, 0x10	; 16
+ 338:	f7 e2       	ldi	r31, 0x27	; 39
+ 33a:	70 cf       	rjmp	.-288    	; 0x21c <i2c_read+0x30>
+	while(!(TWCR & 0x80) && timeout)timeout--;    // wait for confirmation of transmit
+	TWDR = address<<1;                                // load address of i2c device
+	TWCR = 0x84;                                                // transmit
+	while(!(TWCR & 0x80) && timeout)timeout--;      // wait for confirmation of transmit
+
+	TWDR = reg;		              // write the register to read from.
+ 33c:	63 b9       	out	0x03, r22	; 3
+	TWCR = 0x84;                       // transmit
+ 33e:	96 bf       	out	0x36, r25	; 54
+returns: 0 if timeout, 1 if successful.
+*************************************************************************/
+
+uint8_t i2c_read(uint8_t address, uint8_t reg, uint8_t *data, uint8_t numbytes)
+{
+	uint16_t timeout = 10000;
+ 340:	e0 e1       	ldi	r30, 0x10	; 16
+ 342:	f7 e2       	ldi	r31, 0x27	; 39
+	TWCR = 0x84;                                                // transmit
+	while(!(TWCR & 0x80) && timeout)timeout--;      // wait for confirmation of transmit
+
+	TWDR = reg;		              // write the register to read from.
+	TWCR = 0x84;                       // transmit
+	while(!(TWCR & 0x80) && timeout)timeout--;                  // wait for confirmation of transmit
+ 344:	06 b6       	in	r0, 0x36	; 54
+ 346:	07 fe       	sbrs	r0, 7
+ 348:	78 cf       	rjmp	.-272    	; 0x23a <i2c_read+0x4e>
+ 34a:	8a cf       	rjmp	.-236    	; 0x260 <i2c_read+0x74>
+
+0000034c <I2CStart>:
+
+
+
+unsigned char I2CStart() {
+	/* Send START condition */
+	TWCR =  (1 << TWINT) | (1 << TWEN) | (1 << TWSTA);
+ 34c:	84 ea       	ldi	r24, 0xA4	; 164
+ 34e:	86 bf       	out	0x36, r24	; 54
+	
+	/* Wait for TWINT flag to set */
+	while (!(TWCR & (1 << TWINT)));
+ 350:	06 b6       	in	r0, 0x36	; 54
+ 352:	07 fe       	sbrs	r0, 7
+ 354:	fd cf       	rjmp	.-6      	; 0x350 <I2CStart+0x4>
+	
+	/* Check error */
+	if (TW_STATUS != TW_START && TW_STATUS != TW_REP_START)
+ 356:	81 b1       	in	r24, 0x01	; 1
+ 358:	88 7f       	andi	r24, 0xF8	; 248
+ 35a:	88 30       	cpi	r24, 0x08	; 8
+ 35c:	39 f0       	breq	.+14     	; 0x36c <I2CStart+0x20>
+ 35e:	81 b1       	in	r24, 0x01	; 1
+ 360:	88 7f       	andi	r24, 0xF8	; 248
+ 362:	80 31       	cpi	r24, 0x10	; 16
+ 364:	19 f0       	breq	.+6      	; 0x36c <I2CStart+0x20>
+	{
+		return TW_STATUS;
+ 366:	81 b1       	in	r24, 0x01	; 1
+ 368:	88 7f       	andi	r24, 0xF8	; 248
+ 36a:	08 95       	ret
+	}
+	
+
+	return SUCCESS;
+ 36c:	80 e0       	ldi	r24, 0x00	; 0
+}
+ 36e:	08 95       	ret
+
+00000370 <I2CStop>:
+
+void I2CStop() {
+	TWCR = 0x94;             // stop bit
+ 370:	84 e9       	ldi	r24, 0x94	; 148
+ 372:	86 bf       	out	0x36, r24	; 54
+ 374:	08 95       	ret
+
+00000376 <I2CWait>:
+}
+
+
+
+void I2CWait() {
+    delay_countdown=1000;
+ 376:	88 ee       	ldi	r24, 0xE8	; 232
+ 378:	93 e0       	ldi	r25, 0x03	; 3
+ 37a:	a0 e0       	ldi	r26, 0x00	; 0
+ 37c:	b0 e0       	ldi	r27, 0x00	; 0
+ 37e:	80 93 66 00 	sts	0x0066, r24	; 0x800066 <__data_end>
+ 382:	90 93 67 00 	sts	0x0067, r25	; 0x800067 <__data_end+0x1>
+ 386:	a0 93 68 00 	sts	0x0068, r26	; 0x800068 <__data_end+0x2>
+ 38a:	b0 93 69 00 	sts	0x0069, r27	; 0x800069 <__data_end+0x3>
+    /* Wait for TWINT flag to set */
+	while (!(TWCR & (1 << TWINT)) && delay_countdown--)delay_us(1);	
+ 38e:	06 b6       	in	r0, 0x36	; 54
+ 390:	07 fc       	sbrc	r0, 7
+ 392:	2e c0       	rjmp	.+92     	; 0x3f0 <I2CWait+0x7a>
+ 394:	87 ee       	ldi	r24, 0xE7	; 231
+ 396:	93 e0       	ldi	r25, 0x03	; 3
+ 398:	a0 e0       	ldi	r26, 0x00	; 0
+ 39a:	b0 e0       	ldi	r27, 0x00	; 0
+ 39c:	80 93 66 00 	sts	0x0066, r24	; 0x800066 <__data_end>
+ 3a0:	90 93 67 00 	sts	0x0067, r25	; 0x800067 <__data_end+0x1>
+ 3a4:	a0 93 68 00 	sts	0x0068, r26	; 0x800068 <__data_end+0x2>
+ 3a8:	b0 93 69 00 	sts	0x0069, r27	; 0x800069 <__data_end+0x3>
+ 3ac:	1a c0       	rjmp	.+52     	; 0x3e2 <I2CWait+0x6c>
+ 3ae:	80 91 66 00 	lds	r24, 0x0066	; 0x800066 <__data_end>
+ 3b2:	90 91 67 00 	lds	r25, 0x0067	; 0x800067 <__data_end+0x1>
+ 3b6:	a0 91 68 00 	lds	r26, 0x0068	; 0x800068 <__data_end+0x2>
+ 3ba:	b0 91 69 00 	lds	r27, 0x0069	; 0x800069 <__data_end+0x3>
+ 3be:	ac 01       	movw	r20, r24
+ 3c0:	bd 01       	movw	r22, r26
+ 3c2:	41 50       	subi	r20, 0x01	; 1
+ 3c4:	51 09       	sbc	r21, r1
+ 3c6:	61 09       	sbc	r22, r1
+ 3c8:	71 09       	sbc	r23, r1
+ 3ca:	40 93 66 00 	sts	0x0066, r20	; 0x800066 <__data_end>
+ 3ce:	50 93 67 00 	sts	0x0067, r21	; 0x800067 <__data_end+0x1>
+ 3d2:	60 93 68 00 	sts	0x0068, r22	; 0x800068 <__data_end+0x2>
+ 3d6:	70 93 69 00 	sts	0x0069, r23	; 0x800069 <__data_end+0x3>
+ 3da:	89 2b       	or	r24, r25
+ 3dc:	8a 2b       	or	r24, r26
+ 3de:	8b 2b       	or	r24, r27
+ 3e0:	39 f0       	breq	.+14     	; 0x3f0 <I2CWait+0x7a>
+ 3e2:	81 e0       	ldi	r24, 0x01	; 1
+ 3e4:	90 e0       	ldi	r25, 0x00	; 0
+ 3e6:	0e 94 5b 04 	call	0x8b6	; 0x8b6 <delay_us>
+ 3ea:	06 b6       	in	r0, 0x36	; 54
+ 3ec:	07 fe       	sbrs	r0, 7
+ 3ee:	df cf       	rjmp	.-66     	; 0x3ae <I2CWait+0x38>
+ 3f0:	08 95       	ret
+
+000003f2 <I2CSend>:
+    /* wait for any pending transfer */
+}
+
+unsigned char I2CSend(unsigned char dat) {
+    delay_countdown=1000;
+ 3f2:	48 ee       	ldi	r20, 0xE8	; 232
+ 3f4:	53 e0       	ldi	r21, 0x03	; 3
+ 3f6:	60 e0       	ldi	r22, 0x00	; 0
+ 3f8:	70 e0       	ldi	r23, 0x00	; 0
+ 3fa:	40 93 66 00 	sts	0x0066, r20	; 0x800066 <__data_end>
+ 3fe:	50 93 67 00 	sts	0x0067, r21	; 0x800067 <__data_end+0x1>
+ 402:	60 93 68 00 	sts	0x0068, r22	; 0x800068 <__data_end+0x2>
+ 406:	70 93 69 00 	sts	0x0069, r23	; 0x800069 <__data_end+0x3>
+
+	/* Transmit 1 byte*/
+
+	TWDR = dat;
+ 40a:	83 b9       	out	0x03, r24	; 3
+	TWCR = (1 << TWINT) | (1 << TWEN);
+ 40c:	84 e8       	ldi	r24, 0x84	; 132
+ 40e:	86 bf       	out	0x36, r24	; 54
+	
+	/* Wait for TWINT flag to set */
+	while (!(TWCR & (1 << TWINT)));
+ 410:	06 b6       	in	r0, 0x36	; 54
+ 412:	07 fe       	sbrs	r0, 7
+ 414:	fd cf       	rjmp	.-6      	; 0x410 <__EEPROM_REGION_LENGTH__+0x10>
+	if (TW_STATUS != TW_MT_DATA_ACK)
+ 416:	81 b1       	in	r24, 0x01	; 1
+ 418:	88 7f       	andi	r24, 0xF8	; 248
+ 41a:	88 32       	cpi	r24, 0x28	; 40
+ 41c:	19 f0       	breq	.+6      	; 0x424 <__EEPROM_REGION_LENGTH__+0x24>
+	{
+
+		return TW_STATUS;
+ 41e:	81 b1       	in	r24, 0x01	; 1
+ 420:	88 7f       	andi	r24, 0xF8	; 248
+ 422:	08 95       	ret
+	}
+	
+
+	return SUCCESS;
+ 424:	80 e0       	ldi	r24, 0x00	; 0
+
+    I2CWait(); /* wait for any pending transfer */
+}
+ 426:	08 95       	ret
+
+00000428 <i2c_lcd_write_cmd.part.0>:
+    
+}
+
+
+
+void i2c_lcd_write_cmd(unsigned char cmd){ 
+ 428:	cf 93       	push	r28
+ 42a:	c8 2f       	mov	r28, r24
+    if(address == LCD_ADDRESS_DISABLED)return;
+
+        I2CStart();
+ 42c:	0e 94 a6 01 	call	0x34c	; 0x34c <I2CStart>
+        I2CSend(address<<1); //default address for PCA8547AT IO expander
+ 430:	80 91 6a 00 	lds	r24, 0x006A	; 0x80006a <address>
+ 434:	88 0f       	add	r24, r24
+ 436:	0e 94 f9 01 	call	0x3f2	; 0x3f2 <I2CSend>
+        I2CSend(cmd&0xFF);     //
+ 43a:	8c 2f       	mov	r24, r28
+ 43c:	0e 94 f9 01 	call	0x3f2	; 0x3f2 <I2CSend>
+        I2CStop();               
+ 440:	0e 94 b8 01 	call	0x370	; 0x370 <I2CStop>
+    delay_us(1000);
+ 444:	88 ee       	ldi	r24, 0xE8	; 232
+ 446:	93 e0       	ldi	r25, 0x03	; 3
+}
+ 448:	cf 91       	pop	r28
+
+        I2CStart();
+        I2CSend(address<<1); //default address for PCA8547AT IO expander
+        I2CSend(cmd&0xFF);     //
+        I2CStop();               
+    delay_us(1000);
+ 44a:	0c 94 5b 04 	jmp	0x8b6	; 0x8b6 <delay_us>
+
+0000044e <i2c_lcd_write_cmd>:
+}
+
+
+
+void i2c_lcd_write_cmd(unsigned char cmd){ 
+    if(address == LCD_ADDRESS_DISABLED)return;
+ 44e:	90 91 6a 00 	lds	r25, 0x006A	; 0x80006a <address>
+ 452:	91 11       	cpse	r25, r1
+ 454:	01 c0       	rjmp	.+2      	; 0x458 <i2c_lcd_write_cmd+0xa>
+ 456:	08 95       	ret
+ 458:	0c 94 14 02 	jmp	0x428	; 0x428 <i2c_lcd_write_cmd.part.0>
+
+0000045c <i2c_lcd_write_cmd_arg>:
+        I2CSend(cmd&0xFF);     //
+        I2CStop();               
+    delay_us(1000);
+}
+
+void i2c_lcd_write_cmd_arg(unsigned char cmd, unsigned char arg){ 
+ 45c:	cf 93       	push	r28
+ 45e:	df 93       	push	r29
+    if(address == LCD_ADDRESS_DISABLED)return;
+ 460:	90 91 6a 00 	lds	r25, 0x006A	; 0x80006a <address>
+ 464:	91 11       	cpse	r25, r1
+ 466:	03 c0       	rjmp	.+6      	; 0x46e <i2c_lcd_write_cmd_arg+0x12>
+    I2CSend(address<<1); //default address for PCA8547AT IO expander
+    I2CSend(cmd&0xFF);     //
+    I2CSend(arg&0xFF);     //
+    I2CStop();               
+    delay_us(1000);
+}
+ 468:	df 91       	pop	r29
+ 46a:	cf 91       	pop	r28
+ 46c:	08 95       	ret
+ 46e:	c6 2f       	mov	r28, r22
+ 470:	d8 2f       	mov	r29, r24
+}
+
+void i2c_lcd_write_cmd_arg(unsigned char cmd, unsigned char arg){ 
+    if(address == LCD_ADDRESS_DISABLED)return;
+
+    I2CStart();
+ 472:	0e 94 a6 01 	call	0x34c	; 0x34c <I2CStart>
+    I2CSend(address<<1); //default address for PCA8547AT IO expander
+ 476:	80 91 6a 00 	lds	r24, 0x006A	; 0x80006a <address>
+ 47a:	88 0f       	add	r24, r24
+ 47c:	0e 94 f9 01 	call	0x3f2	; 0x3f2 <I2CSend>
+    I2CSend(cmd&0xFF);     //
+ 480:	8d 2f       	mov	r24, r29
+ 482:	0e 94 f9 01 	call	0x3f2	; 0x3f2 <I2CSend>
+    I2CSend(arg&0xFF);     //
+ 486:	8c 2f       	mov	r24, r28
+ 488:	0e 94 f9 01 	call	0x3f2	; 0x3f2 <I2CSend>
+    I2CStop();               
+ 48c:	0e 94 b8 01 	call	0x370	; 0x370 <I2CStop>
+    delay_us(1000);
+ 490:	88 ee       	ldi	r24, 0xE8	; 232
+ 492:	93 e0       	ldi	r25, 0x03	; 3
+}
+ 494:	df 91       	pop	r29
+ 496:	cf 91       	pop	r28
+    I2CStart();
+    I2CSend(address<<1); //default address for PCA8547AT IO expander
+    I2CSend(cmd&0xFF);     //
+    I2CSend(arg&0xFF);     //
+    I2CStop();               
+    delay_us(1000);
+ 498:	0c 94 5b 04 	jmp	0x8b6	; 0x8b6 <delay_us>
+
+0000049c <i2c_lcd_strobe>:
+}
+
+void i2c_lcd_strobe(unsigned char data){
+ 49c:	cf 93       	push	r28
+ 49e:	c8 2f       	mov	r28, r24
+}
+
+
+
+void i2c_lcd_write_cmd(unsigned char cmd){ 
+    if(address == LCD_ADDRESS_DISABLED)return;
+ 4a0:	80 91 6a 00 	lds	r24, 0x006A	; 0x80006a <address>
+ 4a4:	81 11       	cpse	r24, r1
+ 4a6:	12 c0       	rjmp	.+36     	; 0x4cc <i2c_lcd_strobe+0x30>
+    delay_us(1000);
+}
+
+void i2c_lcd_strobe(unsigned char data){
+    i2c_lcd_write_cmd( (data&0xFF) | En | LCD_BACKLIGHT);
+    delay_us(500);
+ 4a8:	84 ef       	ldi	r24, 0xF4	; 244
+ 4aa:	91 e0       	ldi	r25, 0x01	; 1
+ 4ac:	0e 94 5b 04 	call	0x8b6	; 0x8b6 <delay_us>
+}
+
+
+
+void i2c_lcd_write_cmd(unsigned char cmd){ 
+    if(address == LCD_ADDRESS_DISABLED)return;
+ 4b0:	80 91 6a 00 	lds	r24, 0x006A	; 0x80006a <address>
+ 4b4:	88 23       	and	r24, r24
+ 4b6:	29 f0       	breq	.+10     	; 0x4c2 <i2c_lcd_strobe+0x26>
+ 4b8:	8c 2f       	mov	r24, r28
+ 4ba:	83 7f       	andi	r24, 0xF3	; 243
+ 4bc:	88 60       	ori	r24, 0x08	; 8
+ 4be:	0e 94 14 02 	call	0x428	; 0x428 <i2c_lcd_write_cmd.part.0>
+
+void i2c_lcd_strobe(unsigned char data){
+    i2c_lcd_write_cmd( (data&0xFF) | En | LCD_BACKLIGHT);
+    delay_us(500);
+    i2c_lcd_write_cmd((( (data&0xFF) & ~En) | LCD_BACKLIGHT));
+    delay_us(2000);
+ 4c2:	80 ed       	ldi	r24, 0xD0	; 208
+ 4c4:	97 e0       	ldi	r25, 0x07	; 7
+}
+ 4c6:	cf 91       	pop	r28
+
+void i2c_lcd_strobe(unsigned char data){
+    i2c_lcd_write_cmd( (data&0xFF) | En | LCD_BACKLIGHT);
+    delay_us(500);
+    i2c_lcd_write_cmd((( (data&0xFF) & ~En) | LCD_BACKLIGHT));
+    delay_us(2000);
+ 4c8:	0c 94 5b 04 	jmp	0x8b6	; 0x8b6 <delay_us>
+ 4cc:	8c 2f       	mov	r24, r28
+ 4ce:	8c 60       	ori	r24, 0x0C	; 12
+ 4d0:	0e 94 14 02 	call	0x428	; 0x428 <i2c_lcd_write_cmd.part.0>
+ 4d4:	e9 cf       	rjmp	.-46     	; 0x4a8 <i2c_lcd_strobe+0xc>
+
+000004d6 <i2c_lcd_write_four_bits>:
+}
+
+void i2c_lcd_write_four_bits(unsigned char data){   //USED ONLY BY I2C LCD for now.     
+ 4d6:	cf 93       	push	r28
+ 4d8:	c8 2f       	mov	r28, r24
+}
+
+
+
+void i2c_lcd_write_cmd(unsigned char cmd){ 
+    if(address == LCD_ADDRESS_DISABLED)return;
+ 4da:	80 91 6a 00 	lds	r24, 0x006A	; 0x80006a <address>
+ 4de:	88 23       	and	r24, r24
+ 4e0:	21 f0       	breq	.+8      	; 0x4ea <i2c_lcd_write_four_bits+0x14>
+ 4e2:	8c 2f       	mov	r24, r28
+ 4e4:	88 60       	ori	r24, 0x08	; 8
+ 4e6:	0e 94 14 02 	call	0x428	; 0x428 <i2c_lcd_write_cmd.part.0>
+    delay_us(2000);
+}
+
+void i2c_lcd_write_four_bits(unsigned char data){   //USED ONLY BY I2C LCD for now.     
+	    i2c_lcd_write_cmd((data&0xFF) | LCD_BACKLIGHT); 
+	    i2c_lcd_strobe(data);
+ 4ea:	8c 2f       	mov	r24, r28
+}
+ 4ec:	cf 91       	pop	r28
+    delay_us(2000);
+}
+
+void i2c_lcd_write_four_bits(unsigned char data){   //USED ONLY BY I2C LCD for now.     
+	    i2c_lcd_write_cmd((data&0xFF) | LCD_BACKLIGHT); 
+	    i2c_lcd_strobe(data);
+ 4ee:	0c 94 4e 02 	jmp	0x49c	; 0x49c <i2c_lcd_strobe>
+
+000004f2 <i2c_lcd_write>:
+}
+
+// write a command to lcd
+void i2c_lcd_write(unsigned char cmd){
+ 4f2:	cf 93       	push	r28
+ 4f4:	df 93       	push	r29
+    if(address == LCD_ADDRESS_DISABLED)return;
+ 4f6:	90 91 6a 00 	lds	r25, 0x006A	; 0x80006a <address>
+ 4fa:	99 23       	and	r25, r25
+ 4fc:	49 f1       	breq	.+82     	; 0x550 <i2c_lcd_write+0x5e>
+ 4fe:	c8 2f       	mov	r28, r24
+    
+    i2c_lcd_write_cmd( (cmd & 0xF0)           | LCD_BACKLIGHT);
+ 500:	d8 2f       	mov	r29, r24
+ 502:	d0 7f       	andi	r29, 0xF0	; 240
+ 504:	8d 2f       	mov	r24, r29
+ 506:	88 60       	ori	r24, 0x08	; 8
+ 508:	0e 94 14 02 	call	0x428	; 0x428 <i2c_lcd_write_cmd.part.0>
+}
+
+
+
+void i2c_lcd_write_cmd(unsigned char cmd){ 
+    if(address == LCD_ADDRESS_DISABLED)return;
+ 50c:	80 91 6a 00 	lds	r24, 0x006A	; 0x80006a <address>
+ 510:	81 11       	cpse	r24, r1
+ 512:	2a c0       	rjmp	.+84     	; 0x568 <i2c_lcd_write+0x76>
+// write a command to lcd
+void i2c_lcd_write(unsigned char cmd){
+    if(address == LCD_ADDRESS_DISABLED)return;
+    
+    i2c_lcd_write_cmd( (cmd & 0xF0)           | LCD_BACKLIGHT);
+    i2c_lcd_write_cmd( (cmd & 0xF0)      | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+ 514:	88 ee       	ldi	r24, 0xE8	; 232
+ 516:	93 e0       	ldi	r25, 0x03	; 3
+ 518:	0e 94 5b 04 	call	0x8b6	; 0x8b6 <delay_us>
+}
+
+
+
+void i2c_lcd_write_cmd(unsigned char cmd){ 
+    if(address == LCD_ADDRESS_DISABLED)return;
+ 51c:	80 91 6a 00 	lds	r24, 0x006A	; 0x80006a <address>
+ 520:	81 11       	cpse	r24, r1
+ 522:	2e c0       	rjmp	.+92     	; 0x580 <i2c_lcd_write+0x8e>
+void i2c_lcd_write(unsigned char cmd){
+    if(address == LCD_ADDRESS_DISABLED)return;
+    
+    i2c_lcd_write_cmd( (cmd & 0xF0)           | LCD_BACKLIGHT);
+    i2c_lcd_write_cmd( (cmd & 0xF0)      | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+    i2c_lcd_write_cmd(                          LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN OFF
+ 524:	88 ee       	ldi	r24, 0xE8	; 232
+ 526:	93 e0       	ldi	r25, 0x03	; 3
+ 528:	0e 94 5b 04 	call	0x8b6	; 0x8b6 <delay_us>
+}
+
+
+
+void i2c_lcd_write_cmd(unsigned char cmd){ 
+    if(address == LCD_ADDRESS_DISABLED)return;
+ 52c:	80 91 6a 00 	lds	r24, 0x006A	; 0x80006a <address>
+ 530:	81 11       	cpse	r24, r1
+ 532:	31 c0       	rjmp	.+98     	; 0x596 <i2c_lcd_write+0xa4>
+    i2c_lcd_write_cmd( (cmd & 0xF0)           | LCD_BACKLIGHT);
+    i2c_lcd_write_cmd( (cmd & 0xF0)      | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+    i2c_lcd_write_cmd(                          LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN OFF
+
+    i2c_lcd_write_cmd( ((cmd<<4) & 0xF0)      | LCD_BACKLIGHT);
+    i2c_lcd_write_cmd( ((cmd<<4) & 0xF0) | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+ 534:	88 ee       	ldi	r24, 0xE8	; 232
+ 536:	93 e0       	ldi	r25, 0x03	; 3
+ 538:	0e 94 5b 04 	call	0x8b6	; 0x8b6 <delay_us>
+}
+
+
+
+void i2c_lcd_write_cmd(unsigned char cmd){ 
+    if(address == LCD_ADDRESS_DISABLED)return;
+ 53c:	80 91 6a 00 	lds	r24, 0x006A	; 0x80006a <address>
+ 540:	81 11       	cpse	r24, r1
+ 542:	09 c0       	rjmp	.+18     	; 0x556 <i2c_lcd_write+0x64>
+    i2c_lcd_write_cmd( (cmd & 0xF0)      | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+    i2c_lcd_write_cmd(                          LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN OFF
+
+    i2c_lcd_write_cmd( ((cmd<<4) & 0xF0)      | LCD_BACKLIGHT);
+    i2c_lcd_write_cmd( ((cmd<<4) & 0xF0) | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+    i2c_lcd_write_cmd(                          LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN OFF
+ 544:	88 ee       	ldi	r24, 0xE8	; 232
+ 546:	93 e0       	ldi	r25, 0x03	; 3
+    
+}
+ 548:	df 91       	pop	r29
+ 54a:	cf 91       	pop	r28
+    i2c_lcd_write_cmd( (cmd & 0xF0)      | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+    i2c_lcd_write_cmd(                          LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN OFF
+
+    i2c_lcd_write_cmd( ((cmd<<4) & 0xF0)      | LCD_BACKLIGHT);
+    i2c_lcd_write_cmd( ((cmd<<4) & 0xF0) | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+    i2c_lcd_write_cmd(                          LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN OFF
+ 54c:	0c 94 5b 04 	jmp	0x8b6	; 0x8b6 <delay_us>
+    
+}
+ 550:	df 91       	pop	r29
+ 552:	cf 91       	pop	r28
+ 554:	08 95       	ret
+ 556:	88 e0       	ldi	r24, 0x08	; 8
+ 558:	0e 94 14 02 	call	0x428	; 0x428 <i2c_lcd_write_cmd.part.0>
+    i2c_lcd_write_cmd( (cmd & 0xF0)      | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+    i2c_lcd_write_cmd(                          LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN OFF
+
+    i2c_lcd_write_cmd( ((cmd<<4) & 0xF0)      | LCD_BACKLIGHT);
+    i2c_lcd_write_cmd( ((cmd<<4) & 0xF0) | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+    i2c_lcd_write_cmd(                          LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN OFF
+ 55c:	88 ee       	ldi	r24, 0xE8	; 232
+ 55e:	93 e0       	ldi	r25, 0x03	; 3
+    
+}
+ 560:	df 91       	pop	r29
+ 562:	cf 91       	pop	r28
+    i2c_lcd_write_cmd( (cmd & 0xF0)      | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+    i2c_lcd_write_cmd(                          LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN OFF
+
+    i2c_lcd_write_cmd( ((cmd<<4) & 0xF0)      | LCD_BACKLIGHT);
+    i2c_lcd_write_cmd( ((cmd<<4) & 0xF0) | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+    i2c_lcd_write_cmd(                          LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN OFF
+ 564:	0c 94 5b 04 	jmp	0x8b6	; 0x8b6 <delay_us>
+ 568:	8d 2f       	mov	r24, r29
+ 56a:	8c 60       	ori	r24, 0x0C	; 12
+ 56c:	0e 94 14 02 	call	0x428	; 0x428 <i2c_lcd_write_cmd.part.0>
+// write a command to lcd
+void i2c_lcd_write(unsigned char cmd){
+    if(address == LCD_ADDRESS_DISABLED)return;
+    
+    i2c_lcd_write_cmd( (cmd & 0xF0)           | LCD_BACKLIGHT);
+    i2c_lcd_write_cmd( (cmd & 0xF0)      | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+ 570:	88 ee       	ldi	r24, 0xE8	; 232
+ 572:	93 e0       	ldi	r25, 0x03	; 3
+ 574:	0e 94 5b 04 	call	0x8b6	; 0x8b6 <delay_us>
+}
+
+
+
+void i2c_lcd_write_cmd(unsigned char cmd){ 
+    if(address == LCD_ADDRESS_DISABLED)return;
+ 578:	80 91 6a 00 	lds	r24, 0x006A	; 0x80006a <address>
+ 57c:	88 23       	and	r24, r24
+ 57e:	91 f2       	breq	.-92     	; 0x524 <i2c_lcd_write+0x32>
+ 580:	88 e0       	ldi	r24, 0x08	; 8
+ 582:	0e 94 14 02 	call	0x428	; 0x428 <i2c_lcd_write_cmd.part.0>
+void i2c_lcd_write(unsigned char cmd){
+    if(address == LCD_ADDRESS_DISABLED)return;
+    
+    i2c_lcd_write_cmd( (cmd & 0xF0)           | LCD_BACKLIGHT);
+    i2c_lcd_write_cmd( (cmd & 0xF0)      | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+    i2c_lcd_write_cmd(                          LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN OFF
+ 586:	88 ee       	ldi	r24, 0xE8	; 232
+ 588:	93 e0       	ldi	r25, 0x03	; 3
+ 58a:	0e 94 5b 04 	call	0x8b6	; 0x8b6 <delay_us>
+}
+
+
+
+void i2c_lcd_write_cmd(unsigned char cmd){ 
+    if(address == LCD_ADDRESS_DISABLED)return;
+ 58e:	80 91 6a 00 	lds	r24, 0x006A	; 0x80006a <address>
+ 592:	88 23       	and	r24, r24
+ 594:	79 f2       	breq	.-98     	; 0x534 <i2c_lcd_write+0x42>
+    
+    i2c_lcd_write_cmd( (cmd & 0xF0)           | LCD_BACKLIGHT);
+    i2c_lcd_write_cmd( (cmd & 0xF0)      | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+    i2c_lcd_write_cmd(                          LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN OFF
+
+    i2c_lcd_write_cmd( ((cmd<<4) & 0xF0)      | LCD_BACKLIGHT);
+ 596:	80 e1       	ldi	r24, 0x10	; 16
+ 598:	c8 9f       	mul	r28, r24
+ 59a:	e0 01       	movw	r28, r0
+ 59c:	11 24       	eor	r1, r1
+ 59e:	8c 2f       	mov	r24, r28
+ 5a0:	88 60       	ori	r24, 0x08	; 8
+ 5a2:	0e 94 14 02 	call	0x428	; 0x428 <i2c_lcd_write_cmd.part.0>
+    i2c_lcd_write_cmd( ((cmd<<4) & 0xF0) | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+ 5a6:	8c 2f       	mov	r24, r28
+ 5a8:	8c 60       	ori	r24, 0x0C	; 12
+}
+
+
+
+void i2c_lcd_write_cmd(unsigned char cmd){ 
+    if(address == LCD_ADDRESS_DISABLED)return;
+ 5aa:	90 91 6a 00 	lds	r25, 0x006A	; 0x80006a <address>
+ 5ae:	99 23       	and	r25, r25
+ 5b0:	09 f2       	breq	.-126    	; 0x534 <i2c_lcd_write+0x42>
+ 5b2:	0e 94 14 02 	call	0x428	; 0x428 <i2c_lcd_write_cmd.part.0>
+    i2c_lcd_write_cmd( (cmd & 0xF0)           | LCD_BACKLIGHT);
+    i2c_lcd_write_cmd( (cmd & 0xF0)      | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+    i2c_lcd_write_cmd(                          LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN OFF
+
+    i2c_lcd_write_cmd( ((cmd<<4) & 0xF0)      | LCD_BACKLIGHT);
+    i2c_lcd_write_cmd( ((cmd<<4) & 0xF0) | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+ 5b6:	88 ee       	ldi	r24, 0xE8	; 232
+ 5b8:	93 e0       	ldi	r25, 0x03	; 3
+ 5ba:	0e 94 5b 04 	call	0x8b6	; 0x8b6 <delay_us>
+}
+
+
+
+void i2c_lcd_write_cmd(unsigned char cmd){ 
+    if(address == LCD_ADDRESS_DISABLED)return;
+ 5be:	80 91 6a 00 	lds	r24, 0x006A	; 0x80006a <address>
+ 5c2:	88 23       	and	r24, r24
+ 5c4:	09 f4       	brne	.+2      	; 0x5c8 <i2c_lcd_write+0xd6>
+ 5c6:	be cf       	rjmp	.-132    	; 0x544 <i2c_lcd_write+0x52>
+ 5c8:	c6 cf       	rjmp	.-116    	; 0x556 <i2c_lcd_write+0x64>
+
+000005ca <i2c_lcd_init>:
+
+static unsigned char address=LCD_ADDRESS_DISABLED;
+
+
+unsigned int i2c_lcd_init(void){
+    DDRC  |= (1 << TW_SDA_PIN) | (1 << TW_SCL_PIN);
+ 5ca:	84 b3       	in	r24, 0x14	; 20
+ 5cc:	83 60       	ori	r24, 0x03	; 3
+ 5ce:	84 bb       	out	0x14, r24	; 20
+    if (pullup_en)
+    {
+
+	    PORTC |= (1 << TW_SDA_PIN) | (1 << TW_SCL_PIN);
+ 5d0:	85 b3       	in	r24, 0x15	; 21
+ 5d2:	83 60       	ori	r24, 0x03	; 3
+ 5d4:	85 bb       	out	0x15, r24	; 21
+    }
+    else
+    {
+	    PORTC &= ~((1 << TW_SDA_PIN) | (1 << TW_SCL_PIN));
+    }
+    DDRC  &= ~((1 << TW_SDA_PIN) | (1 << TW_SCL_PIN));
+ 5d6:	84 b3       	in	r24, 0x14	; 20
+ 5d8:	8c 7f       	andi	r24, 0xFC	; 252
+ 5da:	84 bb       	out	0x14, r24	; 20
+
+    /* Set bit rate register 12 and prescaler to 1 resulting in
+    SCL_freq = 8MHz/(16 + 2*12*1) = 200KHz	*/
+    TWBR = 12;
+ 5dc:	8c e0       	ldi	r24, 0x0C	; 12
+ 5de:	80 b9       	out	0x00, r24	; 0
+
+
+    delay_us(1000);
+ 5e0:	88 ee       	ldi	r24, 0xE8	; 232
+ 5e2:	93 e0       	ldi	r25, 0x03	; 3
+ 5e4:	0e 94 5b 04 	call	0x8b6	; 0x8b6 <delay_us>
+
+    //Search LCD
+
+    I2CStart();
+ 5e8:	0e 94 a6 01 	call	0x34c	; 0x34c <I2CStart>
+    I2CSend(LCD_ADDRESS_A<<1);
+ 5ec:	8e e7       	ldi	r24, 0x7E	; 126
+ 5ee:	0e 94 f9 01 	call	0x3f2	; 0x3f2 <I2CSend>
+    if((TWSR&0xFC) == 0x18) //LCD Found
+ 5f2:	81 b1       	in	r24, 0x01	; 1
+ 5f4:	8c 7f       	andi	r24, 0xFC	; 252
+ 5f6:	88 31       	cpi	r24, 0x18	; 24
+ 5f8:	a1 f1       	breq	.+104    	; 0x662 <i2c_lcd_init+0x98>
+        address = LCD_ADDRESS_A;
+    I2CStop();
+ 5fa:	0e 94 b8 01 	call	0x370	; 0x370 <I2CStop>
+
+    I2CStart();
+ 5fe:	0e 94 a6 01 	call	0x34c	; 0x34c <I2CStart>
+    I2CSend(LCD_ADDRESS_B<<1);
+ 602:	8e e4       	ldi	r24, 0x4E	; 78
+ 604:	0e 94 f9 01 	call	0x3f2	; 0x3f2 <I2CSend>
+    if((TWSR&0xFC) == 0x18) //LCD Found
+ 608:	81 b1       	in	r24, 0x01	; 1
+ 60a:	8c 7f       	andi	r24, 0xFC	; 252
+ 60c:	88 31       	cpi	r24, 0x18	; 24
+ 60e:	19 f4       	brne	.+6      	; 0x616 <i2c_lcd_init+0x4c>
+        address = LCD_ADDRESS_B;
+ 610:	87 e2       	ldi	r24, 0x27	; 39
+ 612:	80 93 6a 00 	sts	0x006A, r24	; 0x80006a <address>
+    I2CStop();
+ 616:	0e 94 b8 01 	call	0x370	; 0x370 <I2CStop>
+
+    delay_us(100);
+ 61a:	84 e6       	ldi	r24, 0x64	; 100
+ 61c:	90 e0       	ldi	r25, 0x00	; 0
+ 61e:	0e 94 5b 04 	call	0x8b6	; 0x8b6 <delay_us>
+
+
+    i2c_lcd_write(0x03);
+ 622:	83 e0       	ldi	r24, 0x03	; 3
+ 624:	0e 94 79 02 	call	0x4f2	; 0x4f2 <i2c_lcd_write>
+    i2c_lcd_write(0x03);
+ 628:	83 e0       	ldi	r24, 0x03	; 3
+ 62a:	0e 94 79 02 	call	0x4f2	; 0x4f2 <i2c_lcd_write>
+    i2c_lcd_write(0x03);
+ 62e:	83 e0       	ldi	r24, 0x03	; 3
+ 630:	0e 94 79 02 	call	0x4f2	; 0x4f2 <i2c_lcd_write>
+    i2c_lcd_write(0x02); 
+ 634:	82 e0       	ldi	r24, 0x02	; 2
+ 636:	0e 94 79 02 	call	0x4f2	; 0x4f2 <i2c_lcd_write>
+
+    i2c_lcd_write(LCD_FUNCTIONSET | LCD_2LINE | LCD_5x8DOTS | LCD_4BITMODE);
+ 63a:	88 e2       	ldi	r24, 0x28	; 40
+ 63c:	0e 94 79 02 	call	0x4f2	; 0x4f2 <i2c_lcd_write>
+    i2c_lcd_write(LCD_DISPLAYCONTROL | LCD_DISPLAYON);
+ 640:	8c e0       	ldi	r24, 0x0C	; 12
+ 642:	0e 94 79 02 	call	0x4f2	; 0x4f2 <i2c_lcd_write>
+    i2c_lcd_write(LCD_CLEARDISPLAY);
+ 646:	81 e0       	ldi	r24, 0x01	; 1
+ 648:	0e 94 79 02 	call	0x4f2	; 0x4f2 <i2c_lcd_write>
+    i2c_lcd_write(LCD_ENTRYMODESET | LCD_ENTRYLEFT);    
+ 64c:	86 e0       	ldi	r24, 0x06	; 6
+ 64e:	0e 94 79 02 	call	0x4f2	; 0x4f2 <i2c_lcd_write>
+    delay_us(20000);
+ 652:	80 e2       	ldi	r24, 0x20	; 32
+ 654:	9e e4       	ldi	r25, 0x4E	; 78
+ 656:	0e 94 5b 04 	call	0x8b6	; 0x8b6 <delay_us>
+    
+    return address;
+ 65a:	80 91 6a 00 	lds	r24, 0x006A	; 0x80006a <address>
+    
+}
+ 65e:	90 e0       	ldi	r25, 0x00	; 0
+ 660:	08 95       	ret
+    //Search LCD
+
+    I2CStart();
+    I2CSend(LCD_ADDRESS_A<<1);
+    if((TWSR&0xFC) == 0x18) //LCD Found
+        address = LCD_ADDRESS_A;
+ 662:	8f e3       	ldi	r24, 0x3F	; 63
+ 664:	80 93 6a 00 	sts	0x006A, r24	; 0x80006a <address>
+ 668:	c8 cf       	rjmp	.-112    	; 0x5fa <i2c_lcd_init+0x30>
+
+0000066a <i2c_lcd_write_char>:
+    i2c_lcd_write_cmd(                          LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN OFF
+    
+}
+
+// write a character to lcd
+void i2c_lcd_write_char(unsigned char cmd){
+ 66a:	cf 93       	push	r28
+ 66c:	df 93       	push	r29
+    if(address == LCD_ADDRESS_DISABLED)return;
+ 66e:	90 91 6a 00 	lds	r25, 0x006A	; 0x80006a <address>
+ 672:	99 23       	and	r25, r25
+ 674:	49 f1       	breq	.+82     	; 0x6c8 <i2c_lcd_write_char+0x5e>
+ 676:	c8 2f       	mov	r28, r24
+
+    i2c_lcd_write_cmd( Rs | (cmd & 0xF0)           | LCD_BACKLIGHT);
+ 678:	d8 2f       	mov	r29, r24
+ 67a:	d0 7f       	andi	r29, 0xF0	; 240
+ 67c:	8d 2f       	mov	r24, r29
+ 67e:	89 60       	ori	r24, 0x09	; 9
+ 680:	0e 94 14 02 	call	0x428	; 0x428 <i2c_lcd_write_cmd.part.0>
+}
+
+
+
+void i2c_lcd_write_cmd(unsigned char cmd){ 
+    if(address == LCD_ADDRESS_DISABLED)return;
+ 684:	80 91 6a 00 	lds	r24, 0x006A	; 0x80006a <address>
+ 688:	81 11       	cpse	r24, r1
+ 68a:	2a c0       	rjmp	.+84     	; 0x6e0 <i2c_lcd_write_char+0x76>
+// write a character to lcd
+void i2c_lcd_write_char(unsigned char cmd){
+    if(address == LCD_ADDRESS_DISABLED)return;
+
+    i2c_lcd_write_cmd( Rs | (cmd & 0xF0)           | LCD_BACKLIGHT);
+    i2c_lcd_write_cmd( Rs | (cmd & 0xF0)      | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+ 68c:	88 ee       	ldi	r24, 0xE8	; 232
+ 68e:	93 e0       	ldi	r25, 0x03	; 3
+ 690:	0e 94 5b 04 	call	0x8b6	; 0x8b6 <delay_us>
+}
+
+
+
+void i2c_lcd_write_cmd(unsigned char cmd){ 
+    if(address == LCD_ADDRESS_DISABLED)return;
+ 694:	80 91 6a 00 	lds	r24, 0x006A	; 0x80006a <address>
+ 698:	81 11       	cpse	r24, r1
+ 69a:	2e c0       	rjmp	.+92     	; 0x6f8 <i2c_lcd_write_char+0x8e>
+void i2c_lcd_write_char(unsigned char cmd){
+    if(address == LCD_ADDRESS_DISABLED)return;
+
+    i2c_lcd_write_cmd( Rs | (cmd & 0xF0)           | LCD_BACKLIGHT);
+    i2c_lcd_write_cmd( Rs | (cmd & 0xF0)      | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+    i2c_lcd_write_cmd(                               LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN OFF
+ 69c:	88 ee       	ldi	r24, 0xE8	; 232
+ 69e:	93 e0       	ldi	r25, 0x03	; 3
+ 6a0:	0e 94 5b 04 	call	0x8b6	; 0x8b6 <delay_us>
+}
+
+
+
+void i2c_lcd_write_cmd(unsigned char cmd){ 
+    if(address == LCD_ADDRESS_DISABLED)return;
+ 6a4:	80 91 6a 00 	lds	r24, 0x006A	; 0x80006a <address>
+ 6a8:	81 11       	cpse	r24, r1
+ 6aa:	31 c0       	rjmp	.+98     	; 0x70e <i2c_lcd_write_char+0xa4>
+    i2c_lcd_write_cmd( Rs | (cmd & 0xF0)           | LCD_BACKLIGHT);
+    i2c_lcd_write_cmd( Rs | (cmd & 0xF0)      | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+    i2c_lcd_write_cmd(                               LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN OFF
+
+    i2c_lcd_write_cmd( Rs | ((cmd<<4) & 0xF0)      | LCD_BACKLIGHT);
+    i2c_lcd_write_cmd( Rs | ((cmd<<4) & 0xF0) | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+ 6ac:	88 ee       	ldi	r24, 0xE8	; 232
+ 6ae:	93 e0       	ldi	r25, 0x03	; 3
+ 6b0:	0e 94 5b 04 	call	0x8b6	; 0x8b6 <delay_us>
+}
+
+
+
+void i2c_lcd_write_cmd(unsigned char cmd){ 
+    if(address == LCD_ADDRESS_DISABLED)return;
+ 6b4:	80 91 6a 00 	lds	r24, 0x006A	; 0x80006a <address>
+ 6b8:	81 11       	cpse	r24, r1
+ 6ba:	09 c0       	rjmp	.+18     	; 0x6ce <i2c_lcd_write_char+0x64>
+    i2c_lcd_write_cmd( Rs | (cmd & 0xF0)      | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+    i2c_lcd_write_cmd(                               LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN OFF
+
+    i2c_lcd_write_cmd( Rs | ((cmd<<4) & 0xF0)      | LCD_BACKLIGHT);
+    i2c_lcd_write_cmd( Rs | ((cmd<<4) & 0xF0) | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+    i2c_lcd_write_cmd(                               LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN OFF
+ 6bc:	88 ee       	ldi	r24, 0xE8	; 232
+ 6be:	93 e0       	ldi	r25, 0x03	; 3
+
+}
+ 6c0:	df 91       	pop	r29
+ 6c2:	cf 91       	pop	r28
+    i2c_lcd_write_cmd( Rs | (cmd & 0xF0)      | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+    i2c_lcd_write_cmd(                               LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN OFF
+
+    i2c_lcd_write_cmd( Rs | ((cmd<<4) & 0xF0)      | LCD_BACKLIGHT);
+    i2c_lcd_write_cmd( Rs | ((cmd<<4) & 0xF0) | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+    i2c_lcd_write_cmd(                               LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN OFF
+ 6c4:	0c 94 5b 04 	jmp	0x8b6	; 0x8b6 <delay_us>
+
+}
+ 6c8:	df 91       	pop	r29
+ 6ca:	cf 91       	pop	r28
+ 6cc:	08 95       	ret
+ 6ce:	88 e0       	ldi	r24, 0x08	; 8
+ 6d0:	0e 94 14 02 	call	0x428	; 0x428 <i2c_lcd_write_cmd.part.0>
+    i2c_lcd_write_cmd( Rs | (cmd & 0xF0)      | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+    i2c_lcd_write_cmd(                               LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN OFF
+
+    i2c_lcd_write_cmd( Rs | ((cmd<<4) & 0xF0)      | LCD_BACKLIGHT);
+    i2c_lcd_write_cmd( Rs | ((cmd<<4) & 0xF0) | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+    i2c_lcd_write_cmd(                               LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN OFF
+ 6d4:	88 ee       	ldi	r24, 0xE8	; 232
+ 6d6:	93 e0       	ldi	r25, 0x03	; 3
+
+}
+ 6d8:	df 91       	pop	r29
+ 6da:	cf 91       	pop	r28
+    i2c_lcd_write_cmd( Rs | (cmd & 0xF0)      | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+    i2c_lcd_write_cmd(                               LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN OFF
+
+    i2c_lcd_write_cmd( Rs | ((cmd<<4) & 0xF0)      | LCD_BACKLIGHT);
+    i2c_lcd_write_cmd( Rs | ((cmd<<4) & 0xF0) | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+    i2c_lcd_write_cmd(                               LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN OFF
+ 6dc:	0c 94 5b 04 	jmp	0x8b6	; 0x8b6 <delay_us>
+ 6e0:	8d 2f       	mov	r24, r29
+ 6e2:	8d 60       	ori	r24, 0x0D	; 13
+ 6e4:	0e 94 14 02 	call	0x428	; 0x428 <i2c_lcd_write_cmd.part.0>
+// write a character to lcd
+void i2c_lcd_write_char(unsigned char cmd){
+    if(address == LCD_ADDRESS_DISABLED)return;
+
+    i2c_lcd_write_cmd( Rs | (cmd & 0xF0)           | LCD_BACKLIGHT);
+    i2c_lcd_write_cmd( Rs | (cmd & 0xF0)      | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+ 6e8:	88 ee       	ldi	r24, 0xE8	; 232
+ 6ea:	93 e0       	ldi	r25, 0x03	; 3
+ 6ec:	0e 94 5b 04 	call	0x8b6	; 0x8b6 <delay_us>
+}
+
+
+
+void i2c_lcd_write_cmd(unsigned char cmd){ 
+    if(address == LCD_ADDRESS_DISABLED)return;
+ 6f0:	80 91 6a 00 	lds	r24, 0x006A	; 0x80006a <address>
+ 6f4:	88 23       	and	r24, r24
+ 6f6:	91 f2       	breq	.-92     	; 0x69c <i2c_lcd_write_char+0x32>
+ 6f8:	88 e0       	ldi	r24, 0x08	; 8
+ 6fa:	0e 94 14 02 	call	0x428	; 0x428 <i2c_lcd_write_cmd.part.0>
+void i2c_lcd_write_char(unsigned char cmd){
+    if(address == LCD_ADDRESS_DISABLED)return;
+
+    i2c_lcd_write_cmd( Rs | (cmd & 0xF0)           | LCD_BACKLIGHT);
+    i2c_lcd_write_cmd( Rs | (cmd & 0xF0)      | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+    i2c_lcd_write_cmd(                               LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN OFF
+ 6fe:	88 ee       	ldi	r24, 0xE8	; 232
+ 700:	93 e0       	ldi	r25, 0x03	; 3
+ 702:	0e 94 5b 04 	call	0x8b6	; 0x8b6 <delay_us>
+}
+
+
+
+void i2c_lcd_write_cmd(unsigned char cmd){ 
+    if(address == LCD_ADDRESS_DISABLED)return;
+ 706:	80 91 6a 00 	lds	r24, 0x006A	; 0x80006a <address>
+ 70a:	88 23       	and	r24, r24
+ 70c:	79 f2       	breq	.-98     	; 0x6ac <i2c_lcd_write_char+0x42>
+
+    i2c_lcd_write_cmd( Rs | (cmd & 0xF0)           | LCD_BACKLIGHT);
+    i2c_lcd_write_cmd( Rs | (cmd & 0xF0)      | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+    i2c_lcd_write_cmd(                               LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN OFF
+
+    i2c_lcd_write_cmd( Rs | ((cmd<<4) & 0xF0)      | LCD_BACKLIGHT);
+ 70e:	80 e1       	ldi	r24, 0x10	; 16
+ 710:	c8 9f       	mul	r28, r24
+ 712:	e0 01       	movw	r28, r0
+ 714:	11 24       	eor	r1, r1
+ 716:	8c 2f       	mov	r24, r28
+ 718:	89 60       	ori	r24, 0x09	; 9
+ 71a:	0e 94 14 02 	call	0x428	; 0x428 <i2c_lcd_write_cmd.part.0>
+    i2c_lcd_write_cmd( Rs | ((cmd<<4) & 0xF0) | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+ 71e:	8c 2f       	mov	r24, r28
+ 720:	8d 60       	ori	r24, 0x0D	; 13
+}
+
+
+
+void i2c_lcd_write_cmd(unsigned char cmd){ 
+    if(address == LCD_ADDRESS_DISABLED)return;
+ 722:	90 91 6a 00 	lds	r25, 0x006A	; 0x80006a <address>
+ 726:	99 23       	and	r25, r25
+ 728:	09 f2       	breq	.-126    	; 0x6ac <i2c_lcd_write_char+0x42>
+ 72a:	0e 94 14 02 	call	0x428	; 0x428 <i2c_lcd_write_cmd.part.0>
+    i2c_lcd_write_cmd( Rs | (cmd & 0xF0)           | LCD_BACKLIGHT);
+    i2c_lcd_write_cmd( Rs | (cmd & 0xF0)      | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+    i2c_lcd_write_cmd(                               LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN OFF
+
+    i2c_lcd_write_cmd( Rs | ((cmd<<4) & 0xF0)      | LCD_BACKLIGHT);
+    i2c_lcd_write_cmd( Rs | ((cmd<<4) & 0xF0) | En | LCD_BACKLIGHT); delay_us(LCD_DELAY); // EN ON
+ 72e:	88 ee       	ldi	r24, 0xE8	; 232
+ 730:	93 e0       	ldi	r25, 0x03	; 3
+ 732:	0e 94 5b 04 	call	0x8b6	; 0x8b6 <delay_us>
+}
+
+
+
+void i2c_lcd_write_cmd(unsigned char cmd){ 
+    if(address == LCD_ADDRESS_DISABLED)return;
+ 736:	80 91 6a 00 	lds	r24, 0x006A	; 0x80006a <address>
+ 73a:	88 23       	and	r24, r24
+ 73c:	09 f4       	brne	.+2      	; 0x740 <i2c_lcd_write_char+0xd6>
+ 73e:	be cf       	rjmp	.-132    	; 0x6bc <i2c_lcd_write_char+0x52>
+ 740:	c6 cf       	rjmp	.-116    	; 0x6ce <i2c_lcd_write_char+0x64>
+
+00000742 <i2c_lcd_put_string>:
+}
+
+
+
+// put string function
+void i2c_lcd_put_string(char *s, unsigned char line){
+ 742:	bf 92       	push	r11
+ 744:	cf 92       	push	r12
+ 746:	df 92       	push	r13
+ 748:	ef 92       	push	r14
+ 74a:	ff 92       	push	r15
+ 74c:	0f 93       	push	r16
+ 74e:	1f 93       	push	r17
+ 750:	cf 93       	push	r28
+ 752:	df 93       	push	r29
+ 754:	8c 01       	movw	r16, r24
+ 756:	b6 2e       	mov	r11, r22
+    int xpos=0;
+    if(line == 1)
+ 758:	81 e0       	ldi	r24, 0x01	; 1
+ 75a:	68 17       	cp	r22, r24
+ 75c:	09 f4       	brne	.+2      	; 0x760 <i2c_lcd_put_string+0x1e>
+ 75e:	5d c0       	rjmp	.+186    	; 0x81a <__DATA_REGION_LENGTH__+0x1a>
+	    i2c_lcd_write(0x80);
+    else if(line == 2)
+ 760:	92 e0       	ldi	r25, 0x02	; 2
+ 762:	69 17       	cp	r22, r25
+ 764:	09 f4       	brne	.+2      	; 0x768 <i2c_lcd_put_string+0x26>
+ 766:	5d c0       	rjmp	.+186    	; 0x822 <__DATA_REGION_LENGTH__+0x22>
+	    i2c_lcd_write(0xC0);
+    else if(line == 3)
+ 768:	e3 e0       	ldi	r30, 0x03	; 3
+ 76a:	6e 17       	cp	r22, r30
+ 76c:	09 f4       	brne	.+2      	; 0x770 <i2c_lcd_put_string+0x2e>
+ 76e:	5d c0       	rjmp	.+186    	; 0x82a <__DATA_REGION_LENGTH__+0x2a>
+	    i2c_lcd_write(0x94);
+    else if(line == 4)
+ 770:	f4 e0       	ldi	r31, 0x04	; 4
+ 772:	6f 17       	cp	r22, r31
+ 774:	09 f4       	brne	.+2      	; 0x778 <i2c_lcd_put_string+0x36>
+ 776:	5d c0       	rjmp	.+186    	; 0x832 <__DATA_REGION_LENGTH__+0x32>
+ 778:	78 01       	movw	r14, r16
+	    }
+	    if( *(s+i)=='\n' && line==1){
+		    i2c_lcd_write(0xC0); //Move to the next line
+		    xpos=0;                
+	    }else
+		    i2c_lcd_write_char(*(s+i));
+ 77a:	c0 e0       	ldi	r28, 0x00	; 0
+ 77c:	d0 e0       	ldi	r29, 0x00	; 0
+ 77e:	20 e0       	ldi	r18, 0x00	; 0
+ 780:	30 e0       	ldi	r19, 0x00	; 0
+ 782:	0b c0       	rjmp	.+22     	; 0x79a <i2c_lcd_put_string+0x58>
+ 784:	69 01       	movw	r12, r18
+ 786:	ff ef       	ldi	r31, 0xFF	; 255
+ 788:	cf 1a       	sub	r12, r31
+ 78a:	df 0a       	sbc	r13, r31
+ 78c:	0e 94 35 03 	call	0x66a	; 0x66a <i2c_lcd_write_char>
+ 790:	96 01       	movw	r18, r12
+    else if(line == 3)
+	    i2c_lcd_write(0x94);
+    else if(line == 4)
+	    i2c_lcd_write(0xD4);
+
+    for (int i = 0; i < strlen(s) && i<32; i++){
+ 792:	21 96       	adiw	r28, 0x01	; 1
+ 794:	ff ef       	ldi	r31, 0xFF	; 255
+ 796:	ef 1a       	sub	r14, r31
+ 798:	ff 0a       	sbc	r15, r31
+ 79a:	f8 01       	movw	r30, r16
+ 79c:	01 90       	ld	r0, Z+
+ 79e:	00 20       	and	r0, r0
+ 7a0:	e9 f7       	brne	.-6      	; 0x79c <i2c_lcd_put_string+0x5a>
+ 7a2:	31 97       	sbiw	r30, 0x01	; 1
+ 7a4:	e0 1b       	sub	r30, r16
+ 7a6:	f1 0b       	sbc	r31, r17
+ 7a8:	ce 17       	cp	r28, r30
+ 7aa:	df 07       	cpc	r29, r31
+ 7ac:	d8 f4       	brcc	.+54     	; 0x7e4 <i2c_lcd_put_string+0xa2>
+ 7ae:	c0 32       	cpi	r28, 0x20	; 32
+ 7b0:	d1 05       	cpc	r29, r1
+ 7b2:	c1 f0       	breq	.+48     	; 0x7e4 <i2c_lcd_put_string+0xa2>
+	    if(xpos==16 && line==1){
+ 7b4:	20 31       	cpi	r18, 0x10	; 16
+ 7b6:	31 05       	cpc	r19, r1
+ 7b8:	61 f0       	breq	.+24     	; 0x7d2 <i2c_lcd_put_string+0x90>
+		    i2c_lcd_write(0x14); //Move to the next line
+		    xpos=0;
+	    }
+	    if( *(s+i)=='\n' && line==1){
+ 7ba:	f7 01       	movw	r30, r14
+ 7bc:	80 81       	ld	r24, Z
+ 7be:	8a 30       	cpi	r24, 0x0A	; 10
+ 7c0:	09 f7       	brne	.-62     	; 0x784 <i2c_lcd_put_string+0x42>
+ 7c2:	91 e0       	ldi	r25, 0x01	; 1
+ 7c4:	b9 16       	cp	r11, r25
+ 7c6:	c1 f0       	breq	.+48     	; 0x7f8 <i2c_lcd_put_string+0xb6>
+ 7c8:	69 01       	movw	r12, r18
+ 7ca:	ef ef       	ldi	r30, 0xFF	; 255
+ 7cc:	ce 1a       	sub	r12, r30
+ 7ce:	de 0a       	sbc	r13, r30
+ 7d0:	dd cf       	rjmp	.-70     	; 0x78c <i2c_lcd_put_string+0x4a>
+	    i2c_lcd_write(0x94);
+    else if(line == 4)
+	    i2c_lcd_write(0xD4);
+
+    for (int i = 0; i < strlen(s) && i<32; i++){
+	    if(xpos==16 && line==1){
+ 7d2:	81 e0       	ldi	r24, 0x01	; 1
+ 7d4:	b8 16       	cp	r11, r24
+ 7d6:	b1 f0       	breq	.+44     	; 0x804 <__DATA_REGION_LENGTH__+0x4>
+		    i2c_lcd_write(0x14); //Move to the next line
+		    xpos=0;
+	    }
+	    if( *(s+i)=='\n' && line==1){
+ 7d8:	f7 01       	movw	r30, r14
+ 7da:	80 81       	ld	r24, Z
+ 7dc:	91 e1       	ldi	r25, 0x11	; 17
+ 7de:	c9 2e       	mov	r12, r25
+ 7e0:	d1 2c       	mov	r13, r1
+ 7e2:	d4 cf       	rjmp	.-88     	; 0x78c <i2c_lcd_put_string+0x4a>
+	    }else
+		    i2c_lcd_write_char(*(s+i));
+	    xpos++;
+    }
+
+}
+ 7e4:	df 91       	pop	r29
+ 7e6:	cf 91       	pop	r28
+ 7e8:	1f 91       	pop	r17
+ 7ea:	0f 91       	pop	r16
+ 7ec:	ff 90       	pop	r15
+ 7ee:	ef 90       	pop	r14
+ 7f0:	df 90       	pop	r13
+ 7f2:	cf 90       	pop	r12
+ 7f4:	bf 90       	pop	r11
+ 7f6:	08 95       	ret
+	    if(xpos==16 && line==1){
+		    i2c_lcd_write(0x14); //Move to the next line
+		    xpos=0;
+	    }
+	    if( *(s+i)=='\n' && line==1){
+		    i2c_lcd_write(0xC0); //Move to the next line
+ 7f8:	80 ec       	ldi	r24, 0xC0	; 192
+ 7fa:	0e 94 79 02 	call	0x4f2	; 0x4f2 <i2c_lcd_write>
+		    xpos=0;                
+ 7fe:	21 e0       	ldi	r18, 0x01	; 1
+ 800:	30 e0       	ldi	r19, 0x00	; 0
+ 802:	c7 cf       	rjmp	.-114    	; 0x792 <i2c_lcd_put_string+0x50>
+    else if(line == 4)
+	    i2c_lcd_write(0xD4);
+
+    for (int i = 0; i < strlen(s) && i<32; i++){
+	    if(xpos==16 && line==1){
+		    i2c_lcd_write(0x14); //Move to the next line
+ 804:	84 e1       	ldi	r24, 0x14	; 20
+ 806:	0e 94 79 02 	call	0x4f2	; 0x4f2 <i2c_lcd_write>
+		    xpos=0;
+	    }
+	    if( *(s+i)=='\n' && line==1){
+ 80a:	f7 01       	movw	r30, r14
+ 80c:	80 81       	ld	r24, Z
+ 80e:	8a 30       	cpi	r24, 0x0A	; 10
+ 810:	99 f3       	breq	.-26     	; 0x7f8 <i2c_lcd_put_string+0xb6>
+ 812:	cc 24       	eor	r12, r12
+ 814:	c3 94       	inc	r12
+ 816:	d1 2c       	mov	r13, r1
+ 818:	b9 cf       	rjmp	.-142    	; 0x78c <i2c_lcd_put_string+0x4a>
+
+// put string function
+void i2c_lcd_put_string(char *s, unsigned char line){
+    int xpos=0;
+    if(line == 1)
+	    i2c_lcd_write(0x80);
+ 81a:	80 e8       	ldi	r24, 0x80	; 128
+ 81c:	0e 94 79 02 	call	0x4f2	; 0x4f2 <i2c_lcd_write>
+ 820:	ab cf       	rjmp	.-170    	; 0x778 <i2c_lcd_put_string+0x36>
+    else if(line == 2)
+	    i2c_lcd_write(0xC0);
+ 822:	80 ec       	ldi	r24, 0xC0	; 192
+ 824:	0e 94 79 02 	call	0x4f2	; 0x4f2 <i2c_lcd_write>
+ 828:	a7 cf       	rjmp	.-178    	; 0x778 <i2c_lcd_put_string+0x36>
+    else if(line == 3)
+	    i2c_lcd_write(0x94);
+ 82a:	84 e9       	ldi	r24, 0x94	; 148
+ 82c:	0e 94 79 02 	call	0x4f2	; 0x4f2 <i2c_lcd_write>
+ 830:	a3 cf       	rjmp	.-186    	; 0x778 <i2c_lcd_put_string+0x36>
+    else if(line == 4)
+	    i2c_lcd_write(0xD4);
+ 832:	84 ed       	ldi	r24, 0xD4	; 212
+ 834:	0e 94 79 02 	call	0x4f2	; 0x4f2 <i2c_lcd_write>
+ 838:	9f cf       	rjmp	.-194    	; 0x778 <i2c_lcd_put_string+0x36>
+
+0000083a <i2c_lcd_put_shifted_string>:
+    }
+
+}
+
+
+void i2c_lcd_put_shifted_string(char *s, unsigned char line, unsigned int xpos){
+ 83a:	ef 92       	push	r14
+ 83c:	ff 92       	push	r15
+ 83e:	0f 93       	push	r16
+ 840:	1f 93       	push	r17
+ 842:	cf 93       	push	r28
+ 844:	df 93       	push	r29
+    if(address == LCD_ADDRESS_DISABLED)return;
+ 846:	20 91 6a 00 	lds	r18, 0x006A	; 0x80006a <address>
+ 84a:	21 11       	cpse	r18, r1
+ 84c:	07 c0       	rjmp	.+14     	; 0x85c <i2c_lcd_put_shifted_string+0x22>
+    	    
+    for (int i = 0; i < strlen(s) && i<32; i++){
+        i2c_lcd_write_char(*(s+i));
+        xpos++;
+    }
+}
+ 84e:	df 91       	pop	r29
+ 850:	cf 91       	pop	r28
+ 852:	1f 91       	pop	r17
+ 854:	0f 91       	pop	r16
+ 856:	ff 90       	pop	r15
+ 858:	ef 90       	pop	r14
+ 85a:	08 95       	ret
+ 85c:	8c 01       	movw	r16, r24
+void i2c_lcd_put_shifted_string(char *s, unsigned char line, unsigned int xpos){
+    if(address == LCD_ADDRESS_DISABLED)return;
+
+    unsigned char row_offsets[] = {0x00, 0x40, 0x14, 0x54};
+    
+    i2c_lcd_write(0xC8);
+ 85e:	88 ec       	ldi	r24, 0xC8	; 200
+ 860:	0e 94 79 02 	call	0x4f2	; 0x4f2 <i2c_lcd_write>
+ 864:	78 01       	movw	r14, r16
+    	    
+    for (int i = 0; i < strlen(s) && i<32; i++){
+ 866:	c0 e0       	ldi	r28, 0x00	; 0
+ 868:	d0 e0       	ldi	r29, 0x00	; 0
+ 86a:	09 c0       	rjmp	.+18     	; 0x87e <__stack+0x1f>
+ 86c:	c0 32       	cpi	r28, 0x20	; 32
+ 86e:	d1 05       	cpc	r29, r1
+ 870:	71 f3       	breq	.-36     	; 0x84e <i2c_lcd_put_shifted_string+0x14>
+        i2c_lcd_write_char(*(s+i));
+ 872:	f7 01       	movw	r30, r14
+ 874:	81 91       	ld	r24, Z+
+ 876:	7f 01       	movw	r14, r30
+ 878:	0e 94 35 03 	call	0x66a	; 0x66a <i2c_lcd_write_char>
+
+    unsigned char row_offsets[] = {0x00, 0x40, 0x14, 0x54};
+    
+    i2c_lcd_write(0xC8);
+    	    
+    for (int i = 0; i < strlen(s) && i<32; i++){
+ 87c:	21 96       	adiw	r28, 0x01	; 1
+ 87e:	f8 01       	movw	r30, r16
+ 880:	01 90       	ld	r0, Z+
+ 882:	00 20       	and	r0, r0
+ 884:	e9 f7       	brne	.-6      	; 0x880 <__stack+0x21>
+ 886:	31 97       	sbiw	r30, 0x01	; 1
+ 888:	e0 1b       	sub	r30, r16
+ 88a:	f1 0b       	sbc	r31, r17
+ 88c:	ce 17       	cp	r28, r30
+ 88e:	df 07       	cpc	r29, r31
+ 890:	68 f3       	brcs	.-38     	; 0x86c <__stack+0xd>
+        i2c_lcd_write_char(*(s+i));
+        xpos++;
+    }
+}
+ 892:	df 91       	pop	r29
+ 894:	cf 91       	pop	r28
+ 896:	1f 91       	pop	r17
+ 898:	0f 91       	pop	r16
+ 89a:	ff 90       	pop	r15
+ 89c:	ef 90       	pop	r14
+ 89e:	08 95       	ret
+
+000008a0 <i2c_lcd_clear>:
+
+//clear lcd and set to home
+void i2c_lcd_clear(){
+    if(address == LCD_ADDRESS_DISABLED)return;
+ 8a0:	80 91 6a 00 	lds	r24, 0x006A	; 0x80006a <address>
+ 8a4:	81 11       	cpse	r24, r1
+ 8a6:	01 c0       	rjmp	.+2      	; 0x8aa <i2c_lcd_clear+0xa>
+ 8a8:	08 95       	ret
+
+    i2c_lcd_write(LCD_CLEARDISPLAY);
+ 8aa:	81 e0       	ldi	r24, 0x01	; 1
+ 8ac:	0e 94 79 02 	call	0x4f2	; 0x4f2 <i2c_lcd_write>
+    i2c_lcd_write(LCD_RETURNHOME);
+ 8b0:	82 e0       	ldi	r24, 0x02	; 2
+ 8b2:	0c 94 79 02 	jmp	0x4f2	; 0x4f2 <i2c_lcd_write>
+
+000008b6 <delay_us>:
+    while(x)
+        --x;
+}
+
+void delay_us(uint16_t k) // not correct
+{
+ 8b6:	cf 93       	push	r28
+ 8b8:	df 93       	push	r29
+ 8ba:	00 d0       	rcall	.+0      	; 0x8bc <delay_us+0x6>
+ 8bc:	cd b7       	in	r28, 0x3d	; 61
+ 8be:	de b7       	in	r29, 0x3e	; 62
+    volatile uint16_t x = k;
+ 8c0:	9a 83       	std	Y+2, r25	; 0x02
+ 8c2:	89 83       	std	Y+1, r24	; 0x01
+    while(x)
+ 8c4:	89 81       	ldd	r24, Y+1	; 0x01
+ 8c6:	9a 81       	ldd	r25, Y+2	; 0x02
+ 8c8:	89 2b       	or	r24, r25
+ 8ca:	49 f0       	breq	.+18     	; 0x8de <delay_us+0x28>
+        --x;
+ 8cc:	89 81       	ldd	r24, Y+1	; 0x01
+ 8ce:	9a 81       	ldd	r25, Y+2	; 0x02
+ 8d0:	01 97       	sbiw	r24, 0x01	; 1
+ 8d2:	9a 83       	std	Y+2, r25	; 0x02
+ 8d4:	89 83       	std	Y+1, r24	; 0x01
+}
+
+void delay_us(uint16_t k) // not correct
+{
+    volatile uint16_t x = k;
+    while(x)
+ 8d6:	89 81       	ldd	r24, Y+1	; 0x01
+ 8d8:	9a 81       	ldd	r25, Y+2	; 0x02
+ 8da:	89 2b       	or	r24, r25
+ 8dc:	b9 f7       	brne	.-18     	; 0x8cc <delay_us+0x16>
+        --x;
+}
+ 8de:	0f 90       	pop	r0
+ 8e0:	0f 90       	pop	r0
+ 8e2:	df 91       	pop	r29
+ 8e4:	cf 91       	pop	r28
+ 8e6:	08 95       	ret
+
+000008e8 <delay>:
+ 8e8:	0c 94 5b 04 	jmp	0x8b6	; 0x8b6 <delay_us>
+
+000008ec <delay_100us>:
+
+
+void delay_100us (uint16_t k)  	 // k* 100 usecs delay, valid only for 8MHz clock
+{
+ 8ec:	cf 93       	push	r28
+ 8ee:	df 93       	push	r29
+ 8f0:	00 d0       	rcall	.+0      	; 0x8f2 <delay_100us+0x6>
+ 8f2:	cd b7       	in	r28, 0x3d	; 61
+ 8f4:	de b7       	in	r29, 0x3e	; 62
+  volatile uint16_t x;
+  while (k--) {x=52; while (x--);}
+ 8f6:	64 e3       	ldi	r22, 0x34	; 52
+ 8f8:	70 e0       	ldi	r23, 0x00	; 0
+ 8fa:	01 97       	sbiw	r24, 0x01	; 1
+ 8fc:	68 f0       	brcs	.+26     	; 0x918 <delay_100us+0x2c>
+ 8fe:	7a 83       	std	Y+2, r23	; 0x02
+ 900:	69 83       	std	Y+1, r22	; 0x01
+ 902:	29 81       	ldd	r18, Y+1	; 0x01
+ 904:	3a 81       	ldd	r19, Y+2	; 0x02
+ 906:	a9 01       	movw	r20, r18
+ 908:	41 50       	subi	r20, 0x01	; 1
+ 90a:	51 09       	sbc	r21, r1
+ 90c:	5a 83       	std	Y+2, r21	; 0x02
+ 90e:	49 83       	std	Y+1, r20	; 0x01
+ 910:	23 2b       	or	r18, r19
+ 912:	b9 f7       	brne	.-18     	; 0x902 <delay_100us+0x16>
+ 914:	01 97       	sbiw	r24, 0x01	; 1
+ 916:	98 f7       	brcc	.-26     	; 0x8fe <delay_100us+0x12>
+}
+ 918:	0f 90       	pop	r0
+ 91a:	0f 90       	pop	r0
+ 91c:	df 91       	pop	r29
+ 91e:	cf 91       	pop	r28
+ 920:	08 95       	ret
+
+00000922 <delay_ms>:
+
+void delay_ms (uint16_t k)  // idle for k milliseconds, only for 8MHz clock
+    {
+ 922:	cf 93       	push	r28
+ 924:	df 93       	push	r29
+ 926:	00 d0       	rcall	.+0      	; 0x928 <delay_ms+0x6>
+ 928:	cd b7       	in	r28, 0x3d	; 61
+ 92a:	de b7       	in	r29, 0x3e	; 62
+    volatile uint16_t x;
+    while(k--) {x=532; while (x--);}
+ 92c:	64 e1       	ldi	r22, 0x14	; 20
+ 92e:	72 e0       	ldi	r23, 0x02	; 2
+ 930:	01 97       	sbiw	r24, 0x01	; 1
+ 932:	68 f0       	brcs	.+26     	; 0x94e <delay_ms+0x2c>
+ 934:	7a 83       	std	Y+2, r23	; 0x02
+ 936:	69 83       	std	Y+1, r22	; 0x01
+ 938:	29 81       	ldd	r18, Y+1	; 0x01
+ 93a:	3a 81       	ldd	r19, Y+2	; 0x02
+ 93c:	a9 01       	movw	r20, r18
+ 93e:	41 50       	subi	r20, 0x01	; 1
+ 940:	51 09       	sbc	r21, r1
+ 942:	5a 83       	std	Y+2, r21	; 0x02
+ 944:	49 83       	std	Y+1, r20	; 0x01
+ 946:	23 2b       	or	r18, r19
+ 948:	b9 f7       	brne	.-18     	; 0x938 <delay_ms+0x16>
+ 94a:	01 97       	sbiw	r24, 0x01	; 1
+ 94c:	98 f7       	brcc	.-26     	; 0x934 <delay_ms+0x12>
+    }
+ 94e:	0f 90       	pop	r0
+ 950:	0f 90       	pop	r0
+ 952:	df 91       	pop	r29
+ 954:	cf 91       	pop	r28
+ 956:	08 95       	ret
+
+00000958 <b2a>:
+    
+
+// Converts an 8bit integer to 3 digit decimal form.
+void b2a(int b, char* a)
+{
+ 958:	fb 01       	movw	r30, r22
+uint8_t d1,d2,d3;
+char *p = a;
+
+d3 = 0;
+while (b >= 100)
+ 95a:	84 36       	cpi	r24, 0x64	; 100
+ 95c:	91 05       	cpc	r25, r1
+ 95e:	3c f1       	brlt	.+78     	; 0x9ae <b2a+0x56>
+ 960:	20 e0       	ldi	r18, 0x00	; 0
+ 962:	01 c0       	rjmp	.+2      	; 0x966 <b2a+0xe>
+       {
+	++d3;
+ 964:	23 2f       	mov	r18, r19
+ 966:	31 e0       	ldi	r19, 0x01	; 1
+ 968:	32 0f       	add	r19, r18
+	b -= 100;
+ 96a:	84 56       	subi	r24, 0x64	; 100
+ 96c:	91 09       	sbc	r25, r1
+{
+uint8_t d1,d2,d3;
+char *p = a;
+
+d3 = 0;
+while (b >= 100)
+ 96e:	84 36       	cpi	r24, 0x64	; 100
+ 970:	91 05       	cpc	r25, r1
+ 972:	c4 f7       	brge	.-16     	; 0x964 <b2a+0xc>
+       {
+	++d3;
+	b -= 100;
+	}
+if (d3) *p++ = d3 + '0';
+ 974:	33 23       	and	r19, r19
+ 976:	d9 f0       	breq	.+54     	; 0x9ae <b2a+0x56>
+ 978:	df 01       	movw	r26, r30
+ 97a:	11 96       	adiw	r26, 0x01	; 1
+ 97c:	2f 5c       	subi	r18, 0xCF	; 207
+ 97e:	20 83       	st	Z, r18
+
+d2 = 0;
+while (b >= 10)
+ 980:	8a 30       	cpi	r24, 0x0A	; 10
+ 982:	91 05       	cpc	r25, r1
+ 984:	dc f0       	brlt	.+54     	; 0x9bc <b2a+0x64>
+
+// Converts an 8bit integer to 3 digit decimal form.
+void b2a(int b, char* a)
+{
+uint8_t d1,d2,d3;
+char *p = a;
+ 986:	20 e0       	ldi	r18, 0x00	; 0
+ 988:	01 c0       	rjmp	.+2      	; 0x98c <b2a+0x34>
+if (d3) *p++ = d3 + '0';
+
+d2 = 0;
+while (b >= 10)
+       {
+	++d2;
+ 98a:	23 2f       	mov	r18, r19
+ 98c:	31 e0       	ldi	r19, 0x01	; 1
+ 98e:	32 0f       	add	r19, r18
+	b -= 10;
+ 990:	0a 97       	sbiw	r24, 0x0a	; 10
+	b -= 100;
+	}
+if (d3) *p++ = d3 + '0';
+
+d2 = 0;
+while (b >= 10)
+ 992:	8a 30       	cpi	r24, 0x0A	; 10
+ 994:	91 05       	cpc	r25, r1
+ 996:	cc f7       	brge	.-14     	; 0x98a <b2a+0x32>
+ 998:	2f 5c       	subi	r18, 0xCF	; 207
+       {
+	++d2;
+	b -= 10;
+	}
+if (d3 | d2) *p++ = d2 + '0';
+ 99a:	fd 01       	movw	r30, r26
+ 99c:	31 96       	adiw	r30, 0x01	; 1
+ 99e:	2c 93       	st	X, r18
+
+d1 = 0;
+while (b > 0)
+ 9a0:	18 16       	cp	r1, r24
+ 9a2:	19 06       	cpc	r1, r25
+ 9a4:	4c f4       	brge	.+18     	; 0x9b8 <b2a+0x60>
+ 9a6:	80 5d       	subi	r24, 0xD0	; 208
+       {
+	++d1;
+	b -= 1;
+	}
+*p++ =  d1 + '0';
+ 9a8:	80 83       	st	Z, r24
+*p = '\0';
+ 9aa:	11 82       	std	Z+1, r1	; 0x01
+}
+ 9ac:	08 95       	ret
+	b -= 100;
+	}
+if (d3) *p++ = d3 + '0';
+
+d2 = 0;
+while (b >= 10)
+ 9ae:	8a 30       	cpi	r24, 0x0A	; 10
+ 9b0:	91 05       	cpc	r25, r1
+ 9b2:	b4 f3       	brlt	.-20     	; 0x9a0 <b2a+0x48>
+
+// Converts an 8bit integer to 3 digit decimal form.
+void b2a(int b, char* a)
+{
+uint8_t d1,d2,d3;
+char *p = a;
+ 9b4:	df 01       	movw	r26, r30
+ 9b6:	e7 cf       	rjmp	.-50     	; 0x986 <b2a+0x2e>
+	b -= 10;
+	}
+if (d3 | d2) *p++ = d2 + '0';
+
+d1 = 0;
+while (b > 0)
+ 9b8:	80 e3       	ldi	r24, 0x30	; 48
+ 9ba:	f6 cf       	rjmp	.-20     	; 0x9a8 <b2a+0x50>
+	b -= 100;
+	}
+if (d3) *p++ = d3 + '0';
+
+d2 = 0;
+while (b >= 10)
+ 9bc:	20 e3       	ldi	r18, 0x30	; 48
+ 9be:	ed cf       	rjmp	.-38     	; 0x99a <b2a+0x42>
+
+000009c0 <b2aa>:
+{
+uint8_t d1,d2,d3,d4,d5;
+char *p = a;
+
+d5 = 0;
+while (b >= 10000)
+ 9c0:	80 31       	cpi	r24, 0x10	; 16
+ 9c2:	27 e2       	ldi	r18, 0x27	; 39
+ 9c4:	92 07       	cpc	r25, r18
+ 9c6:	0c f4       	brge	.+2      	; 0x9ca <b2aa+0xa>
+ 9c8:	58 c0       	rjmp	.+176    	; 0xa7a <b2aa+0xba>
+       {
+	++d5;
+	b -= 10000;
+ 9ca:	9c 01       	movw	r18, r24
+ 9cc:	20 51       	subi	r18, 0x10	; 16
+ 9ce:	37 42       	sbci	r19, 0x27	; 39
+{
+uint8_t d1,d2,d3,d4,d5;
+char *p = a;
+
+d5 = 0;
+while (b >= 10000)
+ 9d0:	20 31       	cpi	r18, 0x10	; 16
+ 9d2:	47 e2       	ldi	r20, 0x27	; 39
+ 9d4:	34 07       	cpc	r19, r20
+ 9d6:	0c f4       	brge	.+2      	; 0x9da <b2aa+0x1a>
+ 9d8:	5e c0       	rjmp	.+188    	; 0xa96 <b2aa+0xd6>
+       {
+	++d5;
+	b -= 10000;
+ 9da:	20 51       	subi	r18, 0x10	; 16
+ 9dc:	37 42       	sbci	r19, 0x27	; 39
+{
+uint8_t d1,d2,d3,d4,d5;
+char *p = a;
+
+d5 = 0;
+while (b >= 10000)
+ 9de:	20 31       	cpi	r18, 0x10	; 16
+ 9e0:	a7 e2       	ldi	r26, 0x27	; 39
+ 9e2:	3a 07       	cpc	r19, r26
+ 9e4:	0c f4       	brge	.+2      	; 0x9e8 <b2aa+0x28>
+ 9e6:	5a c0       	rjmp	.+180    	; 0xa9c <b2aa+0xdc>
+       {
+	++d5;
+	b -= 10000;
+ 9e8:	80 53       	subi	r24, 0x30	; 48
+ 9ea:	95 47       	sbci	r25, 0x75	; 117
+char *p = a;
+
+d5 = 0;
+while (b >= 10000)
+       {
+	++d5;
+ 9ec:	22 e0       	ldi	r18, 0x02	; 2
+	b -= 10000;
+	}
+if(d5) *p++ = d5 + '0';
+ 9ee:	fb 01       	movw	r30, r22
+ 9f0:	31 96       	adiw	r30, 0x01	; 1
+ 9f2:	2f 5c       	subi	r18, 0xCF	; 207
+ 9f4:	db 01       	movw	r26, r22
+ 9f6:	2c 93       	st	X, r18
+
+d4 = 0;
+while (b >= 1000)
+ 9f8:	88 3e       	cpi	r24, 0xE8	; 232
+ 9fa:	b3 e0       	ldi	r27, 0x03	; 3
+ 9fc:	9b 07       	cpc	r25, r27
+ 9fe:	0c f4       	brge	.+2      	; 0xa02 <b2aa+0x42>
+ a00:	53 c0       	rjmp	.+166    	; 0xaa8 <b2aa+0xe8>
+
+// Converts an 16bit integer to 5 digit decimal form.
+void b2aa(int b, char* a)
+{
+uint8_t d1,d2,d3,d4,d5;
+char *p = a;
+ a02:	20 e0       	ldi	r18, 0x00	; 0
+ a04:	01 c0       	rjmp	.+2      	; 0xa08 <b2aa+0x48>
+if(d5) *p++ = d5 + '0';
+
+d4 = 0;
+while (b >= 1000)
+       {
+	++d4;
+ a06:	23 2f       	mov	r18, r19
+ a08:	31 e0       	ldi	r19, 0x01	; 1
+ a0a:	32 0f       	add	r19, r18
+	b -= 1000;
+ a0c:	88 5e       	subi	r24, 0xE8	; 232
+ a0e:	93 40       	sbci	r25, 0x03	; 3
+	b -= 10000;
+	}
+if(d5) *p++ = d5 + '0';
+
+d4 = 0;
+while (b >= 1000)
+ a10:	88 3e       	cpi	r24, 0xE8	; 232
+ a12:	43 e0       	ldi	r20, 0x03	; 3
+ a14:	94 07       	cpc	r25, r20
+ a16:	bc f7       	brge	.-18     	; 0xa06 <b2aa+0x46>
+ a18:	2f 5c       	subi	r18, 0xCF	; 207
+       {
+	++d4;
+	b -= 1000;
+	}
+if (d5 | d4) *p++ = d4 + '0';
+ a1a:	bf 01       	movw	r22, r30
+ a1c:	6f 5f       	subi	r22, 0xFF	; 255
+ a1e:	7f 4f       	sbci	r23, 0xFF	; 255
+ a20:	20 83       	st	Z, r18
+
+	
+d3 = 0;
+while (b >= 100)
+ a22:	84 36       	cpi	r24, 0x64	; 100
+ a24:	91 05       	cpc	r25, r1
+ a26:	ec f1       	brlt	.+122    	; 0xaa2 <b2aa+0xe2>
+	b -= 10000;
+	}
+if(d5) *p++ = d5 + '0';
+
+d4 = 0;
+while (b >= 1000)
+ a28:	20 e0       	ldi	r18, 0x00	; 0
+ a2a:	01 c0       	rjmp	.+2      	; 0xa2e <b2aa+0x6e>
+
+	
+d3 = 0;
+while (b >= 100)
+       {
+	++d3;
+ a2c:	23 2f       	mov	r18, r19
+ a2e:	31 e0       	ldi	r19, 0x01	; 1
+ a30:	32 0f       	add	r19, r18
+	b -= 100;
+ a32:	84 56       	subi	r24, 0x64	; 100
+ a34:	91 09       	sbc	r25, r1
+	}
+if (d5 | d4) *p++ = d4 + '0';
+
+	
+d3 = 0;
+while (b >= 100)
+ a36:	84 36       	cpi	r24, 0x64	; 100
+ a38:	91 05       	cpc	r25, r1
+ a3a:	c4 f7       	brge	.-16     	; 0xa2c <b2aa+0x6c>
+ a3c:	2f 5c       	subi	r18, 0xCF	; 207
+ a3e:	fb 01       	movw	r30, r22
+       {
+	++d3;
+	b -= 100;
+	}
+if (d5 | d4 | d3) *p++ = d3 + '0';
+ a40:	6f 5f       	subi	r22, 0xFF	; 255
+ a42:	7f 4f       	sbci	r23, 0xFF	; 255
+ a44:	20 83       	st	Z, r18
+
+d2 = 0;
+while (b >= 10)
+ a46:	8a 30       	cpi	r24, 0x0A	; 10
+ a48:	91 05       	cpc	r25, r1
+ a4a:	84 f1       	brlt	.+96     	; 0xaac <b2aa+0xec>
+	}
+if (d5 | d4) *p++ = d4 + '0';
+
+	
+d3 = 0;
+while (b >= 100)
+ a4c:	20 e0       	ldi	r18, 0x00	; 0
+ a4e:	01 c0       	rjmp	.+2      	; 0xa52 <b2aa+0x92>
+if (d5 | d4 | d3) *p++ = d3 + '0';
+
+d2 = 0;
+while (b >= 10)
+       {
+	++d2;
+ a50:	23 2f       	mov	r18, r19
+ a52:	31 e0       	ldi	r19, 0x01	; 1
+ a54:	32 0f       	add	r19, r18
+	b -= 10;
+ a56:	0a 97       	sbiw	r24, 0x0a	; 10
+	b -= 100;
+	}
+if (d5 | d4 | d3) *p++ = d3 + '0';
+
+d2 = 0;
+while (b >= 10)
+ a58:	8a 30       	cpi	r24, 0x0A	; 10
+ a5a:	91 05       	cpc	r25, r1
+ a5c:	cc f7       	brge	.-14     	; 0xa50 <b2aa+0x90>
+ a5e:	2f 5c       	subi	r18, 0xCF	; 207
+       {
+	++d2;
+	b -= 10;
+	}
+if (d5 | d4 | d3 | d2) *p++ = d2 + '0';
+ a60:	fb 01       	movw	r30, r22
+ a62:	31 96       	adiw	r30, 0x01	; 1
+ a64:	db 01       	movw	r26, r22
+ a66:	2c 93       	st	X, r18
+
+d1 = 0;
+while (b > 0)
+ a68:	18 16       	cp	r1, r24
+ a6a:	19 06       	cpc	r1, r25
+ a6c:	24 f4       	brge	.+8      	; 0xa76 <b2aa+0xb6>
+ a6e:	80 5d       	subi	r24, 0xD0	; 208
+       {
+	++d1;
+	b -= 1;
+	}
+*p++ =  d1 + '0';
+ a70:	80 83       	st	Z, r24
+*p = '\0';
+ a72:	11 82       	std	Z+1, r1	; 0x01
+}
+ a74:	08 95       	ret
+	b -= 10;
+	}
+if (d5 | d4 | d3 | d2) *p++ = d2 + '0';
+
+d1 = 0;
+while (b > 0)
+ a76:	80 e3       	ldi	r24, 0x30	; 48
+ a78:	fb cf       	rjmp	.-10     	; 0xa70 <b2aa+0xb0>
+	b -= 10000;
+	}
+if(d5) *p++ = d5 + '0';
+
+d4 = 0;
+while (b >= 1000)
+ a7a:	88 3e       	cpi	r24, 0xE8	; 232
+ a7c:	b3 e0       	ldi	r27, 0x03	; 3
+ a7e:	9b 07       	cpc	r25, r27
+ a80:	14 f0       	brlt	.+4      	; 0xa86 <b2aa+0xc6>
+
+// Converts an 16bit integer to 5 digit decimal form.
+void b2aa(int b, char* a)
+{
+uint8_t d1,d2,d3,d4,d5;
+char *p = a;
+ a82:	fb 01       	movw	r30, r22
+ a84:	be cf       	rjmp	.-132    	; 0xa02 <b2aa+0x42>
+	}
+if (d5 | d4) *p++ = d4 + '0';
+
+	
+d3 = 0;
+while (b >= 100)
+ a86:	84 36       	cpi	r24, 0x64	; 100
+ a88:	91 05       	cpc	r25, r1
+ a8a:	74 f6       	brge	.-100    	; 0xa28 <b2aa+0x68>
+	b -= 100;
+	}
+if (d5 | d4 | d3) *p++ = d3 + '0';
+
+d2 = 0;
+while (b >= 10)
+ a8c:	8a 30       	cpi	r24, 0x0A	; 10
+ a8e:	91 05       	cpc	r25, r1
+ a90:	ec f6       	brge	.-70     	; 0xa4c <b2aa+0x8c>
+ a92:	fb 01       	movw	r30, r22
+ a94:	e9 cf       	rjmp	.-46     	; 0xa68 <b2aa+0xa8>
+{
+uint8_t d1,d2,d3,d4,d5;
+char *p = a;
+
+d5 = 0;
+while (b >= 10000)
+ a96:	c9 01       	movw	r24, r18
+ a98:	20 e0       	ldi	r18, 0x00	; 0
+ a9a:	a9 cf       	rjmp	.-174    	; 0x9ee <b2aa+0x2e>
+ a9c:	c9 01       	movw	r24, r18
+       {
+	++d5;
+ a9e:	21 e0       	ldi	r18, 0x01	; 1
+ aa0:	a6 cf       	rjmp	.-180    	; 0x9ee <b2aa+0x2e>
+while (b >= 1000)
+       {
+	++d4;
+	b -= 1000;
+	}
+if (d5 | d4) *p++ = d4 + '0';
+ aa2:	fb 01       	movw	r30, r22
+
+	
+d3 = 0;
+while (b >= 100)
+ aa4:	20 e3       	ldi	r18, 0x30	; 48
+ aa6:	cc cf       	rjmp	.-104    	; 0xa40 <b2aa+0x80>
+	b -= 10000;
+	}
+if(d5) *p++ = d5 + '0';
+
+d4 = 0;
+while (b >= 1000)
+ aa8:	20 e3       	ldi	r18, 0x30	; 48
+ aaa:	b7 cf       	rjmp	.-146    	; 0xa1a <b2aa+0x5a>
+	b -= 100;
+	}
+if (d5 | d4 | d3) *p++ = d3 + '0';
+
+d2 = 0;
+while (b >= 10)
+ aac:	20 e3       	ldi	r18, 0x30	; 48
+ aae:	d8 cf       	rjmp	.-80     	; 0xa60 <b2aa+0xa0>
+
+00000ab0 <main>:
+ ab0:	0e 94 49 00 	call	0x92	; 0x92 <i2c_init>
+ ab4:	0e 94 e5 02 	call	0x5ca	; 0x5ca <i2c_lcd_init>
+ ab8:	61 e0       	ldi	r22, 0x01	; 1
+ aba:	80 e6       	ldi	r24, 0x60	; 96
+ abc:	90 e0       	ldi	r25, 0x00	; 0
+ abe:	0e 94 a1 03 	call	0x742	; 0x742 <i2c_lcd_put_string>
+ ac2:	80 e0       	ldi	r24, 0x00	; 0
+ ac4:	90 e0       	ldi	r25, 0x00	; 0
+ ac6:	08 95       	ret
+
+00000ac8 <_exit>:
+ ac8:	f8 94       	cli
+
+00000aca <__stop_program>:
+ aca:	ff cf       	rjmp	.-2      	; 0xaca <__stop_program>
