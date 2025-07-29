@@ -1,0 +1,205 @@
+[build-system]
+requires = ["hatchling>=1.27.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "povm_toolbox"
+version = "0.2.0"
+readme = "README.md"
+description = "A toolbox for the implementation of positive operator-valued measures (POVMs)."
+license = "Apache-2.0"
+license-files = ["LICENSE.txt"]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Natural Language :: English",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+
+requires-python = ">=3.9"
+
+dependencies = [
+    "numpy>=1.23",
+    "numba>=0.59",
+    "qiskit>=1.4, <3",
+    "qiskit-ibm-runtime>=0.24",
+    "matplotlib!=3.9.1.post1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "povm_toolbox[test,doctest,nbtest,lint,docs,notebook-dependencies]",
+    "tox>=4.4.3",
+]
+basetest = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "pytest-subtests>=0.14",
+]
+test = [
+    "povm_toolbox[basetest]",
+]
+doctest = [
+    "povm_toolbox[basetest]",
+    "pytest-doctestplus>=1.2.1",
+]
+nbtest = [
+    "povm_toolbox[basetest]",
+    "nbmake>=1.5.0",
+]
+style = [
+    "ruff==0.11.12",
+    "nbqa>=1.8.5",
+    "typos>=1.20.0",
+]
+lint = [
+    "povm_toolbox[style]",
+    "mypy==1.16.0",
+    "pylint==3.3.7",
+    "reno>=4.1",
+    "toml>=0.9.6",
+]
+notebook-dependencies = [
+    "povm_toolbox",
+    "pylatexenc",
+]
+docs = [
+    "povm-toolbox[doctest]",
+    "qiskit-sphinx-theme~=2.0.0",
+    "jupyter-sphinx",
+    "sphinx-design",
+    "sphinx-autodoc-typehints",
+    "sphinx-copybutton",
+    "nbsphinx>=0.9.4",
+    "reno>=4.1",
+]
+[project.urls]
+"Documentation" = "https://qiskit-community.github.io/povm-toolbox/"
+"Changelog" = "https://qiskit-community.github.io/povm-toolbox/release-notes.html"
+"Repository" = "https://github.com/qiskit-community/povm-toolbox"
+
+[tool.coverage.run]
+branch = true
+parallel = true
+
+[tool.coverage.report]
+fail_under = 100
+show_missing = true
+
+[tool.hatch.build.targets.wheel]
+only-include = [
+    "povm_toolbox",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.mypy]
+python_version = "3.10"
+show_error_codes = true
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+
+[tool.pylint.main]
+py-version = "3.10"
+load-plugins = [
+    "pylint.extensions.no_self_use",
+    "pylint.extensions.docparams",
+]
+
+[tool.pylint."messages control"]
+disable = ["all"]
+enable = [
+    "reimported",
+    "no-else-raise",
+    "redefined-argument-from-local",
+    "redefined-builtin",
+    "raise-missing-from",
+    "cyclic-import",
+    "unused-argument",
+    "attribute-defined-outside-init",
+    "no-else-return",
+    "signature-differs",
+    "differing-param-doc",
+    "differing-type-doc",
+    "missing-param-doc",
+    "missing-type-doc",
+    "missing-raises-doc",
+    "useless-param-doc",
+    "useless-type-doc",
+    "missing-any-param-doc",
+    "missing-return-doc",
+    "missing-return-type-doc",
+    "missing-yield-doc",
+    "missing-yield-type-doc",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["./povm_toolbox/", "./test/"]
+
+[tool.ruff]
+line-length = 100
+src = ["povm_toolbox", "test"]
+target-version = "py39"
+
+[tool.ruff.lint]
+select = [
+    "I",   # isort
+    "E",   # pycodestyle
+    "W",   # pycodestyle
+    "D",   # pydocstyle
+    "F",   # pyflakes
+    "RUF", # ruff
+    "UP",  # pyupgrade
+    "SIM", # flake8-simplify
+    "B",   # flake8-bugbear
+    "A",   # flake8-builtins
+]
+ignore = [
+    "E501", # line too long
+]
+
+[tool.ruff.lint.pylint]
+max-args = 10
+max-statements = 65
+
+[tool.ruff.lint.extend-per-file-ignores]
+"test/**.py" = [
+    "D",  # pydocstyle
+]
+"docs/**/*" = [
+    "E402", # module level import not at top of file
+    "D",    # pydocstyle
+]
+
+[tool.ruff.lint.flake8-copyright]
+notice-rgx = """
+# \\(C\\) Copyright IBM \\d{4}((,\\s)\\d{4})*\\.
+#
+# This code is licensed under the Apache License, Version 2\\.0\\. You may
+# obtain a copy of this license in the LICENSE\\.txt file in the root directory
+# of this source tree or at http\\:\\/\\/www\\.apache\\.org\\/licenses\\/LICENSE\\-2\\.0\\.
+#
+# Any modifications or derivative works of this code must retain this
+# copyright notice, and modified files need to carry a notice indicating
+# that they have been altered from the originals\\.
+"""
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.typos.default.extend-words]
+arange = "arange"
+aer = "aer"
+IY = "IY"
+ket = "ket"
