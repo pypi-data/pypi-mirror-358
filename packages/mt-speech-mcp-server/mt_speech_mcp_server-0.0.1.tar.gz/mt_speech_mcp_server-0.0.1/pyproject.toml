@@ -1,0 +1,28 @@
+[project]
+name = "mt-speech-mcp-server"
+version = "0.0.1"
+description = "美团语音 MCP服务器 - 提供文本转语音和语音识别等语音功能"
+authors = [
+    {name = "lifeilong04"}
+]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp>=1.7.1",
+    "httpx>=0.25.0",
+    "pydantic>=2.0.0",
+    "librosa>=0.10.0",
+    "soundfile>=0.12.0",
+    "pydub>=0.25.0",
+    "mutagen>=1.47.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.scripts]
+mt-speech-mcp-server = "src.server:run_server"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
