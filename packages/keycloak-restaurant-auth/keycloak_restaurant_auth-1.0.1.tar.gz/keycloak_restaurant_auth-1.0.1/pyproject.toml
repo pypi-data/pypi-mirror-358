@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "keycloak-restaurant-auth"
+version = "1.0.1"
+description = "Reusable and configurable Keycloak OIDC backend for Django"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "django>=5.0",
+    "mozilla-django-oidc>=4.0.0",
+    "djangorestframework>=3.10.0"
+]
+license = { file = "LICENSE.md" }
+authors = [
+    { name="Grisha Reznikau", email="kave7771@outlook.com" }
+]
