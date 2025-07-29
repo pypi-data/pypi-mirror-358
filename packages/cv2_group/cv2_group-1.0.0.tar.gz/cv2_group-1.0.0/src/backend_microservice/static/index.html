@@ -1,0 +1,3501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OnlyPlants - Advanced Root Analysis Platform</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Add marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+
+        /* Header styles */
+        .header-gradient {
+            background: linear-gradient(135deg, #059669 0%, #10b981 50%, #34d399 100%);
+        }
+
+        /* Logo placeholder */
+        .logo-placeholder {
+            background: linear-gradient(45deg, #ffffff 25%, transparent 25%),
+                        linear-gradient(-45deg, #ffffff 25%, transparent 25%),
+                        linear-gradient(45deg, transparent 75%, #ffffff 75%),
+                        linear-gradient(-45deg, transparent 75%, #ffffff 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        }
+
+        /* Tab styles */
+        .tab-button {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+        }
+
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #10b981;
+            border-radius: 2px;
+        }
+
+        /* Card styles */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Button styles */
+        .btn-primary {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(5, 150, 105, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #475569 0%, #64748b 100%);
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(71, 85, 105, 0.3);
+        }
+
+        /* Image canvas styles */
+        .image-canvas {
+            border: 2px solid #475569;
+            border-radius: 12px;
+            max-width: 100%;
+            height: auto;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .image-canvas:hover {
+            border-color: #10b981;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.2);
+        }
+
+        .cursor-crosshair {
+            cursor: crosshair;
+        }
+
+        .blinking-cursor {
+            display: inline-block;
+            width: 1ch;
+            animation: blink 1s steps(1) infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        /* Spinner animation */
+        .spinner {
+            border-top-color: #10b981;
+            -webkit-animation: spinner .8s linear infinite;
+            animation: spinner .8s linear infinite;
+        }
+
+        @-webkit-keyframes spinner {
+            0% { -webkit-transform: rotate(0deg); }
+            100% { -webkit-transform: rotate(360deg); }
+        }
+
+        @keyframes spinner {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Image container styles */
+        .image-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem;
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .image-container:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
+        }
+
+        .canvas-wrapper {
+            position: relative;
+            width: 100%;
+            height: auto;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 12px;
+        }
+
+        .canvas-wrapper canvas {
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .canvas-wrapper canvas[style*="position: absolute"] {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        /* Chat styles */
+        #chatToggleBtn {
+            position: fixed;
+            right: 2rem;
+            bottom: 2rem;
+            z-index: 50;
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            color: white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 32px rgba(5, 150, 105, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        #chatToggleBtn:hover {
+            width: 200px;
+            border-radius: 30px;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(5, 150, 105, 0.4);
+        }
+
+        #chatToggleBtn .chat-label {
+            display: none;
+            margin-left: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.2s 0.18s; /* Add delay to fade in after button expands */
+        }
+
+        #chatToggleBtn:hover .chat-label {
+            display: inline;
+            opacity: 1;
+            transition: opacity 0.2s 0.18s;
+        }
+
+        #chatContainer {
+            display: none;
+            position: fixed;
+            right: 2rem;
+            bottom: 5.5rem;
+            z-index: 40;
+            width: 400px;
+            max-width: 95vw;
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 16px 64px rgba(0, 0, 0, 0.3);
+            resize: both;
+            overflow: auto;
+            min-width: 300px;
+            min-height: 300px;
+        }
+
+        /* Tab content animations */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .header-gradient {
+                padding: 1rem;
+            }
+
+            .logo-placeholder {
+                width: 40px;
+                height: 40px;
+            }
+
+            .tab-button {
+                padding: 0.5rem 1rem;
+                font-size: 0.875rem;
+            }
+
+            #chatContainer {
+                width: 95vw;
+                right: 2.5vw;
+                bottom: 5.5rem;
+            }
+        }
+
+        /* Loading overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .loading-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(16, 185, 129, 0.2);
+            border-top: 4px solid #10b981;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Image Selection Button Styles */
+        #imageSelectionGrid {
+            max-height: 200px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #475569 #1e293b;
+        }
+
+        #imageSelectionGrid::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #imageSelectionGrid::-webkit-scrollbar-track {
+            background: #1e293b;
+            border-radius: 3px;
+        }
+
+        #imageSelectionGrid::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 3px;
+        }
+
+        #imageSelectionGrid::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+
+        .image-selection-button {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-selection-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .image-selection-button.active {
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .model-indicator {
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .model-indicator:hover {
+            transform: scale(1.1);
+        }
+
+        .model-indicator.active {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Tooltip styles for model indicators */
+        .model-indicator::after {
+            content: attr(title);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+            z-index: 1000;
+        }
+
+        .model-indicator:hover::after {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-gradient-to-r from-green-700 via-green-600 to-green-400 shadow-lg">
+        <div class="container mx-auto flex items-center px-4 py-3">
+            <div class="flex items-center space-x-4">
+                <img src="/assets/OnlyPlants_logo.png" alt="OnlyPlants Logo" class="h-20 w-20 object-contain" onerror="this.style.display='none'">
+                <span class="text-2xl font-bold text-white tracking-wide">OnlyPlants</span>
+            </div>
+        </div>
+    </header>
+    <div class="pt-20">
+        <!-- Main Content -->
+        <main class="container mx-auto px-6 py-8">
+            <!-- Tab Navigation -->
+            <div class="flex flex-wrap justify-center mb-8 bg-gray-800/50 backdrop-blur-sm rounded-2xl p-2">
+                <button class="tab-button active px-6 py-3 rounded-xl text-white font-semibold mx-1" data-tab="dashboard">
+                    <i class="fas fa-chart-line mr-2"></i>Dashboard
+                </button>
+                <button class="tab-button px-6 py-3 rounded-xl text-white font-semibold mx-1" data-tab="analysis">
+                    <i class="fas fa-microscope mr-2"></i>Analysis
+                </button>
+                <button class="tab-button px-6 py-3 rounded-xl text-white font-semibold mx-1" data-tab="training">
+                    <i class="fas fa-brain mr-2"></i>Training
+                </button>
+                <button class="tab-button px-6 py-3 rounded-xl text-white font-semibold mx-1" data-tab="results">
+                    <i class="fas fa-chart-bar mr-2"></i>Results
+                </button>
+                <button class="tab-button px-6 py-3 rounded-xl text-white font-semibold mx-1" data-tab="monitoring">
+                    <i class="fas fa-server mr-2"></i>Monitoring
+                </button>
+                <button class="tab-button px-6 py-3 rounded-xl text-white font-semibold mx-1" data-tab="help">
+                    <i class="fas fa-question-circle mr-2"></i>Help
+                </button>
+            </div>
+
+            <!-- Tab Content -->
+            <div id="tabContent">
+                <!-- Dashboard Tab -->
+                <div id="dashboard-pane" class="tab-pane">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <!-- Stats Cards -->
+                        <div class="glass-card rounded-2xl p-6 text-center">
+                            <div class="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-images text-green-400 text-xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-2" id="totalImages">0</h3>
+                            <p class="text-gray-400">Images Processed</p>
+                        </div>
+
+                        <div class="glass-card rounded-2xl p-6 text-center">
+                            <div class="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-chart-line text-blue-400 text-xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-2" id="totalAnalyses">0</h3>
+                            <p class="text-gray-400">Analyses Completed</p>
+                        </div>
+
+                        <div class="glass-card rounded-2xl p-6 text-center">
+                            <div class="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-download text-purple-400 text-xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-2" id="totalDownloads">0</h3>
+                            <p class="text-gray-400">Files Downloaded</p>
+                        </div>
+
+                        <div class="glass-card rounded-2xl p-6 text-center">
+                            <div class="w-12 h-12 bg-orange-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-clock text-orange-400 text-xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-2" id="avgProcessingTime">0s</h3>
+                            <p class="text-gray-400">Avg Processing Time</p>
+                        </div>
+                    </div>
+
+                    <!-- Feedback Statistics -->
+                    <div class="glass-card rounded-2xl p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-white mb-6 text-center">
+                            <i class="fas fa-comments mr-3 text-purple-400"></i>Feedback Statistics
+            </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="text-center">
+                                <div class="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-comment-dots text-purple-400 text-xl"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-white mb-2" id="totalFeedback">0</h3>
+                                <p class="text-gray-400">Total Feedback</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-users text-green-400 text-xl"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-white mb-2" id="uniqueUsers">0</h3>
+                                <p class="text-gray-400">Unique Users</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-calendar text-blue-400 text-xl"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-white mb-2" id="recentFeedback">0</h3>
+                                <p class="text-gray-400">This Week</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="glass-card rounded-2xl p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-white mb-6 text-center">
+                            <i class="fas fa-rocket mr-3 text-green-400"></i>Quick Actions
+                        </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <button class="btn-primary p-6 rounded-2xl text-white font-semibold text-lg transition-all duration-300" onclick="switchTab('analysis')">
+                                <i class="fas fa-upload text-2xl mb-3"></i>
+                                <div>Upload Images</div>
+                                <div class="text-sm opacity-80">Start new analysis</div>
+                            </button>
+
+                            <button class="btn-secondary p-6 rounded-2xl text-white font-semibold text-lg transition-all duration-300" onclick="switchTab('training')">
+                                <i class="fas fa-brain text-2xl mb-3"></i>
+                                <div>Train Model</div>
+                                <div class="text-sm opacity-80">Improve accuracy</div>
+                            </button>
+
+                            <button class="btn-secondary p-6 rounded-2xl text-white font-semibold text-lg transition-all duration-300" onclick="switchTab('results')">
+                                <i class="fas fa-chart-bar text-2xl mb-3"></i>
+                                <div>View Results</div>
+                                <div class="text-sm opacity-80">See analysis data</div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="glass-card rounded-2xl p-8">
+                        <h2 class="text-2xl font-bold text-white mb-6">
+                            <i class="fas fa-history mr-3 text-green-400"></i>Recent Activity
+                        </h2>
+                        <div id="recentActivity" class="space-y-4">
+                            <div class="flex items-center p-4 bg-gray-700/50 rounded-xl">
+                                <div class="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-check text-green-400"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-white font-semibold">Welcome to OnlyPlants!</p>
+                                    <p class="text-gray-400 text-sm">Ready to analyze your root systems</p>
+                                </div>
+                                <span class="text-gray-500 text-sm">Just now</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analysis Tab -->
+                <div id="analysis-pane" class="tab-pane hidden">
+                    <!-- File Upload Section -->
+                    <div class="glass-card rounded-2xl p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-white mb-6 text-center">
+                            <i class="fas fa-microscope mr-3 text-green-400"></i>Root Analysis
+                        </h2>
+
+                        <div class="max-w-2xl mx-auto">
+                            <div class="mb-6">
+                                <label for="fileInput" class="block text-gray-300 text-sm font-semibold mb-3">
+                                    <i class="fas fa-images mr-2"></i>Select Images (Max 16)
+                                </label>
+            <input
+                type="file"
+                id="fileInput"
+                accept="image/*"
+                multiple
+                                    class="w-full p-4 border-2 border-dashed border-gray-600 rounded-2xl bg-gray-700/50 text-white
+                                           file:mr-4 file:py-3 file:px-6
+                                           file:rounded-xl file:border-0
+                       file:text-sm file:font-semibold
+                                           file:bg-green-500 file:text-white
+                                           hover:file:bg-green-600 cursor-pointer
+                                           transition-all duration-300 hover:border-green-500"
+            />
+                            </div>
+
+                            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mb-6">
+                <button
+                    id="predictButton"
+                                    class="btn-primary py-4 px-8 rounded-xl text-white font-bold text-lg
+                                           transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed
+                                           flex items-center"
+                                >
+                                    <i class="fas fa-play mr-3"></i>
+                                    <span>Predict & Analyze</span>
+                </button>
+
+                <div class="flex flex-col sm:flex-row items-center gap-2">
+                                    <label for="downloadBaseName" class="text-gray-300 whitespace-nowrap font-semibold">
+                                        <i class="fas fa-tag mr-2"></i>File Base Name:
+                                    </label>
+                    <input
+                        type="text"
+                        id="downloadBaseName"
+                        placeholder="e.g., my_root_sample"
+                                        class="p-3 rounded-xl bg-gray-700 border border-gray-600 text-white w-full sm:w-auto
+                                               focus:border-green-500 focus:outline-none transition-all duration-300"
+                    />
+                </div>
+            </div>
+
+                            <div id="messageDisplay" class="text-center text-gray-400 p-4 rounded-xl bg-gray-700/50"></div>
+                        </div>
+        </div>
+
+                    <!-- Image Navigation -->
+                    <div id="imageNavigation" class="glass-card rounded-2xl p-6 mb-8 hidden">
+                        <h3 class="text-xl font-bold text-white mb-4 text-center">
+                            <i class="fas fa-images mr-2 text-green-400"></i>Image Selection
+                        </h3>
+
+                        <!-- Image Selection Grid -->
+                        <div id="imageSelectionGrid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 mb-4">
+                            <!-- Image selection buttons will be dynamically created here -->
+                        </div>
+
+                        <!-- Model Legend -->
+                        <div class="flex justify-center items-center space-x-4 mb-4 text-sm">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-4 h-4 bg-green-600/30 rounded"></div>
+                                <span class="text-green-300">L = Local Model</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-4 h-4 bg-blue-600/30 rounded"></div>
+                                <span class="text-blue-300">A = Azure Model</span>
+                            </div>
+                        </div>
+
+                        <!-- Current Image Info -->
+                        <div class="flex justify-center items-center gap-4 mt-4">
+                            <span id="imageIndexDisplay" class="text-lg font-semibold text-white px-6 py-3 bg-gray-700/50 rounded-xl"></span>
+                        </div>
+
+                        <!-- Navigation Controls (for keyboard/mobile) -->
+                        <div class="flex justify-center items-center gap-4 mt-4">
+                            <button id="prevImageButton" class="btn-secondary py-2 px-4 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed text-sm">
+                                <i class="fas fa-chevron-left mr-1"></i>Previous
+                            </button>
+                            <button id="nextImageButton" class="btn-secondary py-2 px-4 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed text-sm">
+                                Next<i class="fas fa-chevron-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Image Display Grid -->
+                    <div id="imageDisplayGrid" class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8 hidden">
+                        <!-- Images will be dynamically created here -->
+                    </div>
+
+                    <!-- Image Info Display -->
+                    <div id="imageInfoDisplay" class="glass-card rounded-2xl p-6 mb-8 hidden">
+                        <h3 class="text-xl font-bold text-white mb-4 text-center">
+                            <i class="fas fa-info-circle mr-2 text-green-400"></i>Image Information
+                        </h3>
+                        <div class="text-gray-300"></div>
+                    </div>
+
+                    <!-- Editing Tools -->
+                    <div id="editingTools" class="glass-card rounded-2xl p-8 mb-8 hidden">
+                        <h2 class="text-2xl font-bold text-white mb-6 text-center">
+                            <i class="fas fa-edit mr-3 text-green-400"></i>Editing & Download Tools
+            </h2>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                            <button id="roiModeButton" class="btn-secondary py-3 px-4 rounded-xl text-white font-semibold transition-all duration-300">
+                                <i class="fas fa-vector-square mr-2"></i>ROI Drawing
+                </button>
+
+                            <button id="clearRoisButton" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300">
+                                <i class="fas fa-trash mr-2"></i>Clear ROIs
+                </button>
+
+                            <button id="maskModeButton" class="btn-secondary py-3 px-4 rounded-xl text-white font-semibold transition-all duration-300">
+                                <i class="fas fa-paint-brush mr-2"></i>Mask Drawing
+                </button>
+
+                            <div class="flex items-center space-x-2 p-3 bg-gray-700/50 rounded-xl">
+                                <label for="drawColorSelect" class="text-gray-300 text-sm font-semibold">Color:</label>
+                                <select id="drawColorSelect" class="p-2 rounded-lg bg-gray-700 border border-gray-600 text-white cursor-pointer text-sm">
+                                    <option value="white">White (Add)</option>
+                                    <option value="black">Black (Remove)</option>
+                    </select>
+                </div>
+                </div>
+
+                        <!-- Feedback Submission Button -->
+                        <div class="flex justify-center mb-6">
+                            <button id="submitFeedbackButton" class="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                                <i class="fas fa-comment-dots mr-2"></i>Submit Feedback
+                            </button>
+            </div>
+
+                        <div class="flex items-center justify-center space-x-4 mb-6">
+                            <label for="brushSizeSlider" class="text-gray-300 font-semibold">Brush Size:</label>
+                            <input type="range" id="brushSizeSlider" min="5" max="50" value="15" class="w-32 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer">
+                            <input type="number" id="brushSizeNumber" min="5" max="50" value="15" class="w-20 p-2 text-center bg-gray-700 border border-gray-600 rounded-lg text-white">
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex flex-wrap justify-center gap-4">
+                            <button id="reanalyzeButton" class="btn-primary py-4 px-6 rounded-xl text-white font-bold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                                <i class="fas fa-sync-alt mr-2"></i>Reanalyze
+                </button>
+
+                            <button id="downloadAllButton" class="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                                <i class="fas fa-download mr-2"></i>Download All
+                </button>
+
+                            <button id="downloadCsvButton" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                                <i class="fas fa-file-csv mr-2"></i>Download CSV
+                </button>
+                        </div>
+                <!-- Analysis Results Table -->
+                <div id="analysisResultsContainer" class="glass-card rounded-2xl p-8 mt-8 hidden">
+                    <h3 class="text-xl font-bold text-white mb-6 text-center">
+                        <i class="fas fa-table mr-2 text-green-400"></i>Detailed Analysis Results
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table id="analysisResultsTable" class="min-w-full divide-y divide-gray-700">
+                            <thead class="bg-gray-700/50">
+                                <tr>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">
+                                        <i class="fas fa-vector-square mr-2"></i>ROI
+                                    </th>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">
+                                        <i class="fas fa-ruler mr-2"></i>Length (px)
+                                    </th>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">
+                                        <i class="fas fa-map-marker-alt mr-2"></i>Tip Coords (R, C)
+                                    </th>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">
+                                        <i class="fas fa-map-marker mr-2"></i>Base Coords (R, C)
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-gray-800/50 divide-y divide-gray-700">
+                                <!-- Analysis results rows will be added here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+                <!-- Training Tab -->
+                <div id="training-pane" class="tab-pane hidden">
+                    <div class="glass-card rounded-2xl p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-white mb-6 text-center">
+                            <i class="fas fa-brain mr-3 text-green-400"></i>Model Training
+            </h2>
+
+                        <div class="max-w-4xl mx-auto">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                                <!-- Images Upload -->
+                                <div class="glass-card rounded-2xl p-6">
+                                    <h3 class="text-xl font-bold text-white mb-4 text-center">
+                                        <i class="fas fa-images mr-2 text-blue-400"></i>Training Images
+                                    </h3>
+            <div class="mb-4">
+                                        <label for="imagesUpload" class="block text-gray-300 text-sm font-semibold mb-3">
+                                            <i class="fas fa-upload mr-2"></i>Select Training Images
+                </label>
+                <input
+                    type="file"
+                    id="imagesUpload"
+                    accept="image/*"
+                    multiple
+                                            class="w-full p-4 border-2 border-dashed border-gray-600 rounded-2xl bg-gray-700/50 text-white
+                                                   file:mr-4 file:py-3 file:px-6
+                                                   file:rounded-xl file:border-0
+                           file:text-sm file:font-semibold
+                           file:bg-blue-500 file:text-white
+                                                   hover:file:bg-blue-600 cursor-pointer
+                                                   transition-all duration-300 hover:border-blue-500"
+                />
+            </div>
+                                    <p class="text-gray-400 text-sm text-center">
+                                        Upload high-quality root images for training
+                                    </p>
+                                </div>
+
+                                <!-- Masks Upload -->
+                                <div class="glass-card rounded-2xl p-6">
+                                    <h3 class="text-xl font-bold text-white mb-4 text-center">
+                                        <i class="fas fa-mask mr-2 text-red-400"></i>Training Masks
+                                    </h3>
+            <div class="mb-4">
+                                        <label for="masksUpload" class="block text-gray-300 text-sm font-semibold mb-3">
+                                            <i class="fas fa-upload mr-2"></i>Select Training Masks
+                </label>
+                <input
+                    type="file"
+                    id="masksUpload"
+                    accept="image/*"
+                    multiple
+                                            class="w-full p-4 border-2 border-dashed border-gray-600 rounded-2xl bg-gray-700/50 text-white
+                                                   file:mr-4 file:py-3 file:px-6
+                                                   file:rounded-xl file:border-0
+                           file:text-sm file:font-semibold
+                                                   file:bg-red-500 file:text-white
+                                                   hover:file:bg-red-600 cursor-pointer
+                                                   transition-all duration-300 hover:border-red-500"
+                />
+            </div>
+                                    <p class="text-gray-400 text-sm text-center">
+                                        Upload corresponding mask annotations
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+            <button
+                id="uploadDataButton"
+                                    class="btn-primary py-4 px-8 rounded-xl text-white font-bold text-lg
+                                           transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed
+                                           flex items-center mx-auto"
+                                >
+                                    <i class="fas fa-cloud-upload-alt mr-3"></i>
+                                    <span>Upload to Azure ML</span>
+            </button>
+        </div>
+
+                            <div id="uploadMessageDisplay" class="text-center text-gray-400 p-4 rounded-xl bg-gray-700/50 mt-6"></div>
+                        </div>
+                    </div>
+        </div>
+
+                <!-- Results Tab -->
+                <div id="results-pane" class="tab-pane hidden">
+                    <div class="glass-card rounded-2xl p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-white mb-6 text-center">
+                            <i class="fas fa-chart-bar mr-3 text-green-400"></i>Analysis Results
+                </h2>
+
+                        <div class="max-w-6xl mx-auto">
+                            <!-- Download Controls -->
+                            <div class="glass-card rounded-2xl p-6 mb-8">
+                                <h3 class="text-xl font-bold text-white mb-4 text-center">
+                                    <i class="fas fa-download mr-2 text-green-400"></i>Download Results
+                                </h3>
+                                <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                        <button
+                                        id="downloadAllButtonResults"
+                                        class="btn-primary py-3 px-6 rounded-xl text-white font-semibold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    >
+                                        <i class="fas fa-download mr-2"></i>Download All Images
+                                    </button>
+
+                                    <button
+                                        id="downloadCsvButtonResults"
+                                        class="btn-secondary py-3 px-6 rounded-xl text-white font-semibold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    >
+                                        <i class="fas fa-file-csv mr-2"></i>Export CSV Data
+                        </button>
+                    </div>
+                </div>
+
+                            <!-- Feedback Display Section -->
+                            <div class="glass-card rounded-2xl p-6 mb-8">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h3 class="text-xl font-bold text-white">
+                                        <i class="fas fa-comments mr-2 text-purple-400"></i>User Feedback
+                                    </h3>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-gray-400 text-sm">
+                                            <span id="feedbackCount">0</span> feedback entries
+                                        </span>
+                                        <button id="refreshFeedbackBtn" class="text-gray-400 hover:text-white transition-colors duration-200">
+                                            <i class="fas fa-sync-alt"></i>
+                                        </button>
+            </div>
+        </div>
+
+                                <!-- Feedback Pagination Controls -->
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center space-x-2">
+                                        <label for="feedbackPageSize" class="text-gray-300 text-sm">Show:</label>
+                                        <select id="feedbackPageSize" class="p-1 rounded bg-gray-700 border border-gray-600 text-white text-sm">
+                                            <option value="5">5</option>
+                                            <option value="10" selected>10</option>
+                                            <option value="20">20</option>
+                                            <option value="50">50</option>
+                                        </select>
+                                        <span class="text-gray-400 text-sm">per page</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <button id="prevFeedbackPage" class="text-gray-400 hover:text-white transition-colors duration-200 disabled:opacity-50">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </button>
+                                        <span class="text-gray-300 text-sm">
+                                            Page <span id="currentFeedbackPage">1</span> of <span id="totalFeedbackPages">1</span>
+                                        </span>
+                                        <button id="nextFeedbackPage" class="text-gray-400 hover:text-white transition-colors duration-200 disabled:opacity-50">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+        </div>
+
+                                <!-- Feedback List -->
+                                <div id="feedbackList" class="space-y-4 max-h-96 overflow-y-auto">
+                                    <!-- Feedback entries will be populated here -->
+                                </div>
+
+                                <!-- No Feedback Message -->
+                                <div id="noFeedbackMessage" class="text-center py-8 text-gray-400 hidden">
+                                    <i class="fas fa-comments text-4xl mb-4"></i>
+                                    <p class="text-lg">No feedback submitted yet</p>
+                                    <p class="text-sm">Submit feedback from the Analysis tab to see it here</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Help Tab -->
+                <div id="help-pane" class="tab-pane hidden">
+                    <div class="glass-card rounded-2xl p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-white mb-6 text-center">
+                            <i class="fas fa-question-circle mr-3 text-green-400"></i>Help & Documentation
+                        </h2>
+
+                        <div class="max-w-4xl mx-auto space-y-8">
+                            <!-- Getting Started -->
+                            <div class="glass-card rounded-2xl p-6">
+                                <h3 class="text-xl font-bold text-white mb-4">
+                                    <i class="fas fa-rocket mr-2 text-green-400"></i>Getting Started
+                                </h3>
+                                <div class="text-gray-300 space-y-3">
+                                    <p><strong>1. Upload Images:</strong> Go to the Analysis tab and select your root images (JPG, PNG, etc.)</p>
+                                    <p><strong>2. Run Analysis:</strong> Click "Predict & Analyze" to process your images</p>
+                                    <p><strong>3. Review Results:</strong> View the generated masks and ROI visualizations</p>
+                                    <p><strong>4. Download Data:</strong> Export your results as images or CSV data</p>
+                                </div>
+                            </div>
+
+                            <!-- Features -->
+                            <div class="glass-card rounded-2xl p-6">
+                                <h3 class="text-xl font-bold text-white mb-4">
+                                    <i class="fas fa-star mr-2 text-green-400"></i>Key Features
+                                </h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-300">
+                                    <div>
+                                        <h4 class="font-semibold text-white mb-2">Image Processing</h4>
+                                        <ul class="space-y-1 text-sm">
+                                            <li>• Multi-image batch processing</li>
+                                            <li>• Automatic root detection</li>
+                                            <li>• Mask generation</li>
+                                            <li>• ROI identification</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-white mb-2">Interactive Tools</h4>
+                                        <ul class="space-y-1 text-sm">
+                                            <li>• Manual mask editing</li>
+                                            <li>• ROI drawing tools</li>
+                                            <li>• Real-time visualization</li>
+                                            <li>• Image navigation</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Troubleshooting -->
+                            <div class="glass-card rounded-2xl p-6">
+                                <h3 class="text-xl font-bold text-white mb-4">
+                                    <i class="fas fa-tools mr-2 text-green-400"></i>Troubleshooting
+                                </h3>
+                                <div class="text-gray-300 space-y-3">
+                                    <p><strong>No images processed:</strong> Check that your images are in a supported format (JPG, PNG, etc.)</p>
+                                    <p><strong>Processing errors:</strong> Ensure your images are clear and contain visible root structures</p>
+                                    <p><strong>Canvas errors:</strong> Try refreshing the page if you encounter display issues</p>
+                                    <p><strong>Upload failures:</strong> Check your internet connection and try again</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Monitoring Tab -->
+                <div id="monitoring-pane" class="tab-pane hidden">
+                  <div class="glass-card rounded-2xl p-6 mb-8">
+                    <h2 class="text-xl font-bold text-white mb-4">Deployment Logs & Model Routing</h2>
+                    <div class="flex flex-col md:flex-row md:items-center gap-6 mb-4">
+                      <div class="flex-1">
+                        <label for="logsSlider" class="block text-white font-semibold mb-2">Blue/Green Model Percentage:</label>
+                        <input type="range" id="logsSlider" min="0" max="100" value="50" class="w-full">
+                        <div class="flex justify-between text-sm text-gray-300 mt-1">
+                          <span>Blue: <span id="logsSliderValue">50</span>%</span>
+                          <span>Green: <span id="logsSliderValueGreen">50</span>%</span>
+                        </div>
+                        <button id="setRoutingButton" class="btn-secondary py-2 px-6 rounded-lg text-white font-bold mt-4">Set Routing</button>
+                        <div id="routingStatusMsg" class="mt-2 text-sm"></div>
+                      </div>
+                      <div class="flex-1 flex flex-col gap-2">
+                        <span class="text-white font-semibold mb-1">Select Deployment:</span>
+                        <label class="inline-flex items-center mr-4">
+                          <input type="radio" id="deploymentRadioBlue" name="deploymentRadio" value="blue" checked class="form-radio">
+                          <span class="ml-2">Blue</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                          <input type="radio" id="deploymentRadioGreen" name="deploymentRadio" value="green" class="form-radio">
+                          <span class="ml-2">Green</span>
+                        </label>
+                      </div>
+                      <div class="flex-1 flex flex-col justify-end">
+                        <button id="fetchLogsButton" class="btn-primary py-2 px-6 rounded-lg text-white font-bold mt-4 md:mt-0">Fetch Logs</button>
+                      </div>
+                    </div>
+                    <pre class="bg-gray-900 text-green-300 rounded-lg p-4 overflow-x-auto max-h-96 mt-4"><code id="logsOutput">Logs will appear here...</code></pre>
+                  </div>
+                  <!-- Model Comparison Section -->
+                  <div class="glass-card rounded-2xl p-6 mb-8 mt-8">
+                    <h2 class="text-xl font-bold text-white mb-4">Compare Blue/Green Deployments</h2>
+                    <form id="compareDeploymentsForm" class="flex flex-col md:flex-row md:items-end gap-4">
+                      <div>
+                        <label class="block text-white font-semibold mb-2">Test Image:</label>
+                        <input type="file" id="compareImageInput" accept="image/*" required class="block w-full text-sm text-gray-300"/>
+                      </div>
+                      <div>
+                        <label class="block text-white font-semibold mb-2">Requests:</label>
+                        <input type="number" id="compareNumRequests" min="1" max="100" value="10" class="w-20 p-2 rounded bg-gray-700 border border-gray-600 text-white"/>
+                      </div>
+                      <div>
+                        <label class="block text-white font-semibold mb-2">Min Delay (s):</label>
+                        <input type="number" id="compareMinDelay" min="0" step="0.01" value="0.1" class="w-20 p-2 rounded bg-gray-700 border border-gray-600 text-white"/>
+                      </div>
+                      <div>
+                        <label class="block text-white font-semibold mb-2">Max Delay (s):</label>
+                        <input type="number" id="compareMaxDelay" min="0" step="0.01" value="0.5" class="w-20 p-2 rounded bg-gray-700 border border-gray-600 text-white"/>
+                      </div>
+                      <button type="submit" id="compareDeploymentsBtn" class="btn-primary py-2 px-6 rounded-lg text-white font-bold">Compare</button>
+                    </form>
+                    <div id="compareDeploymentsResult" class="mt-6"></div>
+                  </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="text-center">
+            <div class="loading-spinner mb-4"></div>
+            <p class="text-lg font-semibold text-white">Processing...</p>
+        </div>
+    </div>
+
+    <!-- Chat Toggle Button -->
+    <div id="chatToggleBtn" title="Open AI Assistant">
+        <i class="fas fa-comments"></i>
+        <span class="chat-label">AI Assistant</span>
+    </div>
+
+    <!-- Chat Interface -->
+    <div id="chatContainer" class="hidden">
+        <div class="bg-gray-800 p-6 rounded-2xl mb-0 h-full">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-bold text-white">
+                    <i class="fas fa-robot mr-2 text-green-400"></i>AI Assistant
+                </h2>
+                <button id="closeChatBtn" class="text-gray-400 hover:text-white transition-colors duration-200">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+
+            <div class="flex flex-col space-y-4 h-full">
+                <div id="chatMessages" class="bg-gray-700 rounded-xl p-4 h-96 overflow-y-auto mb-4">
+                    <!-- Messages will be added here dynamically -->
+                </div>
+
+                <div class="flex space-x-2">
+                    <input
+                        type="text"
+                        id="chatInput"
+                        placeholder="Ask about root analysis..."
+                        class="flex-1 p-3 rounded-xl bg-gray-700 border border-gray-600 text-white focus:outline-none focus:border-green-500 transition-all duration-300"
+                    />
+                    <button id="sendMessageButton" class="btn-primary py-3 px-4 rounded-xl transition-all duration-300">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedback Submission Modal -->
+    <div id="feedbackModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-gray-800 rounded-2xl p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-white">
+                    <i class="fas fa-comment-dots mr-3 text-purple-400"></i>Submit Feedback
+                </h2>
+                <button id="closeFeedbackModal" class="text-gray-400 hover:text-white transition-colors duration-200">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <div class="space-y-6">
+                <!-- Image Preview Section -->
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-3">
+                        <i class="fas fa-images mr-2 text-green-400"></i>Analysis Images
+                    </h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="text-center">
+                            <img id="feedbackOriginalImg" class="w-full h-32 object-cover rounded-lg border-2 border-gray-600" alt="Original Image">
+                            <p class="text-gray-400 text-sm mt-1">Original</p>
+                        </div>
+                        <div class="text-center">
+                            <img id="feedbackOverlayImg" class="w-full h-32 object-cover rounded-lg border-2 border-gray-600" alt="Overlay Image">
+                            <p class="text-gray-400 text-sm mt-1">Overlay</p>
+                        </div>
+                        <div class="text-center">
+                            <img id="feedbackMaskImg" class="w-full h-32 object-cover rounded-lg border-2 border-gray-600" alt="Mask Image">
+                            <p class="text-gray-400 text-sm mt-1">Mask</p>
+                        </div>
+                        <div class="text-center">
+                            <img id="feedbackDrawingImg" class="w-full h-32 object-cover rounded-lg border-2 border-gray-600" alt="Drawing Image">
+                            <p class="text-gray-400 text-sm mt-1">Drawing Area</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analysis Summary -->
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-3">
+                        <i class="fas fa-chart-bar mr-2 text-blue-400"></i>Analysis Summary
+                    </h3>
+                    <div id="feedbackAnalysisSummary" class="bg-gray-700/50 rounded-lg p-4 text-gray-300 text-sm"></div>
+                </div>
+
+                <!-- Feedback Message -->
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-3">
+                        <i class="fas fa-comment mr-2 text-purple-400"></i>What's Wrong?
+                    </h3>
+                    <div class="relative">
+                        <textarea
+                            id="feedbackMessage"
+                            placeholder="Please describe what issues you found with this analysis (max 500 characters)..."
+                            class="w-full p-4 rounded-xl bg-gray-700 border border-gray-600 text-white focus:outline-none focus:border-purple-500 transition-all duration-300 resize-none"
+                            rows="4"
+                            maxlength="500"
+                        ></textarea>
+                        <div class="absolute bottom-2 right-2 text-gray-400 text-sm">
+                            <span id="feedbackCharCount">0</span>/500
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Optional User Identifier -->
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-3">
+                        <i class="fas fa-user mr-2 text-yellow-400"></i>Your Name (Optional)
+                    </h3>
+                    <input
+                        type="text"
+                        id="feedbackUserIdentifier"
+                        placeholder="Enter your name or identifier (optional)"
+                        class="w-full p-3 rounded-xl bg-gray-700 border border-gray-600 text-white focus:outline-none focus:border-yellow-500 transition-all duration-300"
+                        maxlength="50"
+                    >
+                </div>
+
+                <!-- In feedback modal, add hidden model_source field if not present -->
+                <input type="hidden" id="feedbackModelSource" value="local">
+
+                <!-- Action Buttons -->
+                <div class="flex justify-end space-x-4 pt-4">
+                    <button id="cancelFeedbackBtn" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300">
+                        Cancel
+                    </button>
+                    <button id="submitFeedbackBtn" class="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                        <i class="fas fa-paper-plane mr-2"></i>Submit Feedback
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // --- Tab Switching (retain from new frontend) ---
+    document.addEventListener('DOMContentLoaded', () => {
+        // Add click event listeners to tab buttons
+        const tabButtons = document.querySelectorAll('.tab-button');
+        tabButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const tabName = this.getAttribute('data-tab');
+                switchTab(tabName);
+            });
+        });
+
+        // Initialize first tab as active
+        switchTab('dashboard');
+
+        // Load dashboard stats on page load
+        loadDashboardStats();
+
+        // Add event listeners for download buttons
+        const downloadAllButton = document.getElementById('downloadAllButton');
+        const downloadCsvButton = document.getElementById('downloadCsvButton');
+
+        if (downloadAllButton) {
+            downloadAllButton.addEventListener('click', downloadAllImages);
+        }
+
+        if (downloadCsvButton) {
+            downloadCsvButton.addEventListener('click', exportCsvData);
+        }
+        // Attach listeners for Results tab download buttons (feedback export)
+        const downloadAllButtonResults = document.getElementById('downloadAllButtonResults');
+        const downloadCsvButtonResults = document.getElementById('downloadCsvButtonResults');
+        if (downloadAllButtonResults) {
+            downloadAllButtonResults.addEventListener('click', downloadAllFeedbackImages);
+        }
+        if (downloadCsvButtonResults) {
+            downloadCsvButtonResults.addEventListener('click', exportFeedbackCsvData);
+        }
+    });
+
+    function switchTab(tabName) {
+        // Hide all tab panes
+        document.querySelectorAll('.tab-pane').forEach(pane => {
+            pane.classList.add('hidden');
+        });
+
+        // Remove active class from all tabs
+        document.querySelectorAll('.tab-button').forEach(tab => {
+            tab.classList.remove('active');
+        });
+
+        // Show selected tab pane
+        const selectedPane = document.getElementById(`${tabName}-pane`);
+        if (selectedPane) {
+            selectedPane.classList.remove('hidden');
+        }
+
+        // Add active class to selected tab
+        const selectedTab = document.querySelector(`[data-tab="${tabName}"]`);
+        if (selectedTab) {
+            selectedTab.classList.add('active');
+        }
+
+        // Load dashboard stats if switching to dashboard tab
+        if (tabName === 'dashboard') {
+            loadDashboardStats();
+        }
+    }
+    // --- Begin working logic from index_v2_functioning.html (chunk 1) ---
+        // DOM Elements (Prediction/Analysis)
+        const fileInput = document.getElementById('fileInput');
+        const predictButton = document.getElementById('predictButton');
+        const reanalyzeButton = document.getElementById('reanalyzeButton');
+        const messageDisplay = document.getElementById('messageDisplay');
+        const editingTools = document.getElementById('editingTools');
+        const imageDisplayGrid = document.getElementById('imageDisplayGrid');
+        const analysisResultsContainer = document.getElementById('analysisResultsContainer');
+        const analysisResultsTableBody = document.querySelector('#analysisResultsTable tbody');
+        const roiModeButton = document.getElementById('roiModeButton');
+        const clearRoisButton = document.getElementById('clearRoisButton');
+        const maskModeButton = document.getElementById('maskModeButton');
+        const drawColorSelect = document.getElementById('drawColorSelect');
+        const downloadBaseNameInput = document.getElementById('downloadBaseName');
+        const downloadAllButton = document.getElementById('downloadAllButton');
+    const downloadCsvButton = document.getElementById('downloadCsvButton');
+        // Image Navigation
+        const imageNavigation = document.getElementById('imageNavigation');
+        const prevImageButton = document.getElementById('prevImageButton');
+        const nextImageButton = document.getElementById('nextImageButton');
+        const imageIndexDisplay = document.getElementById('imageIndexDisplay');
+        // Mask Drawing Size Controls
+        const brushSizeSlider = document.getElementById('brushSizeSlider');
+        const brushSizeNumber = document.getElementById('brushSizeNumber');
+        // DOM Elements (Upload for Retraining)
+        const imagesUploadInput = document.getElementById('imagesUpload');
+        const masksUploadInput = document.getElementById('masksUpload');
+        const uploadDataButton = document.getElementById('uploadDataButton');
+        const uploadMessageDisplay = document.getElementById('uploadMessageDisplay');
+        // DOM Elements (Chat)
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const sendMessageButton = document.getElementById('sendMessageButton');
+        // Canvas References (will be created dynamically if needed)
+        let originalImageCanvas = null;
+        let predictedMaskCanvas = null;
+        let roiCanvas = null;
+        // State Variables for Multi-Image Handling
+    let allImageData = [];
+    let currentImageIndex = -1;
+    let isLoading = false;
+    let isUploading = false;
+    let drawingMode = 'none';
+    let maskDrawColor = 'white';
+    let maskBrushSize = parseInt(brushSizeSlider.value);
+        // Drawing state for ROIs
+        let isDrawingRoi = false;
+        let startPointRoi = { x: 0, y: 0 };
+    let currentRoiRect = null;
+        // Drawing state for Mask
+        let isDrawingMask = false;
+
+        let API_BASE_URL;
+        const host = window.location.host;
+
+        if (host.includes('194.171.191.227')) {
+            API_BASE_URL = 'http://194.171.191.227:3165'; // Portainer backend
+        } else if (host.includes('root-frontend.icybay-728baac8.westeurope.azurecontainerapps.io')) {
+            API_BASE_URL = 'https://root-backend.icybay-728baac8.westeurope.azurecontainerapps.io'; // ✅ New backend
+        } else {
+            API_BASE_URL = 'http://localhost:8000'; // Dev only
+        }
+
+        console.log("Using API:", API_BASE_URL);
+    // File selection state
+    let selectedFile = null;
+        // --- Helper Functions (General UI) ---
+        function setLoading(loading) {
+            isLoading = loading;
+            predictButton.disabled = loading || fileInput.files.length === 0;
+            reanalyzeButton.disabled = loading || currentImageIndex === -1;
+        downloadAllButton.disabled = loading || allImageData.length === 0;
+        downloadCsvButton.disabled = loading || allImageData.length === 0;
+            prevImageButton.disabled = loading || allImageData.length <= 1 || currentImageIndex === 0;
+            nextImageButton.disabled = loading || allImageData.length <= 1 || currentImageIndex === allImageData.length - 1;
+            const predictButtonText = loading && messageDisplay.textContent.includes('Processing') ?
+            `<div class=\"flex items-center\"><svg class=\"animate-spin -ml-1 mr-3 h-5 w-5 text-white\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\"><circle class=\"opacity-25\" cx=\"12\" cy=\"12\" r=\"10\" stroke=\"currentColor\" stroke-width=\"4\"></circle><path class=\"opacity-75\" fill=\"currentColor\" d=\"M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z\"></path></svg>Predicting...</div>` :
+                'Predict & Analyze';
+            predictButton.innerHTML = predictButtonText;
+            const reanalyzeButtonText = loading && messageDisplay.textContent.includes('Reanalyzing') ?
+            `<div class=\"flex items-center\"><svg class=\"animate-spin -ml-1 mr-3 h-5 w-5 text-white\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\"><circle class=\"opacity-25\" cx=\"12\" cy=\"12\" r=\"10\" stroke=\"currentColor\" stroke-width=\"4\"></circle><path class=\"opacity-75\" fill=\"currentColor\" d=\"M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z\"></path></svg>Reanalyzing...</div>` :
+                'Reanalyze Edited Mask & ROIs';
+            reanalyzeButton.innerHTML = reanalyzeButtonText;
+            messageDisplay.classList.toggle('text-gray-400', loading);
+            messageDisplay.classList.toggle('text-green-400', !loading && messageDisplay.textContent);
+        }
+        function setMessage(msg, isError = false) {
+            messageDisplay.textContent = msg;
+            messageDisplay.classList.toggle('text-red-500', isError);
+            messageDisplay.classList.toggle('text-green-400', !isError && msg);
+        }
+        // --- Helper Functions (Upload) ---
+        function setUploading(uploading) {
+            isUploading = uploading;
+            uploadDataButton.disabled = uploading || imagesUploadInput.files.length === 0 || masksUploadInput.files.length === 0;
+            const uploadButtonText = uploading ?
+                `<div class="flex items-center"><svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Uploading...</div>` :
+                'Upload to Azure ML';
+            uploadDataButton.innerHTML = uploadButtonText;
+            uploadMessageDisplay.classList.toggle('text-gray-400', uploading);
+            uploadMessageDisplay.classList.toggle('text-green-400', !uploading && uploadMessageDisplay.textContent);
+        }
+        function setUploadMessage(msg, isError = false) {
+            uploadMessageDisplay.textContent = msg;
+            uploadMessageDisplay.classList.toggle('text-red-500', isError);
+            uploadMessageDisplay.classList.toggle('text-green-400', !isError && msg);
+        }
+        // --- Download Functions ---
+    function downloadDataAsFile(data, filename, mimeType) {
+        const blob = new Blob([data], { type: mimeType });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+
+        // Track the download
+        trackDownload();
+    }
+        function downloadBase64AsPng(base64Data, filename) {
+        if (!base64Data) {
+            console.error('No base64 data provided for download');
+            return;
+        }
+
+
+        const link = document.createElement('a');
+        link.href = `data:image/png;base64,${base64Data}`;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        // Track the download
+        trackDownload();
+    }
+        function getTimestamp() {
+            const now = new Date();
+            return now.getFullYear().toString() +
+                   (now.getMonth() + 1).toString().padStart(2, '0') +
+                   now.getDate().toString().padStart(2, '0') +
+                   now.getHours().toString().padStart(2, '0') +
+                   now.getMinutes().toString().padStart(2, '0') +
+                   now.getSeconds().toString().padStart(2, '0');
+        }
+        function generateFilename(imageType, fileIdentifier = '') {
+            const baseName = downloadBaseNameInput.value.trim();
+            const timestamp = getTimestamp();
+            let filename = `${timestamp}`;
+            if (baseName) {
+                filename += `_${baseName}`;
+            }
+        if (fileIdentifier) {
+                filename += `_${fileIdentifier}`;
+            }
+            filename += `_${imageType}.png`;
+            return filename;
+        }
+        function generateCsvFilename() {
+            const baseName = downloadBaseNameInput.value.trim();
+            const timestamp = getTimestamp();
+            let filename = `${timestamp}`;
+            if (baseName) {
+                filename += `_${baseName}`;
+            }
+            filename += `_root_analysis_results.csv`;
+            return filename;
+        }
+        // --- UI Clearing and Creation ---
+        function clearAllDisplays() {
+            imageDisplayGrid.innerHTML = '';
+        imageDisplayGrid.classList.add('hidden');
+            analysisResultsTableBody.innerHTML = '';
+            editingTools.classList.add('hidden');
+            analysisResultsContainer.classList.add('hidden');
+        imageNavigation.classList.add('hidden');
+            imageIndexDisplay.textContent = '';
+            originalImageCanvas = null;
+            predictedMaskCanvas = null;
+            roiCanvas = null;
+            drawingMode = 'none';
+            updateDrawingModeButtons();
+        }
+
+        // Creates image selection buttons with model indicators
+        function createImageSelectionButtons() {
+            const imageSelectionGrid = document.getElementById('imageSelectionGrid');
+            const modelLegend = document.querySelector('#imageNavigation .flex.justify-center.items-center.space-x-4.mb-4');
+            imageSelectionGrid.innerHTML = '';
+
+            if (allImageData.length === 0) {
+                if (modelLegend) modelLegend.style.display = 'none';
+                return;
+            }
+
+            if (modelLegend) modelLegend.style.display = 'flex';
+
+            // Group images by original file
+            const imageGroups = {};
+            allImageData.forEach((imageData, index) => {
+                const fileName = imageData.originalFile.name;
+                if (!imageGroups[fileName]) {
+                    imageGroups[fileName] = [];
+                }
+                imageGroups[fileName].push({ ...imageData, index });
+            });
+
+            // Create buttons for each image group
+            Object.keys(imageGroups).forEach((fileName, groupIndex) => {
+                const group = imageGroups[fileName];
+
+                // Create container for this image group
+                const groupContainer = document.createElement('div');
+                groupContainer.className = 'flex flex-col items-center space-y-2';
+
+                // Create main image button
+                const imageButton = document.createElement('button');
+                imageButton.className = `image-selection-button w-full p-3 rounded-xl border-2 transition-all duration-300 text-white font-semibold text-sm ${
+                    currentImageIndex >= group[0].index && currentImageIndex < group[0].index + group.length
+                        ? 'border-green-400 bg-green-600/20 shadow-lg active'
+                        : 'border-gray-600 bg-gray-700/50 hover:border-gray-500 hover:bg-gray-600/50'
+                }`;
+
+                // Truncate filename for display
+                const displayName = fileName.length > 15 ? fileName.substring(0, 12) + '...' : fileName;
+                imageButton.textContent = displayName;
+                imageButton.title = fileName;
+
+                // Set click handler to show first model result for this image
+                imageButton.onclick = () => updateUIForImage(group[0].index);
+
+                groupContainer.appendChild(imageButton);
+
+                // Create model indicator buttons
+                const modelButtonsContainer = document.createElement('div');
+                modelButtonsContainer.className = 'flex space-x-1 w-full';
+
+                group.forEach((imageData, modelIndex) => {
+                    const modelButton = document.createElement('button');
+                    const isActive = currentImageIndex === imageData.index;
+                    const isLocal = imageData.modelSource === 'local';
+
+                    modelButton.className = `model-indicator flex-1 py-1 px-2 rounded text-xs font-bold transition-all duration-300 ${
+                        isActive
+                            ? isLocal
+                                ? 'bg-green-600 text-white shadow-md active'
+                                : 'bg-blue-600 text-white shadow-md active'
+                            : isLocal
+                                ? 'bg-green-600/30 text-green-300 hover:bg-green-600/50'
+                                : 'bg-blue-600/30 text-blue-300 hover:bg-blue-600/50'
+                    }`;
+
+                    modelButton.textContent = isLocal ? 'L' : 'A';
+                    modelButton.title = `${isLocal ? 'Local' : 'Azure'} Model - ${imageData.modelSource}`;
+
+                    modelButton.onclick = (e) => {
+                        e.stopPropagation();
+                        updateUIForImage(imageData.index);
+                    };
+
+                    modelButtonsContainer.appendChild(modelButton);
+                });
+
+                groupContainer.appendChild(modelButtonsContainer);
+                imageSelectionGrid.appendChild(groupContainer);
+            });
+        }
+
+        // Creates an image display div with a canvas or img tag, and a download button
+        function createImageDisplay(id, title, isCanvas = false, canvasId = null) {
+            const div = document.createElement('div');
+        div.className = "image-container";
+            const h2 = document.createElement('h2');
+            h2.className = "text-xl font-semibold mb-2 text-white";
+            h2.textContent = title;
+            div.appendChild(h2);
+            let mediaElement;
+            if (isCanvas) {
+                const canvasWrapper = document.createElement('div');
+                canvasWrapper.className = 'canvas-wrapper';
+                mediaElement = document.createElement('canvas');
+                mediaElement.id = canvasId;
+            mediaElement.className = "image-canvas";
+                if (canvasId === 'predictedMaskCanvas' || canvasId === 'roiCanvas') {
+                    mediaElement.classList.add('cursor-crosshair');
+                }
+                canvasWrapper.appendChild(mediaElement);
+                div.appendChild(canvasWrapper);
+            } else {
+                mediaElement = document.createElement('img');
+                mediaElement.id = id;
+            mediaElement.className = "image-canvas";
+                mediaElement.alt = title;
+                div.appendChild(mediaElement);
+            }
+            const downloadButton = document.createElement('button');
+            downloadButton.className = "mt-4 bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out";
+            downloadButton.textContent = `Download ${title}`;
+            downloadButton.onclick = () => {
+                let imageData = '';
+                let fileIdentifier = '';
+                if (currentImageIndex !== -1 && allImageData[currentImageIndex] && allImageData[currentImageIndex].originalFile) {
+                    fileIdentifier = allImageData[currentImageIndex].originalFile.name.split('.')[0];
+                }
+                if (isCanvas) {
+                    imageData = mediaElement.toDataURL('image/png').split(',')[1];
+                } else {
+                    imageData = mediaElement.src.split(',')[1];
+                }
+                downloadBase64AsPng(imageData, generateFilename(id.replace('Img', '').replace('Canvas', ''), fileIdentifier));
+            };
+            div.appendChild(downloadButton);
+            return div;
+        }
+        // Draws a base64 image onto a canvas and returns a Promise
+        function drawImageOnCanvas(canvas, base64Image) {
+            return new Promise((resolve, reject) => {
+                if (!canvas || !base64Image) {
+                    resolve();
+                    return;
+                }
+                const ctx = canvas.getContext('2d');
+                const img = new Image();
+                img.onload = () => {
+                    canvas.width = img.width; // Set canvas internal resolution to image resolution
+                    canvas.height = img.height;
+
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, 0, 0);
+                    resolve();
+                };
+                img.onerror = (error) => {
+                    console.error('Error loading image onto canvas:', error);
+                    reject('Error loading image onto canvas.');
+                };
+                img.src = `data:image/png;base64,${base64Image}`;
+            });
+        }
+        // Draws currentRois on the ROI canvas
+        function drawRoisOnCanvas(roisToDraw) {
+            if (!roiCanvas) return;
+            const ctx = roiCanvas.getContext('2d');
+        ctx.clearRect(0, 0, roiCanvas.width, roiCanvas.height);
+            ctx.strokeStyle = 'lime';
+            ctx.lineWidth = 3;
+        (roisToDraw || []).forEach(roi => {
+                ctx.strokeRect(roi.x, roi.y, roi.width, roi.height);
+            });
+        if (currentRoiRect) {
+                const { x, y, width, height } = currentRoiRect;
+                ctx.strokeRect(x, y, width, height);
+            }
+        }
+        // Updates the UI with results for a specific image index
+        async function updateUIForImage(index) {
+        console.log('updateUIForImage called with index:', index);
+            if (index < 0 || index >= allImageData.length) {
+                console.error("Invalid image index for UI update:", index);
+                return;
+            }
+            currentImageIndex = index;
+            const currentImage = allImageData[currentImageIndex];
+            const data = currentImage.predictionResults;
+        console.log('Current image data:', currentImage);
+        console.log('Prediction results:', data);
+
+        // Show the image display grid
+        imageDisplayGrid.classList.remove('hidden');
+        console.log('Image display grid shown');
+
+            // Update navigation display with model information
+            const modelName = currentImage.modelSource === 'local' ? 'Local' : 'Azure';
+            const modelIcon = currentImage.modelSource === 'local' ? '🏠' : '☁️';
+
+            // Count unique images (grouped by filename)
+            const uniqueImages = new Set(allImageData.map(img => img.originalFile.name));
+            const currentImageNumber = Array.from(uniqueImages).indexOf(currentImage.originalFile.name) + 1;
+
+            imageIndexDisplay.innerHTML = `
+                <div class="flex items-center space-x-2">
+                    <span class="text-green-400">${modelIcon}</span>
+                    <span class="text-white font-semibold">${currentImage.originalFile.name}</span>
+                    <span class="${currentImage.modelSource === 'local' ? 'text-green-400' : 'text-blue-400'}">(${modelName} Model)</span>
+                    <span class="text-gray-400 text-sm">• Image ${currentImageNumber} of ${uniqueImages.size}</span>
+                </div>
+            `;
+            prevImageButton.disabled = currentImageIndex === 0;
+            nextImageButton.disabled = currentImageIndex === allImageData.length - 1;
+            imageNavigation.classList.remove('hidden');
+
+            // Update image selection buttons
+            createImageSelectionButtons();
+
+            // Show editing tools
+            editingTools.classList.remove('hidden');
+
+        // Clear existing content
+        imageDisplayGrid.innerHTML = '';
+
+        // --- TOP ROW ---
+
+        // Top Left: Original Image
+        const originalImageDiv = document.createElement('div');
+        originalImageDiv.className = "image-container";
+            const h2Original = document.createElement('h2');
+            h2Original.className = "text-xl font-semibold mb-2 text-white";
+        h2Original.textContent = 'Original Image';
+        originalImageDiv.appendChild(h2Original);
+
+        const originalCanvasContainer = document.createElement('div');
+        originalCanvasContainer.className = "canvas-wrapper";
+        originalImageDiv.appendChild(originalCanvasContainer);
+
+            const originalImgElem = document.createElement('canvas');
+            originalImgElem.id = 'originalImageCanvas';
+            originalImgElem.className = "image-canvas";
+        originalCanvasContainer.appendChild(originalImgElem);
+
+        const downloadOriginalButton = document.createElement('button');
+        downloadOriginalButton.className = "mt-4 bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out";
+        downloadOriginalButton.textContent = `Download Original`;
+        downloadOriginalButton.onclick = () => {
+            const imageData = originalImgElem.toDataURL('image/png').split(',')[1];
+            downloadBase64AsPng(imageData, generateFilename('original', currentImage.originalFile.name.split('.')[0]));
+        };
+        originalImageDiv.appendChild(downloadOriginalButton);
+        imageDisplayGrid.appendChild(originalImageDiv);
+
+        // Top Right: Original Image with Overlays (using backend visualization)
+        const overlayImageDiv = document.createElement('div');
+        overlayImageDiv.className = "image-container";
+        const h2Overlay = document.createElement('h2');
+        h2Overlay.className = "text-xl font-semibold mb-2 text-white";
+        h2Overlay.textContent = 'Original with Overlays';
+        overlayImageDiv.appendChild(h2Overlay);
+
+        const overlayImgContainer = document.createElement('div');
+        overlayImgContainer.className = "canvas-wrapper";
+        overlayImageDiv.appendChild(overlayImgContainer);
+
+        const overlayImgElem = document.createElement('img');
+        overlayImgElem.id = 'overlayImage';
+        overlayImgElem.className = "image-canvas";
+        overlayImgElem.style.maxWidth = '100%';
+        overlayImgElem.style.height = 'auto';
+        overlayImgContainer.appendChild(overlayImgElem);
+
+        const downloadOverlayButton = document.createElement('button');
+        downloadOverlayButton.className = "mt-4 bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out";
+        downloadOverlayButton.textContent = `Download with Overlays`;
+        downloadOverlayButton.onclick = () => {
+            if (data.full_size_overlay_image) {
+                downloadBase64AsPng(data.full_size_overlay_image, generateFilename('original_with_overlays', currentImage.originalFile.name.split('.')[0]));
+            }
+        };
+        overlayImageDiv.appendChild(downloadOverlayButton);
+        imageDisplayGrid.appendChild(overlayImageDiv);
+
+        // --- BOTTOM ROW ---
+
+        // Bottom Left: Drawing Area (Original + ROIs) (SWAPPED)
+        const drawingAreaDiv = document.createElement('div');
+        drawingAreaDiv.className = "image-container";
+        const h2Drawing = document.createElement('h2');
+        h2Drawing.className = "text-xl font-semibold mb-2 text-white";
+        h2Drawing.textContent = 'Drawing Area (Original + ROIs)';
+        drawingAreaDiv.appendChild(h2Drawing);
+
+        const drawingCanvasContainer = document.createElement('div');
+        drawingCanvasContainer.className = "canvas-wrapper";
+        drawingAreaDiv.appendChild(drawingCanvasContainer);
+
+        const drawingOriginalElem = document.createElement('canvas');
+        drawingOriginalElem.id = 'drawingOriginalCanvas';
+        drawingOriginalElem.className = "image-canvas";
+        drawingCanvasContainer.appendChild(drawingOriginalElem);
+
+        const roiDrawingElem = document.createElement('canvas');
+        roiDrawingElem.id = 'roiCanvas';
+        roiDrawingElem.className = "image-canvas cursor-crosshair";
+        roiDrawingElem.style.position = 'absolute';
+        roiDrawingElem.style.top = '0';
+        roiDrawingElem.style.left = '0';
+        roiDrawingElem.style.width = '100%';
+        roiDrawingElem.style.height = '100%';
+        roiDrawingElem.style.background = 'transparent';
+        roiDrawingElem.style.pointerEvents = 'auto';
+        drawingCanvasContainer.appendChild(roiDrawingElem);
+
+        const downloadDrawingButton = document.createElement('button');
+        downloadDrawingButton.className = "mt-4 bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out";
+        downloadDrawingButton.textContent = `Download with ROIs`;
+        downloadDrawingButton.onclick = () => {
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = drawingOriginalElem.width;
+            tempCanvas.height = drawingOriginalElem.height;
+            const tempCtx = tempCanvas.getContext('2d');
+            tempCtx.drawImage(drawingOriginalElem, 0, 0);
+            tempCtx.drawImage(roiDrawingElem, 0, 0);
+            const imageData = tempCanvas.toDataURL('image/png').split(',')[1];
+            downloadBase64AsPng(imageData, generateFilename('original_with_rois', currentImage.originalFile.name.split('.')[0]));
+        };
+        drawingAreaDiv.appendChild(downloadDrawingButton);
+        imageDisplayGrid.appendChild(drawingAreaDiv);
+
+        // Bottom Right: Editable Mask (SWAPPED)
+        const editableMaskDiv = document.createElement('div');
+        editableMaskDiv.className = "image-container";
+        const h2Mask = document.createElement('h2');
+        h2Mask.className = "text-xl font-semibold mb-2 text-white";
+        h2Mask.textContent = 'Editable Mask';
+        editableMaskDiv.appendChild(h2Mask);
+
+        const maskCanvasContainer = document.createElement('div');
+        maskCanvasContainer.className = "canvas-wrapper";
+        editableMaskDiv.appendChild(maskCanvasContainer);
+
+        const predictedMaskElem = document.createElement('canvas');
+        predictedMaskElem.id = 'predictedMaskCanvas';
+        predictedMaskElem.className = "image-canvas cursor-crosshair";
+        maskCanvasContainer.appendChild(predictedMaskElem);
+
+        const downloadMaskButton = document.createElement('button');
+        downloadMaskButton.className = "mt-4 bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out";
+        downloadMaskButton.textContent = `Download Editable Mask`;
+        downloadMaskButton.onclick = () => {
+            const imageData = predictedMaskElem.toDataURL('image/png').split(',')[1];
+            downloadBase64AsPng(imageData, generateFilename('editable_mask', currentImage.originalFile.name.split('.')[0]));
+        };
+        editableMaskDiv.appendChild(downloadMaskButton);
+        imageDisplayGrid.appendChild(editableMaskDiv);
+
+        // Get canvas references (MUST be done AFTER appending to DOM)
+        originalImageCanvas = document.getElementById('originalImageCanvas');
+        predictedMaskCanvas = document.getElementById('predictedMaskCanvas');
+        roiCanvas = document.getElementById('roiCanvas');
+        const drawingOriginalCanvas = document.getElementById('drawingOriginalCanvas');
+
+        // --- IMPORTANT: Draw images to set internal canvas dimensions ---
+        try {
+            console.log('Drawing images to canvases...');
+            // Draw original image to relevant canvases
+            await drawImageOnCanvas(originalImageCanvas, data.original_image);
+            await drawImageOnCanvas(drawingOriginalCanvas, data.original_image);
+            // Set overlay image source
+            const overlayImage = document.getElementById('overlayImage');
+            if (overlayImage && data.full_size_overlay_image) {
+                overlayImage.src = `data:image/png;base64,${data.full_size_overlay_image}`;
+            }
+            // Draw predicted mask - use the correct data source
+            if (data.predicted_mask) {
+                await drawImageOnCanvas(predictedMaskCanvas, data.predicted_mask);
+            } else if (currentImage.predictedMaskBase64) {
+                await drawImageOnCanvas(predictedMaskCanvas, currentImage.predictedMaskBase64);
+            }
+            // Set ROI canvas dimensions to match drawing original canvas
+            roiCanvas.width = drawingOriginalCanvas.width;
+            roiCanvas.height = drawingOriginalCanvas.height;
+            // Draw ROIs on the drawing area canvas
+            if (data.root_analysis_results && data.root_analysis_results.length > 0) {
+                drawROIsOnCanvas(roiCanvas, data.root_analysis_results, drawingOriginalCanvas.width, drawingOriginalCanvas.height);
+            }
+            // Restore user-drawn ROIs on the drawing canvas
+            drawRoisOnCanvas(currentImage.currentRois || []);
+            console.log('All images drawn successfully');
+        } catch (error) {
+            console.error('Error drawing images:', error);
+            showMessage('Error displaying images: ' + error.message, 'error');
+        }
+        // --- Attach event listeners (AFTER canvases are in DOM and sized) ---
+        // Remove previous listeners if any
+        if (roiCanvas) {
+            roiCanvas.removeEventListener('mousedown', handleRoiMouseDown);
+            roiCanvas.removeEventListener('mousemove', handleRoiMouseMove);
+            roiCanvas.removeEventListener('mouseup', handleRoiMouseUp);
+            roiCanvas.removeEventListener('mouseout', handleRoiMouseUp);
+            roiCanvas.removeEventListener('touchstart', handleRoiMouseDown);
+            roiCanvas.removeEventListener('touchmove', handleRoiMouseMove);
+            roiCanvas.removeEventListener('touchend', handleRoiMouseUp);
+
+            roiCanvas.addEventListener('mousedown', handleRoiMouseDown);
+            roiCanvas.addEventListener('mousemove', handleRoiMouseMove);
+            roiCanvas.addEventListener('mouseup', handleRoiMouseUp);
+            roiCanvas.addEventListener('mouseout', handleRoiMouseUp);
+            roiCanvas.addEventListener('touchstart', handleRoiMouseDown);
+            roiCanvas.addEventListener('touchmove', handleRoiMouseMove);
+            roiCanvas.addEventListener('touchend', handleRoiMouseUp);
+            console.log('ROI drawing event listeners attached');
+        }
+        if (predictedMaskCanvas) {
+            predictedMaskCanvas.removeEventListener('mousedown', handleMaskMouseDown);
+            predictedMaskCanvas.removeEventListener('mousemove', handleMaskMouseMove);
+            predictedMaskCanvas.removeEventListener('mouseup', handleMaskMouseUp);
+            predictedMaskCanvas.removeEventListener('mouseout', handleMaskMouseUp);
+            predictedMaskCanvas.removeEventListener('touchstart', handleMaskMouseDown);
+            predictedMaskCanvas.removeEventListener('touchmove', handleMaskMouseMove);
+            predictedMaskCanvas.removeEventListener('touchend', handleMaskMouseUp);
+
+            predictedMaskCanvas.addEventListener('mousedown', handleMaskMouseDown);
+            predictedMaskCanvas.addEventListener('mousemove', handleMaskMouseMove);
+            predictedMaskCanvas.addEventListener('mouseup', handleMaskMouseUp);
+            predictedMaskCanvas.addEventListener('mouseout', handleMaskMouseUp);
+            predictedMaskCanvas.addEventListener('touchstart', handleMaskMouseDown);
+            predictedMaskCanvas.addEventListener('touchmove', handleMaskMouseMove);
+            predictedMaskCanvas.addEventListener('touchend', handleMaskMouseUp);
+            console.log('Mask drawing event listeners attached');
+        }
+        // Initialize drawing state
+        currentRois = data.root_analysis_results || [];
+        console.log('Drawing functionality initialized with', currentRois.length, 'ROIs');
+
+        // --- FIX: Show and populate analysis results table ---
+        renderAnalysisResultsTable(data.root_analysis_results || []);
+    }
+        // --- Event Handlers (Prediction/Analysis) ---
+        fileInput.addEventListener('change', (event) => {
+        selectedFile = event.target.files;
+            setMessage('');
+        setLoading(false);
+            predictButton.disabled = selectedFile.length === 0;
+        reanalyzeButton.disabled = true;
+        downloadAllButton.disabled = true;
+        downloadCsvButton.disabled = true;
+            clearAllDisplays();
+        allImageData = [];
+        currentImageIndex = -1;
+        });
+        predictButton.addEventListener('click', async () => {
+            if (fileInput.files.length === 0) {
+                setMessage('Please select image file(s).', true);
+                return;
+            }
+            if (fileInput.files.length > 16) {
+                setMessage('Please select no more than 16 images.', true);
+                return;
+            }
+            setLoading(true);
+            setMessage(`Processing ${fileInput.files.length} image(s)...`);
+        allImageData = [];
+            for (let i = 0; i < fileInput.files.length; i++) {
+                const file = fileInput.files[i];
+                setMessage(`Processing image ${i + 1} of ${fileInput.files.length}: ${file.name}`);
+                const formData = new FormData();
+                formData.append('file', file);
+                try {
+                    const response = await fetch(`${API_BASE_URL}/predict/both/`, {
+                        method: 'POST',
+                        body: formData,
+                    });
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.detail || `Prediction failed for ${file.name}`);
+                    }
+                    const data = await response.json();
+                    // Store both local and azure results for this image
+                    allImageData.push({
+                        originalFile: file,
+                        modelSource: 'local',
+                        predictionResults: data.local,
+                        currentRois: data.local.root_analysis_results.map(r => r.roi_definition),
+                        predictedMaskBase64: data.local.full_size_mask_image
+                    });
+                    allImageData.push({
+                        originalFile: file,
+                        modelSource: 'azure',
+                        predictionResults: data.azure,
+                        currentRois: data.azure.root_analysis_results.map(r => r.roi_definition),
+                        predictedMaskBase64: data.azure.full_size_mask_image
+                    });
+                } catch (error) {
+                    console.error(`Error during prediction for ${file.name}:`, error);
+                    setMessage(`Prediction failed for ${file.name}: ${error.message}`, true);
+                }
+            }
+            if (allImageData.length > 0) {
+                setMessage(`Prediction and analysis complete for ${allImageData.length / 2} image(s) (both models).`);
+                await updateUIForImage(0);
+            } else {
+                setMessage('No images were successfully processed.', true);
+                clearAllDisplays();
+            }
+            setLoading(false);
+            reanalyzeButton.disabled = allImageData.length === 0;
+            downloadAllButton.disabled = allImageData.length === 0;
+            downloadCsvButton.disabled = allImageData.length === 0;
+        });
+        prevImageButton.addEventListener('click', async () => {
+            if (currentImageIndex > 0) {
+                await updateUIForImage(currentImageIndex - 1);
+            }
+        });
+        nextImageButton.addEventListener('click', async () => {
+            if (currentImageIndex < allImageData.length - 1) {
+                await updateUIForImage(currentImageIndex + 1);
+            }
+        });
+        reanalyzeButton.addEventListener('click', async () => {
+            if (currentImageIndex === -1 || allImageData.length === 0) {
+                setMessage('No image selected for reanalysis.', true);
+                return;
+            }
+            setLoading(true);
+            setMessage(`Reanalyzing image ${currentImageIndex + 1}...`);
+            const currentImage = allImageData[currentImageIndex];
+            try {
+                if (!predictedMaskCanvas || !originalImageCanvas) {
+                    setMessage('Image canvases not found for reanalysis.', true);
+                    setLoading(false);
+                    return;
+                }
+                const base64EditedMask = predictedMaskCanvas.toDataURL('image/png').split(',')[1];
+                const base64OriginalImage = originalImageCanvas.toDataURL('image/png').split(',')[1];
+                const validRois = currentImage.currentRois.filter(roi => roi.width > 0 && roi.height > 0);
+                const payload = {
+                    original_image_data: base64OriginalImage,
+                    edited_mask_data: base64EditedMask,
+                    edited_rois: validRois,
+                };
+                const response = await fetch(`${API_BASE_URL}/reanalyze/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload),
+                });
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || 'Reanalysis failed');
+                }
+                const data = await response.json();
+                setMessage(data.message);
+                currentImage.predictionResults = data;
+            currentImage.currentRois = validRois;
+            currentImage.predictedMaskBase64 = data.full_size_mask_image;
+                await updateUIForImage(currentImageIndex);
+            } catch (error) {
+                console.error('Error during reanalysis:', error);
+                setMessage(`Reanalysis failed: ${error.message}`, true);
+            } finally {
+                setLoading(false);
+            }
+        });
+    // --- Drawing Mode Controls ---
+    function updateDrawingModeButtons() {
+        roiModeButton.classList.remove('bg-indigo-600', 'shadow-md');
+        roiModeButton.classList.add('bg-gray-600', 'hover:bg-indigo-500');
+        roiModeButton.textContent = 'Activate ROI Drawing';
+        maskModeButton.classList.remove('bg-indigo-600', 'shadow-md');
+        maskModeButton.classList.add('bg-gray-600', 'hover:bg-indigo-500');
+        maskModeButton.textContent = 'Activate Mask Drawing';
+        if (drawingMode === 'roi') {
+            roiModeButton.classList.add('bg-indigo-600', 'shadow-md');
+            roiModeButton.classList.remove('bg-gray-600', 'hover:bg-indigo-500');
+            roiModeButton.textContent = 'ROI Mode (Active)';
+        } else if (drawingMode === 'mask') {
+            maskModeButton.classList.add('bg-indigo-600', 'shadow-md');
+            maskModeButton.classList.remove('bg-gray-600', 'hover:bg-indigo-500');
+            maskModeButton.textContent = 'Mask Mode (Active)';
+        }
+        if (predictedMaskCanvas) {
+            predictedMaskCanvas.classList.toggle('cursor-crosshair', drawingMode === 'mask');
+        }
+        if (roiCanvas) {
+            roiCanvas.classList.toggle('cursor-crosshair', drawingMode === 'roi');
+        }
+    }
+    roiModeButton.addEventListener('click', () => {
+        drawingMode = (drawingMode === 'roi' ? 'none' : 'roi');
+        isDrawingMask = false;
+        updateDrawingModeButtons();
+    });
+    clearRoisButton.addEventListener('click', () => {
+        if (currentImageIndex !== -1) {
+            allImageData[currentImageIndex].currentRois = [];
+            drawRoisOnCanvas(allImageData[currentImageIndex].currentRois);
+            setMessage('ROIs cleared for current image.');
+        }
+    });
+    maskModeButton.addEventListener('click', () => {
+        drawingMode = (drawingMode === 'mask' ? 'none' : 'mask');
+        isDrawingRoi = false;
+        currentRoiRect = null;
+        drawRoisOnCanvas(currentImageIndex !== -1 ? allImageData[currentImageIndex].currentRois : []);
+        updateDrawingModeButtons();
+    });
+    drawColorSelect.addEventListener('change', (event) => {
+        maskDrawColor = event.target.value;
+    });
+    // --- Mask Drawing Size Controls ---
+    brushSizeSlider.addEventListener('input', (event) => {
+        maskBrushSize = parseInt(event.target.value);
+        brushSizeNumber.value = maskBrushSize;
+    });
+    brushSizeNumber.addEventListener('change', (event) => {
+        let val = parseInt(event.target.value);
+        if (isNaN(val) || val < 5) val = 5;
+        if (val > 50) val = 50;
+        maskBrushSize = val;
+        brushSizeSlider.value = maskBrushSize;
+        brushSizeNumber.value = maskBrushSize;
+    });
+    // --- ROI Drawing Logic ---
+    function handleRoiMouseDown(e) {
+        if (drawingMode !== 'roi' || !roiCanvas) return;
+        isDrawingRoi = true;
+        const rect = roiCanvas.getBoundingClientRect();
+        const scaleX = roiCanvas.width / rect.width;
+        const scaleY = roiCanvas.height / rect.height;
+        startPointRoi = {
+            x: ((e.clientX || e.touches[0].clientX) - rect.left) * scaleX,
+            y: ((e.clientY || e.touches[0].clientY) - rect.top) * scaleY
+        };
+        currentRoiRect = { x: startPointRoi.x, y: startPointRoi.y, width: 0, height: 0 };
+        drawRoisOnCanvas(currentImageIndex !== -1 ? allImageData[currentImageIndex].currentRois : []);
+    }
+    function handleRoiMouseMove(e) {
+        if (!isDrawingRoi || drawingMode !== 'roi' || !roiCanvas) return;
+        const rect = roiCanvas.getBoundingClientRect();
+        const scaleX = roiCanvas.width / rect.width;
+        const scaleY = roiCanvas.height / rect.height;
+        const currentX = ((e.clientX || e.touches[0].clientX) - rect.left) * scaleX;
+        const currentY = ((e.clientY || e.touches[0].clientY) - rect.top) * scaleY;
+        const x = Math.min(startPointRoi.x, currentX);
+        const y = Math.min(startPointRoi.y, currentY);
+        const width = Math.abs(currentX - startPointRoi.x);
+        const height = Math.abs(currentY - startPointRoi.y);
+        currentRoiRect = { x, y, width, height };
+        drawRoisOnCanvas(currentImageIndex !== -1 ? allImageData[currentImageIndex].currentRois : []);
+    }
+    function handleRoiMouseUp() {
+        if (!isDrawingRoi || drawingMode !== 'roi' || !roiCanvas) return;
+        isDrawingRoi = false;
+        if (currentRoiRect && currentRoiRect.width > 0 && currentRoiRect.height > 0) {
+            allImageData[currentImageIndex].currentRois.push({
+                x: Math.round(currentRoiRect.x),
+                y: Math.round(currentRoiRect.y),
+                width: Math.round(currentRoiRect.width),
+                height: Math.round(currentRoiRect.height)
+            });
+            setMessage(`ROI drawn: (${Math.round(currentRoiRect.x)}, ` +
+                       `${Math.round(currentRoiRect.y)}, ` +
+                       `${Math.round(currentRoiRect.width)}, ` +
+                       `${Math.round(currentRoiRect.height)})`);
+        } else {
+            setMessage('ROI drawing cancelled (too small).');
+        }
+        currentRoiRect = null;
+        drawRoisOnCanvas(allImageData[currentImageIndex].currentRois);
+    }
+    // --- Mask Drawing Logic ---
+    function handleMaskMouseDown(e) {
+        if (drawingMode !== 'mask' || !predictedMaskCanvas) return;
+        isDrawingMask = true;
+        drawMaskPixel(e);
+    }
+    function handleMaskMouseMove(e) {
+        if (!isDrawingMask || drawingMode !== 'mask' || !predictedMaskCanvas) return;
+        drawMaskPixel(e);
+    }
+    function handleMaskMouseUp() {
+        isDrawingMask = false;
+    }
+    function drawMaskPixel(e) {
+        if (!predictedMaskCanvas) return;
+        const ctx = predictedMaskCanvas.getContext('2d', { willReadFrequently: true });
+        if (!ctx) {
+            console.error('Failed to get 2D context for predictedMaskCanvas.');
+            return;
+        }
+        const rect = predictedMaskCanvas.getBoundingClientRect();
+        const scaleX = predictedMaskCanvas.width / rect.width;
+        const scaleY = predictedMaskCanvas.height / rect.height;
+        const clientX = e.clientX || e.touches[0].clientX;
+        const clientY = e.clientY || e.touches[0].clientY;
+        const x = (clientX - rect.left) * scaleX;
+        const y = (clientY - rect.top) * scaleY;
+        ctx.beginPath();
+        ctx.arc(x, y, maskBrushSize, 0, Math.PI * 2);
+        ctx.fillStyle = maskDrawColor === 'white' ? 'white' : 'black';
+        ctx.fill();
+        ctx.closePath();
+    }
+        // --- Event Handler (Download All Images) ---
+        downloadAllButton.addEventListener('click', () => {
+            setMessage('Initiating download of all image results...', false);
+            allImageData.forEach(imageData => {
+                const fileIdentifier = imageData.originalFile.name.split('.')[0];
+                const data = imageData.predictionResults;
+            if (imageData.originalFile && imageData.predictedMaskBase64) {
+                    const tempOriginalCanvas = document.createElement('canvas');
+                    const tempRoiCanvas = document.createElement('canvas');
+                    const tempCompoundCanvas = document.createElement('canvas');
+                    const originalImg = new Image();
+                    originalImg.src = `data:image/png;base64,${data.original_image}`;
+                    originalImg.onload = () => {
+                        tempOriginalCanvas.width = originalImg.width;
+                        tempOriginalCanvas.height = originalImg.height;
+                        tempOriginalCanvas.getContext('2d').drawImage(originalImg, 0, 0);
+                        tempRoiCanvas.width = originalImg.width;
+                        tempRoiCanvas.height = originalImg.height;
+                        const roiCtx = tempRoiCanvas.getContext('2d');
+                        roiCtx.strokeStyle = 'lime';
+                        roiCtx.lineWidth = 3;
+                        imageData.currentRois.forEach(roi => {
+                            roiCtx.strokeRect(roi.x, roi.y, roi.width, roi.height);
+                        });
+                        tempCompoundCanvas.width = tempOriginalCanvas.width;
+                        tempCompoundCanvas.height = tempOriginalCanvas.height;
+                        const tempCompoundCtx = tempCompoundCanvas.getContext('2d');
+                        tempCompoundCtx.drawImage(tempOriginalCanvas, 0, 0);
+                        tempCompoundCtx.drawImage(tempRoiCanvas, 0, 0);
+                        const imageDataUrl = tempCompoundCanvas.toDataURL('image/png').split(',')[1];
+                        downloadBase64AsPng(imageDataUrl, generateFilename('original_with_rois', fileIdentifier));
+                    };
+                    originalImg.onerror = (error) => {
+                        console.error(`Error loading original image for compound download of ${fileIdentifier}:`, error);
+                    };
+                }
+                if (imageData.predictedMaskBase64) {
+                    downloadBase64AsPng(imageData.predictedMaskBase64, generateFilename('editable_mask', fileIdentifier));
+                }
+                const imagesToDownload = [
+                    { src: data.full_size_overlay_image, type: 'full_size_overlay' },
+                    { src: data.full_size_rois_image, type: 'full_size_rois' },
+                    { src: data.full_size_tip_base_image, type: 'full_size_tip_base' }
+                ];
+                imagesToDownload.forEach(imgInfo => {
+                    if (imgInfo.src) {
+                        downloadBase64AsPng(imgInfo.src, generateFilename(imgInfo.type, fileIdentifier));
+                    }
+                });
+            });
+            setMessage('All downloads initiated.', false);
+        });
+        // --- Event Handler (Download All Results as CSV) ---
+        downloadCsvButton.addEventListener('click', () => {
+            if (allImageData.length === 0) {
+                setMessage('No analysis data available to download as CSV.', true);
+                return;
+            }
+            let csvContent = "";
+            const headers = [
+                "ImageFileName",
+                "ROI_X", "ROI_Y", "ROI_Width", "ROI_Height",
+                "Length_px",
+                "TipCoords_Row", "TipCoords_Col",
+                "BaseCoords_Row", "BaseCoords_Col",
+                "Area_px2",
+                "Centroid_X", "Centroid_Y"
+            ];
+            csvContent += headers.join(",") + "\n";
+            allImageData.forEach(imageData => {
+                const imageFileName = imageData.originalFile ? imageData.originalFile.name : "unknown_image";
+                const results = imageData.predictionResults.root_analysis_results;
+                if (results && results.length > 0) {
+                    results.forEach(item => {
+                        const roi = item.roi_definition;
+                        const analysis = item.analysis;
+                    const stats = analysis.stats || {};
+                        const row = [
+                        `"${imageFileName}"`,
+                            roi.x, roi.y, roi.width, roi.height,
+                            analysis.length !== null ? analysis.length.toFixed(2) : 'N/A',
+                            analysis.tip_coords ? analysis.tip_coords[0] : 'N/A',
+                            analysis.tip_coords ? analysis.tip_coords[1] : 'N/A',
+                            analysis.base_coords ? analysis.base_coords[0] : 'N/A',
+                            analysis.base_coords ? analysis.base_coords[1] : 'N/A',
+                            stats.area !== undefined ? stats.area : 'N/A',
+                            stats.centroid_x !== undefined ? stats.centroid_x.toFixed(2) : 'N/A',
+                            stats.centroid_y !== undefined ? stats.centroid_y.toFixed(2) : 'N/A'
+                        ];
+                        csvContent += row.join(",") + "\n";
+                    });
+                } else {
+                    csvContent += `"${imageFileName}",N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A\n`;
+                }
+            });
+            downloadDataAsFile(csvContent, generateCsvFilename(), 'text/csv');
+            setMessage('Analysis results downloaded as CSV.', false);
+        });
+        // --- Event Handler (Upload Data) ---
+        imagesUploadInput.addEventListener('change', () => {
+            setUploadMessage('');
+        setUploading(false);
+        });
+        masksUploadInput.addEventListener('change', () => {
+            setUploadMessage('');
+        setUploading(false);
+        });
+        uploadDataButton.addEventListener('click', async () => {
+            const images = imagesUploadInput.files;
+            const masks = masksUploadInput.files;
+            if (images.length === 0 || masks.length === 0) {
+                setUploadMessage('Please select both image(s) and mask(s) to upload.', true);
+                return;
+            }
+            setUploading(true);
+            setUploadMessage('Uploading data to Azure ML...');
+            const formData = new FormData();
+            for (let i = 0; i < images.length; i++) {
+                formData.append('images', images[i]);
+            }
+            for (let i = 0; i < masks.length; i++) {
+                formData.append('masks', masks[i]);
+            }
+            try {
+                const response = await fetch(`${API_BASE_URL}/upload-root-data/`, {
+                    method: 'POST',
+                    body: formData,
+                });
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || 'Upload failed');
+                }
+                const data = await response.json();
+                setUploadMessage(`Upload successful! ${data.uploaded_files ? 'Uploaded files: ' + JSON.stringify(data.uploaded_files) : ''}`, false);
+                imagesUploadInput.value = '';
+                masksUploadInput.value = '';
+            } catch (error) {
+                console.error('Error during data upload:', error);
+                setUploadMessage(`Upload failed: ${error.message}`, true);
+            } finally {
+                setUploading(false);
+            }
+        });
+        // --- Chat Functions ---
+        function addMessage(content, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `mb-4 ${isUser ? 'text-right' : 'text-left'}`;
+            const messageBubble = document.createElement('div');
+            messageBubble.className = `inline-block p-3 rounded-lg ${
+                isUser ? 'bg-lime-500 text-white' : 'bg-gray-600 text-white'
+            }`;
+            messageBubble.textContent = content;
+            messageDiv.appendChild(messageBubble);
+            chatMessages.appendChild(messageDiv);
+        }
+        // Typing indicator
+        function showTypingIndicator() {
+            let indicator = document.getElementById('typingIndicator');
+            if (!indicator) {
+                indicator = document.createElement('div');
+                indicator.id = 'typingIndicator';
+                indicator.className = 'mb-4 text-left';
+                indicator.innerHTML = '<span class="inline-block p-3 rounded-lg bg-gray-600 text-white"><span id="typingDots">Typing</span></span>';
+                chatMessages.appendChild(indicator);
+            }
+            let dots = 0;
+            indicator._interval = setInterval(() => {
+                dots = (dots + 1) % 4;
+                document.getElementById('typingDots').textContent = 'Typing' + '.'.repeat(dots);
+            }, 400);
+        }
+        function hideTypingIndicator() {
+            let indicator = document.getElementById('typingIndicator');
+            if (indicator) {
+                clearInterval(indicator._interval);
+                indicator.remove();
+            }
+        }
+    // Typing effect for AI messages
+        function typeMessageWordByWord(content, callback, doneCallback, speed = 50) {
+            const words = content.split(' ');
+            let i = 0;
+            let current = '';
+            let cursorVisible = true;
+            const cursor = '<span class="blinking-cursor">|</span>';
+            let cursorInterval = setInterval(() => {
+                cursorVisible = !cursorVisible;
+                callback(current + (cursorVisible ? cursor : ''));
+            }, 500);
+            function typeNextWord() {
+                if (i < words.length) {
+                    current += (i === 0 ? '' : ' ') + words[i];
+                    callback(current + cursor);
+                    i++;
+                    setTimeout(typeNextWord, speed);
+                } else {
+                    clearInterval(cursorInterval);
+                callback(current);
+                    if (doneCallback) doneCallback();
+                }
+            }
+            typeNextWord();
+        }
+        // Auto-scroll chat to bottom
+        function scrollChatToBottom() {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        // Disable/enable user input
+        function setInputEnabled(enabled) {
+            chatInput.disabled = !enabled;
+            sendMessageButton.disabled = !enabled;
+        }
+        async function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message) return;
+            addMessage(message, true);
+            chatInput.value = '';
+            setInputEnabled(false);
+            showTypingIndicator();
+        scrollChatToBottom();
+            try {
+                const response = await fetch(`${API_BASE_URL}/llama/chat`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        prompt: message,
+                        system_prompt: "You are a helpful AI assistant specialized in root analysis and plant science. You provide clear, accurate information about root systems, plant growth, and related scientific concepts.",
+                        max_tokens: 1000,
+                        temperature: 0.7
+                    }),
+                });
+                if (!response.ok) {
+                    throw new Error('Failed to get response from AI');
+                }
+                const data = await response.json();
+                hideTypingIndicator();
+                let aiDiv = document.createElement('div');
+                aiDiv.className = 'mb-4 text-left';
+                let aiBubble = document.createElement('div');
+                aiBubble.className = 'inline-block p-3 rounded-lg bg-gray-600 text-white';
+                aiDiv.appendChild(aiBubble);
+                chatMessages.appendChild(aiDiv);
+                typeMessageWordByWord(
+                    data.response,
+                    (typed) => {
+                        aiBubble.innerHTML = marked.parse(typed + '<span class="blinking-cursor">|</span>');
+                    scrollChatToBottom();
+                    },
+                    () => {
+                        setInputEnabled(true);
+                        chatInput.focus();
+                        aiBubble.innerHTML = marked.parse(data.response);
+                    scrollChatToBottom();
+                    },
+                50
+                );
+            } catch (error) {
+                hideTypingIndicator();
+                setInputEnabled(true);
+                console.error('Error sending message:', error);
+                addMessage('Sorry, I encountered an error. Please try again.', false);
+            scrollChatToBottom();
+            }
+        }
+        // Chat Event Listeners
+        sendMessageButton.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+        // Add initial AI message
+        addMessage('Hello! I\'m your AI assistant for root analysis. How can I help you today?', false);
+        // --- Initial Load Setup ---
+        window.onload = () => {
+        setLoading(false);
+        predictButton.disabled = fileInput.files.length === 0;
+        reanalyzeButton.disabled = true;
+        downloadAllButton.disabled = true;
+        downloadCsvButton.disabled = true;
+        updateDrawingModeButtons();
+            brushSizeSlider.value = maskBrushSize;
+            brushSizeNumber.value = maskBrushSize;
+        setUploading(false);
+        uploadDataButton.disabled = true;
+            imagesUploadInput.addEventListener('change', () => {
+                uploadDataButton.disabled = imagesUploadInput.files.length === 0 || masksUploadInput.files.length === 0;
+            });
+            masksUploadInput.addEventListener('change', () => {
+                uploadDataButton.disabled = imagesUploadInput.files.length === 0 || masksUploadInput.files.length === 0;
+            });
+        };
+        // Chat toggle logic
+        const chatToggleBtn = document.getElementById('chatToggleBtn');
+        const chatContainer = document.getElementById('chatContainer');
+        const closeChatBtn = document.getElementById('closeChatBtn');
+        chatToggleBtn.addEventListener('click', () => {
+            if (chatContainer.style.display === 'none' || chatContainer.style.display === '') {
+                chatContainer.style.display = 'block';
+            } else {
+                chatContainer.style.display = 'none';
+            }
+        });
+        // Add event listener for close (X) button
+        if (closeChatBtn) {
+            closeChatBtn.addEventListener('click', () => {
+                chatContainer.style.display = 'none';
+            });
+        }
+
+    function drawROIsOnCanvas(canvas, rois, canvasWidth, canvasHeight) {
+        if (!canvas || !rois || rois.length === 0) return;
+
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        rois.forEach((roi, index) => {
+            if (roi.coordinates && roi.coordinates.length > 0) {
+                ctx.strokeStyle = `hsl(${(index * 137.5) % 360}, 70%, 50%)`;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+
+                roi.coordinates.forEach((coord, coordIndex) => {
+                    const x = (coord[0] / 100) * canvasWidth;
+                    const y = (coord[1] / 100) * canvasHeight;
+
+                    if (coordIndex === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                });
+
+                ctx.stroke();
+
+                // Add ROI number label
+                if (roi.coordinates.length > 0) {
+                    const firstCoord = roi.coordinates[0];
+                    const x = (firstCoord[0] / 100) * canvasWidth;
+                    const y = (firstCoord[1] / 100) * canvasHeight;
+
+                    ctx.fillStyle = ctx.strokeStyle;
+                    ctx.font = 'bold 14px Arial';
+                    ctx.fillText(`ROI ${index + 1}`, x + 5, y - 5);
+                }
+            }
+        });
+    }
+
+    function drawRootsOnCanvas(canvas, rois, canvasWidth, canvasHeight) {
+        if (!canvas || !rois || rois.length === 0) return;
+
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        rois.forEach((roi, index) => {
+            if (roi.analysis && roi.analysis.root_coordinates) {
+                const rootCoord = roi.analysis.root_coordinates;
+                const x = (rootCoord[0] / 100) * canvasWidth;
+                const y = (rootCoord[1] / 100) * canvasHeight;
+
+                // Draw root point as a blue circle
+                ctx.fillStyle = 'rgba(0, 123, 255, 0.8)';
+                ctx.strokeStyle = 'rgba(0, 123, 255, 1)';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(x, y, 8, 0, 2 * Math.PI);
+                ctx.fill();
+                ctx.stroke();
+
+                // Add "Root" label
+                ctx.fillStyle = 'rgba(0, 123, 255, 1)';
+                ctx.font = 'bold 12px Arial';
+                ctx.fillText('Root', x + 12, y + 4);
+            }
+        });
+    }
+
+    function drawTipsOnCanvas(canvas, rois, canvasWidth, canvasHeight) {
+        if (!canvas || !rois || rois.length === 0) return;
+
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        rois.forEach((roi, index) => {
+            if (roi.analysis && roi.analysis.tip_coordinates) {
+                const tipCoord = roi.analysis.tip_coordinates;
+                const x = (tipCoord[0] / 100) * canvasWidth;
+                const y = (tipCoord[1] / 100) * canvasHeight;
+
+                // Draw tip point as a purple triangle
+                ctx.fillStyle = 'rgba(128, 0, 128, 0.8)';
+                ctx.strokeStyle = 'rgba(128, 0, 128, 1)';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(x, y - 8);
+                ctx.lineTo(x - 6, y + 4);
+                ctx.lineTo(x + 6, y + 4);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+
+                // Add "Tip" label
+                ctx.fillStyle = 'rgba(128, 0, 128, 1)';
+                ctx.font = 'bold 12px Arial';
+                ctx.fillText('Tip', x + 12, y + 4);
+            }
+        });
+    }
+
+    // --- Dashboard Functions ---
+    async function loadDashboardStats() {
+        try {
+            const response = await fetch(`${API_BASE_URL}/dashboard/stats`);
+            if (response.ok) {
+                const stats = await response.json();
+
+                // Update dashboard counters
+                document.getElementById('totalImages').textContent = stats.images_processed;
+                document.getElementById('totalAnalyses').textContent = stats.masks_reanalyzed;
+                document.getElementById('totalDownloads').textContent = stats.files_downloaded;
+                document.getElementById('avgProcessingTime').textContent = `${stats.average_processing_time}s`;
+
+                console.log('Dashboard stats loaded:', stats);
+            } else {
+                console.error('Failed to load dashboard stats');
+            }
+        } catch (error) {
+            console.error('Error loading dashboard stats:', error);
+        }
+    }
+
+    async function loadFeedbackStats() {
+        try {
+            const response = await fetch(`${API_BASE_URL}/feedback/list`);
+            if (response.ok) {
+                const feedbackData = await response.json();
+                const entries = feedbackData.feedback_entries || [];
+                // Calculate feedback statistics
+                const totalFeedback = entries.length;
+                const uniqueUsers = new Set(entries.map(f => f.user_identifier).filter(id => id)).size;
+                // Calculate recent feedback (this week)
+                const oneWeekAgo = new Date();
+                oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+                const recentFeedback = entries.filter(f => new Date(f.timestamp) >= oneWeekAgo).length;
+                // Update feedback statistics
+                document.getElementById('totalFeedback').textContent = totalFeedback;
+                document.getElementById('uniqueUsers').textContent = uniqueUsers;
+                document.getElementById('recentFeedback').textContent = recentFeedback;
+                console.log('Feedback stats loaded:', { totalFeedback, uniqueUsers, recentFeedback });
+            } else {
+                console.error('Failed to load feedback stats');
+            }
+        } catch (error) {
+            console.error('Error loading feedback stats:', error);
+        }
+    }
+
+    async function trackDownload() {
+        try {
+            await fetch(`${API_BASE_URL}/dashboard/track-download`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            // Reload dashboard stats after tracking download
+            await loadDashboardStats();
+        } catch (error) {
+            console.error('Error tracking download:', error);
+        }
+    }
+
+    // --- Enhanced Download Functions ---
+    async function downloadAllImages() {
+        console.log('downloadAllImages called');
+        if (allImageData.length === 0) {
+            // showMessage('No analysis data available to download.', 'error');
+            return;
+        }
+        // showMessage('Initiating download of all image results...', 'info');
+        // Track the download
+        await trackDownload();
+        allImageData.forEach(imageData => {
+            const fileIdentifier = imageData.originalFile.name.split('.')[0];
+            const data = imageData.predictionResults;
+            // Download original image
+            if (data.original_image) {
+                downloadBase64AsPng(data.original_image, generateFilename('original', fileIdentifier));
+            }
+            // Download overlay image
+            if (data.full_size_overlay_image) {
+                downloadBase64AsPng(data.full_size_overlay_image, generateFilename('overlay', fileIdentifier));
+            }
+            // Download mask image
+            if (data.full_size_mask_image) {
+                downloadBase64AsPng(data.full_size_mask_image, generateFilename('mask', fileIdentifier));
+            }
+            // Download ROIs image
+            if (data.full_size_rois_image) {
+                downloadBase64AsPng(data.full_size_rois_image, generateFilename('rois', fileIdentifier));
+            }
+            // Download tip/base image
+            if (data.full_size_tip_base_image) {
+                downloadBase64AsPng(data.full_size_tip_base_image, generateFilename('tip_base', fileIdentifier));
+            }
+        });
+        // showMessage('All downloads initiated successfully.', 'success');
+    }
+
+    async function exportCsvData() {
+        console.log('exportCsvData called');
+        if (allImageData.length === 0) {
+            // showMessage('No analysis data available to export as CSV.', 'error');
+            return;
+        }
+        // Track the download
+        await trackDownload();
+        let csvContent = "";
+        const headers = [
+            "ImageFileName",
+            "ROI_X", "ROI_Y", "ROI_Width", "ROI_Height",
+            "Length_px",
+            "TipCoords_Row", "TipCoords_Col",
+            "BaseCoords_Row", "BaseCoords_Col",
+            "Area_px2",
+            "Centroid_X", "Centroid_Y"
+        ];
+        csvContent += headers.join(",") + "\n";
+        allImageData.forEach(imageData => {
+            const imageFileName = imageData.originalFile ? imageData.originalFile.name : "unknown_image";
+            const results = imageData.predictionResults.root_analysis_results;
+            if (results && results.length > 0) {
+                results.forEach(item => {
+                    const roi = item.roi_definition;
+                    const analysis = item.analysis;
+                    const stats = analysis.stats || {};
+                    const row = [
+                        `"${imageFileName}"`,
+                        roi.x, roi.y, roi.width, roi.height,
+                        analysis.length !== null ? analysis.length.toFixed(2) : 'N/A',
+                        analysis.tip_coords ? analysis.tip_coords[0] : 'N/A',
+                        analysis.tip_coords ? analysis.tip_coords[1] : 'N/A',
+                        analysis.base_coords ? analysis.base_coords[0] : 'N/A',
+                        analysis.base_coords ? analysis.base_coords[1] : 'N/A',
+                        stats.area !== undefined ? stats.area : 'N/A',
+                        stats.centroid_x !== undefined ? stats.centroid_x.toFixed(2) : 'N/A',
+                        stats.centroid_y !== undefined ? stats.centroid_y.toFixed(2) : 'N/A'
+                    ];
+                    csvContent += row.join(",") + "\n";
+                });
+            } else {
+                csvContent += `"${imageFileName}",N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A\n`;
+            }
+        });
+        downloadDataAsFile(csvContent, generateCsvFilename(), 'text/csv');
+        // showMessage('Analysis results exported as CSV successfully.', 'success');
+    }
+
+    // --- Feedback Submission Functions ---
+    function openFeedbackModal() {
+        if (currentImageIndex === -1 || allImageData.length === 0) {
+            showMessage('No image selected for feedback submission.', 'error');
+            return;
+        }
+
+        const currentImage = allImageData[currentImageIndex];
+        const data = currentImage.predictionResults;
+
+        // Populate image previews
+        if (data.original_image) {
+            document.getElementById('feedbackOriginalImg').src = `data:image/png;base64,${data.original_image}`;
+        }
+        if (data.full_size_overlay_image) {
+            document.getElementById('feedbackOverlayImg').src = `data:image/png;base64,${data.full_size_overlay_image}`;
+        }
+        if (data.full_size_mask_image) {
+            document.getElementById('feedbackMaskImg').src = `data:image/png;base64,${data.full_size_mask_image}`;
+        }
+
+        // Create drawing area image (original + ROIs)
+        const drawingCanvas = document.createElement('canvas');
+        const drawingCtx = drawingCanvas.getContext('2d');
+        const originalImg = new Image();
+        originalImg.onload = () => {
+            drawingCanvas.width = originalImg.width;
+            drawingCanvas.height = originalImg.height;
+            drawingCtx.drawImage(originalImg, 0, 0);
+
+            // Draw ROIs if they exist
+            if (currentImage.currentRois && currentImage.currentRois.length > 0) {
+                drawingCtx.strokeStyle = 'lime';
+                drawingCtx.lineWidth = 3;
+                currentImage.currentRois.forEach(roi => {
+                    drawingCtx.strokeRect(roi.x, roi.y, roi.width, roi.height);
+                });
+            }
+
+            document.getElementById('feedbackDrawingImg').src = drawingCanvas.toDataURL('image/png');
+        };
+        originalImg.src = `data:image/png;base64,${data.original_image}`;
+
+        // Populate analysis summary
+        let analysisSummary = '';
+        if (data.root_analysis_results && data.root_analysis_results.length > 0) {
+            analysisSummary = `<strong>Total ROIs:</strong> ${data.root_analysis_results.length}<br>`;
+            data.root_analysis_results.forEach((item, index) => {
+                const roi = item.roi_definition;
+                const analysis = item.analysis;
+                analysisSummary += `<strong>ROI ${index + 1}:</strong> (${roi.x}, ${roi.y}, ${roi.width}, ${roi.height}) - Length: ${analysis.length?.toFixed(2) || 'N/A'}px<br>`;
+            });
+        } else {
+            analysisSummary = 'No analysis results available';
+        }
+        document.getElementById('feedbackAnalysisSummary').innerHTML = analysisSummary;
+
+        // Clear previous input
+        document.getElementById('feedbackMessage').value = '';
+        document.getElementById('feedbackUserIdentifier').value = '';
+        document.getElementById('feedbackCharCount').textContent = '0';
+
+        // Show modal
+        document.getElementById('feedbackModal').classList.remove('hidden');
+        // Set model source for feedback
+        document.getElementById('feedbackModelSource').value = currentImage.modelSource || 'local';
+    }
+
+    function closeFeedbackModal() {
+        document.getElementById('feedbackModal').classList.add('hidden');
+    }
+
+    async function submitFeedback() {
+        const message = document.getElementById('feedbackMessage').value.trim();
+        const userIdentifier = document.getElementById('feedbackUserIdentifier').value.trim();
+
+        if (!message) {
+            showMessage('Please enter a feedback message.', 'error');
+            return;
+        }
+
+        if (currentImageIndex === -1 || allImageData.length === 0) {
+            showMessage('No image selected for feedback submission.', 'error');
+            return;
+        }
+
+        const currentImage = allImageData[currentImageIndex];
+        const data = currentImage.predictionResults;
+        const imageFilename = currentImage.originalFile.name;
+
+        // Create drawing area image (original + ROIs)
+        const drawingCanvas = document.createElement('canvas');
+        const drawingCtx = drawingCanvas.getContext('2d');
+        const originalImg = new Image();
+
+        originalImg.onload = async () => {
+            drawingCanvas.width = originalImg.width;
+            drawingCanvas.height = originalImg.height;
+            drawingCtx.drawImage(originalImg, 0, 0);
+
+            // Draw ROIs if they exist
+            if (currentImage.currentRois && currentImage.currentRois.length > 0) {
+                drawingCtx.strokeStyle = 'lime';
+                drawingCtx.lineWidth = 3;
+                currentImage.currentRois.forEach(roi => {
+                    drawingCtx.strokeRect(roi.x, roi.y, roi.width, roi.height);
+                });
+            }
+
+            const drawingImageBase64 = drawingCanvas.toDataURL('image/png').split(',')[1];
+
+            // Prepare feedback data
+            const modelSource = document.getElementById('feedbackModelSource').value;
+            const feedbackData = {
+                image_data: {
+                    original_image: data.original_image,
+                    overlay_image: data.full_size_overlay_image,
+                    mask_image: data.full_size_mask_image,
+                    drawing_image: drawingImageBase64
+                },
+                analysis_data: {
+                    roi_data: data.root_analysis_results || [],
+                    image_filename: imageFilename
+                },
+                message: message,
+                user_identifier: userIdentifier || null,
+                model_source: modelSource
+            };
+
+            try {
+                // Disable submit button
+                const submitBtn = document.getElementById('submitFeedbackBtn');
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Submitting...';
+
+                // Submit feedback
+                const response = await fetch(`${API_BASE_URL}/feedback/submit?image_filename=${encodeURIComponent(imageFilename)}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(feedbackData)
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    showMessage('Feedback submitted successfully! Thank you for your input.', 'success');
+                    closeFeedbackModal();
+
+                    // Auto-refresh feedback list if we're on the Results tab
+                    const resultsPane = document.getElementById('results-pane');
+                    if (!resultsPane.classList.contains('hidden')) {
+                        setTimeout(loadFeedbackData, 500);
+                    }
+                } else {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || 'Failed to submit feedback');
+                }
+            } catch (error) {
+                console.error('Error submitting feedback:', error);
+                showMessage(`Failed to submit feedback: ${error.message}`, 'error');
+            } finally {
+                // Re-enable submit button
+                const submitBtn = document.getElementById('submitFeedbackBtn');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Submit Feedback';
+            }
+        };
+
+        originalImg.src = `data:image/png;base64,${data.original_image}`;
+    }
+
+    // --- Feedback Event Listeners ---
+    document.getElementById('submitFeedbackButton').addEventListener('click', openFeedbackModal);
+    document.getElementById('closeFeedbackModal').addEventListener('click', closeFeedbackModal);
+    document.getElementById('cancelFeedbackBtn').addEventListener('click', closeFeedbackModal);
+    document.getElementById('submitFeedbackBtn').addEventListener('click', submitFeedback);
+
+    // Character counter for feedback message
+    document.getElementById('feedbackMessage').addEventListener('input', function() {
+        const count = this.value.length;
+        document.getElementById('feedbackCharCount').textContent = count;
+
+        // Change color when approaching limit
+        const charCountElement = document.getElementById('feedbackCharCount');
+        if (count >= 450) {
+            charCountElement.classList.add('text-red-400');
+            charCountElement.classList.remove('text-gray-400');
+        } else if (count >= 400) {
+            charCountElement.classList.add('text-yellow-400');
+            charCountElement.classList.remove('text-gray-400', 'text-red-400');
+        } else {
+            charCountElement.classList.remove('text-yellow-400', 'text-red-400');
+            charCountElement.classList.add('text-gray-400');
+        }
+    });
+
+    // Close modal on outside click
+    document.getElementById('feedbackModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeFeedbackModal();
+        }
+    });
+
+    // --- Feedback Display and Pagination Functions ---
+    let feedbackData = [];
+    let currentFeedbackPage = 1;
+    let feedbackPageSize = 10;
+
+    async function loadFeedbackData() {
+        try {
+            const response = await fetch(`${API_BASE_URL}/feedback/list`);
+            if (response.ok) {
+                const responseJson = await response.json();
+                feedbackData = responseJson.feedback_entries || [];
+                updateFeedbackDisplay();
+                console.log('Feedback data loaded:', feedbackData.length, 'entries');
+            } else {
+                console.error('Failed to load feedback data');
+                showMessage('Failed to load feedback data', 'error');
+            }
+        } catch (error) {
+            console.error('Error loading feedback data:', error);
+            showMessage('Error loading feedback data', 'error');
+        }
+    }
+
+    function updateFeedbackDisplay() {
+        const feedbackList = document.getElementById('feedbackList');
+        const noFeedbackMessage = document.getElementById('noFeedbackMessage');
+        const feedbackCount = document.getElementById('feedbackCount');
+        const currentPageElement = document.getElementById('currentFeedbackPage');
+        const totalPagesElement = document.getElementById('totalFeedbackPages');
+        const prevButton = document.getElementById('prevFeedbackPage');
+        const nextButton = document.getElementById('nextFeedbackPage');
+
+        // Update count
+        feedbackCount.textContent = feedbackData.length;
+
+        if (feedbackData.length === 0) {
+            feedbackList.innerHTML = '';
+            noFeedbackMessage.classList.remove('hidden');
+            currentPageElement.textContent = '1';
+            totalPagesElement.textContent = '1';
+            prevButton.disabled = true;
+            nextButton.disabled = true;
+            return;
+        }
+
+        noFeedbackMessage.classList.add('hidden');
+
+        // Calculate pagination
+        const totalPages = Math.ceil(feedbackData.length / feedbackPageSize);
+        const startIndex = (currentFeedbackPage - 1) * feedbackPageSize;
+        const endIndex = Math.min(startIndex + feedbackPageSize, feedbackData.length);
+        const currentPageData = feedbackData.slice(startIndex, endIndex);
+
+        // Update pagination controls
+        currentPageElement.textContent = currentFeedbackPage;
+        totalPagesElement.textContent = totalPages;
+        prevButton.disabled = currentFeedbackPage <= 1;
+        nextButton.disabled = currentFeedbackPage >= totalPages;
+
+        // Clear and populate feedback list
+        feedbackList.innerHTML = '';
+
+        currentPageData.forEach((feedback, index) => {
+            const feedbackCard = createFeedbackCard(feedback, startIndex + index + 1);
+            feedbackList.appendChild(feedbackCard);
+        });
+    }
+
+    function createFeedbackCard(feedback, displayIndex) {
+        const card = document.createElement('div');
+        card.className = 'bg-gray-700/50 rounded-xl p-4 border border-gray-600';
+        const timestamp = new Date(feedback.timestamp).toLocaleString();
+        const userIdentifier = feedback.user_identifier || 'Anonymous';
+        card.innerHTML = `
+            <div class="flex items-start justify-between mb-3">
+                <div class="flex items-center space-x-2">
+                    <span class="bg-purple-600 text-white text-xs px-2 py-1 rounded-full">#${displayIndex}</span>
+                    <span class="text-gray-400 text-sm">${timestamp}</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <span class="text-gray-400 text-sm">by ${userIdentifier}</span>
+                    <button onclick="deleteFeedback('${feedback.id}')" class="text-red-400 hover:text-red-300 transition-colors duration-200" title="Delete feedback">
+                        <i class="fas fa-trash text-sm"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="mb-3">
+                <h4 class="text-white font-semibold mb-2">Image: ${feedback.analysis_data.image_filename} <span class="ml-2 px-2 py-1 rounded-full text-xs font-bold ${feedback.model_source === 'azure' ? 'bg-blue-600' : 'bg-green-600'} text-white">${feedback.model_source === 'azure' ? 'Azure' : 'Local'}</span></h4>
+                <p class="text-gray-300 text-sm">${feedback.message}</p>
+            </div>
+            <div class="flex flex-row items-center justify-start space-x-3 mt-2">
+                <div class="text-center">
+                    <img src="${getFeedbackImageUrl(feedback.image_data.original_image)}"
+                         class="w-14 h-14 object-cover rounded border border-gray-600 cursor-pointer transition-transform duration-200 hover:scale-105"
+                         alt="Original Image"
+                         onclick="showFeedbackImageModal('${feedback.id}', 'original')">
+                    <p class="text-gray-400 text-xs mt-1">Original</p>
+                </div>
+                <div class="text-center">
+                    <img src="${getFeedbackImageUrl(feedback.image_data.overlay_image)}"
+                         class="w-14 h-14 object-cover rounded border border-gray-600 cursor-pointer transition-transform duration-200 hover:scale-105"
+                         alt="Overlay Image"
+                         onclick="showFeedbackImageModal('${feedback.id}', 'overlay')">
+                    <p class="text-gray-400 text-xs mt-1">Overlay</p>
+                </div>
+                <div class="text-center">
+                    <img src="${getFeedbackImageUrl(feedback.image_data.mask_image)}"
+                         class="w-14 h-14 object-cover rounded border border-gray-600 cursor-pointer transition-transform duration-200 hover:scale-105"
+                         alt="Mask Image"
+                         onclick="showFeedbackImageModal('${feedback.id}', 'mask')">
+                    <p class="text-gray-400 text-xs mt-1">Mask</p>
+                </div>
+                <div class="text-center">
+                    <img src="${getFeedbackImageUrl(feedback.image_data.drawing_image)}"
+                         class="w-14 h-14 object-cover rounded border border-gray-600 cursor-pointer transition-transform duration-200 hover:scale-105"
+                         alt="Drawing Image"
+                         onclick="showFeedbackImageModal('${feedback.id}', 'drawing')">
+                    <p class="text-gray-400 text-xs mt-1">Drawing</p>
+                </div>
+            </div>
+        `;
+        return card;
+    }
+
+    async function deleteFeedback(feedbackId) {
+        if (!confirm('Are you sure you want to delete this feedback entry?')) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/feedback/${feedbackId}`, {
+                method: 'DELETE'
+            });
+            if (response.ok) {
+                showMessage('Feedback deleted successfully', 'success');
+                await loadFeedbackData(); // Reload the data
+            } else if (response.status === 404) {
+                showMessage('Feedback entry already deleted', 'success');
+                await loadFeedbackData();
+            } else {
+                const errorData = await response.json();
+                throw new Error(errorData.detail || 'Failed to delete feedback');
+            }
+        } catch (error) {
+            console.error('Error deleting feedback:', error);
+            showMessage(`Failed to delete feedback: ${error.message}`, 'error');
+        }
+    }
+
+    function showFeedbackImageModal(feedbackId, imageType) {
+        const feedback = feedbackData.find(f => f.id === feedbackId);
+        if (!feedback) return;
+        const imageData = feedback.image_data[`${imageType}_image`];
+        if (!imageData) return;
+        const modal = document.createElement('div');
+        modal.className = 'fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50';
+        modal.innerHTML = `
+            <div class="bg-gray-800 rounded-2xl p-6 max-w-4xl w-full mx-4">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-bold text-white capitalize">${imageType} Image</h3>
+                    <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-white transition-colors duration-200">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                <div class="flex justify-center">
+                    <img src="${getFeedbackImageUrl(imageData)}"
+                         class="max-w-full max-h-96 object-contain rounded"
+                         alt="${imageType} Image">
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        // Close on outside click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.remove();
+            }
+        });
+    }
+
+    function changeFeedbackPage(direction) {
+        const totalPages = Math.ceil(feedbackData.length / feedbackPageSize);
+
+        if (direction === 'prev' && currentFeedbackPage > 1) {
+            currentFeedbackPage--;
+        } else if (direction === 'next' && currentFeedbackPage < totalPages) {
+            currentFeedbackPage++;
+        }
+
+        updateFeedbackDisplay();
+    }
+
+    function changeFeedbackPageSize() {
+        feedbackPageSize = parseInt(document.getElementById('feedbackPageSize').value);
+        currentFeedbackPage = 1; // Reset to first page
+        updateFeedbackDisplay();
+    }
+
+    // --- Feedback Display Event Listeners ---
+    document.getElementById('refreshFeedbackBtn').addEventListener('click', loadFeedbackData);
+    document.getElementById('prevFeedbackPage').addEventListener('click', () => changeFeedbackPage('prev'));
+    document.getElementById('nextFeedbackPage').addEventListener('click', () => changeFeedbackPage('next'));
+    document.getElementById('feedbackPageSize').addEventListener('change', changeFeedbackPageSize);
+
+    // Load feedback data when Results tab is shown
+    document.querySelector('[data-tab="results"]').addEventListener('click', () => {
+        setTimeout(loadFeedbackData, 100); // Small delay to ensure tab is switched
+    });
+
+    // Load dashboard stats when Dashboard tab is shown
+    document.querySelector('[data-tab="dashboard"]').addEventListener('click', () => {
+        setTimeout(() => {
+            loadDashboardStats();
+            loadFeedbackStats();
+        }, 100); // Small delay to ensure tab is switched
+    });
+
+    // Initial load of dashboard stats
+    loadDashboardStats();
+    loadFeedbackStats();
+
+    // Helper to get feedback image URL from path
+    function getFeedbackImageUrl(imagePath) {
+        if (!imagePath) return '';
+        // If it's already a data URL
+        if (imagePath.startsWith('data:image/')) {
+            return imagePath;
+        }
+        // If it's raw base64 (common in feedback), convert to data URL
+        if (/^[A-Za-z0-9+/=]+$/.test(imagePath) && imagePath.length > 100) {
+            return 'data:image/png;base64,' + imagePath;
+        }
+        // For any Azure URL, azureml:// URI, or path, extract the filename and use the backend proxy
+        let imageName = imagePath;
+        if (
+            imagePath.startsWith('http://') ||
+            imagePath.startsWith('https://') ||
+            imagePath.startsWith('azureml://') ||
+            imagePath.includes('/')
+        ) {
+            const parts = imagePath.split('/');
+            imageName = parts[parts.length - 1];
+        }
+        // Always use the backend proxy for non-base64 images
+        return `${API_BASE_URL}/proxy-blob-image/${imageName}`;
+    }
+
+    // Implement showCompareUIForImage to display overlay/mask from both models side by side
+    async function showCompareUIForImage(index) {
+        if (index < 0 || index >= allImageData.length) return;
+        // Find both model results for this image
+        const file = allImageData[index].originalFile;
+        const localResult = allImageData.find(d => d.originalFile === file && d.modelSource === 'local');
+        const azureResult = allImageData.find(d => d.originalFile === file && d.modelSource === 'azure');
+        if (!localResult || !azureResult) {
+            setMessage('Both model results not available for comparison.', true);
+            return;
+        }
+        // Clear and show compare UI
+        imageDisplayGrid.innerHTML = '';
+        imageDisplayGrid.classList.remove('hidden');
+        // Create side-by-side overlay images
+        const compareRow = document.createElement('div');
+        compareRow.className = 'flex flex-row justify-center items-start gap-12 mb-8';
+        // Local model
+        const localDiv = document.createElement('div');
+        localDiv.className = 'flex flex-col items-center';
+        localDiv.innerHTML = `<h3 class="text-lg font-bold text-green-400 mb-2">Local Model</h3>
+          <img src="data:image/png;base64,${localResult.predictionResults.full_size_overlay_image}" class="w-96 h-96 object-contain rounded border-4 border-green-600 mb-4 cursor-pointer" alt="Local Overlay"
+            onclick="showCompareImageModal('data:image/png;base64,${localResult.predictionResults.full_size_overlay_image}','data:image/png;base64,${azureResult.predictionResults.full_size_overlay_image}','Local Overlay','Azure Overlay','local')">
+          <img src="data:image/png;base64,${localResult.predictionResults.full_size_mask_image}" class="w-96 h-96 object-contain rounded border-4 border-green-600 cursor-pointer" alt="Local Mask"
+            onclick="showCompareImageModal('data:image/png;base64,${localResult.predictionResults.full_size_mask_image}','data:image/png;base64,${azureResult.predictionResults.full_size_mask_image}','Local Mask','Azure Mask','local')">`;
+        // Azure model
+        const azureDiv = document.createElement('div');
+        azureDiv.className = 'flex flex-col items-center';
+        azureDiv.innerHTML = `<h3 class="text-lg font-bold text-blue-400 mb-2">Azure Model</h3>
+          <img src="data:image/png;base64,${azureResult.predictionResults.full_size_overlay_image}" class="w-96 h-96 object-contain rounded border-4 border-blue-600 mb-4 cursor-pointer" alt="Azure Overlay"
+            onclick="showCompareImageModal('data:image/png;base64,${localResult.predictionResults.full_size_overlay_image}','data:image/png;base64,${azureResult.predictionResults.full_size_overlay_image}','Local Overlay','Azure Overlay','azure')">
+          <img src="data:image/png;base64,${azureResult.predictionResults.full_size_mask_image}" class="w-96 h-96 object-contain rounded border-4 border-blue-600 cursor-pointer" alt="Azure Mask"
+            onclick="showCompareImageModal('data:image/png;base64,${localResult.predictionResults.full_size_mask_image}','data:image/png;base64,${azureResult.predictionResults.full_size_mask_image}','Local Mask','Azure Mask','azure')">`;
+        compareRow.appendChild(localDiv);
+        compareRow.appendChild(azureDiv);
+        imageDisplayGrid.appendChild(compareRow);
+        // Optionally, add buttons to open feedback modal for each model
+        const feedbackRow = document.createElement('div');
+        feedbackRow.className = 'flex flex-row justify-center items-center gap-8';
+        const localFeedbackBtn = document.createElement('button');
+        localFeedbackBtn.className = 'bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-xl';
+        localFeedbackBtn.innerHTML = '<i class="fas fa-comment-dots mr-2"></i>Feedback: Local';
+        localFeedbackBtn.onclick = () => {
+            currentImageIndex = allImageData.indexOf(localResult);
+            openFeedbackModal();
+        };
+        const azureFeedbackBtn = document.createElement('button');
+        azureFeedbackBtn.className = 'bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-xl';
+        azureFeedbackBtn.innerHTML = '<i class="fas fa-comment-dots mr-2"></i>Feedback: Azure';
+        azureFeedbackBtn.onclick = () => {
+            currentImageIndex = allImageData.indexOf(azureResult);
+            openFeedbackModal();
+        };
+        feedbackRow.appendChild(localFeedbackBtn);
+        feedbackRow.appendChild(azureFeedbackBtn);
+        imageDisplayGrid.appendChild(feedbackRow);
+    }
+
+    // Add openFeedbackModalForModel helper
+    window.openFeedbackModalForModel = function(modelSource) {
+        // Find the correct index in allImageData for the current file and modelSource
+        const file = allImageData[currentImageIndex].originalFile;
+        const idx = allImageData.findIndex(d => d.originalFile === file && d.modelSource === modelSource);
+        if (idx !== -1) {
+            currentImageIndex = idx;
+            openFeedbackModal();
+        }
+    };
+
+    // Download all feedback images as PNGs
+    function downloadAllFeedbackImages() {
+        if (!feedbackData || feedbackData.length === 0) {
+            return;
+        }
+        feedbackData.forEach((entry, idx) => {
+            const baseName = entry.analysis_data?.image_filename ? entry.analysis_data.image_filename.replace(/\.[^/.]+$/, "") : `feedback_${idx+1}`;
+            const ts = new Date(entry.timestamp).toISOString().replace(/[:.]/g, "-");
+            const model = entry.model_source || 'unknown';
+            const prefix = `${baseName}_${model}_${ts}`;
+            const images = entry.image_data || {};
+            [
+                { key: 'original_image', label: 'original' },
+                { key: 'overlay_image', label: 'overlay' },
+                { key: 'mask_image', label: 'mask' },
+                { key: 'drawing_image', label: 'drawing' }
+            ].forEach(imgType => {
+                const imgData = images[imgType.key];
+                if (imgData) {
+                    // If it's a base64 string, use it directly; if it's a URL/path, fetch and convert to blob
+                    if (/^data:image\//.test(imgData)) {
+                        // Already base64
+                        downloadDataAsFile(atob(imgData.split(',')[1]), `${prefix}_${imgType.label}.png`, 'image/png');
+                    } else if (/^[A-Za-z0-9+/=]+$/.test(imgData)) {
+                        // Raw base64
+                        downloadDataAsFile(atob(imgData), `${prefix}_${imgType.label}.png`, 'image/png');
+                    } else if (typeof imgData === 'string') {
+                        // Assume it's a URL, fetch and download
+                        fetch(imgData)
+                            .then(resp => resp.blob())
+                            .then(blob => {
+                                const url = URL.createObjectURL(blob);
+                                const link = document.createElement('a');
+                                link.href = url;
+                                link.download = `${prefix}_${imgType.label}.png`;
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
+                                URL.revokeObjectURL(url);
+                            });
+                    }
+                }
+            });
+        });
+    }
+
+    // Export feedback data as CSV
+    function exportFeedbackCsvData() {
+        if (!feedbackData || feedbackData.length === 0) {
+            return;
+        }
+        let csvContent = '';
+        const headers = [
+            "Timestamp", "User Identifier", "Image Filename", "Model Source", "Message"
+        ];
+        csvContent += headers.join(",") + "\n";
+        feedbackData.forEach(entry => {
+            const row = [
+                `"${entry.timestamp || ''}"`,
+                `"${entry.user_identifier || ''}"`,
+                `"${entry.analysis_data?.image_filename || ''}"`,
+                `"${entry.model_source || ''}"`,
+                `"${(entry.message || '').replace(/"/g, '""')}"`
+            ];
+            csvContent += row.join(",") + "\n";
+        });
+        downloadDataAsFile(csvContent, "feedback_export.csv", "text/csv");
+    }
+
+    // Add this function before or after showCompareUIForImage
+    function showCompareImageModal(localImgSrc, azureImgSrc, localLabel, azureLabel, focus) {
+        const modal = document.createElement('div');
+        modal.className = 'fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50';
+        modal.innerHTML = `
+            <div class="bg-gray-800 rounded-2xl p-8 max-w-6xl w-full mx-4">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-2xl font-bold text-white">Model Comparison</h3>
+                    <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-white transition-colors duration-200">
+                        <i class="fas fa-times text-2xl"></i>
+                    </button>
+                </div>
+                <div class="flex flex-row justify-center items-start gap-8">
+                    <div class="flex flex-col items-center flex-1">
+                        <span class="text-lg font-bold mb-2 text-green-400">${localLabel}</span>
+                        <img src="${localImgSrc}" class="object-contain rounded border-4 ${focus==='local' ? 'border-green-400 shadow-lg' : 'border-green-600'} max-w-[40vw] max-h-[80vh]" alt="${localLabel}">
+                    </div>
+                    <div class="flex flex-col items-center flex-1">
+                        <span class="text-lg font-bold mb-2 text-blue-400">${azureLabel}</span>
+                        <img src="${azureImgSrc}" class="object-contain rounded border-4 ${focus==='azure' ? 'border-blue-400 shadow-lg' : 'border-blue-600'} max-w-[40vw] max-h-[80vh]" alt="${azureLabel}">
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        // Close on outside click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.remove();
+            }
+        });
+        // Escape key support
+        document.addEventListener('keydown', function escListener(e) {
+            if (e.key === 'Escape') {
+                modal.remove();
+                document.removeEventListener('keydown', escListener);
+            }
+        });
+    }
+    window.showCompareImageModal = showCompareImageModal;
+
+    // Modal for Blue/Green mask comparison
+    if (!window.showCompareImageModal) {
+      window.showCompareImageModal = function(blueImgSrc, greenImgSrc, blueLabel, greenLabel, focus) {
+        const modal = document.createElement('div');
+        modal.className = 'fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50';
+        modal.innerHTML = `
+          <div class="bg-gray-800 rounded-2xl p-8 max-w-6xl w-full mx-4">
+            <div class="flex items-center justify-between mb-6">
+              <h3 class="text-2xl font-bold text-white">Model Comparison</h3>
+              <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-white transition-colors duration-200">
+                <i class="fas fa-times text-2xl"></i>
+              </button>
+            </div>
+            <div class="flex flex-row justify-center items-start gap-8">
+              <div class="flex flex-col items-center flex-1">
+                <span class="text-lg font-bold mb-2 text-blue-400">${blueLabel}</span>
+                <img src="${blueImgSrc}" class="object-contain rounded border-4 ${focus==='local' ? 'border-blue-400 shadow-lg' : 'border-blue-600'} max-w-[40vw] max-h-[80vh]" alt="${blueLabel}">
+              </div>
+              <div class="flex flex-col items-center flex-1">
+                <span class="text-lg font-bold mb-2 text-green-400">${greenLabel}</span>
+                <img src="${greenImgSrc}" class="object-contain rounded border-4 ${focus==='azure' ? 'border-green-400 shadow-lg' : 'border-green-600'} max-w-[40vw] max-h-[80vh]" alt="${greenLabel}">
+              </div>
+            </div>
+          </div>
+        `;
+        document.body.appendChild(modal);
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) modal.remove();
+        });
+        document.addEventListener('keydown', function escListener(e) {
+          if (e.key === 'Escape') {
+            modal.remove();
+            document.removeEventListener('keydown', escListener);
+          }
+        });
+      };
+    }
+    // Attach click handlers to compare-mask-image dynamically
+    (function() {
+      const resultDiv = document.getElementById('compareDeploymentsResult');
+      if (!resultDiv) return;
+      function attachHandlers() {
+        const imgs = resultDiv.querySelectorAll('.compare-mask-image');
+        if (imgs.length === 2) {
+          const [blueImg, greenImg] = imgs;
+          imgs.forEach((img, idx) => {
+            img.style.cursor = 'pointer';
+            img.onclick = () => {
+              window.showCompareImageModal(
+                blueImg.src,
+                greenImg.src,
+                'Blue Mask',
+                'Green Mask',
+                idx === 0 ? 'local' : 'azure'
+              );
+            };
+          });
+        }
+      }
+      // Observe for changes
+      const observer = new MutationObserver(attachHandlers);
+      observer.observe(resultDiv, { childList: true, subtree: true });
+      // Attach on load
+      attachHandlers();
+    })();
+
+    // Modal for Blue/Green mask comparison (matching screenshot)
+    window.showCompareMasksModal = function(blueImgSrc, greenImgSrc, focus) {
+      console.log('Opening compare masks modal');
+      const modal = document.createElement('div');
+      modal.className = 'fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50';
+      modal.innerHTML = `
+        <div class="bg-slate-800 rounded-2xl p-12 max-w-[90vw] w-full mx-4">
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="text-2xl font-bold text-white">Compare Masks</h3>
+            <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-white transition-colors duration-200">
+              <i class="fas fa-times text-2xl"></i>
+            </button>
+          </div>
+          <div class="flex flex-row justify-center items-start gap-12">
+            <div class="flex flex-col items-center flex-1">
+              <span class="text-xl font-bold mb-4 text-blue-300">Blue Deployment</span>
+              <div class="rounded-xl border-4 ${focus==='local' ? 'border-blue-400' : 'border-blue-600'}" style="background:#181f2a;">
+                <img src="${blueImgSrc}" class="object-contain max-w-[32vw] max-h-[60vh] rounded" alt="Blue Mask">
+              </div>
+            </div>
+            <div class="flex flex-col items-center flex-1">
+              <span class="text-xl font-bold mb-4 text-green-300">Green Deployment</span>
+              <div class="rounded-xl border-4 ${focus==='azure' ? 'border-green-400' : 'border-green-600'}" style="background:#181f2a;">
+                <img src="${greenImgSrc}" class="object-contain max-w-[32vw] max-h-[60vh] rounded" alt="Green Mask">
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(modal);
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.remove();
+      });
+      document.addEventListener('keydown', function escListener(e) {
+        if (e.key === 'Escape') {
+          modal.remove();
+          document.removeEventListener('keydown', escListener);
+        }
+      });
+    };
+    // Attach click handlers to compare-mask-image dynamically in monitoring tab
+    (function() {
+      const resultDiv = document.getElementById('compareDeploymentsResult');
+      if (!resultDiv) return;
+      function attachHandlers() {
+        const imgs = resultDiv.querySelectorAll('.compare-mask-image');
+        if (imgs.length === 2) {
+          const [blueImg, greenImg] = imgs;
+          imgs.forEach((img, idx) => {
+            img.style.cursor = 'pointer';
+            img.onclick = () => {
+              window.showCompareMasksModal(
+                blueImg.src,
+                greenImg.src,
+                idx === 0 ? 'local' : 'azure'
+              );
+            };
+          });
+        }
+      }
+      // Observe for changes
+      const observer = new MutationObserver(attachHandlers);
+      observer.observe(resultDiv, { childList: true, subtree: true });
+      // Attach on load
+      attachHandlers();
+    })();
+
+    function renderAnalysisResultsTable(roiData) {
+      const analysisResultsContainer = document.getElementById('analysisResultsContainer');
+      const analysisResultsTableBody = document.querySelector('#analysisResultsTable tbody');
+      if (!roiData || roiData.length === 0) {
+        analysisResultsContainer.classList.add('hidden');
+        analysisResultsTableBody.innerHTML = '';
+        return;
+      }
+      analysisResultsContainer.classList.remove('hidden');
+      analysisResultsTableBody.innerHTML = roiData.map((roi, idx) => {
+        const analysis = roi.analysis || {};
+        return `<tr>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-200">ROI ${idx + 1} (${roi.roi_definition?.x}, ${roi.roi_definition?.y}, ${roi.roi_definition?.width}, ${roi.roi_definition?.height})</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-200">${analysis.length !== undefined ? analysis.length.toFixed(2) : 'N/A'}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-200">${analysis.tip_coords ? analysis.tip_coords.join(', ') : 'N/A'}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-200">${analysis.base_coords ? analysis.base_coords.join(', ') : 'N/A'}</td>
+        </tr>`;
+      }).join('');
+    }
+    </script>
+    <script src="/script.js"></script>
+</body>
+</html>

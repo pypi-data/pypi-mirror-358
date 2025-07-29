@@ -1,0 +1,650 @@
+<!-- Dashboard Tab -->
+<div id="dashboard-pane" class="tab-pane">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <!-- Stats Cards -->
+        <div class="glass-card rounded-2xl p-6 text-center">
+            <div class="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-images text-green-400 text-xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-2" id="totalImages">0</h3>
+            <p class="text-gray-400">Images Processed</p>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6 text-center">
+            <div class="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-chart-line text-blue-400 text-xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-2" id="totalAnalyses">0</h3>
+            <p class="text-gray-400">Analyses Completed</p>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6 text-center">
+            <div class="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-download text-purple-400 text-xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-2" id="totalDownloads">0</h3>
+            <p class="text-gray-400">Files Downloaded</p>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6 text-center">
+            <div class="w-12 h-12 bg-orange-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-clock text-orange-400 text-xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-2" id="avgProcessingTime">0s</h3>
+            <p class="text-gray-400">Avg Processing Time</p>
+        </div>
+    </div>
+
+    <!-- Feedback Statistics -->
+    <div class="glass-card rounded-2xl p-8 mb-8">
+        <h2 class="text-2xl font-bold text-white mb-6 text-center">
+            <i class="fas fa-comments mr-3 text-purple-400"></i>Feedback Statistics
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="text-center">
+                <div class="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-comment-dots text-purple-400 text-xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-2" id="totalFeedback">0</h3>
+                <p class="text-gray-400">Total Feedback</p>
+            </div>
+            <div class="text-center">
+                <div class="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-users text-green-400 text-xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-2" id="uniqueUsers">0</h3>
+                <p class="text-gray-400">Unique Users</p>
+            </div>
+            <div class="text-center">
+                <div class="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-calendar text-blue-400 text-xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-2" id="recentFeedback">0</h3>
+                <p class="text-gray-400">This Week</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="glass-card rounded-2xl p-8 mb-8">
+        <h2 class="text-2xl font-bold text-white mb-6 text-center">
+            <i class="fas fa-rocket mr-3 text-green-400"></i>Quick Actions
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <button class="btn-primary p-6 rounded-2xl text-white font-semibold text-lg transition-all duration-300" onclick="switchTab('analysis')">
+                <i class="fas fa-upload text-2xl mb-3"></i>
+                <div>Upload Images</div>
+                <div class="text-sm opacity-80">Start new analysis</div>
+            </button>
+
+            <button class="btn-secondary p-6 rounded-2xl text-white font-semibold text-lg transition-all duration-300" onclick="switchTab('training')">
+                <i class="fas fa-brain text-2xl mb-3"></i>
+                <div>Train Model</div>
+                <div class="text-sm opacity-80">Improve accuracy</div>
+            </button>
+
+            <button class="btn-secondary p-6 rounded-2xl text-white font-semibold text-lg transition-all duration-300" onclick="switchTab('results')">
+                <i class="fas fa-chart-bar text-2xl mb-3"></i>
+                <div>View Results</div>
+                <div class="text-sm opacity-80">See analysis data</div>
+            </button>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="glass-card rounded-2xl p-8">
+        <h2 class="text-2xl font-bold text-white mb-6">
+            <i class="fas fa-history mr-3 text-green-400"></i>Recent Activity
+        </h2>
+        <div id="recentActivity" class="space-y-4">
+            <div class="flex items-center p-4 bg-gray-700/50 rounded-xl">
+                <div class="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center mr-4">
+                    <i class="fas fa-check text-green-400"></i>
+                </div>
+                <div class="flex-1">
+                    <p class="text-white font-semibold">Welcome to RootVision Pro!</p>
+                    <p class="text-gray-400 text-sm">Ready to analyze your root systems</p>
+                </div>
+                <span class="text-gray-500 text-sm">Just now</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Analysis Tab -->
+<div id="analysis-pane" class="tab-pane hidden">
+    <!-- File Upload Section -->
+    <div class="glass-card rounded-2xl p-8 mb-8">
+        <h2 class="text-2xl font-bold text-white mb-6 text-center">
+            <i class="fas fa-microscope mr-3 text-green-400"></i>Root Analysis
+        </h2>
+
+        <div class="max-w-2xl mx-auto">
+            <div class="mb-6">
+                <label for="fileInput" class="block text-gray-300 text-sm font-semibold mb-3">
+                    <i class="fas fa-images mr-2"></i>Select Images (Max 16)
+                </label>
+                <input
+                    type="file"
+                    id="fileInput"
+                    accept="image/*"
+                    multiple
+                    class="w-full p-4 border-2 border-dashed border-gray-600 rounded-2xl bg-gray-700/50 text-white
+                           file:mr-4 file:py-3 file:px-6
+                           file:rounded-xl file:border-0
+                           file:text-sm file:font-semibold
+                           file:bg-green-500 file:text-white
+                           hover:file:bg-green-600 cursor-pointer
+                           transition-all duration-300 hover:border-green-500"
+                />
+            </div>
+
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mb-6">
+                <button
+                    id="predictButton"
+                    class="btn-primary py-4 px-8 rounded-xl text-white font-bold text-lg
+                           transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed
+                           flex items-center"
+                >
+                    <i class="fas fa-play mr-3"></i>
+                    <span>Predict & Analyze</span>
+                </button>
+
+                <div class="flex flex-col sm:flex-row items-center gap-2">
+                    <label for="downloadBaseName" class="text-gray-300 whitespace-nowrap font-semibold">
+                        <i class="fas fa-tag mr-2"></i>File Base Name:
+                    </label>
+                    <input
+                        type="text"
+                        id="downloadBaseName"
+                        placeholder="e.g., my_root_sample"
+                        class="p-3 rounded-xl bg-gray-700 border border-gray-600 text-white w-full sm:w-auto
+                               focus:border-green-500 focus:outline-none transition-all duration-300"
+                    />
+                </div>
+            </div>
+
+            <div id="messageDisplay" class="text-center text-gray-400 p-4 rounded-xl bg-gray-700/50"></div>
+        </div>
+    </div>
+
+    <!-- Image Navigation -->
+    <div id="imageNavigation" class="glass-card rounded-2xl p-6 mb-8 hidden">
+        <div class="flex justify-center items-center gap-4">
+            <button id="prevImageButton" class="btn-secondary py-3 px-6 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed">
+                <i class="fas fa-chevron-left mr-2"></i>Previous
+            </button>
+            <span id="imageIndexDisplay" class="text-lg font-semibold text-white px-6 py-3 bg-gray-700/50 rounded-xl"></span>
+            <button id="nextImageButton" class="btn-secondary py-3 px-6 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed">
+                Next<i class="fas fa-chevron-right ml-2"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Image Display Grid -->
+    <div id="imageDisplayGrid" class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8 hidden">
+        <!-- Images will be dynamically created here -->
+    </div>
+
+    <!-- Image Info Display -->
+    <div id="imageInfoDisplay" class="glass-card rounded-2xl p-6 mb-8 hidden">
+        <h3 class="text-xl font-bold text-white mb-4 text-center">
+            <i class="fas fa-info-circle mr-2 text-green-400"></i>Image Information
+        </h3>
+        <div class="text-gray-300"></div>
+    </div>
+
+    <!-- Editing Tools -->
+    <div id="editingTools" class="glass-card rounded-2xl p-8 mb-8 hidden">
+        <h2 class="text-2xl font-bold text-white mb-6 text-center">
+            <i class="fas fa-edit mr-3 text-green-400"></i>Editing & Download Tools
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <button id="roiModeButton" class="btn-secondary py-3 px-4 rounded-xl text-white font-semibold transition-all duration-300">
+                <i class="fas fa-vector-square mr-2"></i>ROI Drawing
+            </button>
+
+            <button id="clearRoisButton" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300">
+                <i class="fas fa-trash mr-2"></i>Clear ROIs
+            </button>
+
+            <button id="maskModeButton" class="btn-secondary py-3 px-4 rounded-xl text-white font-semibold transition-all duration-300">
+                <i class="fas fa-paint-brush mr-2"></i>Mask Drawing
+            </button>
+
+            <div class="flex items-center space-x-2 p-3 bg-gray-700/50 rounded-xl">
+                <label for="drawColorSelect" class="text-gray-300 text-sm font-semibold">Color:</label>
+                <select id="drawColorSelect" class="p-2 rounded-lg bg-gray-700 border border-gray-600 text-white cursor-pointer text-sm">
+                    <option value="white">White (Add)</option>
+                    <option value="black">Black (Remove)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Feedback Submission Button -->
+        <div class="flex justify-center mb-6">
+            <button id="submitFeedbackButton" class="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                <i class="fas fa-comment-dots mr-2"></i>Submit Feedback
+            </button>
+        </div>
+
+        <div class="flex items-center justify-center space-x-4 mb-6">
+            <label for="brushSizeSlider" class="text-gray-300 font-semibold">Brush Size:</label>
+            <input type="range" id="brushSizeSlider" min="5" max="50" value="15" class="w-32 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer">
+            <input type="number" id="brushSizeNumber" min="5" max="50" value="15" class="w-20 p-2 text-center bg-gray-700 border border-gray-600 rounded-lg text-white">
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-wrap justify-center gap-4">
+            <button id="reanalyzeButton" class="btn-primary py-4 px-6 rounded-xl text-white font-bold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                <i class="fas fa-sync-alt mr-2"></i>Reanalyze
+            </button>
+
+            <button id="downloadAllButton" class="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                <i class="fas fa-download mr-2"></i>Download All
+            </button>
+
+            <button id="downloadCsvButton" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                <i class="fas fa-file-csv mr-2"></i>Download CSV
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Training Tab -->
+<div id="training-pane" class="tab-pane hidden">
+    <div class="glass-card rounded-2xl p-8 mb-8">
+        <h2 class="text-2xl font-bold text-white mb-6 text-center">
+            <i class="fas fa-brain mr-3 text-green-400"></i>Model Training
+        </h2>
+
+        <div class="max-w-4xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <!-- Images Upload -->
+                <div class="glass-card rounded-2xl p-6">
+                    <h3 class="text-xl font-bold text-white mb-4 text-center">
+                        <i class="fas fa-images mr-2 text-blue-400"></i>Training Images
+                    </h3>
+                    <div class="mb-4">
+                        <label for="imagesUpload" class="block text-gray-300 text-sm font-semibold mb-3">
+                            <i class="fas fa-upload mr-2"></i>Select Training Images
+                        </label>
+                        <input
+                            type="file"
+                            id="imagesUpload"
+                            accept="image/*"
+                            multiple
+                            class="w-full p-4 border-2 border-dashed border-gray-600 rounded-2xl bg-gray-700/50 text-white
+                                   file:mr-4 file:py-3 file:px-6
+                                   file:rounded-xl file:border-0
+                                   file:text-sm file:font-semibold
+                                   file:bg-blue-500 file:text-white
+                                   hover:file:bg-blue-600 cursor-pointer
+                                   transition-all duration-300 hover:border-blue-500"
+                        />
+                    </div>
+                    <p class="text-gray-400 text-sm text-center">
+                        Upload high-quality root images for training
+                    </p>
+                </div>
+
+                <!-- Masks Upload -->
+                <div class="glass-card rounded-2xl p-6">
+                    <h3 class="text-xl font-bold text-white mb-4 text-center">
+                        <i class="fas fa-mask mr-2 text-red-400"></i>Training Masks
+                    </h3>
+                    <div class="mb-4">
+                        <label for="masksUpload" class="block text-gray-300 text-sm font-semibold mb-3">
+                            <i class="fas fa-upload mr-2"></i>Select Training Masks
+                        </label>
+                        <input
+                            type="file"
+                            id="masksUpload"
+                            accept="image/*"
+                            multiple
+                            class="w-full p-4 border-2 border-dashed border-gray-600 rounded-2xl bg-gray-700/50 text-white
+                                   file:mr-4 file:py-3 file:px-6
+                                   file:rounded-xl file:border-0
+                                   file:text-sm file:font-semibold
+                                   file:bg-red-500 file:text-white
+                                   hover:file:bg-red-600 cursor-pointer
+                                   transition-all duration-300 hover:border-red-500"
+                        />
+                    </div>
+                    <p class="text-gray-400 text-sm text-center">
+                        Upload corresponding mask annotations
+                    </p>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button
+                    id="uploadDataButton"
+                    class="btn-primary py-4 px-8 rounded-xl text-white font-bold text-lg
+                           transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed
+                           flex items-center mx-auto"
+                >
+                    <i class="fas fa-cloud-upload-alt mr-3"></i>
+                    <span>Upload to Azure ML</span>
+                </button>
+            </div>
+
+            <div id="uploadMessageDisplay" class="text-center text-gray-400 p-4 rounded-xl bg-gray-700/50 mt-6"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Results Tab -->
+<div id="results-pane" class="tab-pane hidden">
+    <div class="glass-card rounded-2xl p-8 mb-8">
+        <h2 class="text-2xl font-bold text-white mb-6 text-center">
+            <i class="fas fa-chart-bar mr-3 text-green-400"></i>Analysis Results
+        </h2>
+
+        <div class="max-w-6xl mx-auto">
+            <!-- Download Controls -->
+            <div class="glass-card rounded-2xl p-6 mb-8">
+                <h3 class="text-xl font-bold text-white mb-4 text-center">
+                    <i class="fas fa-download mr-2 text-green-400"></i>Download Results
+                </h3>
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                    <button
+                        id="downloadAllButton"
+                        class="btn-primary py-3 px-6 rounded-xl text-white font-semibold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        <i class="fas fa-download mr-2"></i>Download All Images
+                    </button>
+
+                    <button
+                        id="downloadCsvButton"
+                        class="btn-secondary py-3 px-6 rounded-xl text-white font-semibold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        <i class="fas fa-file-csv mr-2"></i>Export CSV Data
+                    </button>
+                </div>
+            </div>
+
+            <!-- Feedback Display Section -->
+            <div class="glass-card rounded-2xl p-6 mb-8">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-bold text-white">
+                        <i class="fas fa-comments mr-2 text-purple-400"></i>User Feedback
+                    </h3>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-gray-400 text-sm">
+                            <span id="feedbackCount">0</span> feedback entries
+                        </span>
+                        <button id="refreshFeedbackBtn" class="text-gray-400 hover:text-white transition-colors duration-200">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Feedback Pagination Controls -->
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center space-x-2">
+                        <label for="feedbackPageSize" class="text-gray-300 text-sm">Show:</label>
+                        <select id="feedbackPageSize" class="p-1 rounded bg-gray-700 border border-gray-600 text-white text-sm">
+                            <option value="5">5</option>
+                            <option value="10" selected>10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span class="text-gray-400 text-sm">per page</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button id="prevFeedbackPage" class="text-gray-400 hover:text-white transition-colors duration-200 disabled:opacity-50">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <span class="text-gray-300 text-sm">
+                            Page <span id="currentFeedbackPage">1</span> of <span id="totalFeedbackPages">1</span>
+                        </span>
+                        <button id="nextFeedbackPage" class="text-gray-400 hover:text-white transition-colors duration-200 disabled:opacity-50">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Feedback List -->
+                <div id="feedbackList" class="space-y-4 max-h-96 overflow-y-auto">
+                    <!-- Feedback entries will be populated here -->
+                </div>
+
+                <!-- No Feedback Message -->
+                <div id="noFeedbackMessage" class="text-center py-8 text-gray-400 hidden">
+                    <i class="fas fa-comments text-4xl mb-4"></i>
+                    <p class="text-lg">No feedback submitted yet</p>
+                    <p class="text-sm">Submit feedback from the Analysis tab to see it here</p>
+                </div>
+            </div>
+
+            <!-- Analysis Results Table -->
+            <div id="analysisResultsContainer" class="glass-card rounded-2xl p-8 hidden">
+                <h3 class="text-xl font-bold text-white mb-6 text-center">
+                    <i class="fas fa-table mr-2 text-green-400"></i>Detailed Analysis Results
+                </h3>
+                <div class="overflow-x-auto">
+                    <table id="analysisResultsTable" class="min-w-full divide-y divide-gray-700">
+                        <thead class="bg-gray-700/50">
+                            <tr>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">
+                                    <i class="fas fa-vector-square mr-2"></i>ROI
+                                </th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">
+                                    <i class="fas fa-ruler mr-2"></i>Length (px)
+                                </th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">
+                                    <i class="fas fa-map-marker-alt mr-2"></i>Tip Coords (R, C)
+                                </th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">
+                                    <i class="fas fa-map-marker mr-2"></i>Base Coords (R, C)
+                                </th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">
+                                    <i class="fas fa-expand-arrows-alt mr-2"></i>Area (px²)
+                                </th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-300 uppercase tracking-wider">
+                                    <i class="fas fa-crosshairs mr-2"></i>Centroid (X, Y)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-gray-800/50 divide-y divide-gray-700">
+                            <!-- Analysis results rows will be added here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Help Tab -->
+<div id="help-pane" class="tab-pane hidden">
+    <div class="glass-card rounded-2xl p-8 mb-8">
+        <h2 class="text-2xl font-bold text-white mb-6 text-center">
+            <i class="fas fa-question-circle mr-3 text-green-400"></i>Help & Documentation
+        </h2>
+
+        <div class="max-w-4xl mx-auto space-y-8">
+            <!-- Getting Started -->
+            <div class="glass-card rounded-2xl p-6">
+                <h3 class="text-xl font-bold text-white mb-4">
+                    <i class="fas fa-rocket mr-2 text-green-400"></i>Getting Started
+                </h3>
+                <div class="text-gray-300 space-y-3">
+                    <p><strong>1. Upload Images:</strong> Go to the Analysis tab and select your root images (JPG, PNG, etc.)</p>
+                    <p><strong>2. Run Analysis:</strong> Click "Predict & Analyze" to process your images</p>
+                    <p><strong>3. Review Results:</strong> View the generated masks and ROI visualizations</p>
+                    <p><strong>4. Download Data:</strong> Export your results as images or CSV data</p>
+                </div>
+            </div>
+
+            <!-- Features -->
+            <div class="glass-card rounded-2xl p-6">
+                <h3 class="text-xl font-bold text-white mb-4">
+                    <i class="fas fa-star mr-2 text-green-400"></i>Key Features
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-300">
+                    <div>
+                        <h4 class="font-semibold text-white mb-2">Image Processing</h4>
+                        <ul class="space-y-1 text-sm">
+                            <li>• Multi-image batch processing</li>
+                            <li>• Automatic root detection</li>
+                            <li>• Mask generation</li>
+                            <li>• ROI identification</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-white mb-2">Interactive Tools</h4>
+                        <ul class="space-y-1 text-sm">
+                            <li>• Manual mask editing</li>
+                            <li>• ROI drawing tools</li>
+                            <li>• Real-time visualization</li>
+                            <li>• Image navigation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Troubleshooting -->
+            <div class="glass-card rounded-2xl p-6">
+                <h3 class="text-xl font-bold text-white mb-4">
+                    <i class="fas fa-tools mr-2 text-green-400"></i>Troubleshooting
+                </h3>
+                <div class="text-gray-300 space-y-3">
+                    <p><strong>No images processed:</strong> Check that your images are in a supported format (JPG, PNG, etc.)</p>
+                    <p><strong>Processing errors:</strong> Ensure your images are clear and contain visible root structures</p>
+                    <p><strong>Canvas errors:</strong> Try refreshing the page if you encounter display issues</p>
+                    <p><strong>Upload failures:</strong> Check your internet connection and try again</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Chat Interface -->
+<div id="chatContainer" class="hidden">
+    <div class="bg-gray-800 p-6 rounded-2xl mb-0 h-full">
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xl font-bold text-white">
+                <i class="fas fa-robot mr-2 text-green-400"></i>AI Assistant
+            </h2>
+            <button id="closeChatBtn" class="text-gray-400 hover:text-white transition-colors duration-200">
+                <i class="fas fa-times text-lg"></i>
+            </button>
+        </div>
+
+        <div class="flex flex-col space-y-4 h-full">
+            <div id="chatMessages" class="bg-gray-700 rounded-xl p-4 h-96 overflow-y-auto mb-4">
+                <!-- Messages will be added here dynamically -->
+            </div>
+
+            <div class="flex space-x-2">
+                <input
+                    type="text"
+                    id="chatInput"
+                    placeholder="Ask about root analysis..."
+                    class="flex-1 p-3 rounded-xl bg-gray-700 border border-gray-600 text-white focus:outline-none focus:border-green-500 transition-all duration-300"
+                />
+                <button id="sendMessageButton" class="btn-primary py-3 px-4 rounded-xl transition-all duration-300">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Feedback Submission Modal -->
+<div id="feedbackModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-gray-800 rounded-2xl p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold text-white">
+                <i class="fas fa-comment-dots mr-3 text-purple-400"></i>Submit Feedback
+            </h2>
+            <button id="closeFeedbackModal" class="text-gray-400 hover:text-white transition-colors duration-200">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+
+        <div class="space-y-6">
+            <!-- Image Preview Section -->
+            <div>
+                <h3 class="text-lg font-semibold text-white mb-3">
+                    <i class="fas fa-images mr-2 text-green-400"></i>Analysis Images
+                </h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="text-center">
+                        <img id="feedbackOriginalImg" class="w-full h-32 object-cover rounded-lg border-2 border-gray-600" alt="Original Image">
+                        <p class="text-gray-400 text-sm mt-1">Original</p>
+                    </div>
+                    <div class="text-center">
+                        <img id="feedbackOverlayImg" class="w-full h-32 object-cover rounded-lg border-2 border-gray-600" alt="Overlay Image">
+                        <p class="text-gray-400 text-sm mt-1">Overlay</p>
+                    </div>
+                    <div class="text-center">
+                        <img id="feedbackMaskImg" class="w-full h-32 object-cover rounded-lg border-2 border-gray-600" alt="Mask Image">
+                        <p class="text-gray-400 text-sm mt-1">Mask</p>
+                    </div>
+                    <div class="text-center">
+                        <img id="feedbackDrawingImg" class="w-full h-32 object-cover rounded-lg border-2 border-gray-600" alt="Drawing Image">
+                        <p class="text-gray-400 text-sm mt-1">Drawing Area</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analysis Summary -->
+            <div>
+                <h3 class="text-lg font-semibold text-white mb-3">
+                    <i class="fas fa-chart-bar mr-2 text-blue-400"></i>Analysis Summary
+                </h3>
+                <div id="feedbackAnalysisSummary" class="bg-gray-700/50 rounded-lg p-4 text-gray-300 text-sm"></div>
+            </div>
+
+            <!-- Feedback Message -->
+            <div>
+                <h3 class="text-lg font-semibold text-white mb-3">
+                    <i class="fas fa-comment mr-2 text-purple-400"></i>What's Wrong?
+                </h3>
+                <div class="relative">
+                    <textarea
+                        id="feedbackMessage"
+                        placeholder="Please describe what issues you found with this analysis (max 500 characters)..."
+                        class="w-full p-4 rounded-xl bg-gray-700 border border-gray-600 text-white focus:outline-none focus:border-purple-500 transition-all duration-300 resize-none"
+                        rows="4"
+                        maxlength="500"
+                    ></textarea>
+                    <div class="absolute bottom-2 right-2 text-gray-400 text-sm">
+                        <span id="feedbackCharCount">0</span>/500
+                    </div>
+                </div>
+            </div>
+
+            <!-- Optional User Identifier -->
+            <div>
+                <h3 class="text-lg font-semibold text-white mb-3">
+                    <i class="fas fa-user mr-2 text-yellow-400"></i>Your Name (Optional)
+                </h3>
+                <input
+                    type="text"
+                    id="feedbackUserIdentifier"
+                    placeholder="Enter your name or identifier (optional)"
+                    class="w-full p-3 rounded-xl bg-gray-700 border border-gray-600 text-white focus:outline-none focus:border-yellow-500 transition-all duration-300"
+                    maxlength="50"
+                >
+            </div>
+
+            <!-- In feedback modal, add hidden model_source field if not present -->
+            <input type="hidden" id="feedbackModelSource" value="local">
+
+            <!-- Action Buttons -->
+            <div class="flex justify-end space-x-4 pt-4">
+                <button id="cancelFeedbackBtn" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300">
+                    Cancel
+                </button>
+                <button id="submitFeedbackBtn" class="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <i class="fas fa-paper-plane mr-2"></i>Submit Feedback
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
