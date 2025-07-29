@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lean-qi"
+version = "0.0.1"
+description = "一个使用镜像源来快速安装 Lean 的简单工具。"
+authors = [
+  { name="Hewzhew", email="hewzhew@bupt.edu.cn" }, 
+]
+readme = "README.md"
+requires-python = ">=3.7"
+license = { text = "MIT" }
+keywords = ["lean", "elan", "installer", "theorem prover"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development :: Build Tools",
+]
+
+[project.scripts]
+leanup = "leanup.main:main"
+
+[tool.setuptools.package-data]
+leanup = ["*.sh", "*.ps1"]
+
+[tool.lean-qi]
+script_url_sh = "https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh"
+script_url_ps1 = "https://raw.githubusercontent.com/leanprover/elan/master/elan-init.ps1"
+mirror_query_url = "https://mirror.sjtu.edu.cn/elan/"
