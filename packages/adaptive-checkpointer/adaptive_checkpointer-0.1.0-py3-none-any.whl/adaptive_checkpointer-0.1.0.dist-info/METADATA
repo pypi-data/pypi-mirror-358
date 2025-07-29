@@ -1,0 +1,42 @@
+Metadata-Version: 2.4
+Name: adaptive-checkpointer
+Version: 0.1.0
+Summary: √T-based adaptive checkpointing for distributed systems
+Author-email: Seu Nome <seu@email.com>
+License: MIT
+Project-URL: Homepage, https://github.com/Straussberg/adaptive-checkpointer
+Project-URL: Bug Tracker, https://github.com/Straussberg/adaptive-checkpointer/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: System :: Distributed Computing
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: cbor2
+Requires-Dist: zstandard
+Requires-Dist: numpy
+Requires-Dist: psutil
+Provides-Extra: omnetpp
+Requires-Dist: omnetpp; extra == "omnetpp"
+Provides-Extra: redis
+Requires-Dist: redis; extra == "redis"
+Provides-Extra: s3
+Requires-Dist: boto3; extra == "s3"
+
+# Adaptive Checkpointer [![PyPI](https://img.shields.io/pypi/v/adaptive-checkpointer)](https://pypi.org/project/adaptive-checkpointer/)
+
+> √T-based adaptive checkpointing for distributed simulations and systems
+
+```python
+from adaptive_checkpointer import AdaptiveCheckpointer, TieredBackend
+
+backend = TieredBackend().add_ram_layer(10000) \
+                         .add_nvme_layer(100000, "/mnt/pmem") \
+                         .add_s3_layer("my-bucket")
+
+checkpointer = AdaptiveCheckpointer(
+    base_interval=500,
+    storage=backend,
+    metrics=True
+)# adaptive-checkpointer
