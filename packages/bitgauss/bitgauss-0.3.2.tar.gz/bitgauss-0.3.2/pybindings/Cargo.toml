@@ -1,0 +1,22 @@
+[package]
+name = "bitgauss_pybindings"
+version = "0.0.0"
+authors = { workspace = true }
+edition = { workspace = true }
+rust-version = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+
+publish = false
+
+[lib]
+name = "libbitgauss"
+crate-type = ["cdylib"]
+
+[dependencies]
+bitgauss = { version = "*", path = "../bitgauss" }
+pyo3 = { version = "0.25.1", features = [
+    "extension-module",
+    "abi3-py39",
+] }
+rand = { workspace = true }
