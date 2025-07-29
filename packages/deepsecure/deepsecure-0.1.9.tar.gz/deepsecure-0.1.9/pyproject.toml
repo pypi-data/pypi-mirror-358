@@ -1,0 +1,139 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "deepsecure"
+version = "0.1.9"
+authors = [
+  { name="DeepSecure Team", email="mahendra@deeptrail.com" },
+]
+description = "DeepSecure: Secure your AI agent and agentic AI application ecosystem with DeepSecure."
+readme = "README.md"
+requires-python = ">=3.9"
+license = "Apache-2.0"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Operating System :: OS Independent",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: System Administrators",
+    "Topic :: Security",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = ["security", "ai", "cli", "credentials", "vault", "policy", "sandbox"]
+dependencies = [
+    "typer[all]",
+    "requests",
+    "keyring",
+    "pyjwt[crypto]",
+    "pydantic",
+    "toml",
+    "rich",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "responses",
+]
+frameworks = [
+    "crewai",
+    "langchain>=0.1.0",
+    "langchain-community>=0.0.10",
+    "fastapi",
+    "uvicorn",
+]
+# Modern development tooling
+lint = [
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "ruff>=0.1.0",
+    "mypy>=1.0.0",
+]
+# Enhanced testing tools
+test = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-mock>=3.10.0",
+    "responses>=0.23.0",
+    "httpx>=0.24.0",  # For async testing
+]
+# Documentation generation
+docs = [
+    "mkdocs>=1.5.0",
+    "mkdocs-material>=9.0.0",
+    "mkdocstrings[python]>=0.22.0",
+    "mkdocs-gen-files>=0.5.0",
+]
+# Build and packaging tools
+build = [
+    "build>=0.10.0",
+    "twine>=4.0.0",
+    "wheel>=0.40.0",
+]
+# Security scanning
+security = [
+    "bandit>=1.7.0",
+    "safety>=2.3.0",
+]
+# Performance profiling
+perf = [
+    "py-spy>=0.3.0",
+    "memory-profiler>=0.60.0",
+]
+# Complete development environment (combines multiple groups)
+all-dev = [
+    "deepsecure[dev,lint,test,docs,build,security]",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/DeepTrail/deepsecure"
+"Bug Tracker" = "https://github.com/DeepTrail/deepsecure/issues"
+"Documentation" = "https://github.com/DeepTrail/deepsecure/"
+
+[project.scripts]
+deepsecure = "deepsecure.main:app"
+
+[tool.setuptools]
+package-dir = {"" = "."}
+
+[tool.setuptools.packages.find]
+where = ["."]
+exclude = ["tests*", "credservice*"]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = [
+    "tests",
+]
+markers = [
+    "e2e: marks tests as end-to-end",
+]
+
+[tool.black]
+line-length = 88
+target-version = ["py39"]
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+
+# Ensure there isn't a conflicting [tool.poetry] section further down.
+# If a [tool.poetry] section IS the primary metadata source, then IT should have version = "0.1.4"
+# and the [project] version might be secondary or not needed.
+# Given the build-system specified, [project] version is primary for setuptools. 
