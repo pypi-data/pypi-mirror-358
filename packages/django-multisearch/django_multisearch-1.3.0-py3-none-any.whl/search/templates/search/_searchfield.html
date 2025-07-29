@@ -1,0 +1,38 @@
+{% load dumpjson %}
+{% load i18n %}
+
+<div class="col-lg-4 searchfield-container">
+    <div class="panel panel-default searchpanel">
+        <div class="panel-body searchpanel-body">
+        {% if logic %}
+            <div class="row">
+                <i class="searchfield-delete pull-right fa fa-times fa-fw"></i>
+            </div>
+        {% endif %}
+            <div class="row">
+            {% if logic %}
+                <div class="col-lg-4 col-logic">
+                    <select class="searchlogic form-control">
+                        <option value="AND">AND</option>
+                        <option value="OR">OR</option>
+                    </select>
+                </div>
+                <div class="col-lg-8">
+            {% else %}
+                <div class="col-lg-12">
+            {% endif %}
+                    <select class="searchfield form-control">
+                        <option>{% trans 'select field...' %}</option>
+                        {% for field in view.searchfields %}
+                            <option value="{{ field.0 }}" data-field="{{ field|dumpjson }}">{{ field.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 widget_container">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
