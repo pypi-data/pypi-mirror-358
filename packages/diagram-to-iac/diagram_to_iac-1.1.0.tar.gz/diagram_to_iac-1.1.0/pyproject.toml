@@ -1,0 +1,26 @@
+[build-system]
+requires      = ["setuptools>=61.0", "wheel", "build", "pipreqs", "tomlkit"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name        = "diagram-to-iac"
+version     = "1.1.0"
+description = "Convert architecture diagrams into IaC modules"
+readme      = "README.md"
+authors     = [{ name="vindpro", email="admin@vindpro.com" }]
+dependencies = ["anthropic==0.55.0", "google_api_python_client==2.174.0", "langchain_anthropic==0.3.16", "langchain-core>=0.3.62,<1.0.0", "langchain_google_genai==2.1.5", "langchain_openai==0.3.26", "langgraph==0.4.10", "openai==1.92.2", "protobuf>=5.27.0", "pydantic==2.11.7", "PyYAML==6.0.2", "Requests==2.32.4", "typing_extensions==4.14.0", "GitPython>=3.1,<4.0"]   # ← always overwritten by update_deps.py
+
+
+
+[project.scripts]
+diagram-to-iac = "diagram_to_iac.cli:main"
+r2d-agent = "diagram_to_iac.r2d:main"
+git-agent = "diagram_to_iac.actions.git_entry:main"
+terraform-agent = "diagram_to_iac.actions.terraform_agent_entry:main"
+supervisor-agent = "diagram_to_iac.actions.supervisor_entry:main"
+
+[tool.setuptools]                    # (intentionally left empty)
+
+[tool.setuptools.packages.find]      # find‑options live here
+where   = ["src"]
+exclude = ["tests*", "scripts*"]
