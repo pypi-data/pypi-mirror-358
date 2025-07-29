@@ -1,0 +1,68 @@
+Metadata-Version: 2.4
+Name: cutted
+Version: 0.3.1
+Summary: AI-powered audio editor controllable via natural language.
+Author-email: simon0302010 <simon0302010@gmail.com>
+License-Expression: GPL-3.0
+Project-URL: Homepage, https://github.com/simon0302010/Cutted
+Requires-Python: <=3.13,>=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: customtkinter
+Requires-Dist: matplotlib
+Requires-Dist: numpy
+Requires-Dist: pydub
+Requires-Dist: pygame
+Requires-Dist: google-genai
+Requires-Dist: python-dotenv
+Provides-Extra: whisper
+Requires-Dist: whisper-timestamped; extra == "whisper"
+Dynamic: license-file
+
+# Cutted
+AI-powered audio editor controllable via natural language
+
+Note: This app is currently not functional.
+
+# Installation
+
+Install dependencies:
+
+**Debian:**
+```bash
+sudo apt update
+sudo apt install ffmpeg git
+```
+
+**Arch Linux:**
+```bash
+sudo pacman -Syu ffmpeg git
+```
+
+Clone the repository:
+
+```bash
+git clone https://github.com/simon0302010/Cutted.git
+cd Cutted
+```
+
+Create a virtual environment:
+
+```bash
+python -m venv venv
+source venv/bin/activate
+```
+
+Install the package:
+
+```bash
+pip install .
+```
+
+# Usage
+
+Run the package:
+
+```bash
+python -m cutted
+```
