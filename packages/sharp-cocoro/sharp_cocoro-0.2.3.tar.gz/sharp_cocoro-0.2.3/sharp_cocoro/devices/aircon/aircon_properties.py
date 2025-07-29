@@ -1,0 +1,45 @@
+from enum import Enum
+
+class StatusCode(str, Enum):
+    STATE_DETAIL = 'FA'
+    WINDSPEED = 'A0'
+    POWER = '80'
+    NANOE_MODE = 'CF'
+    OPERATION_MODE = 'B0'
+    HEAT_TEMPERATURE = 'B3'
+    ROOM_TEMPERATURE = 'BB'
+
+class ValueSingle(str, Enum):
+    POWER_ON = '30'
+    POWER_OFF = '31'
+
+    # NANOE_ON = '41'
+    # NANOE_OFF = '42'
+
+    OPERATION_OTHER = '40'
+    OPERATION_AUTO = '41'
+    OPERATION_COOL = '42'
+    OPERATION_HEAT = '43'
+    OPERATION_DEHUMIDIFY = '44'
+    OPERATION_VENTILATION = '45'
+
+    WINDSPEED_LEVEL_1 = '31'
+    WINDSPEED_LEVEL_2 = '32'
+    WINDSPEED_LEVEL_3 = '33'
+    WINDSPEED_LEVEL_4 = '34'
+    WINDSPEED_LEVEL_5 = '35'
+    WINDSPEED_LEVEL_6 = '36'
+    WINDSPEED_LEVEL_7 = '37'
+    WINDSPEED_LEVEL_8 = '38'
+    WINDSPEED_LEVEL_AUTO = '41'
+
+
+class FanDirection(int, Enum):
+    FAN_DIRECTION_AUTO = 0
+    FAN_DIRECTION_1 = 1
+    FAN_DIRECTION_2 = 2
+    FAN_DIRECTION_3 = 3
+    FAN_DIRECTION_4 = 4
+    FAN_DIRECTION_5 = 5
+    # FAN_6 = 6
+    FAN_DIRECTION_SWING = 7
