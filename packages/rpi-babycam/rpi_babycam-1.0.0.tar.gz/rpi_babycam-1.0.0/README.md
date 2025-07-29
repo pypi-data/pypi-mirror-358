@@ -1,0 +1,117 @@
+
+# Babycam
+
+> [!NOTE]
+> This is a fork of [RPICamera](https://github.com/BBowdon00/RPICamera/) with some tweaks and additional features.
+
+This package provides a streaming server and motion detection notification service using the Picamera2 library on Raspberry Pi with a camera connected.
+
+
+## Features
+
+ - Low latency MJPEG streaming server, perfect for low powered Pis including the Zero.
+ - Motion detection with configurable sensitivity
+ - Optional bounding boxes to highlight motion
+ - Notification hooks including HTTP, MQTT
+
+## Use Case
+
+I have tested and used this as a baby monitoring camera, but it could also be used as a simple security camera or even as a wildlife camera.
+
+## To-Do
+
+ - Fix bounding box error
+ - Optional reboot and shutdown hooks
+ - A helper function which logs (to stdout or file) the motion detection values for help with calibrating the sensitivity threshold.
+ - A generic webhook handler with flexible configuration options
+    - A wehbook timeout, so the user doesn't get spammed with notifications for essentially the same event
+ - Improved performance? Stream is very choppy on a Zero 2 W, an MJPEG server without motion detection is far smoother.
+    - use lo-res stream for motion detection and bounding boxes?
+ - Gracefully handle SIGINT / keyboardinterrupt
+
+## Installation
+
+Ensure you have a Raspberry Pi with a camera module.
+
+Install the required dependencies:
+
+```sh
+sudo apt-get update
+sudo apt-get install -y python3-picamera2 python3-pil
+```
+
+Optionally install `python3-paho-mqtt` if you want to receive notifications that way.
+
+Install the rpi-babycam app:
+
+From PyPi:
+```sh
+pip install rpi-babycam
+
+```
+
+From Source:
+```
+git clone https://codeberg.org/otter_rocket/rpi-babycam
+cd rpi-babycam
+pip install numpy opencv-python-headless
+```
+
+### Additonal Dependencies
+
+The `opencv` package depends on a bunch of system packages which may or may not already exist on your system. If you get errors such as `ImportError: libavformat.so.58: cannot open shared object file: No such file or directory`, try installing the following packages.
+
+- ffmpeg
+- libavformat58
+- libswscale
+- libatlas-base-dev
+
+## Usage
+
+### Configuration
+
+Runtime configuration arguments can be set either by an `.env` file in the same directory from which you run the app, or via cli arguments.
+
+| Environment Value | Command Line Argument | Description | Default Value |
+| :--- | :--- | :--- | :--- |
+| RECORD_MOTION | --record-motion | Enable circular buffer recording on motion detection. | False |
+| SAVE_PATH | --save-path | Directory to save captured video to, when run with motion recording enabled. | ~/Video/rpi-babycam/ |
+| BOUNDING_BOX | --bounding-box | Draw bounding box around detected motion. | False |
+| SENSITIVITY | --sensitivity | Set the motion detection sensitivity. | 5.0 |
+| MQTT_BROKER | --mqtt-broker | MQTT broker address for event publishing. | |
+| SERVER_PORT | --port | HTTP Port for streaming server to bind to. | 8000 |
+| LOG_LEVEL | --log-level | Set the logging level. | WARNING |
+
+
+### Running the Application
+
+To start the application, run one of the following commands:
+
+If installed from PyPi: `rpi-babycam [options]`
+
+If installed from source: `python3 babycam/main.py [options]`
+
+## Automatic Start
+
+For ease of use a systemd service (or similar if you prefer a different init system) can be configured to automatically start `rpi-babycam` after boot.
+
+To install make a copy of the example service file, make your desired changes, and save it to `/home/<user>/.config/systemd/user/`. Then 
+
+```sh
+systemctl --user daemon-reload
+systemctl --user enable rpi-babycam.service
+systemctl --user start rpi-babycam.service
+```
+
+
+## Development and Testing
+
+Since the application heavily relies on specific hardware (Raspberry Pi with camera), testing should be conducted on a Raspberry Pi. Ensure that the `picamera2` library is correctly installed and configured.
+
+## Contributing
+
+Contributions are welcome. Please fork the repository and submit a pull request with your improvements.
+
+## License
+
+This project is licensed under the AGPL-3.0 Copyleft license.

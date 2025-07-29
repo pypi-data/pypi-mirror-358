@@ -1,0 +1,42 @@
+[build-system]
+requires = ["uv_build>=0.7.15,<0.8.0"]
+build-backend = "uv_build"
+
+[project]
+name = "rpi-babycam"
+version = "1.0.0"
+authors = [
+  { name="otter_rocket" },
+]
+description = "A video streaming server and motion detector for Raspberry Pi."
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [	
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+
+license = "AGPL-3.0"
+license-files = ["LICEN[CS]E*"]
+
+dependencies = [
+	"picamera2",
+	"numpy",
+	"opencv-python-headless",
+    "rich",
+    "click"
+]
+
+[project.scripts]
+rpi-babycam = "babycam.main:main"
+
+[project.urls]
+Homepage = "https://codeberg.org/otter_rocket/rpi-babycam"
+Bugs = "https://codeberg.org/otter_rocket/rpi-babycam/issues"
+
+[tool.uv]
+cache-keys = [{ file = "pyproject.toml" }]
+
+[tool.uv.build-backend]
+module-root = ""
+module-name = "babycam"
