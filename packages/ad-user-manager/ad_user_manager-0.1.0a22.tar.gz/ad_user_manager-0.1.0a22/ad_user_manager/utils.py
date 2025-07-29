@@ -1,0 +1,56 @@
+"""
+Utility functions for AD User Manager.
+"""
+
+import platform
+import sys
+import tomllib
+from pathlib import Path
+
+
+def get_version() -> str:
+    """
+    Read version from pyproject.toml.
+
+    Returns:
+        Version string from pyproject.toml
+
+    Raises:
+        FileNotFoundError: If pyproject.toml is not found
+        KeyError: If version is not found in pyproject.toml
+    """
+    try:
+        # Get path to pyproject.toml (one level up from package directory)
+        pyproject_path = Path(__file__).parent.parent / "pyproject.toml"
+
+        with open(pyproject_path, "rb") as f:
+            data = tomllib.load(f)
+
+        return data["project"]["version"]
+
+    except FileNotFoundError:
+        # Fallback version if pyproject.toml is not found
+        return "0.1.0"
+    except KeyError:
+        # Fallback version if version key is not found
+        return "0.1.0"
+
+
+def get_version_info() -> dict[str, str]:
+    """
+    Get detailed version information including platform details.
+    
+    Returns:
+        Dictionary containing version, Python version, platform, and installation path
+    """
+    package_version = get_version()
+    python_version = f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
+    
+    return {
+        "version": package_version,
+        "python_version": python_version,
+        "platform": platform.platform(),
+        "system": platform.system(),
+        "architecture": platform.machine(),
+        "installation_path": str(Path(__file__).parent.parent),
+    }
