@@ -1,0 +1,46 @@
+Metadata-Version: 2.1
+Name: erpc
+Version: 1.14.0
+Summary: eRPC Python infrastructure
+Home-page: https://github.com/embeddedrpc/erpc
+Author: NXP
+License: BSD 3-Clause
+Keywords: rpc rpc-framework embedded multicore multiprocessor amp rpmsg_lite
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Programming Language :: Python
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Embedded Systems
+Classifier: Natural Language :: English
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX :: Linux
+Description-Content-Type: text/markdown
+
+# eRPC Python Infrastructure
+
+This folder contains the Python implementation of the eRPC infrastructure.
+
+The eRPC project is stored on Github: [github.com/EmbeddedRPC/erpc](https://github.com/EmbeddedRPC/erpc)
+
+The Python implementation of eRPC is fully compatible with the C/C++ implementation at the
+protocol level. Also, the classes mirror those in the C++ infrastructure.
+
+Installation:
+
+   To install the eRPC Python infrastructure, run the setup.py script like this:
+
+```sh
+pip install erpc
+```
+
+   Once installed, you can access the infrastructure via a standard import statement.
+
+```python
+import erpc
+xport = erpc.transport.SerialTransport("/dev/ttyS1", 115200)
+client = erpc.client.ClientManager(xport, erpc.basic_codec.BasicCodec)
+```
+
+
