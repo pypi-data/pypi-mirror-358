@@ -1,0 +1,49 @@
+interactions:
+- request:
+    body: '{"terminalAppId":"https://db.cloudlabs.sharp.co.jp/clpf/key/REDACTED"}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      content-length:
+      - '105'
+      content-type:
+      - application/json; charset=utf-8
+      host:
+      - hms.cloudlabs.sharp.co.jp
+      user-agent:
+      - smartlink_v200i Mozilla/5.0 (iPad; CPU OS 14_3 like Mac OS X) AppleWebKit/605.1.15
+        (KHTML, like Gecko) Mobile/15E148
+    method: POST
+    uri: https://hms.cloudlabs.sharp.co.jp/hems/pfApi/ta/setting/login/?appSecret=REDACTED&serviceName=iClub
+  response:
+    body:
+      string: '{"errorCode":null,"errorMessage":null}'
+    headers:
+      Cache-Control:
+      - no-cache, no-store, post-check=0, pre-check=0, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 27 Jun 2025 04:59:37 GMT
+      Expires:
+      - Thu, 01 Dec 1994 16:00:00 GMT
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Set-Cookie:
+      - JSESSIONID=REDACTED; Path=/hems/pfApi; Secure; HttpOnly
+      Transfer-Encoding:
+      - chunked
+      X-Content-Type-Options:
+      - nosniff
+    status:
+      code: 200
+      message: OK
+version: 1

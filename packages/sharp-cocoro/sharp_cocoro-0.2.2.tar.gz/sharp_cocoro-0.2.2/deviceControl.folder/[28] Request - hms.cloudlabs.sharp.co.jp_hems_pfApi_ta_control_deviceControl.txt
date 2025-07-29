@@ -1,0 +1,37 @@
+POST /hems/pfApi/ta/control/deviceControl?boxId=https://db.cloudlabs.sharp.co.jp/clpf/key/go2UoDRxnk9QiuhRr7R_3U8tLMIsYI1pbQXds1NlnEM&appSecret=pngtfljRoYsJE9NW7opn1t2cXA5MtZDKbwon368hs80%3D HTTP/1.1
+Host: hms.cloudlabs.sharp.co.jp
+Accept: application/json
+Content-Type: application/json; charset=utf-8
+Cookie: JSESSIONID=06b15d0a099ada3811a13863a291.ap8
+User-Agent: smartlink_v200i Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148
+Content-Length: 416
+Accept-Encoding: gzip
+Connection: close
+Pragma: no-cache
+Cache-Control: no-cache
+
+{
+  "controlList": [
+    {
+      "status": [
+        {
+          "valueSingle": {
+            "code": "41"
+          },
+          "statusCode": "A0",
+          "valueType": "valueSingle"
+        },
+        {
+          "valueBinary": {
+            "code": "c30000000000c000000000000000000000000000000000000000000000000000000000000000000000000000000000000201000000000000000000000000000000000000000000000000000000000000"
+          },
+          "statusCode": "FA",
+          "valueType": "valueBinary"
+        }
+      ],
+      "deviceId": "1323247",
+      "echonetNode": "28-c1-3c-ff-6f-e1",
+      "echonetObject": "013001"
+    }
+  ]
+}
