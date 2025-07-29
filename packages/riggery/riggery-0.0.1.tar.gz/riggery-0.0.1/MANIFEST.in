@@ -1,0 +1,13 @@
+# MANIFEST.in for $$$
+
+include README.md
+include LICENSE
+include pyproject.toml
+
+recursive-include src/riggery *.py
+recursive-include src/riggery *.json
+recursive-include src/riggery *.xml
+recursive-include src/riggery *.txt
+
+global-exclude *.bak
+global-exclude *.tmp
