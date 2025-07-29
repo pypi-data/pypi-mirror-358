@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=60", "setuptools-scm>=8.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "SBGv001-granules"
+version = "1.0.1"
+description = "SBG-TIR OTTER Collection 1 Data Product Granule Encapsulation Classes"
+readme = "README.md"
+authors = [
+    { name = "Gregory H. Halverson", email = "gregory.h.halverson@jpl.nasa.gov" },
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "colored-logging",
+    "matplotlib",
+    "numpy",
+    "rasters",
+    "python-dateutil",
+    "shapely"
+]
+
+requires-python = ">=3.10"
+
+[project.optional-dependencies]
+dev = [
+    "build",
+    "pytest>=6.0",
+    "pytest-cov",
+    "jupyter",
+    "pytest",
+    "twine"
+]
+
+[tool.setuptools.package-data]
+SBG_TIR_granules = ["*.txt"]
+
+[project.urls]
+"Homepage" = "https://github.com/sbg-tir/SBGv001-granules"
+
+[tool.setuptools.packages.find]
+include = ["SBGv001_granules"]
+exclude = []
