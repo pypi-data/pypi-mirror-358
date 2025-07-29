@@ -1,0 +1,61 @@
+Metadata-Version: 2.4
+Name: fiat_toolbox
+Version: 0.1.20
+Summary: A collection of modules for post-processing Delft-FIAT output.
+Author-email: Panos Athanasiou <Panos.Athanasiou@deltares.nl>, Luuk Blom <Luuk.Blom@deltares.nl>, Sarah Rautenbach <sarah.rautenbach@deltares.nl>, Daley Adrichem <Daley.Adrichem@deltares.nl>
+Project-URL: Source, https://github.com/Deltares/fiat_toolbox
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication
+Classifier: Topic :: Scientific/Engineering :: Hydrology
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: tomli
+Requires-Dist: toml
+Requires-Dist: plotly
+Requires-Dist: parse
+Requires-Dist: geopandas
+Requires-Dist: duckdb<1.3,>=1.0
+Requires-Dist: validators
+Requires-Dist: pydantic
+Requires-Dist: pillow
+Provides-Extra: tests
+Requires-Dist: pytest; extra == "tests"
+Requires-Dist: pytest-cov; extra == "tests"
+Dynamic: license-file
+
+Delft-FIAT Toolbox
+------------------
+This toolbox contains post-processing modules for Delft-FIAT output.
+
+Installation
+====================
+To use this package, GDAL has to be installed on your system, which is a c++ library.
+A simple way to install GDAL is to use conda. If you do not have conda installed, you can install it by following the instructions on the `conda website <https://docs.conda.io/en/latest/miniconda.html>`_.
+
+After creating and activating your conda environment, you can install GDAL using the following command
+    conda install -c conda-forge gdal
+
+Then, you can install fiat toolbox and its dependencies using pip:
+    pip install fiat-toolbox
+
+
+Modules:
+
+metrics_writer
+====================
+This module contains functions to write out custom aggregated metrics from Delft-FIAT output for the whole model an/or different aggregation levels.
+
+infographics
+====================
+This module contains functions to write customized infographics in html format using metric files .
+
+spatial_output
+====================
+This module contains functions to aggregate point output from FIAT to building footprints. Moreover, it has methods to join aggregated metrics to spatial files.
+
+equity
+==================
+This module contains functions to calculate equity weights and equity weighted risk metrics based on socio-economic inputs at an aggregation level.

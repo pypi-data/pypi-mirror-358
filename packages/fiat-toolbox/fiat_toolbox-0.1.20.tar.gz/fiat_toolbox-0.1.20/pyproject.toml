@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fiat_toolbox"
+description = "A collection of modules for post-processing Delft-FIAT output."
+readme = "README.md"
+authors = [
+    {name = "Panos Athanasiou", email = "Panos.Athanasiou@deltares.nl"},
+    {name = "Luuk Blom", email = "Luuk.Blom@deltares.nl"},
+    {name = "Sarah Rautenbach", email = "sarah.rautenbach@deltares.nl"},
+    {name = "Daley Adrichem", email = "Daley.Adrichem@deltares.nl"},
+]
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",
+    "Topic :: Scientific/Engineering :: Hydrology",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "numpy",
+    "pandas",
+    "tomli",
+    "toml",
+    "plotly",
+    "parse",
+    "geopandas",
+    "duckdb>=1.0, <1.3",
+    "validators",
+    "pydantic",
+    "pillow"
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+tests = ["pytest", "pytest-cov"]
+
+[tool.setuptools]
+zip-safe = false
+
+[tool.setuptools.dynamic]
+version = { attr = "fiat_toolbox.__version__" }
+
+[tool.setuptools.packages.find]
+include = ["fiat_toolbox", "fiat_toolbox.*"]
+
+[tool.setuptools.package-data]
+"fiat_toolbox" = ["py.typed"]
+
+[project.urls]
+Source = "https://github.com/Deltares/fiat_toolbox"
+
+[tool.pytest.ini_options]
+addopts = "--cov fiat_toolbox --cov-report xml"
+testpaths = ["tests"]
