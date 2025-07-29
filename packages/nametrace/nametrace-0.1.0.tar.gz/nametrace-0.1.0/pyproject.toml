@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools-scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nametrace"
+version = "0.1.0"
+description = "Demographic prediction from name"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Paul Bose", email = "p.bose@zoho.com"}
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+keywords = ["name", "prediction", "demographics", "nlp", "machine-learning"]
+dependencies = [
+    "torch>=2.0.0",
+    "nameparser>=1.1.3"
+    ]
+
+
+[project.urls]
+"Homepage" = "https://github.com/parobo/nametrace"
+"Bug Reports" = "https://github.com/parobo/nametrace/issues"
+"Source" = "https://github.com/parobo/nametrace"
+
+[tool.setuptools.packages.find]
+include = ["nametrace*"]
+
+[tool.setuptools.package-data]
+nametrace = [
+    "data/*.txt", 
+    "models/*.pth",
+] 
