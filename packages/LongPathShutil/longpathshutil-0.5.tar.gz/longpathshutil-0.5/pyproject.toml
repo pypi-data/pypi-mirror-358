@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "LongPathShutil"
+version = "0.5"
+description = "Drop-in replacement for shutil with long path support for Windows"
+readme = "README.md"
+authors = [
+    { name = "Simon Mueller"}
+]
+requires-python = ">=3.6"
+
+# Dependencies of your project
+dependencies = []
+
+# Optional: classifiers for your package
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/simonmb/LongPathShutil"
+
+[tool.setuptools.packages]
+find = { include = ["LongPathShutil"] }
