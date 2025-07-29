@@ -1,0 +1,82 @@
+# pyproject.toml
+# Configuration for Black, the Python code formatter
+# Black version: Compatible with Black 24.8.0+ (latest as of April 2025)
+# This file sets up Black with commonly used options and sensible defaults
+
+[tool.black]
+# Line length: Maximum number of characters per line
+# Default: 88 (Black's choice, shorter than PEP 8's 79 for readability)
+# Set to 88 for consistency with Black's default, but 79 or 100 are common alternatives
+line-length = 120
+
+# Target Python versions: Specifies which Python versions to consider for formatting
+# This ensures compatibility with your project's Python version(s)
+# Example: ["py38", "py39", "py310", "py311"] for multiple versions
+# Use your project's minimum supported version(s)
+target-version = ["py312"]
+
+# Include patterns: Files or directories to format
+# Default: Black formats all .py and .pyi files in the project
+# Use glob patterns to include specific files or directories
+include = '\.pyi?$'
+
+# Exclude patterns: Files or directories to skip
+# Common exclusions: virtual environments, build artifacts, tests, or generated code
+# Use regex patterns (e.g., '(\.git|\.venv|build|dist)/' to exclude directories)
+exclude = '''
+/(
+    \.git
+  | \.venv
+  | venv
+  | \.tox
+  | build
+  | dist
+  | __pycache__
+  | \.mypy_cache
+  | \.pytest_cache
+  | migrations
+)/
+'''
+
+# Skip string normalization: If true, Black preserves string quotes (e.g., ' vs ")
+# Default: false (Black normalizes quotes to double quotes)
+# Set to true if you want to keep single quotes or mixed quotes
+skip-string-normalization = false
+
+# Skip magic trailing comma: If true, Black avoids adding trailing commas in collections
+# Default: false (Black adds trailing commas for clarity and diff minimization)
+# Set to true if you prefer no trailing commas in lists, dicts, etc.
+skip-magic-trailing-comma = false
+
+# Preview mode: Enables new, potentially unstable formatting features
+# Default: false (stable formatting)
+# Set to true to try upcoming features (e.g., improved string handling in Black 24.x)
+# Use with caution, as output may change between releases
+preview = false
+
+# Extend exclude: Add more patterns to exclude
+# Example: Exclude specific test fixtures or generated files
+extend-exclude = '''
+tests/fixtures/.*\.py$
+'''
+
+# Force exclude: Forces exclusion even if files are explicitly included
+# Useful for overriding include patterns in complex projects
+force-exclude = '''
+generated/.*\.py$
+'''
+
+# Black version
+required-version = "25.1.0"
+
+# Additional notes:
+# - Black is opinionated and has few configurable options by design
+# - Use `black --check` to verify formatting without modifying files
+# - Use `black --diff` to see changes Black would make
+# - Run `black .` to format all files in the current directory
+# - Black respects .gitignore for untracked files when using `black .`
+
+# Example usage in a CI pipeline:
+# ```bash
+# black --check --diff .
+# ```
