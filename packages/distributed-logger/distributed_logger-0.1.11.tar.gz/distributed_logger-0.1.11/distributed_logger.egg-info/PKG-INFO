@@ -1,0 +1,149 @@
+Metadata-Version: 2.4
+Name: distributed-logger
+Version: 0.1.11
+Summary: A lightweight logging system with Kafka support for auditing and debugging
+Home-page: https://github.com/arjun-navya/distributed-logger
+Author: Arjun Navya
+Author-email: arjun.dahal@navyaadvisors.com
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: System :: Logging
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: kafka-python>=2.2.12
+Requires-Dist: python-json-logger>=3.3.0
+Requires-Dist: asgiref<3.8.0,>=3.4.1
+Requires-Dist: Django<4.1.0,>=4.0.0
+Requires-Dist: sqlparse<0.5.0,>=0.2.2
+Requires-Dist: typing_extensions>=4.14.0
+Provides-Extra: dev
+Requires-Dist: pytest>=6.0; extra == "dev"
+Requires-Dist: pytest-cov>=2.0; extra == "dev"
+Requires-Dist: black>=21.0; extra == "dev"
+Requires-Dist: flake8>=3.8; extra == "dev"
+Requires-Dist: mypy>=0.800; extra == "dev"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# Distributed Logger
+
+A lightweight logging system with Kafka support for auditing and debugging. Provides middleware for request auditing that can be used with any WSGI/ASGI framework.
+
+## Features
+
+- Request auditing middleware
+- Support for multiple logging backends:
+  - Kafka
+  - Simple console logging
+  - (More backends coming soon)
+- Simple environment-based configuration
+- Framework agnostic (works with Django, Flask, FastAPI, etc.)
+
+## Installation
+
+```bash
+pip install distributed-logger
+```
+
+## Quick Start
+
+1. Add the middleware to your framework:
+
+For Django:
+```python
+MIDDLEWARE = [
+    ...
+    'distributed_logger.middleware.log_middleware.AuditLogMiddleware',
+]
+```
+
+2. Set environment variables for configuration:
+
+```bash
+# For Kafka logging
+export BROKER_TYPE=KAFKA
+export KAFKA_BOOTSTRAP_SERVERS=localhost:9092
+export KAFKA_TOPIC=audit_logs
+export KAFKA_CLIENT_ID=your_app_name
+
+# For simple console logging
+export BROKER_TYPE=SIMPLE
+```
+
+That's it! The middleware will automatically log all requests.
+
+## Usage Examples
+
+### Custom Logging
+
+```python
+from distributed_logger.loggers import KafkaLogger
+from distributed_logger.models import LogInfo
+from distributed_logger.models.config import KafkaConfig
+
+# Create a logger instance
+config = KafkaConfig(
+    broker_type="KAFKA",
+    bootstrap_servers=["localhost:9092"],
+    topic="audit_logs"
+)
+logger = KafkaLogger(config=config)
+
+# Log some information
+log_info = LogInfo(
+    ip_address="127.0.0.1",
+    user_id="user123",
+    request_time="2024-01-01 12:00:00",
+    action="custom_action",
+    request_data={"key": "value"}
+)
+logger.publish(log_info)
+```
+
+## Environment Variables
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| BROKER_TYPE | Type of logging backend ('KAFKA' or 'SIMPLE') | 'SIMPLE' |
+| KAFKA_BOOTSTRAP_SERVERS | Comma-separated list of Kafka brokers | 'localhost:9092' |
+| KAFKA_TOPIC | Kafka topic for logs | 'audit_logs' |
+| KAFKA_CLIENT_ID | Client ID for Kafka producer | None |
+
+## Development
+
+To set up for development:
+
+```bash
+# Clone the repository
+git clone https://github.com/arjun-navya/distributed-logger.git
+cd distributed-logger
+
+# Install development dependencies
+pip install -e ".[dev]"
+
+# Run tests
+pytest
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details. # logger
