@@ -1,0 +1,86 @@
+Metadata-Version: 2.4
+Name: ovos-stt-plugin-whispercppserver
+Version: 0.0.1
+Summary: ovos stt plugin for whisper.cpp server
+Home-page: https://github.com/ser/ovos-stt-whispercppserver-plugin
+Author: ser
+Author-email: ovos+github@sergevictor.eu
+License: Apache-2.0
+Keywords: mycroft OpenVoiceOS OVOS plugin stt whisper.cpp whisper
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Text Processing :: Linguistic
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: license-file
+Dynamic: summary
+
+# WHISPER SERVICE OVOS STT CLIENT
+
+OpenVoiceOS plugin for Whisper service, compatible with free Whisper.cpp server
+
+My motivation was to establish a one working STT system for whole
+household, additionally to Home Assistant I use it for
+[Blurt](https://github.com/QuantiusBenignus/blurt#network-transcription)
+gnome shell extension.
+
+You need a running Whisper compatible API service,
+for example Whisper.cpp instance:
+
+<https://github.com/ggerganov/whisper.cpp/tree/master/examples/server>
+
+I run it on nvidia GPU with fantastic results with detailed
+inference on large model in usually about a second:
+
+```sh
+whisper.cpp/server -m whisper.cpp/models/ggml-large-v3-q5_0.bin --host 0.0.0.0 --port 8910 --print-realtime --print-progress
+```
+
+You can study whisper.cpp to get more information about running its STT service.
+
+## Install
+
+```sh
+pip install ovos-stt-plugin-whispercppserver
+```
+
+## Configuration
+
+`~/.config/mycroft/mycroft.conf`
+
+```json
+{
+  "stt": {
+    "module": "ovos-stt-plugin-whispercppserver",
+    "ovos-stt-plugin-whispercppserver": {
+      "server": "http://192.168.41.49:8910/inference"
+      "temperature": "0.0"
+      "temperature_inc": "0.2"
+      "timeout": 120
+    }
+  }
+}
+```
+
+`server`: MANDATORY! your whisper.cpp inference path instance URI
+
+`temperature`: Decoding temperature (default: 0.0)
+
+`temperature_inc`: Temperature increment (default: 0.2)
+
+`timeout`: timeout of inference request (default: 120 seconds)
