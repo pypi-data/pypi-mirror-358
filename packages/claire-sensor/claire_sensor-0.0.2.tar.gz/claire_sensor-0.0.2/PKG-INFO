@@ -1,0 +1,39 @@
+Metadata-Version: 2.4
+Name: claire-sensor
+Version: 0.0.2
+Summary: Claire-sensor is an simple agent to execute commands for Claire Test suite
+Author-email: Michal Toth <mtoth@redhat.com>
+License: MIT
+Description-Content-Type: text/markdown
+Requires-Dist: fastapi
+Requires-Dist: uvicorn
+
+# claire-sensor
+
+# User installation
+```
+pip install .
+# or
+pip install claire-sensor==0.0.1
+```
+
+Execute agent as
+```
+~/.local/bin/claire-sensor
+```
+# Help
+Documentation of supported paths and attributes can be found on http://127.0.0.1:8123/help which is redirected to /docs
+
+# Development
+```commandline
+source .venv/bin/activate
+fastapi dev claire_sensor/main.py --port 8123
+```
+
+# Creating & publishing PiPY package
+
+```commandline
+pip install build twine
+python -m build
+twine upload dist/*
+```
