@@ -1,0 +1,18 @@
+[project]
+
+name = "warpxio"
+version = "0.1.0"
+description = "A CLI-based AI text generation tool (Proprietary)"
+authors = [{name = "Roni Bhakta", email = "ronibhakta1@gmail.com"}]
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "click>=8.2.1",
+]
+
+[project.scripts]
+warpxio = "warpxio.cli:main"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
