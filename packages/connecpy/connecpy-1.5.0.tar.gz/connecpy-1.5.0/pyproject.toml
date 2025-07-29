@@ -1,0 +1,56 @@
+[project]
+name = "connecpy"
+version = "1.5.0"
+description = "Code generator, server library and client library for the Connect Protocol"
+authors = [
+    { name = "Yasushi Itoh" }
+]
+dependencies = [
+    "httpx",
+    "protobuf",
+    "starlette",
+    "zstd-asgi>=0.2",
+    "brotli-asgi>=1.4.0",
+    "brotli>=1.1.0",
+    "zstandard>=0.22.0",
+]
+readme = "README.md"
+requires-python = ">= 3.9"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+managed = true
+dev-dependencies = [
+    "ruff>=0.9.4",
+    "grpcio-tools",
+    "uvicorn",
+    "grpcio",
+    "protobuf",
+    "brotli_asgi",
+    "hypercorn",
+    "daphne",
+    "pip>=24.0",
+    "pytest>=8.3.4",
+    "pytest-asyncio>=0.25.2",
+    "zstd-asgi>=0.2",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/connecpy"]
+
+[tool.pytest.ini_options]
+# Allow testing of example code.
+pythonpath = [".", "example"]
+addopts = [
+    "--import-mode=importlib",
+]
+
+[tool.ruff]
+# Don't run ruff on generated code from external plugins.
+extend-exclude = ["*_pb2.py", "*_pb2.pyi", "*_pb2_grpc.py"]
