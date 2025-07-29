@@ -1,0 +1,34 @@
+variant: java-springboot
+
+keep:
+  # ── application source ────────────────────────────
+  - src/
+  - src/main/
+  - src/main/java/
+  - src/main/java/**
+  - src/main/resources/
+  - src/main/resources/**
+
+  # ── tests ─────────────────────────────────────────
+  - src/
+  - src/test/
+  - src/test/java/
+  - src/test/java/**
+
+  # ── build & project metadata ──────────────────────
+  - pom.xml
+  - Dockerfile
+  - Makefile
+  - README.md
+
+  # ── IDE / run configs ─────────────────────────────
+  - runConfigurations/
+  - runConfigurations/SpringBoot/
+  - runConfigurations/SpringBoot/**
+
+  # ── deployment & infra (shared) ───────────────────
+  - skaffold.yaml
+  - chart/
+  - chart/**
+  - infra/
+  - infra/**
