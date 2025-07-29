@@ -1,0 +1,28 @@
+classname: tsdat.io.retrievers.StorageRetriever
+parameters:
+  transformation_parameters:
+    range:
+      time: 1h # gets converted to seconds
+    width: {} # only needed for averaging
+    alignment: {} # only needed for averaging
+
+coords:
+  # Map onto buoy_z06 time grid
+  time:
+    .*buoy_z06\.a1.*:
+      name: time
+
+data_vars:
+  temperature:
+    .*buoy_z07\.a1.*:
+      name: temp
+      data_converters:
+        - classname: tsdat.transform.NearestNeighbor
+        - classname: tsdat.io.converters.UnitsConverter
+          input_units: degF
+
+  humidity:
+    .*buoy_z07\.a1.*:
+      name: rh
+      data_converters:
+        - classname: tsdat.transform.NearestNeighbor

@@ -1,0 +1,84 @@
+{
+    // 
+    // Python environment settings
+    // 
+    "python.envFile": "${workspaceFolder}/.vscode/.env",
+    "terminal.integrated.env.osx": {
+        "PYTHONPATH": "${PYTHONPATH}:${workspaceFolder}"
+    },
+    "terminal.integrated.env.linux": {
+        "PYTHONPATH": "${PYTHONPATH}:${workspaceFolder}"
+    },
+    "terminal.integrated.env.windows": {
+        "PYTHONPATH": "${PYTHONPATH}:${workspaceFolder}"
+    },
+    // 
+    // Formatting, linting, code analysis, and testing settings
+    // 
+    "[python]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.fixAll": "explicit",
+            "source.organizeImports": "explicit"
+        },
+        "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+    "editor.formatOnSave": true,
+    "yaml.format.printWidth": 88,
+    "yaml.format.proseWrap": "always",
+    "python.analysis.typeCheckingMode": "basic",
+    "python.testing.pytestEnabled": true,
+    "python.testing.pytestArgs": [
+        "-vv"
+    ],
+    "[markdown]": {
+        "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
+        "editor.tabSize": 4,
+        "editor.detectIndentation": false,
+    },
+    "markdownlint.config": {
+        "code-fence-style": {
+            "style": "backtick"
+        },
+        "code-block-style": false
+    },
+    "editor.rulers": [
+        88,
+        120,
+    ],
+    // 
+    // Settings for helpful utilities
+    // 
+    "autoDocstring.docstringFormat": "google",
+    "errorLens.statusBarIconsEnabled": true,
+    "todo-tree.general.tags": [
+        "BUG",
+        "HACK",
+        "FIXME",
+        "TODO",
+        "TEST",
+        "IDEA",
+        "XXX",
+        "[ ]",
+        "[x]"
+    ],
+    "yaml.schemas": {
+        ".vscode/schema/retriever-schema.json": "*retriever*.yaml",
+        ".vscode/schema/vap-retriever-schema.json": "*vap*retriever*.yaml",
+        ".vscode/schema/dataset-schema.json": "*dataset*.yaml",
+        ".vscode/schema/quality-schema.json": "*quality*.yaml",
+        ".vscode/schema/storage-schema.json": "*storage*.yaml",
+        ".vscode/schema/pipeline-schema.json": "*pipeline*.yaml",
+    },
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/__pycache__": true,
+        "**/*.pyc": true,
+        "**/.mypy_cache": true,
+    },
+}

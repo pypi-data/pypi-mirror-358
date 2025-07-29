@@ -1,0 +1,19 @@
+classname: tsdat.pipeline.pipelines.TransformationPipeline
+parameters: 
+  datastreams:
+    - humboldt.buoy_z06.a1
+    - humboldt.buoy_z07.a1
+
+triggers: []
+
+retriever:
+  path: test/io/yaml/vap-retriever.yaml
+
+dataset:
+  path: test/io/yaml/vap-dataset.yaml
+
+quality:
+  path: test/config/yaml/quality.yaml
+
+storage:
+  path: test/io/yaml/vap-storage.yaml
