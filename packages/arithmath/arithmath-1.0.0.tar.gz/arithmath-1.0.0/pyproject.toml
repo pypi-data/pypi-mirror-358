@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "arithmath"
+dynamic = ["version"]
+description = "A simple mathematical utilities package"
+readme = "README.md"
+authors = [
+    {name = "Harsh", email = "harshjacksn@gmail.com"}
+]
+license = {text = "MIT"}
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+requires-python = ">=3.7"
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/harrshjain/arithmath"
+Repository = "https://github.com/harrshjain/arithmath"
+Issues = "https://github.com/harrshjain/arithmath/issues"
+
+[tool.setuptools.dynamic]
+version = {attr = "arithmath.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["arithmath*"]
