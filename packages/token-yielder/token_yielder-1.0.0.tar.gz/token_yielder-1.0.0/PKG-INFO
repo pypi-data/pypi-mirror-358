@@ -1,0 +1,108 @@
+Metadata-Version: 2.4
+Name: token_yielder
+Version: 1.0.0
+Summary: PYTHON module to generate and rotate token
+Author: Rakesh
+Author-email: Rakesh <rakeshpraneel@gmail.com>
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Dynamic: author
+Dynamic: requires-python
+
+# token-yielder
+
+## Description
+This module enables developers to seamlessly rotate Bearer token has a backend task and helps saving time taken to frame logic. It's designed dynamically so user can customize required parameters in runtime. In addition to that the generated token is stored in environment which makes it ready to use production grade application. 
+
+## Features
+
+- Seamless token rotation.
+- Configuring environment with new or updated tokens.
+- Options to modify metadata in runtime.
+- Single time token generation.
+- Readable error object.
+- Easy to integrate with API systems.
+
+## Installation
+Install using `pip`:
+```bash
+pip install token_yielder
+```
+
+# Usage
+## Initialization
+Here, timeout is an optional argument; by default it's 5 seconds
+```python
+from token-yielder.connect import CreateRequestTask
+import asyncio
+
+base_url = 'https://auth-admin.net'
+router = '/v2/generate-token'
+consumer_id = '123456hui'
+consumer_secret = 'gythbsghui5hj789'
+timeout = 10
+object = CreateRequestTask(base_url, router, consumer_id, consumer_secret, timeout)
+```
+## Periodic token rotation
+It doesn't require any mandatory arguments and a default value is configured.
+- variable_name='Token'; generated token will be stored under this name in env.
+- interval for token rotation is set to 10 hours.
+- token_name='access_token'; function will look for this key in response object to capture the respective value which would be the generated token.
+This can be customized by user as per their response object.
+
+```python
+# run with custom values
+import asyncio
+
+variable_name='Token'
+interval=36000
+token_name='access_token'
+
+asyncio.run(object.rotate_function(variable_name,interval,token_name))
+```
+```python
+# run with default values
+import asyncio
+
+asyncio.run(object.rotate_function())
+```
+
+## Single time token generation
+Since a default value is configured, It doesn't require any mandatory arguments 
+- variable_name='Token'; generated token will be stored under this name in env.
+- store: boolean is set to False which means, generated token will not be stored in env rather it ll be returned.
+- token_name='access_token'; function will look for this key in response object to capture the respective value which would be the generated token.
+This can be customized by user as per their response object.
+```python
+# generating and storing token in env
+variable_name='Token'
+store=True
+token_name='access_token'
+
+object.generate_token(variable_name,store,token_name)
+```
+```python
+# generating token
+generated_token = object.generate_token()
+```
+## Enhanced error object
+Module comes up with enhanced error object. It captures unsuccessful response and creates custom error object in readable way which will enable developers to integrat with their main system with ease.
+```python
+try:
+    generated_token = object.generate_token()
+except Exception as arg:
+    print(arg.status) # gives status code of request
+    print(arg.details) # gives details of the exception
+```
+```text
+Sample error response:
+>> status code: 405; content: {"detail":"Method Not Allowed"}
+
+Unhandled exception from client end will be dumped as given below:
+>> status code: 422; content: {"detail":[{"type":"int_parsing","loc":["body","client_secret"],"msg":"Input should be a valid integer, unable to parse string as an integer","input":"gsd4826hjsdksdn"}]}
+
+This can be parsed to obtained required info.
+```
+It also comes up with mechanism to handle unexpected errors such as connection refused. Those unexpected errors are logged as 400 error.
