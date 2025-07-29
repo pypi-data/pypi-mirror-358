@@ -1,0 +1,6 @@
+__title__ = "token_yielder"
+__description__ = "PYTHON module to generate and rotate token"
+__version__ = "1.0.0"
+__author__ = "Rakesh"
+__copyright__ = "Copyright Rakesh Chandrasekar"
+__author_email__ = "rakeshpraneel@gmail.com"
