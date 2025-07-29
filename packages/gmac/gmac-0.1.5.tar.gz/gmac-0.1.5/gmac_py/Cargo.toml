@@ -1,0 +1,22 @@
+[package]
+name = "gmac_py"
+version = "0.1.5"
+authors = ["Aleksander Lovric <alexlovric@gmail.com>"]
+description = "A python interface to gmac: Geometry Manipulation and Creation"
+edition = "2021"
+license = "MIT"
+repository = "https://github.com/alexlovric/gmac"
+documentation = "https://docs.rs/gmac_py"
+readme = "README.md"
+keywords = ["geometry", "morphing", "ffd", "rbf"]
+categories = ["science", "graphics"]
+
+[lib]
+name = "gmac"
+crate-type = ["cdylib"]
+test = true
+doctest = false
+
+[dependencies]
+pyo3 = {version="0.20.0", features = ["abi3-py38"]}
+gmac_rs = { path = "../gmac_rs" }
