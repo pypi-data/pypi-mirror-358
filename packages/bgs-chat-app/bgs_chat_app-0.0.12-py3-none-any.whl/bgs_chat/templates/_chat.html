@@ -1,0 +1,33 @@
+<div class='great-ds-container'>
+    <div class='great-ds-chat' data-api="{{ api_endpoints }}">
+        <div class='great-ds-chat__heading_container'>
+            {% include '_ai_icon.html' %}
+            <h1 class='great-ds-chat__heading'> {{ heading }} </h1>
+        </div>
+        <p class='great-ds-chat__leading-text'> {{ leading_text }} </p>
+        <div class='great-ds-chat__container'>
+            <div class='great-ds-chat__messages-container'>
+                <div id ='empty-agent-message' class='great-ds-chat__message-container great-ds-chat__message-container--agent'>
+                    {% include "_ai_message_icon.html" %}
+                    <p class='great-ds-chat__message great-ds-chat__message--agent'> 
+                        Hello!
+
+                        Ask your questions about exporting to our AI chat for help with your business.
+                    </p>
+
+                </div>
+                <div id ='empty-user-message' class='great-ds-chat__message-container great-ds-chat__message-container--user'>
+                    <p class='great-ds-chat__message great-ds-chat__message--user'>How do I export to France?</p>
+                </div>
+
+            </div>
+            <div class='great-ds-chat__input-container'>
+                {% csrf_token %}
+                {% include "_input.html" with classes='great-ds-chat__input' noFormGroup='true' %}
+                <button class='great-ds-chat__input-button'>{% include '_send_message_icon.html' %} </button>
+            </div>
+        </div>
+    <div class='great-ds-container'>
+    {% load static %}
+    <script type="module" src="./static/chat.js"></script>       
+</div>
