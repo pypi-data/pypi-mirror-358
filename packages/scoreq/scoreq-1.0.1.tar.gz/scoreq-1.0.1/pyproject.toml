@@ -1,0 +1,46 @@
+# pyproject.toml (FINAL - Simplified for auto-discovery)
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "scoreq"
+version = "1.0.1"
+authors = [
+  { name="Alessandro Ragano", email="alessandroragano@gmail.com" },
+]
+description = "A Python package for advanced speech quality assessment using the SCOREQ model"
+readme = "README.md"
+# Use the modern SPDX license key instead of the old classifier
+license = { text = "MIT License" }
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "onnxruntime >= 1.18.0",
+    "numpy >= 2.0",
+    "torchaudio",
+    "tqdm",
+    "click >= 8.1.7",
+    "soundfile"
+]
+
+[project.optional-dependencies]
+pytorch = [
+    "torch",
+    "fairseq == 0.12.2",
+    "omegaconf == 2.0.6",
+    "antlr4-python3-runtime == 4.8",
+]
+gpu = [
+    "onnxruntime-gpu >= 1.18.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/alessandroragano/scoreq"
+
+# The [tool.setuptools] table has been completely removed.
+# Setuptools will now auto-discover your package in the 'src' directory.
