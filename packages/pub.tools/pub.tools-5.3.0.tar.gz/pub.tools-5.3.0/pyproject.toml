@@ -1,0 +1,112 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pub.tools"
+dynamic = ["version"]
+readme = "README.md"
+requires-python = ">=3.11"
+description = "Get publication metadata from NCBI's eUtils and generate citations."
+classifiers = [
+          "Programming Language :: Python :: 3",
+          "Topic :: Scientific/Engineering",
+          "Topic :: Scientific/Engineering :: Bio-Informatics",
+          "Topic :: Software Development :: Libraries :: Python Modules",
+]
+authors = [
+    { name = "Eric Wohnlich", email = "wohnlice@imsweb.com" }
+]
+license = { text = "GPL" }
+
+dependencies = [
+    "biopython>=1.83",
+    "requests",
+    "lxml",
+    "unidecode",
+    "beautifulsoup4",
+    "deprecation"
+]
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[project.urls]
+homepage = "https://github.com/imsweb/pub.tools"
+documentation = "https://imsweb.github.io/pub.tools"
+
+[tool.coverage.report]
+include = ["pub/tools/*"]
+omit = ["venv", "/tests*", "*upgrades.py"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+fix = true
+lint.select = [
+    # flake8-2020
+    "YTT",
+    # flake8-bandit
+    "S",
+    # flake8-bugbear
+    "B",
+    # flake8-builtins
+    "A",
+    # flake8-comprehensions
+    "C4",
+    # flake8-debugger
+    "T10",
+    # flake8-simplify
+    "SIM",
+    # mccabe
+    "C90",
+    # pycodestyle
+    "E", "W",
+    # pyflakes
+    "F",
+    # pygrep-hooks
+    "PGH",
+    # pyupgrade
+    "UP",
+    # ruff
+    "RUF",
+]
+lint.ignore = [
+    "C901",
+    "E731",
+    "S602",
+    "S314",
+    "S324",
+    "SIM105"
+]
+
+[tool.ruff.format]
+preview = true
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]
+
+[tool.hatch.version]
+path = "pub/tools/__init__.py"
+
+[tool.hatch.build]
+strict-naming = false
+packages = ["pub"]
+
+[tool.hatch.envs.default.scripts]
+test = "pytest {args:tests}"
+test-cov = "coverage run -m pytest {args:tests}"
+cov-report = "coverage html"
+cov = [
+    "test-cov",
+    "cov-report",
+]
+
+# remove after switching to ruff
+[tool.flake8]
+max-line-length = 120
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = [
+]
