@@ -1,0 +1,120 @@
+Metadata-Version: 2.4
+Name: thetakde
+Version: 0.3.2
+Summary: A package for the theta kernel density estimator
+Home-page: https://github.com/DSML-book/ThetaKDE
+Author: DSML-book
+Author-email: kroese@maths.uq.edu.au
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy
+Requires-Dist: scipy
+Requires-Dist: matplotlib
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# Theta Kernel Density Estimation
+
+This repository contains a Python implementation of the fast Theta Kernel Density Estimator (KDE) from [2] with the optimal bandwidth selection method from [1]. 
+
+## Introduction
+
+**Kernel Density Estimation** (KDE) is a non-parametric method for
+estimating an unknown probability density function from a dataset of
+independent and identically distributed observations. The **theta
+KDE** [2] allows estimation of densities on bounded intervals in a
+way that achieves consistent estimation at the boundaries. It is
+highly efficient due to its use of the **discrete cosine transform**
+(DCT). A judicious choice of the bandwidth parameter ensures that
+the theta KDE avoids both oversmoothing and undersmoothing. This is
+accomplished through direct minimization of the **mean integrated
+square error** (MISE), as described in [1].
+
+## Function
+
+### `kde(data, m=2**16, MIN=None, MAX=None, sig=None, resamp=False)`
+
+This function performs the theta kernel density estimation on the input data.
+
+#### Parameters:
+- `data` (numpy array): Input data for density estimation.
+- `m` (int, optional): Number of grid points. Default is `2**16`.
+- `MIN` (float, optional): Minimum value of the data range.
+- `MAX` (float, optional): Maximum value of the data range.
+- `sig` (float, optional): Bandwidth parameter. If not provided, it will be optimized.
+- `resamp` (bool, optional): Set to `True` if the data has repeated values, e.g., due to resampling. Default is `False`.
+
+#### Returns:
+- `density` (numpy array): Estimated density values.
+- `mesh` (numpy array): Grid points corresponding to the density values.
+- `sig` (float): Optimized bandwidth parameter.
+
+---
+
+## Usage
+Install the ThetaKDE package from the Python Package Index to access thetakde module:
+```python
+pip install ThetaKDE
+```
+
+### Example
+
+Generate data from an exponential distribution and compare the KDE with the true PDF.
+
+```python
+import numpy as np
+from matplotlib import pyplot as plt
+from thetakde import kde
+
+# Generate exponential data
+data = -np.log(np.random.uniform(size=5000))
+
+# Estimate density
+density, mesh, sig = kde(data)
+
+# Plot
+plt.plot(mesh, density,'r', label='KDE')
+plt.plot(mesh, np.exp(-mesh), 'b--', label='True PDF')
+plt.legend()
+plt.show()
+```
+
+## References
+
+[1] Z.I. Botev, D.P. Kroese, and T. Taimre (2025). *Data Science and Machine Learning: Mathematical and Statistical Methods*, Second Edition. Chapman & Hall/CRC, Boca Raton.
+
+[2] Z.I. Botev, J.F. Grotowski, and D.P. Kroese (2010). Kernel density estimation via diffusion. *Annals of Statistics*, 38(5), 2916–2957.
+
+
+```bibtex
+@Book{DSML2e,
+  author = {Z. I. Botev and D.P. Kroese and T. Taimre},
+  title = {Data Science and Machine Learning: Mathematical and Statistical Methods},
+  publisher = {Chapman \&  Hall/CRC},
+  year = {2025},
+  address = {Boca Raton},
+  edition = {2nd}
+}
+
+@ARTICLE{thetakde,
+  author = {Z. I. Botev and J. F. Grotowski and D. P. Kroese},
+  title = {{Kernel density estimation via diffusion}},
+  journal = {Annals of Statistics},
+  year = {2010},
+  volume = {38},
+  pages = {2916--2957},
+  number = {5}
+}
+```
