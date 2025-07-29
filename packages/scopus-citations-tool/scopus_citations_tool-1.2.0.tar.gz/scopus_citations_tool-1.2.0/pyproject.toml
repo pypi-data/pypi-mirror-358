@@ -1,0 +1,30 @@
+[project]
+name = "scopus-citations-tool"
+version = "1.2.0"
+description = ""
+authors = [{ name = "Anatoliy Lazovyi", email = "Lazoviy3000@ya.ru" }]
+requires-python = "~=3.13"
+readme = "README.md"
+dependencies = [
+    "selenium>=4.18.1,<5",
+    "loguru>=0.7.2,<0.8",
+    "pydantic>=2.6.4,<3",
+    "tqdm>=4.66.2,<5",
+    "orcid-scraping>=0.1.0,<0.2",
+    "scopus-scraping>=0.1.0,<0.2",
+]
+
+[project.scripts]
+scopus-citations-tool = "scopus_citations_tool.__main__:main"
+
+[dependency-groups]
+dev = [
+    "yapf>=0.40.2,<0.41",
+    "black>=24.3.0,<25",
+    "ruff>=0.3.3,<0.4",
+    "pylint>=3.1.0,<4",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
