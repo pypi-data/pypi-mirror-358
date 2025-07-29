@@ -1,0 +1,91 @@
+Metadata-Version: 2.4
+Name: torii-usb
+Version: 0.8.0
+Summary: Torii HDL framework for FPGA-based USB solutions
+Home-page: https://torii-usb.shmdn.link/
+Author: Katherine Temkin
+Author-email: k@ktemkin.com
+Maintainer: Aki Van Ness, Rachel Mant
+Maintainer-email: aki@lethalbit.net, git@dragonmux.network
+License: BSD-3-Clause
+Project-URL: Documentation, https://torii-usb.shmdn.link/
+Project-URL: Source Code, https://github.com/shrine-maiden-heavy-industries/torii-usb
+Project-URL: Bug Tracker, https://github.com/shrine-maiden-heavy-industries/torii-usb/issues
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Information Technology
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Scientific/Engineering :: Electronic Design Automation (EDA)
+Classifier: Topic :: Software Development
+Classifier: Topic :: Software Development :: Embedded Systems
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: System :: Hardware :: Universal Serial Bus (USB)
+Classifier: Typing :: Typed
+Requires-Python: ~=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+License-File: LICENSE.docs
+Requires-Dist: torii<1.0,>=0.8.0
+Requires-Dist: usb-construct<1.0,>=0.2.1
+Provides-Extra: dev
+Requires-Dist: nox; extra == "dev"
+Provides-Extra: examples
+Requires-Dist: torii-boards<1.0,>=0.7.5; extra == "examples"
+Requires-Dist: libusb1; extra == "examples"
+Requires-Dist: pyusb; extra == "examples"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license
+Dynamic: license-file
+Dynamic: maintainer
+Dynamic: maintainer-email
+Dynamic: project-url
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# Torii-USB
+
+> [!IMPORTANT]
+> Please see the Torii-USB to SOL [migration guide] for information on migrating from SOL
+> to Torii-USB.
+
+Torii-USB is a fork of the [Luna] USB platform for [Amaranth], it was ported to [Torii] originally under the name [SOL] where it retained all of the platform and SoC machinery.
+
+Later it was broken out into Torii-USB which is just purely the USB gateware, all of the hardware and SoC support has been retained by [SOL], but breaking it out into it's own dedicated library allows for isolating dependencies as needed.
+
+## Installation
+
+Please see the [installation instructions] on the [online documentation]
+
+## License
+
+The Torii-USB gateware is released under the [BSD-3-Clause], the full text of which can be found in the [`LICENSE`] file.
+
+The Torii-USB documentation is released under the [CC-BY-4.0], the full text of which can be found in the [`LICENSE.docs`] file.
+
+[migration guide]: https://torii-usb.shmdn.link/migration.html
+[Luna]: https://github.com/greatscottgadgets/luna/
+[Amaranth]: https://github.com/amaranth-lang
+[Torii]: https://github.com/shrine-maiden-heavy-industries/torii-hdl
+[SOL]: https://github.com/shrine-maiden-heavy-industries/sol
+[installation instructions]: https://torii-usb.shmdn.link/install.html
+[online documentation]: https://torii-usb.shmdn.link/
+[BSD-3-Clause]: https://spdx.org/licenses/BSD-3-Clause.html
+[`LICENSE`]: ./LICENSE
+[CC-BY-4.0]: https://creativecommons.org/licenses/by/4.0/
+[`LICENSE.docs`]: ./LICENSE.docs
