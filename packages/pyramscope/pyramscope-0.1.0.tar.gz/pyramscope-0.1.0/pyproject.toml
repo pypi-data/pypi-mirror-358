@@ -1,0 +1,13 @@
+[build-system]
+requires = ["pybind11", "scikit-build-core"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "pyramscope"
+version = "0.1.0"
+description = "Memory inspection tools for Python via C++"
+authors = [{name = "juan jara", email = "juanignaciojara505@email.com"}]
+requires-python = ">=3.7"
+
+[tool.scikit-build]
+wheel.packages = ["pyramscope"]
