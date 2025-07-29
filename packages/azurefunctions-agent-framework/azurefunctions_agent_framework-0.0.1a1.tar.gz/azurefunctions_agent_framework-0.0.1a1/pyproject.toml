@@ -1,0 +1,98 @@
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "azurefunctions-agent-framework"
+dynamic = ["version"]
+requires-python = ">=3.10"
+authors = [{ name = "Azure Functions team at Microsoft Corp.", email = "azurefunctions@microsoft.com"}]
+description = "Base Python worker extension for Azure Functions."
+readme = "README.md"
+license = {text = "MIT License"}
+dependencies = [
+    "azure-functions",
+    "mcp",
+    "typing_extensions",
+    "pydantic",
+    "httpx",
+    "aiohttp",
+    "a2a-sdk",
+]
+classifiers= [
+        'License :: OSI Approved :: MIT License',
+        'Intended Audience :: Developers',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
+        'Programming Language :: Python :: 3.13',
+        'Operating System :: Microsoft :: Windows',
+        'Operating System :: POSIX',
+        'Operating System :: MacOS :: MacOS X',
+        'Environment :: Web Environment',
+        'Development Status :: 3 - Alpha',
+    ]
+
+[project.optional-dependencies]
+# Individual provider groups
+openai = ["openai>=1.0.0"]
+anthropic = ["anthropic>=0.20.0"]
+google = ["google-genai>=0.3.0"]
+ollama = ["ollama>=0.1.0"]
+azure-ai = ["azure-ai-inference"]
+
+# Azure services integration
+azure = [
+    "azure-ai-projects",
+    "azure-identity", 
+    "azure-keyvault-secrets"
+]
+
+# Combined groups
+all = [
+    "openai>=1.0.0",
+    "anthropic>=0.20.0",
+    "google-genai>=0.3.0", 
+    "ollama>=0.1.0",
+    "azure-ai-inference",
+    "azure-ai-projects",
+    "azure-identity",
+    "azure-keyvault-secrets"
+]
+
+# Development dependencies
+dev = [
+    "isort",
+    "black",
+    "pytest",
+    "pytest-asyncio",
+    "mypy"
+]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.mypy_cache
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 88
+known_first_party = ["azurefunctions"]
+
+
+[tool.setuptools.packages.find]
+exclude = ["test_files_llm_created*", "samples*"]
+
+[tool.setuptools.dynamic]
+version = {attr = "azurefunctions.agents.__version__"}
