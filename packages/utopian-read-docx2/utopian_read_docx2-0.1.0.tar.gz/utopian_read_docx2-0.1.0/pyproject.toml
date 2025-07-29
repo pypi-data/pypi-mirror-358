@@ -1,0 +1,20 @@
+[project]
+name = "utopian-read-docx2"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "wxp", email = "690327906@qq.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "docx2txt>=0.9",
+    "mcp[cli]>=1.9.4",
+]
+
+[project.scripts]
+utopian-read-docx2 = "utopian_read_docx2:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
