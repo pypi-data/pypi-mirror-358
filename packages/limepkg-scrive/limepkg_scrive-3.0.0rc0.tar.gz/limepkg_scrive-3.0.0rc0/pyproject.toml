@@ -1,0 +1,98 @@
+[build-system]
+requires      = ['poetry-core>=1.3']
+build-backend = 'poetry.core.masonry.api'
+
+[tool.metadata]
+display_name  = 'scrive'
+package_name  = 'limepkg-scrive'
+lib_name      = 'limepkg_scrive'
+
+[tool.poetry]
+name        = 'limepkg-scrive'
+version     = '3.0.0-rc0'
+description = 'Lime CRM package'
+authors     = ['Author <author@lime.tech>']
+
+[[tool.poetry.source]]
+name = 'lime'
+url  = 'https://pypi.lime.tech/simple/'
+
+[tool.poetry.plugins.lime_plugins]
+'limepkg-scrive' = 'limepkg_scrive'
+
+[tool.poetry.dependencies]
+python = '^3.11'
+lime-crm = '^2.526.0'
+
+[tool.poetry.group.dev.dependencies]
+autopep8 = '>=1'
+pytest = '>=6.2.3'
+flake8 = '^3.7'
+black = '^22.1.0'
+isort = '^5.0.0'
+
+[tool.lime]
+[tool.lime.project]
+project_version = '1.251.0'
+project_type    = 'package'
+project_autoupdate = true
+project_autoupdate_env = "production"
+project_sql_server_version = 'None'
+
+[[tool.lime.static_content]]
+[tool.lime.static_content.build_step]
+cwd = "frontend"
+commands = ["npm ci", "npm run build"]
+
+[tool.lime.static_content.copy_step]
+source = "frontend/dist"
+destination = "limepkg_scrive/web_components/static"
+
+
+[[tool.lime.static_content]]
+[tool.lime.static_content.build_step]
+cwd = "frontend"
+commands = ["npm ci", "npm run build"]
+
+[tool.lime.static_content.package_step]
+cwd = "frontend"
+
+[tool.lime.static_content.copy_step]
+source = "frontend/package"
+destination = "limepkg_scrive/web_components/static_package"
+
+[tool.pytest.ini_options]
+minversion = '6.0'
+norecursedirs = [
+    'venv',
+    '.venv',
+    'build',
+    'dist',
+    '.plugins',
+    'frontend',
+    '.env',
+    '.git',
+    '.github',
+    '.lime',
+    '.vscode'
+]
+faulthandler_timeout = 300
+filterwarnings = [
+    "error::pytest.PytestCollectionWarning",
+]
+
+[tool.black]
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.venv
+  | frontend
+  | poetry.lock
+)/
+'''
+
+[tool.isort]
+profile = "black"
+honor_noqa = true
+multi_line_output = 3
