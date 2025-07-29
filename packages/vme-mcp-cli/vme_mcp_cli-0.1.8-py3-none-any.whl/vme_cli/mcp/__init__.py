@@ -1,0 +1,1 @@
+"""FastMCP integration for VME Textual CLI Client"""
