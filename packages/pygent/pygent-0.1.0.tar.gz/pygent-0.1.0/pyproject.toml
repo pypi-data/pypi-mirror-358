@@ -1,0 +1,25 @@
+[project]
+name = "pygent"
+version = "0.1.0"
+description = "A minimal agentic coding assistant that runs each task in a secure container."
+authors = [ { name = "Mariano Chaves", email = "mchaves.software@gmail.com" } ]
+requires-python = ">=3.9"
+dependencies = [
+    "openai>=1.0.0",   # interface com modelos da OpenAI
+    "docker>=7.0.0",    # manipular containers
+    "rich>=13.7.0"      # saídas coloridas (opcional)
+]
+
+[project.scripts]
+pygent = "pygent.cli:main"
+
+[project.optional-dependencies]
+test = ["pytest"]
+docs = ["mkdocs"]
+
+[tool.setuptools.package-data]
+"pygent" = ["py.typed"]
+
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
