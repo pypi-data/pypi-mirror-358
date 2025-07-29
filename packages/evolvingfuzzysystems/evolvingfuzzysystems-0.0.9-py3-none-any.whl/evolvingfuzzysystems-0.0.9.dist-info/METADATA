@@ -1,0 +1,139 @@
+Metadata-Version: 2.4
+Name: evolvingfuzzysystems
+Version: 0.0.9
+Summary: eFS (evolving Fuzzy Systems)
+Project-URL: Homepage, https://github.com/kaikerochaalves/evolvingfuzzysystems.git
+Project-URL: Issues, https://github.com/kaikerochaalves/evolvingfuzzysystems.git
+Author-email: Kaike Sa Teles Rocha Alves <kaikerochaalves@outlook.com>
+License-File: LICENSE
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.0
+Requires-Dist: matplotlib
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: scipy
+Description-Content-Type: text/markdown
+
+
+Project description
+
+Package created by Kaike Sa Teles Rocha Alves
+
+The evolvingfuzzysystems is a package that contains many evolving Fuzzy Systems (eFSs) in the context of machine learning models, including the ones developed by Kaike Alves during his Master degree under the supervision of Eduardo Pestana de Aguiar. 
+
+    Author: Kaike Sa Teles Rocha Alves
+    Doi for ePL-KRLS-DISCO paper: https://doi.org/10.1016/j.asoc.2021.107764
+    Doi to cite the code: https://doi.org/10.5281/zenodo.15748291
+    Email: kaikerochaalves@outlook.com or kaike.alves@estudante.ufjf.br
+    Git hub repository: https://github.com/kaikerochaalves/evolvingfuzzysystems.git
+
+It provides:
+
+    The package includes the following eFSs: ePL-KRLS-DISCO, ePL+, eMG, ePL, exTS, Simpl_eTS, eTS
+
+Description:
+
+The evolvingfuzzysystems library is a Python package that provides implementations of various Evolving Fuzzy Systems (eFS) models. These models are a class of machine learning algorithms capable of adaptively updating their structure in response to data dynamics while maintaining interpretability. The library aims to address the limited public availability of eFS model implementations, thereby fostering broader accessibility and adoption in research and practical applications.
+
+Key features and capabilities of evolvingfuzzysystems include:
+
+- Implemented eFS Models: The library offers several well-established eFS models, such as ePL-KRLS-DISCO, ePL+, eMG, ePL, exTS, SimpleTS, and eTS.
+
+- Adaptive Learning: eFS models can update their internal structure without requiring retraining, which is a significant advantage over traditional machine learning models in dynamic environments. They can autonomously develop their structure, capture data stream dynamics, and produce accurate results even with nonlinear data.
+
+- Interpretability: eFS models offer interpretability, combining accuracy, flexibility, and simplicity.
+
+- Performance Evaluation Tools: The library includes built-in tools for training, visualization, and performance assessment, facilitating model evaluation and comparison.
+
+- Computational Efficiency: Models within the library implement adaptive filters like Recursive Least Squares (RLS) and Weighted Recursive Least Squares (wRLS) for estimating consequent parameters.
+
+- Visualization: The library provides functions to visualize fuzzy rules and their evolution during the training phase, enhancing the interpretability of the models. This includes: show_rules(), plot_rules(), plot_gaussians(), plot_rules_evolution(), and plot_2d_projections().
+
+- Installation: The package can be easily installed using pip with the command: pip install evolvingfuzzysystems.
+
+The library evaluates its models using the California housing dataset, measuring performance with metrics like normalized root-mean-square error (NRMSE), non-dimensional error index (NDEI), and mean absolute percentage error (MAPE). Computational complexity is also analyzed by measuring execution times and rule evolution during training and testing phases. Notably, the ePL model demonstrates a balance between accuracy and computational cost, making it suitable for real-world applications.
+
+Code of Conduct
+
+evolvingfuzzysystems is a library developed by Kaike Alves. Please read the Code of Conduct for guidance.
+
+Call for Contributions
+
+The project welcomes your expertise and enthusiasm!
+
+Small improvements or fixes are always appreciated. If you are considering larger contributions to the source code, please contact by email first.
+
+To install the library use the command: 
+
+    pip install evolvingfuzzysystems
+
+To import the ePL-KRLS-DISCO, simply type the command:
+
+    from evolvingfuzzysystems.eFS import ePL_KRLS_DISCO
+
+To import the ePL+, simply type:
+
+    from evolvingfuzzysystems.eFS import ePL_plus
+
+To import the eMG, type:
+
+    from evolvingfuzzysystems.eFS import eMG
+
+To import the ePL, type:
+
+    from evolvingfuzzysystems.eFS import ePL
+
+To import the exTS, type:
+
+    from evolvingfuzzysystems.eFS import exTS
+
+To import the Simpl_eTS, type:
+
+    from evolvingfuzzysystems.eFS import Simpl_eTS
+
+To import the eTS, type:
+
+    from evolvingfuzzysystems.eFS import eTS
+
+You can learn more about the ePL-KRLS-DISCO and eFSs in the paper: https://doi.org/10.1016/j.asoc.2021.107764.
+
+
+Usage examples
+
+Once you imported the libraries, you can use functions fit, evolve and predict. For example:
+
+    from evolvingfuzzysystems.eFS import ePL_KRLS_DISCO
+    model = ePL_KRLS_DISCO()
+    model.fit(X_train, y_train)
+    model.evolve(X_val, y_val)
+    y_pred = model.predict(y_test)
+
+If you want to see how many rules was generated, you can type:
+
+    model.n_rules()
+
+You can see the rules graphically by typing:
+
+    model.plot_rules()
+
+If you want to see all Gaussian fuzzy sets, type:
+
+    model.plot_gaussians()
+
+To see the evolution of the rules along with the training, type:
+
+    model.plot_rules_evolution()
+
+For the eMG model, as it uses covariance matrix to model the distribution of the input vector, if you want to visualize the covariance between two attributes, type:
+
+    model.plot_2d_projections()
+
+These last four function that plots graphics accepts extra arguments:
+
+    grid (boolean): if you want the graphic with grid
+    save (boolean): if you want to save the graphic
+    format_save (default='eps'): the format you want to save the graphic.
+    dpi (integer, default=1200): the resolution to save the graphic
+
+If you think you can contribute to this project regarding the code, speed, etc., please, feel free to contact me and to do so.
