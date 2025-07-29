@@ -1,0 +1,25 @@
+[project]
+name = "azpaddypy"
+version = "0.5.5"
+description = "Comprehensive Python logger for Azure, integrating OpenTelemetry for advanced, structured, and distributed tracing."
+readme = "README.md"
+requires-python = ">=3.11"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "azure-monitor-opentelemetry==1.6.10",
+    "azure-functions==1.23.0",
+    "azure-identity==1.23.0",
+    "azure-keyvault-secrets==4.10.0",
+    "azure-keyvault-keys==4.10.0",
+    "azure-keyvault-certificates==4.10.0",
+]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest==8.4.1",
+    "pytest-asyncio==1.0.0",
+    "anyio==4.9.0"
+]
