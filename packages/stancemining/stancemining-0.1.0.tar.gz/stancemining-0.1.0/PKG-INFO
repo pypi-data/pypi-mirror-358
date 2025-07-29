@@ -1,0 +1,85 @@
+Metadata-Version: 2.4
+Name: stancemining
+Version: 0.1.0
+Summary: Add your description here
+License-File: LICENSE
+Requires-Python: >=3.10
+Requires-Dist: accelerate>=1.7.0
+Requires-Dist: adjusttext>=1.3.0
+Requires-Dist: bert-score>=0.3.13
+Requires-Dist: bertopic>=0.17.0
+Requires-Dist: cuml-cu12
+Requires-Dist: datasets>=3.6.0
+Requires-Dist: evaluate>=0.4.3
+Requires-Dist: gpytorch>=1.14
+Requires-Dist: matplotlib>=3.10.3
+Requires-Dist: ninja>=1.11.1.4
+Requires-Dist: nltk>=3.9.1
+Requires-Dist: numpy
+Requires-Dist: packaging>=25.0
+Requires-Dist: pandas
+Requires-Dist: peft>=0.15.2
+Requires-Dist: polars>=1.30.0
+Requires-Dist: pytest>=8.4.0
+Requires-Dist: sacrebleu>=2.5.1
+Requires-Dist: scikit-learn>=1.7.0
+Requires-Dist: scipy>=1.15.3
+Requires-Dist: sentence-transformers>=4.1.0
+Requires-Dist: torch
+Requires-Dist: torchvision
+Requires-Dist: tqdm>=4.67.1
+Requires-Dist: vllm>=0.7.0
+Requires-Dist: wandb>=0.20.1
+Description-Content-Type: text/markdown
+
+# Stance Target Mining
+
+A tool for mining stance targets from a corpus of documents.
+
+## Installation
+
+```bash
+pip install git+https://github.com/bendavidsteel/stancemining.git
+```
+
+## To get stance targets and stance from a corpus of documents
+```
+import stancemining
+
+model = stancemining.StanceMining()
+
+document_df = model.fit_transform(docs)
+target_info_df = model.get_target_info()
+```
+
+## To get stance target, stance, and stance trends from a corpus of documents
+```
+import stancemining
+
+model = stancemining.StanceMining()
+document_df = model.fit_transform(docs)
+trend_df = stancemining.get_stance_trends(document_df)
+```
+
+## To deploy stancemining app
+```
+docker compose up
+```
+
+## To reproduce experimental results
+Rename `./config/config_default.yaml` to `./config/config.yaml` and set the parameters in the file.
+Run:
+```
+python ./experiments/scripts/main.py
+```
+
+You may need to setup a WanDB project.
+Run 
+```
+python ./experiments/scripts/get_results.py
+```
+To have the metrics written to a latex table saved as a tex file.
+
+
+
+
