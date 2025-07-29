@@ -1,0 +1,14 @@
+Header:
+  statements*=HeaderStmt
+;
+
+HeaderStmt: '#$' 'header' stmt=Statement;
+
+Statement:
+    MetavarHeaderStmt
+;
+
+MetavarHeaderStmt: 'metavar'  name=ID '=' value=MetavarValues;
+MetavarValues: BOOL|STRING;
+
+
