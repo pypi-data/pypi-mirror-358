@@ -1,0 +1,56 @@
+Metadata-Version: 2.4
+Name: tacho
+Version: 0.1.0
+Summary: CLI tool for measuring and comparing LLM inference speeds
+Project-URL: Homepage, https://github.com/pietz/tacho
+Project-URL: Repository, https://github.com/pietz/tacho
+Project-URL: Issues, https://github.com/pietz/tacho/issues
+Author-email: Paul-Louis Pröve <mail@plpp.de>
+License-Expression: MIT
+Keywords: benchmark,cli,inference,llm,performance
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.12
+Requires-Dist: litellm>=1.73.1
+Requires-Dist: rich>=14.0.0
+Requires-Dist: typer>=0.16.0
+Description-Content-Type: text/markdown
+
+# Tacho
+
+CLI tool for measuring and comparing LLM inference speeds across different providers.
+
+## Installation
+
+```bash
+pip install tacho
+```
+
+## Usage
+
+```bash
+# Benchmark multiple models
+tacho gpt-3.5-turbo claude-3-haiku-20240307
+
+# Custom number of runs
+tacho gpt-4 gpt-3.5-turbo --runs 10
+
+# List available providers
+tacho list-providers
+```
+
+## Requirements
+
+Set up API keys as environment variables:
+- `OPENAI_API_KEY`
+- `ANTHROPIC_API_KEY`
+- etc.
+
+## License
+
+MIT
