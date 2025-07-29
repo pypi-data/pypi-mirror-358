@@ -1,0 +1,160 @@
+Metadata-Version: 2.4
+Name: sinol-make-ai-tools
+Version: 0.2.1
+Summary: A wrapper for sinol-make with tools for generating packages with AI.
+Author-email: Wojciech Malinowski <wojciech.malinowski.100@gmail.com>
+License-Expression: GPL-3.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
+# sinol-make-ai-tools 🤖
+
+`sinol-make-ai-tools` is a wrapper for `sinol-make` designed to accelerate the package building process, primarily for the organizers of WWI 2025.
+
+**Disclaimer:** Future support and functionality are not guaranteed, especially if `sinol-make` or the template package undergoes changes.
+
+---
+
+## ⚙️ Installation
+
+1.  **Install `sinol-make`**. For detailed instructions, please refer to their repository:
+    [https://github.com/sio2project/sinol-make/tree/main](https://github.com/sio2project/sinol-make/tree/main)
+
+2.  **Install `sinol-make-ai-tools`** using `pipx`:
+    ```bash
+    pipx install sinol-make-ai-tools
+    ```
+
+---
+
+## 🚀 Usage
+
+`sinol-make-ai-tools` comes with a convenient alias: `smat`.
+
+### Available Commands
+
+* `smat init [id]`
+    * This command calls `sinol-make init [id] -t https://git.staszic.waw.pl/top/template/default`.
+    * It also creates the following additional folders and files in the root package directory:
+        * `in/`
+        * `out/`
+        * `description.txt` (see Workflow section)
+        * `ai_file_blacklist.txt` (see Workflow section)
+
+* `smat prompt`
+    * Generates a prompt for a Large Language Model (LLM) of your choice based on the content of `description.txt`.
+
+* `smat unserialize`
+    * Accepts LLM output via standard input (copy-paste) and modifies the selected files accordingly.
+
+* `smat clear`
+    * Clears the `in/` and `out/` directories. This was created to resolve issues with `sinol-make` overwriting previously generated tests.
+
+---
+
+## 📝 Workflow
+
+**First and foremost, read the `sinol-make` documentation:**
+[https://github.com/sio2project/sinol-make/tree/main](https://github.com/sio2project/sinol-make/tree/main)
+Seriously, this is worth your time.
+
+### Step-by-Step Guide
+
+Let's say you want to build a package for a simple problem named "Calculate Absolute Value".
+
+After reading the SIO2 discord packaging channels, the `sinol-make` documentation, and installing `smat`, run:
+```bash
+smat init abs
+```
+This creates a standard package with the ID `abs` and the following directory structure:
+```
+.
+├── ai_file_blacklist.txt
+├── config.yml
+├── description.txt
+├── doc
+│   ├── abszad.tex
+│   ├── licencja.pdf
+│   ├── logo.pdf
+│   └── spiral.cls
+├── in
+├── out
+├── prog
+│   ├── abs2.cpp
+│   ├── absb1.cpp
+│   ├── abschk.cpp
+│   ├── abs.cpp
+│   ├── absingen.cpp
+│   ├── absinwer.cpp
+│   ├── abss1.cpp
+│   └── oi.h
+└── README.md
+```
+
+**Manual Adjustments (Recommended):**
+* Smat currently does not generate checkers, so remove or modify `abschk.cpp`. Consider removing `abss1.cpp`, `abss2.cpp` and `absb1.cpp`. The LLM determines the number of subtasks and brute-force and heuristic solutions, and if it doesn't generate these specific files, the default content (from the "Sumżyce" problem) will remain.
+
+**Configuring `description.txt` and `ai_file_blacklist.txt`:**
+* By default, `description.txt` contains only the package ID:
+    ```
+    Kod zadania: abs.
+    ```
+* `ai_file_blacklist.txt` lists files to be ignored by the AI:
+    ```
+    doc/spiral.cls
+    prog/oi.h
+    ```
+* Append the problem statement to `description.txt`. Using Polish is recommended to avoid translation issues by the LLM. You can copy this from an existing problem PDF, ensuring the "Input" and "Output" sections are well-formatted.
+
+**Generating the Prompt:**
+* Save `description.txt` and, from the root package directory, run:
+    ```bash
+    smat prompt
+    ```
+* This creates `prompt.txt`. Copy its content and paste it into your preferred LLM. You can modify the prompt before sending it. For example, to add a hint:
+    ```
+    ...
+    Kod zadania: abs.
+    Oblicz wartość bezwględną x.
+    How would you solve this problem? Don't generate any code yet, just describe your solution. Hint: use abs from stl.
+    ```
+
+**Interacting with the LLM:**
+* I recommend using google ai pro, because the first month is free, and that's probably all you actually need. Then you will have gemini 2.5 pro, which is great at package generation. If you're a student, you can presumably get the subscription for free for longer.
+* The default instruction is for the LLM to design algorithms first, without generating code.
+* After reviewing its proposed algorithm, ask:
+    > What tests will you include in the ingen file?
+* Review the test cases and suggest changes if needed. Then, prompt it with:
+    > Now generate all package files.
+
+**Unserializing the Output:**
+* The LLM should produce a single fenced code block containing all the serialized package files. Copy the contents of this block. `smat` can handle extra text and backticks that might be copied from the AI's web interface.
+* In your terminal, from the root package directory, run:
+    ```bash
+    smat unserialize
+    ```
+* You'll be prompted for the LLM output. Paste the copied content, press **Enter**, and then **Ctrl+D** (for EOF). This will create or modify the package files.
+
+---
+
+## ✅ Best Practices and Tips
+
+Please follow these steps to avoid problems:
+
+* **Write a solution yourself.** Write a solution for at least one subtask. This is a reasonable standard of quality control.
+* **Run `sinol-make` checks.** Use `sinol-make gen`, `sinol-make run`, `sinol-make doc`, and `sinol-make inwer` to verify that the generated code works as expected.
+* **Review the generated files.** Take a close look at the `ingen`, `inwer`, problem statement PDF, solution PDF, `config.yml`, etc.
+* **Get a peer review.** Have someone else verify the package. **You are not the verifier.**
+
+### Quick Tips
+
+* **Blacklisting Files:** To prevent `smat unserialize` from overwriting a file you've modified, add its relative path to `ai_file_blacklist.txt`.
+* **Informing the LLM about Changes:** If you change a file but still want the LLM to be able to modify it, you can inform it by saying: `FYI, I changed file xyz, here is the new content: ...`
+* **Early Correction:** It's more effective to correct the LLM's ideas *before* it generates code. This prevents it from building upon a flawed foundation.
+* **Use `smat clear` before running `sinol-make gen`:** That way you won't have any old, broken tests lingering in your package.
+* **Change a parameter:** You can quickly change any parameter, such as the problem name or a time limit in a subtask by prompting the LLM: Change value x to y. Rewrite all package files.
+* **Fix bugs:** If you get an error when compiling generated code with `sinol-make`, usually you can copy the error along with relevant context (line number etc.), paste it into the LLM and ask for the file to be rewritten (works 80% of the time).
