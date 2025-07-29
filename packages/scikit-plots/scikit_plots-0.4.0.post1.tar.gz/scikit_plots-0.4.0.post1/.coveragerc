@@ -1,0 +1,16 @@
+# Authors: The scikit-plots developers
+# SPDX-License-Identifier: BSD-3-Clause
+
+[run]
+# Use statement coverage rather than branch coverage because
+# COVERAGE_CORE=sysmon can make branch coverage slower rather than faster. See
+# https://github.com/nedbat/coveragepy/issues/1812 for more details.
+branch = False
+source = scikitplot
+parallel = True
+omit =
+    */benchmarks/*
+    */scikitplot/_build_utils/*
+    */scikitplot/_externals/*
+    */third_party/*
+    */tools/*

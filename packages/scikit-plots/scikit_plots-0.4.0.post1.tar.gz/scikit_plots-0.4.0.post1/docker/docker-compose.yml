@@ -1,0 +1,91 @@
+# Authors: The scikit-plots developers
+# SPDX-License-Identifier: BSD-3-Clause
+
+## Primary File  : docker-compose.yml
+## Override File : docker-compose.override.yml (automatically included if present)
+## docker compose config
+## docker compose up --build
+## https://docs.localstack.cloud/getting-started/installation/#docker-compose
+## Specifies the Docker Compose file version
+# version: "3.9"  # Use the latest version that supports your features
+
+## Defines networks that can be used by services in the Docker Compose file
+networks:
+  ## Declares a network named "back_tier"
+  back_tier:
+    # driver: bridge
+  front_tier:
+
+## https://jupyter-docker-stacks.readthedocs.io/en/latest/using/selecting.html#image-relationships
+## https://github.com/jupyter/docker-stacks/blob/main/images/base-notebook/Dockerfile#L58
+## Use the official Jupyter Docker Stacks
+## "jupyter/base-notebook:latest"
+## "jupyter/minimal-notebook:latest"
+## "jupyter/scipy-notebook:latest"
+## "jupyter/r-notebook:latest"
+## "jupyter/tensorflow-notebook:latest"
+## "jupyter/pytorch-notebook:latest"
+## "jupyter/pyspark-notebook:latest"
+## Declares services (containers) that will be run by Docker Compose
+services:
+
+  ## docker-compose up --build notebook_cpu
+  ## docker ps
+  ## docker logs CONTAINER_ID_OR_NAME
+  ## docker exec -it CONTAINER_ID_OR_NAME bash
+  "notebook_cpu":
+    container_name: "notebook_cpu_main"
+    ## Restart policy: always restart the container if it stops
+    restart: "always"
+    # stdin_open: true  # Keeps STDIN open (for interactive mode)
+    # tty: true  # Allocates a pseudo-TTY
+    ## ubuntu:latest  # Use a lightweight base image (No internal CUDA, relies on host CUDA)
+    ## python:3.12-slim  # Use the Python slim image (lightweight) (No internal CUDA, relies on host CUDA)
+    # image: "jupyter/tensorflow-notebook:latest"  # Image compressed 1.8+Gb (No internal CUDA, relies on host CUDA)
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
+      args:
+        BASE_IMAGE: "${BASE_IMAGE:-jupyter/tensorflow-notebook:latest}"
+    ## If the host has CUDA installed, the container can use it without installing CUDA inside.
+    ## If CUDA isn't installed on the host, use an NVIDIA CUDA base image.
+    # user: root  # Ensure the container runs as root, jupyter default jovyan
+    ## Adjust the working directory as needed
+    # working_dir: "../:/workspaces/scikit-plots"  # Codespaces default
+    working_dir: "/home/jovyan/work"  # jupyter default
+    volumes:
+      # - "../:/workspaces/scikit-plots"  # Codespaces default
+      - "../:/home/jovyan/work"  # jupyter default
+    environment:
+      # - LD_LIBRARY_PATH=/usr/local/cuda/lib64  # Ensure libraries are linked
+      - DEBIAN_FRONTEND=noninteractive  # Disable interactive prompts during installation
+    ports:
+      ## Map host port 8888 to container port 8888 (default)
+      - "8888:8888"  # notebook
+      # - "5000:5000"
+      # - "9000:9000"
+    networks:
+      - "back_tier"
+      - "front_tier"
+    ## default only work entrypoint if both provided
+    # entrypoint:
+    # command:
+    #   - "/bin/bash"
+    #   - "-c"
+    #   - |-
+    #     apt update
+    #     apt install -y sudo gosu
+    #     ## Starts a Bash shell so the container doesn't exit immediately
+    #     # /bin/bash
+    #     ## Notebook
+    #     ## Add jovyan to the sudoers.
+    #     # echo "jovyan ALL=(ALL) ALL" >> /etc/sudoers
+    #     echo "jovyan ALL=(ALL) ALL" | tee -a /etc/sudoers
+    #     ## Change password for jovyan user
+    #     echo "jovyan:jovyan" | chpasswd
+    #     ## Switching to jovyan and starting notebook
+    #     # sudo -u jovyan
+    #     # gosu jovyan
+    #     start-notebook.py --port ${JUPYTER_PORT:-8888}
+    #     ## Extract the Token Directly
+    #     # jupyter notebook list | grep -oP 'token=\K[^ ]+'
