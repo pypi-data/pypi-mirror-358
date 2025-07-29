@@ -1,0 +1,62 @@
+site_name: ddb (for Docker Devbox)
+
+site_url: https://inetum-orleans.github.io/docker-devbox-ddb
+site_description: Erase environment differences, make developers happy !
+site_author: Rémi Alvergnat <remi.alvergnat@inetum.world>, Pierre Lejeune <pierre.lejeune@inetum.world>
+copyright: Inetum
+
+repo_url: https://github.com/inetum-orleans/docker-devbox-ddb
+edit_uri: https://github.com/inetum-orleans/docker-devbox-ddb/blob/develop/docs
+
+theme:
+  language: 'en'
+  name: 'material'
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.tabbed
+  - pymdownx.superfences
+
+nav:
+  - Home: index.md
+  - Overview: overview.md
+  - Configuration: configuration.md
+  - Commands: commands.md
+  - Templates: templates.md
+  - Binaries: binaries.md
+  - Djp packages: djp.md
+  - Guides:
+      - PostgreSQL, Symfony, VueJS:  guides/psql-symfony-vue.md
+  - Features:
+      - certs: features/certs.md
+      - cookiecutter: features/cookiecutter.md
+      - copy: features/copy.md
+      - core: features/core.md
+      - docker: features/docker.md
+      - file: features/file.md
+      - fixuid: features/fixuid.md
+      - git: features/git.md
+      - gitignore: features/gitignore.md
+      - jinja: features/jinja.md
+      - jsonnet: features/jsonnet.md
+      - permissions: features/permissions.md
+      - run: features/run.md
+      - shell: features/shell.md
+      - smartcd: features/smartcd.md
+      - symlinks: features/symlinks.md
+      - traefik: features/traefik.md
+      - version: features/version.md
+      - ytt: features/ytt.md
+  - FAQ: faq.md
+
+plugins:
+  - search
+
+extra_css:
+  - css/extra.css
+
+dev_addr: 0.0.0.0:8000

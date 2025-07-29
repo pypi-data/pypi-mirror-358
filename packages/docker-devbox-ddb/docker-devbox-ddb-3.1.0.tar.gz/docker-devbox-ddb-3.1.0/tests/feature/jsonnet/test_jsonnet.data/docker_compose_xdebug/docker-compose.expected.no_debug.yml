@@ -1,0 +1,23 @@
+services:
+  php-default:
+    image: php:7.4-fpm
+    init: true
+    restart: "no"
+    user: %uid%:%gid%
+
+  php-xdebug2:
+    image: php:7.4-fpm
+    init: true
+    restart: "no"
+    user: %uid%:%gid%
+
+  php-xdebug3:
+    image: php:7.4-fpm
+    init: true
+    restart: "no"
+    user: %uid%:%gid%
+
+networks:
+  default:
+    name: %network_name%
+volumes: {}
