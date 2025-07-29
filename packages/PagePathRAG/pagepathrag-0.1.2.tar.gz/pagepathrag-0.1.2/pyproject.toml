@@ -1,0 +1,118 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "PagePathRAG"
+dynamic = ["version"]
+description = "基于PathRAG的页面路径检索增强生成系统 - 专门用于将UI交互路径转化为知识图谱并进行智能查询的Python库"
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [
+    {name = "PagePathRAG Team", email = "cnatom@icloud.com"}
+]
+maintainers = [
+    {name = "PagePathRAG Team", email = "cnatom@icloud.com"}
+]
+keywords = ["rag", "ui", "path", "knowledge-graph", "llm", "embedding", "retrieval", "ai"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Text Processing :: Linguistic",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Operating System :: OS Independent",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "accelerate",
+    "aioboto3",
+    "aiohttp",
+    "graspologic",
+    "hnswlib",
+    "nano-vectordb",
+    "neo4j",
+    "networkx",
+    "ollama",
+    "openai",
+    "oracledb",
+    "psycopg[binary,pool]",
+    "pymilvus",
+    "pymongo",
+    "pymysql",
+    "pyvis",
+    "sqlalchemy",
+    "tenacity",
+    "tiktoken",
+    "torch",
+    "transformers",
+    "xxhash",
+]
+
+[project.urls]
+Homepage = "https://github.com/your-username/PagePathRAG"
+Documentation = "https://github.com/your-username/PagePathRAG#readme"
+Repository = "https://github.com/your-username/PagePathRAG.git"
+"Bug Tracker" = "https://github.com/your-username/PagePathRAG/issues"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-asyncio",
+    "black",
+    "isort",
+    "flake8",
+    "mypy",
+    "pre-commit",
+]
+test = [
+    "pytest>=6.0",
+    "pytest-asyncio",
+    "pytest-cov",
+]
+
+[tool.setuptools.dynamic]
+version = {attr = "PagePathRAG.__version__"}
+
+[tool.setuptools.packages.find]
+include = ["PagePathRAG*", "PathRAG*"]
+exclude = ["test*", "tests*"]
+
+[tool.setuptools.package-data]
+"*" = ["*.txt", "*.md", "*.json"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+
+[tool.pytest.ini_options]
+testpaths = ["test"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short" 
