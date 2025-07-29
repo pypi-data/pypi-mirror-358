@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Lang_Dialog</class>
+ <widget class="QDialog" name="Lang_Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>330</width>
+    <height>320</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>100</width>
+    <height>100</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>330</width>
+    <height>320</height>
+   </size>
+  </property>
+  <property name="font">
+   <font>
+    <family>Gabriola</family>
+    <pointsize>12</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Select Language</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/img/logo-pymd-2</normaloff>:/img/logo-pymd-2</iconset>
+  </property>
+  <property name="layoutDirection">
+   <enum>Qt::LayoutDirection::LeftToRight</enum>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <property name="locale">
+   <locale language="English" country="UnitedKingdom"/>
+  </property>
+  <layout class="QGridLayout" name="dialog_languages_layout">
+   <property name="sizeConstraint">
+    <enum>QLayout::SizeConstraint::SetDefaultConstraint</enum>
+   </property>
+   <item row="3" column="0">
+    <widget class="QDialogButtonBox" name="dialog_btn">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::StandardButton::Cancel|QDialogButtonBox::StandardButton::Save</set>
+     </property>
+     <property name="centerButtons">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QListWidget" name="languages">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>272</height>
+      </size>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QDialog &gt; QListWidget{
+background-image: url(:/img/logo-pymd-2.2);
+background-position: center;
+background-repeat: no-repeat;
+background-attachment: fixed;}</string>
+     </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::EditTrigger::DoubleClicked|QAbstractItemView::EditTrigger::EditKeyPressed</set>
+     </property>
+     <property name="tabKeyNavigation">
+      <bool>true</bool>
+     </property>
+     <property name="defaultDropAction">
+      <enum>Qt::DropAction::CopyAction</enum>
+     </property>
+     <property name="textElideMode">
+      <enum>Qt::TextElideMode::ElideLeft</enum>
+     </property>
+     <property name="movement">
+      <enum>QListView::Movement::Static</enum>
+     </property>
+     <property name="flow">
+      <enum>QListView::Flow::TopToBottom</enum>
+     </property>
+     <property name="viewMode">
+      <enum>QListView::ViewMode::ListMode</enum>
+     </property>
+     <property name="uniformItemSizes">
+      <bool>false</bool>
+     </property>
+     <property name="currentRow">
+      <number>0</number>
+     </property>
+     <property name="sortingEnabled">
+      <bool>true</bool>
+     </property>
+     <item>
+      <property name="text">
+       <string>English - GB</string>
+      </property>
+      <property name="toolTip">
+       <string notr="true">en_GB</string>
+      </property>
+      <property name="font">
+       <font>
+        <family>Gabriola</family>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="icon">
+       <iconset resource="resources.qrc">
+        <normaloff>:/flags/en_GB.svg</normaloff>:/flags/en_GB.svg</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Spanish - CO</string>
+      </property>
+      <property name="toolTip">
+       <string notr="true">es_CO</string>
+      </property>
+      <property name="font">
+       <font>
+        <family>Gabriola</family>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="icon">
+       <iconset resource="resources.qrc">
+        <normaloff>:/flags/es_CO.svg</normaloff>:/flags/es_CO.svg</iconset>
+      </property>
+     </item>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>dialog_btn</sender>
+   <signal>accepted()</signal>
+   <receiver>Lang_Dialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>dialog_btn</sender>
+   <signal>rejected()</signal>
+   <receiver>Lang_Dialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
