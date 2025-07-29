@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "mediumroast_py_api"
+version = "0.6.12.18"
+description = "This Python package provides a Software Development Kit (SDK) for interacting with Mediumroast for GitHub. It is used internally by Mediumroast, Inc. and meant for developers to make use of."
+authors = ["Michael Hay <michael.hay@mediumroast.io>", "John Goodman <john.goodman@mediumroast.io>"]
+license = "Apache-2.0"
+repository = "https://github.com/mediumroast/mediumroast_py"
+readme = "README.md"
+keywords = ["Product Management", "Competitive Insights", "Customer Insights", "Partner Insights", "Empowered Teams"]
+
+
+[tool.poetry.dependencies]
+python = "^3.8"
+requests = "^2.28.1"
+pyjwt = "^2.8.0"
+cryptography = "^42.0.6"
+pygithub = "^2.3.0"
+python-dotenv = "^1.0.1"
+
+[tool.poetry.dev-dependencies]
+
+[tool.poetry.scripts]
+test = "run_tests:main"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/mediumroast/mediumroast_py/issues"
