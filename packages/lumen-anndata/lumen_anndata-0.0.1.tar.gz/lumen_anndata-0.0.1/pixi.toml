@@ -1,0 +1,114 @@
+[project]
+name = "lumen-anndata"
+channels = ["pyviz/label/dev", "conda-forge", "bioconda"]
+platforms = ["linux-64", "osx-arm64", "osx-64", "win-64"]
+
+[tasks]
+install-git-deps = 'pip install "lumen[ai] @ git+https://github.com/holoviz/lumen.git@main" "hv-anndata @ git+https://github.com/holoviz-topics/hv-anndata.git@main"'
+install = 'python -m pip install --no-deps --disable-pip-version-check -e .'
+postinstall = 'pixi run install-git-deps'
+
+[activation.env]
+PYTHONIOENCODING = "utf-8"
+
+[environments]
+test-311 = ["py311", "test-core", "test"]
+test-312 = ["py312", "test-core", "test"]
+test-core = ["py313", "test-core"]
+docs = ["py311", "doc"]
+build = ["py311", "build"]
+lint = ["py311", "lint"]
+
+[dependencies]
+anndata = ">=0.11.4"
+bokeh = "*"
+holoviews = ">=1.17.0"
+hvplot = "*"
+jinja2 = ">3.0"
+numpy = "*"
+packaging = "*"
+pandas = "*"
+panel = ">=1.5.0"
+param = ">=1.9.0"
+pip = "*"
+pooch = ">=1.8.2"
+scanpy = ">=1.11.1"
+
+# Note: Git dependencies will be installed via pip in the install task
+# lumen[ai] @ git+https://github.com/holoviz/lumen.git@main
+# hv-anndata @ git+https://github.com/holoviz-topics/hv-anndata.git@main
+
+[feature.py311.dependencies]
+python = "3.11.*"
+
+[feature.py312.dependencies]
+python = "3.12.*"
+
+[feature.py312.activation.env]
+COVERAGE_CORE = "sysmon"
+
+[feature.py313.dependencies]
+python = "3.13.*"
+
+[feature.py313.activation.env]
+COVERAGE_CORE = "sysmon"
+
+# =============================================
+# =================== TESTS ===================
+# =============================================
+[feature.test-core.dependencies]
+psutil = "*"
+pytest = "*"
+pytest-cov = "*"
+pytest-github-actions-annotate-failures = "*"
+pytest-rerunfailures = "*"
+pytest-xdist = "*"
+pytest-asyncio = "*"
+
+[feature.test-core.tasks]
+test-unit = 'pytest tests -n logical --dist loadgroup'
+test-unit-with-install = {depends-on = ["install-git-deps", "install", "test-unit"]}
+
+[feature.test.dependencies]
+matplotlib-base = ">=3.4"
+msgpack-python = "*"
+toolz = "*"
+watchfiles = "*"
+
+# =============================================
+# =================== DOCS ====================
+# =============================================
+[feature.doc.dependencies]
+mkdocs = "*"
+mkdocs-material = "*"
+mkdocstrings = "*"
+mkdocstrings-python = "*"
+
+[feature.doc.tasks]
+install-doc-deps = 'pip install mkdocs-pycafe'
+docs-build = 'mkdocs build'
+docs-serve = 'mkdocs serve'
+
+# =============================================
+# ================== BUILD ====================
+# =============================================
+[feature.build.dependencies]
+python-build = "*"
+conda-build = "*"
+hatchling = "*"
+hatch-vcs = "*"
+
+[feature.build.tasks]
+build-conda = 'bash scripts/conda/build.sh'
+build-pip = 'python -m build .'
+
+# =============================================
+# =================== LINT ====================
+# =============================================
+[feature.lint.dependencies]
+pre-commit = "*"
+ruff = "*"
+
+[feature.lint.tasks]
+lint = 'pre-commit run --all-files'
+lint-install = 'pre-commit install'

@@ -1,0 +1,172 @@
+[build-system]
+requires = [
+    "hatchling",
+    "hatch-vcs",
+    "panel>=1.5.0",
+    "lumen>=0.9.0",
+    "packaging",
+]
+build-backend = "hatchling.build"
+
+
+[tool.setuptools_scm]
+version_scheme = "post-release"
+
+[project]
+name = "lumen-anndata"
+dynamic = ["version"]
+description = 'Lumen for anndata and scanpy'
+readme = "README.md"
+license = { text = "BSD" }
+requires-python = ">=3.11"
+authors = [{ name = "holoviz", email = "a.holoviz.dev@gmail.com" }]
+maintainers = [
+    { name = "holoviz", email = "a.holoviz.dev@gmail.com" },
+]
+classifiers = [
+    "License :: OSI Approved :: BSD License",
+    "Development Status :: 5 - Production/Stable",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Natural Language :: English",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Libraries",
+]
+
+dependencies = [
+    "packaging",
+    "panel >=1.5.0",
+    "lumen[ai] >=0.10.1",
+    "anndata >=0.11.4",
+    "pooch >=1.8.2",
+    "scanpy >=1.11.1",
+    "hv-anndata >=0.0.1"
+]
+
+
+[project.urls]
+Homepage = "https://github.com/holoviz-topics/lumen-anndata"
+Source = "https://github.com/holoviz-topics/lumen-anndata"
+
+[project.scripts]
+lumen-anndata = "lumen_anndata.cli:main"
+
+[project.optional-dependencies]
+dev = [
+    "mkdocs-material",
+    "mkdocs",
+    "mkdocstrings[python]",
+    "mkdocs_pycafe",
+    "pre-commit",
+    "pytest-asyncio",
+    "pytest-rerunfailures",
+    "pytest-xdist",
+    "pytest",
+    "watchfiles",
+]
+mypy = [
+    "mypy",
+    "types-requests",
+    "typing-extensions",
+]
+
+
+[tool.ruff]
+exclude = [
+    ".git",
+    "__pycache__",
+    ".tox",
+    ".eggs",
+    "*.egg",
+    "doc",
+    "dist",
+    "build",
+    "_build",
+    "examples",
+    ".ipynb_checkpoints",
+    "node_modules",
+    "apps",
+]
+line-length = 165
+fix = true
+
+[tool.ruff.lint]
+ignore = [
+    "E402", # Module level import not at top of file
+    "E712", # Avoid equality comparisons to True; use if {cond}: for truth checks
+    "E731", # Do not assign a lambda expression, use a def
+    "E741", # Ambiguous variable name
+    "W605", # Invalid escape sequence
+    "E701", # Multiple statements on one line
+    "B006", # Do not use mutable data structures for argument defaults
+    "B905", # `zip()` without an explicit `strict=` parameter
+]
+select = [
+    "B",
+    "E",
+    "F",
+    "W",
+    "PIE",
+    "T20",
+    "RUF006",
+    "UP004",
+    "UP006",
+    "UP020",
+    "UP028",
+    "UP030",
+    "UP031",
+    "UP032",
+    "UP034",
+    "UP036",
+]
+unfixable = [
+    "F401", # Unused imports
+    "F841", # Unused variables
+]
+
+[tool.ruff.lint.per-file-ignores]
+"panel/tests/ui/jupyter_server_test_config.py" = ["F821"]
+"panel/compiler.py" = ["T201"]
+"panel/io/convert.py" = ["T201"]
+"panel/pane/vtk/synchronizable_*.py" = ["T201"]
+"scripts/*.py" = ["T201"]
+"hatch_build.py" = ["T201"]
+
+[tool.isort]
+force_grid_wrap = 4
+multi_line_output = 5
+combine_as_imports = true
+lines_between_types = 1
+include_trailing_comma = true
+
+[tool.pytest.ini_options]
+addopts = "--pyargs --doctest-ignore-import-errors --color=yes"
+norecursedirs = "doc .git dist build _build .ipynb_checkpoints examples"
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+xfail_strict = true
+minversion = "7"
+log_cli_level = "INFO"
+filterwarnings = [
+    "error",
+    "ignore::DeprecationWarning",
+    "ignore::UserWarning",
+]
+testpaths = ["tests"]
+
+[tool.mypy]
+python_version = '3.11'
+no_implicit_optional = true
+check_untyped_defs = true
+
+[tool.hatch.version]
+source = "vcs"
+raw-options = { version_scheme = "no-guess-dev" }
+
+[tool.hatch.metadata]
+allow-direct-references = true
