@@ -1,0 +1,85 @@
+Metadata-Version: 2.1
+Name: datonius
+Version: 2.3.3
+Summary: Python model package for the CFSAN Datonius framework (we're probably not calling it that.)
+Home-page: https://github.com/crashfrog/datonius
+Author: Justin Payne
+Author-email: justin.payne@fda.hhs.gov
+Keywords: datonius
+Classifier: Development Status :: 2 - Pre-Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Requires-Python: >=3.7
+License-File: AUTHORS.rst
+Requires-Dist: peewee (~=3.14.4)
+Requires-Dist: psycopg2-binary (~=2.9.3)
+Requires-Dist: boto3 (~=1.17.53)
+Requires-Dist: tabulate (~=0.8.9)
+Requires-Dist: click
+Requires-Dist: simplejson (~=3.17.2)
+Requires-Dist: owlready2 (~=0.46)
+Requires-Dist: requests (~=2.28.0)
+Requires-Dist: rdflib (~=6.3.2)
+
+# datonius
+
+Look, the name's not great - but it's a Python package for interacting with the OAO data integration project.
+
+=======
+History
+=======
+
+2.3.3 (2025-06-26)
+------------------
+
+* Taxa are now unique by name, rank, and parent (this now permits independent non-overlapping taxa to share the same name.)
+
+2.3.1 (2024-08-26)
+------------------
+
+* Bugfixes to CSV/TSV utility.
+
+2.3.0 (2024-08-20)
+------------------
+
+* Major update to datonius schema - clinical samples now supported.
+
+
+1.3.1 (2024-06-03)
+------------------
+
+* Bugfixes to taxon behavior.
+
+1.3.0 (2024-05-31)
+------------------
+
+* Table reader utilities.
+
+1.2.0 (2024-05-31)
+------------------
+
+* Official v1 release.
+
+0.2.0 (2022-10-06)
+------------------
+
+* Now supporting hierarcheal search via FOODON ontology terms.
+
+0.1.4 (2022-10-04)
+------------------
+
+* Lookup and Tax functions moved to datonius.util, so they can be used as library functions. They return model objects by default.
+* Using a PostGres database works, now.
+
+0.1.3 (2022-09-23)
+------------------
+
+* Bugfixes and better error handling.
+
+0.1.0 (2021-04-06)
+------------------
+
+* First release on PyPI.
