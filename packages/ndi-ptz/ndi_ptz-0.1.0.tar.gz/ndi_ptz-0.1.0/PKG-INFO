@@ -1,0 +1,50 @@
+Metadata-Version: 2.4
+Name: ndi-ptz
+Version: 0.1.0
+Summary: A CLI to control NDI-capable PTZ cameras via a joystick.
+License-Expression: MIT
+License-File: LICENSE
+Keywords: joystick,ndi,obs,ptz,streaming,video
+Requires-Python: >=3.12
+Requires-Dist: click>=8.2.1
+Requires-Dist: cyndilib>=0.0.6
+Requires-Dist: pygame>=2.6.1
+Requires-Dist: types-obspython
+Description-Content-Type: text/markdown
+
+# ndi-ptz
+
+This is a CLI to control an NDI-enabled PTZ camera with a joystick.
+
+Currently, everything in here requires a custom cyndilib,
+see https://github.com/nocarryr/cyndilib/pull/25.
+
+## Installation
+
+```shell
+pip install ndi-ptz
+```
+
+## Quick-Start
+
+```shell
+$ ndi-ptz list-sources
+Looking for NDI sources in the next 5 seconds
+TAIL_AIR_006666 (OBSBOT)
+
+$ ndi-ptz list-joysticks
+Looking for joysticks in the next 5 seconds
+Nintendo Switch Pro Controller (0)
+
+$ ndi-ptz control --source-name "TAIL_AIR_006666 (OBSBOT)" --joystick-instance 0
+```
+
+## Supported Joysticks
+
+Currently only the following joysticks are supported:
+
+- Nintendo Switch Pro Controller
+
+## Development
+
+This project is managed with [UV](https://docs.astral.sh/uv/).
