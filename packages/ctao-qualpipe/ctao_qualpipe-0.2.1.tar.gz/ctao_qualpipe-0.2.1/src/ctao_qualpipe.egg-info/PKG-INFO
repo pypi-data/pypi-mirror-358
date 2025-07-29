@@ -1,0 +1,111 @@
+Metadata-Version: 2.4
+Name: ctao-qualpipe
+Version: 0.2.1
+Summary: Quality Pipeline, subsystem of DPPS-CTAO
+Author-email: Matteo Balbo <matteo.balbo@cta-cosortium.org>, Mykhailo Dalchenko <mykhailo.dalchenko@cta-cosortium.org>, Mikhail Stolpovskiy <mikhail.stolpovskiy@cta-consortium.org>
+License: BSD-3-Clause
+Project-URL: repository, https://gitlab.cta-observatory.org/cta-computing/dpps/qualpipe/qualpipe
+Project-URL: documentation, http://cta-computing.gitlab-pages.cta-observatory.org/dpps/qualpipe/qualpipe
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy
+Requires-Dist: ctapipe>=0.18
+Requires-Dist: h5py
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
+Requires-Dist: pytest-cov; extra == "test"
+Requires-Dist: pylint>=2.15; extra == "test"
+Requires-Dist: black>=22.5; extra == "test"
+Requires-Dist: coverage-badge; extra == "test"
+Requires-Dist: cwltool; extra == "test"
+Requires-Dist: ctapipe_io_lst; extra == "test"
+Requires-Dist: llvmlite>=0.44; extra == "test"
+Requires-Dist: pytest-requirements; extra == "test"
+Provides-Extra: doc
+Requires-Dist: sphinx; extra == "doc"
+Requires-Dist: pandoc; extra == "doc"
+Requires-Dist: numpydoc; extra == "doc"
+Requires-Dist: ctao-sphinx-theme; extra == "doc"
+Requires-Dist: sphinx-changelog; extra == "doc"
+Requires-Dist: myst-parser; extra == "doc"
+Requires-Dist: sphinx-paramlinks; extra == "doc"
+Requires-Dist: sphinx-argparse; extra == "doc"
+Requires-Dist: nbsphinx; extra == "doc"
+Requires-Dist: linkify-it-py; extra == "doc"
+Provides-Extra: dev
+Requires-Dist: setuptools_scm; extra == "dev"
+Requires-Dist: towncrier; extra == "dev"
+Requires-Dist: pre-commit; extra == "dev"
+Provides-Extra: all
+Requires-Dist: ctao-qualpipe[dev,doc,test]; extra == "all"
+Dynamic: license-file
+
+# QualPipe
+
+`QualPipe` is a Python-based automation tool for the
+CTAO data quality evaluations.
+It leverages the `ctapipe` library to process telescope monitoring data
+and applies configurable quality criteria to ensure that
+the collected data meets desired standards.
+
+
+## Features
+
+- Define and apply quality checks to monitoring data based on configuration files.
+- Modular and extensible framework for describing and validating data.
+- Supports processing with telescope-specific criteria.
+- YAML configuration for easy adaptability.
+
+## Installation instructions
+
+The package is under active development. To install QualPipe package we recommend to create and activate an isolated virtual environment with `Python >= 3.10` and `ctapipe`. This can be achieved via [`conda`][conda] or [`mamba`][mamba] commands:
+
+```
+mamba create -n qualpipe -c conda-forge python==3.12 ctapipe
+mamba activate qualpipe
+```
+
+Next, follow the installation instructions for [users](#installation-for-users) or for [developers](#installation-for-developers).
+
+### Installation for *users*
+
+QualPipe has not been published on PyPi yet, but it can be installed using [`pip`][pip]:
+
+```
+pip install git+https://gitlab.cta-observatory.org/cta-computing/dpps/qualpipe/qualpipe
+```
+
+### Installation for *developers*
+
+First, clone the source code from GitLab:
+
+```
+git clone https://gitlab.cta-observatory.org/cta-computing/dpps/qualpipe/qualpipe.git
+cd qualpipe
+```
+
+Then perform an editable installation with `pip` to include documentation and testing dependencies:
+
+```
+pip install -e .[all]
+```
+
+We are using `pre-commit`, `code-spell` and `ruff` tools for automatic adherence to the code style. To enforce running these tools whenever you make a commit, setup the [`pre-commit hook`][pre-commit] executing:
+
+```
+pre-commit install
+```
+
+The `pre-commit hook` will then execute the tools with the same settings as when a merge request is checked on GitLab, and if any problems are reported the commit will be rejected. You then have to fix the reported issues before tying to commit again.
+
+
+## License
+
+This project is licensed under the BSD 3-Clause License. See the LICENSE file for details.
+
+
+[conda]:https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html
+[mamba]:https://mamba.readthedocs.io/en/latest/installation/mamba-installation.html
+[pip]:https://pip.pypa.io/en/stable/
+[pre-commit]:https://pre-commit.com/
