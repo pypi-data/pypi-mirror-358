@@ -1,0 +1,19 @@
+version: 1
+
+disable_existing_loggers: False
+
+formatters:
+  json:
+    class: jsonlogger.JSONFormatter
+    format: "%(asctime)s %(name)s %(message)s %(exc_info)s"
+
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: INFO
+    stream: ext://sys.stdout
+    formatter: json
+
+root:
+  level: INFO
+  handlers: [console]
