@@ -1,0 +1,48 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sigma-pi"
+dynamic = ["version"]
+authors = [
+  { name="dmf-archive", email="Lin.Rui.ipwt@proton.me" },
+]
+description = "A lightweight tool to calculate Predictive Integrity (PI) for PyTorch models."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { file="LICENSE" }
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = []
+
+[project.urls]
+"Homepage" = "https://github.com/dmf-archive/SigmaPI"
+"Bug Tracker" = "https://github.com/dmf-archive/SigmaPI/issues"
+
+[project.optional-dependencies]
+dev = [
+    "build",
+    "twine",
+    "hatch",
+    "mypy",
+]
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.targets.wheel]
+packages = ["main.py"]
