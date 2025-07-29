@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pymatunits"
+dependencies = [
+    "numpy",
+    "pandas",
+    "pint",
+    "mkdocs"
+]
+requires-python = ">=3.5"
+authors = [
+    {name = "Adam Cox", email = "adam.cox@asdl.gatech.edu"}
+]
+description = "Python utilities, including material definition and unit system handling with pint"
+readme = {file = "README.md", content-type = "text/markdown"}
+license = {file = "LICENSE.md"}
+dynamic = ["version"]
+
+[project.urls]
+Repository = "https://github.gatech.edu/acox37/pymatunits"
+Issues = "https://github.gatech.edu/acox37/pymatunits/issues"
+
+[tool.setuptools]
+packages = ["pymatunits"]
+
+[tool.setuptools.dynamic]
+version = {attr = "pymatunits.__version__"}
