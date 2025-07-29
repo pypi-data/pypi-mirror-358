@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  mcp-opal-adapter:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - ADAPTER_PORT=8000
+      - LOG_LEVEL=info
+    volumes:
+      - ./config:/app/config
+    networks:
+      - adapter-network
+    restart: unless-stopped
+
+  mcp-weather-server:
+    image: mcp-weather-tools:latest
+    ports:
+      - "8001:8001"
+    networks:
+      - adapter-network
+    restart: unless-stopped
+
+  mcp-calculator-server:
+    image: mcp-calculator-tools:latest
+    ports:
+      - "8002:8001"
+    networks:
+      - adapter-network
+    restart: unless-stopped
+
+networks:
+  adapter-network:
+    driver: bridge 
