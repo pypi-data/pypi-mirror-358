@@ -1,0 +1,19 @@
+[project]
+name = "lse-indexing-pipeline"
+version = "0.1.2"
+description = "Generate vectorstore for RAG systems using an automated indexing pipeline"
+readme = "README.md"
+license = {file="LICENSE"}
+requires-python = ">=3.11"
+dependencies = [
+    "pymupdf",
+    "tqdm",
+]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
