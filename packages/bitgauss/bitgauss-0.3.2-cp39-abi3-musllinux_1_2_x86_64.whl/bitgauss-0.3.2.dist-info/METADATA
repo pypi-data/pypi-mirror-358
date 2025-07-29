@@ -1,0 +1,30 @@
+Metadata-Version: 2.4
+Name: bitgauss
+Version: 0.3.2
+Classifier: Environment :: Console
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering
+Requires-Dist: pytest>=8.4.1 ; extra == 'test'
+Provides-Extra: test
+Summary: A fast boolean linear algebra library
+Home-Page: https://github.com/akissinger/bitgauss
+Author: Aleks Kissinger <aleks0@gmail.com>
+Author-email: Aleks Kissinger <aleks0@gmail.com>
+Maintainer-email: Aleks Kissinger <aleks0@gmail.com>
+License: Apache-2.0
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown; charset=UTF-8; variant=GFM
+Project-URL: homepage, https://github.com/akissinger/bitgauss
+Project-URL: repository, https://github.com/akissinger/bitgauss
+
+These are the Python bindings for bitgauss, a Rust library for linear algebra over the 2-element finite field. The main data structure is `BitMatrix`, a bit-packed 2D matrix that implements fast linear algebraic operations using bitwise operations.
