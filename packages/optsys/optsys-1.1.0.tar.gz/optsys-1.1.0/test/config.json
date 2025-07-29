@@ -1,0 +1,24 @@
+{ 
+	"SECTION":"PATHS",
+	"b_integrals"	: "./results/test2_blancapre_black_integrals.json",
+	"w_integrals"	: "./results/test2_blancapre_white_integrals.json",
+	"out_folder"	: "./results/",
+
+	"SECTION":"ANALYSIS OPTIONS",
+	"white_type"	: "single",
+	"verbose"	: false,
+	"debug"		: false,
+	"name"		: "ANALYSIS",
+
+	"SECTION":"MINIMIZATION OPTIONS",
+	"tolerance"	: 1e-3,
+	"minimizer"	: "shgo",
+	"n_min"		: 5,
+	"minim_pow"	: 2,
+	"max_iter"	: 2000,
+	"popsize"	: 10,
+	"workers"	: 1,
+	"tau_bounds"	: [0.0, 20.0]
+
+}
+
