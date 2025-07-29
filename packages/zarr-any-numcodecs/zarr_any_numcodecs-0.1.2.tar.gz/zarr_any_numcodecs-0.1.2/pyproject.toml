@@ -1,0 +1,33 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "zarr-any-numcodecs"
+version = "0.1.2"
+description = "Adapt any `numcodecs.abc.Codec` into a `zarr.abc.Codec`"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.11"
+dependencies = [
+    "numcodecs>=0.14.0,<0.17",
+    "zarr~=3.0",
+]
+
+[dependency-groups]
+dev = ["mypy~=1.14", "pytest~=8.3", "numcodecs-combinators~=0.2.9"]
+
+[project.entry-points."zarr.codecs"]
+"any-numcodecs.array-array" = "zarr_any_numcodecs:AnyNumcodecsArrayArrayCodec"
+"any-numcodecs.array-bytes" = "zarr_any_numcodecs:AnyNumcodecsArrayBytesCodec"
+"any-numcodecs.bytes-bytes" = "zarr_any_numcodecs:AnyNumcodecsBytesBytesCodec"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"zarr_any_numcodecs" = ["py.typed"]
+
+[[tool.mypy.overrides]]
+module = ["numcodecs.*"]
+follow_untyped_imports = true
