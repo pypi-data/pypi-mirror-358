@@ -1,0 +1,138 @@
+# AWS Utils 🚀
+
+
+A Python library to simplify interaction with AWS services such as SES (Simple Email Service), SSM (Systems Manager Parameter Store), and CloudWatch Logs.  
+Designed and maintained by Luigi Moro
+
+---
+
+## Features ✨
+
+- **SES Email Client**: Send emails (with or without attachments) via AWS SES.
+- **SSM Parameter Manager**: Retrieve and manage parameters from AWS Systems Manager Parameter Store.
+- **CloudWatch Logs Collector**: Query and process logs from AWS CloudWatch.
+- **Type hints and modern Python practices** for robust, maintainable code.
+- **Easily testable** with pytest and mocks.
+
+---
+
+## Installation ⚡
+
+```bash
+pip install -r requirements.txt
+```
+
+Or, if using poetry:
+
+```bash
+poetry install
+```
+
+---
+
+## Usage 📚
+
+### SES Email Client ✉️
+
+Send emails with or without attachments via AWS SES.
+
+```python
+from aws_utils.ses.email_manager import SesEmailClient
+
+email_client = SesEmailClient(
+    region_name="eu-west-1",
+    aws_access_key_id="YOUR_AWS_ACCESS_KEY_ID",
+    aws_secret_access_key="YOUR_AWS_SECRET_ACCESS_KEY",
+    aws_session_token="YOUR_AWS_SESSION_TOKEN"
+)
+
+# Send email with attachment
+email_client.send_email(
+    source="sender@example.com",
+    to_addresses=["recipient@example.com"],
+    subject="Test Email with Attachment",
+    body="This is a test email with an attachment.",
+    attachments=["/path/to/file.txt"]
+)
+```
+
+### SSM Parameter Manager 🗝️
+
+Retrieve parameters from AWS SSM:
+
+```python
+from aws_utils.ssm.parameters_manager import PropertiesManager
+
+manager = PropertiesManager()
+value = manager.fetch_parameter_value('parameter_key')
+print(value)
+```
+
+### CloudWatch Logs Collector 📈
+
+Query CloudWatch logs:
+
+```python
+from aws_utils.cloudwatch.log_utils import CloudWatchLogsCollector
+
+collector = CloudWatchLogsCollector(log_group="your-log-group")
+logs = collector.collect_raw_logs(
+    query="fields @timestamp, @message | sort @timestamp desc",
+    start=datetime(2024, 1, 1),
+    end=datetime(2024, 1, 2)
+)
+print(logs)
+```
+
+---
+
+## Testing 🧪
+
+Tests are written with `pytest` and use mocks for AWS clients.
+
+```bash
+pytest
+```
+
+Example test for SES email sending (see `tests/aws_utils/ses/test_email_manager.py`):
+
+```python
+from unittest.mock import patch, MagicMock
+from aws_utils.ses.email_manager import SesEmailClient
+
+def test_send_email_without_attachment():
+    with patch("boto3.client") as mock_boto_client:
+        mock_ses = MagicMock()
+        mock_boto_client.return_value = mock_ses
+        client = SesEmailClient("eu-west-1", "key", "secret", "token")
+        mock_ses.send_email.return_value = {"MessageId": "123"}
+        result = client.send_email(
+            source="from@example.com",
+            to_addresses=["to@example.com"],
+            subject="Subject",
+            body="Body"
+        )
+        assert result == {"MessageId": "123"}
+```
+
+---
+
+## Documentation 📖
+
+- Project documentation: [GitHub Pages](https://miniature-couscous-63zmnwr.pages.github.io)
+- For access issues, contact: `luigi.moro.1976@gmail.com`
+
+---
+
+## Contributing 🤝
+
+1. Fork the repo and create your branch: `git checkout -b feature/your-feature`
+2. Commit your changes: `git commit -am 'Add some feature'`
+3. Push to the branch: `git push origin feature/your-feature`
+4. Open a pull request
+
+---
+
+## License 📄
+
+[MIT](LICENSE)
