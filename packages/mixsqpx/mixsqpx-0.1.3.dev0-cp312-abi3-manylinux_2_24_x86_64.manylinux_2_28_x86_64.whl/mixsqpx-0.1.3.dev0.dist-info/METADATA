@@ -1,0 +1,94 @@
+Metadata-Version: 2.1
+Name: mixsqpx
+Version: 0.1.3.dev0
+Summary: jax inteface to a C++ implementation of the mixsqp algorithm
+Author-Email: Paul Diegert <pdiegert@gmail.com>
+License: MIT License
+         
+         Copyright (c) 2025 Jackson Bunting, Paul Diegert, and Arnaud Maurel
+         
+         Permission is hereby granted, free of charge, to any person obtaining a copy
+         of this software and associated documentation files (the "Software"), to deal
+         in the Software without restriction, including without limitation the rights
+         to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+         copies of the Software, and to permit persons to whom the Software is
+         furnished to do so, subject to the following conditions:
+         
+         The above copyright notice and this permission notice shall be included in all
+         copies or substantial portions of the Software.
+         
+         THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+         IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+         FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+         AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+         LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+         OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+         SOFTWARE.
+Requires-Python: <3.13,>=3.12
+Requires-Dist: jax<=0.6.0,>=0.5.0
+Requires-Dist: jaxlib<=0.6.0,>=0.5.0
+Description-Content-Type: text/markdown
+
+# MIXSQPX:  A Jax-compatible interface to the mixSQP algorithm
+
+This package provides a `jax`-compatible interface to the mixSQP algorithm described in,
+
+> Kim, Y., Carbonetto, P., Stephens, M., & Anitescu, M. (2020). A Fast Algorithm for Maximum Likelihood Estimation of Mixture Proportions Using Sequential Quadratic Programming. Journal of Computational and Graphical Statistics, 29(2), 261–273. 
+
+The implementation of the mixSQP algorithm in this package was ported from the [R
+implementation](https://github.com/stephenslab/mixSQP) by
+the authors of this paper which uses the Rarmadillo package as an interface to the
+Armadillo C++ library.
+
+This package (`misxqpx`) provides a function `mixsolve`, which can can be transformed with [Jax](https://github.com/jax-ml/jax) transformations such as `jit`.
+
+## Installation
+
+We use the [Pixi](https://github.com/prefix-dev/pixi) package manager to
+handle installation and dependencies.
+
+### Linux Installation
+
+``` bash
+# Install pixi if you don't have it already
+curl -fsSL https://pixi.sh/install.sh | bash
+
+# Clone the repository
+git clone https://github.com/pdiegert/mixsqpx.git
+cd mixsqpx
+
+# Install dependencies and build the package
+pixi install
+```
+
+### Windows Installation
+
+``` powershell
+# Install pixi if you don't have it already
+iwr -useb https://pixi.sh/install.ps1 | iex
+
+# Clone the repository
+git clone https://github.com/pdiegert/mixsqpx.git
+cd mixsqpx
+
+# Install dependencies and build the package
+pixi install
+```
+
+### Verification
+
+Run the test suite to verify your installation:
+
+``` bash
+pixi run test
+```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENCE](LICENCE) file for details.
+
+## Acknowledgements
+
+This project includes code adapted from the [mixSQP](https://github.com/stephenslab/mixSQP) project, which is available under the MIT license. We thank the original authors (Youngseok Kim, Peter Carbonetto,
+Matthew Stephens and Mihai Anitescu) for their work.
+
