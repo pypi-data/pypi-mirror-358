@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lib4P"
+authors = [
+  { name = "Florentin L'Homme", email = "florentin.lhomme@inrae.fr" },
+]
+maintainers = [
+  { name = "Florentin L'Homme", email = "florentin.lhomme@gmail.com" },
+  { name = "Franck Dorkeld", email = "franck.dorkeld@inrae.fr" },
+]
+description = "Feature library for 4P - Plant Phenotyping Processing Platform developed at INRAE for the PHENOME French national infrastructure"
+readme = "README.md"
+classifiers = [
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Topic :: Scientific/Engineering",
+  "Development Status :: 3 - Alpha",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Operating System :: MacOS",
+  "Operating System :: Microsoft :: Windows",
+  "Operating System :: POSIX :: Linux",
+  "Operating System :: Unix",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research"
+]
+keywords = ["4P", "Plant", "Phenotyping", "Processing", "Platform", "Phenome", "INRAE", "INRA", "AgroEcoPhen", "PHIS", "Sixtine", "OpenSilex"]
+dynamic = ["version"]
+requires-python = ">=3.8"
+dependencies = [
+  "pyocclient==0.6",
+]
+license = "GPL-3.0"
+license-files = ["LICEN[CS]E*"]
+
+[project.urls]
+Homepage = "https://phenome.inrae.fr/4p"
+Documentation = "https://4p.pages-forge.inrae.fr/tools/4p-python-library"
+Repository = "https://forge.inrae.fr/4p/tools/4p-python-library/"
+Issues = "https://forge.inrae.fr/4p/tools/4p-python-library/-/issues"
+Funding = "https://4p.pages-forge.inrae.fr/documentation/user-guide/other/faq.html#team-associated-projects"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.dynamic]
+version = { attr = "lib4P.__version__" }
