@@ -1,0 +1,40 @@
+[project]
+name = "jina-ai-mcp-server"
+version = "0.2.0"
+description = "MCP Server for Jina AI APIs"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "Apache-2.0" }
+keywords = ["jina-ai", "mcp", "ai", "tools", "llm", "agent"]
+authors = [
+  { name = "Jina AI", email = "dev@jina.ai" },
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Typing :: Typed"
+]
+dependencies = [
+    "requests",
+    "mcp.py"
+]
+
+[project.urls]
+Homepage = "https://github.com/jina-ai/jina-ai-mcp-server"
+Repository = "https://github.com/jina-ai/jina-ai-mcp-server.git"
+"Bug Tracker" = "https://github.com/jina-ai/jina-ai-mcp-server/issues"
+
+[project.scripts]
+jina-ai-mcp-server = "jina_ai_mcp_server.main:main"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
