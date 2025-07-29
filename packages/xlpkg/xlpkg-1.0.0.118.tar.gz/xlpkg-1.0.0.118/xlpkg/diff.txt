@@ -1,0 +1,99 @@
+3,9c3
+< import os
+< import re
+< import sys
+< import pymysql
+< import random
+< import datetime as dt
+< import time
+---
+> import os, re, sys, openpyxl, pymysql,random,datetime as dt,time
+14,27c8,10
+< import itertools
+< import paramiko
+< import redis
+< import webbrowser
+< import ast
+< import json
+< import string
+< import logging
+< import inspect
+< import urllib
+< import urllib3
+< import binascii
+< import hashlib
+< import uuid
+---
+> import pytest,MySQLdb
+> import argparse,math,getopt,xlsxwriter,itertools,paramiko
+> import redis,ctypes,jenkins,qrcode,webbrowser,rich.text, send, ast,time,json,string,logging,pymysql, inspect, urllib,urllib3, binascii, hashlib, uuid,xlwt,openpyxl,elasticsearch_dsl
+29a13
+> from elasticsearch      import helpers
+31a16
+> from werkzeug.utils     import secure_filename
+46a32,33
+> from scp                import SCPClient
+> from faker              import Faker
+48a36
+> from flask_admin.contrib.sqla import ModelView
+49a38
+> from flask              import Flask,url_for,jsonify,render_template,Blueprint,views
+50a40,41
+> from flasgger           import Swagger,swag_from
+> from paramiko           import SSHClient
+52a44
+> from functools          import partial
+55a48
+> from urllib.parse       import urlencode
+58c51
+< from collections.abc    import Iterable,Iterator
+---
+> from collections.abc    import Iterable,Iterator,ItemsView
+63c56,57
+< from PyQt5.QtCore       import Qt, QDate
+---
+> from PyQt5.QtGui        import QTextOption, QColor, QFont, QIcon
+> from PyQt5.QtCore       import Qt, QDateTime, QDate
+64a59,71
+>     QMenu,
+>     QLabel,
+>     QAction,
+>     QTextEdit       as QTE,
+>     QLabel          as QLB,
+>     QComboBox       as QCB,
+>     QPushButton     as QPB,
+>     QMessageBox     as QMB,
+>     QTreeWidget     as QTRW,
+>     QTreeWidgetItem as QTRWI,
+>     QApplication    as QAPP,
+>     QDateTimeEdit   as QDTE,
+>     QMainWindow     as QMW,
+65a73,76
+>     QLineEdit       as QLE,
+>     QTextEdit       as QTE,
+>     QComboBox       as QCB,
+>     QPushButton     as QPB,
+66a78,80
+>     QTreeWidget     as QTW,
+>     QApplication    as QAPP,
+>     QDateTimeEdit   as QDTE,
+68a83
+> from watchdog.events    import FileSystemEventHandler as FSEH
+1860c1875
+<             sql='select json_remove(c_json, \'$.addr[0].office[0].city\') x from t_json where id = 1'
+---
+>             sql='select json_remove(c_json, \'$.addr[0].office[0].city\') x from t_json where id = 1';
+1871c1886
+<             sql='select json_replace(c_json, \'$.addr[0].office[0].city\',\'9999\') x from t_json where id = 1'
+---
+>             sql='select json_replace(c_json, \'$.addr[0].office[0].city\',\'9999\') x from t_json where id = 1';
+3084a3100
+> import os, sys, time, json, string, logging, pymysql, webbrowser
+3086a3103
+> from collections.abc import Iterable, Iterator, ItemsView
+3547c3564
+<     except Exception:
+---
+>     except Exception as e:
+3819d3835
+< 
