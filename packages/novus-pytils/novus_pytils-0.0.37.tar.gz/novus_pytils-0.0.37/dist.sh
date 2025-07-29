@@ -1,0 +1,11 @@
+./increment_version.sh
+
+python3 -m venv .venv
+source .venv/bin/activate
+
+pip3 install build
+pip3 install twine
+
+rm -rf dist
+python3 -m build
+python3 -m twine upload dist/* -p pypi-AgEIcHlwaS5vcmcCJGM1Mzg0ODgwLTk1ZTUtNDNmZS1hMjA5LTJjNmYyMDYyMzQ5YgACKlszLCJmNjNlZWUyOS0yMzA5LTRjMDQtYjczNy0xN2QyOGU2NDFlMDAiXQAABiBAK4tM5c9OznlNzi8cROCiaYjtKme4yAmzUOCj9YHhAw
