@@ -1,0 +1,68 @@
+Metadata-Version: 2.4
+Name: NEMO-periodic-table-question
+Version: 2.1.1
+Summary: Install Periodic table question plugin for NEMO
+Author-email: Atlantis Labs LLC <atlantis@atlantislabs.io>
+License: MIT
+Project-URL: Homepage, https://gitlab.com/nemo-community/atlantis-labs/nemo-periodic-table-question
+Project-URL: Changelog, https://gitlab.com/nemo-community/atlantis-labs/nemo-periodic-table-question/-/releases
+Project-URL: Issues, https://gitlab.com/nemo-community/atlantis-labs/nemo-periodic-table-question/-/issues
+Project-URL: CI, https://gitlab.com/nemo-community/atlantis-labs/nemo-periodic-table-question/-/pipelines
+Keywords: NEMO
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: django
+Provides-Extra: nemo-ce
+Requires-Dist: NEMO-CE>=7.0.0; extra == "nemo-ce"
+Provides-Extra: nemo
+Requires-Dist: NEMO>=7.0.0; extra == "nemo"
+Provides-Extra: dev-tools
+Requires-Dist: pre-commit; extra == "dev-tools"
+Requires-Dist: djlint; extra == "dev-tools"
+Requires-Dist: black; extra == "dev-tools"
+Dynamic: license-file
+
+# NEMO Periodic Table Question
+
+This plugin for NEMO allows to use a `periodic_table` type of question in post usage questions or reservation questions.
+
+# Compatibility:
+
+NEMO/NEMO-CE >= 7.0.0 ----> NEMO-Reports >= 2.0.0
+
+# Installation
+
+`pip install NEMO-periodic-table-question`
+
+# Add NEMO Periodic Table Question
+
+in `settings.py` add to `INSTALLED_APPS`:
+
+```python
+INSTALLED_APPS = [
+    '...',
+    'NEMO_periodic_table_question',
+    '...'
+]
+```
+
+# Usage
+Use `type: "periodic-table"` in Tool post usage questions or Reservation questions.
+
+Options:
+ - required: true or false (default: false)
+ - collapsible: true or false (default: false)
+ - collapsed: true or false (default: false)
+ - help: "Some help text to display under the periodic table"
+
+**Important note**:<br>
+The `collapsible`/`collapsed` options aren't supported in the admin preview but should work in the calendar.

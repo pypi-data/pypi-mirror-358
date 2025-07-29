@@ -1,0 +1,50 @@
+[project]
+name = "NEMO-periodic-table-question"
+version = '2.1.1'
+description = "Install Periodic table question plugin for NEMO"
+keywords = ["NEMO"]
+readme = "README.md"
+authors = [{name = "Atlantis Labs LLC", email = "atlantis@atlantislabs.io"}]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "django",
+]
+license = {text = "MIT"}
+
+[project.urls]
+Homepage = "https://gitlab.com/nemo-community/atlantis-labs/nemo-periodic-table-question"
+Changelog = "https://gitlab.com/nemo-community/atlantis-labs/nemo-periodic-table-question/-/releases"
+Issues = "https://gitlab.com/nemo-community/atlantis-labs/nemo-periodic-table-question/-/issues"
+CI = "https://gitlab.com/nemo-community/atlantis-labs/nemo-periodic-table-question/-/pipelines"
+
+[project.optional-dependencies]
+NEMO-CE = ["NEMO-CE>=7.0.0",]
+NEMO = ["NEMO>=7.0.0",]
+dev-tools = ["pre-commit", "djlint", "black"]
+
+[tool.setuptools.package-data]
+NEMO_periodic_table_question = ["static/**/*", "templates/**/*"]
+
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.black]
+line-length = 120
+target-version = ['py311']
+
+[tool.djlint]
+profile = "django"
+max_attribute_length=100
+max_line_length=120
+ignore = "H031"

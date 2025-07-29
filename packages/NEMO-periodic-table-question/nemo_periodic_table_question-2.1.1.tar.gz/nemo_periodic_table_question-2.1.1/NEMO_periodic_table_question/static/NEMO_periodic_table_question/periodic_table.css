@@ -1,0 +1,147 @@
+.body-app {
+    padding-left:20px;
+    padding-right:20px;
+    color: white;
+    background: #2b669a;
+}
+
+@media (max-width: 620px)
+{
+    table.periodic-table
+    {
+        font-size: 12px;
+    }
+    table.periodic-table td.element label
+    {
+        padding: 3px;
+    }
+}
+
+@media (min-width: 620px) {
+    table.periodic-table
+    {
+        font-size: 14px;
+    }
+    table.periodic-table td.element label
+    {
+        padding: 5px;
+    }
+}
+
+table.periodic-table
+{
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+table.periodic-table td
+{
+    text-align: center;
+    vertical-align: middle;
+    border: none;
+    padding: 0;
+}
+
+table.periodic-table tr
+{
+    background: none;
+}
+
+table.periodic-table td.checked
+{
+    color: white !important;
+    background-color: black !important;
+    border-color: white !important;
+}
+
+table.periodic-table td.element.checked label:hover
+{
+    opacity: .8;
+}
+
+table.periodic-table td.element label:hover
+{
+    opacity: .5;
+}
+
+table.periodic-table td.element label
+{
+    margin: 0;
+    cursor: pointer;
+    color: inherit;
+}
+
+table.periodic-table td.element input[type="checkbox"]
+{
+    display: none;
+}
+
+table.periodic-table td.element.unknown
+{
+    background-color: #e7e7ea;
+    color: #666;
+    border: 1px solid #666;
+}
+
+table.periodic-table td.element.non-metal
+{
+    background-color: #e2eeff;
+    color: #0060f0;
+    border: 1px solid #0060f0;
+}
+
+table.periodic-table td.element.alkali-metal
+{
+    background-color: #d8f8ff;
+    color: #00758c;
+    border: 1px solid #00758c;
+}
+
+table.periodic-table td.element.alkaline-earth-metal
+{
+    background-color: #ffe7e7;
+    color: #d60024;
+    border: 1px solid #d60024;
+}
+
+table.periodic-table td.element.transition-metal
+{
+    background-color: #f3e8fd;
+    color: #6232ec;
+    border: 1px solid #6232ec;
+}
+
+table.periodic-table td.element.lanthanide
+{
+    background-color: #dff3ff;
+    color: #003355;
+    border: 1px solid #003355;
+}
+
+table.periodic-table td.element.actinide
+{
+    background-color: #ffe6d4;
+    color: #c73200;
+    border: 1px solid #c73200;
+}
+
+table.periodic-table td.element.post-transition-metal
+{
+    background-color: #d6f9e8;
+    color: #227754;
+    border: 1px solid #227754;
+}
+
+table.periodic-table td.element.metalloid
+{
+    background-color: #fef7e0;
+    color: #945700;
+    border: 1px solid #945700;
+}
+
+table.periodic-table td.element.noble-gas
+{
+    background-color: #ffe7eb;
+    color: #cd1d5e;
+    border: 1px solid #cd1d5e;
+}

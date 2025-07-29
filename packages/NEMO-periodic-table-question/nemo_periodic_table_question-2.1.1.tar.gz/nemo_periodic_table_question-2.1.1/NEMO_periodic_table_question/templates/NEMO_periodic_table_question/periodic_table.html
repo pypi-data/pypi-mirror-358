@@ -1,0 +1,796 @@
+{% load static %}
+<div class="form-group">
+    <div style="white-space: pre-wrap"
+         id="question_{{ form_name }}"
+         data-toggle="collapse"
+         data-target="#periodic_{{ form_name }}"
+         {% if collapsible %}style="cursor: pointer" onclick="toggle_details(this)"{% endif %}>
+        {% if collapsible %}
+            <span class="glyphicon glyphicon-chevron-{% if collapsed %}right{% else %}down{% endif %} pull-left chevron"></span>
+        {% endif %}
+        {{ question_title|safe }}{{ required_span|safe }}
+        {# Add a invisible checkbox to control when this is required #}
+        <input aria-label="hidden field used for required answer"
+               id="required_{{ form_name }}"
+               type="checkbox"
+               style="opacity: 0;
+                      width: 1px;
+                      height: 1px"
+               {% if required_span %}required{% endif %} />
+    </div>
+    <div id="periodic_{{ form_name }}" class="collapse {% if not collapsed %}in{% endif %}">
+        <table class="periodic-table">
+            <tr>
+                <td class="element non-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="H">
+                        H
+                    </label>
+                </td>
+                <td colspan="17"></td>
+                <td class="element noble-gas">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="He">
+                        He
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td class="element alkali-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Li">
+                        Li
+                    </label>
+                </td>
+                <td class="element alkaline-earth-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Be">
+                        Be
+                    </label>
+                </td>
+                <td colspan="11"></td>
+                <td class="element metalloid">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="B">
+                        B
+                    </label>
+                </td>
+                <td class="element non-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="C">
+                        C
+                    </label>
+                </td>
+                <td class="element non-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="N">
+                        N
+                    </label>
+                </td>
+                <td class="element non-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="O">
+                        O
+                    </label>
+                </td>
+                <td class="element non-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="F">
+                        F
+                    </label>
+                </td>
+                <td class="element noble-gas">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Ne">
+                        Ne
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td class="element alkali-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Na">
+                        Na
+                    </label>
+                </td>
+                <td class="element alkaline-earth-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}"onclick="check_required('{{ form_name }}')" value="Mg">
+                        Mg
+                    </label>
+                </td>
+                <td colspan="11"></td>
+                <td class="element post-transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Al">
+                        Al
+                    </label>
+                </td>
+                <td class="element metalloid">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Si">
+                        Si
+                    </label>
+                </td>
+                <td class="element non-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="P">
+                        P
+                    </label>
+                </td>
+                <td class="element non-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="S">
+                        S
+                    </label>
+                </td>
+                <td class="element non-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Cl">
+                        Cl
+                    </label>
+                </td>
+                <td class="element noble-gas">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Ar">
+                        Ar
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td class="element alkali-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="K">
+                        K
+                    </label>
+                </td>
+                <td class="element alkaline-earth-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Ca">
+                        Ca
+                    </label>
+                </td>
+                <td></td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Sc">
+                        Sc
+                    </label>
+                </td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Ti">
+                        Ti
+                    </label>
+                </td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="V">
+                        V
+                    </label>
+                </td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Cr">
+                        Cr
+                    </label>
+                </td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Mn">
+                        Mn
+                    </label>
+                </td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Fe">
+                        Fe
+                    </label>
+                </td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Co">
+                        Co
+                    </label>
+                </td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Ni">
+                        Ni
+                    </label>
+                </td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Cu">
+                        Cu
+                    </label>
+                </td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Zn">
+                        Zn
+                    </label>
+                </td>
+                <td class="element post-transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Ga">
+                        Ga
+                    </label>
+                </td>
+                <td class="element metalloid">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Ge">
+                        Ge
+                    </label>
+                </td>
+                <td class="element metalloid">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="As">
+                        As
+                    </label>
+                </td>
+                <td class="element non-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Se">
+                        Se
+                    </label>
+                </td>
+                <td class="element non-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Br">
+                        Br
+                    </label>
+                </td>
+                <td class="element noble-gas">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Kr">
+                        Kr
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td class="element alkali-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Rb">
+                        Rb
+                    </label>
+                </td>
+                <td class="element alkaline-earth-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Sr">
+                        Sr
+                    </label>
+                </td>
+                <td style="width: 7px"></td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Y">
+                        Y
+                    </label>
+                </td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Zr">
+                        Zr
+                    </label>
+                </td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Nb">
+                        Nb
+                    </label>
+                </td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Mo">
+                        Mo
+                    </label>
+                </td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Tc">
+                        Tc
+                    </label>
+                </td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Ru">
+                        Ru
+                    </label>
+                </td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Rh">
+                        Rh
+                    </label>
+                </td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Pd">
+                        Pd
+                    </label>
+                </td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Ag">
+                        Ag
+                    </label>
+                </td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Cd">
+                        Cd
+                    </label>
+                </td>
+                <td class="element post-transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="In">
+                        In
+                    </label>
+                </td>
+                <td class="element post-transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Sn">
+                        Sn
+                    </label>
+                </td>
+                <td class="element metalloid">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Sb">
+                        Sb
+                    </label>
+                </td>
+                <td class="element metalloid">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Te">
+                        Te
+                    </label>
+                </td>
+                <td class="element non-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="I">
+                        I
+                    </label>
+                </td>
+                <td class="element noble-gas">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Xe">
+                        Xe
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td class="element alkali-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Cs">
+                        Cs
+                    </label>
+                </td>
+                <td class="element alkaline-earth-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Ba">
+                        Ba
+                    </label>
+                </td>
+                <td></td>
+                <td class="element lanthanide">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Lu">
+                        Lu
+                    </label>
+                </td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Hf">
+                        Hf
+                    </label>
+                </td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Ta">
+                        Ta
+                    </label>
+                </td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="W">
+                        W
+                    </label>
+                </td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Re">
+                        Re
+                    </label>
+                </td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Os">
+                        Os
+                    </label>
+                </td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Ir">
+                        Ir
+                    </label>
+                </td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Pt">
+                        Pt
+                    </label>
+                </td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Au">
+                        Au
+                    </label>
+                </td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Hg">
+                        Hg
+                    </label>
+                </td>
+                <td class="element post-transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Tl">
+                        Tl
+                    </label>
+                </td>
+                <td class="element post-transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Pb">
+                        Pb
+                    </label>
+                </td>
+                <td class="element post-transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Bi">
+                        Bi
+                    </label>
+                </td>
+                <td class="element post-transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Po">
+                        Po
+                    </label>
+                </td>
+                <td class="element post-transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="At">
+                        At
+                    </label>
+                </td>
+                <td class="element noble-gas">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Rn">
+                        Rn
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td class="element alkali-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Fr">
+                        Fr
+                    </label>
+                </td>
+                <td class="element alkaline-earth-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Ra">
+                        Ra
+                    </label>
+                </td>
+                <td></td>
+                <td class="element actinide">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Lr">
+                        Lr
+                    </label>
+                </td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Rf">
+                        Rf
+                    </label>
+                </td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Db">
+                        Db
+                    </label>
+                </td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Sg">
+                        Sg
+                    </label>
+                </td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Bh">
+                        Bh
+                    </label>
+                </td>
+                <td class="element transition-metal">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Hs">
+                        Hs
+                    </label>
+                </td>
+                <td class="element unknown">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Mt">
+                        Mt
+                    </label>
+                </td>
+                <td class="element unknown">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Ds">
+                        Ds
+                    </label>
+                </td>
+                <td class="element unknown">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Rg">
+                        Rg
+                    </label>
+                </td>
+                <td class="element unknown">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Cn">
+                        Cn
+                    </label>
+                </td>
+                <td class="element unknown">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Nh">
+                        Nh
+                    </label>
+                </td>
+                <td class="element unknown">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Fl">
+                        Fl
+                    </label>
+                </td>
+                <td class="element unknown">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Mc">
+                        Mc
+                    </label>
+                </td>
+                <td class="element unknown">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Lv">
+                        Lv
+                    </label>
+                </td>
+                <td class="element unknown">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Ts">
+                        Ts
+                    </label>
+                </td>
+                <td class="element unknown">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Og">
+                        Og
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="18" style="height: 7px"></td>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+                <td class="element lanthanide">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="La">
+                        La
+                    </label>
+                </td>
+                <td class="element lanthanide">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Ce">
+                        Ce
+                    </label>
+                </td>
+                <td class="element lanthanide">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Pr">
+                        Pr
+                    </label>
+                </td>
+                <td class="element lanthanide">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Nd">
+                        Nd
+                    </label>
+                </td>
+                <td class="element lanthanide">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Pm">
+                        Pm
+                    </label>
+                </td>
+                <td class="element lanthanide">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Sm">
+                        Sm
+                    </label>
+                </td>
+                <td class="element lanthanide">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Eu">
+                        Eu
+                    </label>
+                </td>
+                <td class="element lanthanide">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Gd">
+                        Gd
+                    </label>
+                </td>
+                <td class="element lanthanide">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Tb">
+                        Tb
+                    </label>
+                </td>
+                <td class="element lanthanide">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Dy">
+                        Dy
+                    </label>
+                </td>
+                <td class="element lanthanide">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Ho">
+                        Ho
+                    </label>
+                </td>
+                <td class="element lanthanide">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Er">
+                        Er
+                    </label>
+                </td>
+                <td class="element lanthanide">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Tm">
+                        Tm
+                    </label>
+                </td>
+                <td class="element lanthanide">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Yb">
+                        Yb
+                    </label>
+                </td>
+                <td colspan="2"></td>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+                <td class="element actinide">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Ac">
+                        Ac
+                    </label>
+                </td>
+                <td class="element actinide">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Th">
+                        Th
+                    </label>
+                </td>
+                <td class="element actinide">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Pa">
+                        Pa
+                    </label>
+                </td>
+                <td class="element actinide">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="U">
+                        U
+                    </label>
+                </td>
+                <td class="element actinide">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Np">
+                        Np
+                    </label>
+                </td>
+                <td class="element actinide">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Pu">
+                        Pu
+                    </label>
+                </td>
+                <td class="element actinide">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Am">
+                        Am
+                    </label>
+                </td>
+                <td class="element actinide">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Cm">
+                        Cm
+                    </label>
+                </td>
+                <td class="element actinide">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Bk">
+                        Bk
+                    </label>
+                </td>
+                <td class="element actinide">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Cf">
+                        Cf
+                    </label>
+                </td>
+                <td class="element actinide">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Es">
+                        Es
+                    </label>
+                </td>
+                <td class="element actinide">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Fm">
+                        Fm
+                    </label>
+                </td>
+                <td class="element actinide">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="Md">
+                        Md
+                    </label>
+                </td>
+                <td class="element actinide">
+                    <label>
+                        <input type="checkbox" name="{{ form_name }}" onclick="check_required('{{ form_name }}')" value="No">
+                        No
+                    </label>
+                </td>
+                <td colspan="2"></td>
+            </tr>
+        </table>
+        {% if help %}<div style="font-size:smaller;color:#999;max-width: 600px;">{{ help }}</div>{% endif %}
+    </div>
+</div>
+<script>
+	if (!$) { $ = django.jQuery; }
+    if (!$('link[href="{% static "NEMO_periodic_table_question/periodic_table.css" %}"]').length)
+    {
+        $('<link href="{% static "NEMO_periodic_table_question/periodic_table.css" %}" rel="stylesheet">').appendTo("head");
+    }
+    $(".periodic-table input[type=checkbox]").on("change", function()
+	{
+		$(this).closest("td").toggleClass("checked", this.checked);
+	});
+    function check_required(form_name)
+    {
+        if ($("input[name=" + form_name + "]:checkbox:checked").length > 0)
+        {
+            $("#required_" + form_name).prop("checked", true).change();
+		}
+        else
+        {
+            $("#required_" + form_name).prop("checked", false).change();
+		}
+	}
+
+    $(function()
+	{
+        {% for default_val in default_value %}
+			$("input[name={{ form_name }}][value={{ default_val }}]").prop("checked", true).change();
+            check_required('{{ form_name }}');
+        {% endfor %}
+	});
+</script>
