@@ -1,0 +1,225 @@
+[tool.poetry]
+name = "TestDataX"
+version = "0.1.3"
+description = "A flexible test data generation toolkit"
+authors = ["JamesPBrett"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+typer = "^0.15.1"
+faker = "^33.1.0"
+pydantic = "^2.10.4"
+orjson = "^3.10.12"
+pyarrow = "^18.1.0"
+pandas = "^2.2.3"
+mysql-connector-python = "^9.1.0"
+mimesis = "^18.0.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.4"
+pytest-cov = "^6.0.0"
+black = "^24.10.0"
+ruff = "^0.8.4"
+isort = "^5.13.2"
+mypy = "^1.14.0"
+ipykernel = "^6.29.5"
+pandas-stubs = "^2.2.3.241126"
+pyarrow-stubs = "^17.14"
+pytest-mock = "^3.14.0"
+pre-commit = "^4.0.1"
+types-python-dateutil = "^2.9.0.20241206"
+types-pyyaml = "^6.0.12.20241230"
+types-setuptools = "^75.6.0.20241223"
+psutil = "^6.1.1"
+matplotlib = "^3.10.0"
+types-psutil = "^6.1.0.20241221"
+commitizen = "^3.13.0"
+python-semantic-release = "^9.17.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+testdatax = "src.cli:app"
+
+[tool.ruff]
+# Same as Black
+line-length = 88
+target-version = "py311"
+
+# Enable all recommended rules + specific ones
+lint.select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+    "D",   # pydocstyle
+    "ANN", # type annotations
+    "TC",  # type checking
+]
+
+# Ignore specific rules
+lint.ignore = [
+    "D100",  # Missing docstring in public module
+    "D104",  # Missing docstring in public package
+    "D203",  # This will enforce no-blank-line-before-class (D211)
+    "D213"  # This will enforce multi-line-summary-first-line (D212)
+]
+
+# Exclude files and directories
+exclude = [
+    ".git",
+    ".mypy_cache",
+    ".venv",
+    "build",
+    "dist",
+]
+
+# Sort imports
+[tool.ruff.lint.isort]
+known-first-party = ["src"]
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | env
+    | _build
+    | build
+    | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+
+[tool.mypy]
+python_version = "3.11"
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_return_any = true
+warn_unreachable = true
+strict_optional = true
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = "mimesis.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "src.providers.mimesis_provider"
+warn_return_any = false
+
+[tool.coverage.run]
+source = ["src"]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "pass",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "0.1.0"
+tag_format = "v$version"
+version_files = [
+    "src/__init__.py:__version__",
+    "pyproject.toml:version"
+]
+style = [
+    ["qmark", "fg:#ff9d00 bold"],
+    ["question", "bold"],
+    ["answer", "fg:#ff9d00 bold"],
+    ["pointer", "fg:#ff9d00 bold"],
+    ["highlighted", "fg:#ff9d00 bold"],
+    ["selected", "fg:#cc5454"],
+    ["separator", "fg:#cc5454"],
+    ["instruction", ""],
+    ["text", ""],
+    ["disabled", "fg:#858585 italic"]
+]
+
+[tool.semantic_release]
+branch = "main"
+version_variables = [
+    "src/__init__.py:__version__"
+]
+version_toml = [
+    "pyproject.toml:tool.poetry.version"
+]
+version_pattern = [
+    "README.md:rev: v{version}"
+]
+changelog_file = "CHANGELOG.md"
+build_command = "pip install poetry && poetry build"
+dist_path = "dist/"
+upload_to_repository = true
+repository = "pypi"
+tag_commit = true
+tag_format = "v{version}"
+major_on_zero = false  # Prevents 0.x.x to 1.0.0 on breaking changes
+allow_zero_version = true
+commit_message = "chore(release): v{version}"
+commit_types = [
+    { type = "feat", section = "Features", bump = "minor" },
+    { type = "fix", section = "Bug Fixes", bump = "patch" },
+    { type = "breaking", section = "Breaking Changes", bump = "major" },
+    { type = "perf", section = "Performance", bump = "patch" },
+    { type = "refactor", section = "Refactoring", bump = "patch" },
+    { type = "docs", section = "Documentation", bump = false },
+    { type = "chore", section = "Maintenance", bump = false },
+    { type = "ci", section = "CI/CD", bump = false },
+    { type = "build", section = "Build", bump = false }
+]
+
+[tool.semantic_release.changelog]
+template_dir = "templates"
+changelog_components = [
+    { type = "feat", section = "Features" },
+    { type = "fix", section = "Bug Fixes" },
+    { type = "perf", section = "Performance" },
+    { type = "docs", section = "Documentation" },
+    { type = "breaking", section = "Breaking Changes" }
+]
+
+[tool.semantic_release.commit_parser_options]
+allowed_tags = [
+    "feat",     # New features (Maps to Features section)
+    "fix",      # Bug fixes (Maps to Bug Fixes section)
+    "perf",     # Performance improvements (Maps to Performance section)
+    "docs",     # Documentation updates (Maps to Documentation section)
+    "breaking", # Breaking changes (Maps to Breaking Changes section)
+    "build",    # Build system changes
+    "ci",       # CI configuration changes
+    "chore",    # Maintenance tasks
+    "refactor", # Code changes without fixing bugs or adding features
+]
