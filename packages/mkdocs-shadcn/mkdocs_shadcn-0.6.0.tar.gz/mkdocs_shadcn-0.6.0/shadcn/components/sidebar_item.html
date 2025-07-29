@@ -1,0 +1,26 @@
+<a href="{{ sidebar_item.url | url }}" {% if sidebar_item.active %}data-active {% endif %}
+    class="text-sm flex shrink-0 h-8 w-full items-center rounded-lg px-2 text-foreground underline-offset-2 font-normal hover:bg-accent hover:text-accent-foreground data-active:bg-accent data-active:font-medium data-active:text-accent-foreground">
+    {% if sidebar_item.meta and sidebar_item.meta.sidebar_title %}
+    {{ sidebar_item.meta.sidebar_title }}
+    {% else %}
+    {{ sidebar_item.title }}
+    {% endif %}
+
+    {% if sidebar_item.meta and sidebar_item.meta.new %}
+    {% with tag_content = "New" %}
+    {% include "components/tag.html" %}
+    {% endwith %}
+    {% endif %}
+
+    {% if sidebar_item.meta and sidebar_item.meta.alpha %}
+    {% with tag_content = "Alpha" %}
+    {% include "components/tag.html" %}
+    {% endwith %}
+    {% endif %}
+
+    {% if sidebar_item.meta and sidebar_item.meta.beta %}
+    {% with tag_content = "Beta" %}
+    {% include "components/tag.html" %}
+    {% endwith %}
+    {% endif %}
+</a>

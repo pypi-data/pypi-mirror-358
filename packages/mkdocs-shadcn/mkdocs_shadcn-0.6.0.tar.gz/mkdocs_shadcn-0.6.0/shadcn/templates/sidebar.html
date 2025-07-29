@@ -1,0 +1,27 @@
+<div
+    class="no-scrollbar [&::-webkit-scrollbar]:hidden h-full overflow-auto py-6 pr-4 lg:py-8 flex flex-col gap-[.125rem]">
+    {% if nav|length > 1 %}
+    {% set top_items = nav|selectattr("is_page")|sort(attribute="meta.order") %}
+    {% set other_items = nav|rejectattr("is_page")|list %}
+
+    {% for top_item in top_items %}
+    {% with sidebar_item = top_item %}
+    {% include "components/sidebar_item.html" %}
+    {% endwith %}
+    {% endfor %}
+
+
+    {% for top_item in other_items %}
+    {% if top_item.children %}
+    <div class="flex flex-col gap-1 mt-5 first:mt-0">
+        <h4 class="rounded-md px-2 py-1 text-sm font-semibold">{{ top_item.title }}</h4>
+        <div class="grid grid-flow-row auto-rows-max gap-[.125rem]">
+            {% for sidebar_item in top_item.children|sort(attribute="meta.order") %}
+            {% include "components/sidebar_item.html" %}
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+</div>
