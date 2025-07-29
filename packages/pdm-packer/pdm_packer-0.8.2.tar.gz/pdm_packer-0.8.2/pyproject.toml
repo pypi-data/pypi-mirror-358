@@ -1,0 +1,96 @@
+[build-system]
+requires = [
+    "pdm-backend",
+]
+build-backend = "pdm.backend"
+
+[project]
+name = "pdm-packer"
+description = "A PDM plugin that packs your packages into a zipapp"
+authors = [
+    { name = "Frost Ming", email = "mianghong@gmail.com" },
+]
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "distlib>=0.3.4; sys_platform == \"win32\"",
+]
+dynamic = []
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python :: 3",
+]
+version = "0.8.2"
+
+[project.license]
+text = "MIT"
+
+[project.urls]
+Repository = "https://github.com/frostming/pdm-packer"
+Homepage = "https://github.com/frostming/pdm-packer"
+
+[project.entry-points.pdm]
+pdm-packer = "pdm_packer:plugin"
+
+[dependency-groups]
+test = [
+    "pytest>=6.1",
+    "pdm>=2.3",
+]
+dev = [
+    "towncrier>=19.2",
+    "parver>=0.3",
+]
+
+[tool.pdm.version]
+source = "scm"
+
+[tool.pdm.build]
+package-dir = "src"
+
+[tool.pdm.scripts]
+release = "python -m tasks.release"
+test = "pytest tests/"
+lint = "pre-commit run --all-files"
+
+[tool.pdm.scripts.doc]
+shell = "cd docs && mkdocs serve"
+help = "Start the dev server for doc preview"
+
+[tool.black]
+line-length = 88
+exclude = "/(\n    \\.eggs\n  | \\.git\n  | \\.hg\n  | \\.mypy_cache\n  | \\.tox\n  | \\.venv\n  | _build\n  | buck-out\n  | build\n  | dist\n  | tests/fixtures\n)/\n"
+
+[tool.towncrier]
+package = "pdm_packer"
+filename = "CHANGELOG.md"
+issue_format = "[#{issue}](https://github.com/frostming/pdm-packer/issues/{issue})"
+directory = "news/"
+start_string = "<!-- insertion marker -->"
+title_format = "[v{version}](https://github.com/frostming/pdm-packer/releases/tag/{version}) ({project_date})"
+template = "news/towncrier_template.md"
+underlines = "-~^"
+type = [
+    { directory = "feature", name = "Features & Improvements", showcontent = true },
+    { directory = "bugfix", name = "Bug Fixes", showcontent = true },
+    { directory = "doc", name = "Improved Documentation", showcontent = true },
+    { directory = "dep", name = "Dependencies", showcontent = true },
+    { directory = "removal", name = "Removals and Deprecations", showcontent = true },
+    { directory = "misc", name = "Miscellany", showcontent = true },
+]
+
+[tool.isort]
+profile = "black"
+atomic = true
+skip_glob = [
+    "*/setup.py",
+]
+filter_files = true
+known_first_party = [
+    "pdm_packer",
+]
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+]
