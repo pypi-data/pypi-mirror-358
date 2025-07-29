@@ -1,0 +1,213 @@
+Metadata-Version: 2.4
+Name: django-jqgrid
+Version: 1.0.1
+Summary: A Django app for integrating jqGrid with Django REST Framework
+Home-page: https://github.com/yourusername/django-jqgrid
+Author: Your Name
+Author-email: Django jqGrid Team <support@django-jqgrid.org>
+License: MIT
+Project-URL: Homepage, https://github.com/yourusername/django-jqgrid
+Project-URL: Bug Reports, https://github.com/yourusername/django-jqgrid/issues
+Project-URL: Source, https://github.com/yourusername/django-jqgrid
+Project-URL: Documentation, https://django-jqgrid.readthedocs.io
+Keywords: django,jqgrid,rest,framework,grid,datatable
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Django
+Classifier: Framework :: Django :: 3.2
+Classifier: Framework :: Django :: 4.0
+Classifier: Framework :: Django :: 4.1
+Classifier: Framework :: Django :: 4.2
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content
+Classifier: Topic :: Software Development :: Libraries :: Application Frameworks
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: Django>=3.2
+Requires-Dist: djangorestframework>=3.12.0
+Requires-Dist: django-filter>=21.1
+Provides-Extra: dev
+Requires-Dist: pytest>=6.2; extra == "dev"
+Requires-Dist: pytest-django>=4.4; extra == "dev"
+Requires-Dist: pytest-cov>=2.12; extra == "dev"
+Requires-Dist: black>=21.7b0; extra == "dev"
+Requires-Dist: flake8>=3.9; extra == "dev"
+Requires-Dist: isort>=5.9; extra == "dev"
+Requires-Dist: mypy>=0.910; extra == "dev"
+Requires-Dist: django-stubs>=1.9; extra == "dev"
+Requires-Dist: djangorestframework-stubs>=1.4; extra == "dev"
+Provides-Extra: production
+Requires-Dist: redis>=3.5.0; extra == "production"
+Requires-Dist: celery>=5.1.0; extra == "production"
+Provides-Extra: import-export
+Requires-Dist: openpyxl>=3.0.0; extra == "import-export"
+Requires-Dist: xlsxwriter>=3.0.0; extra == "import-export"
+Requires-Dist: reportlab>=3.6.0; extra == "import-export"
+Requires-Dist: Pillow>=8.0.0; extra == "import-export"
+Provides-Extra: docs
+Requires-Dist: sphinx>=4.0; extra == "docs"
+Requires-Dist: sphinx-rtd-theme>=0.5; extra == "docs"
+Requires-Dist: recommonmark>=0.7; extra == "docs"
+Dynamic: author
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-python
+
+# Django jqGrid
+
+A powerful Django app that seamlessly integrates jqGrid with Django REST Framework, providing advanced data grid functionality for your Django applications.
+
+## Features
+
+- **Seamless Integration**: Easy integration with Django REST Framework
+- **Advanced Grid Features**: Full jqGrid functionality including sorting, filtering, pagination, and CRUD operations
+- **Import/Export Ready**: Extensible framework for adding import/export capabilities
+- **Multi-Database Support**: Works with multiple database configurations
+- **Security**: Built-in security features and permission handling
+- **Customizable**: Highly customizable grid configurations and styling
+- **Responsive Design**: Mobile-friendly responsive grid layouts
+- **Internationalization**: Support for multiple languages
+
+## Quick Start
+
+### Installation
+
+```bash
+pip install django-jqgrid
+```
+
+### Django Settings
+
+Add `django_jqgrid` to your `INSTALLED_APPS`:
+
+```python
+INSTALLED_APPS = [
+    # ... your other apps
+    'rest_framework',  # Required dependency
+    'django_jqgrid',
+    'example',  # Optional: include example app for demonstrations
+]
+
+# Optional: Django jqGrid configuration
+JQGRID_CONFIG = {
+    'DEFAULT_ROWS_PER_PAGE': 25,
+    'ENABLE_EXCEL_EXPORT': True,
+    'ENABLE_CSV_EXPORT': True,
+    'ENABLE_FILTERING': True,
+    'ENABLE_CRUD_OPERATIONS': True,
+}
+```
+
+### URL Configuration
+
+```python
+from django.urls import path, include
+
+urlpatterns = [
+    # ... your other URL patterns
+    path('api/', include('django_jqgrid.urls')),
+]
+```
+
+### Basic Usage
+
+```python
+from django_jqgrid.views import JqGridView
+from django_jqgrid.serializers import JqGridSerializer
+from .models import YourModel
+
+class YourModelGrid(JqGridView):
+    model = YourModel
+    serializer_class = JqGridSerializer
+    
+    jqgrid_config = {
+        'caption': 'Your Model Grid',
+        'autowidth': True,
+        'height': 400,
+        'columns': [
+            {'name': 'id', 'index': 'id', 'width': 50, 'sortable': True},
+            {'name': 'name', 'index': 'name', 'width': 200, 'sortable': True},
+            {'name': 'email', 'index': 'email', 'width': 200, 'sortable': True},
+        ]
+    }
+```
+
+## Example Project
+
+The package includes a complete Django project demonstrating all jqGrid features:
+
+- **Product Management**: Complex grid with multiple field types, filtering, and custom formatters
+- **Customer Management**: User data handling with search and relationship display
+- **Order Tracking**: Financial data, status workflows, and date handling
+- **Category Management**: Simple CRUD operations and relationships
+
+### Running the Example Project
+
+```bash
+# Navigate to example project
+cd example_project
+
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+pip install -e ..  # Install django-jqgrid from parent directory
+
+# Setup the project
+python setup_example.py
+
+# OR manually:
+python manage.py migrate
+python manage.py load_sample_data
+python manage.py runserver
+```
+
+Visit: `http://localhost:8000/`
+
+The example project serves as both documentation and a complete reference implementation.
+
+## Documentation
+
+- [Installation Guide](INSTALLATION_GUIDE.md)
+- [API Reference](API_REFERENCE.md)
+- [Features Overview](FEATURES.md)
+- [Configuration Options](CONFIGURATIONS.md)
+- [Security Guide](SECURITY_GUIDE.md)
+- [Contributing](CONTRIBUTING.md)
+
+## Requirements
+
+- Python 3.8+
+- Django 3.2+
+- Django REST Framework 3.12+
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Support
+
+- GitHub Issues: [Report Issues](https://github.com/yourusername/django-jqgrid/issues)
+- Documentation: [Read the Docs](https://django-jqgrid.readthedocs.io)
+- Email: support@django-jqgrid.org
+
+## Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for a complete list of changes.

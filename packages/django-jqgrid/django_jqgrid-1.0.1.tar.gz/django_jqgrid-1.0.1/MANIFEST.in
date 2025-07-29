@@ -1,0 +1,40 @@
+# Include documentation files
+include README.md
+include LICENSE
+include CHANGELOG.md
+include CONTRIBUTING.md
+include INSTALLATION_GUIDE.md
+include API_REFERENCE.md
+include FEATURES.md
+include FUNCTIONALITIES.md
+include CONFIGURATIONS.md
+include SECURITY_GUIDE.md
+include SECURITY_EXAMPLES.md
+include JS_ARCHITECTURE.md
+include SEARCH_DROPDOWN_FIX.md
+include BUTTON_POSITIONING_FIX.md
+
+# Include static files
+recursive-include django_jqgrid/static *
+recursive-include django_jqgrid/templates *
+
+# Include package data
+recursive-include django_jqgrid *.py
+recursive-include django_jqgrid/migrations *.py
+
+# Exclude development files
+exclude .gitignore
+exclude .flake8
+exclude .pytest_cache
+exclude pytest.ini
+exclude tox.ini
+exclude .coverage
+exclude setup.cfg
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+recursive-exclude * .DS_Store
+recursive-exclude * .git*
+recursive-exclude * .mypy_cache
+recursive-exclude * .pytest_cache
+recursive-exclude * *.egg-info
+recursive-exclude example_project *
