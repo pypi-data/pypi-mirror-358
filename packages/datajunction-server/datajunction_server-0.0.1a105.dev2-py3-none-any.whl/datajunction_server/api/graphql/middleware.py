@@ -1,0 +1,76 @@
+import json
+import logging
+import uuid
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.requests import Request
+from datajunction_server.utils import get_session_manager
+from graphql import parse, OperationType, GraphQLError
+
+logger = logging.getLogger(__name__)
+
+
+def is_mutation(body_bytes: bytes) -> bool:
+    """
+    Return True if the GraphQL query contains a mutation, False otherwise.
+    """
+    if not body_bytes:
+        return False
+    try:
+        payload = json.loads(body_bytes)
+        query = payload.get("query")
+        if not query:
+            return False
+        document = parse(query)
+        return any(
+            getattr(defn, "operation", None) == OperationType.MUTATION
+            for defn in document.definitions
+        )
+    except (GraphQLError, json.JSONDecodeError) as exc:
+        logger.exception("Failed to parse GraphQL query: %s", str(exc))
+        return False  # pragma: no cover
+    except Exception as exc:  # pragma: no cover
+        logger.exception(  # pragma: no cover
+            "Exception handling GraphQL query: %s",
+            str(exc),
+        )
+        return False
+
+
+class GraphQLSessionMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        """
+        Middleware to manage database sessions for GraphQL requests. This ensures that
+        a database session is created for each GraphQL request, and that it's committed
+        or rolled back as appropriate.
+        """
+        if request.url.path.startswith("/graphql"):
+            body_bytes = await request.body()
+
+            # Restore request body for downstream usage
+            async def receive():  # pragma: no cover
+                return {"type": "http.request", "body": body_bytes}
+
+            request._receive = receive  # type: ignore
+
+            # Set up the database session based on whether it's a mutation or not
+            session_manager = get_session_manager()
+            token = session_manager.session_context.set(str(uuid.uuid4()))
+            scoped_session = (
+                session_manager.writer_session
+                if is_mutation(body_bytes)
+                else session_manager.reader_session
+            )
+            try:
+                session = scoped_session()  # type: ignore
+                request.state.db = session
+                response = await call_next(request)
+                await request.state.db.commit()
+                return response
+            except Exception as exc:
+                await request.state.db.rollback()
+                raise exc
+            finally:
+                await scoped_session.remove()  # type: ignore
+                session_manager.session_context.reset(token)
+        else:
+            return await call_next(request)
