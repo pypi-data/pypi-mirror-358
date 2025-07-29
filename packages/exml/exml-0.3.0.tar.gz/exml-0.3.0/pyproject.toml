@@ -1,0 +1,37 @@
+[project]
+name = "exml"
+version = "0.3.0"
+description = "eDSL for generating XML-likes"
+readme = "README.md"
+authors = [
+    { name = "IC Rainbow", email = "aenor.realm@gmail.com" }
+]
+requires-python = ">=3.10" # match/case
+dependencies = []
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pyright]
+# disable pyright in favor of ruff
+typeCheckingMode = "off"
+ignore = ["*"]
+
+[tool.ruff.lint]
+select = [
+    "E", # pycodestyle
+    "F", # Pyflakes
+    "UP", # pyupgrade
+    "B", # flake8-bugbear
+    "SIM", # flake8-simplify
+    "I", # isort
+]
+ignore = [
+    "E501" # Ignore line length violations that weren't autofixed by formatter
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
+]
