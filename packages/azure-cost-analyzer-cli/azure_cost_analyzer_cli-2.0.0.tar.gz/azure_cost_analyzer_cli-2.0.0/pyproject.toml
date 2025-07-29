@@ -1,0 +1,91 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "azure-cost-analyzer-cli"
+version = "2.0.0"
+description = "Enterprise Azure cost analysis tool with comprehensive reporting"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Qanooni", email = "support@qanooni.com"}
+]
+maintainers = [
+    {name = "Qanooni", email = "support@qanooni.com"}
+]
+keywords = [
+    "azure",
+    "cost",
+    "analysis", 
+    "reporting",
+    "cloud",
+    "monitoring",
+    "finance",
+    "cli",
+    "enterprise",
+    "budget"
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators", 
+    "Intended Audience :: Financial and Insurance Industry",
+    "Topic :: Office/Business :: Financial",
+    "Topic :: System :: Monitoring",
+    "Topic :: Utilities",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Environment :: Console"
+]
+requires-python = ">=3.7"
+dependencies = [
+    "pandas>=1.3.0",
+    "matplotlib>=3.3.0",
+    "openpyxl>=3.0.0",
+    "seaborn>=0.11.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov>=2.0",
+    "black>=21.0",
+    "flake8>=3.8",
+    "mypy>=0.800"
+]
+
+[project.urls]
+Homepage = "https://github.com/CodeVerdict/azure-cost-reporter"
+Repository = "https://github.com/CodeVerdict/azure-cost-reporter"
+Documentation = "https://github.com/CodeVerdict/azure-cost-reporter#readme"
+"Bug Reports" = "https://github.com/CodeVerdict/azure-cost-reporter/issues"
+
+[project.scripts]
+azure-cost-analyzer = "azure_cost_analyzer:main"
+
+[tool.setuptools]
+py-modules = ["azure_cost_analyzer"]
+
+[tool.black]
+line-length = 88
+target-version = ["py37", "py38", "py39", "py310", "py311"]
+include = '\.pyi?$'
+
+[tool.mypy]
+python_version = "2.0.0"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+minversion = "2.0.0"
+addopts = "-ra -q --strict-markers"
+testpaths = ["tests"] 

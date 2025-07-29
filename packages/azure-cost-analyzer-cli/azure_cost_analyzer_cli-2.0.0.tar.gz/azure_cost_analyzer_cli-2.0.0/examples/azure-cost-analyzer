@@ -1,0 +1,25 @@
+#!/usr/bin/env python3
+"""
+Azure Cost Analyzer CLI Entry Point
+A comprehensive Azure cost analysis and reporting tool.
+"""
+
+import sys
+import os
+
+# Add the current directory to Python path to import the analyzer
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+try:
+    from azure_cost_analyzer import main
+    
+    if __name__ == "__main__":
+        main()
+        
+except ImportError as e:
+    print(f"❌ Import Error: {e}")
+    print("💡 Make sure azure_cost_analyzer.py is in the same directory")
+    sys.exit(1)
+except Exception as e:
+    print(f"❌ Error: {e}")
+    sys.exit(1) 

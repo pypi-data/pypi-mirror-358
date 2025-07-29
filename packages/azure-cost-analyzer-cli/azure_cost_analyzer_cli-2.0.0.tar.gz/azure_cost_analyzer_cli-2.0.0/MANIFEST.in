@@ -1,0 +1,16 @@
+include README.md
+include LICENSE
+include requirements.txt
+include pyproject.toml
+include setup.py
+recursive-include azure_cost_analyzer_cli *.py
+global-exclude *.pyc
+global-exclude __pycache__
+global-exclude .DS_Store
+global-exclude *.csv
+global-exclude *.xlsx
+global-exclude *.pdf
+global-exclude *.txt
+prune test*
+prune reports*
+prune final-test* 
