@@ -1,0 +1,73 @@
+[build-system]
+requires = [
+    'hatchling',
+    'hatch-regex-commit',
+]
+build-backend = 'hatchling.build'
+
+
+[project]
+name = 'env-config-cli'
+authors = [
+    {name = 'Randy Syring', email = 'randy.syring@level12.io'},
+]
+requires-python = '~=3.12.0'
+dynamic = ['version']
+readme = 'readme.md'
+dependencies = [
+    "boto3>=1.38.44",
+    "click>=8.2.1",
+    "cryptography>=45.0.4",
+    "dynamic-yaml>=2.0.0",
+    "furl>=2.1.4",
+    "msgpack>=1.1.1",
+    "pyserde>=0.24.0",
+]
+
+
+[project.scripts]
+env-config = 'env_config.cli:main'
+env-config-shell = 'env_config.cli:env_config_shell'
+env-config-aws = 'env_config.cli:env_config_aws'
+
+
+[dependency-groups]
+# Note: keeping Coppy deps grouped separate from app deps should help avoid unnecessary
+# conflicts when upgrading to the latest Coppy template.
+dev = [
+    # From Coppy:
+    {include-group = "tests"},
+    {include-group = "pre-commit"},
+    {include-group = "audit"},
+    {include-group = "nox"},
+    'click',
+    'hatch',
+    'ruff',
+
+    # App specific:
+    # TODO: fill in app deps here
+]
+# Used by nox
+tests = [
+    "pexpect>=4.9.0",
+    # From Coppy:
+    'pytest',
+    'pytest-cov',
+    # App specific:
+    # TODO: fill in app deps here
+]
+# Used by nox
+pre-commit = [
+    # From Coppy:
+    'pre-commit',
+    'pre-commit-uv',
+]
+# Used by nox
+audit = [
+    # From Coppy:
+    'pip-audit',
+]
+# Used by CI
+nox = [
+    'nox',
+]
