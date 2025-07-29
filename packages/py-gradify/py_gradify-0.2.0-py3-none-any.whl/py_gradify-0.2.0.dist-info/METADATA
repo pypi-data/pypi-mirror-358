@@ -1,0 +1,29 @@
+Metadata-Version: 2.4
+Name: py-gradify
+Version: 0.2.0
+Summary: Apply gradient ANSI color to terminal text
+Author: Rowan Barker
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: license
+Dynamic: requires-python
+Dynamic: summary
+
+# gradify
+
+gradify adds smooth horizontal or vertical gradient ANSI coloring to terminal text.
+
+## Usage
+
+```python
+from gradify import gradify
+
+print(gradify("Hello, world!", (255, 0, 0), (0, 0, 255)))
