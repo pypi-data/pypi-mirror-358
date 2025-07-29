@@ -1,0 +1,37 @@
+[project]
+name = "nonebot-plugin-qqessentials"
+dynamic = []
+description = "A basic plugin that meets a lot of your needs!"
+authors = [
+    { name = "Murasame", email = "congyu@sbhfy.cn" },
+]
+dependencies = [
+    "nonebot2>=2.4.1",
+    "nonebot-adapter-onebot>=2.4.6",
+    "httpx>=0.28.1",
+]
+requires-python = ">=3.9,<4.0"
+readme = "README.md"
+version = "0.1.4"
+
+[project.license]
+text = "MIT"
+
+[project.urls]
+homepage = "https://github.com/Murasame-Dev/nonebot-plugin-qqessentials"
+
+[dependency-groups]
+dev = []
+
+[build-system]
+requires = [
+    "pdm-backend",
+]
+build-backend = "pdm.backend"
+
+[tool.pdm.build]
+includes = []
+
+[tool.pdm.version]
+source = "file"
+path = "nonebot_plugin_qqessentials/__init__.py"
