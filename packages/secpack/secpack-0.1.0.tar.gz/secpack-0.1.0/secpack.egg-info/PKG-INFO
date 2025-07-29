@@ -1,0 +1,279 @@
+Metadata-Version: 2.1
+Name: secpack
+Version: 0.1.0
+Summary: secpack is a secure and flexible command-line tool for encrypting, decrypting, packaging, executing, and installing Python projects or arbitrary folders from local paths, URLs, or GitHub repositories.
+Home-page: https://github.com/zwalloc/secpack
+Author: AleirJDawn
+Author-email: 
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+
+# 📦 secpack
+
+[![PyPI version](https://img.shields.io/pypi/v/secpack?color=blue&label=PyPI&logo=python&logoColor=white)](https://pypi.org/project/secpack/)
+[![License: MIT](https://img.shields.io/github/license/zwalloc/secpack)](https://github.com/zwalloc/secpack/blob/main/LICENSE)
+[![View on GitHub](https://img.shields.io/badge/View_on-GitHub-24292e?logo=github)](https://github.com/zwalloc/secpack)
+
+**secpack** is a secure and flexible command-line tool for encrypting, decrypting, packaging, executing, and installing Python projects or arbitrary folders from local paths, URLs, or GitHub repositories.
+
+---
+
+## 🎯 Purpose
+
+`secpack` makes it easy to:
+- 📦 Package and encrypt folders or Python packages
+- 🔐 Decrypt and safely extract sensitive content
+- 🚀 Execute encrypted scripts remotely (e.g., `start.py`)
+- 📥 Fetch from GitHub, Git repos, HTTPS, or local files
+- 🐍 Install Python packages from encrypted archives via `pip`
+
+Its main goal is to **securely distribute private code or data** in a compact format, with **brute-force resistance**, **tamper detection**, and **secure temporary file handling**.
+
+---
+
+## 🔐 Why Use `secpack`?
+
+- ✔️ Strong scrypt key derivation (default: `n=2^18`)
+- ✔️ AES-GCM encryption (authenticated, tamper-resistant)
+- ✔️ Hardened temporary directories (no username leaks)
+- ✔️ Works with GitHub repos, HTTPS URLs, local paths
+- ✔️ Secure `pip` installs from encrypted archives
+- ✔️ Remote execution of `start.py` with confirmation
+- ✔️ Hash verification via `--hash`, `--hash-file`, `--hash-alg`
+- ✔️ Full CLI control and extensibility
+
+Ideal for:
+- Secure remote builds and deployments
+- Confidential Python package distribution
+- Running encrypted scripts on servers
+- Data delivery in secure enclaves
+
+---
+
+## 🛠 Installation
+
+```bash
+pip install secpack
+```
+
+## Help output
+
+```
+$ secpack -h
+usage: secpack [-h] [--password PASSWORD] [--token TOKEN] [--scrypt-n SCRYPT_N] [--scrypt-r SCRYPT_R]
+               [--scrypt-p SCRYPT_P] [--verbose] [--allow-username] [--temp-path TEMP_PATH]
+               [--subdir SUBDIR] [--git-shell] [--branch BRANCH] [--depth DEPTH] [--hash]
+               [--hash-file HASH_FILE] [--hash-alg HASH_ALG]
+               {fetch,encrypt,decrypt,pack,unpack,execute,install} ...
+
+Secure package encryption, decryption, fetching and installation tool
+
+positional arguments:
+  {fetch,encrypt,decrypt,pack,unpack,execute,install}
+    fetch               Fetch source from local path, URL, or GitHub repo
+    encrypt             Fetch single file, encrypt
+    decrypt             Fetch single file, decrypt
+    pack                Fetch, archive (if folder) and encrypt
+    unpack              Fetch, decrypt, unarchive (if folder)
+    execute             Fetch, decrypt and execute start.py if found
+    install             Fetch, decrypt and install Python package
+
+options:
+  -h, --help            show this help message and exit
+  --password PASSWORD, -p PASSWORD
+                        Password for encryption/decryption
+  --token TOKEN         GitHub token for private repo access
+  --scrypt-n SCRYPT_N   scrypt CPU/memory cost parameter
+  --scrypt-r SCRYPT_R   scrypt block size parameter
+  --scrypt-p SCRYPT_P   scrypt parallelization parameter
+  --verbose             Show debug logs
+  --allow-username, -a  Allow username in temporary file paths
+  --temp-path TEMP_PATH, -t TEMP_PATH
+                        Manually specify the path to the temporary folder
+  --subdir SUBDIR       Subdir
+  --git-shell           Prefer use git shell command to fetch resources from .git
+  --branch BRANCH       Specify branch for git
+  --depth DEPTH         Specify depth for git
+  --hash                Enable hash generation/verification with default file
+  --hash-file HASH_FILE
+                        Path to hash file for verification or output
+  --hash-alg HASH_ALG   Hash algorithm to use (default: sha256)
+```
+
+
+## 🚀 Key Commands
+
+🔒 Encrypt a file
+```bash
+secpack encrypt ./file.bin -o output.secbin
+```
+🔓 Decrypt a file
+```bash
+secpack decrypt ./output.secbin -o ./file.bin
+```
+📦 Pack & Encrypt a project
+```bash
+secpack pack ./myproject -o project.secpack
+```
+📂 Unpack & Decrypt
+```bash
+secpack unpack ./project.secpack
+```
+🚀 Execute start.py securely
+```bash
+secpack execute https://github.com/you/yourrepo.git
+```
+Or run a specific file with args:
+```bash
+secpack execute ./project.secpack -f run.py --args --flag1 value
+```
+🐍 Install encrypted Python package
+```bash
+secpack install ./project.secpack
+```
+
+## 🔐 Password Handling
+
+You can provide a password via:
+- --password
+- SECPACK_PASSWORD environment variable
+- ~/.secpack_pass file (warning: use with caution)
+- Prompt (if none provided)
+
+
+## 📥 Supported Sources
+- Local files/folders
+- HTTP/HTTPS URLs
+- GitHub repositories (user/repo, full URL)
+- Git repositories (via git clone or .git URL)
+
+Supports private GitHub access via --token.
+
+## 🧰 CLI Options
+| Option             | Description                                         |
+| ------------------ | --------------------------------------------------- |
+| `--password`, `-p` | Password to encrypt/decrypt                         |
+| `--token`          | GitHub token for private repo access                |
+| `--scrypt-n/r/p`   | Tune scrypt (key derivation strength)               |
+| `--allow-username` | Allow username in temporary paths (not recommended) |
+| `--temp-path`      | Manually specify temp folder                        |
+| `--git-shell`      | Use `git` CLI for repo fetching                     |
+| `--hash`           | Enable hash generation/verification                 |
+| `--hash-file`      | Use specific file for hash output/input             |
+| `--hash-alg`       | Hash algorithm (default: sha256)                    |
+| `--raw`            | Treat source as unencrypted (skip decrypt)          |
+
+## 🛡️ Security Details
+- Encryption: AES-GCM (12-byte nonce, 128-bit auth tag)
+- Key Derivation: scrypt (n=2^18, r=8, p=1 by default)
+- Archive Format: ZIP (before encryption)
+- Temporary Directories: Hardened, with optional path sanitization
+- Hashing: Optional SHA256 (or user-defined), for tamper verification
+
+## 🗑️ Temporary Directory Security and Cleanup
+
+secpack uses a secure temporary directory (SecureTemporaryDirectory) when unpacking and executing files. This directory is designed with multiple security measures to protect sensitive data during runtime:
+
+- Username-free paths: By default, secpack avoids including your system username in the temporary folder path to prevent leakage of user information in logs or system traces. You can override this behavior with --allow-username if necessary.
+
+- Default temporary path: By default, secpack tries to use R:/ (on Windows systems) as the root for temporary directories, if it exists. This is because R:/ is often configured as a RAM disk or fast volatile storage, providing faster and more secure in-memory operations. If R:/ is not available, it falls back to the system default temporary path.
+
+- Automatic cleanup: When the temporary directory context ends (e.g., after executing a script or command), secpack securely deletes the entire temporary folder.
+
+- Secure deletion process:
+
+    - Files are overwritten with random data multiple times before deletion to minimize the risk of data recovery.
+
+    - Filenames are randomized to prevent inference of file contents from names.
+
+    - The folder and its contents are deleted immediately after use, reducing the window for attackers to access sensitive data.
+
+Thanks to these measures, sensitive decrypted content and scripts only exist temporarily on disk and are securely wiped as soon as they are no longer needed, significantly reducing the risk of leakage or accidental exposure.
+
+## ⚠️ Security Notes
+- Do not upload encrypted archives publicly unless your password is strong.
+- Prefer private GitHub repos or secure hosting.
+- secpack relies on your ability to manage secrets properly.
+- Avoid storing .secpack_pass unless absolutely necessary and safe.
+
+## 🧪 Examples
+
+#### Encrypt & pack & store from GitHub:
+```bash
+secpack pack github.com/user/repo -o private.secpack
+```
+
+#### Unpack & run:
+```bash
+secpack execute ./private.secpack --allow-execute
+```
+
+#### Install an encrypted package:
+```bash
+secpack install https://mydomain.com/package.secpack
+```
+
+#### Pack with hash generation:
+```bash
+secpack pack ./project -o encrypted.secpack --hash
+```
+This will create a .sha256 file alongside the encrypted output.
+
+#### Unpack with hash verification:
+```bash
+secpack unpack encrypted.secpack --hash --hash-file encrypted.secpack.sha256
+```
+This ensures the encrypted file hasn’t been tampered with before decryption.
+
+#### Execute decrypted code with shell command
+```bash
+secpack execute ./project.secpack --cmd "python run.py --arg1 value"
+```
+This securely decrypts and extracts the archive into a temporary directory, then runs the provided shell command inside it.
+
+#### 🚀 Run raw (unencrypted) Python code directly from GitHub
+```bash
+secpack execute https://github.com/username/repo.git --raw --run-file run.py
+```
+This fetches and executes the unencrypted run.py script from the specified GitHub repo without decryption.
+
+You can also run arbitrary shell commands inside the unpacked folder like this:
+```bash
+secpack execute https://github.com/username/repo.git --raw --cmd "python run.py --arg1 value"
+```
+This fetches the raw repository, extracts it to a temporary folder, then runs the given command there.
+
+
+## 🔐 secpack vs 7-Zip / WinRAR
+| Feature                  | secpack    | 7-Zip / WinRAR           |
+| ------------------------ | ---------- | ------------------------ |
+| Key Derivation           | scrypt     | PBKDF2 (SHA-256 / SHA-1) |
+| Authenticated Encryption | ✅ AES-GCM  | ❌ AES-CBC (no integrity) |
+| Brute-force Resistance   | ✅ High     | ⚠️ Moderate              |
+| Open Source              | ✅ Fully    | ✅ / ❌                    |
+
+## ⚠️ Disclaimer
+
+This tool is provided for legitimate and ethical use only.
+The authors take no responsibility for damage, data loss, or misuse.
+
+Always use strong passwords and understand what you're encrypting and sharing.
+
+## ✅ Summary
+
+Use secpack when:
+- You need secure workflows for encrypted archives or Python code
+- You want tamper protection via AES-GCM
+- You value strong key derivation (scrypt)
+- You work in CI/CD, secure environments, or need remote access
+
+7-Zip and WinRAR remain great for:
+- General-purpose compression
+- Cross-platform GUI usage
+- Efficient archive formats (7z, RAR)
+
+For developers and security-minded teams, secpack offers a modern, auditable, and purpose-built solution for secure packaging and remote execution.
