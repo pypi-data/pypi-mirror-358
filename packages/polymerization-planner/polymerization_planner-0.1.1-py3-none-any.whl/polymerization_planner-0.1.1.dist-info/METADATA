@@ -1,0 +1,61 @@
+Metadata-Version: 2.4
+Name: polymerization_planner
+Version: 0.1.1
+Summary: A tool to generate polymerization reaction recipes from user-defined molar ratios and stock concentrations. Please see the PDF instruction in the GitHub link provided.
+Home-page: https://github.com/C3344/polymerization_planner/blob/main/polymerization_planner/docs/tutorial.pdf
+Author: Cesar Ramirez
+Author-email: cr828@scarletmail.rutgers.edu
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pandas
+Requires-Dist: openpyxl
+Requires-Dist: numpy
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# Polymerization Planner Calculator
+
+A simple Python tool to process Excel sheets and generate ATRP polymerization recipes based on experimental inputs. This can also be applied for PET-RAFT
+
+---
+
+## Features
+
+- Reads Excel files containing polymerization conditions.
+- Automatically generates calculated ATRP recipes.
+- Saves results in Excel output.
+
+---
+
+## Installation
+
+
+Clone this repository and install the package using pip:
+
+```bash
+pip install -e .
+Can also access the tutorial by pip install polymerization-planner 
+from polymerization-planner import show_tutorial
+and then run show_tutorial()
+
+from polymerization-planner import atrp_planner 
+from polymerization-planner import pet_raft planner
+
+## Tutorial
+
+This will take you to a link to PDF file showing how to setup your input
+
+For a step-by-step tutorial with usage examples, see the [polymerization planner tutorial (PDF)](https://github.com/C3344/polymerization_planner/blob/main/polymerization_planner/docs/tutorial.pdf).
+
