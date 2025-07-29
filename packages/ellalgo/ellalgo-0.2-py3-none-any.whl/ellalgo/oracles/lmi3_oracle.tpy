@@ -1,0 +1,40 @@
+# -*- coding: utf-8 -*-
+import numpy as np
+from .chol_ext import LDLTMgr
+from typing import Tuple
+
+Cut = Tuple[np.ndarray, float]
+
+
+class lmi3_oracle:
+    """Oracle for Linear Matrix Inequality constraint
+            mat_b <= F * x
+        Or
+            (F * x - mat_b) must be a semidefinte matrix
+    """
+
+    def __init__(self, mat_f, mat_b):
+        self.mat_f = mat_f
+        self.mat_f0 = -mat_b
+        self.A = np.zeros(mat_b.shape)
+        self.ldlt_mgr = LDLTMgr(len(mat_b))
+
+    def assess_feas(self, x: np.ndarray) -> Optional[Cut]:
+        # A = self.mat_f0.copy()
+        n = len(x)
+
+        def get_elem(i, j):
+            self.A[i, j] = self.mat_f0[i, j]
+            self.A[i, j] += sum(self.mat_f[k][i, j] * x[k]
+                                for k in range(n))
+            return self.A[i, j]
+
+        if self.ldlt_mgr.factor(get_elem):
+            return None
+        f = self.ldlt_mgr.witness()
+        # p = len(v)
+        # g = np.array([v.dot(self.mat_f[i][:p, :p].dot(v))
+        #               for i in range(n)])
+        g = np.array([-self.ldlt_mgr.sym_quad(self.mat_f[i])
+                      for i in range(n)])
+        return g, f
