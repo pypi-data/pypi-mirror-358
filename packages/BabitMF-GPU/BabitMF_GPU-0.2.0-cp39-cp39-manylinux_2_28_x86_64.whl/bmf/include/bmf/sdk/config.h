@@ -1,0 +1,18 @@
+#pragma once
+//
+#define BMF_ENABLE_CUDA
+#define BMF_ENABLE_PYTHON
+/* #undef BMF_ENABLE_GLOG */
+#define BMF_ENABLE_FFMPEG
+/* #undef BMF_ENABLE_MOBILE */
+/* #undef BMF_ENABLE_TORCH */
+
+#define MAKE_STR(x) _MAKE_STR(x)
+#define _MAKE_STR(x) #x
+
+//BMF_VERSION
+#define BMF_VERSION_MAJOR 0
+#define BMF_VERSION_MINOR 2
+#define BMF_VERSION_PATCH 0
+#define BMF_BUILD_VERSION MAKE_STR(0.2.0)
+#define BMF_BUILD_COMMIT MAKE_STR(c39146c)
