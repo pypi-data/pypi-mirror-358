@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dua"
+version = "0.1.1"
+authors = [
+  { name="Oskar", email="mail@oskar.nz" },
+]
+description = "JSON database allowing for local or remote connection"
+readme = "README.md"
+requires-python = ">=3.12"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License", # Keep this for PyPI's classifiers
+]
+dependencies = [
+    "Flask>=3.1,<4.0",
+    "requests>=2.32,<3.0",
+]
+
+license = { file = "LICENSE" }
+
+[project.urls]
+"Homepage" = "https://github.com/oskxzr/dua"
+"Bug Tracker" = "https://github.com/oskxzr/dua/issues"
+
+[tool.setuptools]
+packages = ["dua"]
+package-dir = {"" = "src"}
