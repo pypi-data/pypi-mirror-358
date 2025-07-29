@@ -1,0 +1,119 @@
+Metadata-Version: 2.4
+Name: universal-document-mcp
+Version: 1.0.0
+Summary: Universal Document Converter MCP Server - AI-powered markdown to PDF conversion with Mermaid support
+Home-page: https://github.com/augment-ai/universal-document-mcp
+Author: AUGMENT AI Assistant
+Author-email: support@augment.ai
+License: MIT
+Project-URL: Bug Reports, https://github.com/augment-ai/universal-document-mcp/issues
+Project-URL: Source, https://github.com/augment-ai/universal-document-mcp
+Project-URL: Documentation, https://github.com/augment-ai/universal-document-mcp#readme
+Keywords: mcp,server,document,converter,markdown,pdf,mermaid,diagrams,ai,claude,cline,vscode
+Platform: any
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Office/Business :: Office Suites
+Classifier: Topic :: Text Processing :: Markup :: Markdown
+Classifier: Topic :: Utilities
+Classifier: Environment :: Console
+Classifier: Framework :: AsyncIO
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: mcp>=1.0.0
+Requires-Dist: playwright>=1.40.0
+Requires-Dist: markdown>=3.5.0
+Requires-Dist: requests>=2.31.0
+Requires-Dist: asyncio-mqtt>=0.13.0
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: typing-extensions>=4.0.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.21.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: flake8>=6.0.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Provides-Extra: ai
+Requires-Dist: openai>=1.0.0; extra == "ai"
+Requires-Dist: anthropic>=0.7.0; extra == "ai"
+Provides-Extra: full
+Requires-Dist: openai>=1.0.0; extra == "full"
+Requires-Dist: anthropic>=0.7.0; extra == "full"
+Requires-Dist: pytest>=7.0.0; extra == "full"
+Requires-Dist: pytest-asyncio>=0.21.0; extra == "full"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: license-file
+Dynamic: platform
+Dynamic: project-url
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+﻿# Universal Document Converter MCP Server
+
+AI-powered universal document converter MCP server that transforms Markdown files to PDF with intelligent Mermaid diagram optimization.
+
+## Quick Start
+
+`ash
+# Using npm
+npx universal-document-mcp --setup
+
+# Using Python
+pip install universal-document-mcp
+`
+
+## Features
+
+- Universal Conversion: Markdown → HTML → PDF
+- Mermaid Diagram Support with optimization
+- AI-Powered Layout optimization
+- MCP Integration with Claude Desktop, Cline, Roo, and more
+- Cross-Platform support (Windows, macOS, Linux)
+- Multiple Installation Methods (Python pip and Node.js npm)
+
+## Usage
+
+`ash
+# Start MCP server
+universal-document-mcp
+
+# Quick conversion
+universal-document-mcp --convert document.md
+
+# Generate configuration files
+universal-document-mcp --generate-configs
+`
+
+## Configuration
+
+The server automatically generates configuration files for:
+- Claude Desktop
+- Cline (VS Code Extension)
+- Roo
+- Continue
+- Zed Editor
+
+For detailed installation and configuration instructions, see INSTALL.md.
+
+## License
+
+MIT License - see LICENSE file for details.
