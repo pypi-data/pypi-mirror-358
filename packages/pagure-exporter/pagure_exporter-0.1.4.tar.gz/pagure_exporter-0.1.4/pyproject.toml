@@ -1,0 +1,75 @@
+[tool.poetry]
+name = "pagure-exporter"
+version = "0.1.4"
+description = "Simple exporter tool that helps migrate repository files, data assets and issue tickets from projects on Pagure to GitLab"
+authors = [
+    "Akashdeep Dhar <akashdeep.dhar@gmail.com>",
+    "Onuralp SEZER <thunderbirdtr@fedoraproject.org>",
+]
+license = "GPL-3.0-or-later"
+maintainers = [
+    "Akashdeep Dhar <akashdeep.dhar@gmail.com>"
+]
+readme = "README.md"
+homepage = "https://github.com/gridhead/pagure-exporter"
+repository = "https://github.com/gridhead/pagure-exporter"
+documentation = "https://github.com/gridhead/pagure-exporter/blob/main/README.md"
+keywords = [
+    "fedora",
+    "pagure",
+    "gitlab"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: POSIX :: Linux",
+    "Topic :: Software Development",
+    "Topic :: System :: Networking",
+    "Topic :: Software Development :: Version Control :: Git",
+    "Topic :: System :: Archiving",
+    "Topic :: Utilities",
+]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+requests = "^2.28.0"
+click = "^8.1.3"
+GitPython = "^3.1.0"
+python-gitlab = ">=3.14.0"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.4.0 || ^4.0.0"
+black = "^22.8.0 || ^23.0.0 || ^24.0.0 || ^25.0.0"
+tox = "^4.0.0"
+pytest = "^7.1.3 || ^8.0.0"
+pytest-cov = "^4.1.0 || ^5.0.0 || ^6.0.0"
+ruff = "^0.0.285 || ^0.1.0 || ^0.2.0 || ^0.3.0 || ^0.4.0 || ^0.5.0 || ^0.6.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0"
+responses = "^0.25.7"
+
+[tool.ruff]
+line-length = 100
+fix = true
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "S", "B", "UP"]
+
+[tool.ruff.lint.per-file-ignores]
+"test/*" = ["UP031", "E501"]
+"pagure_exporter/*" = ["UP031", "E501"]
+
+[tool.black]
+line-length = 100
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+pagure-exporter = "pagure_exporter.main:main"
