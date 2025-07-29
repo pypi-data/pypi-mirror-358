@@ -1,0 +1,350 @@
+# EvolvisHub Data Handler
+
+<div align="center">
+  <img src="assets/png/eviesales.png" alt="Evolvis AI Logo" width="200"/>
+</div>
+
+[![PyPI version](https://badge.fury.io/py/evolvishub-data-handler.svg)](https://badge.fury.io/py/evolvishub-data-handler)
+[![Python Versions](https://img.shields.io/pypi/pyversions/evolvishub-data-handler.svg)](https://pypi.org/project/evolvishub-data-handler/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![CI/CD](https://github.com/evolvishub/evolvishub-data-handler/actions/workflows/ci.yml/badge.svg)](https://github.com/evolvishub/evolvishub-data-handler/actions/workflows/ci.yml)
+[![Code Coverage](https://codecov.io/gh/evolvishub/evolvishub-data-handler/branch/main/graph/badge.svg)](https://codecov.io/gh/evolvishub/evolvishub-data-handler)
+
+A robust Change Data Capture (CDC) library for efficient data synchronization across various databases and storage systems.
+
+## Features
+
+- **Multi-Database Support**: Seamlessly sync data between PostgreSQL, MySQL, SQL Server, Oracle, MongoDB, and more
+- **Cloud Storage Integration**: Native support for AWS S3, Google Cloud Storage, and Azure Blob Storage
+- **File System Support**: Handle CSV, JSON, and other file formats
+- **Watermark Tracking**: Efficient incremental sync with configurable watermark columns
+- **Batch Processing**: Optimize performance with configurable batch sizes
+- **Error Handling**: Robust error recovery and logging
+- **Type Safety**: Full type hints and validation with Pydantic
+- **Extensible**: Easy to add new adapters and data sources
+
+## Installation
+
+```bash
+# Install from PyPI
+pip install evolvishub-data-handler
+
+# Install with development dependencies
+pip install evolvishub-data-handler[dev]
+
+# Install with documentation dependencies
+pip install evolvishub-data-handler[docs]
+```
+
+## Quick Start
+
+1. Create a configuration file (e.g., `config.yaml`):
+
+```yaml
+source:
+  type: postgresql
+  host: localhost
+  port: 5432
+  database: source_db
+  username: source_user
+  password: source_password
+  watermark:
+    column: updated_at
+    type: timestamp
+    initial_value: "1970-01-01 00:00:00"
+  # Optional: Custom query for complex data extraction
+  query: >
+    SELECT id, name, email, updated_at,
+           CASE WHEN deleted_at IS NOT NULL THEN 'delete'
+                WHEN updated_at > :last_sync THEN 'update'
+                ELSE 'insert' END as operation
+    FROM users
+    WHERE updated_at > :last_sync OR :last_sync IS NULL
+    ORDER BY updated_at LIMIT :batch_size
+
+destination:
+  type: postgresql
+  host: localhost
+  port: 5432
+  database: dest_db
+  username: dest_user
+  password: dest_password
+  table: users
+  watermark:
+    column: updated_at
+    type: timestamp
+
+sync:
+  mode: continuous  # one_time, continuous, or cron
+  batch_size: 1000
+  interval_seconds: 60  # For continuous mode
+  cron_expression: "0 */2 * * *"  # For cron mode (every 2 hours)
+  timezone: "UTC"  # Timezone for cron scheduling
+  watermark_table: sync_watermark
+```
+
+2. Use the library in your code:
+
+```python
+from evolvishub_data_handler import CDCHandler
+
+# Initialize the handler
+handler = CDCHandler("config.yaml")
+
+# Run one-time sync
+handler.sync()
+
+# Or run continuous sync
+handler.run_continuous()
+```
+
+3. Or use the command-line interface:
+
+```bash
+# One-time sync
+evolvishub-cdc run -c config.yaml -m one_time
+
+# Continuous sync
+evolvishub-cdc run -c config.yaml -m continuous
+
+# Cron-scheduled sync
+evolvishub-cdc run -c config.yaml -m cron --cron "0 */2 * * *"
+
+# With custom logging
+evolvishub-cdc run -c config.yaml -l DEBUG --log-file sync.log
+
+# Legacy commands (still supported)
+evolvishub-cdc sync -c config.yaml
+evolvishub-cdc continuous-sync -c config.yaml
+```
+
+## Sync Modes
+
+### One-Time Sync
+Run a single synchronization cycle and exit.
+
+```yaml
+sync:
+  mode: one_time
+  batch_size: 1000
+```
+
+### Continuous Sync
+Run synchronization continuously at specified intervals.
+
+```yaml
+sync:
+  mode: continuous
+  interval_seconds: 60  # Sync every 60 seconds
+  batch_size: 1000
+```
+
+### Cron-Scheduled Sync
+Run synchronization based on cron expressions with timezone support.
+
+```yaml
+sync:
+  mode: cron
+  cron_expression: "0 */2 * * *"  # Every 2 hours
+  timezone: "America/New_York"
+  batch_size: 1000
+```
+
+**Common Cron Expressions:**
+- `"0 9 * * 1-5"` - Every weekday at 9 AM
+- `"0 */6 * * *"` - Every 6 hours
+- `"30 2 * * 0"` - Every Sunday at 2:30 AM
+- `"0 0 1 * *"` - First day of every month at midnight
+- `"0 8,12,16 * * *"` - At 8 AM, 12 PM, and 4 PM every day
+
+## Custom Queries
+
+### Using Custom SQL Queries
+Define complex data extraction logic with custom SQL queries:
+
+```yaml
+source:
+  type: postgresql
+  # ... connection details ...
+  query: >
+    SELECT
+      id, name, email, updated_at,
+      CASE
+        WHEN deleted_at IS NOT NULL THEN 'delete'
+        WHEN updated_at > :last_sync THEN 'update'
+        ELSE 'insert'
+      END as operation,
+      EXTRACT(EPOCH FROM updated_at) as updated_timestamp
+    FROM users
+    WHERE (updated_at > :last_sync OR :last_sync IS NULL)
+      AND status = 'active'
+    ORDER BY updated_at
+    LIMIT :batch_size
+```
+
+**Available Parameters:**
+- `:last_sync` - Last synchronization timestamp
+- `:batch_size` - Configured batch size
+
+### Using Simple SELECT Statements
+For simpler cases, use the `select` field:
+
+```yaml
+source:
+  type: postgresql
+  # ... connection details ...
+  select: "SELECT id, name, email, updated_at FROM users"
+  watermark:
+    column: updated_at
+    type: timestamp
+```
+
+The framework automatically adds `WHERE`, `ORDER BY`, and `LIMIT` clauses based on watermark configuration.
+
+## Watermark Storage Options
+
+### Database Storage (Default)
+Store watermarks in the source or destination database:
+
+```yaml
+sync:
+  watermark_table: sync_watermark  # Default behavior
+```
+
+### SQLite Storage
+Store watermarks in a separate SQLite database for persistence across restarts:
+
+```yaml
+sync:
+  watermark_storage:
+    type: sqlite
+    sqlite_path: "/var/lib/evolvishub/watermarks.db"
+    table_name: "sync_watermark"
+```
+
+**Benefits of SQLite Storage:**
+- ✅ Persistent across application restarts
+- ✅ Independent of source/destination databases
+- ✅ Centralized watermark management
+- ✅ Error tracking and status monitoring
+- ✅ Resume from last successful sync point
+
+### File Storage
+Store watermarks in a JSON file:
+
+```yaml
+sync:
+  watermark_storage:
+    type: file
+    file_path: "/var/lib/evolvishub/watermarks.json"
+```
+
+## Supported Data Sources
+
+### Databases
+- PostgreSQL
+- MySQL
+- SQL Server
+- Oracle (with TNS name support)
+- MongoDB
+
+### Cloud Storage
+- AWS S3
+- Google Cloud Storage
+- Azure Blob Storage
+
+### File Systems
+- CSV files
+- JSON files
+- Parquet files
+
+## Development
+
+### Setup
+
+1. Clone the repository:
+```bash
+git clone https://github.com/evolvishub/evolvishub-data-handler.git
+cd evolvishub-data-handler
+```
+
+2. Create a virtual environment:
+```bash
+make venv
+```
+
+3. Install development dependencies:
+```bash
+make install
+```
+
+4. Install pre-commit hooks:
+```bash
+make install-hooks
+```
+
+### Testing
+
+Run the test suite:
+```bash
+make test
+```
+
+### Code Quality
+
+Format code:
+```bash
+make format
+```
+
+Run linters:
+```bash
+make lint
+```
+
+### Building
+
+Build the package:
+```bash
+make build
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Support
+
+- Documentation: [https://evolvishub.github.io/evolvishub-data-handler](https://evolvishub.github.io/evolvishub-data-handler)
+- Issues: [https://github.com/evolvishub/evolvishub-data-handler/issues](https://github.com/evolvishub/evolvishub-data-handler/issues)
+- Email: info@evolvishub.com
+
+# EvolvisHub Data Handler Adapter
+
+A powerful and flexible data handling adapter for Evolvis AI's data processing pipeline. This tool provides seamless integration with various database systems and implements Change Data Capture (CDC) functionality.
+
+## About Evolvis AI
+
+[Evolvis AI](https://evolvis.ai) is a leading provider of AI solutions that helps businesses unlock their data potential. We specialize in:
+
+- Data analysis and decision-making
+- Machine learning implementation
+- Process optimization
+- Predictive maintenance
+- Natural language processing
+- Custom AI solutions
+
+Our mission is to make artificial intelligence accessible to businesses of all sizes, enabling them to compete in today's data-driven environment. As Forbes highlights: "Organizations that strategically adopt AI will have a significant competitive advantage in today's data-driven market."
+
+## Author
+
+**Alban Maxhuni, PhD**  
+Email: [a.maxhuni@evolvis.ai](mailto:a.maxhuni@evolvis.ai)
