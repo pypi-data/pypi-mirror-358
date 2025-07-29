@@ -1,0 +1,55 @@
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" name="Calculator">
+    <wsdl:documentation />
+    <wsdl:types>
+        <xs:schema xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+            xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+            xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/">
+            <xs:element name="Operands">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="Operand" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Result">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="value" type="xs:double" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:portType name="Calculator">
+        <wsdl:operation name="CalculatorSumOperation">
+            <wsdl:input message="SumOperationRequest" />
+            <wsdl:output message="SumOperationResponse" />
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:service name="Calculator">
+        <wsdl:port name="CalculatorSumOperation" binding="CalculatorSumOperation">
+            <soap:address location="http://127.0.0.1:8000/Calculator/SumOperation" />
+        </wsdl:port>
+    </wsdl:service>
+    <wsdl:binding name="CalculatorSumOperation" type="Calculator">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+        <wsdl:operation name="CalculatorSumOperation">
+            <soap:operation soapAction="SumOperation" />
+            <wsdl:input message="SumOperationRequest">
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output message="SumOperationResponse">
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:message name="SumOperationRequest">
+        <wsdl:part name="parameters" element="Operands" />
+    </wsdl:message>
+    <wsdl:message name="SumOperationResponse">
+        <wsdl:part name="parameters" element="Result" />
+    </wsdl:message>
+</wsdl:definitions>
