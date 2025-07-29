@@ -1,0 +1,574 @@
+LICENSE
+README.md
+setup.py
+kuttyPy/REGISTERS.py
+kuttyPy/__init__.py
+kuttyPy.egg-info/PKG-INFO
+kuttyPy.egg-info/SOURCES.txt
+kuttyPy.egg-info/dependency_links.txt
+kuttyPy.egg-info/entry_points.txt
+kuttyPy.egg-info/requires.txt
+kuttyPy.egg-info/top_level.txt
+kuttyPyGui/BMP180.py
+kuttyPyGui/KuttyPyAndroidQuiz.py
+kuttyPyGui/KuttyPyGUI.py
+kuttyPyGui/KuttyPyIDE.py
+kuttyPyGui/KuttyPyLib.py
+kuttyPyGui/KuttyPyLibNano.py
+kuttyPyGui/KuttyPyLibUno.py
+kuttyPyGui/KuttyPyNano.py
+kuttyPyGui/KuttyPyPlus.py
+kuttyPyGui/KuttyPyQuizSocketio.py
+kuttyPyGui/KuttyPyUno.py
+kuttyPyGui/KuttyPyVisual.py
+kuttyPyGui/__init__.py
+kuttyPyGui/__main__.py
+kuttyPyGui/constants.py
+kuttyPyGui/kuttypy.py
+kuttyPyGui/listen_tcp.py
+kuttyPyGui/send_udp.py
+kuttyPyGui/examples/__init__.py
+kuttyPyGui/examples/adc-read-direct.c
+kuttyPyGui/examples/adc-read.c
+kuttyPyGui/examples/blink-2.c
+kuttyPyGui/examples/blink.c
+kuttyPyGui/examples/copy-bit-2.c
+kuttyPyGui/examples/copy-bit.c
+kuttyPyGui/examples/copy.c
+kuttyPyGui/examples/cro.c
+kuttyPyGui/examples/echo-direct.c
+kuttyPyGui/examples/echo.c
+kuttyPyGui/examples/freq-counter.c
+kuttyPyGui/examples/kp.h
+kuttyPyGui/examples/libkp.a
+kuttyPyGui/examples/pwm-tc0-direct.c
+kuttyPyGui/examples/pwm-tc0.c
+kuttyPyGui/examples/pwm-tc1.c
+kuttyPyGui/examples/pwm-tc2-direct.c
+kuttyPyGui/examples/sq-tc0.c
+kuttyPyGui/examples/sq-tc1.c
+kuttyPyGui/examples/sq-tc2.c
+kuttyPyGui/examples/test-lcd.c
+kuttyPyGui/examples/test-uart.c
+kuttyPyGui/examples/voltmeter.c
+kuttyPyGui/examples/x.c
+kuttyPyGui/examples/ASM/adcread.S
+kuttyPyGui/examples/ASM/add-2
+kuttyPyGui/examples/ASM/add-2.S
+kuttyPyGui/examples/ASM/add-2.hex
+kuttyPyGui/examples/ASM/add-2.lst
+kuttyPyGui/examples/ASM/add-2.map
+kuttyPyGui/examples/ASM/add.s
+kuttyPyGui/examples/ASM/and.s
+kuttyPyGui/examples/ASM/blink.S
+kuttyPyGui/examples/ASM/carry.S
+kuttyPyGui/examples/ASM/data-direct-var.S
+kuttyPyGui/examples/ASM/data-direct.S
+kuttyPyGui/examples/ASM/data-immed.s
+kuttyPyGui/examples/ASM/data-indirect.S
+kuttyPyGui/examples/ASM/global-init.S
+kuttyPyGui/examples/ASM/interrupt.S
+kuttyPyGui/examples/ASM/io-direct.S
+kuttyPyGui/examples/ASM/jump.S
+kuttyPyGui/examples/ASM/ramp-on-R2RDAC.S
+kuttyPyGui/examples/ASM/sine-wave.S
+kuttyPyGui/examples/ASM/square-wave-tc0.S
+kuttyPyGui/examples/ASM/sub-routine.S
+kuttyPyGui/examples/C/BMP180-I2C-LCD-DEMO
+kuttyPyGui/examples/C/BMP180-I2C-LCD-DEMO.c
+kuttyPyGui/examples/C/BMP180-I2C-LCD-DEMO.hex
+kuttyPyGui/examples/C/BMP180-I2C-LCD-DEMO.lst
+kuttyPyGui/examples/C/BMP180-I2C-LCD-DEMO.map
+kuttyPyGui/examples/C/BMP180_UART_DEMO.c
+kuttyPyGui/examples/C/I2C_LCD_TMAG5273
+kuttyPyGui/examples/C/I2C_LCD_TMAG5273.c
+kuttyPyGui/examples/C/I2C_LCD_TMAG5273.hex
+kuttyPyGui/examples/C/I2C_LCD_TMAG5273.lst
+kuttyPyGui/examples/C/I2C_LCD_TMAG5273.map
+kuttyPyGui/examples/C/MCP2735_wavegen.c
+kuttyPyGui/examples/C/MPU6050_UART_DEMO.c
+kuttyPyGui/examples/C/R2RDAC_wavegen.c
+kuttyPyGui/examples/C/SHT71.c
+kuttyPyGui/examples/C/SHT71.h
+kuttyPyGui/examples/C/adc-i2c-lcd-demo.c
+kuttyPyGui/examples/C/adc-read
+kuttyPyGui/examples/C/adc-read-direct.c
+kuttyPyGui/examples/C/adc-read.c
+kuttyPyGui/examples/C/adc-read.hex
+kuttyPyGui/examples/C/adc-read.lst
+kuttyPyGui/examples/C/adc-read.map
+kuttyPyGui/examples/C/blink-2.c
+kuttyPyGui/examples/C/blink.c
+kuttyPyGui/examples/C/copy-bit-2.c
+kuttyPyGui/examples/C/copy-bit.c
+kuttyPyGui/examples/C/copy.c
+kuttyPyGui/examples/C/cro.c
+kuttyPyGui/examples/C/echo-direct.c
+kuttyPyGui/examples/C/echo.c
+kuttyPyGui/examples/C/freq-counter.c
+kuttyPyGui/examples/C/geiger_counter_standalone.c
+kuttyPyGui/examples/C/hello-i2c
+kuttyPyGui/examples/C/hello-i2c.c
+kuttyPyGui/examples/C/hello-i2c.hex
+kuttyPyGui/examples/C/hello-i2c.lst
+kuttyPyGui/examples/C/hello-i2c.map
+kuttyPyGui/examples/C/i2c-scan-display-lcd-demo.c
+kuttyPyGui/examples/C/max7219.c
+kuttyPyGui/examples/C/max7219_7segmentCountdown.c
+kuttyPyGui/examples/C/max7219_counter.c
+kuttyPyGui/examples/C/pwm-tc0-direct.c
+kuttyPyGui/examples/C/pwm-tc0.c
+kuttyPyGui/examples/C/pwm-tc1.c
+kuttyPyGui/examples/C/pwm-tc2-direct.c
+kuttyPyGui/examples/C/scpi_i2c_lcd
+kuttyPyGui/examples/C/scpi_i2c_lcd.c
+kuttyPyGui/examples/C/scpi_i2c_lcd.hex
+kuttyPyGui/examples/C/scpi_i2c_lcd.lst
+kuttyPyGui/examples/C/scpi_i2c_lcd.map
+kuttyPyGui/examples/C/sq-tc0.c
+kuttyPyGui/examples/C/sq-tc1.c
+kuttyPyGui/examples/C/sq-tc2.c
+kuttyPyGui/examples/C/stepper-motor.c
+kuttyPyGui/examples/C/test-i2c-lcd.c
+kuttyPyGui/examples/C/test-lcd.c
+kuttyPyGui/examples/C/test-uart.c
+kuttyPyGui/examples/C/time-of-flight-standalone
+kuttyPyGui/examples/C/time-of-flight-standalone.c
+kuttyPyGui/examples/C/time-of-flight-standalone.hex
+kuttyPyGui/examples/C/time-of-flight-standalone.lst
+kuttyPyGui/examples/C/time-of-flight-standalone.map
+kuttyPyGui/examples/C/time-of-flight-standalone_norelay
+kuttyPyGui/examples/C/time-of-flight-standalone_norelay.c
+kuttyPyGui/examples/C/time-of-flight-standalone_norelay.hex
+kuttyPyGui/examples/C/time-of-flight-standalone_norelay.lst
+kuttyPyGui/examples/C/time-of-flight-standalone_norelay.map
+kuttyPyGui/examples/C/time_of_flight.c
+kuttyPyGui/examples/C/time_of_flight_uart
+kuttyPyGui/examples/C/time_of_flight_uart.c
+kuttyPyGui/examples/C/time_of_flight_uart.hex
+kuttyPyGui/examples/C/time_of_flight_uart.lst
+kuttyPyGui/examples/C/time_of_flight_uart.map
+kuttyPyGui/examples/C/voltmeter.c
+kuttyPyGui/examples/C/x.c
+kuttyPyGui/examples/C/kplib/com.sh
+kuttyPyGui/examples/C/kplib/kp-adc.c
+kuttyPyGui/examples/C/kplib/kp-i2c
+kuttyPyGui/examples/C/kplib/kp-i2c-lcd.c
+kuttyPyGui/examples/C/kplib/kp-i2c-lcd.h
+kuttyPyGui/examples/C/kplib/kp-i2c.c
+kuttyPyGui/examples/C/kplib/kp-lcd.c
+kuttyPyGui/examples/C/kplib/kp-tc0.c
+kuttyPyGui/examples/C/kplib/kp-tc1.c
+kuttyPyGui/examples/C/kplib/kp-tc2.c
+kuttyPyGui/examples/C/kplib/kp-uart.c
+kuttyPyGui/examples/C/kplib/kp-utils.c
+kuttyPyGui/examples/C/kplib/kp.h
+kuttyPyGui/examples/C/kplib/libkp.a
+kuttyPyGui/examples/atmega32/POV.py
+kuttyPyGui/examples/atmega32/__init__.py
+kuttyPyGui/examples/atmega32/accelerometer.py
+kuttyPyGui/examples/atmega32/accelerometer_robot.py
+kuttyPyGui/examples/atmega32/adc_200x_example.py
+kuttyPyGui/examples/atmega32/adc_example.py
+kuttyPyGui/examples/atmega32/adc_relay.py
+kuttyPyGui/examples/atmega32/blink.py
+kuttyPyGui/examples/atmega32/malus_law.py
+kuttyPyGui/examples/atmega32/servo.py
+kuttyPyGui/examples/atmega32/stepper.py
+kuttyPyGui/examples/atmega32/stepper_to_fro.py
+kuttyPyGui/examples/atmega32/stepper_to_fro_halfstep.py
+kuttyPyGui/examples/atmega32/temp-max6675.py
+kuttyPyGui/examples/atmega32/test_turtle_client_graphical.py
+kuttyPyGui/examples/atmega32/test_turtle_client_i2c.py
+kuttyPyGui/examples/atmega328p/__init__.py
+kuttyPyGui/kpy/__init__.py
+kuttyPyGui/kpy/mh-adc.c
+kuttyPyGui/kpy/mh-digital.c
+kuttyPyGui/kpy/mh-i2c.c
+kuttyPyGui/kpy/mh-lcd-float.c
+kuttyPyGui/kpy/mh-lcd-plus.c
+kuttyPyGui/kpy/mh-lcd.c
+kuttyPyGui/kpy/mh-soft-uart.c
+kuttyPyGui/kpy/mh-timer.c
+kuttyPyGui/kpy/mh-timer2.c
+kuttyPyGui/kpy/mh-uart.c
+kuttyPyGui/kpy/mh-utils.c
+kuttyPyGui/online/__init__.py
+kuttyPyGui/online/blockly_mp_routes.py
+kuttyPyGui/online/blockly_routes.py
+kuttyPyGui/online/compile_routes.py
+kuttyPyGui/online/compile_server.py
+kuttyPyGui/online/listen_tcp.py
+kuttyPyGui/online/listen_udp.py
+kuttyPyGui/online/mp.py
+kuttyPyGui/online/send_udp.py
+kuttyPyGui/online/__pycache__/__init__.cpython-310.pyc
+kuttyPyGui/online/__pycache__/blockly_mp_routes.cpython-310.pyc
+kuttyPyGui/online/__pycache__/blockly_routes.cpython-310.pyc
+kuttyPyGui/online/__pycache__/compile_routes.cpython-310.pyc
+kuttyPyGui/online/__pycache__/compile_server.cpython-310.pyc
+kuttyPyGui/online/__pycache__/mp.cpython-310.pyc
+kuttyPyGui/online/flask_templates/base.html
+kuttyPyGui/online/flask_templates/editor.html
+kuttyPyGui/online/flask_templates/editor_orig.html
+kuttyPyGui/online/flask_templates/index.html
+kuttyPyGui/online/flask_templates/visual.html
+kuttyPyGui/online/static/Markdown.Converter.min.js
+kuttyPyGui/online/static/attach_download_handlers.js
+kuttyPyGui/online/static/blockly_compressed.js
+kuttyPyGui/online/static/blocks_compressed.js
+kuttyPyGui/online/static/exportsvg.js
+kuttyPyGui/online/static/game.js
+kuttyPyGui/online/static/gauge-glossy.min.css
+kuttyPyGui/online/static/gauge.min.css
+kuttyPyGui/online/static/html2canvas.min.js
+kuttyPyGui/online/static/icons.css
+kuttyPyGui/online/static/icons.less
+kuttyPyGui/online/static/javascript_compressed.js
+kuttyPyGui/online/static/jquery.min.js
+kuttyPyGui/online/static/jspdf.min.js
+kuttyPyGui/online/static/less.min.js
+kuttyPyGui/online/static/logo.png
+kuttyPyGui/online/static/mqtt.min.js
+kuttyPyGui/online/static/piano.css
+kuttyPyGui/online/static/product.css
+kuttyPyGui/online/static/python_compressed.js
+kuttyPyGui/online/static/semantic.min.css
+kuttyPyGui/online/static/semantic.min.js
+kuttyPyGui/online/static/style.css
+kuttyPyGui/online/static/toolbox_standard.js
+kuttyPyGui/online/static/webviewstyle.css
+kuttyPyGui/online/static/ace/ace.js
+kuttyPyGui/online/static/ace/ext-searchbox.js
+kuttyPyGui/online/static/ace/mode-c_cpp.js
+kuttyPyGui/online/static/ace/mode-javascript.js
+kuttyPyGui/online/static/ace/theme-cobalt.js
+kuttyPyGui/online/static/ace/theme-github.js
+kuttyPyGui/online/static/ace/worker-base.js
+kuttyPyGui/online/static/ace/worker-javascript.js
+kuttyPyGui/online/static/blocks/FlotPlots.js
+kuttyPyGui/online/static/blocks/Games.js
+kuttyPyGui/online/static/blocks/IO.js
+kuttyPyGui/online/static/blocks/KuttyPy.js
+kuttyPyGui/online/static/blocks/Lists.js
+kuttyPyGui/online/static/blocks/MP.js
+kuttyPyGui/online/static/blocks/Mosquito.js
+kuttyPyGui/online/static/blocks/Plots.js
+kuttyPyGui/online/static/blocks/Sensors.js
+kuttyPyGui/online/static/blocks/Sounds.js
+kuttyPyGui/online/static/blocks/acorn_interpreter.js
+kuttyPyGui/online/static/blocks/allApis.js
+kuttyPyGui/online/static/blocks/api.js
+kuttyPyGui/online/static/blocks/blockHelp.js
+kuttyPyGui/online/static/blocks/download.svg
+kuttyPyGui/online/static/blocks/field_textbutton.js
+kuttyPyGui/online/static/blocks/save.png
+kuttyPyGui/online/static/blocks/upload.svg
+kuttyPyGui/online/static/components/icon.min.css
+kuttyPyGui/online/static/components/modal.min.css
+kuttyPyGui/online/static/components/modal.min.js
+kuttyPyGui/online/static/flot/jquery.canvaswrapper.js
+kuttyPyGui/online/static/flot/jquery.colorhelpers.js
+kuttyPyGui/online/static/flot/jquery.flot.axislabels.js
+kuttyPyGui/online/static/flot/jquery.flot.browser.js
+kuttyPyGui/online/static/flot/jquery.flot.drawSeries.js
+kuttyPyGui/online/static/flot/jquery.flot.js
+kuttyPyGui/online/static/flot/jquery.flot.legend.js
+kuttyPyGui/online/static/flot/jquery.flot.resize.js
+kuttyPyGui/online/static/flot/jquery.flot.saturated.js
+kuttyPyGui/online/static/flot/jquery.flot.symbol.js
+kuttyPyGui/online/static/flot/jquery.flot.time.js
+kuttyPyGui/online/static/flot/jquery.flot.uiConstants.js
+kuttyPyGui/online/static/images/logo.png
+kuttyPyGui/online/static/images/square-image.png
+kuttyPyGui/online/static/images/white-image.png
+kuttyPyGui/online/static/media/1x1.gif
+kuttyPyGui/online/static/media/ADS1115.jpeg
+kuttyPyGui/online/static/media/ADXL345.jpeg
+kuttyPyGui/online/static/media/AHT10.jpeg
+kuttyPyGui/online/static/media/AK8963.jpeg
+kuttyPyGui/online/static/media/BH1750.jpeg
+kuttyPyGui/online/static/media/BMP180.jpg
+kuttyPyGui/online/static/media/BMP280.jpeg
+kuttyPyGui/online/static/media/BMP280.png
+kuttyPyGui/online/static/media/GMCOUNTER.jpeg
+kuttyPyGui/online/static/media/HMC5883L.jpeg
+kuttyPyGui/online/static/media/HUMIDITY.png
+kuttyPyGui/online/static/media/INA219.jpeg
+kuttyPyGui/online/static/media/MAGNETOMETER.png
+kuttyPyGui/online/static/media/MAX30100.jpeg
+kuttyPyGui/online/static/media/MAX44009.jpeg
+kuttyPyGui/online/static/media/MLX90614.jpeg
+kuttyPyGui/online/static/media/MPU6050.jpeg
+kuttyPyGui/online/static/media/MPU6050.png
+kuttyPyGui/online/static/media/MS5611.jpeg
+kuttyPyGui/online/static/media/QMC5883L.jpeg
+kuttyPyGui/online/static/media/TCS34725.jpeg
+kuttyPyGui/online/static/media/THERMOMETER.png
+kuttyPyGui/online/static/media/TSL2561.jpeg
+kuttyPyGui/online/static/media/VL53L0X.jpeg
+kuttyPyGui/online/static/media/WAVEGEN.png
+kuttyPyGui/online/static/media/bird.png
+kuttyPyGui/online/static/media/capacitor.svg
+kuttyPyGui/online/static/media/click.mp3
+kuttyPyGui/online/static/media/click.ogg
+kuttyPyGui/online/static/media/click.wav
+kuttyPyGui/online/static/media/clock.svg
+kuttyPyGui/online/static/media/delete.mp3
+kuttyPyGui/online/static/media/delete.ogg
+kuttyPyGui/online/static/media/delete.wav
+kuttyPyGui/online/static/media/disconnect.mp3
+kuttyPyGui/online/static/media/disconnect.ogg
+kuttyPyGui/online/static/media/disconnect.wav
+kuttyPyGui/online/static/media/dropdown-arrow.svg
+kuttyPyGui/online/static/media/eyeslogo.png
+kuttyPyGui/online/static/media/handclosed.cur
+kuttyPyGui/online/static/media/handdelete.cur
+kuttyPyGui/online/static/media/handopen.cur
+kuttyPyGui/online/static/media/help.svg
+kuttyPyGui/online/static/media/i2cscan.png
+kuttyPyGui/online/static/media/ic_scope.png
+kuttyPyGui/online/static/media/mail.png
+kuttyPyGui/online/static/media/piano.png
+kuttyPyGui/online/static/media/pilcrow.png
+kuttyPyGui/online/static/media/pulse.png
+kuttyPyGui/online/static/media/quote0.png
+kuttyPyGui/online/static/media/quote1.png
+kuttyPyGui/online/static/media/remote.png
+kuttyPyGui/online/static/media/resistor.svg
+kuttyPyGui/online/static/media/sprites.png
+kuttyPyGui/online/static/media/sprites.svg
+kuttyPyGui/online/static/media/stepper_motor.svg
+kuttyPyGui/online/static/media/stepper_motor_body.png
+kuttyPyGui/online/static/media/stepper_motor_shaft.png
+kuttyPyGui/online/static/media/transparent.png
+kuttyPyGui/online/static/media/ttl.png
+kuttyPyGui/online/static/media/undefined.jpeg
+kuttyPyGui/online/static/media/unsupported.jpeg
+kuttyPyGui/online/static/msg/js/ar.js
+kuttyPyGui/online/static/msg/js/de.js
+kuttyPyGui/online/static/msg/js/en.js
+kuttyPyGui/online/static/msg/js/es.js
+kuttyPyGui/online/static/msg/js/fr.js
+kuttyPyGui/online/static/msg/js/hi.js
+kuttyPyGui/online/static/msg/js/ml.js
+kuttyPyGui/online/static/quill/katex.min.css
+kuttyPyGui/online/static/quill/katex.min.js
+kuttyPyGui/online/static/quill/myquill.js
+kuttyPyGui/online/static/quill/quill.min.js
+kuttyPyGui/online/static/quill/quill.snow.css
+kuttyPyGui/online/static/samples/Explore Atmega32.jpg
+kuttyPyGui/online/static/samples/Getting Started.jpg
+kuttyPyGui/online/static/samples/Internet Of Things.png
+kuttyPyGui/online/static/samples/KuttyNano.jpg
+kuttyPyGui/online/static/samples/KuttyPy Intro.jpg
+kuttyPyGui/online/static/samples/Plotting Datasets.jpg
+kuttyPyGui/online/static/samples/Sensor Addons.jpg
+kuttyPyGui/online/static/samples/Vision Demos.jpg
+kuttyPyGui/online/static/samples/WiFi and Games.jpg
+kuttyPyGui/online/static/samples/experiments.json
+kuttyPyGui/online/static/samples/visual_experiments.json
+kuttyPyGui/online/static/samples/visual_styles.qss
+kuttyPyGui/online/static/samples/Explore Atmega32/Copy INPUT A2-A7 to LED D2-D7.jpeg
+kuttyPyGui/online/static/samples/Explore Atmega32/Copy INPUT A2-A7 to LED D2-D7.xml
+kuttyPyGui/online/static/samples/Explore Atmega32/LED BRIGHTNESS CONTROL simple.png
+kuttyPyGui/online/static/samples/Explore Atmega32/LED BRIGHTNESS CONTROL simple.xml
+kuttyPyGui/online/static/samples/Explore Atmega32/PORTB LED WATERFALL.png
+kuttyPyGui/online/static/samples/Explore Atmega32/PORTB LED WATERFALL.xml
+kuttyPyGui/online/static/samples/Explore Atmega32/RGB LED with Accelerometer.xml
+kuttyPyGui/online/static/samples/Explore Atmega32/Read ADC Registers.png
+kuttyPyGui/online/static/samples/Explore Atmega32/Read ADC Registers.xml
+kuttyPyGui/online/static/samples/Explore Atmega32/Read N Voltages.png
+kuttyPyGui/online/static/samples/Explore Atmega32/Read N Voltages.xml
+kuttyPyGui/online/static/samples/Explore Atmega32/Set 6 bit DAC.jpg
+kuttyPyGui/online/static/samples/Explore Atmega32/Set 6 bit DAC.xml
+kuttyPyGui/online/static/samples/Explore Atmega32/Switch Piano.xml
+kuttyPyGui/online/static/samples/Explore Atmega32/copyport.jpg
+kuttyPyGui/online/static/samples/Explore Atmega32/copyport.xml
+kuttyPyGui/online/static/samples/Explore Atmega32/copyport2.jpg
+kuttyPyGui/online/static/samples/Explore Atmega32/copyport2.xml
+kuttyPyGui/online/static/samples/Explore Atmega32/readport.jpg
+kuttyPyGui/online/static/samples/Explore Atmega32/readport.xml
+kuttyPyGui/online/static/samples/Explore Atmega32/setport.jpg
+kuttyPyGui/online/static/samples/Explore Atmega32/setport.xml
+kuttyPyGui/online/static/samples/Getting Started/Calculate Area Of A Circle.jpeg
+kuttyPyGui/online/static/samples/Getting Started/Calculate Area Of A Circle.xml
+kuttyPyGui/online/static/samples/Getting Started/Hello World.png
+kuttyPyGui/online/static/samples/Getting Started/Hello World.xml
+kuttyPyGui/online/static/samples/Getting Started/If Condition.jpeg
+kuttyPyGui/online/static/samples/Getting Started/If Condition.xml
+kuttyPyGui/online/static/samples/Getting Started/Input and Output Text.jpeg
+kuttyPyGui/online/static/samples/Getting Started/Input and Output Text.xml
+kuttyPyGui/online/static/samples/Getting Started/Plot Datapoints.jpeg
+kuttyPyGui/online/static/samples/Getting Started/Plot Datapoints.xml
+kuttyPyGui/online/static/samples/Getting Started/Plot Using Loops.jpeg
+kuttyPyGui/online/static/samples/Getting Started/Plot Using Loops.xml
+kuttyPyGui/online/static/samples/Getting Started/Print Multiplication Table.jpeg
+kuttyPyGui/online/static/samples/Getting Started/Print Multiplication Table.xml
+kuttyPyGui/online/static/samples/Getting Started/Print N Times.jpeg
+kuttyPyGui/online/static/samples/Getting Started/Print N Times.xml
+kuttyPyGui/online/static/samples/Getting Started/Read Text Input.jpg
+kuttyPyGui/online/static/samples/Getting Started/Read Text Input.xml
+kuttyPyGui/online/static/samples/Getting Started/While Loops.jpeg
+kuttyPyGui/online/static/samples/Getting Started/While Loops.xml
+kuttyPyGui/online/static/samples/Getting Started/Write Data To A File.png
+kuttyPyGui/online/static/samples/Getting Started/Write Data To A File.xml
+kuttyPyGui/online/static/samples/Internet Of Things/IoT Receive Data.jpg
+kuttyPyGui/online/static/samples/Internet Of Things/IoT Receive Data.xml
+kuttyPyGui/online/static/samples/Internet Of Things/IoT Send Data.jpg
+kuttyPyGui/online/static/samples/Internet Of Things/IoT Send Data.xml
+kuttyPyGui/online/static/samples/KuttyPy Intro/Blink LEDs alternately.jpeg
+kuttyPyGui/online/static/samples/KuttyPy Intro/Blink LEDs alternately.xml
+kuttyPyGui/online/static/samples/KuttyPy Intro/Blink.jpeg
+kuttyPyGui/online/static/samples/KuttyPy Intro/Blink.xml
+kuttyPyGui/online/static/samples/KuttyPy Intro/Copy Port Looped.jpg
+kuttyPyGui/online/static/samples/KuttyPy Intro/Copy Port Looped.xml
+kuttyPyGui/online/static/samples/KuttyPy Intro/Copy Port Once.jpg
+kuttyPyGui/online/static/samples/KuttyPy Intro/Copy Port Once.xml
+kuttyPyGui/online/static/samples/KuttyPy Intro/I2C Data Logger.jpeg
+kuttyPyGui/online/static/samples/KuttyPy Intro/I2C Data Logger.xml
+kuttyPyGui/online/static/samples/KuttyPy Intro/Read N Voltages.png
+kuttyPyGui/online/static/samples/KuttyPy Intro/Read N Voltages.xml
+kuttyPyGui/online/static/samples/KuttyPy Intro/Read Port.jpg
+kuttyPyGui/online/static/samples/KuttyPy Intro/Read Port.xml
+kuttyPyGui/online/static/samples/KuttyPy Intro/Set Port.jpg
+kuttyPyGui/online/static/samples/KuttyPy Intro/Set Port.xml
+kuttyPyGui/online/static/samples/Plotting Datasets/Create a List.jpeg
+kuttyPyGui/online/static/samples/Plotting Datasets/Create a List.xml
+kuttyPyGui/online/static/samples/Plotting Datasets/Plot A Parabola.jpeg
+kuttyPyGui/online/static/samples/Plotting Datasets/Plot A Parabola.xml
+kuttyPyGui/online/static/samples/Plotting Datasets/Plot List of Numbers.jpeg
+kuttyPyGui/online/static/samples/Plotting Datasets/Plot List of Numbers.xml
+kuttyPyGui/online/static/samples/Plotting Datasets/Plot Sine Wave points.xml
+kuttyPyGui/online/static/samples/Plotting Datasets/Plot Sine Wave.xml
+kuttyPyGui/online/static/samples/Plotting Datasets/Plot Two Lists.png
+kuttyPyGui/online/static/samples/Plotting Datasets/Plot Two Lists.xml
+kuttyPyGui/online/static/samples/Plotting Datasets/Polar Plot Flower.png
+kuttyPyGui/online/static/samples/Plotting Datasets/Polar Plot Flower.xml
+kuttyPyGui/online/static/samples/Plotting Datasets/Subtract Lists.jpeg
+kuttyPyGui/online/static/samples/Plotting Datasets/Subtract Lists.xml
+kuttyPyGui/online/static/samples/Sensor Addons/Data Logger.jpeg
+kuttyPyGui/online/static/samples/Sensor Addons/Data Logger.xml
+kuttyPyGui/online/static/samples/Sensor Addons/Distance Sensor VL53L0X.png
+kuttyPyGui/online/static/samples/Sensor Addons/Distance Sensor VL53L0X.xml
+kuttyPyGui/online/static/samples/Sensor Addons/Line Follower.jpeg
+kuttyPyGui/online/static/samples/Sensor Addons/Line Follower.xml
+kuttyPyGui/online/static/samples/Sensor Addons/Measure Heart Rate (MAX30100).png
+kuttyPyGui/online/static/samples/Sensor Addons/Measure Heart Rate (MAX30100).xml
+kuttyPyGui/online/static/samples/Sensor Addons/Phone Controlled Robot.png
+kuttyPyGui/online/static/samples/Sensor Addons/Phone Controlled Robot.xml
+kuttyPyGui/online/static/samples/Sensor Addons/Robot Maintains Safe Distance.png
+kuttyPyGui/online/static/samples/Sensor Addons/Robot Maintains Safe Distance.xml
+kuttyPyGui/online/static/samples/Sensor Addons/Robot Obeys Hand.png
+kuttyPyGui/online/static/samples/Sensor Addons/Robot Obeys Hand.xml
+kuttyPyGui/online/static/samples/Sensor Addons/Stepper Motor Dual.jpeg
+kuttyPyGui/online/static/samples/Sensor Addons/Stepper Motor Dual.xml
+kuttyPyGui/online/static/samples/Sensor Addons/Stepper Motor.jpeg
+kuttyPyGui/online/static/samples/Sensor Addons/Stepper Motor.xml
+kuttyPyGui/online/static/samples/Sensor Addons/water level monitor.jpeg
+kuttyPyGui/online/static/samples/Sensor Addons/water level monitor.xml
+kuttyPyGui/online/static/samples/Vision Demos/AI Gesture LEDs.jpeg
+kuttyPyGui/online/static/samples/Vision Demos/AI Gesture LEDs.xml
+kuttyPyGui/online/static/samples/Vision Demos/AI Hand Gestures.jpeg
+kuttyPyGui/online/static/samples/Vision Demos/AI Hand Gestures.xml
+kuttyPyGui/online/static/samples/Vision Demos/AI LED.xml
+kuttyPyGui/online/static/samples/Vision Demos/AI Piano.jpeg
+kuttyPyGui/online/static/samples/Vision Demos/AI Piano.xml
+kuttyPyGui/online/static/samples/Vision Demos/AI birdy and LED.xml
+kuttyPyGui/online/static/samples/Vision Demos/AI birdy.jpeg
+kuttyPyGui/online/static/samples/Vision Demos/AI birdy.xml
+kuttyPyGui/online/static/samples/WiFi and Games/Bird Game with Light Sensor.png
+kuttyPyGui/online/static/samples/WiFi and Games/Bird Game with Light Sensor.xml
+kuttyPyGui/online/static/samples/WiFi and Games/Happy Birthday.jpeg
+kuttyPyGui/online/static/samples/WiFi and Games/Happy Birthday.xml
+kuttyPyGui/online/static/samples/WiFi and Games/Play Song Using Functions.jpeg
+kuttyPyGui/online/static/samples/WiFi and Games/Play Song Using Functions.xml
+kuttyPyGui/online/static/samples/WiFi and Games/Play Song.jpeg
+kuttyPyGui/online/static/samples/WiFi and Games/Play Song.xml
+kuttyPyGui/online/static/samples/WiFi and Games/Rotation Controlled Bird.jpeg
+kuttyPyGui/online/static/samples/WiFi and Games/Rotation Controlled Bird.xml
+kuttyPyGui/online/static/semantic/googlefonts.css
+kuttyPyGui/online/static/semantic/semantic.min.css
+kuttyPyGui/online/static/sounds/040.wav
+kuttyPyGui/online/static/sounds/041.wav
+kuttyPyGui/online/static/sounds/042.wav
+kuttyPyGui/online/static/sounds/043.wav
+kuttyPyGui/online/static/sounds/044.wav
+kuttyPyGui/online/static/sounds/045.wav
+kuttyPyGui/online/static/sounds/046.wav
+kuttyPyGui/online/static/sounds/047.wav
+kuttyPyGui/online/static/sounds/048.wav
+kuttyPyGui/online/static/sounds/049.wav
+kuttyPyGui/online/static/sounds/050.wav
+kuttyPyGui/online/static/sounds/051.wav
+kuttyPyGui/online/static/sounds/052.wav
+kuttyPyGui/online/static/sounds/053.wav
+kuttyPyGui/online/static/sounds/054.wav
+kuttyPyGui/online/static/sounds/055.wav
+kuttyPyGui/online/static/sounds/056.wav
+kuttyPyGui/online/static/themes/default/assets/fonts/icons.ttf
+kuttyPyGui/online/static/themes/default/assets/fonts/icons.woff
+kuttyPyGui/online/static/themes/default/assets/fonts/icons.woff2
+kuttyPyGui/online/static/themes/default/assets/fonts/outline-icons.ttf
+kuttyPyGui/online/static/themes/default/assets/fonts/outline-icons.woff
+kuttyPyGui/online/static/themes/default/assets/fonts/outline-icons.woff2
+kuttyPyGui/online/static/themes/default/assets/images/flags.png
+kuttyPyGui/utilities/MyTabBrowser.py
+kuttyPyGui/utilities/Qt.py
+kuttyPyGui/utilities/REGISTERS.py
+kuttyPyGui/utilities/REGISTERS_NANO.py
+kuttyPyGui/utilities/REGISTERS_UNO.py
+kuttyPyGui/utilities/__init__.py
+kuttyPyGui/utilities/build_details.py
+kuttyPyGui/utilities/dio.py
+kuttyPyGui/utilities/ipy.py
+kuttyPyGui/utilities/pipinstaller.py
+kuttyPyGui/utilities/quiz_server.py
+kuttyPyGui/utilities/quiz_server_backup.py
+kuttyPyGui/utilities/quiz_server_socketio.py
+kuttyPyGui/utilities/syntax.py
+kuttyPyGui/utilities/texteditor.py
+kuttyPyGui/utilities/uploader.py
+kuttyPyGui/utilities/vissyntax.py
+kuttyPyGui/utilities/webBrowser.py
+kuttyPyGui/utilities/widgetUtils.py
+kuttyPyGui/utilities/templates/__init__.py
+kuttyPyGui/utilities/templates/gauge.py
+kuttyPyGui/utilities/templates/nano_rc.py
+kuttyPyGui/utilities/templates/res_rc.py
+kuttyPyGui/utilities/templates/resplus_rc.py
+kuttyPyGui/utilities/templates/ui_blockly_layout.py
+kuttyPyGui/utilities/templates/ui_category_row_2.py
+kuttyPyGui/utilities/templates/ui_dio.py
+kuttyPyGui/utilities/templates/ui_dio_adc.py
+kuttyPyGui/utilities/templates/ui_dio_adcConfig.py
+kuttyPyGui/utilities/templates/ui_dio_adcLog.py
+kuttyPyGui/utilities/templates/ui_dio_cntr.py
+kuttyPyGui/utilities/templates/ui_dio_control.py
+kuttyPyGui/utilities/templates/ui_dio_motor_shield.py
+kuttyPyGui/utilities/templates/ui_dio_pwm.py
+kuttyPyGui/utilities/templates/ui_dio_robot.py
+kuttyPyGui/utilities/templates/ui_dio_sensor.py
+kuttyPyGui/utilities/templates/ui_dio_stepper.py
+kuttyPyGui/utilities/templates/ui_dummyio.py
+kuttyPyGui/utilities/templates/ui_expt_row.py
+kuttyPyGui/utilities/templates/ui_ipy.py
+kuttyPyGui/utilities/templates/ui_layout.py
+kuttyPyGui/utilities/templates/ui_layout_ide.py
+kuttyPyGui/utilities/templates/ui_layout_quiz.py
+kuttyPyGui/utilities/templates/ui_layout_visual.py
+kuttyPyGui/utilities/templates/ui_layoutnano.py
+kuttyPyGui/utilities/templates/ui_layoutplus.py
+kuttyPyGui/utilities/templates/ui_layoutuno.py
+kuttyPyGui/utilities/templates/ui_quiz_row.py
+kuttyPyGui/utilities/templates/ui_regedit.py
+kuttyPyGui/utilities/templates/ui_regvals.py
+kuttyPyGui/utilities/templates/uno_rc.py
+kuttyPyGui/utilities/themes/__init__.py
+kuttyPyGui/utilities/themes/amoled.qss
+kuttyPyGui/utilities/themes/aqua.qss
+kuttyPyGui/utilities/themes/material.qss
+kuttyPyGui/utilities/themes/newtheme.qss
+resources/99-kuttypy-pip.rules
+resources/__init__.py
+resources/sispmctl.conf
