@@ -1,0 +1,100 @@
+[project]
+name = "beancount_blue"
+version = "0.0.1"
+description = "This is a template repository for Python projects that use uv for their dependency management."
+authors = [{ name = "Mark Scannell", email = "mescanne@gmail.com" }]
+readme = "README.md"
+keywords = ['python']
+requires-python = ">=3.9,<4.0"
+classifiers = [
+    "Intended Audience :: Developers",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+	"beancount",
+	"python-dateutil",
+]
+
+[project.urls]
+Homepage = "https://mescanne.github.io/beancount-blue/"
+Repository = "https://github.com/mescanne/beancount-blue"
+Documentation = "https://mescanne.github.io/beancount-blue/"
+
+[tool.scripts]
+release-notes = "git-cliff --tag \"v$TAG\" --output CHANGELOG.md"
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=7.2.0",
+    "pre-commit>=2.20.0",
+    "deptry>=0.20.0",
+    "pytest-cov>=4.0.0",
+    "ruff>=0.12.0",
+    "mkdocs>=1.4.2",
+    "mkdocs-material>=8.5.10",
+    "mkdocstrings[python]>=0.26.1",
+    "pyright>=1.1.402",
+    "git-cliff>=2.4.0",
+]
+
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+py-modules = ["beancount_blue"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py39"
+line-length = 120
+fix = true
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "W",
+    "I",
+    "UP",
+    "B",
+    "C4",
+    "SIM",
+    "ARG",
+    "S",
+    "A",
+    "T10",
+    "PGH",
+    "RUF",
+    "TRY",
+]
+ignore = [
+    "E501",
+    "E731",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]
+
+[tool.ruff.format]
+preview = true
+
+[tool.pyright]
+include = ["beancount_blue"]
+exclude = ["**/__pycache__"]
+
+[tool.coverage.report]
+skip_empty = true
+
+[tool.coverage.run]
+branch = true
+source = ["beancount_blue"]
