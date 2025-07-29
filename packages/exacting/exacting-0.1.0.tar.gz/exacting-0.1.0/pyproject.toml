@@ -1,0 +1,33 @@
+[build-system]
+requires = ["maturin>=1.9,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "exacting"
+description = "A picky dataclass runtime utility collection, enforcing strict types and validations."
+keywords = ["schema", "validation", "dataclasses", "json", "data-structure"]
+authors = [
+  { name = "AWeirdDev", email = "awdjared@gmail.com" },
+]
+license = { file = "LICENSE" }
+readme = "README.md"
+dependencies = ["typing-extensions"]
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+dynamic = ["version"]
+
+[project.urls]
+"Source" = "https://github.com/AWeirdDev/exacting"
+
+[project.optional-dependencies]
+tests = [
+    "pytest",
+]
+
+[tool.maturin]
+python-source = "python"
+features = ["pyo3/extension-module"]
