@@ -1,0 +1,71 @@
+Metadata-Version: 2.4
+Name: tenshi
+Version: 0.1.1
+Summary: A Gemini AI wrapper with API key rotation and system prompt support.
+Home-page: https://pypi.org/project/tenshi/
+Author: RUBIN EXE
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# Tenshi
+
+**Tenshi** is a lightweight Gemini AI API wrapper designed for speed, reliability, and simplicity — especially for users relying on free API keys.
+
+### 🔥 Features
+
+- 🔁 **API Key Rotation** – Auto-switches between multiple keys to bypass rate limits  
+- 💬 **System Prompt Support** – Define a system role for consistent responses  
+- 🎛️ **Custom Temperature / Top-P** – Fine-tune creativity and randomness  
+- 🆓 **Built for Free API Users** – Works around quota and rate issues  
+
+---
+
+### ✨ Installation
+```
+pip install tenshi
+```
+---
+
+### 🚀 Quick Example
+```
+from tenshi import Tenshi
+
+bot = Tenshi(api_keys=["your_api_key"])
+bot.set_system("You are a helpful assistant.")
+response = bot.generate("Hello!")
+print(response)
+```
+---
+
+### 📦 Use Cases
+
+- Avoid rate limits with free or limited API keys  
+- Chain multiple keys for reliability  
+- Add system prompts for role-based responses (e.g., tutor, assistant, etc.)  
+- Quickly prototype chatbots or AI tools using Gemini  
+
+---
+
+### 👤 Author
+
+Made with purpose by **[@rubinexe](https://pypi.org/user/rubinexe/)**
+
+---
+
+### ⚖️ License
+
+MIT License
