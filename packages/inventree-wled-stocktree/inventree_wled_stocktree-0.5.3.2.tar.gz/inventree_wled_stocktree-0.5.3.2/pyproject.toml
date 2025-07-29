@@ -1,0 +1,66 @@
+[build-system]
+requires = ["setuptools", "wheel", "pyyaml"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "inventree-wled-stocktree"
+version =  "0.5.3.2"
+description= "Use WLED to locate InvenTree StockLocations and StockItems."
+readme = "README.md"
+license = "MIT"
+keywords = ["inventree", "inventree-plugin", "inventree-wled-locator"]
+authors = [
+    {name = "Matthias Mair", email =  "code@mjmair.com"},
+    {name = "Rui Borges", email = "ruiborges206@gmail.com"}
+]
+classifiers=[
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Plugins",
+    "Framework :: Django",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Manufacturing",
+    "Intended Audience :: End Users/Desktop",
+    "Topic :: Scientific/Engineering",
+]
+requires-python=">=3.9"
+dependencies = ['django', 'requests']
+
+[project.optional-dependencies]
+dev = ['twine', 'setuptools']
+
+[project.urls]
+"Repository" = "https://github.com/esperaumbocado/wled-inventree"
+"Bug Tracker" = "https://github.com/esperaumbocado/wled-inventree/issues"
+
+[project.entry-points."inventree_plugins"]
+inventree-wled-stocktree = "inventree_wled_stocktree:WledInventreePlugin"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["inventree_wled_stocktree"]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.package-data]
+"inventree_wled_stocktree" = ["static/*", "templates/*"]
+
+[tool.ruff]
+exclude=[".git","__pycache__","dist","build","test.py","tests", "venv","env",".venv",".env"]
+
+[tool.ruff.lint]
+select = ["A", "B", "C4", "D", "DJ", "N", "I","S"]
+ignore = ["N999", ]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+section-order = ["future", "standard-library", "django", "third-party", "first-party", "local-folder" ]
+known-first-party = ["src", "plugin", "InvenTree", "common"]
+
+[tool.ruff.lint.isort.sections]
+"django" = ["django"]
