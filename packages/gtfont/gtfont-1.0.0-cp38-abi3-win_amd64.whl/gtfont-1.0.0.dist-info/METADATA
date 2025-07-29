@@ -1,0 +1,77 @@
+Metadata-Version: 2.4
+Name: gtfont
+Version: 1.0.0
+Classifier: Programming Language :: Rust
+Classifier: Programming Language :: Python :: 3
+License-File: LICENSE
+Summary: Fast font measurement in Rust callable from Python
+Author-email: "Stephen J. Mildenhall" <mynl@me.com>
+License: MIT
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+
+# gtfont
+
+**Fast string measurement for perfect tables.**
+
+`gtfont` is a Rust-powered Python extension that provides precise text measurement utilities, optimized for building perfectly aligned tables from `pandas` DataFrames.
+
+This library is designed for use within the [`greater_tables`](https://github.com/mynl/greater_tables_project) package, but can also be used standalone.
+
+## Features
+
+- Measure the rendered width of a sentence using system fonts
+- Compute maximum word width in a line
+- Combine both in one efficient call
+- Based on native font rendering for accurate results
+- Blazing-fast Rust backend exposed as a Python module
+
+## Installation
+
+```bash
+pip install gtfont
+````
+
+Python ≥3.8 is required. Pre-built wheels are available for major platforms via PyPI.
+
+## Example
+
+```python
+from gtfont import FontMeasurer
+from matplotlib import font_manager
+
+font_path = font_manager.findfont("Times New Roman", fallback_to_default=True)
+font_bytes = Path(font_path).read_bytes()
+fm = FontMeasurer(font_bytes)
+sentence = "The quick brown fox jumps over the lazy dog."
+
+# Measure sentence width in points
+width = fm.measure(sentence, 11)
+
+# Measure max word width
+max_word = fm.max_word_width(sentence, 11)
+
+# Both at once
+sentence_width, max_word_width = fm.measure_and_max_word(sentence, 11)
+```
+
+## Build
+
+```
+maturin build --release --strip
+
+# or 
+
+maturin develop 
+```
+
+
+## Why Rust?
+
+Font measurement is performance-critical. By leveraging [pyo3](https://github.com/PyO3/pyo3), we combine the safety and speed of Rust with the usability of Python.
+
+## License
+
+MIT © [Stephen J. Mildenhall](mailto:mynl@me.com)
+
+
