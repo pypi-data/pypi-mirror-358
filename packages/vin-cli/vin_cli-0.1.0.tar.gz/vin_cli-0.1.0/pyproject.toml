@@ -1,0 +1,38 @@
+[tool.poetry]
+name = "vin-cli"
+version = "0.1.0"
+description = "AI工作流优化命令行工具"
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [{include = "vin_cli"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+typer = "^0.9.0"
+rich = "^13.7.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.0"
+pytest-cov = "^4.1.0"
+pytest-asyncio = "^0.23.0"
+black = "^24.0.0"
+ruff = "^0.2.0"
+
+[tool.poetry.scripts]
+vin = "vin_cli.cli.main:app"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
