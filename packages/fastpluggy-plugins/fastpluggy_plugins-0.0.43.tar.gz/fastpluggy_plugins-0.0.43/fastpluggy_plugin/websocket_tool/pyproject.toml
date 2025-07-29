@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fastpluggy-websocket-tool"
+version = "0.1.0"
+description = "FastPluggy plugin for real-time WebSocket communication"
+requires-python = ">=3.10"
+
+
+# Server requirements
+dependencies = [
+  "pydantic>=2.0.0",
+  "websockets>=11.0.3",
+#  "fastpluggy-ui-tools>=0.0.3"
+]
+
+[project.optional-dependencies]
+# Client-only requirements
+client = [
+  "websockets>=11.0.3"
+]
+
+[tool.setuptools]
+packages = ["fastpluggy_plugin.websocket_tool"]
+package-dir = { "fastpluggy_plugin.websocket_tool" = "src" }
+include-package-data = true
+
+[project.entry-points."fastpluggy.plugins"]
+websocket_tool = "fastpluggy_plugin.websocket_tool.plugin:WebSocketToolPlugin"

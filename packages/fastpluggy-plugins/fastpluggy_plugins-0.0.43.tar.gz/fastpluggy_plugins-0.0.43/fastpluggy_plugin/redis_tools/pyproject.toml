@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fastpluggy-redis"
+version = "0.0.9"
+description = "Redis Tools plugin for Fastpluggy"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "redis"
+]
+
+[tool.setuptools]
+packages = ["fastpluggy_plugin.redis_tools"]
+package-dir = { "fastpluggy_plugin.redis_tools" = "src" }
+include-package-data = true
+
+
+[project.entry-points."fastpluggy.plugins"]
+redis_tools = "fastpluggy_plugin.redis_tools.plugin:RedisToolsPlugin"

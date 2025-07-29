@@ -1,0 +1,20 @@
+[project]
+name = "fastpluggy-ui-tools"
+version = "0.0.4"
+description = "UI Tools plugin for Fastpluggy"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "jinja2",
+    "babel",
+]
+
+# add optionnal package Pillow
+
+[tool.setuptools]
+packages = ["fastpluggy_plugin.ui_tools"]
+package-dir = { "fastpluggy_plugin.ui_tools" = "src" }
+include-package-data = true
+
+[project.entry-points."fastpluggy.plugins"]
+ui_tools = "fastpluggy_plugin.ui_tools.plugin:UiToolsModule"

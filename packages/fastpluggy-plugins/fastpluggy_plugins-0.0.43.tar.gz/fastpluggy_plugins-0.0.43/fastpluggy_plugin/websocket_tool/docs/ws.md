@@ -1,0 +1,1 @@
+all message schould be sent with type <plugin>.<action/event> to avoid error on different plugin message
