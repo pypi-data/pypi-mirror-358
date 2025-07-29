@@ -1,0 +1,30 @@
+@startuml
+
+package sqlalchemy {
+    package orm {
+    	class DeclarativeBase {
+    		# __mapper__
+    		# __mapper_args__
+    		# __table__
+    		# __table_args__
+    		# __tablename__
+    		metadata
+    		registry
+    	}
+    }
+	package schema {
+		class MetaData {
+			+ __init__()
+			+ clear()
+			+ create_all()
+			+ drop_all()
+			+ reflect()
+			+ remove()
+			+ sorted_tables
+			+ tables
+		}
+	}
+}
+
+
+@enduml
