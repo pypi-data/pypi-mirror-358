@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mpralib"
+dynamic = ["version", "dependencies", "requires-python", "classifiers", "description"]
+readme = "README.md"
+authors = [
+  { name="Max Schubach", email="max.schubach@bih-charite.de" }
+]
+license-files = ["LICENSE"]
+
+[project.scripts]
+mpralib = "mpralib.cli:cli"
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "coverage"
+]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.package-data]
+mpralib = ["data/*.txt"]
