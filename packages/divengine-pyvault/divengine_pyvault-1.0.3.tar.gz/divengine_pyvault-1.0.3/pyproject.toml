@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "divengine-pyvault"
+version = "1.0.3"
+description = "Divengine Python Vault – Generates Obsidian vaults from Python projects"
+authors = [
+  { name = "Rafael Rodriguez Ramirez", email = "rafageist@divengine.com" }
+]
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+
+[project.urls]
+"Homepage" = "https://github.com/divengine/pyvault"
+"Repository" = "https://github.com/divengine/pyvault"
+
+[project.scripts]
+pyvault = "divengine.pyvault.core:main"
