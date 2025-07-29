@@ -1,0 +1,33 @@
+[project]
+name = "scopus-scraping"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Anatoliy Lazovyj", email = "Lazoviy3000@ya.ru" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "loguru>=0.7.3",
+    "pydantic>=2.11.7",
+    "selenium>=4.33.0",
+    "setuptools>=80.9.0",
+    "undetected-chromedriver>=3.5.5",
+    "webdriver-manager>=4.0.2",
+]
+
+[project.scripts]
+scopus-scraping = "scopus_scraping:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "ipykernel>=6.29.5",
+    "pytest==8.4.0",
+    "pytest-cov>=6.2.1",
+    "pytest-xdist>=3.7.0",
+    "ruff>=0.12.0",
+]
