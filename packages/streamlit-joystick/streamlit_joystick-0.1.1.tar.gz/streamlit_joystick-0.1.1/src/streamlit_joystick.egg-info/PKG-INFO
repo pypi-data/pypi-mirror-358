@@ -1,0 +1,71 @@
+Metadata-Version: 2.4
+Name: streamlit-joystick
+Version: 0.1.1
+Summary: This component allows you to have a joystick in streamlit
+Home-page: https://pypi.org/project/streamlit-joystick/
+Author: Ephson Guakro
+Author-email: leocorp96@gmail.com
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: streamlit>=1.2
+Requires-Dist: jinja2
+Dynamic: author
+Dynamic: author-email
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# streamlit-joystick
+
+This component allows you to have a joystick in streamlit
+
+## Installation instructions 
+
+```sh
+pip install streamlit-joystick
+```
+
+## Usage instructions
+
+### Single Joystick
+```python
+import streamlit as st
+
+from st_joystick import st_joystick
+
+value = st_joystick()
+st.write(value)
+```
+
+### Multiple Joysticks
+```python
+import streamlit as st
+
+from st_joystick import st_joystick
+
+@st.fragment
+def left_joystick():
+    value = st_joystick(options={'size': 200}) # default joystick id for the zone element = 0
+    st.write(value)
+
+@st.fragment
+def right_joystick():
+    value = st_joystick(options={'size': 200}, id=1) #remember to set the zone element id for subsequent joysticks
+    st.write(value)
+
+def main():
+    cols = st.columns(2)
+    with cols[0]:
+        left_joystick()
+    with cols[1]:
+        right_joystick()
+
+
+if __name__ == "__main__":
+    main()
+```
