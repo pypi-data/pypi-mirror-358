@@ -1,0 +1,59 @@
+Metadata-Version: 2.4
+Name: solidity-vulnerabilities-db2
+Version: 0.0.1
+Summary: Smart contract vulnerability templates for ReinforcedAI
+Author: ReinforcedAI
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Dynamic: author
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: requires-python
+Dynamic: summary
+
+# Vulnerabilities Database
+
+Smart contract vulnerability templates for [ReinforcedAI](https://reinforced.app/).
+
+## Dependencies
+
+- Modern Liniux
+- Python 3.11+
+
+## API
+
+- `initialize(environment: str)`
+  Loads native vulnerabilities database library. You must call this function before any other library function.
+  
+  `environment` сan be `mainnet`, `testnet` or `local`.
+
+- `activate(activation_code: str)`
+  Activates the library with your activation code. This is required before you can generate contracts.
+
+  `activation_code` is your personal activation code received from relayer.
+
+- `generate_contract()`
+  Generates a new vulnerable contract template. The library must be initialized and activated before calling this function.
+
+  Returns `Contract` object with `vulnerability_class`, `description` and `code` fields.
+
+### Demo
+
+```python
+import vuldb
+
+vuldb.initialize('local')
+vuldb.activate('AAAA-BBBB-CCCC')
+
+contract = vuldb.generate_contract()
+print('Vulnerability class:', contract.vulnerability_class)
+print('Description:', contract.description)
+print('Code:', contract.code)
+```
+
+## How to build wheel?
+
+1. Setup virtual environment
+2. Install dependencies with `pip install build wheel`
+3. Build wheel using `python -m build --wheel`
+4. Copy wheel from `dist` folder
