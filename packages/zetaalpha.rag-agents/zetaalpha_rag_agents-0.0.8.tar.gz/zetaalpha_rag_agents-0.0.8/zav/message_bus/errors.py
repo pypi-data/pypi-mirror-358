@@ -1,0 +1,51 @@
+from typing import Any, Callable, Dict, Type, Union
+
+
+class HandlerException(Exception):
+    """Base exception for handler errors."""
+
+
+class NonRetryableHandlerError(Exception):
+    pass
+
+
+class RetryableHandlerError(Exception):
+    def __init__(
+        self,
+        original_exception: Exception,
+        max_retries: int,
+        base_delay: float = 0.1,
+    ):
+        self.original_exception = original_exception
+        self.max_retries = max_retries
+        self.base_delay = base_delay
+
+
+class ResourceAlreadyExists(HandlerException):
+    def __init__(self, resource_name: str, resource_id: str):
+        self.resource_name = resource_name
+        self.resource_id = resource_id
+
+    def __str__(self):
+        return f"{self.resource_name} with id {self.resource_id} already exists."
+
+
+HandlerExceptionHandler = Callable[
+    [Any], Union[NonRetryableHandlerError, RetryableHandlerError, ResourceAlreadyExists]
+]
+
+
+class ExceptionHandlerRegistry:
+    registry: Dict[Type[Exception], HandlerExceptionHandler] = {}
+
+    @classmethod
+    def register(
+        cls, exception: Type[Exception]
+    ) -> Callable[[HandlerExceptionHandler], HandlerExceptionHandler]:
+        def inner_wrapper(
+            wrapped_function: HandlerExceptionHandler,
+        ) -> HandlerExceptionHandler:
+            cls.registry[exception] = wrapped_function
+            return wrapped_function
+
+        return inner_wrapper
