@@ -1,0 +1,110 @@
+[project]
+name = "giftwrap-sc"
+version = "0.1.3"
+description = "Tools to quantify GIFT-seq datasets."
+readme = "README.md"
+authors = [
+    {name = "Austin A. Varela", email = "aav4003@med.cornell.edu"},
+    {name = "Caleb A. Lareau", email = "lareauc@mskcc.org"}
+]
+license = {text = "MIT License"}
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+#    "Development Status :: 5 - Production/Stable",
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+keywords = ["GIFT-seq", "gapfill"]
+
+requires-python = ">=3.11"
+dependencies = [
+    "biopython>=1.85",
+    "scipy>=1.15",
+    "numpy>=2.2.6",
+    "pandas>=2.3.0",
+    "rapidfuzz>=3.13",
+    "fuzzysearch>=0.8",
+    "tqdm>=4.66.5",
+    "h5py>=3.14",
+    "anndata>=0.11",
+    "matplotlib>=3.10",
+    "openpyxl>=3.1.5",
+    "sankeyflow>=0.4.1",
+    "diskcache>=5.6.3",
+    "rich-argparse>=1.7.1",
+]
+
+[project.urls]
+Homepage = "https://clareaulab.github.io/giftwrap"
+Documentation = "https://clareaulab.github.io/giftwrap"
+Repository = "https://github.com/lareauc/giftwrap"
+Issues = "https://github.com/lareauc/giftwrap/issues"
+
+[project.optional-dependencies]
+# Need protobuf for VisiumHD cell barcode parsing
+spatial = [
+    "protobuf>=5.28.0",
+    "spatialdata>=0.4.0",
+    "squidpy>=1.6.5"
+]
+analysis = [
+    "scanpy>=1.11",
+    "igraph>=0.10",
+    "numba>=0.61.0",
+    "leidenalg>=0.10.2",
+]
+all = [
+    "protobuf>=5.28.0",
+    "spatialdata>=0.4.0",
+    "squidpy>=1.6.5",
+    "scanpy>=1.11",
+    "igraph>=0.10",
+    "numba>=0.61.0",
+]
+
+[dependency-groups]
+docs = [
+    "griffe-inherited-docstrings>=1.1.1",
+    "griffe-sphinx>=0.1.0",
+    "markdown-exec[ansi]>=1.10.3",
+    "mkdocs-api-autonav>=0.3.0",
+    "mkdocs-autorefs>=1.4.2",
+    "mkdocs-awesome-nav>=3.1.2",
+    "mkdocs-awesome-pages-plugin>=2.10.1",
+    "mkdocs-git-revision-date-localized-plugin>=1.4.7",
+    "mkdocs-jupyter>=0.25.1",
+    "mkdocs-material>=9.6.14",
+    "mkdocs-open-in-new-tab>=1.0.8",
+    "mkdocstrings[python]>=0.29.1",
+    "pymdown-extensions>=10.15",
+    "termynal>=0.13.0",
+]
+
+[project.scripts]
+giftwrap = "giftwrap.pipeline:main"
+giftwrap-count = "giftwrap.step1_count_gapfills:main"
+giftwrap-correct-umis = "giftwrap.step2_correct_umis:main"
+giftwrap-correct-gapfill = "giftwrap.step3_correct_gapfill:main"
+giftwrap-collect = "giftwrap.step4_collect_counts:main"
+giftwrap-summarize = "giftwrap.step5_summarize_counts:main"
+giftwrap-generate-r = "giftwrap.misc_scripts:print_R"
+giftwrap-generate-tech = "giftwrap.misc_scripts:print_tech"
+giftwrap-convert-probes = "giftwrap.misc_scripts:convert_probes"
+giftwrap-diagnostic = "giftwrap.basic_counts:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+  "spaceranger-3.1.1",
+    "test_out",
+    "*fastq*",
+    "venv",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/giftwrap"]
