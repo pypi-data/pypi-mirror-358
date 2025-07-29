@@ -1,0 +1,40 @@
+[project]
+name = "opal-mcp-adapter"
+version = "0.0.4"
+description = "Bidirectional adapter for converting between MCP and Opal tools"
+readme = "opal_mcp_adapter/README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.104.0",
+    "httpx>=0.25.0",
+    "mcp>=1.9.4",
+    "optimizely-opal-opal-tools-sdk>=0.1.1.dev0",
+    "pydantic>=2.0.0",
+    "python-multipart>=0.0.6",
+    "pyyaml>=6.0.1",
+    "uvicorn>=0.24.0",
+]
+
+[project.scripts]
+opal-mcp-adapter = "opal_mcp_adapter.cli:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "httpx>=0.25.0",
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["opal_mcp_adapter*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
