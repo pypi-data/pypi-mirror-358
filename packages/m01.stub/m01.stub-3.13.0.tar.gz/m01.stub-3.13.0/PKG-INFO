@@ -1,0 +1,268 @@
+Metadata-Version: 2.1
+Name: m01.stub
+Version: 3.13.0
+Summary: MongoDB server stub setup
+Home-page: http://pypi.python.org/pypi/m01.stub
+Author: Roger Ineichen, Projekt01 GmbH
+Author-email: dev@projekt01.ch
+License: ZPL 2.1
+Description: This package provides a mongodb server stub setup for python doctests.
+        
+        
+        ======
+        README
+        ======
+        
+        This package provides a mongo database server testing stub. You can simply
+        setup such a mongodb stub server in a doctest like::
+        
+          import doctest
+          import unittest
+        
+          import m01.stub.testing
+        
+          def test_suite():
+              return unittest.TestSuite((
+                  doctest.DocFileSuite('README.txt',
+                      setUp=m01.stub.testing.setUpStubMongo,
+                      tearDown=m01.stub.testing.tearDownStubMongo,
+                      optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS),
+                  ))
+        
+        
+          if __name__ == '__main__':
+              unittest.main(defaultTest='test_suite')
+        
+        The m01/stub/testing.py module provides a start and stop method which will
+        download, install, start and stop a mongodb server. All this is done in the
+        m01/stub/testing/sandbox folder. Everytime a test get started the mongodb/data
+        folder get removed and a fresh empty database get used.
+        
+        Note: Also see the zipFolder and unZipFile methods in testing.py which allows
+        you to setup mongodb data and before remove them store them as a zip file
+        for a next test run. Such a zipped data folder can get used in another test run
+        by set the path to the zip file as dataSource argument. Also check the
+        m01.mongo package for more test use cases.
+        
+        
+        Testing
+        -------
+        
+        Let's use the pymongo package for test our mongodb server stub setup. Note we
+        use a different port for our stub server setup (45017 instead of 27017):
+        
+          >>> from pprint import pprint
+          >>> from pymongo.periodic_executor import _shutdown_executors
+          >>> import m01.stub.testing
+        
+        Let's test our mongodb stub setup:
+        
+          >>> conn = m01.stub.testing.getTestClient()
+        
+          >>> pprint(conn.server_info())
+          {...,
+           ...'ok': 1.0,
+           ...}
+        
+          >>> sorted([i for i in conn.list_database_names()])
+          [...'admin', ...'local']
+        
+        setup an index:
+        
+          >>> print(conn.m01_stub_testing.test.collection.create_index('dummy'))
+          dummy_1
+        
+        add an object:
+        
+          >>> result = conn.m01_stub_testing.test.insert_one({'__name__': 'foo', 'dummy': 'object'})
+          >>> result
+          <pymongo.results.InsertOneResult object at ...>
+        
+          >>> _id = result.inserted_id
+          >>> _id
+          ObjectId('...')
+        
+        remove them:
+        
+          >>> result = conn.m01_stub_testing.test.delete_one({'_id': _id})
+          >>> result
+          <pymongo.results.DeleteResult object at ...>
+        
+          >>> result.acknowledged
+          True
+        
+          >>> result.raw_result
+          {'ok': 1.0, 'n': 1}
+        
+          >>> result.deleted_count
+          1
+        
+        and check the databsae names again:
+        
+          >>> sorted([i for i in list(conn.list_database_names())])
+          [...'admin', ...'local', ...'m01_stub_testing']
+        
+        Let's drop the database:
+        
+          >>> conn.drop_database("m01_stub_testing")
+          >>> sorted([i for i in conn.list_database_names()])
+          [...'admin', ...'local']
+        
+        
+        Close client:
+        
+          >>> conn.close()
+          >>> _shutdown_executors()
+        
+        
+        =======
+        CHANGES
+        =======
+        
+        
+        3.13.0 (2025-06-26)
+        -------------------
+        
+        - make m01.stub compatible with pymongo 3.13.0
+        
+        - migration: python 2.7/3 version compatibility
+        
+        - bugfix: fix downloadURL, ensure urls list if given. Add additional urls
+          argument which allows to provide a list of download urls
+        
+        
+        3.1.0 (2018-01-29)
+        ------------------
+        
+        - bugfix: support different download urls for windows. Not every option is
+          released. We will try different urls for windows 64 bit versions.
+          Note, you will probably run into a MemoryError during download if your try
+          to download a large mongodb release with a non 64 bit python version.
+        
+        
+        3.0.1 (2015-11-10)
+        ------------------
+        
+        - support pymongo >= 3.0.0 and use 3.0.0 as package version and reflect
+          pymongo >= 3.0.0 compatibility
+        
+        
+        3.0.0 (2015-09-28)
+        ------------------
+        
+        - pymongo > 3.0.0 compatibility. Support pymongo > 3.0.0 use MongoClient instead
+          of Connection etc. Use 3.0.0 as package version and reflect pymongo > 3.0.0
+          compatibility.
+        
+        - switch default mongodb download version to 3.0.6
+        
+        - improve shutdown mongodb server, cleanup client weakref
+        
+        
+        0.5.8 (2015-03-17)
+        ------------------
+        
+        - update default mongodb version to 2.4.10
+        
+        - changed default mongodb allocation space from 100MB to 10MB for faster server
+          startup
+        
+        - bugfix: startup check didn't fit and it was forced 16 times to sleep for one
+          second. Fix server status ok check from '1.0' to 1
+        
+        
+        0.5.7 (2012-12-10)
+        ------------------
+        
+        - bugfix: didn't shutdown with sleep lower the 1
+        
+        - improve server setup, use unique log files for each startup
+        
+        - run tests with pymongo 2.4.1
+        
+        
+        0.5.6 (2012-12-09)
+        ------------------
+        
+        - switch to mongodb 2.2.2 and support version property in startMongoServer
+        
+        
+        0.5.5 (2012-11-18)
+        ------------------
+        
+        - bugfix: fix start and stop observer methods. Replaced javascript calls with
+          simpler pymongo connectionn calls for startup check and shutdown
+        
+        
+        0.5.4 (2012-11-18)
+        ------------------
+        
+        - update to mongodb 2.2.0
+        
+        - switch to bson import
+        
+        - force 64 bit download by default
+        
+        - use "sleep" value only for files and directories, use flexible wait for
+          process
+        
+        - bugfix: mongo results comes back with a line break
+        
+        - bugfix: string cmd *only* on Windows
+        
+        - use shell=False to start mongodb, even on posix (safer). This changes the
+          "options" argument: it has to be a list now
+        
+        - to stop mongodb, we are now sending a command through the "mongo shell",
+          we do not use a pid file any more, all we need is the port, which we keep
+          in a global
+        
+        - we are now repeatedly checking till the mongodb server starts up and
+          answers to an admin query
+        
+        - move flexible sub-version tests to accomodate OpenBSD
+        
+        - fixed detection of being on a Mac for mongo db download for tests
+        
+        - added MANIFEST.in file
+        
+        
+        0.5.3 (2011-08-26)
+        ------------------
+        
+        - Fix 32bit linux download (Albertas)
+        - Remove temp files after download
+        - Fix 64bit linux
+        
+        
+        0.5.2 (2011-08-24)
+        ------------------
+        
+        - Still fixing on linux
+        
+        
+        0.5.1 (2011-08-24)
+        ------------------
+        
+        - fix on linux
+        
+        
+        0.5.0 (2011-08-19)
+        ------------------
+        
+        - initial release tested on win 32bit. NOT tested on win 64bit, mac 32/64bit
+          and posix 32/64bit systems. Please report if something doesn't work on this
+          systems.
+        
+Keywords: Zope3 z3c p01 m01 mongodb server stub setup
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Web Environment
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Zope Public License
+Classifier: Programming Language :: Python
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Framework :: Zope3
+Provides-Extra: test
