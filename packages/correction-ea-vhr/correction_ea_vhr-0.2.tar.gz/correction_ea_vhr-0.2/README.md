@@ -1,0 +1,49 @@
+# Correction of Activation Energy Affected by Variable Heating Rate (EaVHRCorrector)
+===================================================================================
+
+This project presents the development of a tool based on artificial intelligence to assist researchers in the correction of kinetic parameters obtained through the deconvolution of thermoluminescence TL glow curves. The correction is particularly useful when the results are affected by anomalous behavior associated with the heating rate, mainly due to Thermal Quenching.
+
+Overview
+--------
+The model takes as input the area under each TL emission peak, which is a magnitude easily obtained from the analysis of experimental data. The input to the model is a vector of differences in area:
+
+    X ≡ [∆A_medium, ∆A_median, ∆A_maximum, ∆A_minimum]
+
+Features
+--------
+- AI-based correction of activation energy (Ea) affected by variable heating rate
+- Designed for thermoluminescence glow curve analysis
+- Accepts Excel files as input
+- Provides corrected Ea, uncertainty, and model prediction
+
+
+Usage
+-----
+Here is a minimal example of how to use the tool:
+
+    from correction_ea_vhr.corrector import EaVHRCorrector
+    import pandas as pd
+
+    # Load your data
+    df = pd.read_excel("TLGC.xlsx")
+    X = df.iloc[:, 0:4].to_numpy()
+    Y = df.iloc[:, 4:5].to_numpy()
+
+    # Use the corrector
+    modelo = EaVHRCorrector()
+    media, incertidumbre, pred = modelo.corregir(X, Y)
+
+Input Format
+------------
+The input Excel file should contain 5 columns:
+1. ∆A_medium  
+2. ∆A_median  
+3. ∆A_maximum  
+4. ∆A_minimum  
+5. Experimental activation energy (Ea)
+
+Output
+------
+- media: Corrected activation energy (mean)
+- incertidumbre: Associated uncertainty
+- pred: Model prediction array
