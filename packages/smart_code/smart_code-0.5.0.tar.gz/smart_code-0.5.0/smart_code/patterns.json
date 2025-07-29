@@ -1,0 +1,380 @@
+[
+    {
+        "id": "PANDAS_ITERROWS",
+        "complexity": "O(n) vs O(n)",
+        "messages": {
+            "zh": {
+                "description": "检测到使用 DataFrame.iterrows() 迭代行",
+                "suggestion": "改用 itertuples 或向量化操作",
+                "hint": "iterrows 会将每行转换为 Series，性能较差",
+                "suggestion_code": "# 不推荐\nfor index, row in df.iterrows():\n    print(row['col1'], row['col2'])\n\n# 推荐\nfor row in df.itertuples():\n    print(row.col1, row.col2)"
+            },
+            "en": {
+                "description": "Detected use of DataFrame.iterrows() to iterate over rows",
+                "suggestion": "Use itertuples or vectorized operations instead",
+                "hint": "iterrows converts each row into a Series, which has poor performance",
+                "suggestion_code": "# Not recommended\nfor index, row in df.iterrows():\n    print(row['col1'], row['col2'])\n\n# Recommended\nfor row in df.itertuples():\n    print(row.col1, row.col2)"
+            }
+        }
+    },
+    {
+        "id": "PANDAS_APPLY_AXIS1",
+        "complexity": "O(n) vs O(n)",
+        "messages": {
+            "zh": {
+                "description": "检测到使用 DataFrame.apply 逐行运算",
+                "suggestion": "改用向量化列运算或 itertuples",
+                "hint": "apply 每行调用 Python 函数，单核执行，数据量大时非常慢",
+                "suggestion_code": "# 不推荐\ndf['new_col'] = df.apply(lambda row: row['col1'] + row['col2'], axis=1)\n\n# 推荐\ndf['new_col'] = df['col1'] + df['col2']"
+            },
+            "en": {
+                "description": "Detected use of DataFrame.apply for row-wise operations",
+                "suggestion": "Use vectorized column operations or itertuples instead",
+                "hint": "apply calls a Python function on each row, runs on a single core, and can be very slow with large datasets",
+                "suggestion_code": "# Not recommended\ndf['new_col'] = df.apply(lambda row: row['col1'] + row['col2'], axis=1)\n\n# Recommended\ndf['new_col'] = df['col1'] + df['col2']"
+            }
+        }
+    },
+    {
+        "id": "DATAFRAME_APPEND_LOOP",
+        "complexity": "O(n²) vs O(n)",
+        "messages": {
+            "zh": {
+                "description": "检测到在循环中频繁调用 DataFrame.append",
+                "suggestion": "先收集列表后一次性调用 pd.concat",
+                "hint": "append 每次创建新 DataFrame，导致大量内存拷贝",
+                "suggestion_code": "rows = []\nfor i in range(5):\n    # 不推荐: df = df.append({'a': i}, ignore_index=True)\n    rows.append({'a': i})\n\n# 推荐\ndf = pd.concat([pd.DataFrame([row]) for row in rows], ignore_index=True)"
+            },
+            "en": {
+                "description": "Detected frequent calls to DataFrame.append inside a loop",
+                "suggestion": "Collect data in a list and then call pd.concat once",
+                "hint": "append creates a new DataFrame each time, leading to significant memory copying",
+                "suggestion_code": "rows = []\nfor i in range(5):\n    # Not recommended: df = df.append({'a': i}, ignore_index=True)\n    rows.append({'a': i})\n\n# Recommended\ndf = pd.concat([pd.DataFrame([row]) for row in rows], ignore_index=True)"
+            }
+        }
+    },
+    {
+        "id": "PANDAS_PYTHON_LOOP_CLEAN",
+        "complexity": "O(n)",
+        "messages": {
+            "zh": {
+                "description": "检测到使用 Python 循环逐元素清洗数据",
+                "suggestion": "改用 Pandas 向量化字符串方法和布尔索引",
+                "hint": "使用 Python 循环逐条处理，性能不佳",
+                "suggestion_code": "# 不推荐\ncleaned_titles = []\nfor title in df['titles']:\n    cleaned_titles.append(title.strip().lower())\ndf['titles'] = cleaned_titles\n\n# 推荐\ndf['titles'] = df['titles'].str.strip().str.lower()"
+            },
+            "en": {
+                "description": "Detected use of a Python loop for element-wise data cleaning",
+                "suggestion": "Use Pandas vectorized string methods and boolean indexing instead",
+                "hint": "Processing item by item with a Python loop offers poor performance",
+                "suggestion_code": "# Not recommended\ncleaned_titles = []\nfor title in df['titles']:\n    cleaned_titles.append(title.strip().lower())\ndf['titles'] = cleaned_titles\n\n# Recommended\ndf['titles'] = df['titles'].str.strip().str.lower()"
+            }
+        }
+    },
+    {
+        "id": "NESTED_LOOP_FOR_MATRIX",
+        "complexity": "O(n³) vs O(n³)",
+        "messages": {
+            "zh": {
+                "description": "检测到使用嵌套 Python 循环进行矩阵/数组计算",
+                "suggestion": "改用 NumPy 向量化运算，如 numpy.dot",
+                "hint": "NumPy 利用底层 C/Fortran 优化",
+                "suggestion_code": "import numpy as np\n# 不推荐\nfor i in range(len(A)):\n    for j in range(len(B[0])):\n        for k in range(len(B)):\n            C[i][j] += A[i][k] * B[k][j]\n\n# 推荐\nC = np.dot(A, B)"
+            },
+            "en": {
+                "description": "Detected use of nested Python loops for matrix/array calculations",
+                "suggestion": "Use NumPy vectorized operations, such as numpy.dot, instead",
+                "hint": "NumPy is optimized with underlying C/Fortran implementations",
+                "suggestion_code": "import numpy as np\n# Not recommended\nfor i in range(len(A)):\n    for j in range(len(B[0])):\n        for k in range(len(B)):\n            C[i][j] += A[i][k] * B[k][j]\n\n# Recommended\nC = np.dot(A, B)"
+            }
+        }
+    },
+    {
+        "id": "USE_BUILTIN_FUNCTIONS",
+        "complexity": "O(n)",
+        "messages": {
+            "zh": {
+                "description": "检测到手动累加或手动寻找最值的循环",
+                "suggestion": "改用内置 sum/min/max/any/all",
+                "hint": "内置函数在 C 层实现，速度更快",
+                "suggestion_code": "# 不推荐\ntotal = 0\nfor x in my_list:\n    total += x\n\n# 推荐\ntotal = sum(my_list)"
+            },
+            "en": {
+                "description": "Detected manual loops for summation or finding min/max values",
+                "suggestion": "Use built-in functions like sum(), min(), max(), any(), all()",
+                "hint": "Built-in functions are implemented in C and are much faster",
+                "suggestion_code": "# Not recommended\ntotal = 0\nfor x in my_list:\n    total += x\n\n# Recommended\ntotal = sum(my_list)"
+            }
+        }
+    },
+    {
+        "id": "ALGORITHM_OPTIMIZATION",
+        "complexity": "O(2^n) vs O(n)",
+        "messages": {
+            "zh": {
+                "description": "检测到朴素阶乘/斐波那契/质数检测等低效算法实现",
+                "suggestion": "使用 math.factorial、动态规划或筛法",
+                "hint": "指数递归性能极低",
+                "suggestion_code": "# 不推荐: 递归斐波那契\ndef fib(n):\n    if n <= 1: return n\n    return fib(n-1) + fib(n-2)\n\n# 推荐: 动态规划\nmemo = {0: 0, 1: 1}\ndef fib_memo(n):\n    if n not in memo:\n        memo[n] = fib_memo(n-1) + fib_memo(n-2)\n    return memo[n]"
+            },
+            "en": {
+                "description": "Detected inefficient algorithm implementations like naive factorial/Fibonacci/prime checking",
+                "suggestion": "Use math.factorial, dynamic programming, or sieve methods",
+                "hint": "Exponential recursion has extremely poor performance",
+                "suggestion_code": "# Not recommended: Recursive Fibonacci\ndef fib(n):\n    if n <= 1: return n\n    return fib(n-1) + fib(n-2)\n\n# Recommended: Dynamic Programming\nmemo = {0: 0, 1: 1}\ndef fib_memo(n):\n    if n not in memo:\n        memo[n] = fib_memo(n-1) + fib_memo(n-2)\n    return memo[n]"
+            }
+        }
+    },
+    {
+        "id": "STRING_CONCAT_IN_LOOP",
+        "complexity": "O(n²) vs O(n)",
+        "messages": {
+            "zh": {
+                "description": "检测到在循环中累加字符串",
+                "suggestion": "改用 str.join",
+                "hint": "字符串不可变，+= 会创建新对象",
+                "suggestion_code": "parts = ['a', 'b', 'c']\n# 不推荐\nresult = ''\nfor part in parts:\n    result += part\n\n# 推荐\nresult = ''.join(parts)"
+            },
+            "en": {
+                "description": "Detected string concatenation in a loop",
+                "suggestion": "Use str.join() instead",
+                "hint": "Strings are immutable; += creates a new object on each iteration",
+                "suggestion_code": "parts = ['a', 'b', 'c']\n# Not recommended\nresult = ''\nfor part in parts:\n    result += part\n\n# Recommended\nresult = ''.join(parts)"
+            }
+        }
+    },
+    {
+        "id": "STRING_REPLACE_IN_LOOP",
+        "complexity": "O(n*m) vs O(n)",
+        "messages": {
+            "zh": {
+                "description": "检测到循环中多次执行字符串替换",
+                "suggestion": "使用 re.sub 一次性替换或链式调用",
+                "hint": "循环多次 replace 性能低",
+                "suggestion_code": "import re\ntext = 'foo bar baz'\n# 不推荐\nfor old, new in [('foo', 'a'), ('bar', 'b')]:\n    text = text.replace(old, new)\n\n# 推荐 (链式)\ntext = text.replace('foo', 'a').replace('bar', 'b')\n# 推荐 (正则)\ntext = re.sub('foo|bar', lambda m: {'foo':'a', 'bar':'b'}[m.group(0)], text)"
+            },
+            "en": {
+                "description": "Detected multiple string replace calls in a loop",
+                "suggestion": "Use re.sub for a single, comprehensive replacement or chained calls",
+                "hint": "Multiple replace calls in a loop are inefficient",
+                "suggestion_code": "import re\ntext = 'foo bar baz'\n# Not recommended\nfor old, new in [('foo', 'a'), ('bar', 'b')]:\n    text = text.replace(old, new)\n\n# Recommended (chained)\ntext = text.replace('foo', 'a').replace('bar', 'b')\n# Recommended (regex)\ntext = re.sub('foo|bar', lambda m: {'foo':'a', 'bar':'b'}[m.group(0)], text)"
+            }
+        }
+    },
+    {
+        "id": "STRING_ITERATION_LOOP",
+        "complexity": "O(n)",
+        "messages": {
+            "zh": {
+                "description": "检测到使用循环逐字符处理字符串",
+                "suggestion": "改用内置字符串方法或标准库",
+                "hint": "逐字符处理不及 C 实现高效",
+                "suggestion_code": "# 不推荐: 检查字符串是否全为数字\nall_digits = True\nfor char in my_string:\n    if not char.isdigit():\n        all_digits = False\n        break\n\n# 推荐\nall_digits = my_string.isdigit()"
+            },
+            "en": {
+                "description": "Detected character-by-character string processing in a loop",
+                "suggestion": "Use built-in string methods or standard library functions instead",
+                "hint": "Character-by-character processing is less efficient than C implementations",
+                "suggestion_code": "# Not recommended: check if string is all digits\nall_digits = True\nfor char in my_string:\n    if not char.isdigit():\n        all_digits = False\n        break\n\n# Recommended\nall_digits = my_string.isdigit()"
+            }
+        }
+    },
+    {
+        "id": "LINEAR_SEARCH_IN_LOOP",
+        "complexity": "O(n*m) vs O(n)",
+        "messages": {
+            "zh": {
+                "description": "检测到在循环中进行线性搜索",
+                "suggestion": "改用集合或字典查询",
+                "hint": "集合查询为 O(1)",
+                "suggestion_code": "items_to_find = [1, 5, 10]\nlong_list = range(1000)\n# 不推荐\nfor item in long_list:\n    if item in items_to_find: # O(m) search\n        ...\n\n# 推荐\nfind_set = set(items_to_find)\nfor item in long_list:\n    if item in find_set: # O(1) search\n        ..."
+            },
+            "en": {
+                "description": "Detected linear search within a loop",
+                "suggestion": "Convert the searched list to a set or dictionary for O(1) lookups",
+                "hint": "Set lookups are O(1) on average",
+                "suggestion_code": "items_to_find = [1, 5, 10]\nlong_list = range(1000)\n# Not recommended\nfor item in long_list:\n    if item in items_to_find: # O(m) search\n        ...\n\n# Recommended\nfind_set = set(items_to_find)\nfor item in long_list:\n    if item in find_set: # O(1) search\n        ..."
+            }
+        }
+    },
+    {
+        "id": "NESTED_LOOP_COMPARISON",
+        "complexity": "O(nm) vs O(n+m)",
+        "messages": {
+            "zh": {
+                "description": "检测到嵌套循环比较两个序列",
+                "suggestion": "改用集合交集或双指针算法",
+                "hint": "集合交集更高效",
+                "suggestion_code": "# 不推荐\ncommon_items = []\nfor item1 in list1:\n    for item2 in list2:\n        if item1 == item2:\n            common_items.append(item1)\n\n# 推荐\ncommon_items = list(set(list1) & set(list2))"
+            },
+            "en": {
+                "description": "Detected nested loops for comparing two sequences",
+                "suggestion": "Use set intersection or a two-pointer algorithm instead",
+                "hint": "Set intersection is more efficient",
+                "suggestion_code": "# Not recommended\ncommon_items = []\nfor item1 in list1:\n    for item2 in list2:\n        if item1 == item2:\n            common_items.append(item1)\n\n# Recommended\ncommon_items = list(set(list1) & set(list2))"
+            }
+        }
+    },
+    {
+        "id": "REDUNDANT_TRAVERSAL",
+        "complexity": "O(2n) vs O(n)",
+        "messages": {
+            "zh": {
+                "description": "检测到对同一列表的多次遍历",
+                "suggestion": "合并循环",
+                "hint": "减少冗余遍历",
+                "suggestion_code": "# 不推荐\nsum_val = sum(my_list)\ncount = len(my_list)\nmean = sum_val / count\n\nvariance = 0\nfor x in my_list:\n    variance += (x - mean)**2\n\n# 推荐: 一次遍历计算\nsum_val = 0\nsum_sq_val = 0\nfor x in my_list:\n    sum_val += x\n    sum_sq_val += x*x\n# ... 然后计算均值和方差"
+            },
+            "en": {
+                "description": "Detected multiple traversals of the same list",
+                "suggestion": "Combine loops to traverse only once",
+                "hint": "Reduce redundant traversals",
+                "suggestion_code": "# Not recommended\nsum_val = sum(my_list)\ncount = len(my_list)\nmean = sum_val / count\n\nvariance = 0\nfor x in my_list:\n    variance += (x - mean)**2\n\n# Recommended: one-pass calculation\nsum_val = 0\nsum_sq_val = 0\nfor x in my_list:\n    sum_val += x\n    sum_sq_val += x*x\n# ... then calculate mean and variance"
+            }
+        }
+    },
+    {
+        "id": "MANUAL_SORT_LOOP",
+        "complexity": "O(n²) vs O(n log n)",
+        "messages": {
+            "zh": {
+                "description": "检测到手写排序算法",
+                "suggestion": "使用内置 sorted()",
+                "hint": "内置 Timsort 性能优",
+                "suggestion_code": "# 不推荐: 冒泡排序\nn = len(arr)\nfor i in range(n):\n    for j in range(0, n-i-1):\n        if arr[j] > arr[j+1]:\n            arr[j], arr[j+1] = arr[j+1], arr[j]\n\n# 推荐\nsorted_arr = sorted(arr)"
+            },
+            "en": {
+                "description": "Detected a manual sorting algorithm implementation",
+                "suggestion": "Use the built-in sorted() function",
+                "hint": "The built-in Timsort is highly optimized",
+                "suggestion_code": "# Not recommended: Bubble Sort\nn = len(arr)\nfor i in range(n):\n    for j in range(0, n-i-1):\n        if arr[j] > arr[j+1]:\n            arr[j], arr[j+1] = arr[j+1], arr[j]\n\n# Recommended\nsorted_arr = sorted(arr)"
+            }
+        }
+    },
+    {
+        "id": "REPEATED_SORT",
+        "complexity": "O(n log n)",
+        "messages": {
+            "zh": {
+                "description": "检测到重复排序",
+                "suggestion": "减少排序次数或使用 bisect",
+                "hint": "避免在循环内排序",
+                "suggestion_code": "# 不推荐\nfor item in new_items:\n    my_list.append(item)\n    my_list.sort()\n\n# 推荐\nmy_list.extend(new_items)\nmy_list.sort()"
+            },
+            "en": {
+                "description": "Detected repeated sorting",
+                "suggestion": "Reduce the number of sorts or use the bisect module",
+                "hint": "Avoid sorting inside a loop",
+                "suggestion_code": "# Not recommended\nfor item in new_items:\n    my_list.append(item)\n    my_list.sort()\n\n# Recommended\nmy_list.extend(new_items)\nmy_list.sort()"
+            }
+        }
+    },
+    {
+        "id": "LIST_QUEUE_USAGE",
+        "complexity": "O(n) vs O(1)",
+        "messages": {
+            "zh": {
+                "description": "检测到使用 list.pop(0)/insert(0,x) 实现队列",
+                "suggestion": "使用 collections.deque",
+                "hint": "deque 的 popleft() 为 O(1)",
+                "suggestion_code": "from collections import deque\n\n# 不推荐\nq = [1, 2, 3]\nq.pop(0)\n\n# 推荐\nq = deque([1, 2, 3])\nq.popleft()"
+            },
+            "en": {
+                "description": "Detected use of list.pop(0) or list.insert(0, x) to implement a queue",
+                "suggestion": "Use collections.deque for an efficient queue",
+                "hint": "deque's popleft() operation is O(1)",
+                "suggestion_code": "from collections import deque\n\n# Not recommended\nq = [1, 2, 3]\nq.pop(0)\n\n# Recommended\nq = deque([1, 2, 3])\nq.popleft()"
+            }
+        }
+    },
+    {
+        "id": "LIST_APPEND_IN_LOOP",
+        "complexity": "O(n)",
+        "messages": {
+            "zh": {
+                "description": "检测到在循环中使用 list.append",
+                "suggestion": "改用列表推导式以提高性能和可读性",
+                "hint": "列表推导式更快，因为它们在C层实现，并避免了重复调用append方法的开销。",
+                "suggestion_code": "# 不推荐\nnew_list = []\nfor i in old_list:\n    new_list.append(i * 2)\n\n# 推荐\nnew_list = [i * 2 for i in old_list]"
+            },
+            "en": {
+                "description": "Detected use of list.append in a loop",
+                "suggestion": "Use a list comprehension for better performance and readability",
+                "hint": "List comprehensions are faster as they are implemented in C and avoid the overhead of repeated append method calls.",
+                "suggestion_code": "# Not recommended\nnew_list = []\nfor i in old_list:\n    new_list.append(i * 2)\n\n# Recommended\nnew_list = [i * 2 for i in old_list]"
+            }
+        }
+    },
+    {
+        "id": "ADJ_MATRIX_TRAVERSAL",
+        "complexity": "O(V²) vs O(V+E)",
+        "messages": {
+            "zh": {
+                "description": "检测到使用邻接矩阵进行图遍历",
+                "suggestion": "对于稀疏图，使用邻接表通常更高效",
+                "hint": "邻接表只存储存在的边，在稀疏图上节省空间和时间",
+                "suggestion_code": "# 不推荐: 邻接矩阵\ngraph = [[0, 1, 0], [0, 0, 1], [1, 0, 0]]\nfor i in range(V):\n    for j in range(V):\n        if graph[i][j] == 1:\n            # process edge (i, j)\n\n# 推荐: 邻接表\ngraph = {0: [1], 1: [2], 2: [0]}\nfor u in graph:\n    for v in graph[u]:\n        # process edge (u, v)"
+            },
+            "en": {
+                "description": "Detected graph traversal using an adjacency matrix",
+                "suggestion": "For sparse graphs, an adjacency list is typically more efficient",
+                "hint": "Adjacency lists save space and time on sparse graphs by only storing existing edges",
+                "suggestion_code": "# Not recommended: Adjacency Matrix\ngraph = [[0, 1, 0], [0, 0, 1], [1, 0, 0]]\nfor i in range(V):\n    for j in range(V):\n        if graph[i][j] == 1:\n            # process edge (i, j)\n\n# Recommended: Adjacency List\ngraph = {0: [1], 1: [2], 2: [0]}\nfor u in graph:\n    for v in graph[u]:\n        # process edge (u, v)"
+            }
+        }
+    },
+    {
+        "id": "GRAPH_REPEAT_SEARCH",
+        "complexity": "O(V+E) vs O(V^V)",
+        "messages": {
+            "zh": {
+                "description": "检测到图遍历缺少访问记录",
+                "suggestion": "使用集合记录已访问节点，避免重复访问和死循环",
+                "hint": "防止指数级重复遍历",
+                "suggestion_code": "# 不推荐\ndef dfs(u, graph):\n    # ...\n    for v in graph[u]:\n        dfs(v, graph)\n\n# 推荐\ndef dfs(u, graph, visited):\n    visited.add(u)\n    # ...\n    for v in graph[u]:\n        if v not in visited:\n            dfs(v, graph, visited)"
+            },
+            "en": {
+                "description": "Detected graph traversal without a visited set",
+                "suggestion": "Use a set to keep track of visited nodes to avoid cycles and redundant work",
+                "hint": "Prevents exponential reprocessing of nodes",
+                "suggestion_code": "# Not recommended\ndef dfs(u, graph):\n    # ...\n    for v in graph[u]:\n        dfs(v, graph)\n\n# Recommended\ndef dfs(u, graph, visited):\n    visited.add(u)\n    # ...\n    for v in graph[u]:\n        if v not in visited:\n            dfs(v, graph, visited)"
+            }
+        }
+    },
+    {
+        "id": "DICT_SETITEM_IN_LOOP",
+        "complexity": "O(n)",
+        "messages": {
+            "zh": {
+                "description": "检测到在循环中逐个设置字典项",
+                "suggestion": "改用字典推导式以提高性能和可读性",
+                "hint": "字典推导式更简洁，且在C层实现更高效",
+                "suggestion_code": "# 不推荐\nx = {}\nfor i in items:\n    x[i] = i * 2\n\n# 推荐\nx = {i: i * 2 for i in items}"
+            },
+            "en": {
+                "description": "Detected dictionary item assignment in a loop",
+                "suggestion": "Use a dictionary comprehension for better performance and readability",
+                "hint": "Dictionary comprehensions are more concise and efficiently implemented in C",
+                "suggestion_code": "# Not recommended\nx = {}\nfor i in items:\n    x[i] = i * 2\n\n# Recommended\nx = {i: i * 2 for i in items}"
+            }
+        }
+    },
+{
+    "id": "SET_ADD_IN_LOOP",
+    "complexity": "O(n)",
+    "messages": {
+        "zh": {
+            "description": "检测到在循环中使用 set.add",
+            "suggestion": "改用集合推导式以提高性能和可读性",
+            "hint": "集合推导式更快，避免重复调用 add",
+            "suggestion_code": "# 不推荐\\nresult = set()\\nfor x in items:\\n    result.add(x)\\n\\n# 推荐\\nresult = {x for x in items}"
+        },
+        "en": {
+            "description": "Detected use of set.add in a loop",
+            "suggestion": "Use a set comprehension for better performance and readability",
+            "hint": "Set comprehensions are faster and avoid repeated add calls",
+            "suggestion_code": "# Not recommended\\nresult = set()\\nfor x in items:\\n    result.add(x)\\n\\n# Recommended\\nresult = {x for x in items}"
+        }
+    }
+}
+]

@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "smart_code"
+version = "0.5.0"
+description = "Static analysis tool for Python code optimization suggestions"
+authors = ["mingchi.sun <marshalx9@163.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.8"
+libcst = "*"
+mypy = "*"
+
+[tool.poetry.scripts]
+smart_code = "smart_code.cli:main"
