@@ -1,0 +1,28 @@
+# MANIFEST.in
+include README.md
+include LICENSE
+include CHANGELOG.md
+include requirements.txt
+#include requirements-dev.txt
+include pyproject.toml
+include setup.cfg
+
+# Include package data
+recursive-include optimizer *.py *.typed
+
+# Include tests
+recursive-include tests *.py
+
+# Include examples
+recursive-include examples *.py *.ipynb
+
+# Include documentation
+recursive-include docs *.rst *.md *.txt
+
+# Exclude compiled files
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude __pycache__
+global-exclude *.so
+global-exclude .DS_Store
+
