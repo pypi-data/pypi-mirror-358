@@ -1,0 +1,5 @@
+""" version which can be consumed from within the module """
+VERSION_STR = "0.0.7"
+DESCRIPTION = "Do stuff with google calendar"
+APP_NAME = "pygcal"
+LOGGER_NAME = "pygcal"
