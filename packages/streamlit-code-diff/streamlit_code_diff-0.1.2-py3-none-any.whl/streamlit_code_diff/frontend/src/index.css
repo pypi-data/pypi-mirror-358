@@ -1,0 +1,356 @@
+/* Reset and base styles */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Roboto",
+        "Oxygen",
+        "Ubuntu",
+        "Cantarell",
+        "Fira Sans",
+        "Droid Sans",
+        "Helvetica Neue",
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Main container styles */
+.streamlit-code-diff {
+    font-family:
+        "Consolas",
+        "Monaco",
+        "Cascadia Code",
+        "Roboto Mono",
+        "Courier New",
+        monospace;
+    width: 100%;
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+/* Theme variables for v-code-diff */
+.streamlit-code-diff.theme-light {
+    --vcd-background-color: #ffffff;
+    --vcd-text-color: #24292f;
+    --vcd-border-color: #d1d9e0;
+    --vcd-header-background: #f6f8fa;
+    --vcd-gutter-background: #f6f8fa;
+    --vcd-gutter-text-color: #656d76;
+    --vcd-line-added-background: #d1f4d0;
+    --vcd-line-removed-background: #ffd8d3;
+    --vcd-line-added-border: #82e682;
+    --vcd-line-removed-border: #ff8a80;
+    --vcd-word-added-background: #abf2bc;
+    --vcd-word-removed-background: #ffc5ba;
+}
+
+.streamlit-code-diff.theme-dark {
+    --vcd-background-color: #0d1117;
+    --vcd-text-color: #e6edf3;
+    --vcd-border-color: #30363d;
+    --vcd-header-background: #21262d;
+    --vcd-gutter-background: #21262d;
+    --vcd-gutter-text-color: #7d8590;
+    --vcd-line-added-background: #1a2f1a;
+    --vcd-line-removed-background: #3d1a1a;
+    --vcd-line-added-border: #347d39;
+    --vcd-line-removed-border: #da3633;
+    --vcd-word-added-background: #347d39;
+    --vcd-word-removed-background: #da3633;
+}
+
+/* v-code-diff component styling */
+.streamlit-code-diff :deep(.v-code-diff) {
+    background-color: var(--vcd-background-color);
+    color: var(--vcd-text-color);
+    border: 1px solid var(--vcd-border-color);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    font-family:
+        "Consolas",
+        "Monaco",
+        "Cascadia Code",
+        "Roboto Mono",
+        "Courier New",
+        monospace !important;
+}
+
+.streamlit-code-diff :deep(.code-diff-view) {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.streamlit-code-diff :deep(.d2h-wrapper) {
+    background-color: var(--vcd-background-color);
+    color: var(--vcd-text-color);
+    margin: 0;
+    padding: 0;
+}
+
+.streamlit-code-diff :deep(.d2h-file-header) {
+    background-color: var(--vcd-header-background);
+    border-bottom: 1px solid var(--vcd-border-color);
+    color: var(--vcd-text-color);
+    padding: 12px 16px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.streamlit-code-diff :deep(.d2h-file-name) {
+    color: var(--vcd-text-color);
+    font-family: inherit;
+}
+
+.streamlit-code-diff :deep(.d2h-code-linenumber) {
+    background-color: var(--vcd-gutter-background);
+    color: var(--vcd-gutter-text-color);
+    border-right: 1px solid var(--vcd-border-color);
+    text-align: right;
+    padding: 0 8px;
+    user-select: none;
+    font-family: inherit;
+    font-size: 12px;
+    line-height: 1.45;
+    min-width: 40px;
+}
+
+.streamlit-code-diff :deep(.d2h-code-line) {
+    background-color: var(--vcd-background-color);
+    color: var(--vcd-text-color);
+    padding: 0 12px;
+    white-space: pre;
+    font-family: inherit;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+/* Line-level diff highlighting */
+.streamlit-code-diff :deep(.d2h-ins) {
+    background-color: var(--vcd-line-added-background) !important;
+    border-left: 3px solid var(--vcd-line-added-border);
+}
+
+.streamlit-code-diff :deep(.d2h-del) {
+    background-color: var(--vcd-line-removed-background) !important;
+    border-left: 3px solid var(--vcd-line-removed-border);
+}
+
+.streamlit-code-diff :deep(.d2h-code-line-ctn) {
+    display: flex;
+    align-items: stretch;
+}
+
+.streamlit-code-diff :deep(.d2h-code-side-line) {
+    display: flex;
+    align-items: stretch;
+    border-bottom: 1px solid transparent;
+}
+
+.streamlit-code-diff :deep(.d2h-code-side-line:hover) {
+    background-color: var(--vcd-gutter-background);
+}
+
+/* Side-by-side layout */
+.streamlit-code-diff :deep(.d2h-code-wrapper) {
+    display: flex;
+    width: 100%;
+}
+
+.streamlit-code-diff :deep(.d2h-code-side) {
+    flex: 1;
+    min-width: 0;
+}
+
+.streamlit-code-diff :deep(.d2h-code-side:first-child) {
+    border-right: 1px solid var(--vcd-border-color);
+}
+
+/* Line-by-line layout */
+.streamlit-code-diff :deep(.d2h-code-line-prefix) {
+    padding-right: 8px;
+}
+
+/* Enhanced inline word/character diff highlighting */
+.streamlit-code-diff :deep(.d2h-code-line .d2h-code-line-ctn ins),
+.streamlit-code-diff :deep(.d2h-ins .d2h-code-line-ctn ins) {
+    background-color: var(--vcd-word-added-background) !important;
+    text-decoration: none !important;
+    padding: 1px 2px !important;
+    border-radius: 3px !important;
+    color: var(--vcd-text-color) !important;
+    font-weight: 600 !important;
+    box-shadow: 0 0 0 1px var(--vcd-line-added-border) !important;
+}
+
+.streamlit-code-diff :deep(.d2h-code-line .d2h-code-line-ctn del),
+.streamlit-code-diff :deep(.d2h-del .d2h-code-line-ctn del) {
+    background-color: var(--vcd-word-removed-background) !important;
+    text-decoration: none !important;
+    padding: 1px 2px !important;
+    border-radius: 3px !important;
+    color: var(--vcd-text-color) !important;
+    font-weight: 600 !important;
+    box-shadow: 0 0 0 1px var(--vcd-line-removed-border) !important;
+}
+
+/* Alternative selectors for inline diffs */
+.streamlit-code-diff :deep(ins) {
+    background-color: var(--vcd-word-added-background) !important;
+    text-decoration: none !important;
+    padding: 1px 2px !important;
+    border-radius: 3px !important;
+    font-weight: 600 !important;
+}
+
+.streamlit-code-diff :deep(del) {
+    background-color: var(--vcd-word-removed-background) !important;
+    text-decoration: none !important;
+    padding: 1px 2px !important;
+    border-radius: 3px !important;
+    font-weight: 600 !important;
+}
+
+/* Word-level highlighting for diff2html classes */
+.streamlit-code-diff :deep(.d2h-change) {
+    display: inline-block;
+}
+
+.streamlit-code-diff :deep(.d2h-change .d2h-change-content) {
+    background-color: var(--vcd-word-added-background) !important;
+    padding: 1px 2px !important;
+    border-radius: 3px !important;
+    font-weight: 600 !important;
+}
+
+/* File statistics */
+.streamlit-code-diff :deep(.d2h-file-stats) {
+    background-color: var(--vcd-header-background);
+    color: var(--vcd-text-color);
+    padding: 8px 16px;
+    font-size: 12px;
+    border-bottom: 1px solid var(--vcd-border-color);
+}
+
+/* Custom styling for better integration */
+.streamlit-code-diff :deep(.d2h-file-wrapper) {
+    border: 1px solid var(--vcd-border-color);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+/* Enhanced table styling */
+.streamlit-code-diff :deep(.d2h-diff-table) {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-family: inherit;
+}
+
+.streamlit-code-diff :deep(.d2h-diff-tbody) {
+    width: 100%;
+}
+
+.streamlit-code-diff :deep(.d2h-diff-tr) {
+    width: 100%;
+}
+
+/* Enhanced inline highlighting - multiple selectors to catch all cases */
+.streamlit-code-diff :deep(.hljs-addition),
+.streamlit-code-diff :deep(.addition) {
+    background-color: var(--vcd-word-added-background) !important;
+    padding: 1px 2px !important;
+    border-radius: 3px !important;
+    font-weight: 600 !important;
+}
+
+.streamlit-code-diff :deep(.hljs-deletion),
+.streamlit-code-diff :deep(.deletion) {
+    background-color: var(--vcd-word-removed-background) !important;
+    padding: 1px 2px !important;
+    border-radius: 3px !important;
+    font-weight: 600 !important;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .streamlit-code-diff :deep(.d2h-code-wrapper) {
+        flex-direction: column;
+    }
+
+    .streamlit-code-diff :deep(.d2h-code-side:first-child) {
+        border-right: none;
+        border-bottom: 1px solid var(--vcd-border-color);
+    }
+
+    .streamlit-code-diff :deep(.d2h-code-linenumber) {
+        font-size: 11px;
+        min-width: 30px;
+    }
+
+    .streamlit-code-diff :deep(.d2h-code-line) {
+        font-size: 12px;
+    }
+
+    .streamlit-code-diff :deep(.d2h-file-header) {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+}
+
+/* Focus styles for accessibility */
+.streamlit-code-diff:focus-within {
+    outline: 2px solid #ff6b35;
+    outline-offset: 2px;
+    border-radius: 8px;
+}
+
+/* Print styles */
+@media print {
+    .streamlit-code-diff {
+        border: 1px solid #000;
+        background: white !important;
+        color: black !important;
+    }
+
+    .streamlit-code-diff * {
+        background: transparent !important;
+        color: black !important;
+    }
+}
+
+/* Loading state (if needed) */
+.streamlit-code-diff.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    background-color: var(--vcd-background-color);
+    color: var(--vcd-text-color);
+    border: 1px solid var(--vcd-border-color);
+    border-radius: 8px;
+}
+
+.streamlit-code-diff.loading::after {
+    content: "Loading diff...";
+    font-size: 14px;
+    opacity: 0.7;
+}
