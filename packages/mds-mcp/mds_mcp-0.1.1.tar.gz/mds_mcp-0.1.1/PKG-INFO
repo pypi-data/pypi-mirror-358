@@ -1,0 +1,237 @@
+Metadata-Version: 2.4
+Name: mds-mcp
+Version: 0.1.1
+Summary: Model Cache Server - MCP server for downloading and caching ML models and datasets
+Project-URL: Homepage, https://github.com/kk-xuhj/mds-mcp
+Project-URL: Repository, https://github.com/kk-xuhj/mds-mcp
+Project-URL: Bug Tracker, https://github.com/kk-xuhj/mds-mcp/issues
+Project-URL: Documentation, https://github.com/kk-xuhj/mds-mcp#readme
+Author-email: Kirk Xu <adolfxuhj@163.com>
+Maintainer-email: Kirk Xu <adolfxuhj@163.com>
+License: MIT
+License-File: LICENSE
+Keywords: datasets,huggingface,machine-learning,mcp,model-cache
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.11
+Requires-Dist: colorama>=0.4.6
+Requires-Dist: datasets>=2.0.0
+Requires-Dist: fastmcp>=0.1.0
+Requires-Dist: huggingface-hub>=0.20.0
+Requires-Dist: python-dotenv>=1.0.0
+Requires-Dist: sentry-sdk>=2.0.0
+Requires-Dist: transformers>=4.30.0
+Provides-Extra: dev
+Requires-Dist: black>=23.0.0; extra == 'dev'
+Requires-Dist: flake8>=6.0.0; extra == 'dev'
+Requires-Dist: isort>=5.0.0; extra == 'dev'
+Requires-Dist: mypy>=1.0.0; extra == 'dev'
+Requires-Dist: pre-commit>=3.0.0; extra == 'dev'
+Requires-Dist: pytest-cov>=4.0.0; extra == 'dev'
+Requires-Dist: pytest>=8.4.1; extra == 'dev'
+Requires-Dist: types-colorama>=0.4.15; extra == 'dev'
+Description-Content-Type: text/markdown
+
+# MDS-MCP: Model Cache Server
+
+[![PyPI version](https://badge.fury.io/py/mds-mcp.svg)](https://badge.fury.io/py/mds-mcp)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+A Model Control Protocol (MCP) server for efficiently downloading and caching machine learning models and datasets from various sources like Hugging Face.
+
+## Features
+
+- 🚀 **Fast Model & Dataset Downloads**: Efficient downloading and caching of ML models and datasets
+- 🔄 **Smart Caching**: Automatically manages local cache to avoid re-downloading
+- 🔐 **Authentication Support**: Handles gated models and private repositories
+- 🌐 **Multiple Providers**: Currently supports Hugging Face with extensible architecture
+- 📊 **Monitoring**: Built-in Sentry integration for error tracking
+- 🛠 **MCP Compatible**: Works seamlessly with MCP clients
+
+## Installation
+
+### From PyPI (Recommended)
+
+```bash
+pip install mds-mcp
+```
+
+### From Source
+
+```bash
+git clone https://github.com/yourusername/mds-mcp.git
+cd mds-mcp
+pip install -e .
+```
+
+## Quick Start
+
+### 1. Environment Setup
+
+Create a `.env` file in your project directory:
+
+```env
+# Optional: Hugging Face token for gated/private models
+HF_TOKEN=your_huggingface_token_here
+
+# Optional: Sentry configuration
+SENTRY_DSN=your_sentry_dsn_here
+SENTRY_ENVIRONMENT=production
+SENTRY_SAMPLE_RATE=0.1
+
+# Server configuration
+MCP_HOST=0.0.0.0
+MCP_PORT=9004
+LOG_LEVEL=INFO
+```
+
+### 2. Start the Server
+
+```bash
+mds-mcp
+```
+
+Or run with Python:
+
+```bash
+python -m mds_mcp.main
+```
+
+### 3. Using the MCP Tools
+
+The server provides two main tools:
+
+#### Download Model
+
+```python
+{
+    "tool": "download_model",
+    "arguments": {
+        "provider": "huggingface",
+        "identifier": "microsoft/DialoGPT-medium",
+        "token": "optional_hf_token"
+    }
+}
+```
+
+#### Download Dataset
+
+```python
+{
+    "tool": "download_dataset",
+    "arguments": {
+        "provider": "huggingface",
+        "identifier": "imdb",
+        "name": "optional_config_name",
+        "token": "optional_hf_token"
+    }
+}
+```
+
+## Supported Providers
+
+### Hugging Face
+
+- **Models**: All public and gated models from Hugging Face Hub
+- **Datasets**: Complete dataset downloads with all splits
+- **Authentication**: Supports access tokens for gated/private content
+
+## API Reference
+
+### Tools
+
+#### `download_model(provider, identifier, token=None)`
+
+Downloads a pretrained model to local cache.
+
+**Parameters:**
+- `provider` (str): Model source (e.g., 'huggingface')
+- `identifier` (str): Model repository ID
+- `token` (str, optional): Access token for private/gated models
+
+**Returns:**
+- Success: `{'status': 'downloaded', 'path': '<cache_dir>'}`
+- Cached: `{'status': 'cached', 'path': '<cache_dir>'}`
+- Auth Required: `{'status': 'auth_required', 'access_url': '...', 'instructions': [...]}`
+- Error: `{'status': 'error', 'message': '...'}`
+
+#### `download_dataset(provider, identifier, name=None, token=None)`
+
+Downloads a dataset with all splits to local cache.
+
+**Parameters:**
+- `provider` (str): Dataset source (e.g., 'huggingface')
+- `identifier` (str): Dataset repository name
+- `name` (str, optional): Dataset config or task name
+- `token` (str, optional): Access token for private/gated datasets
+
+**Returns:**
+Same format as `download_model`.
+
+## Development
+
+### Setup Development Environment
+
+```bash
+git clone https://github.com/yourusername/mds-mcp.git
+cd mds-mcp
+pip install -e ".[dev]"
+```
+
+### Running Tests
+
+```bash
+pytest
+```
+
+### Code Formatting
+
+```bash
+black mds_mcp/
+isort mds_mcp/
+```
+
+### Type Checking
+
+```bash
+mypy mds_mcp/
+```
+
+## Architecture
+
+The server is built with a modular architecture:
+
+- **Core Server**: FastMCP-based server handling MCP protocol
+- **Providers**: Pluggable backends for different model sources
+- **Services**: Business logic for caching, authentication, and downloads
+- **Logging**: Structured logging with optional Sentry integration
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Support
+
+- 📚 [Documentation](https://github.com/yourusername/mds-mcp#readme)
+- 🐛 [Report Issues](https://github.com/yourusername/mds-mcp/issues)
+- 💬 [Discussions](https://github.com/yourusername/mds-mcp/discussions)
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for details about version changes.
