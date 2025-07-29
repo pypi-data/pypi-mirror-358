@@ -1,0 +1,39 @@
+[project]
+name = "test.thing"
+version = "0.2.0"
+description = "A simple modern VM runner"
+readme = "README.md"
+requires-python = ">=3.13"
+license = "GPL-3.0-or-later"
+license-files = ["COPYING"]
+
+[project.scripts]
+tt = 'testthing:_main'
+'test.thing' = 'testthing:_main'
+
+[tool.ruff]
+select = ['ALL']
+ignore = [
+    'COM812',
+    'EM102',
+    'FA102',
+    'FIX002',
+    'N818',
+    'PLR0913',
+    'PLR2004',
+    'S101',
+    'T201',
+    'TD002',
+    'TD003',
+    'TRY003',
+]
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+
+[tool.pytest.ini_options]
+addopts = "-s"
+asyncio_mode = "auto"
+testpaths = ["test"]
+pythonpath = '.'
