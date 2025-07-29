@@ -1,0 +1,68 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "styledctk-widgets"
+dynamic = ["version"]
+description = ''
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "DigitalCreationsLibrary", email = "aimosta.official@gmail.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+  "click",
+  "customtkinter>=5.2.2",
+
+]
+
+[project.urls]
+Documentation = "https://github.com/DigitalCreationsLibrary/styledctk_widgetse#readme"
+Issues = "https://github.com/DigitalCreationsLibrary/styledctk-widgets/issues"
+Source = "https://github.com/DigitalCreationsLibrary/styledctk-widgets"
+
+[project.scripts]
+styledctk-widgets = "styledctk_widgets.cli:styledctk_widgets"
+
+[tool.hatch.version]
+path = "src/styledctk_widgets/__about__.py"
+
+[tool.hatch.envs.types]
+extra-dependencies = [
+  "mypy>=1.0.0",
+]
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/styledctk_widgets tests}"
+
+[tool.coverage.run]
+source_pkgs = ["styledctk_widgets", "tests"]
+branch = true
+parallel = true
+omit = [
+  "src/styledctk_widgets/__about__.py",
+]
+
+[tool.coverage.paths]
+styledctk_widgets = ["src/styledctk_widgets", "*/styledctk-widgets/src/styledctk_widgets"]
+tests = ["tests", "*/styledctk-widgets/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
