@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "crypto-ylp"
+version = "0.1.0"
+description = "Lightweight Monero mining wrapper using XMRig"
+authors = [{ name = "blamingyt", email = "blamingyt5@gmail.com" }]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.8"
+
+[project.scripts]
+crypto-ylp = "crypto_ylp.cli:main"
