@@ -1,0 +1,31 @@
+Metadata-Version: 2.1
+Name: mlbnb
+Version: 0.1.2
+Summary: Machine learning bread and butter - a collection of basic deep learning tools
+Author-Email: Jonas Scholz <jonas.scholz123@gmail.com>
+License: MIT
+Requires-Python: >=3.11
+Requires-Dist: torch>=2.4.0
+Requires-Dist: numpy>=2.0.1
+Requires-Dist: pytest>=8.3.2
+Requires-Dist: omegaconf>=2.3.0
+Requires-Dist: loguru>=0.7.2
+Requires-Dist: wandb>=0.17.5
+Requires-Dist: pandas>=2.2.2
+Requires-Dist: pre-commit>=4.2.0
+Requires-Dist: tqdm>=4.67.1
+Requires-Dist: ruff>=0.9.4
+Requires-Dist: ty>=0.0.1a3
+Description-Content-Type: text/markdown
+
+# mlbnb
+
+Machine learning bread and butter - tools used in machine learning experiments
+
+## Fix fdm library:
+
+```
+sed -i 's/np\.math/np/g' .venv/lib/python3.12/site-packages/fdm/fdm.py
+sed -i 's/np\.factorial/math.factorial/g' .venv/lib/python3.12/site-packages/fdm/fdm.py
+sed -i '1s/^/import math\n/' .venv/lib/python3.12/site-packages/fdm/fdm.py
+```
