@@ -1,0 +1,281 @@
+Metadata-Version: 2.3
+Name: cv2_group
+Version: 1.0.0
+Summary: A versatile toolkit to analyze roots within petri dishes.
+License: MIT
+Author: Yorbe Heeren
+Author-email: 232922@buas.nl
+Requires-Python: ==3.10.11
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Requires-Dist: apache-airflow (==2.9.1)
+Requires-Dist: app (>=0.0.1,<0.0.2)
+Requires-Dist: azure-ai-ml (==1.14.0)
+Requires-Dist: azure-identity (>=1.16.0,<2.0.0)
+Requires-Dist: azure-keyvault-secrets (>=4.10.0,<5.0.0)
+Requires-Dist: azure-storage-blob (>=12.19.0,<12.20.0)
+Requires-Dist: azureml-core
+Requires-Dist: azureml-dataprep[fuse,pandas]
+Requires-Dist: azureml-defaults (>=1.55.0,<1.56.0)
+Requires-Dist: azureml-mlflow (>=1.55.0,<1.56.0)
+Requires-Dist: azureml-pipeline (>=1.55.0,<1.56.0)
+Requires-Dist: azureml-pipeline-core (>=1.55.0,<1.56.0)
+Requires-Dist: azureml-pipeline-steps (>=1.55.0,<1.56.0)
+Requires-Dist: azureml-train (>=1.55.0,<1.56.0)
+Requires-Dist: azureml-train-core (>=1.55.0,<1.56.0)
+Requires-Dist: click (==8.1.3)
+Requires-Dist: docker (==7.1.0)
+Requires-Dist: fastapi (==0.110.0)
+Requires-Dist: fusepy
+Requires-Dist: ghp-import (==2.1.0)
+Requires-Dist: load-config (>=0.2.0b6,<0.3.0)
+Requires-Dist: marshmallow (==3.19.0)
+Requires-Dist: matplotlib (==3.8.4)
+Requires-Dist: mlflow[azureml] (>=3.1.0,<4.0.0)
+Requires-Dist: numpy (==1.23.5)
+Requires-Dist: opencv-python (==4.10.0.84)
+Requires-Dist: patchify (==0.2.3)
+Requires-Dist: pendulum (==2.1.2)
+Requires-Dist: pillow (==10.3.0)
+Requires-Dist: protobuf (>=3.9.2,<3.20)
+Requires-Dist: pytest (==8.3.0)
+Requires-Dist: pytest-cov (==6.1.1)
+Requires-Dist: python-dotenv (>=1.1.1,<2.0.0)
+Requires-Dist: python-multipart (>=0.0.20,<0.0.21)
+Requires-Dist: scikit-image (==0.22.0)
+Requires-Dist: scikit-learn (>=1.6.1,<2.0.0)
+Requires-Dist: setuptools (>=65.5.0,<65.6.0)
+Requires-Dist: streamlit (==1.22.0)
+Requires-Dist: tensorflow (==2.10.0)
+Requires-Dist: tensorflow-io-gcs-filesystem (==0.26.0)
+Requires-Dist: tk (>=0.1.0,<0.2.0)
+Requires-Dist: typer (==0.9.0)
+Requires-Dist: uvicorn (==0.29.0)
+Requires-Dist: wandb (==0.16.6)
+Description-Content-Type: text/markdown
+
+<picture align="center">
+  <source media="(prefers-color-scheme: dark)" srcset="cv2_group_package/docs/assets/cv2_group_logo_dark.png">
+  <img alt="cv2_group logo" src="cv2_group_package/docs/assets/cv2_group_logo_light.png">
+</picture>
+
+---
+
+# cv2_group: Python toolkit for analyzing plant roots
+
+| Category | Badges |
+|----------|--------|
+| Testing  | [![Test Suite](https://github.com/BredaUniversityADSAI/2024-25d-fai2-adsai-group-cv-2/actions/workflows/test.yml/badge.svg?branch=main&event=push)](https://github.com/BredaUniversityADSAI/2024-25d-fai2-adsai-group-cv-2/actions/workflows/test.yml) [![codecov](https://codecov.io/github/BredaUniversityADSAI/2024-25d-fai2-adsai-group-cv-2/graph/badge.svg?token=8RX0P5R3V5)](https://codecov.io/github/BredaUniversityADSAI/2024-25d-fai2-adsai-group-cv-2) |
+| Package  | [![PyPI Version](https://img.shields.io/pypi/v/cv2_group.svg)](https://pypi.org/project/cv2_group/) [![PyPI Downloads](https://img.shields.io/pypi/dm/cv2_group.svg)](https://pypi.org/project/cv2_group/) |
+| License  | [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE) |
+| Docker   | [![DockerHub](https://img.shields.io/badge/DockerHub-root_predictor-blue)](https://hub.docker.com/r/arnout2006/root_predictor) |
+
+
+## About
+
+**cv2_group** is a Python package that provides robust computer vision tools specifically designed for **automated organ segmentation and landmark detection in images of plants grown in Petri dishes**.
+
+Modern plant science increasingly relies on high-throughput image analysis, but manually processing these images is often time-consuming and prone to inconsistency. This package addresses that challenge by offering a scalable and reliable solution. Built upon advanced computer vision models, `cv2_group` transforms raw plant images into valuable data, enabling researchers to efficiently track plant development, analyze organ morphology, and identify key anatomical landmarks.
+
+At its core, `cv2_group` leverages a **U-Net model** to accurately segment plant organs and detect specific landmarks. The package is developed with a focus on modularity, ensuring it's easy to maintain, test, and extend for future research needs. It provides a powerful foundation for automated plant phenotyping, moving beyond manual analysis to deliver consistent and precise results at scale.
+
+This system is designed to streamline data extraction from plant imagery, offering a crucial tool for accelerating research in plant biology, agriculture, and related fields.
+## Table of Contents
+
+- [cv2\_group: Python toolkit for analyzing plant roots](#cv2_group-python-toolkit-for-analyzing-plant-roots)
+  - [About](#about)
+  - [Table of Contents](#table-of-contents)
+  - [Main Features](#main-features)
+  - [Where to get it](#where-to-get-it)
+  - [Dependencies](#dependencies)
+  - [Installing the package](#installing-the-package)
+    - [Option 1: Install via PyPI](#option-1-install-via-pypi)
+    - [Option 2: Install via Poetry](#option-2-install-via-poetry)
+  - [Using the package](#using-the-package)
+    - [Command Line Interface (CLI)](#command-line-interface-cli)
+    - [Python API](#python-api)
+      - [Load image](#load-image)
+      - [Create patches](#create-patches)
+      - [Load trained model](#load-trained-model)
+      - [Analyize primary root](#analyize-primary-root)
+      - [Map identified root labels](#map-identified-root-labels)
+      - [Visualize overlay](#visualize-overlay)
+  - [License](#license)
+  - [Documentation](#documentation)
+  - [Background](#background)
+  - [Contact](#contact)
+
+## Main Features
+
+The `cv2_group` package allows you to analyze roots within a petri dish, here are some of the most useful features:
+
+-   **Cropping images based on the petri dish:** Precisely isolates the area of interest in the image.
+-   **Automated organ segmentation:** Accurately identifies and delineates specific plant organs within the images using advanced U-Net models.
+-   **Landmark detection:** Pinpoints key anatomical points on the plants for detailed analysis.
+-   **Support for image uploads:** Facilitates easy integration of your image datasets for processing.
+-   **Modular and maintainable design:** Built as a fully modular Python package for easy maintenance, testing, and future extensions.
+-   **API and CLI access:** Provides flexible interfaces for users to interact with the system and perform analyses.
+-   **Automated model performance tracking and continuous training support:** Ensures the system remains accurate and up-to-date by monitoring prediction accuracy and triggering retraining with new data.
+
+## Where to get it
+
+The latest release of cv2_group is available on [PyPI](https://pypi.org/project/cv2_group/):
+
+```pip install cv2_group```
+
+## Dependencies
+
+The `cv2_group` package relies on the following core dependencies to provide its functionality:
+
+-   `numpy==1.23.5`
+-   `opencv-python==4.10.0.84`
+-   `scikit-image==0.22.0`
+-   `patchify==0.2.3`
+-   `tensorflow==2.10.0`
+-   `matplotlib==3.8.4`
+-   `pillow==10.3.0`
+-   `scikit-learn` (version compatible with `^1.6.1`)
+-   `fastapi==0.110.0`
+-   `uvicorn==0.29.0`
+-   `typer==0.9.0`
+-   `click==8.1.3`
+
+These dependencies will be installed automatically when you install the `cv2_group` package using `pip` or Poetry
+
+## Installing the package
+
+You can use `cv2_group` in your Python environment either by installing it directly from **PyPI** or by using **Poetry** for dependency management.
+
+### Option 1: Install via PyPI
+
+If you're using `pip`, simply run:
+
+```bash
+pip install cv2_group
+```
+
+This will automatically install all required dependencies listed in the package.
+
+### Option 2: Install via Poetry
+If you have cloned the cv2_group repository (e.g., from GitHub) and want to set up its development environment or run it directly from the source code, navigate to the root directory of the repository (which contains the `pyproject.toml` file).
+
+Then, simply run:
+
+```bash
+poetry install
+```
+
+This command will read the pyproject.toml file, create a dedicated virtual environment (if it doesn't exist), and install all necessary project dependencies within it.
+
+```bash
+poetry shell
+```
+
+## Using the package
+
+The `cv2_group` package offers various functions organized into modules to help you analyze plant roots in petri dish images.
+
+### Command Line Interface (CLI)
+
+For a quick start, you can run the main prediction pipeline directly from your terminal:
+
+```bash
+poetry run root-predictor path/to/image.jpg
+```
+
+This command will process the specified image, applying the underlying models to generate predictions.
+
+### Python API
+You can also integrate cv2_group functions directly into your Python scripts for more customized workflows. Below is an overview of the key functions organized by their respective subpackages:
+
+#### Load image
+
+`cv2_group.data.data_ingestion.load_image(image_path: str) -> ndarray`
+
+Loads an image from image_path and converts it to a grayscale NumPy array. Useful as the first step for processing.
+
+```python
+from cv2_group.data.data_ingestion import load_image
+image = load_image("path/to/your/image.jpg")
+```
+
+#### Create patches
+
+`cv2_group.data.data_processing.create_patches(image: ndarray, patch_size: int) -> Tuple[ndarray, int, int, ndarray]`
+
+Divides a grayscale image into non-overlapping square RGB patches of patch_size. Essential for processing large images with deep learning models.
+
+```python
+from cv2_group.data.data_processing import create_patches
+patches, num_rows, num_cols, padded_rgb_image = create_patches(image, patch_size=256)
+```
+#### Load trained model
+
+`load_trained_model(model_path)`
+
+Loads a pre-trained U-Net or other compatible model from a specified file path.
+
+```python
+from cv2_group.models import load_trained_model
+model = load_trained_model("path/to/your/model.h5")
+```
+#### Analyize primary root
+
+`cv2_group.features.feature_extraction.analyze_primary_root(root_instances: List[ndarray | None], original_roi_indices: List[int]) -> List[Dict[str, Any]]`
+
+ Analyzes primary root characteristics from a list of individual root mask instances. Provides biological insights from segmented roots.
+
+ ```python
+from cv2_group.features.feature_extraction import analyze_primary_root
+analysis_results = analyze_primary_root(list_of_root_masks, corresponding_indices)
+```
+#### Map identified root labels
+
+`cv2_group.features.feature_extraction.find_labels_in_rois(label_ids: ndarray, totalLabels: int, stats: ndarray, centroids: ndarray, rois: List[Tuple[int, int, int, int]]) -> Tuple[Dict[str, int | None], List[int]]`
+
+Maps identified root labels (individual components) to predefined Regions of Interest (ROIs). Useful for spatially organizing analysis results.
+
+ ```python
+from cv2_group.features.feature_extraction import find_labels_in_rois
+mapped_labels, unassigned = find_labels_in_rois(labels, total, stats, centroids, rois_list)
+```
+
+#### Visualize overlay
+
+`cv2_group.utils.visualization.display_overlay(cropped_image: ndarray, predicted_mask: ndarray, alpha: float = 0.5, show: bool = False, return_png_bytes: bool = True) -> bytes | None`
+
+Creates a visual overlay of the predicted binary root mask on the original image, useful for quick visual validation or for web display.
+
+ ```python
+from cv2_group.utils.visualization import display_overlay
+overlay_bytes = display_overlay(original_image, predicted_mask, return_png_bytes=True)
+```
+
+
+## License
+
+[MIT](LICENSE)
+
+## Documentation
+
+The official documentation is hosted on [Github Pages](https://bredauniversityadsai.github.io/2024-25d-fai2-adsai-group-cv-2/data/index.html)
+
+## Background
+
+Work on ``cv2_group`` started at Breda University of Applied Sciences [BUas](https://www.buas.nl/) in 2025 and has been under development since then.
+
+## Contact
+
+For questions, feedback, or contributions, feel free to reach out to the team:
+
+- **Martin Simons** – Frontend Specialist – [235439@buas.nl](mailto:235439@buas.nl)
+- **Yorbe Heeren** – DMP Specialist – [232922@buas.nl](mailto:232922@buas.nl)
+- **Arnout Opfergelt** – Deployment Specialist – [230858@buas.nl](mailto:230858@buas.nl)
+- **Victor Oorthuis** – GitHub / Unit Testing / Documentation Specialist – [233189@buas.nl](mailto:233189@buas.nl)
+- **Teun van der Wolf** – Azure ML Specialist – [235874@buas.nl](mailto:235874@buas.nl)
+
+
+---
+
+[Go to Top](#table-of-contents)
+

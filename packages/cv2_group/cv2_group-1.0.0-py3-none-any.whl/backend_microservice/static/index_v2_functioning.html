@@ -1,0 +1,1650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Root Segmentation & Analysis (HTML/JS)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Add marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a202c; /* gray-900 */
+            color: #ffffff; /* white */
+        }
+        .image-canvas {
+            border: 2px solid #4a5568; /* gray-500 */
+            border-radius: 0.375rem; /* rounded-md */
+            max-width: 100%;
+            height: auto;
+            display: block; /* Ensures no extra space below canvas */
+        }
+        .cursor-crosshair {
+            cursor: crosshair;
+        }
+        .spinner {
+            border-top-color: #3498db;
+            -webkit-animation: spinner .8s linear infinite;
+            animation: spinner .8s linear infinite;
+        }
+        @-webkit-keyframes spinner {
+            0% { -webkit-transform: rotate(0deg); }
+            100% { -webkit-transform: rotate(360deg); }
+        }
+        @keyframes spinner {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* Custom styles for image containers to accommodate buttons */
+        .image-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            background-color: #374151; /* gray-700 */
+            border-radius: 0.5rem; /* rounded-lg */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-lg */
+            height: auto; /* Allow height to adjust */
+        }
+        .canvas-wrapper {
+            position: relative;
+            width: 100%;
+            height: auto;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            display: flex; /* Ensure inner canvas fills space */
+            justify-content: center; /* Center canvas horizontally */
+            align-items: center; /* Center canvas vertically */
+        }
+        .canvas-wrapper canvas {
+            position: relative; /* Changed from absolute for easier sizing */
+            top: 0;
+            left: 0;
+            width: 100%; /* Will be overridden by JS if image is smaller */
+            height: auto;
+            object-fit: contain; /* Ensure image fits within container */
+            max-width: 100%;
+            max-height: 100%;
+        }
+        .blinking-cursor {
+            display: inline-block;
+            width: 1ch;
+            animation: blink 1s steps(1) infinite;
+        }
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        /* Chat toggle button styles */
+        #chatToggleBtn {
+            position: fixed;
+            right: 2rem;
+            bottom: 2rem;
+            z-index: 50;
+            background: #84cc16; /* lime-500 */
+            color: white;
+            border-radius: 50%;
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.2s cubic-bezier(.4,0,.2,1);
+            cursor: pointer;
+            font-size: 2rem;
+        }
+        #chatToggleBtn:hover {
+            width: 180px;
+            border-radius: 32px;
+            background: #a3e635; /* lime-400 */
+            font-size: 2.2rem;
+        }
+        #chatToggleBtn .chat-label {
+            display: none;
+            margin-left: 0.75rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        #chatToggleBtn:hover .chat-label {
+            display: inline;
+        }
+        /* Make chat container resizable */
+        #chatContainer {
+            display: none;
+            position: fixed;
+            right: 2rem;
+            bottom: 5.5rem;
+            z-index: 40;
+            width: 380px;
+            max-width: 95vw;
+            background: #1a202c;
+            border-radius: 1rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+            resize: both;
+            overflow: auto;
+            min-width: 260px;
+            min-height: 200px;
+        }
+        /* Remove custom resize handle CSS */
+        /* #chatContainer .resize-handle { ... } */
+        /* #chatContainer .resize-handle:after { ... } */
+        #chatContainer .bg-gray-800 {
+            height: 100%;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+        }
+        #chatContainer .flex.flex-col.space-y-4.h-full {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        #chatMessages {
+            flex: 1 1 auto;
+            min-height: 120px;
+            max-height: 60vh;
+            height: 0;
+        }
+        @media (max-width: 500px) {
+            #chatContainer {
+                width: 98vw;
+                right: 1vw;
+                bottom: 5.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen p-6">
+    <div class="container mx-auto">
+        <h1 class="text-4xl font-bold text-center mb-8 text-lime-400">
+            Root Segmentation & Analysis
+        </h1>
+
+        <!-- File Upload and Actions (Prediction/Analysis) -->
+        <div class="bg-gray-800 p-6 rounded-lg shadow-xl mb-8 flex flex-col items-center">
+            <h2 class="text-2xl font-bold mb-4 text-center text-lime-300">
+                Predict & Analyze Root Systems
+            </h2>
+            <input
+                type="file"
+                id="fileInput"
+                accept="image/*"
+                multiple
+                class="mb-4 p-2 border border-gray-600 rounded-md bg-gray-700 text-white
+                       file:mr-4 file:py-2 file:px-4
+                       file:rounded-full file:border-0
+                       file:text-sm file:font-semibold
+                       file:bg-lime-500 file:text-white
+                       hover:file:bg-lime-600 cursor-pointer"
+            />
+            <div class="w-full flex flex-col sm:flex-row justify-center items-center gap-4 mb-4">
+                <button
+                    id="predictButton"
+                    class="bg-lime-500 hover:bg-lime-600 text-white font-bold py-3 px-6 rounded-full
+                           shadow-lg transition duration-300 ease-in-out
+                           transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                    Predict & Analyze
+                </button>
+                <div class="flex flex-col sm:flex-row items-center gap-2">
+                    <label for="downloadBaseName" class="text-gray-300 whitespace-nowrap">File Base Name:</label>
+                    <input
+                        type="text"
+                        id="downloadBaseName"
+                        placeholder="e.g., my_root_sample"
+                        class="p-2 rounded-md bg-gray-700 border border-gray-600 text-white w-full sm:w-auto"
+                    />
+                </div>
+            </div>
+            <p id="messageDisplay" class="mt-4 text-center text-gray-400"></p>
+        </div>
+
+        <!-- Image Navigation (Initially hidden) -->
+        <div id="imageNavigation" class="bg-gray-800 p-4 rounded-lg shadow-xl mb-8 hidden flex justify-center items-center gap-4">
+            <button id="prevImageButton" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full disabled:opacity-50 disabled:cursor-not-allowed">
+                Previous
+            </button>
+            <span id="imageIndexDisplay" class="text-lg font-semibold text-white"></span>
+            <button id="nextImageButton" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full disabled:opacity-50 disabled:cursor-not-allowed">
+                Next
+            </button>
+        </div>
+
+        <!-- Editing Tools (Initially hidden) -->
+        <div id="editingTools" class="bg-gray-800 p-6 rounded-lg shadow-xl mb-8 hidden">
+            <h2 class="text-2xl font-bold mb-4 text-center text-lime-300">
+                Editing & Download Tools
+            </h2>
+            <div class="flex flex-wrap justify-center gap-4 mb-4">
+                <button
+                    id="roiModeButton"
+                    class="py-2 px-4 rounded-full text-white font-semibold transition-all duration-300
+                           bg-gray-600 hover:bg-indigo-500"
+                >
+                    Activate ROI Drawing
+                </button>
+                <button
+                    id="clearRoisButton"
+                    class="py-2 px-4 bg-red-500 hover:bg-red-600 text-white
+                           font-semibold rounded-full shadow-md transition-all duration-300"
+                >
+                    Clear All ROIs
+                </button>
+
+                <button
+                    id="maskModeButton"
+                    class="py-2 px-4 rounded-full text-white font-semibold transition-all duration-300
+                           bg-gray-600 hover:bg-indigo-500"
+                >
+                    Activate Mask Drawing
+                </button>
+                <div class="flex items-center space-x-2">
+                    <label for="drawColorSelect" class="text-gray-300">Draw Color:</label>
+                    <select
+                        id="drawColorSelect"
+                        class="p-2 rounded-md bg-gray-700 border border-gray-600 text-white cursor-pointer"
+                    >
+                        <option value="white">White (Add Root)</option>
+                        <option value="black">Black (Remove Root)</option>
+                    </select>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <label for="brushSizeSlider" class="text-gray-300">Brush Size:</label>
+                    <input type="range" id="brushSizeSlider" min="5" max="50" value="15" class="w-24 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer range-lg">
+                    <input type="number" id="brushSizeNumber" min="5" max="50" value="15" class="w-16 p-1 text-center bg-gray-700 border border-gray-600 rounded-md text-white">
+                </div>
+            </div>
+
+            <!-- Reanalyze Button and Download Buttons -->
+            <div class="flex flex-wrap justify-center mt-6 gap-4">
+                <button
+                    id="reanalyzeButton"
+                    class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-full
+                           shadow-lg transition duration-300 ease-in-out
+                           transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                    Reanalyze Edited Mask & ROIs
+                </button>
+                <button
+                    id="downloadAllButton"
+                    class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-full
+                           shadow-lg transition duration-300 ease-in-out
+                           transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                    Download All Images
+                </button>
+                <button
+                    id="downloadCsvButton"
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full
+                           shadow-lg transition duration-300 ease-in-out
+                           transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                    Download All Results as CSV
+                </button>
+            </div>
+        </div>
+
+        <!-- Upload Data for Retraining -->
+        <div class="bg-gray-800 p-6 rounded-lg shadow-xl mb-8 flex flex-col items-center">
+            <h2 class="text-2xl font-bold mb-4 text-center text-lime-300">
+                Upload Data for Retraining (Azure ML)
+            </h2>
+            <div class="mb-4">
+                <label for="imagesUpload" class="block text-gray-300 text-sm font-bold mb-2">
+                    Select Images:
+                </label>
+                <input
+                    type="file"
+                    id="imagesUpload"
+                    accept="image/*"
+                    multiple
+                    class="p-2 border border-gray-600 rounded-md bg-gray-700 text-white
+                           file:mr-4 file:py-2 file:px-4
+                           file:rounded-full file:border-0
+                           file:text-sm file:font-semibold
+                           file:bg-blue-500 file:text-white
+                           hover:file:bg-blue-600 cursor-pointer"
+                />
+            </div>
+            <div class="mb-4">
+                <label for="masksUpload" class="block text-gray-300 text-sm font-bold mb-2">
+                    Select Masks:
+                </label>
+                <input
+                    type="file"
+                    id="masksUpload"
+                    accept="image/*"
+                    multiple
+                    class="p-2 border border-gray-600 rounded-md bg-gray-700 text-white
+                           file:mr-4 file:py-2 file:px-4
+                           file:rounded-full file:border-0
+                           file:text-sm file:font-semibold
+                           file:bg-blue-500 file:text-white
+                           hover:file:bg-blue-600 cursor-pointer"
+                />
+            </div>
+            <button
+                id="uploadDataButton"
+                class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-full
+                       shadow-lg transition duration-300 ease-in-out
+                       transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+                Upload to Azure ML
+            </button>
+            <p id="uploadMessageDisplay" class="mt-4 text-center text-gray-400"></p>
+        </div>
+
+        <!-- Chat Toggle Button -->
+        <div id="chatToggleBtn" title="Open chat">
+            <span>💬</span>
+            <span class="chat-label">Open Chat</span>
+        </div>
+
+        <!-- Llama Chat Interface (now in a container for toggling) -->
+        <div id="chatContainer">
+            <div class="bg-gray-800 p-6 rounded-lg shadow-xl mb-0 h-full">
+                <h2 class="text-2xl font-bold mb-4 text-center text-lime-300">
+                    AI Assistant
+                </h2>
+                <div class="flex flex-col space-y-4 h-full">
+                    <!-- Chat Messages Container -->
+                    <div id="chatMessages" class="bg-gray-700 rounded-lg p-4 h-96 overflow-y-auto mb-4">
+                        <!-- Messages will be added here dynamically -->
+                    </div>
+                    <!-- Chat Input Area -->
+                    <div class="flex space-x-2">
+                        <input
+                            type="text"
+                            id="chatInput"
+                            placeholder="Ask about root analysis..."
+                            class="flex-1 p-2 rounded-md bg-gray-700 border border-gray-600 text-white focus:outline-none focus:border-lime-500"
+                        />
+                        <button
+                            id="sendMessageButton"
+                            class="bg-lime-500 hover:bg-lime-600 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out"
+                        >
+                            Send
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Display Images -->
+        <div id="imageDisplayGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Images will be dynamically added here by JavaScript -->
+        </div>
+
+        <!-- Analysis Results Display (Initially hidden) -->
+        <div id="analysisResultsContainer" class="bg-gray-800 p-6 rounded-lg shadow-xl mb-8 hidden">
+            <h2 class="text-2xl font-bold text-center mb-4 text-lime-300">
+                Analysis Results
+            </h2>
+            <div class="overflow-x-auto">
+                <table id="analysisResultsTable" class="min-w-full divide-y divide-gray-700">
+                    <thead class="bg-gray-700">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                                ROI
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                                Length (px)
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                                Tip Coords (R, C)
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                                Base Coords (R, C)
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                                Area (px²)
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                                Centroid (X, Y)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-gray-800 divide-y divide-gray-700">
+                        <!-- Analysis results rows will be added here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements (Prediction/Analysis)
+        const fileInput = document.getElementById('fileInput');
+        const predictButton = document.getElementById('predictButton');
+        const reanalyzeButton = document.getElementById('reanalyzeButton');
+        const messageDisplay = document.getElementById('messageDisplay');
+        const editingTools = document.getElementById('editingTools');
+        const imageDisplayGrid = document.getElementById('imageDisplayGrid');
+        const analysisResultsContainer = document.getElementById('analysisResultsContainer');
+        const analysisResultsTableBody = document.querySelector('#analysisResultsTable tbody');
+        const roiModeButton = document.getElementById('roiModeButton');
+        const clearRoisButton = document.getElementById('clearRoisButton');
+        const maskModeButton = document.getElementById('maskModeButton');
+        const drawColorSelect = document.getElementById('drawColorSelect');
+        const downloadBaseNameInput = document.getElementById('downloadBaseName');
+        const downloadAllButton = document.getElementById('downloadAllButton');
+        const downloadCsvButton = document.getElementById('downloadCsvButton'); // New CSV download button
+
+        // Image Navigation
+        const imageNavigation = document.getElementById('imageNavigation');
+        const prevImageButton = document.getElementById('prevImageButton');
+        const nextImageButton = document.getElementById('nextImageButton');
+        const imageIndexDisplay = document.getElementById('imageIndexDisplay');
+
+        // Mask Drawing Size Controls
+        const brushSizeSlider = document.getElementById('brushSizeSlider');
+        const brushSizeNumber = document.getElementById('brushSizeNumber');
+
+
+        // DOM Elements (Upload for Retraining)
+        const imagesUploadInput = document.getElementById('imagesUpload');
+        const masksUploadInput = document.getElementById('masksUpload');
+        const uploadDataButton = document.getElementById('uploadDataButton');
+        const uploadMessageDisplay = document.getElementById('uploadMessageDisplay');
+
+        // DOM Elements (Chat)
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const sendMessageButton = document.getElementById('sendMessageButton');
+
+        // Canvas References (will be created dynamically if needed)
+        let originalImageCanvas = null;
+        let predictedMaskCanvas = null;
+        let roiCanvas = null;
+
+        // State Variables for Multi-Image Handling
+        let allImageData = []; // Stores objects { originalFile: File, predictionResults: {}, currentRois: [], predictedMaskBase64: '' }
+        let currentImageIndex = -1; // Index of the image currently displayed
+        let isLoading = false; // For Prediction/Reanalysis
+        let isUploading = false; // For Data Upload
+        let drawingMode = 'none'; // 'none', 'roi', 'mask'
+        let maskDrawColor = 'white'; // 'white', 'black'
+        let maskBrushSize = parseInt(brushSizeSlider.value); // Initial brush size from slider
+
+
+        // Drawing state for ROIs
+        let isDrawingRoi = false;
+        let startPointRoi = { x: 0, y: 0 };
+        let currentRoiRect = null; // For the ROI being currently drawn
+
+        // Drawing state for Mask
+        let isDrawingMask = false;
+
+
+        // API Base URL
+        const API_BASE_URL = 'http://localhost:8000';
+
+        // --- Helper Functions (General UI) ---
+
+        function setLoading(loading) {
+            isLoading = loading;
+            predictButton.disabled = loading || fileInput.files.length === 0;
+            reanalyzeButton.disabled = loading || currentImageIndex === -1;
+            downloadAllButton.disabled = loading || allImageData.length === 0; // Disable if no image loaded
+            downloadCsvButton.disabled = loading || allImageData.length === 0; // Disable if no image loaded
+
+            prevImageButton.disabled = loading || allImageData.length <= 1 || currentImageIndex === 0;
+            nextImageButton.disabled = loading || allImageData.length <= 1 || currentImageIndex === allImageData.length - 1;
+
+
+            // Show/hide spinner on buttons
+            const predictButtonText = loading && messageDisplay.textContent.includes('Processing') ?
+                `<div class="flex items-center"><svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Predicting...</div>` :
+                'Predict & Analyze';
+            predictButton.innerHTML = predictButtonText;
+
+            const reanalyzeButtonText = loading && messageDisplay.textContent.includes('Reanalyzing') ?
+                `<div class="flex items-center"><svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Reanalyzing...</div>` :
+                'Reanalyze Edited Mask & ROIs';
+            reanalyzeButton.innerHTML = reanalyzeButtonText;
+
+            messageDisplay.classList.toggle('text-gray-400', loading);
+            messageDisplay.classList.toggle('text-green-400', !loading && messageDisplay.textContent);
+        }
+
+        function setMessage(msg, isError = false) {
+            messageDisplay.textContent = msg;
+            messageDisplay.classList.toggle('text-red-500', isError);
+            messageDisplay.classList.toggle('text-green-400', !isError && msg);
+        }
+
+        // --- Helper Functions (Upload) ---
+        function setUploading(uploading) {
+            isUploading = uploading;
+            uploadDataButton.disabled = uploading || imagesUploadInput.files.length === 0 || masksUploadInput.files.length === 0;
+
+            const uploadButtonText = uploading ?
+                `<div class="flex items-center"><svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Uploading...</div>` :
+                'Upload to Azure ML';
+            uploadDataButton.innerHTML = uploadButtonText;
+
+            uploadMessageDisplay.classList.toggle('text-gray-400', uploading);
+            uploadMessageDisplay.classList.toggle('text-green-400', !uploading && uploadMessageDisplay.textContent);
+        }
+
+        function setUploadMessage(msg, isError = false) {
+            uploadMessageDisplay.textContent = msg;
+            uploadMessageDisplay.classList.toggle('text-red-500', isError);
+            uploadMessageDisplay.classList.toggle('text-green-400', !isError && msg);
+        }
+
+        // --- Download Functions ---
+        function downloadDataAsFile(data, filename, type) {
+            const blob = new Blob([data], { type: type });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url); // Clean up the URL object
+        }
+
+        function downloadBase64AsPng(base64Data, filename) {
+            // Re-using downloadDataAsFile for PNGs for consistency
+            const byteCharacters = atob(base64Data);
+            const byteNumbers = new Array(byteCharacters.length);
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            downloadDataAsFile(byteArray, filename, 'image/png');
+        }
+
+        function getTimestamp() {
+            const now = new Date();
+            return now.getFullYear().toString() +
+                   (now.getMonth() + 1).toString().padStart(2, '0') +
+                   now.getDate().toString().padStart(2, '0') +
+                   now.getHours().toString().padStart(2, '0') +
+                   now.getMinutes().toString().padStart(2, '0') +
+                   now.getSeconds().toString().padStart(2, '0');
+        }
+
+        function generateFilename(imageType, fileIdentifier = '') {
+            const baseName = downloadBaseNameInput.value.trim();
+            const timestamp = getTimestamp();
+            let filename = `${timestamp}`;
+            if (baseName) {
+                filename += `_${baseName}`;
+            }
+            if (fileIdentifier) { // Add identifier for multi-file downloads
+                filename += `_${fileIdentifier}`;
+            }
+            filename += `_${imageType}.png`;
+            return filename;
+        }
+
+        function generateCsvFilename() {
+            const baseName = downloadBaseNameInput.value.trim();
+            const timestamp = getTimestamp();
+            let filename = `${timestamp}`;
+            if (baseName) {
+                filename += `_${baseName}`;
+            }
+            filename += `_root_analysis_results.csv`;
+            return filename;
+        }
+
+
+        // --- UI Clearing and Creation ---
+
+        function clearAllDisplays() {
+            imageDisplayGrid.innerHTML = '';
+            analysisResultsTableBody.innerHTML = '';
+            editingTools.classList.add('hidden');
+            analysisResultsContainer.classList.add('hidden');
+            imageNavigation.classList.add('hidden'); // Hide navigation
+            imageIndexDisplay.textContent = '';
+
+            // Clear canvas references
+            originalImageCanvas = null;
+            predictedMaskCanvas = null;
+            roiCanvas = null;
+
+            drawingMode = 'none';
+            updateDrawingModeButtons();
+        }
+
+        // Creates an image display div with a canvas or img tag, and a download button
+        function createImageDisplay(id, title, isCanvas = false, canvasId = null) {
+            const div = document.createElement('div');
+            div.className = "image-container"; // Use the new custom class
+
+            const h2 = document.createElement('h2');
+            h2.className = "text-xl font-semibold mb-2 text-white";
+            h2.textContent = title;
+            div.appendChild(h2);
+
+            let mediaElement;
+            if (isCanvas) {
+                // Wrapper for canvas to handle aspect ratio correctly
+                const canvasWrapper = document.createElement('div');
+                canvasWrapper.className = 'canvas-wrapper';
+                mediaElement = document.createElement('canvas');
+                mediaElement.id = canvasId;
+                mediaElement.className = "image-canvas"; // Custom class for canvas specific styles
+                // Add specific cursors for editable canvases
+                if (canvasId === 'predictedMaskCanvas' || canvasId === 'roiCanvas') {
+                    mediaElement.classList.add('cursor-crosshair');
+                }
+                canvasWrapper.appendChild(mediaElement);
+                div.appendChild(canvasWrapper);
+            } else {
+                mediaElement = document.createElement('img');
+                mediaElement.id = id;
+                mediaElement.className = "image-canvas"; // Custom class for image specific styles
+                mediaElement.alt = title;
+                div.appendChild(mediaElement);
+            }
+
+            // Download button for individual image
+            const downloadButton = document.createElement('button');
+            downloadButton.className = "mt-4 bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out";
+            downloadButton.textContent = `Download ${title}`;
+            downloadButton.onclick = () => {
+                let imageData = '';
+                let fileIdentifier = '';
+                if (currentImageIndex !== -1 && allImageData[currentImageIndex] && allImageData[currentImageIndex].originalFile) {
+                    fileIdentifier = allImageData[currentImageIndex].originalFile.name.split('.')[0];
+                }
+
+                if (isCanvas) {
+                    imageData = mediaElement.toDataURL('image/png').split(',')[1];
+                } else {
+                    imageData = mediaElement.src.split(',')[1];
+                }
+                downloadBase64AsPng(imageData, generateFilename(id.replace('Img', '').replace('Canvas', ''), fileIdentifier));
+            };
+            div.appendChild(downloadButton);
+
+            return div;
+        }
+
+
+        // Draws a base64 image onto a canvas and returns a Promise
+        function drawImageOnCanvas(canvas, base64Image) {
+            return new Promise((resolve, reject) => {
+                if (!canvas || !base64Image) {
+                    resolve();
+                    return;
+                }
+                const ctx = canvas.getContext('2d');
+                const img = new Image();
+                img.onload = () => {
+                    canvas.width = img.width; // Set canvas internal resolution to image resolution
+                    canvas.height = img.height;
+
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, 0, 0);
+                    resolve();
+                };
+                img.onerror = (error) => {
+                    console.error('Error loading image onto canvas:', error);
+                    reject('Error loading image onto canvas.');
+                };
+                img.src = `data:image/png;base64,${base64Image}`;
+            });
+        }
+
+        // Draws currentRois on the ROI canvas
+        function drawRoisOnCanvas(roisToDraw) {
+            if (!roiCanvas) return;
+            const ctx = roiCanvas.getContext('2d');
+            ctx.clearRect(0, 0, roiCanvas.width, roiCanvas.height); // Clear previous ROIs
+            ctx.strokeStyle = 'lime';
+            ctx.lineWidth = 3;
+            (roisToDraw || []).forEach(roi => { // Ensure roisToDraw is iterable
+                ctx.strokeRect(roi.x, roi.y, roi.width, roi.height);
+            });
+            if (currentRoiRect) { // Draw the rectangle currently being drawn
+                const { x, y, width, height } = currentRoiRect;
+                ctx.strokeRect(x, y, width, height);
+            }
+        }
+
+        // Updates the UI with results for a specific image index
+        async function updateUIForImage(index) {
+            if (index < 0 || index >= allImageData.length) {
+                console.error("Invalid image index for UI update:", index);
+                return;
+            }
+
+            currentImageIndex = index;
+            const currentImage = allImageData[currentImageIndex];
+            const data = currentImage.predictionResults;
+
+            // Clear previous displays
+            imageDisplayGrid.innerHTML = '';
+            analysisResultsTableBody.innerHTML = '';
+
+            // Update navigation display
+            imageIndexDisplay.textContent = `Image ${currentImageIndex + 1} of ${allImageData.length}`;
+            prevImageButton.disabled = currentImageIndex === 0;
+            nextImageButton.disabled = currentImageIndex === allImageData.length - 1;
+            imageNavigation.classList.remove('hidden');
+
+
+            // Show editing tools
+            editingTools.classList.remove('hidden');
+
+
+            // --- Original Image with ROI Overlay ---
+            const originalImageCompoundDiv = document.createElement('div');
+            originalImageCompoundDiv.className = "image-container";
+            const h2Original = document.createElement('h2');
+            h2Original.className = "text-xl font-semibold mb-2 text-white";
+            h2Original.textContent = 'Original Image (with ROIs)';
+            originalImageCompoundDiv.appendChild(h2Original);
+            const originalCanvasLayerContainer = document.createElement('div');
+            originalCanvasLayerContainer.className = "canvas-wrapper";
+            originalImageCompoundDiv.appendChild(originalCanvasLayerContainer);
+            const originalImgElem = document.createElement('canvas');
+            originalImgElem.id = 'originalImageCanvas';
+            originalImgElem.className = "image-canvas";
+            originalCanvasLayerContainer.appendChild(originalImgElem); // No absolute positioning, let flexbox/grid handle layout
+            const roiOverlayElem = document.createElement('canvas');
+            roiOverlayElem.id = 'roiCanvas';
+            roiOverlayElem.className = "image-canvas cursor-crosshair";
+            roiOverlayElem.style.position = 'absolute'; // Position relative to originalImgElem's parent
+            roiOverlayElem.style.top = '0';
+            roiOverlayElem.style.left = '0';
+            roiOverlayElem.style.width = '100%';
+            roiOverlayElem.style.height = '100%';
+            roiOverlayElem.style.background = 'transparent';
+            originalCanvasLayerContainer.appendChild(roiOverlayElem);
+
+            const downloadOriginalCompoundButton = document.createElement('button');
+            downloadOriginalCompoundButton.className = "mt-4 bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out";
+            downloadOriginalCompoundButton.textContent = `Download Original with ROIs`;
+            downloadOriginalCompoundButton.onclick = () => {
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = originalImageCanvas.width;
+                tempCanvas.height = originalImageCanvas.height;
+                const tempCtx = tempCanvas.getContext('2d');
+                tempCtx.drawImage(originalImageCanvas, 0, 0);
+                tempCtx.drawImage(roiCanvas, 0, 0);
+                const imageData = tempCanvas.toDataURL('image/png').split(',')[1];
+                downloadBase64AsPng(imageData, generateFilename('original_with_rois', currentImage.originalFile.name.split('.')[0]));
+            };
+            originalImageCompoundDiv.appendChild(downloadOriginalCompoundButton);
+            imageDisplayGrid.appendChild(originalImageCompoundDiv);
+
+
+            // --- Editable Mask Display ---
+            const editableMaskCompoundDiv = document.createElement('div');
+            editableMaskCompoundDiv.className = "image-container";
+            const h2Mask = document.createElement('h2');
+            h2Mask.className = "text-xl font-semibold mb-2 text-white";
+            h2Mask.textContent = 'Editable Mask';
+            editableMaskCompoundDiv.appendChild(h2Mask);
+
+            const maskCanvasContainer = document.createElement('div');
+            maskCanvasContainer.className = "canvas-wrapper";
+            editableMaskCompoundDiv.appendChild(maskCanvasContainer);
+
+            const predictedMaskElem = document.createElement('canvas');
+            predictedMaskElem.id = 'predictedMaskCanvas';
+            predictedMaskElem.className = "image-canvas cursor-crosshair";
+            maskCanvasContainer.appendChild(predictedMaskElem);
+
+            const downloadMaskButton = document.createElement('button');
+            downloadMaskButton.className = "mt-4 bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out";
+            downloadMaskButton.textContent = `Download Editable Mask`;
+            downloadMaskButton.onclick = () => {
+                const imageData = predictedMaskElem.toDataURL('image/png').split(',')[1];
+                downloadBase64AsPng(imageData, generateFilename('editable_mask', currentImage.originalFile.name.split('.')[0]));
+            };
+            editableMaskCompoundDiv.appendChild(downloadMaskButton);
+            imageDisplayGrid.appendChild(editableMaskCompoundDiv);
+
+
+            // Get canvas references (MUST be done AFTER appending to DOM)
+            originalImageCanvas = document.getElementById('originalImageCanvas');
+            predictedMaskCanvas = document.getElementById('predictedMaskCanvas');
+            roiCanvas = document.getElementById('roiCanvas');
+
+
+            // --- IMPORTANT: Draw images to set internal canvas dimensions ---
+            try {
+                await drawImageOnCanvas(originalImageCanvas, data.original_image);
+                // Ensure ROI canvas matches original image canvas size for correct drawing
+                roiCanvas.width = originalImageCanvas.width;
+                roiCanvas.height = originalImageCanvas.height;
+            } catch (error) {
+                console.error('Error drawing original image:', error);
+                setMessage('Error displaying original image.', true);
+                return;
+            }
+
+            try {
+                await drawImageOnCanvas(predictedMaskCanvas, currentImage.predictedMaskBase64); // Use stored mask, not new prediction
+            } catch (error) {
+                console.error('Error drawing predicted mask:', error);
+                setMessage('Error displaying predicted mask.', true);
+                return;
+            }
+
+            // Restore ROIs and redraw
+            drawRoisOnCanvas(currentImage.currentRois);
+
+
+            // --- Attach event listeners (AFTER canvases are in DOM and sized) ---
+            // Remove previous listeners if any (important for multi-image navigation)
+            predictedMaskCanvas.removeEventListener('mousedown', handleMaskMouseDown);
+            predictedMaskCanvas.removeEventListener('mousemove', handleMaskMouseMove);
+            predictedMaskCanvas.removeEventListener('mouseup', handleMaskMouseUp);
+            predictedMaskCanvas.removeEventListener('mouseout', handleMaskMouseUp);
+            predictedMaskCanvas.removeEventListener('touchstart', handleMaskMouseDown);
+            predictedMaskCanvas.removeEventListener('touchmove', handleMaskMouseMove);
+            predictedMaskCanvas.removeEventListener('touchend', handleMaskMouseUp);
+
+            roiCanvas.removeEventListener('mousedown', handleRoiMouseDown);
+            roiCanvas.removeEventListener('mousemove', handleRoiMouseMove);
+            roiCanvas.removeEventListener('mouseup', handleRoiMouseUp);
+            roiCanvas.removeEventListener('mouseout', handleRoiMouseUp);
+            roiCanvas.removeEventListener('touchstart', handleRoiMouseDown);
+            roiCanvas.removeEventListener('touchmove', handleRoiMouseMove);
+            roiCanvas.removeEventListener('touchend', handleRoiMouseUp);
+
+
+            predictedMaskCanvas.addEventListener('mousedown', handleMaskMouseDown);
+            predictedMaskCanvas.addEventListener('mousemove', handleMaskMouseMove);
+            predictedMaskCanvas.addEventListener('mouseup', handleMaskMouseUp);
+            predictedMaskCanvas.addEventListener('mouseout', handleMaskMouseUp); // Stop drawing if mouse leaves
+            predictedMaskCanvas.addEventListener('touchstart', handleMaskMouseDown);
+            predictedMaskCanvas.addEventListener('touchmove', handleMaskMouseMove);
+            predictedMaskCanvas.addEventListener('touchend', handleMaskMouseUp);
+
+            roiCanvas.addEventListener('mousedown', handleRoiMouseDown);
+            roiCanvas.addEventListener('mousemove', handleRoiMouseMove);
+            roiCanvas.addEventListener('mouseup', handleRoiMouseUp);
+            roiCanvas.addEventListener('mouseout', handleRoiMouseUp); // Stop drawing if mouse leaves
+            roiCanvas.addEventListener('touchstart', handleRoiMouseDown);
+            roiCanvas.addEventListener('touchmove', handleRoiMouseMove);
+            roiCanvas.addEventListener('touchend', handleRoiMouseUp);
+
+
+            // Add other image displays (img tags)
+            const imagesToDisplay = [
+                { id: 'fullSizeOverlayImg', title: 'Full Size Overlay', src: data.full_size_overlay_image },
+                { id: 'fullSizeRoisImg', title: 'Full Size ROIs', src: data.full_size_rois_image },
+                { id: 'fullSizeTipBaseImg', title: 'Full Size Tip/Base', src: data.full_size_tip_base_image }
+            ];
+
+            imagesToDisplay.forEach(imgInfo => {
+                if (imgInfo.src) {
+                    const imgDiv = createImageDisplay(imgInfo.id, imgInfo.title, false);
+                    imageDisplayGrid.appendChild(imgDiv);
+                    const imgElement = imgDiv.querySelector('img');
+                    if (imgElement) {
+                        imgElement.src = `data:image/png;base64,${imgInfo.src}`;
+                    }
+                }
+            });
+
+            // Update analysis results table
+            if (data.root_analysis_results && data.root_analysis_results.length > 0) {
+                analysisResultsContainer.classList.remove('hidden');
+                analysisResultsTableBody.innerHTML = ''; // Clear previous rows
+                data.root_analysis_results.forEach(item => {
+                    const row = analysisResultsTableBody.insertRow();
+                    row.className = "hover:bg-gray-700 transition duration-150 ease-in-out";
+
+                    row.innerHTML = `
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-200">
+                            ROI ${item.roi_definition.x},
+                            ${item.roi_definition.y},
+                            ${item.roi_definition.width},
+                            ${item.roi_definition.height}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-200">
+                            ${item.analysis.length !== null ? item.analysis.length.toFixed(2) : 'N/A'}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-sm text-gray-200">
+                            ${item.analysis.tip_coords ? `[${item.analysis.tip_coords[0]}, ${item.analysis.tip_coords[1]}]` : 'N/A'}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-200">
+                            ${item.analysis.base_coords ? `[${item.analysis.base_coords[0]}, ${item.analysis.base_coords[1]}]` : 'N/A'}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-200">
+                            ${item.analysis.stats?.area !== undefined ? item.analysis.stats.area : 'N/A'}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-200">
+                            ${item.analysis.stats?.centroid_x !== undefined ? `[${item.analysis.stats.centroid_x.toFixed(2)}, ${item.analysis.stats.centroid_y.toFixed(2)}]` : 'N/A'}
+                        </td>
+                    `;
+                });
+            } else {
+                analysisResultsContainer.classList.add('hidden');
+            }
+
+            // Update button states
+            setLoading(false);
+        }
+
+        // --- Event Handlers (Prediction/Analysis) ---
+
+        fileInput.addEventListener('change', (event) => {
+            selectedFile = event.target.files; // Now a FileList
+            setMessage('');
+            setLoading(false); // Reset loading state on new file selection
+            predictButton.disabled = selectedFile.length === 0;
+            reanalyzeButton.disabled = true; // Disable reanalyze until first prediction
+            downloadAllButton.disabled = true; // Disable download all
+            downloadCsvButton.disabled = true; // Disable CSV download
+            clearAllDisplays();
+            allImageData = []; // Clear previous batch
+            currentImageIndex = -1; // Reset index
+        });
+
+        predictButton.addEventListener('click', async () => {
+            if (fileInput.files.length === 0) {
+                setMessage('Please select image file(s).', true);
+                return;
+            }
+            if (fileInput.files.length > 16) {
+                setMessage('Please select no more than 16 images.', true);
+                return;
+            }
+
+            setLoading(true);
+            setMessage(`Processing ${fileInput.files.length} image(s)...`);
+            allImageData = []; // Reset for new prediction batch
+
+            for (let i = 0; i < fileInput.files.length; i++) {
+                const file = fileInput.files[i];
+                setMessage(`Processing image ${i + 1} of ${fileInput.files.length}: ${file.name}`);
+
+                const formData = new FormData();
+                formData.append('file', file);
+                // ROIs are not sent on initial prediction, as user hasn't drawn them yet
+                // The backend will use DEFAULT_ROIS.
+
+                try {
+                    const response = await fetch(`${API_BASE_URL}/predict/`, {
+                        method: 'POST',
+                        body: formData,
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.detail || `Prediction failed for ${file.name}`);
+                    }
+
+                    const data = await response.json();
+
+                    // Store results for this image
+                    allImageData.push({
+                        originalFile: file,
+                        predictionResults: data,
+                        currentRois: data.root_analysis_results.map(r => r.roi_definition), // Extract ROIs from response
+                        predictedMaskBase64: data.full_size_mask_image // Store the initial predicted mask
+                    });
+
+                } catch (error) {
+                    console.error(`Error during prediction for ${file.name}:`, error);
+                    setMessage(`Prediction failed for ${file.name}: ${error.message}`, true);
+                    // Continue to next image or break? For now, continue and display results for successful ones.
+                }
+            }
+
+            if (allImageData.length > 0) {
+                setMessage(`Prediction and analysis complete for ${allImageData.length} image(s).`);
+                await updateUIForImage(0); // Display the first image's results
+            } else {
+                setMessage('No images were successfully processed.', true);
+                clearAllDisplays();
+            }
+            setLoading(false);
+            reanalyzeButton.disabled = allImageData.length === 0;
+            downloadAllButton.disabled = allImageData.length === 0;
+            downloadCsvButton.disabled = allImageData.length === 0;
+        });
+
+        prevImageButton.addEventListener('click', async () => {
+            if (currentImageIndex > 0) {
+                await updateUIForImage(currentImageIndex - 1);
+            }
+        });
+
+        nextImageButton.addEventListener('click', async () => {
+            if (currentImageIndex < allImageData.length - 1) {
+                await updateUIForImage(currentImageIndex + 1);
+            }
+        });
+
+        reanalyzeButton.addEventListener('click', async () => {
+            if (currentImageIndex === -1 || allImageData.length === 0) {
+                setMessage('No image selected for reanalysis.', true);
+                return;
+            }
+
+            setLoading(true);
+            setMessage(`Reanalyzing image ${currentImageIndex + 1}...`);
+
+            const currentImage = allImageData[currentImageIndex];
+
+            try {
+                // Get base64 strings from canvases (these are live-edited versions)
+                if (!predictedMaskCanvas || !originalImageCanvas) {
+                    setMessage('Image canvases not found for reanalysis.', true);
+                    setLoading(false);
+                    return;
+                }
+                const base64EditedMask = predictedMaskCanvas.toDataURL('image/png').split(',')[1];
+                const base64OriginalImage = originalImageCanvas.toDataURL('image/png').split(',')[1];
+
+                // Filter out ROIs with zero width or height from the current image's stored ROIs
+                const validRois = currentImage.currentRois.filter(roi => roi.width > 0 && roi.height > 0);
+
+                const payload = {
+                    original_image_data: base64OriginalImage,
+                    edited_mask_data: base64EditedMask,
+                    edited_rois: validRois,
+                };
+
+                const response = await fetch(`${API_BASE_URL}/reanalyze/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload),
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || 'Reanalysis failed');
+                }
+
+                const data = await response.json();
+                setMessage(data.message);
+
+                // Update the stored data for the current image
+                currentImage.predictionResults = data;
+                currentImage.currentRois = validRois; // Update ROIs with valid ones after reanalysis
+                currentImage.predictedMaskBase64 = data.full_size_mask_image; // Update mask with reanalyzed one
+
+                // Re-render the UI for the current image
+                await updateUIForImage(currentImageIndex);
+
+            } catch (error) {
+                console.error('Error during reanalysis:', error);
+                setMessage(`Reanalysis failed: ${error.message}`, true);
+            } finally {
+                setLoading(false);
+            }
+        });
+
+        // --- Event Handler (Download All Images) ---
+        downloadAllButton.addEventListener('click', () => {
+            setMessage('Initiating download of all image results...', false);
+            allImageData.forEach(imageData => {
+                const fileIdentifier = imageData.originalFile.name.split('.')[0];
+                const data = imageData.predictionResults;
+
+                // Original Image with ROIs (compound canvas)
+                if (imageData.originalFile && imageData.predictedMaskBase64) { // Check if data exists for this image
+                    const tempOriginalCanvas = document.createElement('canvas');
+                    const tempRoiCanvas = document.createElement('canvas');
+                    const tempCompoundCanvas = document.createElement('canvas');
+
+                    const originalImg = new Image();
+                    originalImg.src = `data:image/png;base64,${data.original_image}`;
+                    originalImg.onload = () => {
+                        tempOriginalCanvas.width = originalImg.width;
+                        tempOriginalCanvas.height = originalImg.height;
+                        tempOriginalCanvas.getContext('2d').drawImage(originalImg, 0, 0);
+
+                        // Draw ROIs on tempRoiCanvas (need to recreate context)
+                        tempRoiCanvas.width = originalImg.width;
+                        tempRoiCanvas.height = originalImg.height;
+                        const roiCtx = tempRoiCanvas.getContext('2d');
+                        roiCtx.strokeStyle = 'lime';
+                        roiCtx.lineWidth = 3;
+                        imageData.currentRois.forEach(roi => {
+                            roiCtx.strokeRect(roi.x, roi.y, roi.width, roi.height);
+                        });
+
+                        tempCompoundCanvas.width = tempOriginalCanvas.width;
+                        tempCompoundCanvas.height = tempOriginalCanvas.height;
+                        const tempCompoundCtx = tempCompoundCanvas.getContext('2d');
+                        tempCompoundCtx.drawImage(tempOriginalCanvas, 0, 0);
+                        tempCompoundCtx.drawImage(tempRoiCanvas, 0, 0);
+                        const imageDataUrl = tempCompoundCanvas.toDataURL('image/png').split(',')[1];
+                        downloadBase64AsPng(imageDataUrl, generateFilename('original_with_rois', fileIdentifier));
+                    };
+                    originalImg.onerror = (error) => {
+                        console.error(`Error loading original image for compound download of ${fileIdentifier}:`, error);
+                    };
+                }
+
+
+                // Editable Mask
+                if (imageData.predictedMaskBase64) {
+                    downloadBase64AsPng(imageData.predictedMaskBase64, generateFilename('editable_mask', fileIdentifier));
+                }
+
+                // Other image elements (img tags)
+                const imagesToDownload = [
+                    { src: data.full_size_overlay_image, type: 'full_size_overlay' },
+                    { src: data.full_size_rois_image, type: 'full_size_rois' },
+                    { src: data.full_size_tip_base_image, type: 'full_size_tip_base' }
+                ];
+
+                imagesToDownload.forEach(imgInfo => {
+                    if (imgInfo.src) {
+                        downloadBase64AsPng(imgInfo.src, generateFilename(imgInfo.type, fileIdentifier));
+                    }
+                });
+            });
+            setMessage('All downloads initiated.', false);
+        });
+
+        // --- Event Handler (Download All Results as CSV) ---
+        downloadCsvButton.addEventListener('click', () => {
+            if (allImageData.length === 0) {
+                setMessage('No analysis data available to download as CSV.', true);
+                return;
+            }
+
+            let csvContent = "";
+            const headers = [
+                "ImageFileName",
+                "ROI_X", "ROI_Y", "ROI_Width", "ROI_Height",
+                "Length_px",
+                "TipCoords_Row", "TipCoords_Col",
+                "BaseCoords_Row", "BaseCoords_Col",
+                "Area_px2",
+                "Centroid_X", "Centroid_Y"
+            ];
+            csvContent += headers.join(",") + "\n";
+
+            allImageData.forEach(imageData => {
+                const imageFileName = imageData.originalFile ? imageData.originalFile.name : "unknown_image";
+                const results = imageData.predictionResults.root_analysis_results;
+
+                if (results && results.length > 0) {
+                    results.forEach(item => {
+                        const roi = item.roi_definition;
+                        const analysis = item.analysis;
+                        const stats = analysis.stats || {}; // Ensure stats is an object
+
+                        const row = [
+                            `"${imageFileName}"`, // Quote filename in case of commas
+                            roi.x, roi.y, roi.width, roi.height,
+                            analysis.length !== null ? analysis.length.toFixed(2) : 'N/A',
+                            analysis.tip_coords ? analysis.tip_coords[0] : 'N/A',
+                            analysis.tip_coords ? analysis.tip_coords[1] : 'N/A',
+                            analysis.base_coords ? analysis.base_coords[0] : 'N/A',
+                            analysis.base_coords ? analysis.base_coords[1] : 'N/A',
+                            stats.area !== undefined ? stats.area : 'N/A',
+                            stats.centroid_x !== undefined ? stats.centroid_x.toFixed(2) : 'N/A',
+                            stats.centroid_y !== undefined ? stats.centroid_y.toFixed(2) : 'N/A'
+                        ];
+                        csvContent += row.join(",") + "\n";
+                    });
+                } else {
+                    // Add a row for images with no analysis results
+                    csvContent += `"${imageFileName}",N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A\n`;
+                }
+            });
+
+            downloadDataAsFile(csvContent, generateCsvFilename(), 'text/csv');
+            setMessage('Analysis results downloaded as CSV.', false);
+        });
+
+
+        // --- Event Handler (Upload Data) ---
+        imagesUploadInput.addEventListener('change', () => {
+            setUploadMessage('');
+            setUploading(false); // Reset on new file selection
+        });
+
+        masksUploadInput.addEventListener('change', () => {
+            setUploadMessage('');
+            setUploading(false); // Reset on new file selection
+        });
+
+
+        uploadDataButton.addEventListener('click', async () => {
+            const images = imagesUploadInput.files;
+            const masks = masksUploadInput.files;
+
+            if (images.length === 0 || masks.length === 0) {
+                setUploadMessage('Please select both image(s) and mask(s) to upload.', true);
+                return;
+            }
+
+            setUploading(true);
+            setUploadMessage('Uploading data to Azure ML...');
+
+            const formData = new FormData();
+            for (let i = 0; i < images.length; i++) {
+                formData.append('images', images[i]);
+            }
+            for (let i = 0; i < masks.length; i++) {
+                formData.append('masks', masks[i]);
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/upload-root-data/`, {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || 'Upload failed');
+                }
+
+                const data = await response.json();
+                setUploadMessage(`Upload successful! ${data.uploaded_files ? 'Uploaded files: ' + JSON.stringify(data.uploaded_files) : ''}`, false);
+                // Optionally clear inputs after successful upload
+                imagesUploadInput.value = '';
+                masksUploadInput.value = '';
+            } catch (error) {
+                console.error('Error during data upload:', error);
+                setUploadMessage(`Upload failed: ${error.message}`, true);
+            } finally {
+                setUploading(false);
+            }
+        });
+
+
+        // --- Drawing Mode Controls ---
+        function updateDrawingModeButtons() {
+            roiModeButton.classList.remove('bg-indigo-600', 'shadow-md');
+            roiModeButton.classList.add('bg-gray-600', 'hover:bg-indigo-500');
+            roiModeButton.textContent = 'Activate ROI Drawing';
+
+            maskModeButton.classList.remove('bg-indigo-600', 'shadow-md');
+            maskModeButton.classList.add('bg-gray-600', 'hover:bg-indigo-500');
+            maskModeButton.textContent = 'Activate Mask Drawing';
+
+            if (drawingMode === 'roi') {
+                roiModeButton.classList.add('bg-indigo-600', 'shadow-md');
+                roiModeButton.classList.remove('bg-gray-600', 'hover:bg-indigo-500');
+                roiModeButton.textContent = 'ROI Mode (Active)';
+            } else if (drawingMode === 'mask') {
+                maskModeButton.classList.add('bg-indigo-600', 'shadow-md');
+                maskModeButton.classList.remove('bg-gray-600', 'hover:bg-indigo-500');
+                maskModeButton.textContent = 'Mask Mode (Active)';
+            }
+            // Update cursor on canvases
+            if (predictedMaskCanvas) {
+                predictedMaskCanvas.classList.toggle('cursor-crosshair', drawingMode === 'mask');
+            }
+            if (roiCanvas) { // Cursor for ROI drawing is on roiCanvas
+                roiCanvas.classList.toggle('cursor-crosshair', drawingMode === 'roi');
+            }
+        }
+
+        roiModeButton.addEventListener('click', () => {
+            drawingMode = (drawingMode === 'roi' ? 'none' : 'roi');
+            isDrawingMask = false; // Stop mask drawing
+            updateDrawingModeButtons();
+        });
+
+        clearRoisButton.addEventListener('click', () => {
+            if (currentImageIndex !== -1) {
+                allImageData[currentImageIndex].currentRois = [];
+                drawRoisOnCanvas(allImageData[currentImageIndex].currentRois);
+                setMessage('ROIs cleared for current image.');
+            }
+        });
+
+        maskModeButton.addEventListener('click', () => {
+            drawingMode = (drawingMode === 'mask' ? 'none' : 'mask');
+            isDrawingRoi = false; // Stop ROI drawing
+            currentRoiRect = null; // Clear current ROI drawing
+            drawRoisOnCanvas(currentImageIndex !== -1 ? allImageData[currentImageIndex].currentRois : []); // Clear any partial ROI drawing
+            updateDrawingModeButtons();
+        });
+
+        drawColorSelect.addEventListener('change', (event) => {
+            maskDrawColor = event.target.value;
+        });
+
+        // --- Mask Drawing Size Controls ---
+        brushSizeSlider.addEventListener('input', (event) => {
+            maskBrushSize = parseInt(event.target.value);
+            brushSizeNumber.value = maskBrushSize;
+        });
+
+        brushSizeNumber.addEventListener('change', (event) => {
+            let val = parseInt(event.target.value);
+            if (isNaN(val) || val < 5) val = 5;
+            if (val > 50) val = 50;
+            maskBrushSize = val;
+            brushSizeSlider.value = maskBrushSize;
+            brushSizeNumber.value = maskBrushSize;
+        });
+
+
+        // --- ROI Drawing Logic ---
+        function handleRoiMouseDown(e) {
+            if (drawingMode !== 'roi' || !roiCanvas) return;
+            isDrawingRoi = true;
+            const rect = roiCanvas.getBoundingClientRect();
+
+            // Calculate scaled coordinates based on the ROI canvas's internal dimensions
+            // vs. its displayed size.
+            const scaleX = roiCanvas.width / rect.width;
+            const scaleY = roiCanvas.height / rect.height;
+
+            startPointRoi = {
+                x: ((e.clientX || e.touches[0].clientX) - rect.left) * scaleX,
+                y: ((e.clientY || e.touches[0].clientY) - rect.top) * scaleY
+            };
+            currentRoiRect = { x: startPointRoi.x, y: startPointRoi.y, width: 0, height: 0 };
+            drawRoisOnCanvas(currentImageIndex !== -1 ? allImageData[currentImageIndex].currentRois : []);
+
+            console.log("ROI MOUSE DOWN:");
+            console.log("  rect.width:", rect.width, "roiCanvas.width:", roiCanvas.width, "scaleX:", scaleX);
+            console.log("  startPointRoi:", startPointRoi);
+        }
+
+        function handleRoiMouseMove(e) {
+            if (!isDrawingRoi || drawingMode !== 'roi' || !roiCanvas) return;
+            const rect = roiCanvas.getBoundingClientRect();
+
+            const scaleX = roiCanvas.width / rect.width;
+            const scaleY = roiCanvas.height / rect.height;
+
+            const currentX = ((e.clientX || e.touches[0].clientX) - rect.left) * scaleX;
+            const currentY = ((e.clientY || e.touches[0].clientY) - rect.top) * scaleY;
+
+            const x = Math.min(startPointRoi.x, currentX);
+            const y = Math.min(startPointRoi.y, currentY);
+            const width = Math.abs(currentX - startPointRoi.x);
+            const height = Math.abs(currentY - startPointRoi.y);
+
+            currentRoiRect = { x, y, width, height };
+            drawRoisOnCanvas(currentImageIndex !== -1 ? allImageData[currentImageIndex].currentRois : []);
+
+            console.log("ROI MOUSE MOVE:");
+            console.log("  rect.width:", rect.width, "roiCanvas.width:", roiCanvas.width, "scaleX:", scaleX);
+            console.log("  currentRoiRect:", currentRoiRect);
+        }
+
+        function handleRoiMouseUp() {
+            if (!isDrawingRoi || drawingMode !== 'roi' || !roiCanvas) return;
+            isDrawingRoi = false;
+            if (currentRoiRect && currentRoiRect.width > 0 && currentRoiRect.height > 0) {
+                // Round to integers before pushing
+                allImageData[currentImageIndex].currentRois.push({
+                    x: Math.round(currentRoiRect.x),
+                    y: Math.round(currentRoiRect.y),
+                    width: Math.round(currentRoiRect.width),
+                    height: Math.round(currentRoiRect.height)
+                });
+                setMessage(`ROI drawn: (${Math.round(currentRoiRect.x)}, ` +
+                           `${Math.round(currentRoiRect.y)}, ` +
+                           `${Math.round(currentRoiRect.width)}, ` +
+                           `${Math.round(currentRoiRect.height)})`);
+            } else {
+                setMessage('ROI drawing cancelled (too small).');
+            }
+            currentRoiRect = null; // Clear the temporary drawing rectangle
+            drawRoisOnCanvas(allImageData[currentImageIndex].currentRois); // Redraw to ensure only finalized ROIs are visible
+
+            console.log("ROI MOUSE UP: Final ROIs:", allImageData[currentImageIndex].currentRois);
+        }
+
+        // --- Mask Drawing Logic ---
+        function handleMaskMouseDown(e) {
+            console.log('handleMaskMouseDown triggered. drawingMode:', drawingMode, 'predictedMaskCanvas:', predictedMaskCanvas);
+            if (drawingMode !== 'mask' || !predictedMaskCanvas) return;
+            isDrawingMask = true;
+            drawMaskPixel(e);
+        }
+
+        function handleMaskMouseMove(e) {
+            console.log('handleMaskMouseMove triggered. isDrawingMask:', isDrawingMask, 'drawingMode:', drawingMode, 'predictedMaskCanvas:', predictedMaskCanvas);
+            if (!isDrawingMask || drawingMode !== 'mask' || !predictedMaskCanvas) return;
+            drawMaskPixel(e);
+        }
+
+        function handleMaskMouseUp() {
+            console.log('handleMaskMouseUp triggered.');
+            isDrawingMask = false;
+        }
+
+        function drawMaskPixel(e) {
+            console.log('drawMaskPixel triggered. predictedMaskCanvas:', predictedMaskCanvas);
+            if (!predictedMaskCanvas) return;
+            const ctx = predictedMaskCanvas.getContext('2d', { willReadFrequently: true });
+            if (!ctx) {
+                console.error('Failed to get 2D context for predictedMaskCanvas.');
+                return;
+            }
+            const rect = predictedMaskCanvas.getBoundingClientRect();
+            console.log('Canvas Rect:', rect);
+            console.log('Canvas Dimensions (internal):', predictedMaskCanvas.width, predictedMaskCanvas.height);
+
+
+            // Calculate scaling factors for HiDPI/CSS scaling
+            const scaleX = predictedMaskCanvas.width / rect.width;
+            const scaleY = predictedMaskCanvas.height / rect.height;
+
+            const clientX = e.clientX || e.touches[0].clientX;
+            const clientY = e.clientY || e.touches[0].clientY;
+
+            const x = (clientX - rect.left) * scaleX;
+            const y = (clientY - rect.top) * scaleY;
+            console.log('Mouse Coords (client):', clientX, clientY);
+            console.log('Scaled Coords (canvas):', x, y);
+            console.log('Brush Size:', maskBrushSize);
+
+            ctx.beginPath();
+            ctx.arc(x, y, maskBrushSize, 0, Math.PI * 2); // Use dynamic maskBrushSize
+            ctx.fillStyle = maskDrawColor === 'white' ? 'white' : 'black';
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        // --- Chat Functions ---
+        function addMessage(content, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `mb-4 ${isUser ? 'text-right' : 'text-left'}`;
+
+            const messageBubble = document.createElement('div');
+            messageBubble.className = `inline-block p-3 rounded-lg ${
+                isUser ? 'bg-lime-500 text-white' : 'bg-gray-600 text-white'
+            }`;
+            messageBubble.textContent = content;
+
+            messageDiv.appendChild(messageBubble);
+            chatMessages.appendChild(messageDiv);
+        }
+
+        // Typing indicator
+        function showTypingIndicator() {
+            let indicator = document.getElementById('typingIndicator');
+            if (!indicator) {
+                indicator = document.createElement('div');
+                indicator.id = 'typingIndicator';
+                indicator.className = 'mb-4 text-left';
+                indicator.innerHTML = '<span class="inline-block p-3 rounded-lg bg-gray-600 text-white"><span id="typingDots">Typing</span></span>';
+                chatMessages.appendChild(indicator);
+            }
+            // Animated dots
+            let dots = 0;
+            indicator._interval = setInterval(() => {
+                dots = (dots + 1) % 4;
+                document.getElementById('typingDots').textContent = 'Typing' + '.'.repeat(dots);
+            }, 400);
+        }
+        function hideTypingIndicator() {
+            let indicator = document.getElementById('typingIndicator');
+            if (indicator) {
+                clearInterval(indicator._interval);
+                indicator.remove();
+            }
+        }
+
+        // Typing effect for AI messages (word by word, with blinking cursor, Markdown rendering)
+        function typeMessageWordByWord(content, callback, doneCallback, speed = 50) {
+            const words = content.split(' ');
+            let i = 0;
+            let current = '';
+            let cursorVisible = true;
+            const cursor = '<span class="blinking-cursor">|</span>';
+            let cursorInterval = setInterval(() => {
+                cursorVisible = !cursorVisible;
+                callback(current + (cursorVisible ? cursor : ''));
+            }, 500);
+
+            function typeNextWord() {
+                if (i < words.length) {
+                    current += (i === 0 ? '' : ' ') + words[i];
+                    callback(current + cursor);
+                    i++;
+                    setTimeout(typeNextWord, speed);
+                } else {
+                    clearInterval(cursorInterval);
+                    callback(current); // Final message without cursor
+                    if (doneCallback) doneCallback();
+                }
+            }
+            typeNextWord();
+        }
+
+        // Auto-scroll chat to bottom
+        function scrollChatToBottom() {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Disable/enable user input
+        function setInputEnabled(enabled) {
+            chatInput.disabled = !enabled;
+            sendMessageButton.disabled = !enabled;
+        }
+
+        async function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message) return;
+
+            // Add user message to chat
+            addMessage(message, true);
+            chatInput.value = '';
+            setInputEnabled(false);
+            showTypingIndicator();
+            scrollChatToBottom(); // Scroll after adding user message
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/llama/chat`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        prompt: message,
+                        system_prompt: "You are a helpful AI assistant specialized in root analysis and plant science. You provide clear, accurate information about root systems, plant growth, and related scientific concepts.",
+                        max_tokens: 1000,
+                        temperature: 0.7
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to get response from AI');
+                }
+
+                const data = await response.json();
+                hideTypingIndicator();
+
+                // Typing effect for AI response (word by word, blinking cursor, Markdown rendering)
+                let aiDiv = document.createElement('div');
+                aiDiv.className = 'mb-4 text-left';
+                let aiBubble = document.createElement('div');
+                aiBubble.className = 'inline-block p-3 rounded-lg bg-gray-600 text-white';
+                aiDiv.appendChild(aiBubble);
+                chatMessages.appendChild(aiDiv);
+
+                typeMessageWordByWord(
+                    data.response,
+                    (typed) => {
+                        aiBubble.innerHTML = marked.parse(typed + '<span class="blinking-cursor">|</span>');
+                        scrollChatToBottom(); // Scroll after each word
+                    },
+                    () => {
+                        setInputEnabled(true);
+                        chatInput.focus();
+                        // Render final message without cursor
+                        aiBubble.innerHTML = marked.parse(data.response);
+                        scrollChatToBottom(); // Final scroll
+                    },
+                    50 // ms per word
+                );
+
+            } catch (error) {
+                hideTypingIndicator();
+                setInputEnabled(true);
+                console.error('Error sending message:', error);
+                addMessage('Sorry, I encountered an error. Please try again.', false);
+                scrollChatToBottom(); // Scroll after error message
+            }
+        }
+
+        // Chat Event Listeners
+        sendMessageButton.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Add initial AI message
+        addMessage('Hello! I\'m your AI assistant for root analysis. How can I help you today?', false);
+
+        // --- Initial Load Setup ---
+        window.onload = () => {
+            setLoading(false); // Initialize prediction/reanalysis button states correctly
+            predictButton.disabled = fileInput.files.length === 0; // Initially no file selected
+            reanalyzeButton.disabled = true; // Initially no prediction run
+            downloadAllButton.disabled = true; // Initially no image to download
+            downloadCsvButton.disabled = true; // Initially no data to download
+            updateDrawingModeButtons(); // Set initial drawing mode button styles
+
+            // Initialize brush size inputs
+            brushSizeSlider.value = maskBrushSize;
+            brushSizeNumber.value = maskBrushSize;
+
+            setUploading(false); // Initialize upload button state
+            uploadDataButton.disabled = true; // Initially no files selected for upload
+
+            // Monitor file inputs for upload button state
+            imagesUploadInput.addEventListener('change', () => {
+                uploadDataButton.disabled = imagesUploadInput.files.length === 0 || masksUploadInput.files.length === 0;
+            });
+            masksUploadInput.addEventListener('change', () => {
+                uploadDataButton.disabled = imagesUploadInput.files.length === 0 || masksUploadInput.files.length === 0;
+            });
+        };
+
+        // Chat toggle logic
+        const chatToggleBtn = document.getElementById('chatToggleBtn');
+        const chatContainer = document.getElementById('chatContainer');
+        chatToggleBtn.addEventListener('click', () => {
+            if (chatContainer.style.display === 'none' || chatContainer.style.display === '') {
+                chatContainer.style.display = 'block';
+            } else {
+                chatContainer.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
