@@ -1,0 +1,69 @@
+[project]
+name = "speedbeaver"
+version = "0.2.1"
+description = "Setting up logging for FastAPI should not take up the bulk of your time."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "asgi-correlation-id>=4.3.4",
+  "fastapi>=0.115.12",
+  "orjson>=3.10.18",
+  "pydantic-settings>=2.8.1",
+  "rich>=14.0.0",
+  "structlog>=25.2.0",
+]
+
+# TODO
+# [project.optional-dependencies]
+# opentelemetry = ["opentelemetry-sdk>=1.32.1"]
+
+[dependency-groups]
+test = ["httpx>=0.28.1", "pytest>=8.3.5", "pytest-asyncio>=0.26.0"]
+dev = ["pyright>=1.1.398", "ruff>=0.11.2"]
+examples = ["uvicorn>=0.34.0"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+line-length = 80
+
+[tool.ruff.lint]
+select = [
+  # pycodestyle
+  "E",
+  # Pyflakes
+  "F",
+  # pyupgrade
+  "UP",
+  # flake8-bugbear
+  "B",
+  # flake8-simplify
+  "SIM",
+  # isort
+  "I",
+  # fastapi
+  "FAST",
+]
+extend-select = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["speedbeaver", "tests"]
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+include = ["**/*.py"]
+exclude = ["**/node_modules", "**/__pycache__"]
+pythonVersion = "3.10"
+
+[tool.pytest.ini_options]
+asyncio_default_fixture_loop_scope = "session"
+asyncio_mode = "auto"
+log_cli = true
+log_cli_level = "FATAL"
+markers = [
+  "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+  "serial",
+]
