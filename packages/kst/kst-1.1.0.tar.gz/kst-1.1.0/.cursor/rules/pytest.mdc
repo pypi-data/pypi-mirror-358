@@ -1,0 +1,8 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+- When writting tests, use fixtures for common setup and teardown steps.
+- When using fixtures, add them to a pytest.mark.usefixtures decorator unless the fixture return value is used in the test.
+- Avoid using unittest.mock unless necessary. Prefer monkeypatch
