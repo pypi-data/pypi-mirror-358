@@ -1,0 +1,65 @@
+<hr style="height:0pt; visibility:hidden;" />
+
+# ruff
+
+Modern, ultra-fast linter that implements checks from Flake8 and some other popular plugins.
+
+```{python}
+#| echo: false
+# pylint: disable=missing-module-docstring
+# Import required packages
+import subprocess
+import sys
+
+# Add parent directory to sys.path
+sys.path.insert(0, "..")
+
+# Import the helper functions
+# pylint: disable = import-error, wrong-import-position
+# noqa: E402
+from helpers import generate_html, print_quarto
+```
+
+```{python}
+#| echo: false
+#| output: asis
+generate_html(
+    pypi_url="https://pypi.org/project/ruff/",
+    github_url="https://github.com/astral-sh/ruff",
+    conda_url="https://anaconda.org/conda-forge/ruff"
+)
+```
+
+## Example Quarto `.qmd` file:
+
+{{< downloadthis examples/general_example.qmd dname="general_example" label="Download the example" type="light" >}}
+
+:::{.pale-grey}
+```{python}
+#| echo: false
+print_quarto("examples/general_example.qmd")
+```
+:::
+
+## Run ruff using `lintquarto`
+
+```{.bash}
+lintquarto ruff general_example.qmd
+```
+
+:::{.pale-green}
+<style>
+.cell-output-stdout code {
+  word-break: break-word !important;
+  white-space: pre-wrap !important;
+}
+</style>
+```{python}
+#| echo: false
+result = subprocess.run(
+    ["lintquarto", "ruff", "examples/general_example.qmd"],
+    capture_output=True, text=True, check=False
+)
+print(result.stdout)
+```
+:::
