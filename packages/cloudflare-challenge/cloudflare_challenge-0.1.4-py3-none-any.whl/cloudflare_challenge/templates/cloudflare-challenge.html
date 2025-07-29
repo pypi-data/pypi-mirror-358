@@ -1,0 +1,34 @@
+{% extends cf_main_template %}
+
+{% block content %}
+
+<div style="display:grid; width:100%; height:95vh;">
+    <iframe id="challenge-iframe-768901" src="{{challenge}}" style="width:100%; height:100%; border:none;"></iframe>
+</div>
+
+{% endblock content %}
+
+{% block js %}
+<script>
+    (function () {
+        function has_result(document) {
+            return document.getElementById('{{challenge_id}}') != null
+        }
+        function has_result_json(document) {
+            return /{{challenge_id}}/.test(document.body.firstChild.textContent)
+        }
+        function onload() {
+            const doc = ifrm.contentWindow?.document
+            if (doc) {
+                if (has_result(doc)) {
+                    ifrm.removeEventListener('load', onload)
+                    window.location.href = '{{redirect_to}}'
+                }
+            }
+        }
+        const ifrm = document.getElementById('challenge-iframe-768901')
+        if (ifrm)
+            ifrm.addEventListener('load', onload)
+    })();
+</script>
+{% endblock js %}
