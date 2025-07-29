@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hibachi_xyz"
+version = "0.1.3"
+authors = [
+  { name = "Hibachi Engineer" },
+]
+description = "Hibachi SDK for accessing the API"
+# Corrected path to README.md
+readme = "README.md"  # Adjust this if pyproject.toml is in a subfolder, otherwise use "README.md"
+requires-python = ">=3.10"
+license = "MIT"  # Replaced deprecated license classifiers with SPDX license expression
+dependencies = [
+  "eth_keys == 0.6.1",
+  "requests == 2.32.3",
+  "toml == 0.10.2"
+]
+
+[project.urls]
+Homepage = "https://github.com/hibachi-xyz/yule-os"
+Issues = "https://github.com/hibachi-xyz/yule-os/issues"
