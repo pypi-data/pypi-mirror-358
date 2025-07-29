@@ -1,0 +1,128 @@
+21:26 agronholm: I have some more questions about asynciojobs
+21:26 agronholm: do you feel that Celery or Airflow are not good enough? or is the lack of asyncio support a problem?
+21:27 agronholm: what are your goals with this?
+22:28 thierryp: agronholm: Hi
+22:29 thierryp: I guess the name 'scheduler' that I have chosen for asynciojobs is probably misleading
+22:30 thierryp: as I said it's really more like gather() with the only addition of preconditions
+22:30 thierryp: it is *only* for asynciojobs
+22:30 agronholm: yes but airflow is a library specifically designed for job orchestration
+22:31 thierryp: I was not aware of airflow actually
+22:31 thierryp: do ou mean this : https://airflow.incubator.apache.org/ ?
+22:32 agronholm: looks like it
+22:35 thierryp: so to complete my answer to your initial questions, my primary goal is to orchestrate networking experiences
+22:35 thierryp: we operate a wireless networking testbed
+22:35 thierryp: http://r2lab.inria.fr/
+22:36 thierryp: and asynciojobs is the core of the tools we want to promote for writing such experiments
+22:37 agronholm: seeing some real world code that benefits from it would be nice
+22:37 thierryp: http://r2lab.inria.fr/tuto-750-real-scale.md#MULTI_PING
+22:38 thierryp: over asynciojobs we have apssh that provides for ssh-oriented jobs
+22:38 thierryp: a rather thin layer over asyncssh in fact
+22:39 agronholm: sounds like Ansible but with more direct control
+22:39 thierryp: right
+22:40 thierryp: and much much smaller
+22:40 thierryp: and much much faster as well
+22:40 thierryp: this whole multi-ping scenario involved 666 couples of nodes and runs in 2'
+22:40 thierryp: anyways
+22:41 agronholm: well, I wish you good luck with it
+22:42 thierryp: thanks
+22:42 thierryp: I'm looking for someone who could review it maybe
+22:42 thierryp: I mean very high level browsing
+22:43 thierryp: just to make sure I haven't made any stupid mistake
+22:44 thierryp: https://github.com/parmentelat/asynciojobs
+22:44 thierryp: we're talking 1100 lines
+22:45 thierryp: agronholm: so if ou know anyone ...
+22:45 thierryp: thanks
+22:45 agronholm: thierryp: starting with setup.py
+22:45 agronholm: "license" is supposed to be a short name of the license, not the entire license text
+22:46 agronholm: it also lacks any classifiers
+22:46 agronholm: mine for comparison: https://github.com/agronholm/apscheduler/blob/master/setup.py
+22:47 thierryp: ok
+22:47 agronholm: don't use distutils
+22:47 agronholm: use setuptools, it's everywhere
+22:48 agronholm: you will not find a Python installation without setuptools
+22:48 thierryp: all righty
+22:48 agronholm: distutils doesn't even have install_requires
+22:48 thierryp: Ah, so that's why it's not behaving as expected :)
+22:48 thierryp: very good to kno
+22:48 agronholm: from __future__ import print_function is only needed if keyword arguments are passed to print()
+22:48 thierryp: to know
+22:49 agronholm: python 2 sees it as print ('something') <- not a function call
+22:49 agronholm: so it's safe to use there too
+22:49 agronholm: unless you need to print to a file, then you need that import
+22:50 agronholm: I am curious, why all the strange stuff with __all__ here: https://github.com/parmentelat/asynciojobs/blob/master/asynciojobs/__init__.py
+22:50 agronholm: you could just omit __all__ entirely?
+22:50 agronholm: its sole purpose is to limit what is being imported
+22:51 agronholm: and you're adding everything in the module to it so it's pointless
+22:51 agronholm: and besides you don't need to declare it in parts
+22:52 agronholm: https://github.com/parmentelat/asynciojobs/blob/master/asynciojobs/job.py#L122 <- readability: the de facto standard for naming the class argument in class methods is "cls"
+22:53 thierryp: my intention here was that users could do for instance from asyniojobs import Job
+22:53 agronholm: yes, this is clear
+22:53 thierryp: so you' re saying I do not need to define __all__ at all for that ?
+22:53 agronholm: https://github.com/asphalt-framework/asphalt/blob/master/asphalt/core/__init__.py
+22:54 thierryp: got it
+22:55 agronholm: do you intend your codebase to follow PEP 8 or another standard?
+22:55 agronholm: regarding code style
+22:56 thierryp: I have never been patient enough to read pep 8 through and through but that's a trend at least
+22:56 agronholm: https://github.com/parmentelat/asynciojobs/blob/master/asynciojobs/job.py#L375 <- use super().__init__(*args, **kwds)
+22:56 agronholm: using super() everywhere you will make your classes mixin friendly
+22:57 agronholm: you don't always know what class is next in the method resolution order
+22:57 agronholm: with super() you don't have to care
+22:58 thierryp: ok thanks for that one too
+22:59 agronholm: you don't seem to be using standard python logging?
+22:59 agronholm: that would be preferable in software like this
+22:59 thierryp: yeah right, I gave it a try, but found myself more confused than helped
+23:00 agronholm: I highly recommend learning it
+23:00 thierryp: so for things as simple as this one, I went for the easy way
+23:00 thierryp: ok
+23:00 thierryp: you're probably right
+23:01 agronholm: https://github.com/parmentelat/asynciojobs/blob/master/asynciojobs/scheduler.py#L525 <- code like this seems highly dubious
+23:01 agronholm: at least it prints a message, but still
+23:01 agronholm: have you considered using type hints?
+23:02 thierryp: actually I id
+23:02 agronholm: ?
+23:02 thierryp: I was tempted by type hints
+23:02 thierryp: but when I tried to generate the doc I found myself with a huge mess
+23:02 agronholm: you need my sphinx extension
+23:03 thierryp: oh
+23:03 thierryp: that would really help indeed
+23:03 agronholm: https://github.com/agronholm/sphinx-autodoc-typehints
+23:03 agronholm: replaces ugliness with greatness
+23:03 thierryp: ah ah
+23:03 thierryp: great then
+23:03 agronholm: http://asphalt.readthedocs.io/en/latest/modules/component.html#module-asphalt.core.component
+23:04 thierryp: because I am precisely up for type hints
+23:04 agronholm: generates api docs like that
+23:04 thierryp: I see
+23:04 thierryp: so about that
+23:04 thierryp: several questions
+23:04 thierryp: my code is python3.5 only (I got rid of @asyncio.coroutine and yield from)
+23:05 thierryp: so I could not get readthedocs to deal with it
+23:05 thierryp: or did I miss anything ?
+23:05 thierryp: because their python-3 was 3.4
+23:05 thierryp: at least that's what I gathered
+23:05 agronholm: the asphalt projects were added to their beta program
+23:06 agronholm: you can ask on #readthedocs to be added too
+23:06 thierryp: i c
+23:06 thierryp: for now I run on my own metal http://nepi-ng.inria.fr/asynciojobs/
+23:06 agronholm: it's sad to see such slow progrress there
+23:07 agronholm: if you'd also like runtime type checking of function arguments based on type hints, you can use typeguard (another project of mine)
+23:07 agronholm: like this: https://github.com/asphalt-framework/asphalt/blob/master/asphalt/core/context.py#L32
+23:07 agronholm: the checks are somewhat expensive but you can eliminate them by running python in optimized mode (so it will completely eliminate the assets from the bytecode)
+23:08 thierryp: all right
+23:08 thierryp: based on your experience this is more thorough than mypy I take it ?
+23:09 agronholm: mypy and typeguard complement each other
+23:09 agronholm: but mypy produces so many bogus errors that it's far less practical
+23:10 thierryp: all right
+23:15 thierryp: I guess the area where I was least comfy with is around here https://github.com/parmentelat/asynciojobs/blob/master/asynciojobs/scheduler.py#L216
+23:15 thierryp: I need to keep a link from an asyncio task to my job instances and back
+23:16 thierryp: and so I am kind of messing with the task object - adding the _job attribute
+23:17 thierryp: what's you take on this way of doing things ?
+23:17 thierryp: in any case many thanks for your time
+23:18 thierryp: I'm off for the night - it's kinda late over here in Europe
+23:18 thierryp: agronholm: cheers
+23:18 thierryp: thanks again
+23:20 agronholm: np
+23:20 agronholm: I'm in Finland so... :)
+23:27 Disconnected
+02:29 Disconnected
+07:53 Disconnected

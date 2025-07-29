@@ -1,0 +1,41 @@
+Metadata-Version: 2.4
+Name: asynciojobs
+Version: 0.21.3
+Summary: A simplistic orchestration engine for asyncio-based jobs
+Project-URL: Homepage, http://github.com/parmentelat/asynciojobs
+Project-URL: Documentation, http://asynciojobs.readthedocs.io/
+Author-email: Thierry Parmentelat <thierry.parmentelat@inria.fr>
+License: CC-BY-NC-4.0
+License-File: LICENSE
+Keywords: asyncio,dependencies,dependency,jobs,orchestration,scheduling
+Requires-Python: >=3.9
+Provides-Extra: doc
+Requires-Dist: jupyter; extra == 'doc'
+Requires-Dist: nbconvert; extra == 'doc'
+Requires-Dist: nbstripout; extra == 'doc'
+Provides-Extra: graph
+Requires-Dist: graphviz; extra == 'graph'
+Provides-Extra: ordered
+Requires-Dist: ordered-set; extra == 'ordered'
+Provides-Extra: readthedocs
+Requires-Dist: myst-parser; extra == 'readthedocs'
+Requires-Dist: recommonmark; extra == 'readthedocs'
+Requires-Dist: sphinx-autodoc-typehints; extra == 'readthedocs'
+Provides-Extra: tests
+Requires-Dist: pytest; extra == 'tests'
+Description-Content-Type: text/markdown
+
+# Purpose
+
+The `asynciojobs` library adds dependency management to asyncio-based scenarios.
+
+It allows to create and run schedulers, where jobs are coroutines or other
+asyncio-friendly programs, whose dependencies are directed acyclic graphs
+(DAGs).
+
+Schedulers can be nested, i.e. a scheduler can be used as a job;
+this features allows functions to be written, that return pieces of scenarios.
+
+## Read more at readthedocs
+
+See complete documentation at <https://asynciojobs.readthedocs.io/>

@@ -1,0 +1,40 @@
+[project]
+name = "asynciojobs"
+version = "0.21.3"
+description="A simplistic orchestration engine for asyncio-based jobs"
+license = {text = "CC-BY-NC-4.0"}
+readme = "README.md"
+authors = [
+    {name = "Thierry Parmentelat", email = "thierry.parmentelat@inria.fr"},
+]
+keywords = [
+    'asyncio', 'dependency', 'dependencies',
+    'jobs', 'scheduling', 'orchestration',
+]
+requires-python = ">=3.9"
+dependencies = [
+    # none for now
+]
+
+[project.optional-dependencies]
+graph = ["graphviz"]
+ordered = ["ordered-set"]
+tests = ["pytest"]
+# this is to update the doc locally (i.e. the .md from the .ipynb)
+doc = ["nbstripout", "jupyter", "nbconvert"]
+# this is to produce the doc on readthedocs
+readthedocs = [
+    "sphinx-autodoc-typehints",
+    "myst-parser",
+    "recommonmark"
+]
+
+
+[project.urls]
+Homepage = "http://github.com/parmentelat/asynciojobs"
+Documentation = "http://asynciojobs.readthedocs.io/"
+
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
