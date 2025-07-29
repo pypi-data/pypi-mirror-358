@@ -1,0 +1,158 @@
+Metadata-Version: 2.1
+Name: web3_oracle
+Version: 0.2.0
+Summary: A package to retrieve token prices by timestamp
+Home-page: https://github.com/gmatrixuniverse/web3_oracle
+Author: Gmatrixuniverse
+Author-email: gmatrixuniverse@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pandas
+Requires-Dist: pytz
+Requires-Dist: web3
+
+# Web3 Oracle
+
+A Python package for retrieving token prices by timestamp, datetime, or Ethereum block number.
+
+## Features
+
+- Get token prices by timestamp or datetime
+- Get token prices by Ethereum block number
+- Fast ETH price lookup by block number using direct mapping
+- Fast BTC price lookup by Ethereum block number
+- Reference prices for altcoins and less common tokens
+- Unified token price lookup with automatic source selection
+- Command-line interface
+
+## Installation
+
+```bash
+pip install web3-oracle
+```
+
+## Testing
+
+To test the complete package functionality:
+
+```bash
+# Run complete test suite
+python run_tests.py
+# OR
+make test
+
+# Quick tests only (faster)
+python run_tests.py --quick
+# OR 
+make test-quick
+```
+
+The test suite verifies:
+- ✅ ETH/BTC price lookup by timestamp
+- ✅ ETH/BTC price lookup by block number (with different rounding logic)
+- ✅ Altcoin reference prices
+- ✅ CLI functionality
+- ✅ Performance benchmarks
+
+## Usage
+
+### Basic Usage
+
+```python
+from web3_oracle import Oracle
+from datetime import datetime
+
+# Initialize the oracle
+oracle = Oracle()
+
+# Get price by timestamp
+eth_price = oracle.get_price("0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2", 1620518400)
+
+# Get price by datetime
+dt = datetime(2022, 1, 15, 12, 0, 0)
+btc_price = oracle.get_price_by_datetime("0x2260fac5e5542a773aa44fbcfedf7c193bc2c599", dt)
+
+# Get reference price for less common tokens
+uni_price = oracle.get_reference_price("0x1f9840a85d5af5bf1d1762f925bdaddc4201f984")
+
+# Get Ethereum price by block number (WETH/WBTC only)
+eth_block_price = oracle.get_price_by_block("0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2", 15000000)
+
+# Fast ETH price lookup by block (rounded to nearest 10,000)
+fast_eth_price = oracle.fast_price(14350000)  # Will use price at block 14350000
+
+# Fast BTC price lookup by block (rounded to nearest 10,000)
+fast_btc_price = oracle.fast_btc_price(18039284)  # Will use price at block 18039284
+
+# Unified token price lookup (automatically chooses optimal source) - RECOMMENDED
+token_price = oracle.get_token_price(
+    token_address="0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",  # UNI token
+    block_number=15000000  # Optional
+)
+```
+
+### Command Line Interface
+
+```bash
+# Get price by timestamp
+web3-oracle get_price 0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2 1620518400
+
+# Get price by date and time
+web3-oracle get_price_by_date 0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2 "2021-05-08" "12:00:00"
+
+# Get reference price for a token
+web3-oracle get_reference_price 0x1f9840a85d5af5bf1d1762f925bdaddc4201f984
+
+# Get price by block number (WETH/WBTC only)
+web3-oracle get_price_by_block 0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2 15000000
+
+# Fast ETH price lookup
+web3-oracle fast_price 14350000
+
+# Fast BTC price lookup
+web3-oracle fast_btc_price 18039284
+
+# Unified token price lookup (automatically selects best source)
+web3-oracle get_token_price 0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2 --block 15000000
+web3-oracle get_token_price 0x1f9840a85d5af5bf1d1762f925bdaddc4201f984
+
+# List all available tokens
+web3-oracle list_tokens
+```
+
+## Data Sources
+
+The package uses several data sources:
+
+- `ethereum_prices.csv`: Historical ETH prices by timestamp
+- `bitcoin_prices.csv`: Historical BTC prices by timestamp
+- `stable_prices.csv`: Historical stablecoin prices by timestamp
+- `altcoins_prices.csv`: Reference prices for altcoins and less common tokens
+- `eth_block_prices.csv`: Direct mapping of Ethereum block numbers to ETH prices
+- `btc_block_prices.csv`: Direct mapping of Ethereum block numbers to BTC prices
+
+## Tools
+
+The package includes tools for indexing Ethereum blocks and creating price mappings:
+
+```bash
+# Generate ETH block to price direct mapping
+python -m web3_oracle.tools.index_eth_blocks
+
+# Generate BTC price mapping for Ethereum blocks
+python -m web3_oracle.tools.index_btc_blocks
+```
+
+## Priority Order for Token Prices
+
+The unified `get_token_price` method uses the following priority order:
+
+1. For WETH with block number: Direct block price mapping (fastest)
+2. For WBTC with block number: Direct block price mapping (fast)
+3. For any token with reference price: Reference price from altcoins data
+4. For any token with block number: Not supported (use timestamp or reference price)
+5. For any token with timestamp: Regular timestamp lookup
