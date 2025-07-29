@@ -1,0 +1,298 @@
+[build-system]
+build-backend = "pdm.backend"
+requires = [
+    "pdm-backend",
+]
+
+[project]
+name = "fastblocks"
+version = "0.13.1"
+description = "Starlette based app for the rapid delivery of HTMX/Jinja template blocks"
+readme = "README.md"
+keywords = [
+    "htmx",
+    "httpx",
+    "jinja",
+    "pydantic",
+    "redis",
+    "sqladmin",
+    "sqlalchemy",
+    "sqlmodel",
+    "starlette",
+]
+maintainers = [
+    { name = "lesleslie", email = "les@wedgwoodwebworks.com" },
+]
+authors = [
+    { name = "lesleslie", email = "les@wedgwoodwebworks.com" },
+]
+requires-python = ">=3.13"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Framework :: AsyncIO",
+    "Framework :: Pydantic",
+    "Framework :: Pydantic :: 2",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Typing :: Typed",
+]
+dependencies = [
+    "acb>=0.16.12",
+    "acb[cache,monitoring,requests,storage]",
+    "anyio>=4.9",
+    "asgi-htmx>=0.1",
+    "brotli-asgi>=1.4",
+    "granian[reload]>=2.3.4",
+    "minify-html>=0.16.4",
+    "pydantic>=2.11.7",
+    "pyfiglet>=1.0.3",
+    "rcssmin>=1.2.1",
+    "rjsmin>=1.2.4",
+    "secure>=1.0.1",
+    "starception>=1.2.1",
+    "starlette>=0.47.1",
+    "starlette-async-jinja>=1.10.1",
+    "starlette-csrf>=3",
+    "uvicorn>=0.34.3",
+]
+
+[project.license]
+text = "BSD-3-Clause"
+
+[project.optional-dependencies]
+admin = [
+    "sqladmin>=0.20.1",
+]
+dev = [
+    "crackerjack>=0.20.20",
+    "pytest>=8.4.1",
+    "pytest-benchmark>=5.1",
+]
+monitoring = [
+    "logfire[starlette]>=3.7.1",
+    "sentry-sdk[starlette]>=2.22",
+]
+sitemap = [
+    "asgi-sitemaps>=1",
+]
+
+[dependency-groups]
+dev = [
+    "pyyaml>=6.0.2",
+]
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.5",
+    "pytest-benchmark>=4.0.0",
+    "pytest-cov>=5.0.0",
+    "pytest-devtools>=0.12.2",
+    "pytest-mock>=3.13.0",
+    "pytest-timeout>=2.3.1",
+    "pytest-xdist>=3.6.0",
+]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 88
+fix = true
+unsafe-fixes = true
+show-fixes = true
+output-format = "full"
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.ruff.lint]
+extend-select = [
+    "C901",
+    "D",
+    "F",
+    "I",
+    "UP",
+]
+ignore = [
+    "D100",
+    "D101",
+    "D102",
+    "D103",
+    "D104",
+    "D105",
+    "D106",
+    "D107",
+    "F821",
+    "UP040",
+]
+fixable = [
+    "ALL",
+]
+unfixable = []
+
+[tool.ruff.lint.isort]
+no-lines-before = [
+    "first-party",
+]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 13
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.codespell]
+skip = "*/data/*"
+quiet-level = 3
+ignore-words-list = "crate,uptodate,nd"
+
+[tool.pyproject-fmt]
+column_width = 120
+indent = 4
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+python_files = [
+    "test_*.py",
+    "*_test.py",
+]
+testpaths = [
+    "tests",
+    "fastblocks",
+]
+python_classes = [
+    "Test*",
+]
+python_functions = [
+    "test_*",
+]
+markers = [
+    "unit: marks test as a unit test",
+    "benchmark: mark test as a benchmark (disables parallel execution)",
+    "integration: marks test as an integration test",
+]
+timeout = 300
+timeout_method = "thread"
+addopts = "--cov=fastblocks --cov-report=term --cov-fail-under=42"
+
+[tool.pytest.benchmark]
+disable_gc = true
+warmup = false
+warmup_iterations = 0
+min_rounds = 1
+max_time = 5.0
+
+[tool.coverage.run]
+branch = false
+source = [
+    "fastblocks",
+]
+data_file = ".coverage"
+parallel = false
+omit = [
+    "*/tests/*",
+    "*/site-packages/*",
+    "*/__pycache__/*",
+    "*/__init__.py",
+    "*/_version.py",
+    "*/conftest.py",
+    "*/test_*.py",
+    "*/_test.py",
+]
+
+[tool.coverage.report]
+exclude_also = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "pass",
+    "raise ImportError",
+    "except ImportError",
+    "def __str__",
+    "@abstractmethod",
+]
+ignore_errors = false
+
+[tool.pyright]
+verboseOutput = true
+include = [
+    "fastblocks",
+]
+exclude = [
+    "scratch",
+]
+extraPaths = [
+    ".venv/lib/python3.13/site-packages/",
+]
+typeCheckingMode = "strict"
+reportMissingTypeStubs = false
+reportOptionalMemberAccess = false
+reportOptionalCall = false
+reportUnknownMemberType = false
+reportUnknownVariableType = false
+reportUnknownArgumentType = false
+reportInvalidTypeForm = false
+reportUnknownLambdaType = false
+reportUnknownParameterType = "warning"
+reportPrivateUsage = false
+pythonVersion = "3.13"
+
+[tool.creosote]
+paths = [
+    "fastblocks",
+]
+deps-file = "pyproject.toml"
+exclude-deps = [
+    "pytest-benchmark",
+    "pdm",
+    "pyfiglet",
+    "pytest-cov",
+    "autotyping",
+    "pyyaml",
+    "tomli-w",
+    "uv",
+    "pytest-mock",
+    "pytest-xdist",
+    "pytest",
+    "pytest-timeout",
+    "pre-commit",
+    "google-crc32c",
+    "pytest-asyncio",
+    "pdm-bump",
+    "keyring",
+]
+
+[tool.refurb]
+enable_all = true
+quiet = true
+
+[tool.bandit]
+target = [
+    "fastblocks",
+]
+skips = [
+    "B607",
+    "B704",
+    "B602",
+    "B101",
+    "B403",
+    "B404",
+    "B603",
+    "B311",
+    "B301",
+]
+
+[tool.vulture]
+min_confidence = 86
+paths = [
+    "fastblocks",
+]
+ignore_names = [
+    "cls",
+]
