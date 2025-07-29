@@ -1,0 +1,61 @@
+<button onclick="onSearchBarClick(event)"
+    class="cursor-pointer inline-flex items-center gap-2 whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input hover:bg-accent hover:text-accent-foreground px-4 py-2 relative h-8 w-full justify-start rounded-[0.5rem] bg-muted/50 text-sm font-normal text-muted-foreground shadow-none sm:pr-12 md:w-40 lg:w-56 xl:w-64">
+    <span class="hidden lg:inline-flex">Search documentation...</span>
+    <span class="inline-flex lg:hidden">Search...</span>
+    <kbd
+        class="pointer-events-none absolute right-[0.3rem] top-[0.3rem] hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
+        <span class="text-xs">⌘</span>K
+    </kbd>
+</button>
+<dialog id="search-dialog" onclick="onSearchDialogClick(event)"
+    class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-background rounded-lg shadow-lg border overflow-hidden p-0">
+    <div class="w-lg gap-4">
+        <div class="flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground">
+            <div class="w-full flex items-center border-b px-3" cmdk-input-wrapper="">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="mr-2 h-4 w-4 shrink-0 opacity-50">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.3-4.3"></path>
+                </svg>
+                <!-- <script>
+                    let debounceTimer;
+                    const onInputHandler = function (event) {
+                        const query = event.target.value;
+                        clearTimeout(debounceTimer);
+                        debounceTimer = setTimeout(() => {
+                            if (searchWorker && (query.length > 2)) {
+                                console.log(`Posting message { "query": "${query}" }`)
+                                // https://lunrjs.com/guides/searching.html
+                                // we should append a wilcard and also a boost on exact term
+                                const lunrQuery = `${query}^10 ${query}* ${query}~1`;
+                                searchWorker.postMessage({ "query": lunrQuery });
+                            } else if (query.length > 2) {
+                                console.warn("searchWorker is not defined")
+                            } else {
+                                const results = document.getElementById("mkdocs-search-results");
+                                if (results) {
+                                    while (results.firstChild) {
+                                        results.removeChild(results.firstChild);
+                                    }
+                                }
+                            }
+                        }, 300);
+                    };
+                </script> -->
+                <input
+                    class="flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
+                    placeholder="Type a command or search..." autocomplete="off" autocorrect="off" spellcheck="false"
+                    aria-autocomplete="list" role="combobox" aria-expanded="true" type="text" value=""
+                    oninput="onInputHandler(event)">
+            </div>
+        </div>
+        <div id="mkdocs-search-results" class="max-h-[300px] overflow-y-auto overflow-x-hidden">
+            <!-- search results go there -->
+        </div>
+    </div>
+</dialog>
+<script>
+    document.removeEventListener("keydown", searchShortcutHandler);
+    document.addEventListener("keydown", searchShortcutHandler);
+</script>

@@ -1,0 +1,9 @@
+{% if config.theme.icon %}
+{% if config.theme.icon.startswith("http") %}
+<img class="h-6 w-6" src="{{ config.theme.icon }}">
+{% else %}
+<iconify-icon icon="{{ config.theme.icon }}" noobserver></iconify-icon>
+{% endif %}
+{% else %}
+{% include "icons/shadcn.svg" %}
+{% endif %}

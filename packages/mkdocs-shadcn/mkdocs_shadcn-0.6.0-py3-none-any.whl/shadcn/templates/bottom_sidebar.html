@@ -1,0 +1,29 @@
+<dialog id="bottom-sidebar" data-closing="0"
+    class="backdrop:bg-black backdrop:opacity-80 backdrop:transition-all backdrop:duration-500 text-foreground"
+    onclick="onBottomSidebarDialogClick(event)">
+    <div
+        class="fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border bg-background max-h-[60svh] p-0 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]">
+        <div class="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted"></div>
+        <div class="overflow-auto p-6 space-y-3">
+            {% if nav|length > 1 %}
+            {% for top_item in nav %}
+
+            <div class="flex flex-col">
+                {% if top_item.children %}
+                <div class="flex flex-col space-y-3 pt-4">
+                    <h4 class="font-medium">{{ top_item.title }} </h4>
+                    {% for sidebar_item in top_item.children %}
+                    {% include "components/bottom_sidebar_item.html" %}
+                    {% endfor %}
+                </div>
+                {% else %}
+                {% with sidebar_item = top_item %}
+                {% include "components/bottom_sidebar_item.html" %}
+                {% endwith %}
+                {% endif %}
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</dialog>

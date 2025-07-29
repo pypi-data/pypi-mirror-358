@@ -1,0 +1,14 @@
+<article class="typography w-full">
+    {% if not page.is_top_level %}
+    {% include "templates/breadcrumbs.html" %}
+    {% endif %}
+    {% if page.meta.title %}
+    <h1 class="tracking-tight">{{ page.meta.title }}</h1>
+    {% endif %}
+    {% if page.meta.summary %}
+    <p class="summary">
+        {{ page.meta.summary }}
+    </p>
+    {% endif %}
+    {{ page.content }}
+</article>
