@@ -1,0 +1,834 @@
+#!/usr/bin/python3
+import re
+import logging
+import platform
+import subprocess
+try:
+    from collections import Iterable
+except ImportError:
+    from collections.abc import Iterable
+from functools import lru_cache
+from importlib import resources
+from pathlib import Path
+from queue import Queue
+from shutil import unpack_archive
+from sys import argv, version_info
+from threading import Thread
+from urllib.parse import quote
+from urllib.request import urlopen, Request
+from zipfile import ZipFile
+
+from Bio.Seq import Seq
+from OGU.global_vars import log, name, FMT, DATEFMT, global_dict
+
+
+# chinese search engine, test if network is ok
+test_url = 'https://bing.com'
+r2_url = 'https://pub-dc55c531ed794a66a22adf48ce78d553.r2.dev/'
+# font family
+if platform.system() == 'Windows':
+    font_family = 'Arial'
+else:
+    font_family = 'Helvetica'
+
+
+def open_url(url: str, timeout: int):
+    req = Request(url)
+    req.add_header('User-Agent', 'python-urllib/3.11')
+    log.info(f'Connecting to {url}')
+    try:
+        resp = urlopen(req, timeout=timeout)
+    except Exception:
+        log.error(f'Cannot open {url}')
+        raise SystemExit(1)
+    return resp
+
+
+class BlastResult:
+    # slightly faster than namedtuple
+    __slots = ('query_id', 'hit_id', 'query_seq', 'ident_num', 'mismatch_num',
+               'bitscore_raw', 'query_start', 'query_end', 'hit_start',
+               'hit_end')
+
+    def __init__(self, line):
+        record = line.strip().split('\t')
+        self.query_id, self.hit_id, self.query_seq = record[0:3]
+        (self.ident_num, self.mismatch_num, self.bitscore_raw,
+         self.query_start, self.query_end, self.hit_start,
+         self.hit_end) = [int(i) for i in record[3:]]
+
+    def __repr__(self):
+        fmt = ('query_id: {}\thit_id: {}\tbitscore_raw: {}\tquery_start:{}\t'
+               'query_end: {}\thit_start: {}\thit_end: {}')
+        return fmt.format(self.query_id, self.hit_id, self.bitscore_raw,
+                          self.query_start, self.query_end, self.hit_start,
+                          self.hit_end)
+
+
+def check_system():
+    """
+    # primer3-py is currently unavailable on Windows with Python 3.9/3.10
+    # 2023.1 solved.
+    f-strings are not available on Python 3.5 or older.
+    """
+    if version_info.minor < 9:
+        raise RuntimeError('Python 3.9 or newer is required.')
+    if platform.system() == 'Windows':
+        if version_info.minor > 12:
+            # raise RuntimeError('Python 3.7 or 3.8 is required.')
+            raise RuntimeError('Do not support python 3.13 or higher.')
+    return
+
+
+def arg_to_str(arg) -> str:
+    s = ''
+    arg_dict = vars(arg)
+    for key, value in arg_dict.items():
+        if isinstance(value, str):
+            pass
+        elif isinstance(value, Iterable):
+            value = ' '.join(value)
+        elif value is None:
+            continue
+        elif isinstance(value, bool):
+            if value:
+                value = ''
+            else:
+                # Assume all bool option using action='store_true'
+                continue
+        s += f' -{key} {value}'
+    return s
+
+
+def add_file_log(arg):
+    """
+    Add file handler if not exist.
+    Note that "log" is a global variable.
+    """
+    has_file_hdl = any([type(i)==logging.FileHandler for i in log.handlers])
+    if has_file_hdl:
+        pass
+    else:
+        log_file = arg.out / 'Log.txt'
+        log_file_handler = logging.FileHandler(log_file, mode='a')
+        log_file_handler.setLevel(logging.DEBUG)
+        log_file_handler.setFormatter(
+            logging.Formatter(fmt=FMT, datefmt=DATEFMT))
+        log.addHandler(log_file_handler)
+        log.debug('Add file handler.')
+        log.debug('Arguments:')
+        log.debug(' '.join(argv))
+    return
+
+
+def move(source: Path, dest, copy=False):
+    """
+    Move source to dest and return dest.
+    If set "copy", copy source to dest instead of move.
+    Because Path.rename could not move file across different filesystem or
+    drive, have to use copy and delete to implement "move".
+    Warning:
+        This function does not check whether dest exists or not.
+    Args:
+        source(Path): old path
+        dest(Path or str): new path
+        copy(bool): copy or move
+    Return:
+        dest(Path): new path
+    """
+    source = Path(source).absolute()
+    dest = Path(dest).absolute()
+    # avoid useless copy
+    # Path.samefile may raise FileNotFoundError
+    if source == dest:
+        log.debug(f'{source} and {dest} are same.')
+    else:
+        # read_bytes/write_bytes includes open, read/write and close steps
+        dest.write_bytes(source.read_bytes())
+        if not copy:
+            source.unlink()
+    return dest
+
+
+def init_out(arg):
+    """
+    Initilize output folder.
+    Args:
+        arg(NameSpace): arguments
+    Returns:
+        arg(NameSpace): arguments
+    """
+    if not hasattr(arg, 'out') or arg.out is None:
+        log.warning('Output folder was not set.')
+        log.info('  Use "Result" instead.')
+        arg.out = Path().cwd().absolute() / 'Result'
+    else:
+        arg.out = Path(arg.out).absolute()
+    if arg.out.exists() and len(list(arg.out.iterdir())) == 0:
+        if not global_dict.get('out_inited', False):
+            log.warning(f'Output folder {arg.out} exists.')
+            arg.out = arg.out / (arg.out.name+'_')
+            log.info(f'Use {arg.out} instead.')
+            if arg.out.exists():
+                log.error(f'{arg.out} exists, too!')
+                raise SystemExit(-1)
+        else:
+            pass
+    arg._gb = arg.out / 'GenBank'
+    arg._fasta = arg.out / 'Fasta'
+    arg._divide = arg.out / 'Divide'
+    arg._expand = arg.out / 'Expanded_fasta'
+    arg._unique = arg.out / 'Unique'
+    arg._align = arg.out / 'Alignment'
+    arg._evaluate = arg.out / 'Evaluate'
+    arg._primer = arg.out / 'Primer'
+    arg._tmp = arg.out / 'Temp'
+    try:
+        arg.out.mkdir()
+        arg._gb.mkdir()
+        arg._fasta.mkdir()
+        arg._divide.mkdir()
+        arg._expand.mkdir()
+        arg._unique.mkdir()
+        arg._align.mkdir()
+        arg._evaluate.mkdir()
+        arg._primer.mkdir()
+        arg._tmp.mkdir()
+    except Exception:
+        log.debug('Folder exists.')
+    out_inited = True
+    return arg
+
+
+def clean_tmp(filename: Path):
+    if filename.is_dir():
+        for i in filename.glob('*'):
+            i.unlink()
+    elif filename.is_file():
+        for i in filename.parent.glob(f'{filename.name}*'):
+            i.unlink()
+    return
+
+
+@lru_cache(maxsize=None)
+def rename_rna(old_name: str, genbank_format=False, table=11) -> (str, bool):
+    old_name = old_name.lower()
+    s = re.compile(r'(\d+\.?\d?)_?(s|rrn|rdna|rrna)')
+    if old_name.startswith('trn'):
+        pattern = re.compile(r'([atcgu]{3})')
+        prefix = 'trn'
+        aa_letter = 'X'
+        try:
+            anticodon = Seq(re.search(pattern, old_name[3:]).group(1))
+        except Exception:
+            return old_name, False
+        # rna editing? trnI-CAU
+        if anticodon == 'cau' and old_name.startswith('trni'):
+            aa_letter = 'I'
+        # for trnfM-CAU
+        elif old_name.startswith('trnfm'):
+            prefix = 'trnf'
+            aa_letter = 'M'
+        else:
+            try:
+                aa_letter = anticodon.reverse_complement_rna().translate(
+                    table=table).upper()
+                if aa_letter == '*':
+                    aa_letter = 'UNKNOWN'
+            except Exception:
+                return old_name, False
+            # anticodon = anticodon.transcribe()
+        if genbank_format:
+            new_name = f'{prefix}{aa_letter}-{anticodon.upper()}'
+        else:
+            new_name = f'{prefix}{aa_letter}_{anticodon.upper()}'
+        renamed = True
+    elif old_name.startswith('rrn'):
+        pattern = re.compile(r'(\d+\.?\d?)')
+        try:
+            number = re.search(pattern, old_name).group(1)
+        except Exception:
+            return old_name, False
+        new_name = 'rrn{}'.format(number)
+        renamed = True
+    elif re.search(s, old_name) is not None:
+        new_name = 'rrn{}'.format(re.search(s, old_name).group(1))
+        renamed = True
+    else:
+        new_name = old_name
+        renamed = False
+    return new_name, renamed
+
+
+@lru_cache(maxsize=None)
+def rename_mt(old_name: str) -> (str, bool):
+    new_name = old_name
+    old_name = old_name.lower()
+    replaced = {'coi': 'COX1', 'coii': 'COX2', 'coiii': 'COX3',
+                'cob': 'CYTB', 'cytochrome oxidase subunit i': 'COX1'}
+    nad = re.compile(r'(?P<gene>nad)h?(?P<suffix>\d)')
+    cox = re.compile(r'cox?(?P<suffix>\d)')
+    atp = re.compile(r'atp(ase)?-?(?P<suffix>\d+)')
+    cytb = re.compile(r'cyt(ochrome.*)?[ _-]?b$')
+    if old_name in replaced:
+        new_name = replaced[old_name]
+        return new_name.upper(), True
+    nad_match = re.search(nad, old_name)
+    if nad_match is not None:
+        gene = 'nad'
+        suffix = nad_match.group('suffix')
+        new_name = '{}{}'.format(gene, suffix)
+        # nad is lower
+        return new_name, True
+    cox_match = re.search(cox, old_name)
+    if cox_match is not None:
+        gene = 'cox'
+        suffix = cox_match.group('suffix')
+        new_name = '{}{}'.format(gene, suffix)
+        return new_name.upper(), True
+    atp_match = re.search(atp, old_name)
+    if atp_match is not None:
+        gene = 'atp'
+        suffix = atp_match.group('suffix')
+        new_name = '{}{}'.format(gene, suffix)
+        return new_name.upper(), True
+    cytb_match = re.match(cytb, old_name)
+    if cytb_match is not None:
+        gene = 'cytb'
+        return gene.upper(), True
+    if not old_name.startswith('trn') and len(old_name) < 10:
+        new_name = old_name.upper()
+    # force renamed
+    renamed = True
+    return new_name, renamed
+
+
+@lru_cache(maxsize=None)
+def gene_rename(old_name: str, og='cp', genbank_format=False) -> (str, bool):
+    """
+    Old doc:
+        Different name of same gene will cause data to be split to numerous
+        files instead of one and some data may be dropped.
+
+        For chloroplast genes, the author summarized various kinds of
+        annotation error of gene name or synonyms and try to use regular
+        expression to fix it.
+
+        Ideally, use BLAST to re-annotate sequence is the best(and slow) way to
+        find the correct name. This function only offers a "hotfix" which is
+        enough.
+    Rename plastid genes.
+    Experimentally rename mitochondria genes.
+    May be dangerous.
+    Will cache results.
+    Args:
+        old_name: old gene name
+        og: organelle type, cp or mt
+        genbank_format: use style like "trnH-GUG" or "trnHgug"
+    Returns:
+        new_name(str): new name, if fail, return old name
+        gene_type(str): gene types, guessed from name
+    """
+    lower = old_name.lower()
+    # (trna|trn(?=[b-z]))
+    og_table = dict(cp=11, mt=2)
+    if og in og_table:
+        table = og_table[og]
+    else:
+        table = 1
+    new_name, renamed = rename_rna(old_name, genbank_format, table)
+    if renamed:
+        return new_name, renamed
+    if og == 'mt':
+        new_name, renamed = rename_mt(old_name)
+        return new_name, renamed
+    else:
+        pattern = re.compile(r'[^a-z]*'
+                             '(?P<gene>[a-z]+)'
+                             '[^a-z0-9]*'
+                             '(?P<suffix>[a-z]|[0-9]+)')
+        match = re.search(pattern, lower)
+        try:
+            gene = match.group('gene')
+            suffix = match.group('suffix')
+        except Exception:
+            return old_name, False
+        new_name = '{}{}'.format(gene, suffix.upper())
+        # capitalize last letter
+        if len(new_name) > 3:
+            s = list(new_name)
+            if s[-1].isalpha():
+                new_name = '{}{}'.format(
+                    ''.join(s[:-1]), ''.join(s[-1]).upper())
+        renamed = True
+    # if len(lower) >= 15:
+    #     gene_type = 'suspicious_name'
+    return new_name, renamed
+
+
+def rename_blast():
+    """
+    Use name database. Too heavy.
+    """
+    pass
+
+
+def safe_average(x):
+    """
+    Safe average.
+    """
+    if len(x) == 0:
+        return 0
+    else:
+        return sum(x) / len(x)
+
+
+def safe_path(old):
+    """
+    Remove illegal character in file path or name.
+    """
+    return re.sub(r'\W', '_', old)
+
+
+def accessible(name: Path, type_: str) -> bool:
+    """
+    Check given path is accessible or not.
+    Given path does not exist.
+    Args:
+        name(Path): folder or file, absolute path
+        type_(str): 'folder' or 'file'
+    Return:
+        ok(bool): accessible or not
+    """
+    p = Path(name)
+    if type_ == 'folder':
+        try:
+            p.mkdir()
+            p.rmdir()
+            ok = True
+        except PermissionError:
+            ok = False
+    elif type_ == 'file':
+        try:
+            p.touch()
+            p.unlink()
+            ok = True
+        except PermissionError:
+            ok = False
+    else:
+        log.critical(f'Illegal type: {type_}')
+        ok = False
+    return ok
+
+
+def test_cmd(program, option='-version') -> bool:
+    """
+    Test given program and option is ok to run or not.
+    Args:
+        program(Path or str): program path, could be relative path if it can
+        be found in $PATH or %PATH%
+        option(str): option for program, usually use "-v" to show version to
+        test the program
+    Return:
+        success(bool): success or not
+    """
+    program = Path(program)
+    if program.exists():
+        try:
+            program.chmod(0o755)
+        except Exception:
+            log.warning(f'Failed to set {program} executable, may cause error')
+    cmd = f'{program} {option}'
+    test = subprocess.run(cmd, shell=True, stdout=subprocess.DEVNULL,
+                          stderr=subprocess.DEVNULL)
+    success = True if test.returncode == 0 else False
+    return success
+
+
+def get_third_party_path():
+    """
+    Get third_party folder.
+    If do not exist, create it.
+    If cannot access, report.
+    Return:
+        success(bool): ok or not
+        third_party(Path): absolute path of third_party folder
+    """
+    third_party = Path().home().absolute() / '.OGU'
+    success = False
+    if not third_party.exists():
+        log.debug(f'Create folder {third_party}')
+        try:
+            third_party.mkdir()
+        except Exception:
+            log.critical(f'Failed to create {third_party}.'
+                         'Please contact the administrator.')
+            return success, third_party
+    if not accessible(third_party/'test', 'file'):
+        log.critical(f'Failed to access {third_party}.'
+                     f'Please contact the administrator.')
+        return success, third_party
+    success = True
+    return success, third_party
+
+
+# todo test in linux and windows
+def get_software(software: str, url: str, filename: Path,
+                 third_party: Path, home_bin: Path, test_option='-version'):
+    log.warning(f'Cannot find {software}, try to install. May cost minutes')
+    try:
+        _ = urlopen(test_url, timeout=20)
+    except Exception:
+        log.critical('Cannot connect to Server. '
+                     'Please check your Internet connection.')
+        raise SystemExit(-1)
+    try:
+        # file is 10mb or larger
+        log.info(f'Downloading {filename.name} from {url}')
+        down = open_url(f'{url}', timeout=100)
+    except Exception:
+        log.critical(f'Cannot download {software}. '
+                     f'Please manually download it from {url}')
+        raise SystemExit(-1)
+    down_file = filename
+    with open(down_file, 'wb') as out:
+        try:
+            _ = down.read()
+        except TimeoutError:
+            log.critical(f'Download {software} timeout.'
+                         f'Please manually download it from {url}')
+            raise SystemExit(-1)
+        out.write(_)
+    log.info(f'{filename.name} got. Installing...')
+    try:
+        # unpack_archive(down_file, third_party/fileinfo[system][1])
+        unpack_archive(down_file, third_party)
+    except Exception:
+        log.critical(f'The {software} file is damaged. '
+                     f'Please recheck your connection.')
+        raise SystemExit(-1)
+    if software == 'mafft.bat':
+        for i in ('bin', 'libexec'):
+            subfolder = home_bin.parent / 'mafftdir' / i
+            # windows use different path
+            if subfolder.exists():
+                for file in subfolder.iterdir():
+                    try:
+                        file.chmod(0o755)
+                    except Exception:
+                        log.warning(f'Failed to set {file} executable, may cause error')
+    assert test_cmd(home_bin, test_option)
+    log.info(f'{software} installed successfully.')
+    return True
+
+
+def get_blast(third_party=None, result=None) -> (bool, str):
+    """
+    Get BLAST location.
+    If BLAST was found, assume makeblastdb is found, too.
+    If not found, download it.
+    Args:
+        third_party(Path or None): path for install
+        result(Queue): return values
+    Return:
+        ok(bool): success or not
+        blast(str): blast path
+    """
+    if third_party is None:
+        third_party_ok, third_party = get_third_party_path()
+        if not third_party_ok:
+            return third_party_ok, ''
+    blast = 'blastn'
+    home_blast = third_party / 'ncbi-blast-2.13.0+' / 'bin' / blast
+    # in Windows, ".exe" can be omitted
+    # win_home_blast = home_blast.with_name('blastn.exe')
+    ok = False
+    # older than 2.8.1 is buggy
+    original_url = ('https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.13.0/'
+                    'ncbi-blast-2.13.0+')
+    file_prefix = 'ncbi-blast-2.13.0+-x64-'
+    fileinfo = {'Linux': file_prefix+'linux.tar.gz',
+                'Darwin': file_prefix+'macosx.tar.gz',
+                'Windows': file_prefix+'win64.tar.gz'}
+                #'Windows': file_prefix + '-x64-win64.tar.gz'}
+    system = platform.system()
+    filename = fileinfo[system]
+    down_url = f'{r2_url}{quote(filename)}'
+    # three software use different name pattern
+    down_file = third_party / filename
+    if test_cmd(blast):
+        ok = True
+        home_blast = str(blast)
+    elif test_cmd(home_blast):
+        ok = True
+        home_blast = str(home_blast)
+    else:
+        ok = get_software(blast, down_url, down_file, third_party, home_blast)
+    if result is not None and ok:
+        result.put(('BLAST', ok))
+    return ok, str(home_blast)
+
+
+def get_iqtree(third_party=None, result=None) -> (bool, str):
+    """
+    Get iqtree location.
+    If not found, download it.
+    Args:
+        third_party(Path or None): path for install
+        result(Queue): return values
+    Return:
+        ok(bool): success or not
+        iqtree(str): blast path
+    """
+    if third_party is None:
+        third_party_ok, third_party = get_third_party_path()
+        if not third_party_ok:
+            return third_party_ok, ''
+    iqtree = 'iqtree2'
+    # in Windows, ".exe" can be omitted
+    ok = False
+    original_url = 'https://github.com/iqtree/iqtree2/releases/download/v2.2.0/'
+    # platform: (filename, folder)
+    fileinfo = {'Linux': ('iqtree-2.2.2.2-Linux.tar.gz', 'iqtree-2.2.2.2-Linux'),
+                'Darwin': ('iqtree-2.2.2.2-MacOSX.zip', 'iqtree-2.2.2.2-MacOSX'),
+                'Windows': ('iqtree-2.2.2.2-Windows.zip',
+                            'iqtree-2.2.2.2-Windows')}
+    system = platform.system()
+    filename = fileinfo[system][0]
+    down_url = f'{r2_url}{quote(filename)}'
+    home_iqtree = third_party / fileinfo[system][1] / 'bin' / iqtree
+    down_file = third_party / fileinfo[system][0]
+    if test_cmd(iqtree):
+        ok = True
+        home_iqtree = str(iqtree)
+    elif test_cmd(home_iqtree):
+        ok = True
+    else:
+        ok = get_software(iqtree, down_url, down_file, third_party,
+                          home_iqtree)
+    if result is not None and ok:
+        result.put(('IQTREE', ok))
+    return ok, str(home_iqtree)
+
+
+def get_mafft(third_party=None, result=None) -> (bool, str):
+    """
+    Get mafft location.
+    If not found, download it.
+    Args:
+        third_party(Path or None): path for install
+        result(Queue): return values
+    Return:
+        ok(bool): success or not
+        mafft(str): mafft path
+    """
+    if third_party is None:
+        third_party_ok, third_party = get_third_party_path()
+        if not third_party_ok:
+            return third_party_ok, ''
+    system = platform.system()
+    mafft = 'mafft.bat'
+    # in Windows, ".exe" can be omitted
+    # win_home_blast = home_blast.with_name('blastn.exe')
+    ok = False
+    original_url = 'https://mafft.cbrc.jp/alignment/software/'
+    # system: {filename, folder}
+    fileinfo = {'Linux': ('mafft-7.511-linux.tgz', 'mafft-linux64'),
+                'Darwin': ('mafft-7.511-mac.zip', 'mafft-mac'),
+                'Windows': ('mafft-7.511-win64-signed.zip', 'mafft-win')}
+    home_mafft = third_party / fileinfo[system][1] / mafft
+    system = platform.system()
+    filename = fileinfo[system][0]
+    down_url = f'{r2_url}{quote(filename)}'
+    down_file = third_party / fileinfo[system][0]
+    # mafft use '--version' to test
+    test_option = '--version'
+    if test_cmd(mafft, test_option):
+        ok = True
+        home_mafft = str(mafft)
+    elif test_cmd(home_mafft, test_option):
+        ok = True
+    else:
+        ok = get_software(mafft, down_url, down_file, third_party, home_mafft,
+                          test_option=test_option)
+    if result is not None and ok:
+        result.put(('MAFFT', ok))
+    return ok, str(home_mafft)
+
+
+def get_all_third_party(skip_blast=True) -> bool:
+    """
+    Use three threads to speed up.
+    """
+    log.info('Try to locate or install all third-party software.')
+    third_party_ok, third_party = get_third_party_path()
+    if not third_party_ok:
+        return False
+    result_queue = Queue()
+    iqtree = Thread(target=get_iqtree, args=(third_party, result_queue),
+                    daemon=True)
+    mafft = Thread(target=get_mafft, args=(third_party, result_queue),
+                   daemon=True)
+    if not skip_blast:
+        blast = Thread(target=get_blast, args=(third_party, result_queue),
+                       daemon=True)
+        blast.start()
+        blast.join()
+    iqtree.start()
+    mafft.start()
+    iqtree.join()
+    mafft.join()
+    while not result_queue.empty():
+        name, ok = result_queue.get()
+        if ok:
+            log.info(f'Got {name}.')
+        else:
+            log.error(f'Failed to got {name}.')
+            return False
+    return True
+
+
+def parse_blast_tab(filename):
+    """
+    Parse BLAST result (tab format).
+    """
+    query = []
+    with open(filename, 'r', encoding='utf-8') as raw:
+        for line in raw:
+            if line.startswith('# BLAST'):
+                yield query
+                query = []
+            elif line.startswith('#'):
+                pass
+            else:
+                query.append(BlastResult(line))
+    pass
+
+
+def download_taxon(data_folder) -> Path:
+    zip_file = data_folder / 'taxdmp.zip'
+    if zip_file.exists():
+        pass
+    else:
+        url = 'https://ftp.ncbi.nih.gov/pub/taxonomy/taxdmp.zip'
+        with urlopen(url) as response, zip_file.open('wb') as out_file:
+            data = response.read()
+            out_file.write(data)
+    return zip_file
+
+
+def init_lineage():
+    """
+    Only called by setup.py
+    """
+    global name
+    data_folder = resources.files(name) / 'data'
+    zip_file = download_taxon(data_folder)
+    with ZipFile(zip_file, 'r') as dumpfile:
+        dumpfile.extract('names.dmp', path='.')
+        dumpfile.extract('nodes.dmp', path='.')
+    id_name = {}
+    id_rank = {}
+    superkingdoms = set()
+    kingdoms = set()
+    phyla = set()
+    classes = set()
+    animal_orders = set()
+    other_orders = set()
+    plant_family = set()
+    other_family = set()
+    genus = set()
+    species = set()
+    with open('names.dmp', 'r') as names:
+        for _ in names:
+            line = _.split(sep='|')
+            taxon_id = line[0].strip()
+            name = line[1].strip()
+            name_type = line[3].strip()
+            if name_type == 'scientific name':
+                id_name[taxon_id] = name
+    with open('nodes.dmp', 'r') as nodes:
+        for _ in nodes:
+            line = _.split(sep='|')
+            taxon_id = line[0].strip()
+            rank = line[2].strip()
+            id_rank[taxon_id] = rank
+    for taxon_id in id_name:
+        rank_name = id_rank[taxon_id]
+        taxon_name = id_name[taxon_id]
+        if rank_name == 'superkingdom':
+            superkingdoms.add(taxon_name)
+        elif rank_name == 'kingdom':
+            kingdoms.add(taxon_name)
+        elif rank_name == 'phylum':
+            phyla.add(taxon_name)
+        elif rank_name == 'class':
+            classes.add(taxon_name)
+        elif rank_name == 'order':
+            if not taxon_name.endswith('ales'):
+                animal_orders.add(taxon_name)
+            else:
+                other_orders.add(taxon_name)
+        elif rank_name == 'family':
+            if taxon_name.endswith('aceae'):
+                plant_family.add(taxon_name)
+            else:
+                other_family.add(taxon_name)
+        elif rank_name == 'genus':
+            genus.add(taxon_name)
+        elif rank_name == 'species':
+            species.add(taxon_name)
+
+    with open(data_folder / 'superkingdoms.csv', 'w') as out:
+        out.write(','.join(superkingdoms))
+    with open(data_folder / 'kingdoms.csv', 'w') as out:
+        out.write(','.join(kingdoms))
+    with open(data_folder / 'phyla.csv', 'w') as out:
+        out.write(','.join(phyla))
+    with open(data_folder / 'classes.csv', 'w') as out:
+        out.write(','.join(classes))
+    with open(data_folder / 'animal_orders.csv', 'w') as out:
+        out.write(','.join(animal_orders))
+    with open(data_folder / 'other_orders.csv', 'w') as out:
+        out.write(','.join(other_orders))
+    with open(data_folder / 'plant_families.csv', 'w') as out:
+        out.write(','.join(plant_family))
+    with open(data_folder / 'other_families.csv', 'w') as out:
+        out.write(','.join(other_family))
+    with open(data_folder / 'genus.csv', 'w') as out:
+        out.write(','.join(genus))
+    with open(data_folder / 'species.csv', 'w') as out:
+        out.write(','.join(species))
+    return
+
+
+def open_folder(d_dir):
+    # system = platform.system()
+    # if system == "Windows":
+    #     os.startfile(d_dir)
+    # elif system == "Darwin":  # macOS
+    #     os.system(f"open '{d_dir}'")
+    # elif system == "Linux":
+    #     os.system(f"xdg-open '{d_dir}'")
+    # else:
+    #     log.error('Unsupported system')
+    pass
+
+
+def codon_usage(alignment):
+    pass
+
+
+def gap_analyze(gap_alignment):
+    """
+
+    Args:
+        gap_alignment: np.array
+
+    Returns:
+
+    """
+    pass
+
+
+check_system()
