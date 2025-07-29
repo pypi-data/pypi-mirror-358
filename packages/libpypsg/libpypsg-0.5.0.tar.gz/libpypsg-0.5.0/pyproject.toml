@@ -1,0 +1,61 @@
+[build-system]
+# Minimum requirements for the build system to execute.
+requires = ["setuptools", "wheel"]  # PEP 508 specifications.
+
+[project]
+version = "0.5.0"
+name = "libpypsg"
+authors = [
+    {name = "Ted Johnson", email = "ted.johnson@unlv.edu"},
+]
+maintainers = [ { name = "Ted Johnson", email = "ted.johnson@unlv.edu" } ]
+description = "A Python library for accessing the Planetary System Generator."
+readme = "docs/readme.rst"
+license = {file = "LICENSE"}
+keywords =  ["astronomy", "exoplanet", "planet", "spectroscopy", "PSG"]
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Astronomy",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "astropy",
+    "numpy",
+    "requests",
+    "python-dateutil",
+    "netCDF4",
+]
+[project.optional-dependencies]
+dev = [
+    "cartopy",
+    "matplotlib",
+    "pytest",
+    "pep8",
+    "pydata-sphinx-theme",
+    "numpydoc",
+    "sphinx",
+    "sphinx-automodapi",
+    "sphinx-gallery",
+    "sphinxcontrib-bibtex",
+    "sphinxcontrib-napoleon",
+    "sphinxcontrib-bibtex",
+]
+[project.urls]
+Repository = "https://github.com/tedjohnson12/libpypsg"
+Issues = "https://github.com/tedjohnson12/libpypsg/issues"
+
+[tool.pytest.ini_options]
+markers = [
+    "local: marks tests as expecting a local PSG insallation (select with '--local')",
+    "slow: marks tests as slow (select with '--slow')",]
+
+[tool.setuptools.package-data]
+"*" = ["*.json","*.yaml"]
