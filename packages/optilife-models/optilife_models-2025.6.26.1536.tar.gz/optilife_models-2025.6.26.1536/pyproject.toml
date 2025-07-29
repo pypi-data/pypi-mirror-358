@@ -1,0 +1,28 @@
+# pyproject.toml
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "optilife-models"
+version = "2025.06.26.1536"
+authors = [
+  { name="Your Name", email="your@email.com" },
+]
+description = "Generated Protobuf models for My Project"
+readme = "README.md"
+requires-python = ">=3.13"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "protobuf>=4.21.0",
+    "setuptools>=80.9.0",
+    "wheel>=0.45.1",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["optilife_models*"]
