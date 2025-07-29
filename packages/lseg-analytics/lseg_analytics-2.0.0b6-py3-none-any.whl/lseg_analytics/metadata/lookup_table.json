@@ -1,0 +1,1030 @@
+{
+    "packageName": "lseg-analytics",
+    "version": "2.0.0b6",
+    "lookups": [
+        {
+            "key": "Calendar.scoped",
+            "lookup_type": "resource_search",
+            "method": "calendars.search",
+            "jq_query": "{.location.space}/{.location.name}"
+        },
+        {
+            "key": "tenors",
+            "lookup_type": "literal_strings",
+            "values": [
+                "ON",
+                "TN",
+                "SN",
+                "SW",
+                "1D",
+                "1W",
+                "2W",
+                "3W",
+                "1M",
+                "2M",
+                "3M",
+                "4M",
+                "5M",
+                "6M",
+                "7M",
+                "8M",
+                "9M",
+                "10M",
+                "11M",
+                "1Y",
+                "15M",
+                "18M",
+                "21M",
+                "2Y"
+            ]
+        },
+        {
+            "key": "currency_list",
+            "lookup_type": "literal_strings",
+            "values": [
+                "EUR",
+                "AFN",
+                "XCD",
+                "ALL",
+                "AMD",
+                "AOA",
+                "ARS",
+                "USD",
+                "AUD",
+                "AWG",
+                "AZN",
+                "BAM",
+                "BBD",
+                "BDT",
+                "XOF",
+                "BGN",
+                "BHD",
+                "BIF",
+                "BMD",
+                "BND",
+                "BOP",
+                "BRL",
+                "BTN",
+                "NOK",
+                "BWP",
+                "BYR",
+                "BZD",
+                "CAD",
+                "CHE",
+                "CLP",
+                "XAF",
+                "CNY",
+                "COP",
+                "CRC",
+                "CUC",
+                "CVE",
+                "ANG",
+                "DJF",
+                "DKK",
+                "DZD",
+                "EGP",
+                "MAD",
+                "ERN",
+                "ETB",
+                "FJD",
+                "GEL",
+                "GBP",
+                "GHS",
+                "GIP",
+                "GNF",
+                "GTQ",
+                "GYD",
+                "HKD",
+                "HNL",
+                "HRK",
+                "HTG",
+                "HUF",
+                "IDR",
+                "ILS",
+                "INR",
+                "IQD",
+                "IRR",
+                "ISK",
+                "JMD",
+                "JOD",
+                "JPY",
+                "KES",
+                "KGS",
+                "KHR",
+                "KPW",
+                "KRW",
+                "KWD",
+                "KZT",
+                "LBP",
+                "CHF",
+                "LKR",
+                "LRD",
+                "LSL",
+                "LYD",
+                "MGA",
+                "MMK",
+                "MNT",
+                "MOP",
+                "MRU",
+                "MUR",
+                "MVR",
+                "MWK",
+                "MXN",
+                "MYR",
+                "MZN",
+                "NAD",
+                "XPF",
+                "NGN",
+                "NIO",
+                "NPR",
+                "NZD",
+                "OMR",
+                "PAB",
+                "PEN",
+                "PGK",
+                "PKR",
+                "PLN",
+                "PYG",
+                "QAR",
+                "RON",
+                "RSD",
+                "RUB",
+                "RWF",
+                "SAR",
+                "SBD",
+                "SCR",
+                "SEK",
+                "SGD",
+                "SHP",
+                "SLL",
+                "SOS",
+                "SRD",
+                "SSP",
+                "STN",
+                "SVC",
+                "SYP",
+                "THB",
+                "TJS",
+                "TMT",
+                "TND",
+                "TOP",
+                "TRY",
+                "TTD",
+                "TZS",
+                "UAH",
+                "UGX",
+                "UYU",
+                "UZS",
+                "VES",
+                "VND",
+                "VUV",
+                "WST",
+                "YER",
+                "ZAR",
+                "ZMW",
+                "ZWL",
+                "SZL",
+                "MKD",
+                "PHP",
+                "AED",
+                "MDL",
+                "GMD",
+                "DOP",
+                "SDG",
+                "LAK",
+                "TWD",
+                "CZK",
+                "CDF",
+                "BSD",
+                "FKP",
+                "KMF",
+                "KYD"
+            ]
+        },
+        {
+            "key": "cross_currency_list",
+            "lookup_type": "literal_strings",
+            "values": [
+                "USDEUR",
+                "USDGBP",
+                "EURGBP",
+                "USDCAD",
+                "USDJPY",
+                "EURCHF",
+                "EURCAD"
+            ]
+        },
+        {
+            "key": "country_list",
+            "lookup_type": "literal_strings",
+            "values": [
+                "AFG",
+                "ALB",
+                "DZA",
+                "ASM",
+                "AND",
+                "AGO",
+                "AIA",
+                "ATA",
+                "ATG",
+                "ARG",
+                "ARM",
+                "ABW",
+                "AUS",
+                "AUT",
+                "AZE",
+                "BHS",
+                "BHR",
+                "BGD",
+                "BRB",
+                "BLR",
+                "BEL",
+                "BLZ",
+                "BEN",
+                "BMU",
+                "BTN",
+                "BOL",
+                "BIH",
+                "BWA",
+                "BVT",
+                "BRA",
+                "IOT",
+                "BRN",
+                "BGR",
+                "BFA",
+                "BDI",
+                "KHM",
+                "CMR",
+                "CAN",
+                "CPV",
+                "CYM",
+                "CAF",
+                "TCD",
+                "CHL",
+                "CHN",
+                "CXR",
+                "CCK",
+                "COL",
+                "COM",
+                "COG",
+                "COD",
+                "COK",
+                "CRI",
+                "CIV",
+                "HRV",
+                "CUB",
+                "CYP",
+                "CZE",
+                "DNK",
+                "DJI",
+                "DMA",
+                "DOM",
+                "ECU",
+                "EGY",
+                "SLV",
+                "GNQ",
+                "ERI",
+                "EST",
+                "ETH",
+                "FLK",
+                "FRO",
+                "FJI",
+                "FIN",
+                "FRA",
+                "GUF",
+                "PYF",
+                "ATF",
+                "GAB",
+                "GMB",
+                "GEO",
+                "DEU",
+                "GHA",
+                "GIB",
+                "GRC",
+                "GRL",
+                "GRD",
+                "GLP",
+                "GUM",
+                "GTM",
+                "GIN",
+                "GNB",
+                "GUY",
+                "HTI",
+                "HMD",
+                "VAT",
+                "HND",
+                "HKG",
+                "HUN",
+                "ISL",
+                "IND",
+                "IDN",
+                "IRN",
+                "IRQ",
+                "IRL",
+                "ISR",
+                "ITA",
+                "JAM",
+                "JPN",
+                "JOR",
+                "KAZ",
+                "KEN",
+                "KIR",
+                "PRK",
+                "KOR",
+                "KWT",
+                "KGZ",
+                "LAO",
+                "LVA",
+                "LBN",
+                "LSO",
+                "LBR",
+                "LBY",
+                "LIE",
+                "LTU",
+                "LUX",
+                "MAC",
+                "MDG",
+                "MWI",
+                "MYS",
+                "MDV",
+                "MLI",
+                "MLT",
+                "MHL",
+                "MTQ",
+                "MRT",
+                "MUS",
+                "MYT",
+                "MEX",
+                "FSM",
+                "MDA",
+                "MCO",
+                "MNG",
+                "MSR",
+                "MAR",
+                "MOZ",
+                "MMR",
+                "NAM",
+                "NRU",
+                "NPL",
+                "NLD",
+                "NCL",
+                "NZL",
+                "NIC",
+                "NER",
+                "NGA",
+                "NIU",
+                "NFK",
+                "MNP",
+                "MKD",
+                "NOR",
+                "OMN",
+                "PAK",
+                "PLW",
+                "PSE",
+                "PAN",
+                "PNG",
+                "PRY",
+                "PER",
+                "PHL",
+                "PCN",
+                "POL",
+                "PRT",
+                "PRI",
+                "QAT",
+                "REU",
+                "ROU",
+                "RUS",
+                "RWA",
+                "SHN",
+                "KNA",
+                "LCA",
+                "SPM",
+                "VCT",
+                "WSM",
+                "SMR",
+                "STP",
+                "SAU",
+                "SEN",
+                "SYC",
+                "SLE",
+                "SGP",
+                "SVK",
+                "SVN",
+                "SLB",
+                "SOM",
+                "ZAF",
+                "SGS",
+                "ESP",
+                "LKA",
+                "SDN",
+                "SUR",
+                "SJM",
+                "SWZ",
+                "SWE",
+                "CHE",
+                "SYR",
+                "TWN",
+                "TJK",
+                "TZA",
+                "THA",
+                "TLS",
+                "TGO",
+                "TKL",
+                "TON",
+                "TTO",
+                "TUN",
+                "TUR",
+                "TKM",
+                "TCA",
+                "TUV",
+                "UGA",
+                "UKR",
+                "ARE",
+                "GBR",
+                "USA",
+                "UMI",
+                "URY",
+                "UZB",
+                "VUT",
+                "VEN",
+                "VNM",
+                "VGB",
+                "VIR",
+                "WLF",
+                "ESH",
+                "YEM",
+                "ZMB",
+                "ZWE",
+                "ALA",
+                "BES",
+                "CUW",
+                "GGY",
+                "IMN",
+                "JEY",
+                "MNE",
+                "BLM",
+                "MAF",
+                "SRB",
+                "SXM",
+                "SSD",
+                "XKK"
+            ]
+        },
+        {
+            "key": "enum.DateMovingConvention",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.common.DateMovingConvention"
+        },
+        {
+            "key": "enum.ReferenceDate",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.common.ReferenceDate"
+        },
+        {
+            "key": "enum.Status",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.common.Status"
+        },
+        {
+            "key": "enum.TimezoneEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.common.TimezoneEnum"
+        },
+        {
+            "key": "enum.StrikeTypeEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.fx_forwards.StrikeTypeEnum"
+        },
+        {
+            "key": "enum.VolModelTypeEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.fx_forwards.VolModelTypeEnum"
+        },
+        {
+            "key": "enum.ConvexityAdjustmentMethodEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.fx_forwards.ConvexityAdjustmentMethodEnum"
+        },
+        {
+            "key": "enum.IntegrationMethodEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.fx_forwards.IntegrationMethodEnum"
+        },
+        {
+            "key": "enum.ZcTypeEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.fx_forwards.ZcTypeEnum"
+        },
+        {
+            "key": "enum.UnitEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.fx_forwards.UnitEnum"
+        },
+        {
+            "key": "enum.FxRateTypeEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.fx_forwards.FxRateTypeEnum"
+        },
+        {
+            "key": "FxForward.name",
+            "lookup_type": "resource_search",
+            "method": "fx_forwards.search",
+            "jq_query": "{.location.name}"
+        },
+        {
+            "key": "FxForward.space",
+            "lookup_type": "resource_search",
+            "method": "fx_forwards.search",
+            "jq_query": "{.location.space}"
+        },
+        {
+            "key": "enum.PartyEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.fx_forwards.PartyEnum"
+        },
+        {
+            "key": "enum.SettlementType",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.common.SettlementType"
+        },
+        {
+            "key": "enum.SolvingLegEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.fx_forwards.SolvingLegEnum"
+        },
+        {
+            "key": "enum.SwapSolvingVariableEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.fx_forwards.SwapSolvingVariableEnum"
+        },
+        {
+            "key": "FxForward.id",
+            "lookup_type": "resource_search",
+            "method": "fx_forwards.search",
+            "jq_query": "{.id}"
+        },
+        {
+            "key": "enum.SortingOrderEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.common.SortingOrderEnum"
+        },
+        {
+            "key": "enum.StrikeTypeEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.fx_spots.StrikeTypeEnum"
+        },
+        {
+            "key": "enum.VolModelTypeEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.fx_spots.VolModelTypeEnum"
+        },
+        {
+            "key": "enum.ConvexityAdjustmentMethodEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.fx_spots.ConvexityAdjustmentMethodEnum"
+        },
+        {
+            "key": "enum.IntegrationMethodEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.fx_spots.IntegrationMethodEnum"
+        },
+        {
+            "key": "enum.ZcTypeEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.fx_spots.ZcTypeEnum"
+        },
+        {
+            "key": "enum.UnitEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.fx_spots.UnitEnum"
+        },
+        {
+            "key": "enum.FxRateTypeEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.fx_spots.FxRateTypeEnum"
+        },
+        {
+            "key": "enum.PartyEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.fx_spots.PartyEnum"
+        },
+        {
+            "key": "FxSpot.name",
+            "lookup_type": "resource_search",
+            "method": "fx_spots.search",
+            "jq_query": "{.location.name}"
+        },
+        {
+            "key": "FxSpot.space",
+            "lookup_type": "resource_search",
+            "method": "fx_spots.search",
+            "jq_query": "{.location.space}"
+        },
+        {
+            "key": "enum.SolvingLegEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.fx_spots.SolvingLegEnum"
+        },
+        {
+            "key": "enum.SwapSolvingVariableEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.fx_spots.SwapSolvingVariableEnum"
+        },
+        {
+            "key": "FxSpot.id",
+            "lookup_type": "resource_search",
+            "method": "fx_spots.search",
+            "jq_query": "{.id}"
+        },
+        {
+            "key": "enum.AmortizationTypeEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.ir_swaps.AmortizationTypeEnum"
+        },
+        {
+            "key": "enum.CapFloorTypeEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.ir_swaps.CapFloorTypeEnum"
+        },
+        {
+            "key": "enum.StrikeTypeEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.ir_swaps.StrikeTypeEnum"
+        },
+        {
+            "key": "enum.VolModelTypeEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.ir_swaps.VolModelTypeEnum"
+        },
+        {
+            "key": "enum.ConvexityAdjustmentMethodEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.ir_swaps.ConvexityAdjustmentMethodEnum"
+        },
+        {
+            "key": "enum.IntegrationMethodEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.ir_swaps.IntegrationMethodEnum"
+        },
+        {
+            "key": "enum.ZcTypeEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.ir_swaps.ZcTypeEnum"
+        },
+        {
+            "key": "enum.UnitEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.ir_swaps.UnitEnum"
+        },
+        {
+            "key": "enum.PaidLegEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.common.PaidLegEnum"
+        },
+        {
+            "key": "enum.FxRateTypeEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.ir_swaps.FxRateTypeEnum"
+        },
+        {
+            "key": "enum.IndexObservationMethodEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.ir_swaps.IndexObservationMethodEnum"
+        },
+        {
+            "key": "enum.CompoundingModeEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.ir_swaps.CompoundingModeEnum"
+        },
+        {
+            "key": "enum.SpreadCompoundingModeEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.ir_swaps.SpreadCompoundingModeEnum"
+        },
+        {
+            "key": "enum.PartyEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.ir_swaps.PartyEnum"
+        },
+        {
+            "key": "enum.DayCountBasis",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.common.DayCountBasis"
+        },
+        {
+            "key": "enum.InterestType",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.common.InterestType"
+        },
+        {
+            "key": "IrSwap.name",
+            "lookup_type": "resource_search",
+            "method": "ir_swaps.search",
+            "jq_query": "{.location.name}"
+        },
+        {
+            "key": "IrSwap.space",
+            "lookup_type": "resource_search",
+            "method": "ir_swaps.search",
+            "jq_query": "{.location.space}"
+        },
+        {
+            "key": "enum.SolvingLegEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.ir_swaps.SolvingLegEnum"
+        },
+        {
+            "key": "enum.SwapSolvingVariableEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.ir_swaps.SwapSolvingVariableEnum"
+        },
+        {
+            "key": "enum.CouponReferenceDateEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.ir_swaps.CouponReferenceDateEnum"
+        },
+        {
+            "key": "enum.DirectionEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.ir_swaps.DirectionEnum"
+        },
+        {
+            "key": "enum.FrequencyEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.common.FrequencyEnum"
+        },
+        {
+            "key": "enum.StubRuleEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.common.StubRuleEnum"
+        },
+        {
+            "key": "enum.EndOfMonthConvention",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.common.EndOfMonthConvention"
+        },
+        {
+            "key": "enum.SolvingMethodEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.instruments.ir_swaps.SolvingMethodEnum"
+        },
+        {
+            "key": "enum.PayerReceiverEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.common.PayerReceiverEnum"
+        },
+        {
+            "key": "IrSwap.id",
+            "lookup_type": "resource_search",
+            "method": "ir_swaps.search",
+            "jq_query": "{.id}"
+        },
+        {
+            "key": "FxForwardCurve.name",
+            "lookup_type": "resource_search",
+            "method": "fx_forward_curves.search",
+            "jq_query": "{.location.name}"
+        },
+        {
+            "key": "FxForwardCurve.space",
+            "lookup_type": "resource_search",
+            "method": "fx_forward_curves.search",
+            "jq_query": "{.location.space}"
+        },
+        {
+            "key": "enum.ExtrapolationMode",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.common.ExtrapolationMode"
+        },
+        {
+            "key": "enum.FxForwardCurveInterpolationMode",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.common.FxForwardCurveInterpolationMode"
+        },
+        {
+            "key": "enum.UnitEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.market_data.fx_forward_curves.UnitEnum"
+        },
+        {
+            "key": "enum.TenorType",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.common.TenorType"
+        },
+        {
+            "key": "FxForwardCurve.id",
+            "lookup_type": "resource_search",
+            "method": "fx_forward_curves.search",
+            "jq_query": "{.id}"
+        },
+        {
+            "key": "enum.Month",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.common.Month"
+        },
+        {
+            "key": "enum.PeriodType",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.common.PeriodType"
+        },
+        {
+            "key": "enum.Frequency",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.common.Frequency"
+        },
+        {
+            "key": "enum.WeekDay",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.common.WeekDay"
+        },
+        {
+            "key": "Calendar.name",
+            "lookup_type": "resource_search",
+            "method": "calendars.search",
+            "jq_query": "{.location.name}"
+        },
+        {
+            "key": "Calendar.space",
+            "lookup_type": "resource_search",
+            "method": "calendars.search",
+            "jq_query": "{.location.space}"
+        },
+        {
+            "key": "enum.PeriodTypeOutput",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.common.PeriodTypeOutput"
+        },
+        {
+            "key": "enum.IndexOrder",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.common.IndexOrder"
+        },
+        {
+            "key": "enum.Direction",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.common.Direction"
+        },
+        {
+            "key": "Calendar.id",
+            "lookup_type": "resource_search",
+            "method": "calendars.search",
+            "jq_query": "{.id}"
+        },
+        {
+            "key": "FloatingRateIndice.name",
+            "lookup_type": "resource_search",
+            "method": "floating_rate_indices.search",
+            "jq_query": "{.location.name}"
+        },
+        {
+            "key": "FloatingRateIndice.space",
+            "lookup_type": "resource_search",
+            "method": "floating_rate_indices.search",
+            "jq_query": "{.location.space}"
+        },
+        {
+            "key": "enum.YearBasisEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.common.YearBasisEnum"
+        },
+        {
+            "key": "enum.RoundingModeEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.reference_data.floating_rate_indices.RoundingModeEnum"
+        },
+        {
+            "key": "FloatingRateIndice.id",
+            "lookup_type": "resource_search",
+            "method": "floating_rate_indices.search",
+            "jq_query": "{.id}"
+        },
+        {
+            "key": "enum.AmortizationTypeEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.templates.instrument_templates.AmortizationTypeEnum"
+        },
+        {
+            "key": "enum.AsianTypeEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.templates.instrument_templates.AsianTypeEnum"
+        },
+        {
+            "key": "enum.AverageTypeEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.templates.instrument_templates.AverageTypeEnum"
+        },
+        {
+            "key": "enum.BarrierModeEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.templates.instrument_templates.BarrierModeEnum"
+        },
+        {
+            "key": "enum.InOrOutEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.templates.instrument_templates.InOrOutEnum"
+        },
+        {
+            "key": "enum.BinaryTypeEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.templates.instrument_templates.BinaryTypeEnum"
+        },
+        {
+            "key": "enum.PaymentTypeEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.templates.instrument_templates.PaymentTypeEnum"
+        },
+        {
+            "key": "enum.CapFloorTypeEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.templates.instrument_templates.CapFloorTypeEnum"
+        },
+        {
+            "key": "enum.ExerciseStyleEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.templates.instrument_templates.ExerciseStyleEnum"
+        },
+        {
+            "key": "enum.PartyEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.templates.instrument_templates.PartyEnum"
+        },
+        {
+            "key": "enum.IndexObservationMethodEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.templates.instrument_templates.IndexObservationMethodEnum"
+        },
+        {
+            "key": "enum.CompoundingModeEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.templates.instrument_templates.CompoundingModeEnum"
+        },
+        {
+            "key": "enum.SpreadCompoundingModeEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.templates.instrument_templates.SpreadCompoundingModeEnum"
+        },
+        {
+            "key": "InstrumentTemplate.name",
+            "lookup_type": "resource_search",
+            "method": "instrument_templates.search",
+            "jq_query": "{.location.name}"
+        },
+        {
+            "key": "InstrumentTemplate.space",
+            "lookup_type": "resource_search",
+            "method": "instrument_templates.search",
+            "jq_query": "{.location.space}"
+        },
+        {
+            "key": "enum.CouponReferenceDateEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.templates.instrument_templates.CouponReferenceDateEnum"
+        },
+        {
+            "key": "enum.DirectionEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.templates.instrument_templates.DirectionEnum"
+        },
+        {
+            "key": "enum.CallPutEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.templates.instrument_templates.CallPutEnum"
+        },
+        {
+            "key": "enum.UnitEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.templates.instrument_templates.UnitEnum"
+        },
+        {
+            "key": "InstrumentTemplate.id",
+            "lookup_type": "resource_search",
+            "method": "instrument_templates.search",
+            "jq_query": "{.id}"
+        },
+        {
+            "key": "enum.IdTypeEnum",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.yield_book_rest.IdTypeEnum"
+        },
+        {
+            "key": "enum.OptionModel",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.yield_book_rest.OptionModel"
+        },
+        {
+            "key": "enum.StoreType",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.yield_book_rest.StoreType"
+        },
+        {
+            "key": "enum.Visible",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.yield_book_rest.Visible"
+        },
+        {
+            "key": "enum.YbRestCurveType",
+            "lookup_type": "enum_search",
+            "enum_id": "lseg_analytics.yield_book_rest.YbRestCurveType"
+        }
+    ]
+}
