@@ -1,0 +1,19 @@
+[project]
+name = "dfuai"
+version = "0.1.2"
+description = "DFUai is a Python package that uses AI to assist clinical doctors in diagnosing the severity of diabetic foot ulcers. It classifies diabetic foot severity (mild, moderate, or severe) based on eight clinical features: PAD, CRP, HbA1c, DKD, ESR, ALB, SBP, and X25OHD."
+authors = [
+    {name = "ycj",email = "yanchangjian2019@126.com"}
+]
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = [
+]
+
+[tool.poetry]
+packages = [{include = "dfuai", from = "src"}]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
