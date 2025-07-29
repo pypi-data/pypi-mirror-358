@@ -1,0 +1,35 @@
+Metadata-Version: 2.4
+Name: sphinx-ext-vizjs
+Version: 0.1.0
+Summary: Sphinx extention for vizjs
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: sphinx>=8
+
+sphinx-ext-vizjs
+----------------
+
+Install:
+
+```bash
+pip install sphinx-ext-vizjs
+```
+
+Add to your `conf.py`:
+
+```python
+extensions = [
+    "sphinx_ext_vizjs",
+    ...
+]
+```
+
+Use in your rst:
+
+```rst
+.. vizjs::
+
+   digraph {
+     a -> b
+   }
+```
