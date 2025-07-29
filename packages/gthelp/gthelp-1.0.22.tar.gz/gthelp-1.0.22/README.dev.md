@@ -1,0 +1,9 @@
+# build
+rm -rf dist && python -m build
+
+# publish
+python -m twine upload dist/* --verbose
+
+pypi-AgEIcHlwaS5vcmcCJDRjMjQ2MjlkLTBmY2YtNDMzNC05NzZjLTQ3NmYzNWUzYzNjYwACKlszLCIyNDJmOGVkZi00NjZhLTRiZWQtYTRiYi0wYzdlODEyMTk1NWUiXQAABiD7eydVe3-KbRGFtOVx5lKYXCxfRpGYxqFtnndn2aUXcg
+
+pypi-AgEIcHlwaS5vcmcCJDRmMDAwOWMwLTBlM2EtNDIwOS05NjU2LWQ5YTAyZmUzODc0YQACDlsxLFsiZ3RoZWxwIl1dAAIsWzIsWyI5MDMxMTgwYS1lMWJkLTQ0NjctYWJkZC02YTllMzAzMjQxZjUiXV0AAAYgiK4KGSN1kUY0d80Dawh9zo9VaXsuGHpNsaQfn1OaTxI
