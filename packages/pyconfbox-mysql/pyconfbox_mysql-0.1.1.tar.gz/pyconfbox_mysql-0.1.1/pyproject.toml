@@ -1,0 +1,66 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pyconfbox-mysql"
+version = "0.1.1"
+description = "MySQL storage plugin for PyConfBox"
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [
+    { name = "Gabriel Ki", email = "edc1901@gmail.com" }
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Database",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "pyconfbox>=0.1.0",
+    "pymysql>=1.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/dan1901/pyconfbox"
+Documentation = "https://github.com/dan1901/pyconfbox/tree/main/docs"
+Repository = "https://github.com/dan1901/pyconfbox"
+Issues = "https://github.com/dan1901/pyconfbox/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pyconfbox_mysql"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py38"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --strict-markers"
+
+[tool.uv.sources]
+pyconfbox = { workspace = true }
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+    "pytest-mock>=3.14.1",
+    "ruff>=0.8.0",
+]
