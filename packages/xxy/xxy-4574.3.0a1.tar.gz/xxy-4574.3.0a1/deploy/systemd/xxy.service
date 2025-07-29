@@ -1,0 +1,20 @@
+[Unit]
+Description=XXY Chat Bot
+Requires=network.target
+After=dhcpcd.service
+StartLimitIntervalSec=300
+StartLimitBurst=3
+
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+EnvironmentFile=/home/ubuntu/pretzel/.env_systemd
+ExecStart=/home/simon/xxy/venv/bin/python -m uvicorn xxy.web:app --uds /tmp/xxy.sock
+WorkingDirectory=/home/simon/xxy
+RestartSec=10
+Restart=always
+MemoryMax=1000M
+
+[Install]
+WantedBy=multi-user.target
