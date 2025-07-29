@@ -1,0 +1,37 @@
+[project]
+name = "django-fk-constraint"
+version = "0.0.1a0"
+authors = [
+  { name="Simon Charette", email="charette.s@gmail.com" },
+]
+description = "Constraint implementation for composite foreign keys."
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+
+[project.urls]
+Homepage = "https://github.com/charettes/django-fk-constraint"
+
+[tool.poetry]
+name = "django-fk-constraint"
+version = "0.1.0a0"
+description = ""
+authors = ["Simon Charette <charette.s@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "fk_constraint"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+django = ">=4.2"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^25.1.0"
+isort = "^6.0.1"
+tox = "^4.26.0"
+mypy = "^1.16.0"
