@@ -1,0 +1,19 @@
+# yamllint disable rule:line-length
+# yamllint disable rule:indentation
+# yamllint disable rule:comments-indentation
+# too many spelling things, spell-checker: disable
+---
+- module-name: 'groupdocs.comparison'
+  implicit-imports:
+    - depends:
+      - 'groupdocs'
+      - 'groupdocs.pydrawing'
+      - 'groupdocs.pyreflection'
+      - 'groupdocs.pygc'
+      - 'groupdocs.pycore'
+
+- module-name: 'groupdocs'
+  data-files:
+    dirs:
+      - 'netcore'
+      - 'assemblies'
