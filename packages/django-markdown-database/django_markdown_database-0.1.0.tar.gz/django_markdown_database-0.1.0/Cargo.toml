@@ -1,0 +1,28 @@
+[package]
+name = "sqlite-vtablog"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+env_logger = "0.11.8"
+gray_matter = { version = "0.2.8", features = ["yaml"] }
+jiff = "0.2.15"
+json = { version = "1.0.140", package = "serde_json" }
+log = "0.4.27"
+relative-path = "2.0.1"
+rusqlite = { version = "0.36.0", features = [
+    "buildtime_bindgen",
+    "functions",
+    "loadable_extension",
+    "modern_sqlite",
+    "trace",
+    "vtab",
+], git = "https://github.com/rusqlite/rusqlite", rev = "8a199981e3448113a0e7dab0a1dd89603101837f" }
+serde = "1.0.219"
+sqlite3-parser = "0.15.0"
+walkdir = "2.5.0"
+
+[lib]
+name = '_lib'
+path = "src/lib.rs"
+crate-type = ["cdylib"]
