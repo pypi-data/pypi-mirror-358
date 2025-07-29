@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=67", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[[project.authors]]
+name = "Hailin Xie"
+email = "hx101@duke.edu"
+
+[project]
+name = "doris-mcp-lite"
+version = "0.0.3"
+description = "An MCP server for analytics on Apache Doris database."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "dbutils>=3.1.0",
+    "httpx>=0.28.1",
+    "mcp[cli]>=1.8.0",
+    "pandas>=2.2.3",
+    "pyarrow>=19.0.1",
+    "pymysql>=1.1.1",
+    "twine>=6.1.0",
+]
+
+
+[project.urls]
+Homepage = "https://github.com/NomotoK/doris-mcp-lite"
+Repository = "https://github.com/NomotoK/doris-mcp-lite"
+
+[project.scripts]
+server = "doris_mcp_lite:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
