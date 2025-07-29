@@ -1,0 +1,39 @@
+Metadata-Version: 2.4
+Name: coxdev
+Version: 0.1.2
+Summary: Library for computing Cox deviance
+Home-page: https://github.org/jonathan-taylor/coxdev
+Download-URL: 
+Author: Naras Balasubrimanian, Trevor Hastie, Jonathan Taylor
+Author-email: Jonathan Taylor <jonathan.taylor@stanford.edu>, Trevor Hastie <hastie@stanford.edu>, Balasubramanian Narasimhan <naras@stanford.edu>
+Maintainer: Naras Balasubrimanian, Trevor Hastie, Jonathan Taylor
+Maintainer-email: Jonathan Taylor <jonathan.taylor@stanford.edu>
+License-Expression: BSD-3-Clause
+Platform: OS Independent
+Classifier: Development Status :: 3 - Alpha
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Science/Research
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Topic :: Scientific/Engineering
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy>=1.7.1
+Requires-Dist: joblib
+Requires-Dist: pybind11
+Requires-Dist: scipy
+Dynamic: author
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: maintainer
+Dynamic: platform
+
+# cox_loglike
+C library for evaluating Cox partial likelihood
+
+# wheel build
+
+```
+env EIGEN_LIBRARY_PATH=/path_to_eigen python -m build
+```
