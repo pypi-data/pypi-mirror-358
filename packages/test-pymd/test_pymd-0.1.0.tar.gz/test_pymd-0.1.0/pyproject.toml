@@ -1,0 +1,70 @@
+[build-system]
+requires = ["setuptools>=65.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "test-pymd"
+version = "0.1.0"
+description = "Python GUI to convert a wide variety of files to Markdown format"
+readme = { file = "README.md", content-type = "text/markdown", charset = "utf-8" }
+license = { text = "MIT License" }
+authors = [{ name = "Dev2Forge", email = "pymd@dev2forge.software" }]
+dependencies = [
+    "markitdown[all]==0.1.1",
+    "chromologger==0.1.8",
+    "PySide6==6.9.0",
+    "sqlazo==0.1.5",
+    "chromolog==0.2.4"
+]
+requires-python = ">=3.7"
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: End Users/Desktop",
+    "Intended Audience :: Developers",
+    "Topic :: Utilities",
+    "Topic :: Text Processing :: Markup",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Environment :: X11 Applications :: Qt",
+    "Environment :: Win32 (MS Windows)",
+    "Environment :: MacOS X"
+]
+
+[project.scripts]
+pymd = "PYMD.__main__:main"
+
+[project.urls]
+Homepage = "https://github.com/Dev2Forge/pymd"
+Repository = "https://github.com/Dev2Forge/pymd"
+Issues = "https://github.com/Dev2Forge/pymd/issues"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["PYMD*"]
+exclude = ["__pycache__"]
+
+# SOLUCIÓN: Usar solo los nombres de paquete principales
+[tool.setuptools.package-data]
+"PYMD" = [
+    "NOTICE",
+    "interface/assets/img/*.png",
+    "interface/assets/img/*.webp",
+    "interface/assets/img/*.svg",
+    "interface/assets/img/language/*.svg",
+    "interface/assets/img/logo-pymd/*.png",
+    "interface/translations/locale/*.qm",
+    "interface/translations/locale/*.ts",
+    "interface/translations/others/*.trg",
+    "interface/translations/others/*.srm",
+    "OSL/*"
+]
