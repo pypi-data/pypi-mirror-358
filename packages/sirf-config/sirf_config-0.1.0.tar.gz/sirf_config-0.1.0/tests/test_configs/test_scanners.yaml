@@ -1,0 +1,31 @@
+# Test scanner configurations
+scanners:
+  test_spect_scanner:
+    name: "Test SPECT Scanner"
+    modality: "SPECT"
+    psf:
+      sigma_0: 1.5
+      alpha: 0.025
+      full_3d: false
+    bremsstrahlung:
+      smoothing_fwhm: [7.0, 7.0, 7.0]
+    default_params:
+      num_subsets: 10
+      num_epochs: 3
+      keep_all_views: true
+  
+  test_pet_scanner:
+    name: "Test PET Scanner"
+    modality: "PET"
+    psf:
+      fwhm: [5.0, 5.0, 5.0]
+      type: "gaussian"
+    default_params:
+      num_subsets: 8
+      num_epochs: 5
+      gpu: true
+  
+  minimal_scanner:
+    name: "Minimal Scanner"
+    modality: "SPECT"
+    # Minimal configuration for testing edge cases

@@ -1,0 +1,32 @@
+# Test protocol configurations
+protocols:
+  test_spect_protocol:
+    scanner: "test_spect_scanner"
+    radionuclide: "test_radio"
+    description: "Test SPECT protocol"
+    default_data_path: "/test/spect/data"
+    reconstruction_params:
+      num_subsets: 12
+      num_epochs: 5
+      resolution_model: [1.5, 0.025, false]
+      smoothing_kernel: [7.0, 7.0, 7.0]
+      apply_smoothing: true
+  
+  test_pet_protocol:
+    scanner: "test_pet_scanner"
+    radionuclide: "test_radio"
+    description: "Test PET protocol"
+    default_data_path: "/test/pet/data"
+    reconstruction_params:
+      num_subsets: 8
+      num_epochs: 10
+      psf_kernel: [5.0, 5.0, 5.0]
+      gpu: true
+  
+  minimal_protocol:
+    scanner: "minimal_scanner"
+    radionuclide: "test_radio"
+    description: "Minimal protocol for testing"
+    reconstruction_params:
+      num_subsets: 4
+      num_epochs: 2

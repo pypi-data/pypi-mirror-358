@@ -1,0 +1,27 @@
+# Test radionuclide configurations
+radionuclides:
+  test_radio:
+    name: "Test Radionuclide"
+    half_life_hours: 24.0
+    emission_type: "gamma"
+    energy_spectrum:
+      type: "monoenergetic"
+      energy_kev: 140
+    reconstruction:
+      requires_high_energy_collimator: false
+      typical_smoothing: false
+      scatter_correction: "optional"
+  
+  test_bremsstrahlung:
+    name: "Test Bremsstrahlung Isotope"
+    half_life_hours: 64.1
+    emission_type: "beta_minus"
+    bremsstrahlung: true
+    energy_spectrum:
+      type: "continuous"
+      max_energy_kev: 2000
+      mean_energy_kev: 800
+    reconstruction:
+      requires_high_energy_collimator: true
+      typical_smoothing: true
+      scatter_correction: "recommended"

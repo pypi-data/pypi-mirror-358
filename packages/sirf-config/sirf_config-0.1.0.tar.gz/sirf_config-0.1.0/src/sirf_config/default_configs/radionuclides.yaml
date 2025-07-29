@@ -1,0 +1,19 @@
+# config/radionuclides.yaml
+# Radionuclide-specific parameters
+
+radionuclides:
+  y90:
+    name: "Yttrium-90"
+    half_life_hours: 64.1
+    emission_type: "beta_minus"
+    bremsstrahlung: true
+    energy_spectrum:
+      # Y-90 produces continuous bremsstrahlung spectrum
+      type: "continuous"
+      max_energy_kev: 2280
+      mean_energy_kev: 935
+    reconstruction:
+      # Special considerations for Y-90 bremsstrahlung imaging
+      requires_high_energy_collimator: true
+      typical_smoothing: true
+      scatter_correction: "recommended"
