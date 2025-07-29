@@ -1,0 +1,28 @@
+#!/bin/sh
+
+set -eux
+
+variables="CMAKE_C_COMPILER \
+  CMAKE_CXX_COMPILER \
+  CMAKE_BUILD_TYPE \
+  CMAKE_INSTALL_PREFIX \
+  SCALUQ_USE_OMP \
+  SCALUQ_USE_CUDA \
+  SCALUQ_CUDA_ARCH \
+  SCALUQ_USE_TEST \
+  SCALUQ_USE_EXE \
+  SCALUQ_FLOAT16 \
+  SCALUQ_FLOAT32 \
+  SCALUQ_FLOAT64 \
+  SCALUQ_BFLOAT16"
+
+CMAKE_OPS=""
+for var in $variables; do
+  eval value=\${$var:-}
+  if [ -n "$value" ]; then
+    CMAKE_OPS="${CMAKE_OPS} -D $var=$value"
+  fi
+done
+
+mkdir -p ./build
+cmake -B build -G Ninja ${CMAKE_OPS}
