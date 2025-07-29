@@ -1,0 +1,5 @@
+# Fish completion
+"""
+fish.py
+"""
+
