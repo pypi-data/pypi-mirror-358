@@ -1,0 +1,92 @@
+Metadata-Version: 2.4
+Name: zut-spider
+Version: 0.1.1
+Summary: Add your description here
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: bs4
+Requires-Dist: requests
+
+# DiiDu爬虫-python版本
+尽力做到了对操作, 使用的还原.
+
+# 使用
+- config的配置
+
+- - 要求
+```python
+config = {
+    'base_url': '...',  <-- 爬虫入口
+    'content': {  <-- 用于划分主要区域
+        'spilt_func': 'extract_content',
+        'spilt_args': [
+            '<div class="box1">', 
+            '<div id="div_vote_id"></div>'
+        ]
+    },
+    'value':{
+        '标题'<--字段名: {
+            'spilt_func': 'extract_content', <-- 使用的函数(暂时只有extract_content)
+            'spilt_args': [
+                '<p class="bt">',  <-- 参数
+                '</p>'
+            ]
+        },
+        ...可以自行添加其他字段名
+    },
+    'Next':{  <-- 下一页的配置
+        'css':'a.Next',
+        'name':'下页'  <-- 如果a.Next不唯一, 则可以根据name来筛选
+    },
+    'son':{
+        'css': '.p2_right>ul>li>a'  <-- 子标签的css选择器
+    }
+}
+```
+
+
+- - 示例
+```python
+config = {
+    'base_url': '...',
+    'content': {
+        'spilt_func': 'extract_content',
+        'spilt_args': [
+            '<div class="box1">', 
+            '<div id="div_vote_id"></div>'
+        ]
+    },
+    'value':{
+        '标题': {
+        'spilt_func': 'extract_content',
+        'spilt_args': [
+            '<p class="bt">',
+            '</p>'
+        ]
+        },
+        '发布时间': {
+        'spilt_func': 'extract_content',
+        'spilt_args': [
+            '<p>发布时间：',
+            '</p>'
+        ]
+        },
+        '正文内容': {
+        'spilt_func': 'extract_content',
+        'spilt_args': [
+            '<div class="v_news_content">',
+            '</div>'
+        ]
+        }
+    },
+    'Next':{
+        'css':'a.Next',
+        'name':'下页'
+    },
+    'son':{
+        'css': '.p2_right>ul>li>a'
+    }
+}
+```
+
+
