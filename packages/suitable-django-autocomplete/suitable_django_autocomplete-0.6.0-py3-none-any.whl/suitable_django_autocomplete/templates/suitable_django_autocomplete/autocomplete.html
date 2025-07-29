@@ -1,0 +1,130 @@
+{% load static %}
+<autocomplete-input 
+    endpoint="{{ widget.url }}" 
+    name="{{ widget.name }}" 
+    {% if widget.attrs.id %}id="{{ widget.attrs.id }}"{% endif %}
+    {% if widget.value %}value="{{ widget.value }}"{% endif %}
+    {% if widget.initial_display_value %}data-display-value="{{ widget.initial_display_value }}"{% endif %}
+    data-value-field="{{ widget.value_field }}"
+    data-label-field="{{ widget.label_field }}"
+    exportparts="input"
+    {% for attr_name, attr_value in widget.attrs.items %}
+        {% if attr_name|slice:":5" == "aria-" %}{{ attr_name }}="{{ attr_value }}"{% endif %}
+    {% endfor %}
+    {% for attr_name, attr_value in widget.host_attrs.items %}
+        {{ attr_name }}="{{ attr_value }}"
+    {% endfor %}>
+    <template shadowrootmode="open">
+        <style>
+            :host {
+                position: relative;
+                display: inline-block;
+                width: 100%;
+            }
+            
+            input {
+                width: var(--autocomplete-input-width, 100%);
+                padding: var(--autocomplete-input-padding, 8px 12px);
+                border: var(--autocomplete-input-border, 1px solid #ccc);
+                border-radius: var(--autocomplete-input-border-radius, 4px);
+                font-size: var(--autocomplete-input-font-size, 14px);
+                font-family: var(--autocomplete-input-font-family, inherit);
+                color: var(--autocomplete-input-color, inherit);
+                background-color: var(--autocomplete-input-background, white);
+                box-sizing: border-box;
+            }
+            
+            input:focus {
+                outline: var(--autocomplete-input-focus-outline, none);
+                border-color: var(--autocomplete-input-focus-border-color, #007bff);
+                box-shadow: var(--autocomplete-input-focus-box-shadow, 0 0 0 2px rgba(0, 123, 255, 0.25));
+            }
+            
+            .results {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                border: 1px solid #ccc;
+                border-top: none;
+                border-radius: 0 0 4px 4px;
+                max-height: 200px;
+                overflow-y: auto;
+                z-index: 1000;
+                display: none;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+            
+            .result-item {
+                padding: 8px 12px;
+                cursor: pointer;
+                border-bottom: 1px solid #eee;
+                outline: none;
+            }
+            
+            .result-item:hover,
+            .result-item.active {
+                background-color: #e3f2fd;
+                border-left: 3px solid #007bff;
+                padding-left: 9px;
+            }
+            
+            .result-item.active {
+                background-color: #007bff;
+                color: white;
+                border-left: 3px solid #0056b3;
+            }
+            
+            .result-item:last-child {
+                border-bottom: none;
+            }
+            
+            /* High contrast mode support */
+            @media (prefers-contrast: high) {
+                .result-item.active {
+                    outline: 2px solid;
+                    outline-offset: -2px;
+                }
+            }
+            
+            /* Reduced motion support */
+            @media (prefers-reduced-motion: reduce) {
+                .result-item {
+                    transition: none;
+                }
+            }
+            
+            .loading {
+                padding: 8px 12px;
+                color: #666;
+                font-style: italic;
+            }
+
+            .sr-only {
+                position: absolute !important;
+                width: 1px !important;
+                height: 1px !important;
+                padding: 0 !important;
+                margin: -1px !important;
+                overflow: hidden !important;
+                clip-path: inset(50%) !important;
+                white-space: nowrap !important;
+                border: 0 !important;
+            }
+
+        </style>
+        
+        <input type="text" 
+               part="input"
+               {% if widget.value %}value="{{ widget.value }}"{% endif %}
+               {% for attr_name, attr_value in widget.attrs.items %}
+                   {% if attr_name != 'id' and attr_name != 'name' and attr_name|slice:":5" != "aria-" %}{{ attr_name }}="{{ attr_value }}"{% endif %}
+               {% endfor %}
+               placeholder="{{ widget.attrs.placeholder|default:'Start typing to search...' }}">
+        <div class="results"></div>
+        <span class="sr-only"></span>
+
+    </template>
+</autocomplete-input>
+<script type="module" src="{% static 'suitable_django_autocomplete/autocomplete.js' %}"></script>
