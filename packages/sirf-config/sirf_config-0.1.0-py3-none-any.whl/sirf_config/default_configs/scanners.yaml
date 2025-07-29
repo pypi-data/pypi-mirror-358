@@ -1,0 +1,53 @@
+# config/scanners.yaml
+# Scanner configuration file for SPECT/PET reconstruction parameters
+
+scanners:
+  ge_discovery_690:
+    name: "GE Discovery 690"
+    modality: "PET"
+    psf:
+      fwhm: [5.55, 5.06, 5.06]  # mm FWHM [z, y, x]
+      type: "gaussian"
+    default_params:
+      num_subsets: 9
+      num_epochs: 10
+      gpu: true
+    
+  ge_discovery_670:
+    name: "GE Discovery 670"
+    modality: "SPECT"
+    psf:
+      sigma_0: 1.68  # mm
+      alpha: 0.03
+      full_3d: false
+    bremsstrahlung:
+      smoothing_fwhm: [6.8, 6.8, 6.8]  # mm isotropic
+    default_params:
+      num_subsets: 12
+      num_epochs: 2
+      keep_all_views: true
+    
+  mediso_anyscan_trio_pet:
+    name: "Mediso AnyScan Trio (PET)"
+    modality: "PET"
+    psf:
+      fwhm: [5.1, 4.9, 4.9]  # mm FWHM [z, y, x]
+      type: "gaussian"
+    default_params:
+      num_subsets: 9
+      num_epochs: 10
+      gpu: true
+    
+  mediso_anyscan_trio_spect:
+    name: "Mediso AnyScan Trio (SPECT)"
+    modality: "SPECT"
+    psf:
+      sigma_0: 1.22  # mm
+      alpha: 0.031
+      full_3d: false
+    bremsstrahlung:
+      smoothing_fwhm: [6.7, 6.7, 6.7]  # mm isotropic
+    default_params:
+      num_subsets: 12
+      num_epochs: 2
+      keep_all_views: true

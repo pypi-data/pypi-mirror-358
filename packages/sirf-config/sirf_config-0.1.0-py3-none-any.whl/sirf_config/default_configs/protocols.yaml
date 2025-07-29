@@ -1,0 +1,49 @@
+# Default protocol configurations for SIRF Config package
+# Protocol-specific combinations of scanner + radionuclide
+
+protocols:
+  y90_ge_670_spect:
+    scanner: "ge_discovery_670"
+    radionuclide: "y90"
+    description: "Y-90 bremsstrahlung SPECT on GE Discovery 670"
+    default_data_path: "/home/storage/prepared_data/oxford_patient_data/sirt3/SPECT"
+    reconstruction_params:
+      num_subsets: 12
+      num_epochs: 5  # Higher epochs for bremsstrahlung
+      resolution_model: [1.68, 0.03, false]  # [sigma_0, alpha, full_3d]
+      smoothing_kernel: [6.8, 6.8, 6.8]
+      apply_smoothing: true
+    
+  y90_mediso_spect:
+    scanner: "mediso_anyscan_trio_spect"
+    radionuclide: "y90"
+    description: "Y-90 bremsstrahlung SPECT on Mediso AnyScan Trio"
+    default_data_path: "/home/storage/prepared_data/phantom_data/anthropomorphic_phantom_data/SPECT/phantom_140"
+    reconstruction_params:
+      num_subsets: 12
+      num_epochs: 5
+      resolution_model: [1.22, 0.031, false]
+      smoothing_kernel: [6.7, 6.7, 6.7]
+      apply_smoothing: true
+      
+  y90_ge_690_pet:
+    scanner: "ge_discovery_690"
+    radionuclide: "y90"
+    description: "Y-90 PET on GE Discovery 690"
+    default_data_path: "/home/storage/prepared_data/oxford_patient_data/sirt3/PET/non_tof"
+    reconstruction_params:
+      num_subsets: 9
+      num_epochs: 10
+      psf_kernel: [5.55, 5.06, 5.06]
+      gpu: true
+      
+  y90_mediso_pet:
+    scanner: "mediso_anyscan_trio_pet"
+    radionuclide: "y90"
+    description: "Y-90 PET on Mediso AnyScan Trio"
+    default_data_path: "/home/storage/prepared_data/phantom_data/anthropomorphic_phantom_data/PET/phantom"
+    reconstruction_params:
+      num_subsets: 9
+      num_epochs: 10
+      psf_kernel: [5.1, 4.9, 4.9]
+      gpu: true
