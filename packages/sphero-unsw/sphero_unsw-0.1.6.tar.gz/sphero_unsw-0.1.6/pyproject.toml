@@ -1,0 +1,70 @@
+# ====================================================================
+# Authors: Kathryn Kasmarik, Reda Ghanem
+# Version 0.1.6
+# School of Systems and Computing, UNSW Canberra
+# ==================================================================== 
+
+# ------------------------------
+# Project Metadata
+# ------------------------------
+[project]
+
+# The name of the package (as it will appear on PyPI)
+name = "sphero_unsw"
+
+# The current version of the package — increment for each new release
+version = "0.1.6"
+
+# A short description of the package's purpose
+description = "Extensions and patches for spherov2 to support Sphero BOLT+ (UNSW Canberra fork)"
+
+# The authors of the package and their contact information
+authors = [
+    { name = "Kathryn Kasmarik", email = "kathryn.kasmarik@unsw.edu.au" },
+    { name = "Reda Ghanem", email = "reda.ghanem@unsw.edu.au" }
+]
+
+# The license file to use (must be included in the project root)
+license = { file = "LICENSE" }
+
+# The README file used for the PyPI long description
+readme = "README.md"
+
+# Updated to support Python 3.7 through 3.10 (inclusive)
+requires-python = ">=3.7, <=3.10"
+
+# ------------------------------
+# Required Dependencies
+# ------------------------------
+# These are installed automatically when someone installs the package
+dependencies = [
+    "bleak",      # For Bluetooth Low Energy communication
+    "spherov2"    # The base Sphero control library
+]
+
+# ------------------------------
+# Classifiers (for PyPI metadata and badges)
+# ------------------------------
+# These help users and tools understand the maturity, use case, and compatibility of the package
+classifiers = [
+    "Development Status :: 3 - Alpha",             # Indicates early development; not yet stable
+    "Framework :: Robot Framework :: Library",     # Indicates this is a library usable in robotics-related frameworks
+    "Intended Audience :: Education",              # Specifies the educational purpose of the project
+    "License :: OSI Approved :: MIT License",      # Specifies that the MIT License applies
+    "Operating System :: OS Independent",          # Confirms that the package works across different operating systems
+    "Programming Language :: Python :: 3.7",       # Explicitly states Python 3.7 compatibility
+    "Programming Language :: Python :: 3.8",       # Explicitly states Python 3.8 compatibility
+    "Programming Language :: Python :: 3.9",       # Explicitly states Python 3.9 compatibility
+    "Programming Language :: Python :: 3.10"       # Explicitly states Python 3.10 compatibility
+]
+
+# ------------------------------
+# Project URLs (shown on PyPI project page)
+# ------------------------------
+[project.urls]
+
+# Link to the homepage or project documentation
+Homepage = "https://github.com/redaghanem/sphero_unsw"
+
+# Link to the source code repository
+Source = "https://github.com/redaghanem/sphero_unsw"
