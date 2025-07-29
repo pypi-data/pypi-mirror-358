@@ -1,0 +1,29 @@
+# Smithery configuration file: https://smithery.ai/docs/build/project-config
+
+startCommand:
+  type: stdio
+  commandFunction:
+    # A JS function that produces the CLI command based on the given config to start the MCP on stdio.
+    |-
+    (config) => ({ command: 'huuh-mcp', args: [], env: { HUUH_API_KEY: config.huuhApiKey, BACKEND_URL: config.backendUrl || 'https://api.huuh.me', LOG_LEVEL: config.logLevel || 'INFO' } })
+  configSchema:
+    # JSON Schema defining the configuration options for the MCP.
+    type: object
+    required:
+      - huuhApiKey
+    properties:
+      huuhApiKey:
+        type: string
+        description: Your HUUH API key for authenticating with the huuh.me platform
+      backendUrl:
+        type: string
+        default: https://api.huuh.me
+        description: Optional backend API URL
+      logLevel:
+        type: string
+        default: INFO
+        description: Optional log verbosity level
+  exampleConfig:
+    huuhApiKey: abcdef123456
+    backendUrl: https://api.huuh.me
+    logLevel: DEBUG
