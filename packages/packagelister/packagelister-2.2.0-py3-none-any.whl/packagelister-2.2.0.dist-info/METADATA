@@ -1,0 +1,71 @@
+Metadata-Version: 2.4
+Name: packagelister
+Version: 2.2.0
+Summary: Determine what 3rd-party packages a project imports.
+Project-URL: Homepage, https://github.com/matt-manes/packagelister
+Project-URL: Documentation, https://github.com/matt-manes/packagelister/tree/main/docs
+Project-URL: Source code, https://github.com/matt-manes/packagelister/tree/main/src/packagelister
+Author: Matt Manes
+License-File: LICENSE.txt
+Keywords: import,module,package
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.10
+Requires-Dist: argshell
+Requires-Dist: pathier>=1.3.4
+Requires-Dist: printbuddies>=1.4.1
+Requires-Dist: rich
+Requires-Dist: typing-extensions>=4.7.1
+Requires-Dist: younotyou
+Description-Content-Type: text/markdown
+
+# packagelister
+
+Determine what packages and versions a project imports.  
+
+Install with:
+
+```console
+pip install packagelister
+```
+
+## Usage
+
+---
+
+Can be used either programmatically or with the included cli.  
+
+### Programmatic  
+
+![programmatic example](assets/programmatic_eg.svg)
+
+### CLI
+
+There are three cli tools included in this package: `packagelister`, `whouses`, and `localimps`.  
+
+#### packagelister
+
+For the current directory, can be used to print the packages used by the current directory,
+generate a `requirements.txt` file, and view which files import a package.
+
+![packagelister help](assets/packagelister_help.svg)
+
+![packagelister example](assets/packagelister_cli_eg.svg)
+
+#### whouses
+
+Given a package name, scan the current directory for which sub-directories use that package.  
+Useful for knowing which projects you'll need to update when upgrading an installed package.  
+
+![whouses help](assets/whouses_help.svg)
+
+![whouses example](assets/whouses_eg.svg)
+
+#### localimps
+
+For displaying information about local modules and import structure.
+
+![localimps help](assets/localimps_help.svg)
+
+![localimps example](assets/localimps_eg.svg)
