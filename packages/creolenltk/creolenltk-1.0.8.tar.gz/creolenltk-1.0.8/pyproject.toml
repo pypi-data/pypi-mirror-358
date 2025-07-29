@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "creolenltk"
+version = "1.0.8"
+description = "A Python library for Creole text preprocessing"
+readme = "README.md"
+authors = [
+    { name = "John Clayton", email = "jclaytonblanc@gmail.com" }
+]
+license = { file = "LICENSE" }
+requires-python = ">=3.6"
+dependencies = [
+    "beautifulsoup4>=4.9.3",
+    "nltk>=3.6.2",
+    "spacy>=3.7.2",
+    "conllu",
+]
+keywords = ["python", "nlp", "creole", "natural language processing", "text preprocessing"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
+
+[tool.setuptools]
+packages = ["creolenltk"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+"creolenltk.data" = ["*.txt"]
