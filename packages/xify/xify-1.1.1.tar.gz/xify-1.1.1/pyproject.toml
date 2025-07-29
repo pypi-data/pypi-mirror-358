@@ -1,0 +1,70 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "xify"
+version = "1.1.1"
+description = "Xify is a Python tool for interacting with the X API."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "aiohttp>=3.12.13",
+]
+license = {file = "LICENSE"} 
+authors = [
+    {name = "Filming"} 
+]
+keywords = ["x", "api", "twitter", "social-media"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+[project.urls]
+Homepage = "https://github.com/filming/xify"
+Repository = "https://github.com/filming/xify"
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+src = ["src"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "PL", "B", "SIM", "C90"]
+ignore = []
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.ruff.lint.isort]
+known-first-party = ["xify"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.mypy]
+strict = true
+files = ["src"]
+python_version = "3.10"
+
+[tool.pdm.scripts]
+format = "uv run ruff format src examples"
+check_fix = "uv run ruff check --fix src examples"
+type_check = "uv run mypy src examples"
+clean = "sh -c 'pdm run format && pdm run check_fix && pdm run type_check'"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/xify"]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.16.0",
+    "python-dotenv>=1.1.0",
+    "ruff>=0.11.13",
+]
