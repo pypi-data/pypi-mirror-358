@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tacho --help)",
+      "Bash(rm /Users/pietz/Dev/tacho/tacho/__main__.py)",
+      "Bash(rm -rf dist/)",
+      "mcp__web-tools__search_web",
+      "mcp__web-tools__fetch_url",
+      "Bash(uv build)",
+      "Bash(uv add pytest pytest-asyncio python-dotenv --dev)",
+      "Bash(tacho gpt-4.1-mini gemini/gemini-2.5-flash)",
+      "Bash(uv sync)",
+      "Bash(pytest . -v)",
+      "Bash(uv run python -m tacho gpt-4o-mini)"
+    ],
+    "deny": []
+  }
+}
