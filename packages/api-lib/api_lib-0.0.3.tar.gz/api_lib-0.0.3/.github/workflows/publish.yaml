@@ -1,0 +1,142 @@
+name: Publish Python distribution to PyPI
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: 'Version type (major, minor, patch)'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - major
+          - minor
+          - patch
+
+jobs:
+  tag:
+    name: Tag release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      new_version: ${{ steps.bump_version.outputs.new_version }}
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 0
+
+      - name: Fetch all tags
+        run: git fetch --tags
+
+      - name: Get latest tag
+        id: get_latest_tag
+        run: |
+          latest_tag=$(git tag --sort=-v:refname | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1)
+          if [ -z "$latest_tag" ]; then
+            echo "No valid tag found, using fallback 0.0.0"
+            latest_tag="0.0.0"
+          fi
+          echo "Latest tag found: $latest_tag"
+          echo "tag=${latest_tag}" >> $GITHUB_OUTPUT
+
+      - name: Calculate next version
+        id: bump_version
+        run: |
+          current_version="${{ steps.get_latest_tag.outputs.tag }}"
+          IFS='.' read -r major minor patch <<< "$current_version"
+          case "${{ github.event.inputs.version_type }}" in
+            major)
+              ((major+=1))
+              minor=0
+              patch=0
+              ;;
+            minor)
+              ((minor+=1))
+              patch=0
+              ;;
+            patch)
+              ((patch+=1))
+              ;;
+          esac
+          new_version="$major.$minor.$patch"
+          echo "Bumped version: $new_version"
+          echo "new_version=$new_version" >> $GITHUB_OUTPUT
+
+      - name: Create Git tag
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git tag "${{ steps.bump_version.outputs.new_version }}"
+          git push origin "${{ steps.bump_version.outputs.new_version }}"
+
+  publish:
+    name: Build, publish, sign, and release
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/api-lib
+    needs: tag
+    permissions:
+      contents: write
+      id-token: write
+    if: ${{ needs.tag.result == 'success' }}
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 0
+
+      - name: Fetch all tags
+        run: git fetch --tags
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Install the project
+        run: uv sync --locked --all-extras --dev
+
+      - name: Build a binary wheel and a source tarball
+        run: uv run hatch build
+
+      - name: Store the distribution packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-package-distributions
+          path: dist/
+
+      - name: Publish Python distribution to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+
+      - name: Download all the dists (for signing)
+        uses: actions/download-artifact@v4
+        with:
+          name: python-package-distributions
+          path: dist/
+
+      - name: Sign the dists with Sigstore
+        uses: sigstore/gh-action-sigstore-python@v3.0.0
+        with:
+          inputs: >-
+            ./dist/*.tar.gz
+            ./dist/*.whl
+
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: >-
+          gh release create
+          "${{ needs.tag.outputs.new_version }}"
+          --repo "$GITHUB_REPOSITORY"
+          --notes ""
+
+      - name: Upload artifact signatures to GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: >-
+          gh release upload
+          "${{ needs.tag.outputs.new_version }}" dist/**
+          --repo "$GITHUB_REPOSITORY"
