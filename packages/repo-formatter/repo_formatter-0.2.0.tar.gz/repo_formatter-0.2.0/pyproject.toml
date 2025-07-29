@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "repo-formatter"
+version = "0.2.0"
+authors = [
+  { name="Mounir Merah", email="mounir.mohammedimerah@gmail.com" },
+]
+license = {file = "LICENSE"}
+description = "A tool to format repository content into a single Markdown file."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Environment :: Console",
+    "Topic :: Software Development :: Documentation",
+    "Topic :: Text Processing",
+]
+dependencies = [
+    "PyYAML>=6.0",
+    "tiktoken>=0.4.0"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/mmerah/repo-formatter"
+"Bug Tracker" = "https://github.com/mmerah/repo-formatter/issues"
+
+# This creates the command-line script entry point
+[project.scripts]
+repo-formatter = "repo_formatter.main:cli"
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "ruff",
+    "build",
+    "twine",
+]
