@@ -1,0 +1,67 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/SimonGlomb/Metadata/dfcd6ac77dcc40e1e6562ce2b35c62114f1d3a95/logo.svg" width="200">
+</p>
+
+This package offers tools for computing semivalues, with the Shapley value being the most prominent example. 
+It places special emphasis on graph-based games, without being restricted to it.
+
+Broad Functionality:
+- Compute Shapley/Banzhaf value exact or approximately
+- Compute decomposition matrices
+
+Detailed Functionality:
+- Compute Shapley/Banzhaf value (exact and approximately)
+- Compute Shapley/Banzhaf value decomposition by size (exact and approximately) (_n x n_ matrix where each entry is aggregated over the respective subset size)
+- Compute [Shapley value of a player to another player](https://link.springer.com/content/pdf/10.1007/s003550000070.pdf) (exact and approximately) (_Hausken, Kjell, and Matthias Mohr. "The value of a player in n-person games." Social Choice and Welfare 18 (2001): 465-483._)
+
+For the approximation methods of the Shapley value we refer to https://arxiv.org/pdf/1306.4265
+
+## How To Use
+You need to have a utility function mapping an arbitrary set of players to a real number. Players names should be {0, ..., n-1}, i.e. the utility function should return values for all subsets of {0, ..., n-1}.
+We will use the example introduced [here](https://link.springer.com/content/pdf/10.1007/s003550000070.pdf)
+```python
+def utility_game_function(S):
+    GAME_VALUES = {
+        frozenset(): 0,
+        frozenset({0}): 180,
+        frozenset({1}): 0,
+        frozenset({2}): 0,
+        frozenset({1, 2}): 0,
+        frozenset({0, 1}): 360,
+        frozenset({0, 2}): 540,
+        frozenset({0, 1, 2}): 540,
+    }
+
+    def game_utility(coalition: set) -> int:
+        return GAME_VALUES.get(frozenset(coalition), 0)
+
+    return game_utility(S)
+
+
+num_players = 3
+
+from semivalues import shapley, banzhaf
+# (n-vector)
+shapley.exact(utility_game_function=utility_game_function, num_players=num_players)
+shapley.strata_sampling(utility_game_function=utility_game_function, num_players=num_players, num_samples=100000)
+
+banzhaf.exact(utility_game_function=utility_game_function, num_players=num_players)
+banzhaf.sampling(utility_game_function=utility_game_function, num_players=num_players, num_samples=100000)
+
+
+from semivalues.decompositions.shapley import by_size
+# (n x n matrix)
+by_size.exact(utility_game_function=utility_game_function, num_players=num_players)
+by_size.strata_sampling(utility_game_function=utility_game_function, num_players=num_players, num_samples=100000)
+
+from semivalues.decompositions.banzhaf import by_size
+# (n x n matrix)
+by_size.exact(utility_game_function=utility_game_function, num_players=num_players)
+by_size.monte_carlo_sampling(utility_game_function=utility_game_function, num_players=num_players, num_samples=100000)
+
+
+from semivalues.decompositions.shapley import player_to_player
+# (n x n matrix)
+player_to_player.exact(utility_game_function=utility_game_function, num_players=num_players)
+player_to_player.monte_carlo_sampling(utility_game_function=utility_game_function, num_players=num_players, num_samples=100000)
+```
