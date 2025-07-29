@@ -1,0 +1,17 @@
+---
+
+- name: provision dserver
+  hosts: all
+
+  vars_files:
+    - vars.yml
+
+  roles:
+
+    - epel
+    - ntp
+    - mongodb
+    - python_tools
+    - nginx 
+    - firewalld
+    - dserver
