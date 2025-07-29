@@ -1,0 +1,68 @@
+stages:
+  - test
+  - build
+  - deploy
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+cache:
+  paths:
+    - .cache/pip
+    - .venv/
+
+before_script:
+  - python -V  # Print out python version for debugging
+  - pip install uv
+  - uv venv
+  - source .venv/bin/activate
+
+test:
+  stage: test
+  image: python:3.10
+  script:
+    - uv pip install -e ".[test]"
+    - pytest tests/
+  only:
+    - merge_requests
+    - main
+
+build:
+  stage: build
+  image: python:3.10
+  script:
+    - uv build
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 hour
+  only:
+    - tags
+
+deploy_pypi:
+  stage: deploy
+  image: python:3.10
+  script:
+    - pip install twine
+    - twine upload dist/*
+  dependencies:
+    - build
+  only:
+    - tags
+  variables:
+    TWINE_USERNAME: __token__
+    TWINE_PASSWORD: $PYPI_TOKEN  # Настроить в GitLab CI/CD Variables
+
+deploy_test_pypi:
+  stage: deploy
+  image: python:3.10
+  script:
+    - pip install twine
+    - twine upload --repository testpypi dist/*
+  dependencies:
+    - build
+  only:
+    - /^v.*-test$/  # Тестовые теги вида v0.1.0-test
+  variables:
+    TWINE_USERNAME: __token__
+    TWINE_PASSWORD: $TEST_PYPI_TOKEN  # Для test.pypi.org 
