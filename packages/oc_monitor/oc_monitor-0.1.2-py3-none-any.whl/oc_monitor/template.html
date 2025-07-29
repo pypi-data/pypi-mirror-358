@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{collection}} Data Monitor Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h1 { color: #333; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        tr:hover { background-color: #ddd; }
+        .error { color: red; }
+        .passed { color: green; }
+        .failed { color: red; }
+        .null { text-align: center; }
+        td:has(.null) { text-align: center; }
+    </style>
+</head>
+<body>
+
+    <h1>{{collection}} Data Monitoring Report</h1>
+    <p><strong>Collection:</strong> {{collection}}</p>
+    <p><strong>Endpoint:</strong> {{endpoint}}</p>
+    <p><strong>Date and Time:</strong> {{datetime}}</p>
+    <p><strong>Total Running Time:</strong> {{running_time}} seconds</p>
+
+    <h2>Monitoring Results</h2>
+    <table>
+        <tr>
+            <th>Label</th>
+            <th>Issue Description</th>
+            <th>Test result</th>
+            <th>Count of involved resources</th>
+            <th>Running Time (seconds)</th>
+            <th>Raised Error</th>
+        </tr>
+        {{monitoring_results_rows}}
+    </table>
+
+</body>
+</html>
