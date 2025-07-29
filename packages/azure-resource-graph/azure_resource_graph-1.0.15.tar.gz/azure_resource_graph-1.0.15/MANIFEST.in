@@ -1,0 +1,35 @@
+# Include important package files
+include README.md
+include LICENSE
+include requirements.txt
+include MANIFEST.in
+include .env.template
+
+# Include package source files
+recursive-include azure_resource_graph *.py
+
+# Include example files
+include examples/*.py
+include examples/*.md
+
+# Include test files (for development installs)
+recursive-include tests *.py
+
+# Include documentation files
+include docs/*.md
+recursive-include docs *.rst
+recursive-include docs *.md
+
+# Exclude development and build files
+exclude .gitignore
+exclude .github/*
+exclude .pytest_cache/*
+exclude build/*
+exclude dist/*
+exclude *.egg-info/*
+exclude __pycache__/*
+exclude .env
+exclude .env.*
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+recursive-exclude * .DS_Store
