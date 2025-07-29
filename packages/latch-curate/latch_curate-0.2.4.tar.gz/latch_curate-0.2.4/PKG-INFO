@@ -1,0 +1,35 @@
+Metadata-Version: 2.4
+Name: latch-curate
+Version: 0.2.4
+Summary: Tools for curating single cell data
+Author-email: Kenny Workman <kenny@latch.bio>
+Requires-Python: >=3.10
+Requires-Dist: click==8.2.1
+Requires-Dist: docker==7.1.0
+Requires-Dist: geoparse==2.0.4
+Requires-Dist: harmonypy==0.0.10
+Requires-Dist: igraph==0.11.8
+Requires-Dist: latch>=2.63.1
+Requires-Dist: openai==1.81.0
+Requires-Dist: pysradb==2.2.2
+Requires-Dist: scanpy==1.11.1
+Requires-Dist: scikit-image==0.25.2
+Requires-Dist: tiktoken>=0.9.0
+Description-Content-Type: text/markdown
+
+latch-curate
+===
+
+## Quickstart
+
+Create on directory for each curation project/dataset and run the following
+commands in this project directory.
+
+```
+latch-curate download run <gse-id>
+latch-curate construct-counts run
+latch-curate qc run
+latch-curate transform run
+latch-curate type-cells run
+latch-curate harmonize-metadata run
+```
