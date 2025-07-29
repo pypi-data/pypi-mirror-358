@@ -1,0 +1,71 @@
+[project]
+maintainers = [
+  { name = "Herman Singh", email = "herman@massmatrix.bio" },
+  { name = "MassMatrix", email = "eng@massmatrix.bio" },
+]
+authors = [{ name = "Michael Freitas", email = "mike@massmatrix.bio" }]
+name = "mzx"
+description = "Easy to use Mass Spec conversion utility"
+readme = "README.rst"
+license = { file = "LICENSE" }
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+  "Natural Language :: English",
+  "Operating System :: MacOS :: MacOS X",
+  "Operating System :: Microsoft :: Windows",
+  "Operating System :: POSIX :: Linux",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.10",
+  "Topic :: File Formats",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Scientific/Engineering :: Chemistry",
+  "Topic :: Software Development",
+]
+keywords = ["mass spectrometry", "conversion", "bioinformatics"]
+requires-python = ">=3.10"
+dependencies = ["loguru>=0.5.0", "lxml>=4.6.0", "pyside6>=6.0"]
+dynamic = ["version"]
+
+[project.scripts]
+mzx = "mzx.cli:main"
+mzx-gui = "mzx.gui:main"
+
+[project.urls]
+Documentation = "https://readthedocs.org/projects/mzx"
+"Source Code" = "https://github.com/mass-matrix/mzx"
+"Issue Tracker" = "https://github.com/mass-matrix/mzx/issues"
+
+
+[build-system]
+requires = ["setuptools>=63.0"]
+build-backend = "setuptools.build_meta"
+
+[[tool.mypy.overrides]]
+module = "PySide6.*"
+ignore_missing_imports = true
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+include-package-data = true
+
+[tool.setuptools.dynamic]
+version = { attr = "mzx.__version__" }
+
+[tool.setuptools.package-data]
+"*" = ["src/data/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = ["error"]
+addopts = "--tb=short -v"
+
+[tool.coverage.run]
+branch = true
+source = ["src"]
+
+[tool.coverage.paths]
+source = ["src"]
