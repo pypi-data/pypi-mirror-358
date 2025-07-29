@@ -1,0 +1,158 @@
+Metadata-Version: 2.4
+Name: bifrost-httr
+Version: 0.2.1
+Summary: BIFROST HTTr Analysis Package - Bayesian inference for region of signal threshold
+Author-email: Jonathan Manning <jonathan.manning@seqera.io>
+License-Expression: GPL-3.0-or-later
+License-File: LICENSE
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Requires-Python: >=3.10
+Requires-Dist: click
+Requires-Dist: cmdstanpy==1.2.4
+Requires-Dist: multiqc==1.28
+Requires-Dist: numpy==2.1.0
+Requires-Dist: pandas==2.2.2
+Requires-Dist: plotly==6.1.1
+Requires-Dist: pyyaml==6.0.1
+Requires-Dist: scipy==1.14.1
+Provides-Extra: dev
+Requires-Dist: black; extra == 'dev'
+Requires-Dist: mypy; extra == 'dev'
+Requires-Dist: pytest; extra == 'dev'
+Requires-Dist: ruff; extra == 'dev'
+Provides-Extra: test
+Requires-Dist: pytest-cov>=4.0.0; extra == 'test'
+Requires-Dist: pytest>=7.0.0; extra == 'test'
+Description-Content-Type: text/markdown
+
+# BIFROST-HTTr Package
+
+**Bayesian Inference for Region of Signal Threshold (BIFROST) for High-Throughput Transcriptomics (HTTr)**
+
+A Python package for high-throughput transcriptomics (HTTr) analysis using Bayesian modeling to infer point-of-departure (PoD) from concentration-response datasets.
+
+## License
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+## Installation
+
+### From PyPI (Recommended)
+
+```bash
+pip install bifrost-httr
+```
+
+### From TestPyPI (Development versions)
+
+```bash
+pip install -i https://test.pypi.org/simple/ bifrost-httr
+```
+
+### From Source (Development)
+
+```bash
+git clone https://github.com/seqera-services/bifrost-httr.git
+cd bifrost-httr
+pip install -e .
+```
+
+## Command Line Interface
+
+The package provides a unified command-line interface with the following commands:
+
+```bash
+# Run concentration-response analysis
+bifrost-httr run-analysis --data-files data/*.pkl --model-executable model.exe
+
+# Create MultiQC reports from analysis results
+bifrost-httr create-report --summary-file summary.json --test-substance "MyChemical"
+
+# Compress intermediate output files
+bifrost-httr compress-output --fits-dir fits/ --output summary.json
+
+# Prepare BIFROST input files from raw data
+bifrost-httr prepare-inputs --meta-data metadata.csv --counts counts.csv --config config.yaml
+
+# Split data into processing batches
+bifrost-httr split-data --input-file data.json --analysis-dir analysis/ --prefix batch
+
+# Compile Stan models
+bifrost-httr compile-model model.stan
+```
+
+For detailed help on any command:
+
+```bash
+bifrost-httr --help
+bifrost-httr <command> --help
+```
+
+## Usage
+
+### As a Library
+
+```python
+import bifrost_httr
+
+# Load and process data
+data = bifrost_httr.BifrostData("summary.json")
+report = bifrost_httr.BifrostMultiQCReport(data, test_substance="MyChemical")
+report.create_report()
+```
+
+## Report Template Customization
+
+BIFROST reports can be customized by providing your own template file to override the default text and formatting:
+
+```bash
+# Create a custom template file
+cp templates/example_custom_templates.yml templates/my_custom_templates.yml
+
+# Edit the template to customize specific sections
+# Only include the sections you want to change - others will use defaults
+
+# Use custom templates in your report
+bifrost-httr create-report \
+  --summary-file summary.json \
+  --custom-templates templates/my_custom_templates.yml \
+  --test-substance "MyChemical" \
+  --cell-type "HepaRG"
+```
+
+### Available Template Sections
+
+You can customize any of the following sections:
+- **Introduction text** - Main report introduction and methodology
+- **Summary descriptions** - Explanations for statistics and plots  
+- **Plot guides** - Instructions for reading concentration-response plots
+- **Section overviews** - Text for different analysis sections
+- **No-data messages** - Custom messages when data is insufficient
+
+### Template Variables
+
+Templates support variables like `{test_substance}`, `{cell_type}`, `{timepoint}`, `{cds_threshold}`, and `{conc_units}` that are automatically filled in from your analysis parameters.
+
+For complete documentation and examples, see the [`templates/`](templates/) directory.
+
+## Features
+
+- Bayesian modeling of concentration-response relationships
+- Point-of-departure (PoD) estimation with uncertainty quantification
+- Global PoD calculation across multiple probes
+- Interactive visualization and reporting
+- Parallel processing support
+- Stan-based statistical modeling
+
+## Requirements
+
+- Python ≥3.10
+- NumPy, Pandas, SciPy
+- CmdStanPy for Bayesian modeling
+- MultiQC and Plotly for reporting
+- PyYAML for configuration files
+- Click for command-line interface
