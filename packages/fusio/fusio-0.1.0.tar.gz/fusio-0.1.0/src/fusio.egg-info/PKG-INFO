@@ -1,0 +1,33 @@
+Metadata-Version: 2.4
+Name: fusio
+Version: 0.1.0
+Summary: Input file conversions to popular file formats in fusion research
+Author-email: Aaron Ho <aaronkho@mit.edu>
+License-Expression: MIT
+Project-URL: Homepage, https://github.com/aaronkho/fusio
+Keywords: fusion,interfaces
+Classifier: Development Status :: 2 - Pre-Alpha
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Software Development :: User Interfaces
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3 :: Only
+Requires-Python: <3.13,>=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy
+Requires-Dist: scipy
+Requires-Dist: h5py
+Requires-Dist: contourpy
+Requires-Dist: opencv-python
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Provides-Extra: build
+Requires-Dist: build; extra == "build"
+Requires-Dist: twine; extra == "build"
+Dynamic: license-file
+
+# fusio
+Input file conversions to popular file formats in fusion research
