@@ -1,0 +1,30 @@
+Metadata-Version: 2.4
+Name: norsulabs
+Version: 0.0.3
+Summary: Python client for NorsuLabs API
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests>=2.32.4
+Dynamic: license-file
+
+# norsulabs-sdk
+
+A Python SDK for NorsuLabs.
+
+# Installation
+
+```bash
+pip install norsulabs
+```
+
+# Usage
+
+```python
+from norsulabs.client import NorsuLabsClient
+
+client = NorsuLabsClient(api_key="your-api-key",deployment_id="your-deployment-id")
+
+client.inference(input_data)
+
+```
