@@ -1,0 +1,64 @@
+- name: my_array_measurement
+  path: [my_table, my_data_array] # name of table and column to get data
+  timestamp: time
+  metadata:
+    description: some description
+    unit: some unit
+  criteria:
+    - descriptor_type : PercentageDescriptor
+      criterion_type : RangeCriterion
+      value :
+        - [type, '*', [40, 60]]
+    - descriptor_type: MedianDescriptor
+      criterion_type : RangeCriterion
+      value :
+        - [type, '*', [1.0, 4.0]]
+        - [type, LST*, [1., 3.]]
+        - [type, MST*, [0.5, 2.]]
+  plots: # plot specifications are not used anywhere for the moment
+    - timeseries: False
+      plot_type: histogram
+      nbins: 5
+      xlim: [0., 10.]
+      xlabel: My array measurement [some unit]
+      ylabel: Counts
+      criterion_index: 1
+    - timeseries: True
+      criterion_index: 1
+      ylabel: Median(my array) [some unit]
+    - timeseries: True
+      criterion_index: 0
+      ylabel: Percentage of non-zero elements
+
+- name: my_float_measurement
+  path: [my_table, my_data_float]
+  metadata:
+    description: some description
+    unit: some unit
+  criteria:
+    - criterion_type: RangeCriterion
+      descriptor_type: Descriptor # don't derive anything from the data, take the data as they are
+      value:
+        - [type, '*', [0.3, 0.4]]
+  plots:
+    - timeseries: True
+      criterion_index: 0
+      ylabel: My float measurement [some unit]
+
+- name: my_pixels
+  path: [my_table, my_data_pixels]
+  metadata:
+    description: Camera pixel values
+    unit: some unit
+  criteria:
+      - criterion_type: RangeCriterion
+        descriptor_type: MeanDescriptor
+        value:
+          - [type, '*', [0.495, 0.505]]
+  plots:
+    - timeseries: False
+      plot_type: camera_view
+      zlim: [0., 1.]
+    - timeseries: True
+      criterion_index: 0
+      ylabel: Mean of pixels [some unit]
