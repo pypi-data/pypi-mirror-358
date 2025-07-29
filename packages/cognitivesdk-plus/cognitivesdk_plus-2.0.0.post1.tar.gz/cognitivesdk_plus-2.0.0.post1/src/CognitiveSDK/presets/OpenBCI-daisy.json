@@ -1,0 +1,32 @@
+{
+    "ManufacturerModelName": "OpenBCI-Daisy",
+    "SoftwareVersions": "0.0.1",
+    "DeviceSerialNumber": "XXXX",
+    "DeviceStatus": "DISCONNECTED",
+    "Middleware": {
+        "brainflow": {
+            "DeviceBoardName": "CYTON_DAISY_BOARD",
+            "BoardId": 39,
+            "SubDevices": {
+              "PPG": {
+                "ChannelsName": ["PPG1", "PPG2", "PPG3"],
+                "ChannelsIndex": [1, 2, 3],
+                "SamplingFrequency": 64,
+                "Preset": "AUXILIARY"
+              },
+              "EEG": {
+                "ChannelsName": ["TP9", "AF7", "AF8", "TP10"],
+                "ChannelsIndex": [1, 2, 3, 4],
+                "SamplingFrequency": 256,
+                "Preset": "DEFAULT"
+              },
+              "ACCELEROMETER": {
+                "ChannelsName": ["X", "Y", "Z"],
+                "ChannelsIndex": [1, 2, 3],
+                "SamplingFrequency": 52,
+                "Preset": "ANCILLARY"
+              }
+            }
+        }
+    }
+}
