@@ -1,0 +1,331 @@
+"""Configuration settings for repo-serializer."""
+
+# Files and directories to skip
+SKIP_EXTENSIONS = {
+    ".pyc",
+    ".exe",
+    ".dll",
+    ".so",
+    ".o",
+    ".bin",
+    ".jpg",
+    ".jpeg",
+    ".png",
+    ".gif",
+    ".bmp",
+    ".ico",
+    ".svg",
+    ".log",
+    ".zip",
+    ".gz",
+    ".tar",
+    ".rar",
+    ".7z",
+    ".pdf",
+    ".mp4",
+    ".mp3",
+    ".wav",
+    ".class",
+    ".jar",
+    ".db",
+    ".sqlite",
+    ".map",  # Source Maps
+    ".d.ts",  # TypeScript Declaration Files
+    ".lock",  # Dependency Lock Files
+    ".lockb",
+    ".lock.json",
+    ".lock.yaml",
+    ".lock.yml",
+    ".lock.toml",
+    ".toml",
+    ".yarnrc",
+    ".npmrc",
+    # Config files
+    ".ini",
+    ".cfg",
+    ".conf",
+    ".config",
+    ".yaml",
+    ".yml",
+    ".env",
+    # Large data files
+    ".parquet",
+    ".avro",
+    ".hdf5",
+    ".h5",
+    ".feather",
+    ".arrow",
+    ".pickle",
+    ".pkl",
+    # Minified files
+    ".min.js",
+    ".min.css",
+    # Backup files
+    ".bak",
+    ".backup",
+    ".swp",
+    "~",
+    # Test data
+    ".fixture",
+    ".test.js",
+    ".spec.js",
+    ".test.ts",
+    ".spec.ts",
+}
+
+SKIP_FILES = {
+    "package-lock.json",
+    "yarn.lock",
+    "pnpm-lock.yaml",
+    "composer.lock",
+    "Cargo.lock",
+    "Pipfile.lock",
+    "poetry.lock",
+    "Gemfile.lock",
+    "go.sum",
+    # Common config files
+    ".gitignore",
+    ".gitattributes",
+    ".editorconfig",
+    ".eslintrc",
+    ".prettierrc",
+    "tsconfig.json",
+    "tslint.json",
+    "babel.config.js",
+    "jest.config.js",
+    "webpack.config.js",
+    "rollup.config.js",
+    "vite.config.js",
+    "next.config.js",
+    "nuxt.config.js",
+    "svelte.config.js",
+    ".browserslistrc",
+    ".npmignore",
+    # License and legal files
+    "LICENSE",
+    "LICENSE.txt",
+    "LICENSE.md",
+    "COPYING",
+    "NOTICE",
+    # Documentation files
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "CODE_OF_CONDUCT.md",
+    # CI/CD config files
+    ".travis.yml",
+    ".gitlab-ci.yml",
+    ".github/workflows/ci.yml",
+    "azure-pipelines.yml",
+    "Jenkinsfile",
+    ".circleci/config.yml",
+}
+
+SKIP_DIRS = {
+    "__pycache__",
+    ".git",
+    ".idea",
+    ".vscode",
+    "node_modules",
+    ".DS_Store",
+    "venv",
+    ".venv",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".coverage",
+    ".cache",
+    ".temp",
+    ".build",
+    ".dist",
+    ".out",
+    ".tmp",
+    ".log",
+    "temp",
+    "tmp",
+    "node_modules/.vite",
+    "cypress",
+    "dist",
+    "build",
+    "out",
+    "cache",
+    "temp",
+    # Test directories - commented out to allow test directory inclusion
+    # "tests",
+    # "test", 
+    # "__tests__",
+    # "spec",
+    # "__mocks__",
+    # "fixtures",
+    # "e2e",
+    # Documentation directories
+    "docs",
+    "doc",
+    "documentation",
+    # Build artifacts
+    "coverage",
+    ".nyc_output",
+    "reports",
+    "site",
+    "public",
+    "static",
+    # Dependency directories beyond node_modules
+    "vendor",
+    "bower_components",
+    "jspm_packages",
+    ".pnp",
+    # IDE specific
+    ".settings",
+    ".project",
+    ".classpath",
+    ".factorypath",
+    # Misc
+    "demo",
+    "assets",
+    "images",
+    "img",
+    "fonts",
+}
+
+LANGUAGE_PATTERNS = {
+    "python": {
+        "extensions": {".py", ".ipynb", ".pyw", ".pyx", ".pxd", ".pxi"},
+        "skip_patterns": {},  # Removed test file filtering to allow test files
+    },
+    "javascript": {
+        "extensions": {".js", ".jsx", ".ts", ".tsx", ".vue", ".svelte"},
+        "skip_patterns": {
+            "test.",
+            ".test.",
+            ".spec.",
+            ".min.js",
+            ".bundle.js",
+        },
+    },
+}
+
+# Prompt-related patterns for extraction
+PROMPT_FILE_PATTERNS = {
+    # Standalone prompt files
+    "standalone": {
+        ".prompt.txt",
+        ".prompt.md",
+        ".prompt.yaml",
+        ".prompt.yml",
+        ".prompt.json",
+        ".prompts.yaml",
+        ".prompts.yml",
+        ".prompts.json",
+    },
+    # Common prompt directories
+    "directories": {
+        "prompts",
+        "prompt",
+        "ai_prompts",
+        "llm_prompts",
+        "templates/prompts",
+        "docs/prompts",
+    },
+}
+
+# LLM API patterns for inline prompt detection
+LLM_API_PATTERNS = {
+    "python": [
+        # OpenAI patterns
+        r"openai\.ChatCompletion\.create",
+        r"openai\.Completion\.create",
+        r"chat\.completions\.create",
+        r"client\.chat\.completions\.create",
+        # Anthropic patterns
+        r"anthropic\.messages\.create",
+        r"claude\.messages\.create",
+        r"client\.messages\.create",
+        # LangChain patterns
+        r"PromptTemplate",
+        r"ChatPromptTemplate",
+        r"SystemMessagePromptTemplate",
+        r"HumanMessagePromptTemplate",
+        # General patterns
+        r"prompt\s*=\s*[\"\']{1,3}",
+        r"system_prompt\s*=\s*[\"\']{1,3}",
+        r"user_prompt\s*=\s*[\"\']{1,3}",
+        r"instructions\s*=\s*[\"\']{1,3}",
+    ],
+    "javascript": [
+        # OpenAI patterns
+        r"openai\.chat\.completions\.create",
+        r"openai\.completions\.create",
+        # Anthropic patterns
+        r"anthropic\.messages\.create",
+        r"claude\.messages\.create",
+        # General patterns
+        r"prompt\s*=\s*[`\"\']{1,3}",
+        r"systemPrompt\s*=\s*[`\"\']{1,3}",
+        r"userPrompt\s*=\s*[`\"\']{1,3}",
+        r"instructions\s*=\s*[`\"\']{1,3}",
+    ],
+}
+
+# Keywords that indicate a string might be a prompt
+PROMPT_KEYWORDS = [
+    "you are",
+    "you're a",
+    "act as",
+    "behave as",
+    "your task is",
+    "your role is",
+    "instructions:",
+    "system:",
+    "user:",
+    "assistant:",
+    "human:",
+    "ai:",
+    "context:",
+    "objective:",
+    "guidelines:",
+    "constraints:",
+    "examples:",
+    "format:",
+    "output format:",
+    "respond with",
+    "generate",
+    "create",
+    "analyze",
+    "summarize",
+    "extract",
+    "follow these",
+    "step-by-step",
+    "think step by step",
+]
+
+# YAML/JSON keys that typically contain prompts
+PROMPT_CONFIG_KEYS = [
+    "prompt",
+    "prompts",
+    "system",
+    "system_prompt",
+    "systemPrompt",
+    "user",
+    "user_prompt",
+    "userPrompt",
+    "assistant",
+    "assistant_prompt",
+    "assistantPrompt",
+    "human",
+    "human_prompt",
+    "humanPrompt",
+    "instruction",
+    "instructions",
+    "message",
+    "messages",
+    "template",
+    "templates",
+    "context",
+    "prefix",
+    "suffix",
+    "description",
+    "task",
+    "role",
+    "guidelines",
+    "rules",
+    "constraints",
+    "examples",
+]
