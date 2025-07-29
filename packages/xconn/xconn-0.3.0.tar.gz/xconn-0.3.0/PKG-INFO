@@ -1,0 +1,75 @@
+Metadata-Version: 2.4
+Name: xconn
+Version: 0.3.0
+Summary: https://github.com/xconnio/xconn-python
+Author-email: Omer Akram <omer@thing.com>, Mahad Munir <mahad@xconn.io>
+Project-URL: Homepage, https://github.com/xconnio/xconn-python
+Project-URL: Bug Tracker, https://github.com/xconnio/xconn-python/issues
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: websockets
+Requires-Dist: wampproto>=0.3.0
+Requires-Dist: aiohttp
+Requires-Dist: uvloop
+Requires-Dist: mkdocs-material[imaging]
+Requires-Dist: pydantic
+Provides-Extra: test
+Requires-Dist: coverage; extra == "test"
+Requires-Dist: pytest; extra == "test"
+Requires-Dist: pytest-asyncio; extra == "test"
+Requires-Dist: ruff; extra == "test"
+Provides-Extra: publish
+Requires-Dist: twine; extra == "publish"
+Requires-Dist: build; extra == "publish"
+Dynamic: license-file
+
+# XConn
+Real-time application development framework for Python. XConn enables backend APIs that are FAST, support PubSub and
+are secure.
+
+# Getting started
+Install xconn from pypi
+```shell
+om26er@Home-PC:~$ uv venv
+om26er@Home-PC:~$ uv pip install git+ssh://git@github.com/xconnio/xconn-python.git
+om26er@Home-PC:~$ source .venv/bin/activate
+(xconn-python) om26er@Home-PC:~$
+```
+Initialize the app
+```shell
+(xconn-python) om26er@Home-PC:~$ xapp init
+XConn App initialized.
+The config is xapp.yaml and sample app is sample.py. Run below command to start the sample
+
+xapp start sample:app --asyncio --start-router
+```
+The sample file looks like below
+```python
+from xconn import App
+
+app = App()
+
+@app.register("io.xconn.hello")
+async def my_procedure(first_name: str, last_name: str, age: int):
+    print(first_name + " " + last_name + " " + str(age))
+    return first_name, last_name, age
+
+
+@app.subscribe("io.xconn.publish")
+async def my_topic():
+    print("received event...")
+```
+run the app with xapp command line (note: this automatically starts the debug router)
+```shell
+(xconn-python) om26er@Home-PC:~$ xapp start sample:app --asyncio --start-router
+starting server on 127.0.0.1:8080
+connected realm1
+Registered procedure io.xconn.hello
+Subscribed topic io.xconn.publish
+```
+look at examples directory for more [examples](examples)
