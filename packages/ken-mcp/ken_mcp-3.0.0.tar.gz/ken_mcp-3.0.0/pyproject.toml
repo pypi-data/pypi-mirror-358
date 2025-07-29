@@ -1,0 +1,51 @@
+[project]
+name = "ken-mcp"
+version = "3.0.0"
+description = "MCP server generator with modular architecture for creating FastMCP servers from natural language requirements"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "fastmcp>=0.1.0",
+    "httpx",
+    "pydantic"
+]
+
+[project.scripts]
+ken-mcp-server = "ken_mcp.server:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.0.0",
+    "pytest-mock>=3.10.0"
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["ken_mcp"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+asyncio_mode = "auto"
+addopts = "-v --cov=ken_mcp --cov-report=term-missing --cov-report=html"
+
+[tool.coverage.run]
+source = ["ken_mcp"]
+omit = ["*/tests/*", "*/__init__.py"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:"
+]
