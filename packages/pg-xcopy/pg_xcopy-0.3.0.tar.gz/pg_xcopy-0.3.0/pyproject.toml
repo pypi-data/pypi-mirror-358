@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pg-xcopy"
+version = "0.3.0"
+authors = [{ name = "Daniel Grant" }]
+description = "Declarative cross-database data transfers for Postgres"
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = ["psycopg2-binary", "pydantic"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Database",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities",
+]
+
+[project.optional-dependencies]
+dev = ["ruff", "twine", "build", "python-dotenv", "dotenv"]
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+py-modules = ["pg_xcopy", "schemas", "utils"]
+
+[project.scripts]
+pg-xcopy = "pg_xcopy:main"
