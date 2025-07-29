@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "abllib"
+version = "1.3.6"
+authors = [
+  { name="Ableytner", email="ableytner@gmx.at" },
+]
+description = "Ableytners' general-purpose python library, usable across various projects."
+readme = "README.md"
+license = "GPL-3.0"
+license-files = [
+    "LICENSE",
+]
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent"
+]
+dependencies = [
+  "dill",
+  "numpy"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pylint",
+    "pytest",
+]
+
+[project.urls]
+Repository = "https://github.com/Ableytner/abllib"
+Issues = "https://github.com/Ableytner/abllib/issues"
