@@ -1,0 +1,68 @@
+site_name: reproscreener
+repo_url: https://github.com/Machine-Learning-Pipelines/reproscreener/
+
+extra:
+  versions:
+    python: 3.9.13
+    reproscreener: 0.1.2
+
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Usage: usage.md
+  - Manual evaluation datasets: manual_evaluation_datasets.md
+  - Case studies: evaluation_results.ipynb
+  - Architecture: docstrings.md
+  - References: z_references.md
+  - License: license.md
+  - Funding: funding.md
+
+theme:
+  name: material
+  palette:
+    scheme: slate
+    primary: indigo
+    accent: indigo
+  # font: 
+  #   text: Roboto
+  #   code: Roboto Mono
+  features:
+    - toc.follow
+    - toc.integrate
+    - navigation.top
+    - navigation.tracking
+    - content.code.copy
+
+plugins:
+  - marimo
+  - autorefs
+  - mkdocs-jupyter:
+      theme: dark
+      execute: false
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          paths: [src/reproscreener/]
+  - bibtex:
+      bib_file: "docs/references.bib"
+      csl_file: "https://raw.githubusercontent.com/citation-style-language/styles/master/acm-sig-proceedings.csl"
+      # cite_inline: True
+  - search
+  - macros
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true 
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.details
+  - footnotes
+  - admonition
+
+
