@@ -1,0 +1,33 @@
+[build-system]
+requires = [
+    "build",
+    "setuptools",
+    "setuptools_scm",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stoepsel"
+description = "a simple but powerful plugin mechanism for python"
+authors = [
+    {name="TecDroiD", email="rapp.jens@gmail.com"}
+]
+
+dynamic = ["version"]
+readme = "README.md"
+requires-python = ">=3.8"
+license = "GPL-3.0"
+
+dependencies = [
+    "build",
+]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+
+[tool.setuptools.dynamic]
+version = {attr = "stoepsel.__version__"}
+
+
