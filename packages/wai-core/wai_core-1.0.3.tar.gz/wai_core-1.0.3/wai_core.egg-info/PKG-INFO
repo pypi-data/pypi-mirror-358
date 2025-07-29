@@ -1,0 +1,51 @@
+Metadata-Version: 2.1
+Name: wai-core
+Version: 1.0.3
+Summary: WAI: World AI format unifying various 3D/4D datasets
+Author: Norman Mueller
+Author-email: normanm@meta.com
+Requires-Python: >=3.10.0
+Description-Content-Type: text/markdown
+Requires-Dist: einops
+Requires-Dist: imageio
+Requires-Dist: matplotlib
+Requires-Dist: numpy
+Requires-Dist: opencv-python==4.10.0.84
+Requires-Dist: portalocker
+Requires-Dist: pillow
+Requires-Dist: pip
+Requires-Dist: plyfile
+Requires-Dist: python-box
+Requires-Dist: scipy
+Requires-Dist: torch
+Requires-Dist: torchvision
+Requires-Dist: tqdm
+Requires-Dist: iopath
+Requires-Dist: ruff
+Requires-Dist: pre-commit
+Requires-Dist: orjson
+Requires-Dist: pycolmap
+Requires-Dist: color-science
+
+<img src="assets/wai_logo.png" height="64" align="right">
+
+# Core library for the WorldAI format (WAI)
+Core functionality to access and process data in the WorldAI format (WAI).
+Lightweight and easy to use, with a focus on modularity and extensibility.
+
+# Features
+- IO functions for reading and writing WAI data
+- Intersection checks between 2d/3d geometric primitives
+- Batched camera and geometric processing functions (e.g. (un)projection, transformations, etc)
+
+# Install
+(Recommended option) Pip install
+```
+pip install wai-core
+```
+(Development option) Clone and install from source:
+```
+git clone https://ghe.oculus-rep.com/mb-research/wai-core.git
+cd wai-core
+pip install -e .
+```

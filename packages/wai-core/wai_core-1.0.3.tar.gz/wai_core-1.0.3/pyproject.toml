@@ -1,0 +1,13 @@
+[tool.ruff]
+## Enable the isort rules.
+lint.extend-select = ["I"]
+
+## Following https://www.internalfb.com/wiki/Python/code_formatting/pyfmt/
+target-version = "py310"
+
+## Following https://www.internalfb.com/wiki/Python/code_formatting/pyfmt/
+[tool.ruff.lint.isort]
+case-sensitive = false
+combine-as-imports = true
+detect-same-package = false
+order-by-type = false
