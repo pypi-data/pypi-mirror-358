@@ -1,0 +1,72 @@
+[project]
+name = "search-query"
+version = "0.12.0"
+description = "Package for managing literature search queries."
+authors = [
+    { name = "Peter Eckhardt" },
+    { name = "Katharina Ernst" },
+    { name = "Thomas Fleischmann" },
+    { name = "Anna Geßler" },
+    { name = "Karl Schnickmann" },
+    { name = "Gerit Wagner", email = "gerit.wagner@uni-bamberg.de" },
+]
+license = {text = "MIT"}
+readme = "README.md"
+packages = [{include = "search_query"}]
+keywords = ["search query", "literature search", "query translation", "research", "reproducible research", "open science", "literature", "literature review", "systematic review", "systematic literature review"]
+classifiers = [
+   "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering",
+    "Operating System :: OS Independent",
+    "Typing :: Typed",
+]
+include = ["LICENSE", "README.md"]
+requires-python = ">=3.8"
+dependencies = [
+  'importlib-resources>=5.1; python_version < "3.9"'
+]
+
+[project.optional-dependencies]
+docs = [
+    "Sphinx>=5.2.3",
+    "sphinx-rtd-theme>=1.1.1",
+    "sphinx-copybutton>=0.5.2",
+    "sphinxcontrib.datatemplates>=0.7"
+]
+dev = [
+    "pylint==3.0.1",
+    "pytest>=7.2.1",
+    "pre-commit>=3.0.0"
+]
+
+[project.scripts]
+search-query-translate = "search_query.cli:translate"
+search-query-lint = "search_query.cli:lint"
+
+[tool.pylint.MAIN]
+extension-pkg-whitelist = "lxml.etree"
+
+[tool.mypy]
+python_version = 3.8
+warn_unused_configs = true
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = [
+    "requests.*",
+    "yaml.*",
+    "pkg_resources.*",
+    "tabulate.*",
+]
+ignore_missing_imports = true
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
