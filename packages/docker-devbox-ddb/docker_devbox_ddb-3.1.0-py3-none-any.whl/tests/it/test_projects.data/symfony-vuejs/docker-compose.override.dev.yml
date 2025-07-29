@@ -1,0 +1,46 @@
+services:
+  php:
+    environment:
+      - 'XDEBUG_CONFIG=remote_enable=on remote_autostart=off idekey=biometrie remote_host=${DDB_DOCKER_IP}'
+      - 'PHP_IDE_CONFIG=serverName=biometrie'
+  db:
+    ports:
+      - '${DDB_DOCKER_PORT_PREFIX}32:5432'
+  keycloak-db:
+    ports:
+      - '${DDB_DOCKER_PORT_PREFIX}42:5432'
+  db-test:
+    build:
+      context: .docker/db
+      cache_from:
+        - '${DDB_DOCKER_REGISTRY_NAME}${DDB_DOCKER_REGISTRY_REPOSITORY}db'
+    image: '${DDB_DOCKER_REGISTRY_NAME}${DDB_DOCKER_REGISTRY_REPOSITORY}db'
+    init: true
+    restart: '${DDB_DOCKER_RESTART_POLICY}'
+    ports:
+      - '${DDB_DOCKER_PORT_PREFIX}33:5432'
+    environment:
+      - POSTGRES_USER=biometrie
+      - POSTGRES_PASSWORD=biometrie
+    volumes:
+      - '${DDB_PROJECT_HOME}:/workdir'
+      - 'db-test-data:/var/lib/postgresql/data'
+    user: '${DDB_DOCKER_USER_UID}:${DDB_DOCKER_USER_GID}'
+  ldap:
+    build:
+      context: .docker/ldap
+      cache_from:
+        - '${DDB_DOCKER_REGISTRY_NAME}${DDB_DOCKER_REGISTRY_REPOSITORY}ldap'
+    image: '${DDB_DOCKER_REGISTRY_NAME}${DDB_DOCKER_REGISTRY_REPOSITORY}ldap'
+    init: true
+    restart: '${DDB_DOCKER_RESTART_POLICY}'
+    environment:
+      - LDAP_ORGANISATION=${DDB_CORE_DOMAIN_SUB}
+      - LDAP_DOMAIN=${DDB_CORE_DOMAIN_SUB}.${DDB_CORE_DOMAIN_EXT}
+      - LDAP_ADMIN_PASSWORD=${DDB_CORE_DOMAIN_SUB}
+    command: --copy-service --loglevel debug
+    ports:
+      - ${DDB_DOCKER_PORT_PREFIX}89:389
+      - ${DDB_DOCKER_PORT_PREFIX}36:636
+volumes:
+  db-test-data: null

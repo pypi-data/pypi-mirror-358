@@ -1,0 +1,96 @@
+services:
+  php:
+    build:
+      context: .docker/php
+      cache_from:
+        - '${DDB_DOCKER_REGISTRY_NAME}${DDB_DOCKER_REGISTRY_REPOSITORY}php'
+    image: '${DDB_DOCKER_REGISTRY_NAME}${DDB_DOCKER_REGISTRY_REPOSITORY}php'
+    init: true
+    restart: '${DDB_DOCKER_RESTART_POLICY}'
+    volumes:
+      - '.:/var/www/html'
+      - './.docker/php/conf.d/php-config.ini:/usr/local/etc/php/conf.d/php-config.ini'
+      - 'php-composer-cache:/composer/cache'
+      - 'php-composer-vendor:/composer/vendor'
+    user: '${DDB_DOCKER_USER_UID}:${DDB_DOCKER_USER_GID}'
+  web:
+    build:
+      context: .docker/web
+      cache_from:
+        - '${DDB_DOCKER_REGISTRY_NAME}${DDB_DOCKER_REGISTRY_REPOSITORY}web'
+    image: '${DDB_DOCKER_REGISTRY_NAME}${DDB_DOCKER_REGISTRY_REPOSITORY}web'
+    init: true
+    restart: '${DDB_DOCKER_RESTART_POLICY}'
+    volumes:
+      - '.:/var/www/html'
+      - './.docker/web/nginx.conf:/etc/nginx/conf.d/default.conf'
+  db:
+    build:
+      context: .docker/db
+      cache_from:
+        - '${DDB_DOCKER_REGISTRY_NAME}${DDB_DOCKER_REGISTRY_REPOSITORY}db'
+    image: '${DDB_DOCKER_REGISTRY_NAME}${DDB_DOCKER_REGISTRY_REPOSITORY}db'
+    init: true
+    restart: '${DDB_DOCKER_RESTART_POLICY}'
+    environment:
+      - POSTGRES_USER=biometrie
+      - POSTGRES_PASSWORD=biometrie
+    volumes:
+      - '.:/workdir'
+      - 'db-data:/var/lib/postgresql/data'
+    user: '${DDB_DOCKER_USER_UID}:${DDB_DOCKER_USER_GID}'
+  node:
+    build:
+      context: .docker/node
+      cache_from:
+        - '${DDB_DOCKER_REGISTRY_NAME}${DDB_DOCKER_REGISTRY_REPOSITORY}node'
+    image: '${DDB_DOCKER_REGISTRY_NAME}${DDB_DOCKER_REGISTRY_REPOSITORY}node'
+    init: true
+    restart: '${DDB_DOCKER_RESTART_POLICY}'
+    volumes:
+      - '.:/app'
+      - 'node-cache:/home/node/.cache'
+      - 'node-npm-packages:/home/node/.npm-packages'
+    user: '${DDB_DOCKER_USER_UID}:${DDB_DOCKER_USER_GID}'
+  keycloak-db:
+    build:
+      context: .docker/keycloak-db
+    image: '${DDB_DOCKER_REGISTRY_NAME}${DDB_DOCKER_REGISTRY_REPOSITORY}keycloak-db'
+    init: true
+    restart: '${DDB_DOCKER_RESTART_POLICY}'
+    environment:
+      - POSTGRES_DB=biometrie
+      - POSTGRES_USER=biometrie
+      - POSTGRES_PASSWORD=biometrie
+    volumes:
+      - './keycloak/init.sql:/docker-entrypoint-initdb.d/init.sql'
+      - '.:/workdir'
+      - 'keycloak-db-data:/var/lib/postgresql/data'
+  keycloak:
+    image: jboss/keycloak:8.0.1
+    init: true
+    restart: '${DDB_DOCKER_RESTART_POLICY}'
+    environment:
+      - KEYCLOAK_USER=biometrie
+      - KEYCLOAK_PASSWORD=biometrie
+      - PROXY_ADDRESS_FORWARDING=true
+      - DB_VENDOR=postgres
+      - DB_ADDR=keycloak-db
+      - DB_DATABASE=biometrie
+      - DB_USER=biometrie
+      - DB_PASSWORD=biometrie
+    volumes:
+      - ./keycloak:/opt/jboss/keycloak/keycloak
+    command:
+      - "-b 0.0.0.0 -Dkeycloak.import=/opt/jboss/keycloak/keycloak/realm-export.json"
+    depends_on:
+      - keycloak-db
+    links:
+      - keycloak-db:postgres
+volumes:
+  php-composer-cache: null
+  php-composer-vendor: null
+  db-data: null
+  node-cache: null
+  node-npm-packages: null
+  keycloak-db-data: null

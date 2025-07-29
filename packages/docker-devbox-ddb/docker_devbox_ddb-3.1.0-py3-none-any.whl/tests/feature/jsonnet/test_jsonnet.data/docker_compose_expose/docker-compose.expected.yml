@@ -1,0 +1,14 @@
+networks:
+  default:
+    name: %network_name%
+services:
+  s1:
+    image: alpine:3.6
+    init: true
+    restart: 'no'
+    ports:
+      - '41621:21'
+      - '41622:22/udp'
+      - '41699:23/tcp'
+      - '9912:9912'
+volumes: {}

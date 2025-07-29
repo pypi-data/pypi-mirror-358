@@ -1,0 +1,10 @@
+networks:
+  default:
+    name: %network_name%
+services:
+  maven:
+    image: ubuntu
+    init: true
+    restart: 'no'
+    user: 0:65534
+volumes: {}
