@@ -1,0 +1,36 @@
+Metadata-Version: 2.4
+Name: colight
+Version: 2025.4.1.dev202506261550
+Author-email: Matthew Huebert <me@matt.is>
+License: MIT
+Requires-Python: >=3.10
+Requires-Dist: anywidget>=0.9.10
+Requires-Dist: traitlets>=5.14.3
+Requires-Dist: websockets>=15.0
+Description-Content-Type: text/markdown
+
+# Colight
+
+A Python library for creating interactive visualizations and widgets.
+
+## Installation
+
+```bash
+pip install colight
+```
+
+## Usage
+
+```python
+import colight as cl
+import numpy as np
+
+# Create data
+x = np.linspace(0, 10, 100)
+y = np.sin(x)
+
+# Create visualization
+cl.plot.line(x=x, y=y)
+```
+
+For more examples and documentation, visit the [documentation site](https://colight.dev).
