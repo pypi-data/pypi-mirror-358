@@ -1,0 +1,35 @@
+[build-system]
+requires = ['hatchling', 'uv-dynamic-versioning']
+build-backend = 'hatchling.build'
+
+[tool.hatch.version]
+source = 'uv-dynamic-versioning'
+
+[project]
+name = "debug_agent"
+dynamic = ['version']
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "jinja2>=3.1.6",
+    "langchain",
+    "langchain-huggingface>=0.3.0",
+    "langgraph>=0.4.10",
+    "pydantic>=2.11.7",
+    "requests>=2.32.4",
+    "smolagents>=1.19.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
+    "pytest-cov>=6.2.1",
+    "twine>=6.1.0",
+]
+
+[tool.pytest.ini_options]
+addopts = '--cov=src/debug_agent'
+testpaths = [
+    'tests'
+]

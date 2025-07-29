@@ -1,0 +1,31 @@
+on:
+  workflow_call:
+  push:
+    branches:
+      main
+
+jobs:
+  tests:
+    runs-on: ${{ matrix.os }}
+    strategy: 
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.12 
+
+      - name: Install uv
+        run: pip install uv
+
+      - name: Install dependencies
+        run: |
+          uv sync && uv pip install -e .
+
+      - name: Test with pytest
+        run: |
+          uv run pytest
