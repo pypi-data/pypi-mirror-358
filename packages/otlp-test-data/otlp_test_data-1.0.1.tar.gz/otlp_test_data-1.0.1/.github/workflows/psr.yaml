@@ -1,0 +1,15 @@
+on:
+  push:
+    branches: [--disabled--main]
+
+jobs:
+  test-psr:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v5
+      - run: uvx --from python-semantic-release psr -v -v -v version
