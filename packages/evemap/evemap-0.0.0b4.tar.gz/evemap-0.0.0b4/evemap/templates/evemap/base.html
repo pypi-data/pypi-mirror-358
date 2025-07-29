@@ -1,0 +1,19 @@
+{% extends 'allianceauth/base-bs5.html' %}
+{% load i18n %}
+
+{% block page_title %}{% translate "map" %}{% endblock %}
+
+{% block content %}
+    <div class="allianceauth-evewiki-plugin">
+
+        {% block details %}{% endblock %}
+    </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+div:has(.allianceauth-evewiki-plugin) {
+    margin-bottom: 0rem !important;
+}
+</style>
+{% endblock %}
