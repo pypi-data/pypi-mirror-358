@@ -1,0 +1,84 @@
+Metadata-Version: 2.4
+Name: scimilarity
+Version: 0.4.1
+Summary: Single cell embedding into latent space that quantifies similarity between expression states.
+Home-page: https://github.com/genentech/scimilarity
+Author: Graham Heimberg, Tony Kuo, Nathaniel Diamant, Omar Salem, Héctor Corrada Bravo, Jason A. Vander Heiden
+Author-email: heimberg@gene.com
+Project-URL: Documentation, https://genentech.github.io/scimilarity
+Project-URL: Source, https://github.com/genentech/scimilarity
+Project-URL: Tracker, https://github.com/genentech/scimilarity/issues
+Keywords: single-cell embedding/retrieval
+Platform: any
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Natural Language :: English
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Requires-Python: >=3.10
+Description-Content-Type: text/x-rst
+License-File: LICENSE
+Requires-Dist: captum>=0.5.0
+Requires-Dist: circlify>=0.14.0
+Requires-Dist: hnswlib>=0.8.0
+Requires-Dist: obonet>=1.0.0
+Requires-Dist: pyarrow>=15.0.0
+Requires-Dist: pytorch-lightning>=2.0.0
+Requires-Dist: scanpy>=1.9.2
+Requires-Dist: tiledb>=0.18.2
+Requires-Dist: tiledb-vector-search>=0.11.0
+Requires-Dist: torch>=1.10.1
+Requires-Dist: tqdm
+Requires-Dist: zarr<3.0.0,>=2.6.1
+Requires-Dist: importlib-metadata; python_version < "3.8"
+Provides-Extra: testing
+Requires-Dist: setuptools; extra == "testing"
+Requires-Dist: pytest; extra == "testing"
+Requires-Dist: pytest-cov; extra == "testing"
+Dynamic: license-file
+
+SCimilarity
+================================================================================
+
+**SCimilarity** is a unifying representation of single cell expression profiles
+that quantifies similarity between expression states and generalizes to
+represent new studies without additional training.
+
+This enables a novel cell search capability, which sifts through millions of
+profiles to find cells similar to a query cell state and allows researchers to
+quickly and systematically leverage massive public scRNA-seq atlases to learn
+about a cell state of interest.
+
+Documentation
+--------------------------------------------------------------------------------
+
+Tutorials and API documentation can be found at:
+https://genentech.github.io/scimilarity/index.html
+
+Download & Install
+--------------------------------------------------------------------------------
+
+The latest API release can be installed from PyPI::
+
+    pip install scimilarity
+
+Pretrained model weights, embeddings, kNN graphs, a single-cell metadata
+can be downloaded from:
+https://zenodo.org/records/10685499
+
+A docker container with SCimilarity preinstalled can be pulled from:
+https://ghcr.io/genentech/scimilarity
+
+Citation
+--------------------------------------------------------------------------------
+
+To cite SCimilarity in publications please use:
+
+**A cell atlas foundation model for scalable search of similar human cells.**
+*Graham Heimberg\*, Tony Kuo\*, Daryle J. DePianto, Tobias Heigl,
+Nathaniel Diamant, Omar Salem, Gabriele Scalia, Tommaso Biancalani,
+Jason R. Rock, Shannon J. Turley, Héctor Corrada Bravo, Josh Kaminker\*\*,
+Jason A. Vander Heiden\*\*, Aviv Regev\*\*.*
+Nature (2024). https://doi.org/10.1038/s41586-024-08411-y
