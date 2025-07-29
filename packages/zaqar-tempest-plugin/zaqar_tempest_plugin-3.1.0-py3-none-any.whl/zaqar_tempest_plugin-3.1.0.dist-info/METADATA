@@ -1,0 +1,52 @@
+Metadata-Version: 2.1
+Name: zaqar_tempest_plugin
+Version: 3.1.0
+Summary: Tempest plugin zaqar_tempest_plugin
+Home-page: http://www.openstack.org/
+Author: OpenStack
+Author-email: openstack-discuss@lists.openstack.org
+Classifier: Environment :: OpenStack
+Classifier: Intended Audience :: Information Technology
+Classifier: Intended Audience :: System Administrators
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.9
+License-File: LICENSE
+License-File: AUTHORS
+Requires-Dist: pbr !=2.1.0,>=2.0.0
+Requires-Dist: oslo.config >=5.2.0
+Requires-Dist: oslo.serialization !=2.19.1,>=2.18.0
+Requires-Dist: oslo.utils >=3.33.0
+Requires-Dist: testtools >=2.2.0
+Requires-Dist: tempest >=17.1.0
+
+====================
+Zaqar Tempest Plugin
+====================
+
+Tempest plugin for Zaqar project.
+
+It contains the tempest plugin for the functional testing of Zaqar Project.
+
+* Free software: Apache license
+* Documentation: http://docs.openstack.org/developer/zaqar
+* Source: http://git.openstack.org/cgit/openstack/zaqar-tempest-plugin
+* Bugs: http://bugs.launchpad.net/zaqar
+
+Running the tests
+-----------------
+
+To run all tests from this plugin, install zaqar, zaqar-tempest-plugin and
+tempest into your environment, make sure to configure the tempest correctly,
+and then from the tempest repo, run::
+
+    $ tempest run --regex zaqar_tempest_plugin --config-file /etc/tempest/tempest.conf
+
