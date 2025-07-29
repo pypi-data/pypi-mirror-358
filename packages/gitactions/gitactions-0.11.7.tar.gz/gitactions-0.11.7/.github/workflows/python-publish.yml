@@ -1,0 +1,59 @@
+name: Upload Python Package
+
+on:
+  release:
+    types: [published,edited]
+
+permissions:
+  contents: write  # This allows the workflow to push changes
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: github.event.release.prerelease == true
+    steps:
+    - uses: actions/checkout@v3
+      
+      with:
+        fetch-depth: 0  # Fetch all history so we can access all commit logs
+
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install .[dev] 
+        pip install setuptools_scm
+        
+    - name: Echo release id
+      run: |
+        python -m setuptools_scm
+        echo "RELEASE_ID=${{ github.event.release.id }}"
+        echo "REPO_NAME=${{ github.repository}}"
+        echo "TAG=${{ github.event.release.tag_name }}"
+    
+    - name: Test Build 
+      env:
+        SETUPTOOLS_SCM_PRETEND_VERSION: ${{ github.event.release.tag_name }} 
+      run: |
+        python -m setuptools_scm
+        python -m build
+        python -m setuptools_scm
+    
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # Fetch full history
+
+    - name: Actual Build 
+      env:
+        SETUPTOOLS_SCM_PRETEND_VERSION: ${{ github.event.release.tag_name }} 
+      run: | 
+        python -m setuptools_scm
+        python -m build
+        python -m setuptools_scm
+
+    
+    
