@@ -1,0 +1,43 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[project]
+name = "django-smartonetoonefield"
+version = "0.1.1"
+description = "Django app to make one-to-one relations easier to work with"
+authors = [
+    {name = "blag", email = "blag@users.noreply.github.com"},
+]
+license = "BSD"
+readme = "README.md"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.0",
+    "Framework :: Django :: 5.1",
+    "Framework :: Django :: 5.2",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "django>=4.2",
+]
+
+[tool.poetry]
+packages = [
+    {include = "smartonetoonefield", from = "src"},
+]
+
+[project.urls]
+Repository = "https://github.com/blag/django-smartonetoonefield"
+Documentation = "https://www.fusionbox.com/blog/detail/django-onetoonefields-are-hard-to-use-lets-make-them-better/551/"
+Issues = "https://github.com/blag/django-smartonetoonefield/issues"
