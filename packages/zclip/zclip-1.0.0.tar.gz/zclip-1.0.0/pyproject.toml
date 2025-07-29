@@ -1,0 +1,122 @@
+[project]
+name = "zclip"
+version = "1.0.0"
+description = "ZClip: Adaptive Spike Mitigation for LLM Pre-Training"
+authors = [
+    { name = "BluOrion" },
+]
+readme = "README.md"
+requires-python = ">= 3.10"
+license = { file = "LICENSE" }
+keywords = [
+    "artificial intelligence",
+]
+
+classifiers=[
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+]
+
+dependencies = [
+    "torch>=2.0.0",
+]
+
+[project.urls]
+Homepage = "https://pypi.org/project/zclip/"
+Repository = "https://github.com/bluorion-com/ZClip"
+
+[project.optional-dependencies]
+examples = []
+lightning = [
+    "lightning>=2.0.0",
+]
+test = [
+    "pytest",
+    "pytest-shard",
+    "pytest-cov",
+]
+test-lightning = [
+    "pytest",
+    "pytest-shard",
+    "pytest-cov",
+    "lightning>=2.0.0",
+]
+dev = [
+    "black",
+    "flake8",
+    "mypy",
+    "pytest",
+    "pytest-shard",
+    "pytest-cov",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+pythonpath = [
+  "."
+]
+addopts = [
+  "--color=yes",
+  "--durations=0",
+  "--strict-markers",
+  "--doctest-modules",
+]
+filterwarnings = [
+  "ignore::DeprecationWarning",
+  "ignore::UserWarning",
+]
+log_cli = "True"
+markers = [
+  "slow: slow tests",
+]
+minversion = "6.0"
+testpaths = "tests/"
+
+# Assuming you're developing for Python 3.10
+target-version = "py310"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["zclip"]
+
+[tool.hatch.envs.test]
+dependencies = [
+    "pytest",
+    "pytest-shard",
+    "pytest-cov",
+]
+
+[tool.hatch.envs.test-lightning]
+dependencies = [
+    "pytest",
+    "pytest-shard",
+    "pytest-cov",
+    "lightning>=2.0.0",
+]
+
+[tool.hatch.envs.test.scripts]
+default = "pytest tests/ -v -k 'not lightning'"
+all = "pytest tests/ -v"
+cov = "pytest tests/ -v --cov=zclip --cov-report=term-missing"
+
+[tool.hatch.envs.test-lightning.scripts]
+default = "pytest tests/ -v"
+lightning = "pytest tests/test_zclip_lightning_callback.py -v"
+all = "pytest tests/ -v"
+cov = "pytest tests/ -v --cov=zclip --cov-report=term-missing"
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: nocover",
+    "raise NotImplementedError",
+    "raise NotImplementedError()",
+    "if __name__ == .__main__.:",
+]
