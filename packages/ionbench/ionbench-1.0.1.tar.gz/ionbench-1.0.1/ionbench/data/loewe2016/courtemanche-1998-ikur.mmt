@@ -1,0 +1,151 @@
+[[model]]
+name: Courtemanche 1998 IKur
+author: Matt Owen
+# Initial values
+ikur.ua = 0
+ikur.ui = 1
+
+#
+# Simulation engine variables
+#
+[engine]
+time = 0 [ms] bind time
+    in [ms]
+pace = -80 [mV] bind pace
+    in [mV]
+
+#
+# Membrane potential
+#
+[membrane]
+V = engine.pace
+    desc: membrane potential
+    in [mV]
+EK = R*T/F*log(Ko/Ki)
+    in [mV]
+Ko = 5 [mmol]
+    in [mmol]
+Ki = ikur.p25
+    in [mmol]
+F =  9.6485e4 [C/mol]
+    in [C/mol]
+R = 8314.472 [mJ/mol/K]
+    in [mJ/mol/K]
+T = 295 [K] #22C (from 20C-25C)
+    in [K]
+
+[ikur]
+use membrane.V
+IKur = gkur * ua^3 * ui * (V - membrane.EK)
+    in [A/F]
+gkur = if(gkur4==0 [mV],gkur1, gkur1+gkur2/(1+exp((V+gkur3)/gkur4)))
+    in [nS/pF]
+dot(ui) = (inf - ui) / tau
+    inf = 1/(1+exp((V+uim1)/uim2)) in [1]
+    tau = abs(1 / ((alphaui + betaui)*uikq10)) in [ms]
+    alphaui = if(uia4==0 [mV],0 [1/ms],uia1/(uia2+exp((V+uia3)/uia4))) in [1/ms]
+    betaui = 1[1/ms] * exp((V+uib1)/uib2) in [1/ms]
+dot(ua) = (inf - ua) / tau
+    inf = 1/(1+exp((V+uam1)/uam2)) in [1] #Steady state autodiff requires that there are no 'if()'s or 'piecewise()'s in the inf so can't catch xrm2==0
+    tau = abs(1 / ((alphaua + betaua)*uakq10)) in [ms]
+    alphaua = if(uaa5==0 [mV] or uaa3==0 [mV],0 [1/ms], uaa1/(exp((V+uaa2)/uaa3)+exp((V+uaa4)/uaa5))) in [1/ms]
+    betaua = if(uab3==0 [mV],0 [1/ms], 0.65 [1/ms]/(uab1+exp((V+uab2)/uab3))) in [1/ms]
+
+p1 = 0.65 [1/ms]
+    in [1/ms]
+uaa1 = p1
+    in [1/ms]
+p2 = 10 [mV]
+    in [mV]
+uaa2 = p2
+    in [mV]
+p3 = 8.5 [mV]
+    in [mV]
+uaa3 = -p3
+    in [mV]
+p4 = 30 [mV]
+    in [mV]
+uaa4 = -p4
+    in [mV]
+p5 = 59 [mV]
+    in [mV]
+uaa5 = -p5
+    in [mV]
+p6 = 2.5 [1]
+    in [1]
+uab1 = p6
+    in [1]
+p7 = 82 [mV]
+    in [mV]
+uab2 = p7
+    in [mV]
+p8 = 17 [mV]
+    in [mV]
+uab3 = p8
+    in [mV]
+p9 = 30.3 [mV]
+    in [mV]
+uam1 = p9
+    in [mV]
+p10 = 9.6 [mV]
+    in [mV]
+uam2 = -p10
+    in [mV]
+p11 = 3 [1]
+    in [1]
+uakq10 = p11
+    in [1]
+p12 = 1 [1/ms]
+    in [1/ms]
+uia1 = p12
+    in [1/ms]
+p13 = 21 [1]
+    in [1]
+uia2 = p13
+    in [1]
+p14 = 185 [mV]
+    in [mV]
+uia3 = -p14
+    in [mV]
+p15 = 28 [mV]
+    in [mV]
+uia4 = -p15
+    in [mV]
+p16 = 158 [mV]
+    in [mV]
+uib1 = -p16
+    in [mV]
+p17 = 16 [mV]
+    in [mV]
+uib2 = p17 # Defined as -p17 in Loewe et al. 2016
+    in [mV]
+p18 = 99.45 [mV]
+    in [mV]
+uim1 = -p18
+    in [mV]
+p19 = 27.48 [mV]
+    in [mV]
+uim2 = p19
+    in [mV]
+p20 = 3 [1]
+    in [1]
+uikq10 = p20
+    in [1]
+p21 = 0.005 [nS/pF]
+    in [nS/pF]
+gkur1 = p21
+    in [nS/pF]
+p22 = 0.05 [nS/pF]
+    in [nS/pF]
+gkur2 = p22
+    in [nS/pF]
+p23 = 15 [mV]
+    in [mV]
+gkur3 = -p23
+    in [mV]
+p24 = 13 [mV]
+    in [mV]
+gkur4 = -p24
+    in [mV]
+p25 = 138.994 [mmol]
+    in [mmol]

@@ -1,0 +1,93 @@
+[[model]]
+name: Courtemanche 1998 IKr
+author: Matt Owen
+# Initial values
+ikr.xr = 0
+
+#
+# Simulation engine variables
+#
+[engine]
+time = 0 [ms] bind time
+    in [ms]
+pace = -80 [mV] bind pace
+    in [mV]
+
+#
+# Membrane potential
+#
+[membrane]
+V = engine.pace
+    desc: membrane potential
+    in [mV]
+EK = R*T/F*log(Ko/Ki)
+    in [mV]
+Ko = 5 [mmol]
+    in [mmol]
+Ki = ikr.p12
+    in [mmol]
+F =  9.6485e4 [C/mol]
+    in [C/mol]
+R = 8314.472 [mJ/mol/K]
+    in [mJ/mol/K]
+T = 295 [K] #22C (from 20C-25C)
+    in [K]
+
+[ikr]
+use membrane.V
+IKr = if(gkr2==0 [mV], 0 [A/F], gkr * xr / (1 + exp((V+gkr1)/gkr2)) * (V - membrane.EK))
+    in [A/F]
+dot(xr) = (inf - xr) / tau
+    inf = 1/(1+exp((V+xrm1)/xrm2)) in [1] #Steady state autodiff requires that there are no 'if()'s or 'piecewise()'s in the inf so can't catch xrm2==0
+    tau = abs(1 / ((alphaxr + betaxr)*xrkq10)) in [ms]
+    alphaxr = if(xra3==0 [mV] or xra2==V,-xra1*xra3,
+    xra1*(V+xra2)/(1-exp((V+xra2)/xra3))) in [1/ms]
+    betaxr = piecewise(xrb2==0 [mV],0 [1/ms],xrb1==V,7.3898e-5[1/ms/mV]*xrb2,
+    7.3898e-5 [1/ms/mV]*(V+xrb1)/(exp((V+xrb1)/xrb2)-1)) in [1/ms]
+
+p1 = 3e-4 [1/ms/mV]
+    in [1/ms/mV]
+xra1 = p1
+    in [1/ms/mV]
+p2 = 14.1 [mV]
+    in [mV]
+xra2 = p2
+    in [mV]
+p3 = 5 [mV]
+    in [mV]
+xra3 = -p3
+    in [mV]
+p4 = 3.3328 [mV]
+    in [mV]
+xrb1 = -p4 # Defined as p4 in Loewe et al. 2016
+    in [mV]
+p5 = 5.1237 [mV]
+    in [mV]
+xrb2 = p5
+    in [mV]
+p6 = 1 [1]
+    in [1]
+xrkq10 = p6
+    in [1]
+p7 = 14.1 [mV]
+    in [mV]
+xrm1 = p7
+    in [mV]
+p8 = 6.5 [mV]
+    in [mV]
+xrm2 = -p8
+    in [mV]
+p9 = 15 [mV]
+    in [mV]
+gkr1 = p9
+    in [mV]
+p10 = 22.4 [mV]
+    in [mV]
+gkr2 = p10
+    in [mV]
+p11 = 0.029411765 [nS/pF]
+    in [nS/pF]
+gkr = p11
+    in [nS/pF]
+p12 = 138.994 [mmol]
+    in [mmol]
