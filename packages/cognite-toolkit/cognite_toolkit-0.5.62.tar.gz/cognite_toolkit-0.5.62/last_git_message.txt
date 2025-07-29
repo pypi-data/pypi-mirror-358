@@ -1,0 +1,71 @@
+[CDF-24893, CDF-24894] Support external package libraries (#1607)
+
+# Description
+
+[alpha] As ongoing efforts to decouple Toolkit from content (Templates,
+a.k.a Deployment Packs), this introduces the ability to set external
+"libraries", i.e. url to zip files that conform to a specific format.
+
+If the user includes a library in their `cdf.toml`, the Toolkit attempts
+to download and unpack it. If successful, the library contents is
+presented to the user in the interactive `modules add` and `modules init
+`commands.
+
+![Screenshot 2025-06-12 at 13 38
+46](https://github.com/user-attachments/assets/d062fa90-07a6-4537-8e63-0e1aac39b81d)
+
+Caveats: 
+* We only support one library at a time for now, but the toml format
+suggests multiple. This discrepancy is by choice because we don't want
+to change the toml format later.
+* The context manager pattern is only implemented on ModulesCommand's
+init and add subcommands. It would be cleaner to follow the same pattern
+on all of them, that will follow in a later PR.
+
+**Update**: 
+
+Based on RR feedback, I added checksums to library spec. Checksums are
+now required.
+
+```
+[library.cognite]
+url = 'https://raw.githubusercontent.com/cognitedata/library/package/modules.zip'
+checksum = 'sha256:2c7f8b0d3e4f1a5b6c9e8d2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2'
+```
+
+Successful validation:
+![Screenshot 2025-06-26 at 09 53
+15](https://github.com/user-attachments/assets/1e063492-dac6-40e8-aa98-4078b2829b2a)
+
+Require prefix so that we can deal with other checksum types later
+![Screenshot 2025-06-26 at 09 53
+47](https://github.com/user-attachments/assets/db48557b-c1dc-4ae1-89f7-dc1bcf967086)
+
+Invalid checksum:
+![Screenshot 2025-06-26 at 09 54
+33](https://github.com/user-attachments/assets/b51215ae-df84-40b0-9207-fff252688810)
+
+
+
+
+
+
+## Changelog
+
+- [x] Patch
+- [ ] Minor
+- [ ] Skip
+
+## cdf
+
+### Added
+
+- [alpha] Support for external libraries
+
+## templates
+
+No changes.
+
+---------
+
+Co-authored-by: Anders Albert <60234212+doctrino@users.noreply.github.com>
