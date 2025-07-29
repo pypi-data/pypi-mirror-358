@@ -1,0 +1,44 @@
+[project]
+name = "coxdev"
+dependencies = ["numpy>=1.7.1",
+	        "joblib",
+		"pybind11",
+		"scipy",
+               ]
+description  = "Library for computing Cox deviance"
+readme = "README.md"
+requires-python = ">=3.9"
+keywords = []
+authors = [
+    {name = "Jonathan Taylor", email="jonathan.taylor@stanford.edu" },
+    {name = "Trevor Hastie", email="hastie@stanford.edu" },
+    {name = "Balasubramanian Narasimhan", email="naras@stanford.edu" }
+    ]  
+maintainers = [
+    {name = "Jonathan Taylor", email="jonathan.taylor@stanford.edu" },
+    ]
+classifiers = ["Development Status :: 3 - Alpha",
+               "Environment :: Console",
+               "Intended Audience :: Science/Research",
+               "Operating System :: OS Independent",
+               "Programming Language :: Python",
+               "Topic :: Scientific/Engineering"
+	       ]
+license = "BSD-3-Clause"
+dynamic = ['version']
+
+[build-system]
+requires = ["setuptools>=42",
+            "wheel",
+	    "pybind11",
+            "numpy>=1.7.1",
+            "versioneer"]
+build-backend = "setuptools.build_meta"
+
+[tool.versioneer]
+VCS = "git"
+style = "pep440"
+versionfile_source = "coxdev/_version.py"
+versionfile_build = "coxdev/_version.py"
+tag_prefix = "v"
+parentdir_prefix = "coxdev-"
