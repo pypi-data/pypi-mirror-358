@@ -1,0 +1,35 @@
+{
+    "endpoint": "https://k8s.opencitations.net/meta/sparql",
+    "tests": [
+        {
+            "label": "duplicate_br",
+            "to_run": true,
+            "description": "A single value for a given external ID scheme (e.g. DOI value) is associated with more than one BR.",
+            "query": "PREFIX datacite: <http://purl.org/spar/datacite/>\nPREFIX literal: <http://www.essepuntato.it/2010/06/literalreification/>\nPREFIX fabio: <http://purl.org/spar/fabio/>\n\nASK {\n    ?br1 datacite:hasIdentifier/literal:hasLiteralValue ?lit ;\n    a fabio:Expression .\n    ?br2 datacite:hasIdentifier/literal:hasLiteralValue ?lit ;\n    a fabio:Expression .\n    FILTER(?br1 != ?br2)\n}"
+        },
+        {
+            "label": "multiple_id_values",
+            "to_run": true,
+            "description": "BRs have 2 or more values for at least one of their supported ID schemes (e.g. 2 DOIs for a single journal article).",
+            "query": "PREFIX datacite: <http://purl.org/spar/datacite/>\n\nASK {\n  ?br datacite:hasIdentifier ?id1 .\n  ?br datacite:hasIdentifier ?id2 .\n  ?id1 datacite:usesIdentifierScheme ?scheme .\n  ?id2 datacite:usesIdentifierScheme ?scheme .\n  FILTER (?id1 != ?id2)\n  FILTER (?scheme != datacite:issn)\n}"
+        },
+        {
+            "label": "duplicate_agent",
+            "to_run": true,
+            "description": "Multiple foaf:Agent entities have the same ID value for any given scheme (e.g. different authors have the same ORCID).",
+            "query": "PREFIX datacite: <http://purl.org/spar/datacite/>\nPREFIX literal: <http://www.essepuntato.it/2010/06/literalreification/>\nPREFIX foaf: <http://xmlns.com/foaf/0.1/>\n\nASK {\n    ?agent1 datacite:hasIdentifier/literal:hasLiteralValue ?lit ;\n    a foaf:Agent .\n    ?agent2 datacite:hasIdentifier/literal:hasLiteralValue ?lit ;\n    a foaf:Agent .\n    FILTER(?agent1 != ?agent2)\n}"
+        },
+        {
+            "label": "multiple_manifestations",
+            "to_run": true,
+            "description": "There are BRs that are embodied in multiple fabio:Manifestation entities.",
+            "query": "PREFIX frbr: <http://purl.org/vocab/frbr/core#>\nPREFIX fabio: <http://purl.org/spar/fabio/>\n\nASK {\n  ?br frbr:partOf ?venue;\n    a fabio:Expression;\n    frbr:embodiment ?man1, ?man2.\n  FILTER(?man1 != ?man2)\n  FILTER NOT EXISTS {\n    ?br frbr:partOf ?otherVenue .\n    FILTER(?venue != ?otherVenue)\n  }\n}"
+        },
+        {
+            "label": "br_in_multiple_venues",
+            "to_run": true,
+            "description": "There are BRs that (wrongly) appear to be contained in different venues (e.g. journals).",
+            "query": "PREFIX frbr: <http://purl.org/vocab/frbr/core#>\n\nASK {\n  ?br frbr:partOf ?venue1 ;\n    frbr:partOf ?venue2 .\n  # ?venue1 and ?venue2 have the same type (any type)\n  ?venue1 a ?type .\n  ?venue2 a ?type .\n  FILTER(?venue1 != ?venue2)\n}"
+        }
+    ]
+}

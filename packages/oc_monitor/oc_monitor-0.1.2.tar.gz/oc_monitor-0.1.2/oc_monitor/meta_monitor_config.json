@@ -1,0 +1,35 @@
+{
+    "endpoint": "https://sparql.opencitations.net/meta",
+    "tests": [
+        {
+            "label": "duplicate_br",
+            "to_run": true,
+            "description": "There is at least one case of multiple fabio:Expression entities sharing the same ID value for any given scheme (e.g. the same DOI is linked to 2 separate journal articles, as in https://opencitations.net/meta/api/v1/metadata/omid:br/061103623233 and https://opencitations.net/meta/api/v1/metadata/omid:br/061602208852).",
+            "query": "PREFIX datacite: <http://purl.org/spar/datacite/>\nPREFIX literal: <http://www.essepuntato.it/2010/06/literalreification/>\nPREFIX fabio: <http://purl.org/spar/fabio/>\n\nASK {\n    ?br1 datacite:hasIdentifier/literal:hasLiteralValue ?lit ;\n    a fabio:Expression .\n    ?br2 datacite:hasIdentifier/literal:hasLiteralValue ?lit ;\n    a fabio:Expression .\n    FILTER(?br1 != ?br2)\n}"
+        },
+        {
+            "label": "multiple_id_values",
+            "to_run": true,
+            "description": "There are more than 10,000 BRs that have 2 or more values for at least one of their supported ID schemes (e.g. 2 DOIs for a single journal article, as in https://opencitations.net/meta/api/v1/metadata/omid:br/06120410820).",
+            "query": "PREFIX datacite: <http://purl.org/spar/datacite/>\nPREFIX fabio: <http://purl.org/spar/fabio/>\n\nASK {\n  {\n    SELECT (COUNT(DISTINCT ?br) AS ?count)\n    WHERE {\n      ?br a fabio:Expression .\n      ?br datacite:hasIdentifier ?id1 .\n      ?br datacite:hasIdentifier ?id2 .\n      ?id1 datacite:usesIdentifierScheme ?scheme .\n      ?id2 datacite:usesIdentifierScheme ?scheme .\n      FILTER (?id1 != ?id2)\n      FILTER (?scheme != datacite:issn)\n    }\n  }\n  FILTER(?count > 10000)\n}"
+        },
+        {
+            "label": "duplicate_agent",
+            "to_run": true,
+            "description": "There is at least one case of multiple foaf:Agent entities sharing the same ID value for any given scheme (e.g. different authors have the same ORCID, as for the authors of https://opencitations.net/meta/api/v1/metadata/omid:br/061702782637).",
+            "query": "PREFIX datacite: <http://purl.org/spar/datacite/>\nPREFIX literal: <http://www.essepuntato.it/2010/06/literalreification/>\nPREFIX foaf: <http://xmlns.com/foaf/0.1/>\n\nASK {\n    ?agent1 datacite:hasIdentifier/literal:hasLiteralValue ?lit ;\n    a foaf:Agent .\n    ?agent2 datacite:hasIdentifier/literal:hasLiteralValue ?lit ;\n    a foaf:Agent .\n    FILTER(?agent1 != ?agent2)\n}"
+        },
+        {
+            "label": "multiple_manifestations",
+            "to_run": true,
+            "description": "There are more than 15 BRs that are embodied in multiple fabio:Manifestation entities (e.g. https://opencitations.net/meta/br/062503856318.html).",
+            "query": "PREFIX frbr: <http://purl.org/vocab/frbr/core#>\nPREFIX fabio: <http://purl.org/spar/fabio/>\n\nASK {\n  {\n    SELECT (COUNT(DISTINCT ?br) as ?count) {\n      ?br frbr:partOf ?venue;\n        a fabio:Expression;\n        frbr:embodiment ?man1, ?man2.\n      FILTER(?man1 != ?man2)\n      FILTER NOT EXISTS {\n        ?br frbr:partOf ?otherVenue .\n      FILTER(?venue != ?otherVenue)\n      }\n    }\n  }\n  FILTER(?count > 15)\n}"
+        },
+        {
+            "label": "br_in_multiple_venues",
+            "to_run": true,
+            "description": "There are more than 1,000 BRs that (wrongly) appear to be contained in different venues (e.g. the journal article described at https://test.opencitations.net/meta/api/v1/metadata/omid:br/0603904064).",
+            "query": "PREFIX frbr: <http://purl.org/vocab/frbr/core#>\nPREFIX fabio: <http://purl.org/spar/fabio/>\n\nASK {\n  {\n    SELECT (COUNT(DISTINCT ?br) AS ?count) {\n      ?br frbr:partOf ?venue1 ;\n        frbr:partOf ?venue2 . \n      # ?venue1 and ?venue2 have the same type (any type)\n      ?venue1 a ?type .\n      ?venue2 a ?type .\n      FILTER(?venue1 != ?venue2)\n      FILTER(?type != fabio:Expression)  # Exclude fabio:Expression type\n    }\n  }\n  FILTER (?count > 1000)\n}"
+        }
+    ]
+}
