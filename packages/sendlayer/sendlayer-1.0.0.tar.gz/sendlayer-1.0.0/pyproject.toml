@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sendlayer"
+dynamic = ["version"]
+authors = [
+    { name = "SendLayer", email = "support@sendlayer.com" }
+]
+maintainers = [
+    { name = "David Ozokoye" }
+]
+keywords=["email", "sendlayer", "sdk", "api", "transactional email", "mail", "send email", "email api", "sendlayer api", "send email python", "python email package"]
+
+description = "Official Python SDK for SendLayer API"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+dependencies = [
+    "requests>=2.25.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/sendlayer/sendlayer-python"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = {find = {where = ["src"]}}
+
+[tool.setuptools.dynamic]
+version = {file = "src/sendlayer/VERSION"} 
