@@ -1,0 +1,18 @@
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+<div class="alert alert-info">
+<h4><strong>{{ cnt_success }}</strong> {% trans 'search results successfully updated' %}</h4>
+{% if multiple_edit_timestamp %}
+    <a href="javascript:;" id="search-multiple-edit-results" data-timestamp="{{ multiple_edit_timestamp }}">{% trans 'Show updated results' %}</a>
+{% endif %}
+{% if error_list|length %}
+    <h4><strong>{{ error_list|length }}</strong> {% trans 'errors:' %}</h4>
+    <ul>
+    {% for error in error_list %}
+        <li>{{ error }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+</div>
+{% crispy form %}

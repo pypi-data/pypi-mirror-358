@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% load dumpjson %}
+
+{% block title %}Ricerca {{view.page_title_suffix}}{% endblock %}
+
+{% block js %}
+<script>
+var strings_to_translate = function(s, i=null){
+    var stt = {
+        "1000_results" : [
+            "{% trans '<strong>Attention!</strong> There are ' %}",
+            "{% trans ' search results. Only first ' %}",
+            "{% trans ' will be shown. You can improve your research using new fields.' %}"
+            ],
+        "link_copied" : "{% trans 'Address copied, you can paste it.' %}",
+        }
+    if(i!=null){
+        return stt[s][i]
+    }
+    else{
+        return stt[s]
+    }
+}
+</script>
+<script src="{% static 'search/js/bootstrap-datepicker/bootstrap-datepicker.js' %}"></script>
+<script src="{% static 'search/js/bootstrap-datepicker/bootstrap-datepicker.it.js' %}" charset="UTF-8"></script>
+<script src="{% static 'search/js/js.cookie.js' %}"></script>
+<script src="{% static 'search/js/clipboard.min.js' %}"></script>
+<script src="{% static 'search/js/search.js' %}"></script>
+{% endblock %}
+
+{% block css %}
+<link href="{% static 'search/css/datepicker3.css' %}" rel="stylesheet">
+<link href="{% static 'search/css/search.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block outer_content %}
+<!-- Modal -->
+<div class="modal fade" id="modal-search-action" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="form-search-action" class="form-horizontal" role="form" method="POST" action="">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">{% trans "Action on search results" %}</h4>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
+                    <button type="submit" class="btn btn-warning btn-submit"><i class="fa fa-check"></i> {% trans 'Send' %}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div id="searchfield_template" class="hidden">
+    {% include "search/_searchfield.html" with logic=False %}
+</div>
+
+<div id="searchfield_template_logic" class="hidden">
+    {% include "search/_searchfield.html" with logic=True %}
+</div>
+
+<div id="char_widget" class="hidden">
+    <div class="input-group widget">
+        <div class="input-group-btn">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span>{% trans 'Contains' %}</span> <i class=" fa fa-caret-down"></i></button>
+            <ul class="dropdown-menu">
+                <li><a class="criteria" data-criteria="contains">{% trans 'Contains' %}</a></li>
+                <li><a class="criteria" data-criteria="not_contains">{% trans 'Does not contain' %}</a></li>
+                <li><a class="criteria" data-criteria="exact">{% trans 'Equal to' %}</a></li>
+                <li><a class="criteria" data-criteria="not_exact">{% trans 'Not equal to' %}</a></li>
+                <li><a class="criteria" data-criteria="between">{% trans 'Between' %}</a></li>
+            </ul>
+        </div>
+        <input type="text" class="form-control searchvalue" data-criteria="contains">
+    </div>
+</div>
+
+<div id="num_widget" class="hidden">
+    <div class="input-group widget">
+        <div class="input-group-btn">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span>=</span> <i class=" fa fa-caret-down"></i></button>
+            <ul class="dropdown-menu">
+                <li><a class="criteria" data-criteria="gt">&gt;</a></li>
+                <li><a class="criteria" data-criteria="gte">&gt;=</a></li>
+                <li><a class="criteria" data-criteria="exact">=</a></li>
+                <li><a class="criteria" data-criteria="lte">&lt;=</a></li>
+                <li><a class="criteria" data-criteria="lt">&lt;</a></li>
+            </ul>
+        </div>
+        <input type="text" class="form-control searchvalue" data-criteria="exact">
+    </div>
+</div>
+
+<div id="date_widget" class="hidden">
+    <div class="input-daterange input-group widget">
+        <span class="input-group-addon">{% trans 'from' %}</span>
+        <input type="text" class="form-control start" />
+        <span class="input-group-addon">{% trans 'to' %}</span>
+        <input type="text" class="form-control end" />
+    </div>
+</div>
+
+<div id="enum_widget" class="hidden">
+    <div class="input-group widget">
+        <span class="input-group-addon">=</span>
+        <select class="form-control enum_choices searchvalue" multiple>
+        </select>
+    </div>
+</div>
+
+<div id="bool_widget" class="hidden">
+    <div class="input-group widget">
+        <span class="input-group-addon">=</span>
+        <select class="form-control bool_choices searchvalue">
+            <option value="True">True</option>
+            <option value="False">False</option>
+        </select>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">{% trans 'Search' %} {{ view.page_title_suffix }}</h1>
+    </div> <!-- /.col-lg-12 -->
+</div> <!-- /.row -->
+
+{% if view.search_presets %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">{% trans 'Default search' %}</h4>
+        </div>
+        <div class="panel-body">
+            {% for preset in view.search_presets %}
+            <button class="search-preset btn btn-{{ preset.style|default:'default' }}" data-searchconfig="{{ preset.searchconfig|dumpjson }}">
+                {{ preset.label }}
+            {% if preset.description %}
+                <br><small>{{ preset.description }}</small>
+            {% endif %}
+            </button>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+
+{% block pre_search_fields %}{% endblock %}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="pull-right search-toolbar">
+            <a id="add_search_field" class="btn btn-primary" role="button"><i class="fa fa-plus"></i> {% trans 'Add search field' %}</a>
+            <a id="reset_search" class="btn btn-danger" role="button"><i class="fa fa-undo"></i> {% trans 'Reset search' %}</a>
+            <div id="last_search_group" class="btn-group" role="group">
+                <a id="last_search" class="btn btn-warning" role="button"><i class="fa fa-clock-o"></i> {% trans 'Last search' %}</a>
+                <a id="last_search_copy" class="btn btn-warning" role="button"><i class="fa fa-clipboard"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" id="searchfields">
+</div> <!-- /.row -->
+
+{% block post_search_fields %}{% endblock %}
+
+<div class="row">
+    <div class="col-lg-12 text-center">
+    {% block buttons %}
+        <button id="start_search" type="button" class="btn btn-success btn-lg" data-url="{{ view.search_url }}"><i class="fa fa-search fa-fw"></i> {% trans 'Start search' %}</button>
+    {% if not view.hide_other_menu %}
+        <!-- Single button -->
+        <div class="btn-group">
+            <button type="button" class="btn btn-info btn-lg dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                {% trans 'Other...' %} <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+            {% if view.export_xlsx_url %}
+                <li><a href="#" id="start_export_xlsx" data-url="{{ view.export_xlsx_url }}"><i class="fa fa-fw fa-file-excel-o"></i> {% trans 'Export Excel' %}</a></li>
+            {% endif %}
+                {% block search_actions %}{% endblock %}
+            </ul>
+        </div>
+    {% endif %}
+        <i id="wait-icon" class="h4 fa"></i>
+    {% endblock %}
+    </div> <!-- /.col-lg-12 -->
+</div> <!-- /.row -->
+
+<hr>
+
+<div class="row">
+    <div class="col-lg-12" id="search_results" data-detail-url="{{ view.detail_url }}">
+    </div> <!-- /.col-lg-12 -->
+</div> <!-- /.row -->
+
+{% block post_search_results %}{% endblock %}
+
+{% endblock %}
