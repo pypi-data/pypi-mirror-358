@@ -1,0 +1,39 @@
+# pyproject.toml
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "BazingaBro" # Updated name from setup.py
+version = "0.1.0" # Updated version from setup.py
+description = "An MCP server for integrating with X system." # From your setup.py
+readme = "README.md"
+authors = [
+    {name = "Fahad Khan", email = "khan.fahad855@gmail.com"}
+]
+license = {text = "MIT"} # Consistent with setup.py's license='MIT'
+classifiers = [
+    "Programming Language :: Python :: 3.11", # Updated Python version from setup.py
+    "License :: OSI Approved :: MIT License", # Keeping this for compatibility, though 'license' field is preferred
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence", # Added from previous setup.py suggestions
+    "Framework :: FastAPI" # Added from previous setup.py suggestions
+]
+dependencies = [
+    "mcp", # Updated to just "mcp" as per your setup.py
+    # "requests", # Removed if not specifically needed, as per setup.py. Add back if required.
+]
+requires-python = ">=3.10" # Updated to match setup.py's python_requires
+
+[project.scripts]
+# Updated script name and entry point to match setup.py
+BazingaBro = "BazingaBroServ.service:main"
+
+[tool.setuptools]
+# This tells setuptools where to find your Python package source if it's not directly at the root.
+# It means the 'BazingaBroServ' package folder is directly within the directory containing pyproject.toml.
+# Ensure your actual directory structure matches this: project_root/BazingaBroServ/__init__.py
+packages = ["BazingaBroServ"] # Explicitly list the package setuptools should find
+# Or if using find_packages() equivalent:
+# package-dir = {"" = "BazingaBroServ"} # If BazingaBroServ is the root of your package module
