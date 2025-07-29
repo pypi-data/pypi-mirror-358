@@ -1,0 +1,99 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = [
+    "setuptools>=42",
+]
+
+[tool.ruff]
+line-length = 100
+extend-exclude = []
+
+[tool.ruff.lint]
+select = [
+    "A",
+    "B",
+    "C4",
+    "E",
+    "ERA",
+    "F",
+    "I",
+    "PD",
+    "RET",
+    "S",
+    "T20",
+    "W",
+    "YTT",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = [
+    "S101",
+]
+
+[tool.pytest.ini_options]
+addopts = "  -rfEXs -p pytester --strict-markers --verbosity=3\n  --cov --cov-report=term-missing --cov-report=xml\n  "
+minversion = "2.0"
+log_level = "DEBUG"
+log_cli_level = "DEBUG"
+log_format = "%(asctime)-15s [%(name)-36s] %(levelname)-8s: %(message)s"
+pythonpath = [
+    "src",
+]
+xfail_strict = true
+markers = []
+
+[tool.coverage.paths]
+source = [
+    "src/",
+]
+
+[tool.coverage.run]
+branch = false
+omit = [
+    "tests/*",
+]
+
+[tool.coverage.report]
+show_missing = true
+exclude_lines = [
+    "# pragma: no cover",
+    "raise NotImplemented",
+]
+
+[tool.mypy]
+packages = [
+    "cratedb_mcp",
+]
+check_untyped_defs = true
+ignore_missing_imports = true
+implicit_optional = true
+install_types = true
+non_interactive = true
+
+[tool.poe.tasks]
+check = [
+    "lint",
+    "test",
+]
+lint = [
+    { cmd = "ruff format --check ." },
+    { cmd = "ruff check ." },
+    { cmd = "validate-pyproject pyproject.toml" },
+    { cmd = "mypy" },
+]
+release = [
+    { cmd = "python -m build" },
+    { cmd = "twine upload --skip-existing dist/*" },
+]
+
+[[tool.poe.tasks.format]]
+cmd = "ruff format ."
+
+[[tool.poe.tasks.format]]
+cmd = "ruff check --fix --ignore=ERA --ignore=F401 --ignore=F841 --ignore=T20 --ignore=ERA001 ."
+
+[[tool.poe.tasks.format]]
+cmd = "pyproject-fmt --keep-full-version pyproject.toml"
+
+[tool.poe.tasks.test]
+cmd = "pytest"
