@@ -1,0 +1,23 @@
+[project]
+name = "monitor-gitlab-jobs"
+version = "0.1.1"
+description = "monitor Gitlab job statuses on the CLI"
+maintainers = [
+    { name = "David Koch", email = "code@davekoch.de" },
+]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "python-gitlab>=6.0.0",
+    "rich>=14.0.0",
+]
+
+[project.scripts]
+monitor-gitlab-jobs = "monitor_gitlab_jobs.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/davekch/monitor-gitlab-jobs"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
