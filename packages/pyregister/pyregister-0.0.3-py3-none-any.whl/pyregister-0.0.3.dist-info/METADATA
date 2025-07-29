@@ -1,0 +1,140 @@
+Metadata-Version: 2.1
+Name: pyregister
+Version: 0.0.3
+Summary: A tool for automatically registering Python classes.
+Author: Jiamu Zhou
+Author-email: zhoujm99@gmail.com
+Keywords: auto-register,register
+Requires-Python: >=3.5
+Description-Content-Type: text/markdown
+
+# pyregister
+
+`pyregister` 是一个用于自动注册 Python 类的工具，借助 `Registrable` 基类，能为子类创建命名注册表，并通过装饰器进行子类注册。
+
+## 功能特点
+- **自动注册机制**：继承 `Registrable` 的类可使用 `@BaseClass.register` 装饰器注册子类。
+- **灵活构造**：支持通过配置文件实例化类，可指定不同的构造方法。
+- **懒加载支持**：提供 `Lazy` 类，处理构造函数参数间的顺序依赖。
+- **参数验证**：`Params` 类处理参数验证，确保参数符合要求并记录参数读取。
+
+## 核心组件
+### Registrable
+`Registrable` 是一个基类，为子类提供命名注册表。主要方法如下：
+- `register(name, constructor=None, exist_ok=False)`：注册子类。
+- `by_name(name)`：返回可构造已注册类实例的可调用函数。
+- `resolve_class_name(name)`：返回指定名称对应的子类及其构造方法。
+
+### Lazy
+`Lazy` 类用于处理构造函数参数间的顺序依赖，适用于使用 `Registrable` 构造对象的场景。
+
+### Params
+`Params` 类表示带历史记录的参数字典，处理参数验证和日志记录。
+
+### construct_utils
+提供辅助函数，用于检查对象参数、推断构造函数参数、创建关键字参数等。
+
+## 安装
+```bash
+pip install pyregister
+```
+
+## 使用示例
+### 通过子类实例化
+```python
+from pyregister import Registrable
+
+class MyBaseClass(Registrable):
+    def __init__(self, name):
+        self.name = name
+
+@MyBaseClass.register('my_subclass')
+class MySubClass(MyBaseClass):
+    def __init__(self, name, age):
+        super().__init__(name)
+        self.age = age
+
+# 通过名称创建子类实例
+my_subclass = MyBaseClass.by_name('my_subclass')('John', 30)
+print(my_subclass.name)  # 输出: John
+print(my_subclass.age)   # 输出: 30
+
+# 通过配置文件实例化
+params = {'type': 'my_subclass', 'name': 'Alice', 'age': 25}
+my_subclass_from_params = MyBaseClass.from_params(params)
+print(my_subclass_from_params.name)  # 输出: Alice
+print(my_subclass_from_params.age)   # 输出: 25
+
+```
+### 使用 Lazy 类示例
+```python
+from pyregister import Registrable, Lazy, Params
+
+class Model(Registrable):
+    def __init__(self, learning_rate):
+        self.learning_rate = learning_rate
+
+@Model.register('simple_model')
+class SimpleModel(Model):
+    def __init__(self, learning_rate=0.01):
+        print("start SimpleModel init")
+        super().__init__(learning_rate)
+
+class Trainer:
+    def __init__(self, model: Lazy[Model]):
+        print("start Trainer init")
+        self.model = model.construct()
+
+# 使用 Lazy 延迟构造模型
+params = {'type': 'simple_model', 'learning_rate': 0.02}
+lazy_model = Lazy(SimpleModel, params=Params(params))
+trainer = Trainer(lazy_model)
+print(trainer.model.learning_rate)
+# 输出: 
+# start Trainer init
+# start SimpleModel init
+# 0.02
+```
+
+### 自定义构造函数示例
+```python
+from pyregister import Registrable
+
+class Database(Registrable):
+    def __init__(self, host, port):
+        self.host = host
+        self.port = port
+
+    @classmethod
+    def from_config(cls, config):
+        return cls(config['host'], config['port'])
+
+@Database.register('mysql', constructor='from_config')
+class MySQLDatabase(Database):
+    pass
+
+params = {'type': 'mysql', 'config': {'host': 'localhost', 'port': 3306}}
+mysql_db = Database.from_params(params)
+print(mysql_db.host)  # 输出: localhost
+print(mysql_db.port)  # 输出: 3306
+```
+
+### 多继承注册示例
+```python
+from pyregister import Registrable
+
+class Logger:
+    def log(self, message):
+        print(f'Log: {message}')
+
+class LoggableRegistrable(Registrable, Logger):
+    pass
+
+@LoggableRegistrable.register('loggable_class')
+class MyLoggableClass(LoggableRegistrable):
+    pass
+
+params = {'type': 'loggable_class'}
+loggable = LoggableRegistrable.from_params(params)
+loggable.log('Hello, World!')  # 输出: Log: Hello, World!')  # 输出: Log: Hello, World!
+```
