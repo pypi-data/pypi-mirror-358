@@ -1,0 +1,44 @@
+Metadata-Version: 2.4
+Name: orange3-nlp-jezyk-polski
+Version: 0.0.1
+Summary: Zbiór widgetów Orange3 do przetwarzania języka naturalnego w języku polskim
+Author-email: Chris Lee <github@chrislee.dhs.org>
+License: CC-BY-NC-SA-4.0
+Project-URL: Homepage, https://github.com/chrislee35/orange3-nlp-jezyk-polski
+Keywords: orange3 add-on
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: Science/Research
+Classifier: Programming Language :: Python :: 3 :: Only
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: Orange3>=3.34.0
+Requires-Dist: orange-canvas-core>=0.1.28
+Requires-Dist: orange-widget-base>=4.20.0
+Requires-Dist: Orange3-Text>=1.16.3
+Requires-Dist: sacremoses>=0.1.1
+Requires-Dist: sentimentpl>=0.0.6
+Provides-Extra: test
+Requires-Dist: coverage; extra == "test"
+Provides-Extra: doc
+Requires-Dist: sphinx; extra == "doc"
+Requires-Dist: recommonmark; extra == "doc"
+Requires-Dist: sphinx_rtd_theme; extra == "doc"
+Dynamic: license-file
+
+# orange3-nlp-jezyk-polski
+
+Zbiór widgetów Orange3 do przetwarzania języka naturalnego w języku polskim.
+
+## Instalacja
+
+W instalatorze dodatków kliknij „Dodaj więcej...” i wpisz `orange3-nlp-jezyk-polski`
+
+## Widgety
+
+Możesz stworzyć przepływ pracy do analizy sentymentu tekstu w języku polskim z wykorzystaniem biblioteki sentimentPL. [SentimentPL](https://github.com/philvec/sentimentPL), stworzony przez PhilVec, to model oparty na HerBERT, wytrenowany na zbiorze danych PolEmo2.0/CLARIN-PL. Zwraca ciągły wynik sentymentu w zakresie od -1 (negatywny) do +1 (pozytywny).
+
+![Przykładowy przepływ pracy: ładowanie recenzji produktów, analiza sentymentu i wyświetlanie wyników w tabeli danych](imgs/sentiment-workflow.png)
+
+![Tabela danych z wynikami analizy sentymentu](imgs/sentiment-output.png)
