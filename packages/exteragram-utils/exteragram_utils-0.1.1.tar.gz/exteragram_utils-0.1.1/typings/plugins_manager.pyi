@@ -1,0 +1,73 @@
+from _typeshed import Incomplete
+from base_plugin import HookResult
+from typing import Any
+
+class PluginsManager:
+    INJECTED_MODULE_DICT: Incomplete
+    @classmethod
+    def validate_plugin_from_file(cls, file_path: str) -> dict[str, str]: ...
+    @classmethod
+    def load_plugin(
+        cls, file_name: str, file_path: str | None = None
+    ) -> str | None: ...
+    @classmethod
+    def load_plugin_from_file(cls, file_path: str) -> str | None: ...
+    @classmethod
+    def unload_plugin(cls, plugin_id: str, keep_entry: bool = False) -> bool: ...
+    @classmethod
+    def delete_plugin(cls, plugin_id: str) -> bool: ...
+    @classmethod
+    def set_plugin_enabled(cls, plugin_id: str, enabled: bool) -> bool: ...
+    @classmethod
+    def init(cls, plugins_directory: str): ...
+    @classmethod
+    def shutdown(cls) -> None: ...
+    @classmethod
+    def cleanup_plugin(cls, plugin_id: str): ...
+    @classmethod
+    def load_settings(cls, plugin_id: str) -> list[Any] | None: ...
+    @classmethod
+    def get_plugin_setting(
+        cls, plugin_id: str, key: str, default: Any = None
+    ) -> Any: ...
+    @classmethod
+    def set_plugin_setting(cls, plugin_id: str, key: str, value: Any): ...
+    @classmethod
+    def execute_event(cls, event_type: str): ...
+    @classmethod
+    def execute_pre_request_hook(
+        cls,
+        interested_plugin_ids: list[str],
+        request_name: str,
+        account: int,
+        request: Any,
+    ) -> HookResult: ...
+    @classmethod
+    def execute_post_request_hook(
+        cls,
+        interested_plugin_ids: list[str],
+        request_name: str,
+        account: int,
+        response: Any,
+        error: Any,
+    ) -> HookResult: ...
+    @classmethod
+    def execute_on_update_hook(
+        cls,
+        interested_plugin_ids: list[str],
+        update_name: str,
+        account: int,
+        update: Any,
+    ) -> HookResult: ...
+    @classmethod
+    def execute_on_updates_hook(
+        cls,
+        interested_plugin_ids: list[str],
+        container_name: str,
+        account: int,
+        updates: Any,
+    ) -> HookResult: ...
+    @classmethod
+    def execute_on_send_message_hook(
+        cls, interested_plugin_ids: list[str], account: int, params: Any
+    ) -> HookResult: ...
