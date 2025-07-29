@@ -1,0 +1,31 @@
+```xml
+<input>
+    <agent_state>
+        Current step: {steps}
+
+        Max. Steps: {max_steps}
+
+        Action Response: {observation}
+    <agent_state>
+    <desktop_state>
+        [Begin of App Info]
+        Foreground App: {active_app}
+
+        Background Apps:
+        {apps}
+        [End of App Info]
+        [Begin of Screen]
+        List of Interactive Elements:
+        {interactive_elements}
+
+        List of Scrollable Elements:
+        {scrollable_elements}
+
+        List of Informative Elements:
+        {informative_elements}
+        [End of Screen]
+    <desktop_state>
+
+Note: Use the Done Tool if the task is completely over else continue solving.
+</input>
+```
