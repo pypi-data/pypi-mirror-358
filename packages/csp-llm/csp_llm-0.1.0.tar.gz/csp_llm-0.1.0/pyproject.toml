@@ -1,0 +1,86 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "csp_llm"
+version = "0.1.0"
+description = "Python package using llm to modelize a csp problem in pycsp3"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Alain Kemgue", email = "kemgue@cril.fr"}
+]
+maintainers = [
+    {name = "Alain Kemgue", email = "kemgue@cril.fr"}
+]
+keywords = ["pycsp3", "csp", "ai","llm", "openai", "anthropic"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "streamlit>=1.28.0",
+    "pycsp3>=2.3.0",
+    "openai>=1.0.0",
+    "anthropic>=0.7.0",
+    "python-dotenv>=1.1.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0",
+    "pre-commit>=3.0.0",
+]
+docs = [
+    "sphinx>=5.0.0",
+    "sphinx-rtd-theme>=1.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/kemgue/csp_llm"
+# Documentation = "https://csp_llm.readthedocs.io/"
+Repository = "https://github.com/kemgue/csp_llm"
+"Bug Tracker" = "https://github.com/kemgue/csp_llm/issues"
+# Changelog = "https://github.com/kemgue/csp_llm/blob/main/CHANGELOG.md"
+
+[project.scripts]
+mon-package = "csp_llm.main:main"
+mon-package-streamlit = "csp_llm.streamlit_app:run"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+csp_llm = ["*.yaml", "*.json", "templates/*"]
+
+# Configuration des outils de développement
+[tool.black]
+line-length = 88
+target-version = ['py310']
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "--cov=src/csp_llm --cov-report=html --cov-report=term"
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
