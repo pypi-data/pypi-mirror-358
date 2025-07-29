@@ -1,0 +1,54 @@
+[project]
+name = "dynamic-dns-update-client"
+version = "1.0.0"
+description = "A CLI tool for obtaining and updating your public IP address at dynamic DNS providers."
+authors = [
+    {name = "Max Pfeiffer",email = "max@maxpfeiffer.ch"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "click (>=8.1.7,<9.0.0)",
+    "requests (>=2.30.0,<3.0.0)",
+    "ifcfg (>=0.24,<0.25)"
+]
+
+[project.urls]
+homepage = "https://github.com/max-pfeiffer/dynamic-dns-update-client"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+
+[tool.poetry.group.dev.dependencies]
+pytest = "8.4.0"
+pytest-cov = "6.1.1"
+ruff = "0.11.12"
+pre-commit = "4.2.0"
+pytest-mock = "^3.14.1"
+
+[tool.poetry.scripts]
+dynamic-dns-update-client = 'dynamic_dns_update_client:cli'
+
+[tool.ruff.lint]
+select = [
+    "F", # Pyflakes
+    "E", # pycodestyle
+    "W", # pycodestyle
+    "I", # isort
+    "D",   # pydocstyle
+    "UP",  # pyupgrade
+    "ASYNC", # flake8-async
+    "RUF",  # Ruff-specific rules
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "pep257"
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests",
+]
