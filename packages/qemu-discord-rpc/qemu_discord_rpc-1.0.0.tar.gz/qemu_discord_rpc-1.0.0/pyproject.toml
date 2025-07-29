@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qemu-discord-rpc"
+version = "1.0.0"
+description = "Display running QEMU virtual machines as Discord Rich Presence status"
+readme = "README.md"
+requires-python = ">=3.6"
+license = "GPL-3.0"
+authors = [
+    {name = "qubixq", email = "83471324+qubixq@users.noreply.github.com"}
+]
+keywords = ["qemu", "discord", "rpc", "virtual-machine", "status"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: Unix",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: System :: Emulators",
+    "Topic :: Communications :: Chat",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "pypresence>=4.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/qubixq/qemu-discord-rpc"
+"Bug Reports" = "https://github.com/qubixq/qemu-discord-rpc/issues"
+"Source" = "https://github.com/qubixq/qemu-discord-rpc"
+
+[project.scripts]
+qemu-discord-rpc = "qemu_discord_rpc:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["qemu_discord_rpc*"]
