@@ -1,0 +1,36 @@
+Metadata-Version: 2.3
+Name: scor
+Version: 0.1.4
+Summary: The library for ICANN 2025 Paper 'Stochastic Covariance Regularization for Imbalanced Datasets'
+License: MIT
+Author: Ahmet Erdem, Faik Boray Tek
+Author-email: erdemah22@itu.edu.tr, tekfb@itu.edu.tr
+Requires-Python: >=3.10
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: numpy (>=1.23)
+Requires-Dist: scikit-learn (>=1.1)
+Requires-Dist: torch (>=2.1.0)
+Requires-Dist: torchvision (>=0.16.0)
+Requires-Dist: tqdm (>=4.64)
+Description-Content-Type: text/markdown
+
+# Stochastic Covariance Regularization for Imbalanced Datasets
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+_pip install scor_
+
+## imagenet.py
+
+This file is for training models with various loss functions on the ImageNet dataset.
+Code from [here](https://github.com/pytorch/examples/tree/main/imagenet) is adapted 
+to be used with loss functions defined in this repository.
+
+A "loss" option is included to the adapted code. Run ```python imagenet.py --help```
+for a proper description.
+
