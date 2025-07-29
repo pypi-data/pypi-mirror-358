@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyhurl"
+version = "1.1.0"
+description = "A set of useful functions that I use in projects."
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "Rongliang Hu", email = "hurongliang@gmail.com"},
+]
+dependencies = [
+    "python-dotenv"
+]
+
+[project.optional-dependencies]
+mysql = ["pymysql"]
+oss = ["oss2"]
+llm = ["openai", "ollama"]
+all = ["oss2", "openai", "ollama"]
+
+[project.urls]
+Homepage = "https://github.com/hurongliang/pyhurl"
+
+[tool.setuptools]
+packages = ["pyhurl"]
