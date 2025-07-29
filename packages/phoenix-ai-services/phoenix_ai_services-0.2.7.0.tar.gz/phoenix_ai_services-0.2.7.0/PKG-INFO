@@ -1,0 +1,63 @@
+Metadata-Version: 2.3
+Name: phoenix-ai-services
+Version: 0.2.7.0
+Summary: Unified RAG and Tool API Service for Phoenix Agentic AI Framework
+License: MIT
+Author: Your Name
+Author-email: you@example.com
+Requires-Python: >=3.9,<4.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: fastapi (>=0.110,<0.111)
+Requires-Dist: fastapi-mcp
+Requires-Dist: phoenix-ai
+Requires-Dist: uvicorn (>=0.27,<0.28)
+Description-Content-Type: text/markdown
+
+
+# 🔥 Phoenix AI Services is MCP server
+
+Unified agentic framework to run dynamic RAG APIs and utility tools like calculator, date, and   python evaluator.
+
+# phoenix_ai_services
+
+[![PyPI - Version](https://img.shields.io/pypi/v/phoenix-ai-services.svg)](https://pypi.org/project/phoenix-ai-services/)
+[![Code Style - Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Python Version](https://img.shields.io/pypi/pyversions/phoenix-ai-services.svg)](https://pypi.org/project/phoenix-ai-services/)
+[![License](https://img.shields.io/pypi/l/phoenix-ai-services)](https://github.com/Praveengovianalytics/phoenix_ai_services/LICENSE)
+
+---
+
+> `phoenix_ai_services` is a modular Python package for managing RAG endpoints, tool-based APIs, and plug-and-play AI utilities using FastAPI & Poetry. It supports RESTful control for registering, updating, and deleting endpoints for RAG, tools, and more.
+
+
+## 🔧 Setup
+
+```bash
+poetry install
+poetry run python phoenix_ai_services/main.py
+```
+
+## 🚀 API Endpoints
+
+### RAG
+- `POST /rag/endpoints/{name}` – Register RAG
+- `PUT /rag/endpoints/{name}` – Update RAG
+- `DELETE /rag/endpoints/{name}` – Remove RAG
+- `GET /rag/query/{name}` – Ask RAG agent
+
+### Tools
+- `GET /tool/calculator?input_data=2+3*4`
+- `GET /tool/system_time`
+- `GET /tool/python?input_data=round(3.14159, 2)`
+
+### Admin
+- `GET /registry` – View all registered endpoints
+
+## 🧠 Powered by Phoenix Agentic AI Framework
+
