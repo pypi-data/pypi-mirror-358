@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "coppersun-brass"
+dynamic = ["version"]
+description = "Development Intelligence for AI Agents - Copper Sun Product Line"
+readme = "README.md"
+license = {text = "Proprietary"}
+authors = [
+    {name = "Copper Sun Team", email = "brass@coppersun.com"},
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Software Development :: Testing",
+    "License :: Other/Proprietary License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+keywords = ["code-analysis", "ai", "ml", "devops", "automation", "copper-sun", "brass"]
+requires-python = ">=3.8"
+
+[project.urls]
+Homepage = "https://github.com/coppersun/brass"
+Documentation = "https://docs.brass.coppersun.dev"
+Repository = "https://github.com/coppersun/brass"
+Issues = "https://github.com/coppersun/brass/issues"
+
+[project.scripts]
+brass = "coppersun_brass.cli.brass_cli:main"
