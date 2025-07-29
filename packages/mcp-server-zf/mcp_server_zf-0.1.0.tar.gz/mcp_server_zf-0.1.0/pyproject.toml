@@ -1,0 +1,17 @@
+[project]
+name = "mcp-server-zf"
+version = "0.1.0"
+description = "test"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [ "mcp>=1.9.4",]
+[[project.authors]]
+name = "guozhifeng02"
+email = "guozhifeng02@meituan.com"
+
+[build-system]
+requires = [ "hatchling",]
+build-backend = "hatchling.build"
+
+[project.scripts]
+mcp-server-zf = "mcp_server_zf:main"
