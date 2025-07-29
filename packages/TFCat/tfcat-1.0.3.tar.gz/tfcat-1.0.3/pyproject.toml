@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "TFCat"
+version = "1.0.3"
+authors = [
+    { name = "Baptiste Cecconi", email = "baptiste.cecconi@obspm.fr" },
+    { name = "Xavier Bonnin", email = "xavier.bonnin@obspm.fr" },
+    { name = "Alan Loh", email = "alan.loh@obspm.fr" },
+    { name = "Adam Boudouma", email = "adam.boudouma@obspm.fr" }
+]
+description = "Time-Frequency Catalogue (TFCat) Python module."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.7"
+keywords = ["radio astronomy", "catalogue"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent"
+]
+dependencies = [
+    "astropy",
+    "matplotlib",
+    "shapely",
+    "jsonschema"
+]
+
+[tool.setuptools.packages.find]
+"include" = ["tfcat"]
+"exclude" = ["tests", "htmlcov", "examples"]
+
+[project.urls]
+"Homepage" = "https://gitlab.obspm.fr/maser/catalogues/tfcat"
+"Bug Tracker" = "https://gitlab.obspm.fr/maser/catalogues/tfcat/-/issues"
+
+[tool.pytest.ini_options]
+"addopts" = "--verbose"
+
+[tool.coverage.report]
+"show_missing" = true
+"fail_under" = 100
+"exclude_lines" = ["def __repr__"]
