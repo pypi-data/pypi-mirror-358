@@ -1,0 +1,123 @@
+[project]
+name = "nonebot-plugin-vrchat"
+dynamic = []
+description = "使用第三方api实现vrchat相关操作,plugin for nonebot2"
+authors = [
+    { name = "Agnes_Digital", email = "Z735803792@163.com" },
+    { name = "student_2333", email = "lgc2333@126.com" },
+]
+requires-python = ">=3.9,<4.0"
+keywords = [
+    "steam",
+    "game",
+    "vrchat",
+    "nonebot2",
+    "plugin",
+]
+dependencies = [
+    "nonebot2>=2.1.0",
+    "nonebot-plugin-alconna>=0.58.5",
+    "vrchatapi>=1.19.3",
+    "httpx>=0.25.0",
+    "async-lru>=2.0.4",
+    "nonebot-plugin-session>=0.3.2",
+    "nonebot-plugin-htmlrender>=0.5.6",
+    "ruamel-yaml>=0.18.5",
+    "pydantic>=2.1.1",
+    "pillow>=10.0.0,<11.0.0",
+]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+]
+readme = "README.md"
+version = "0.3.3"
+
+[project.license]
+text = "MIT"
+
+[project.urls]
+homepage = "https://github.com/Agnes4m/nonebot_plugin_vrchat"
+
+[tool.pdm.build]
+includes = []
+
+[tool.pdm.version]
+source = "file"
+path = "nonebot_plugin_vrchat/__init__.py"
+
+[tool.pyright]
+pythonVersion = "3.9"
+
+[tool.black]
+line-length = 89
+target-version = [
+    "py39",
+    "py310",
+    "py311",
+    "py312",
+]
+include = "\\.pyi?$"
+
+[tool.ruff.lint]
+ignore = [
+    "B008",
+    "B905",
+    "E402",
+    "E501",
+    "FBT001",
+    "FBT002",
+    "FBT003",
+    "PGH003",
+    "RUF001",
+    "RUF002",
+    "RUF003",
+    "RUF006",
+    "RUF100",
+    "TRY002",
+    "TRY003",
+]
+select = [
+    "A",
+    "ARG",
+    "ASYNC",
+    "B",
+    "C4",
+    "COM",
+    "E",
+    "F",
+    "FBT",
+    "FLY",
+    "I",
+    "ISC",
+    "N",
+    "PIE",
+    "PGH",
+    "PTH",
+    "PYI",
+    "Q",
+    "RET",
+    "RSE",
+    "RUF",
+    "SIM",
+    "SLF",
+    "SLOT",
+    "TRY",
+]
+
+[tool.ruff.lint.isort]
+extra-standard-library = [
+    "typing_extensions",
+]
+
+[build-system]
+requires = [
+    "pdm-backend",
+]
+build-backend = "pdm.backend"
