@@ -1,0 +1,76 @@
+Metadata-Version: 2.3
+Name: qtics
+Version: 0.0.5
+Summary: Quantum Technologies Instrumentation ControlS
+License: Apache-2.0
+Author: The BiQuTe Team
+Requires-Python: >=3.11
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Scientific/Engineering :: Physics
+Requires-Dist: autobahn (>=24.4.2,<25.0.0)
+Requires-Dist: dotenv (>=0.9.9,<0.10.0)
+Requires-Dist: niscope (>=1.4.6,<2.0.0)
+Requires-Dist: numpy (>=1.24,<2.0)
+Requires-Dist: pyserial (>=3.5,<4.0)
+Project-URL: Repository, https://github.com/biqute/qtics/
+Description-Content-Type: text/markdown
+
+# Qtics - Quantum Technologies Instrumentation ControlS
+
+![docs](https://github.com/biqute/qtics/actions/workflows/deploy_docs.yml/badge.svg)
+![Lint-Pytest-Mypy](https://github.com/biqute/qtics/actions/workflows/analysis.yml/badge.svg)
+
+## Overview
+
+Qtics is a collection of tools designed to facilitate the instrumentation of the
+[BiQuTe Cryogenic Laboratory](https://biqute.unimib.it/research/cryogenic-lab).
+
+In the experiments folder, some experiments are provided as examples, along with
+various helpers.
+
+## Documentation
+
+You can find the latest documentation [here](https://biqute.github.io/qtics).
+
+## Installation instructions
+
+### Stable version:
+
+To install the latest released version, you can use the standard pip command:
+
+```bash
+pip install qtics
+```
+
+### Latest version:
+
+To install the latest version, unreleased, you can first clone the repository
+with:
+
+```bash
+git clone https://github.com/biqute/qtics.git
+```
+
+then to install it in normal mode:
+
+```bash
+pip install .
+```
+
+Use poetry to install the latest version in developer mode, remember to also
+install the pre-commits!
+
+```bash
+poetry install --with docs,analysis,experiments
+pre-commit install
+```
+
+## License
+
+Qtics is licensed under the [Apache License 2.0](LICENSE). See the
+[LICENSE](LICENSE) file for details.
+
