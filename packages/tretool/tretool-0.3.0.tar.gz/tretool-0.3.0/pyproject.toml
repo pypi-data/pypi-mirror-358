@@ -1,0 +1,44 @@
+[build-system]
+requires = [
+    "chardet",
+    "packaging",
+    "pdfminer",
+    "pdf2image",
+    "pillow",
+    "PyPDF2",
+    "psutil",
+    "rich",
+    "tabula",
+
+    "setuptools >= 77.0.3"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tretool"
+version = "0.3.0"
+authors = [
+  { name="Jemy", email="sh_ljr_2013@163.com" },
+]
+description = "一个有着许多功能的Python工具库"
+readme = "README.md"
+requires-python = ">=3.10"
+keywords = ["tool", "tools", "utility", "utilities", "productivity"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pipreqs"
+]
+
+[project.urls]
+Homepage = "https://github.com/jemy/sampleproject"
+Issues = "https://github.com/jemy/sampleproject/issues"
+
+[project.scripts]
