@@ -1,0 +1,24 @@
+[project]
+name = "inteliallm"
+version = "0.2.0"
+description = "Acesso ao LiteLLM da Intelia para consultas e geração de respostas."
+authors = [
+    {name = "rodney silva",email = "ro.rss.129@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "dirtyjson (>=1.0.8,<2.0.0)",
+    "openai (>=1.91.0,<2.0.0)",
+    "requests (>=2.32.4,<3.0.0)",
+    "redis (>=6.2.0,<7.0.0)",
+    "python-slugify (>=8.0.4,<9.0.0)"
+]
+
+[tool.poetry]
+packages = [{include = "inteliallm", from = "src"}]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
