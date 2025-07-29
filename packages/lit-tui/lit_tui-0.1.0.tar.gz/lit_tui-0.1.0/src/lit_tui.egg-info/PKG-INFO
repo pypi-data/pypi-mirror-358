@@ -1,0 +1,212 @@
+Metadata-Version: 2.4
+Name: lit-tui
+Version: 0.1.0
+Summary: A lightweight terminal chat interface for Ollama with MCP integration
+Author-email: Ben Vierck <ben@lit.ai>
+License: MIT
+Project-URL: Homepage, https://github.com/Positronic-AI/lit-tui
+Project-URL: Documentation, https://github.com/Positronic-AI/lit-tui/blob/main/README.md
+Project-URL: Repository, https://github.com/Positronic-AI/lit-tui
+Project-URL: Issues, https://github.com/Positronic-AI/lit-tui/issues
+Keywords: chat,ollama,tui,terminal,mcp,llm
+Classifier: Development Status :: 3 - Alpha
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Communications :: Chat
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: textual>=0.40.0
+Requires-Dist: rich>=13.0.0
+Requires-Dist: ollama>=0.4.0
+Requires-Dist: aiofiles>=23.0.0
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: asyncio-mqtt>=0.13.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.21.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: isort>=5.12.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Requires-Dist: pre-commit>=3.0.0; extra == "dev"
+Provides-Extra: mcp
+Requires-Dist: mcp>=1.0.0; extra == "mcp"
+Provides-Extra: enhanced
+Requires-Dist: system-prompt-composer>=1.0.0; extra == "enhanced"
+Dynamic: license-file
+
+# LIT TUI
+
+A lightweight, fast, and beautiful terminal chat interface for Ollama with MCP (Model Context Protocol) integration.
+
+![LIT TUI Demo](docs/demo.gif)
+
+## ✨ Features
+
+- **🚀 Fast**: Starts in milliseconds, not seconds
+- **💡 Smart**: Optional integration with system-prompt-composer for enhanced prompts
+- **🔧 Extensible**: MCP integration for dynamic tool discovery and execution
+- **🎨 Beautiful**: Rich terminal interface with syntax highlighting and native terminal appearance
+- **⌨️ Keyboard-first**: Efficient navigation designed for developers
+- **📦 Lightweight**: No Electron overhead - pure Python performance
+- **🔄 Cross-platform**: Works on Linux, macOS, and Windows terminals
+
+## 🚀 Quick Start
+
+### Installation
+
+```bash
+# Install from PyPI (when published)
+pip install lit-tui
+
+# Or install from source
+git clone https://github.com/lit-ai/lit-tui.git
+cd lit-tui
+pip install -e .
+```
+
+### Prerequisites
+
+- Python 3.8+
+- [Ollama](https://ollama.ai) running locally
+- A terminal with Unicode support
+
+### Usage
+
+```bash
+# Start lit-tui
+lit-tui
+
+# Or with specific model
+lit-tui --model llama2
+
+# With debug logging
+lit-tui --debug
+```
+
+## 🛠️ Configuration
+
+lit-tui stores its configuration in `~/.lit-tui/config.json`. On first run, it will create a default configuration.
+
+### Example Configuration
+
+```json
+{
+  "ollama": {
+    "host": "http://localhost:11434",
+    "default_model": "llama2"
+  },
+  "ui": {
+    "font_size": "medium",
+    "show_token_count": true
+  },
+  "storage": {
+    "max_sessions": 100,
+    "auto_save": true
+  },
+  "mcp": {
+    "enabled": true,
+    "servers": []
+  }
+}
+```
+
+## 🔧 MCP Integration
+
+lit-tui supports the Model Context Protocol for dynamic tool integration:
+
+```json
+{
+  "mcp": {
+    "enabled": true,
+    "servers": [
+      {
+        "name": "filesystem",
+        "command": "mcp-server-filesystem",
+        "args": ["--root", "/home/user/projects"]
+      },
+      {
+        "name": "git",
+        "command": "mcp-server-git"
+      }
+    ]
+  }
+}
+```
+
+## ⌨️ Keyboard Shortcuts
+
+| Key | Action |
+|-----|--------|
+| `Ctrl+N` | New chat session |
+| `Ctrl+O` | Open session |
+| `Ctrl+Q` | Quit |
+| `ESC` | Quit with confirmation |
+| `Enter` | Send message |
+| `Shift+Enter` | New line in message |
+| `Ctrl+/` or `F1` | Show help |
+
+## 🎨 Appearance
+
+lit-tui uses your terminal's default theme and colorscheme for a native look and feel. The interface features transparent backgrounds that blend seamlessly with your terminal environment, respecting your personal terminal configuration and color preferences.
+
+## 🏗️ Architecture
+
+lit-tui is designed as a reference implementation showcasing:
+
+- **Clean async architecture** using Python's asyncio
+- **Direct protocol integration** with Ollama and MCP
+- **Terminal-native UI** with Textual framework
+- **Modular design** with clear separation of concerns
+- **Performance optimization** for responsive chat experience
+
+## 🤝 Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+### Development Setup
+
+```bash
+git clone https://github.com/Positronic-AI/lit-tui.git
+cd lit-tui
+python3 -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+pip install -e ".[dev]"
+pre-commit install
+```
+
+### Quick Development
+
+```bash
+# Use the development script for easy setup
+./dev.sh
+```
+
+### Running Tests
+
+```bash
+pytest
+```
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) for details.
+
+## 🙏 Acknowledgments
+
+- Built with [Textual](https://textual.textualize.io/) - an amazing Python TUI framework
+- Inspired by [lazygit](https://github.com/jesseduffield/lazygit), [k9s](https://k9scli.io/), and other excellent TUI applications
+- MCP integration follows the [Model Context Protocol](https://modelcontextprotocol.io/) specification
+
+---
+
+**Made with ❤️ by [LIT](https://lit.ai) - Advancing the field of AI through open-source innovation**
