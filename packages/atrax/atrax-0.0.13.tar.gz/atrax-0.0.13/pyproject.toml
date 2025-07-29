@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "atrax"
+version = "0.0.13"
+description = "A pandas-like library for tabular and time series data."
+authors = [
+    { name="C5m7b4", email="c5m7b4@gmail.com" }
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = ["psycopg2", "sqlalchemy"]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = """
+    --cov=atrax 
+    --cov-report=term-missing 
+    --cov-report=html 
+    --cov-fail-under=80 
+    -v
+"""
+
+[tool.setuptools]
+packages = ["atrax"]
+
+[project.urls]
+Homepage="https://github.com/C5m7b4/atrax"
+Issues="https://github.com/C5m7b4/atrax"
