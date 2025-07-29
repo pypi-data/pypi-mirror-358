@@ -1,0 +1,13 @@
+# .coveragerc to control coverage.py
+[run]
+branch = True
+omit =
+    src/ans_env_loader/version.py
+
+source =
+    src/ans_env_loader
+    src/ans_env_loader_tests
+
+
+[html]
+directory = tmp/coverage-html
