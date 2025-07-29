@@ -1,0 +1,6 @@
+[fabric_analytics.context_provider]
+purepython = fabric.analytics.environment.notebook_plugin.context:NotebookContextProviderPlugin
+
+[fabric_analytics.token_credential_provider]
+purepython = fabric.analytics.environment.notebook_plugin.python_notebook_plugin.credentials:PythonNotebookCredentialProviderPlugin
+spark = fabric.analytics.environment.notebook_plugin.spark_notebook_plugin.credentials:SparkNotebookCredentialProviderPlugin
