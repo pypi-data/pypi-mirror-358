@@ -1,0 +1,11 @@
+{% extends 'layouts/layout_base.html' %}
+
+{% block title %}{% if diff_api %}Collection Diff{% else %}{{ collectionid }} - Browse{% endif %}{% endblock title %}
+
+{% block body_content %}
+<covmanagerbrowse
+  {% if id %} :ids="{{ids}}" {% endif %}
+  {% if collectionid %} :collection-id="{{collectionid}}" {% endif %}
+  :diff-api="{% if diff_api %}true {% else %}false{% endif %}"
+/>
+{% endblock body_content %}

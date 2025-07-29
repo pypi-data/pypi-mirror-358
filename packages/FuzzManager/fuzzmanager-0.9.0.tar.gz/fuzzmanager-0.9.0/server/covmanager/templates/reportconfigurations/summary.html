@@ -1,0 +1,7 @@
+{% extends 'layouts/layout_base.html' %}
+
+{% block title %}{{ collection.id }} - Summary{% endblock title %}
+
+{% block body_content %}
+<covmanagersummary :collection-created-date="'{{ collection.created }}'" :collection-id="{{ collection.id }}" />
+{% endblock body_content %}

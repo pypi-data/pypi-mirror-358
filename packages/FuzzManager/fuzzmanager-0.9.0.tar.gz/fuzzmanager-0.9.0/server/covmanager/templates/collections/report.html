@@ -1,0 +1,10 @@
+{% extends 'layouts/layout_base.html' %}
+
+{% block title %}Reports{% endblock title %}
+
+{% block body_content %}
+<covmanagerreports
+  :can-publish="{% if perms.crashmanager.covmanager_publish %} true {% else %} false {% endif %}"
+/>
+
+{% endblock body_content %}

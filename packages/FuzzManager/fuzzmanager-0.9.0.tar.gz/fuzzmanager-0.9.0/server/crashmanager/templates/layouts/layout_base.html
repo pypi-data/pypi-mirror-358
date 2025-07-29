@@ -1,0 +1,127 @@
+{% block layout.base %}<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% block head %}
+<head>
+{% block meta %}
+  <meta http-equiv="content-type" content="{% block meta.content-type %}text/html;charset=UTF-8{% endblock meta.content-type %}" />
+  <meta name="description" content="{% block meta.description %}{% endblock meta.description %}" />
+  <meta name="keywords" content="{% block meta.keywords %}{% endblock meta.keywords %}" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% endblock meta %}
+  <title>{% block title %}{% endblock title %}</title>
+  <link rel="shortcut icon" type="image/png" href="{% static 'img/logo.png' %}"/>
+{% block css %}
+  <link rel="preconnect" href="//fonts.googleapis.com">
+  <link rel="preconnect" href="//fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600;700&family=Open+Sans:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css" integrity="sha512-xnP2tOaCJnzp2d2IqKFcxuOiVCbuessxM6wuiolT9eeEJCyy0Vhcwa4zQvdrZNVqlqaxXhHqsSV1Ww7T2jSCUQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha512-Dop/vW3iOtayerlYAqCgkVr2aTr2ErwwTYOvRFUpzl2VhCMJyjQF0Q9TjUXIo6JhuM/3i0vVEt2e/7QQmnHQqw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-vue/2.4.2/bootstrap-vue.min.css" integrity="sha512-UvMFR4bP1NuYl34MonQQInQ6Z0Gy91dO7kKk63XmiMDUT6FjRv6QQwU9hHJeZPaSCKecUta8MMcK+QKrrAjtfg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="{% static 'css/default.css' %}">
+  <link rel="stylesheet" href="{% static 'main.css' %}">
+{% block css.shared %}{% endblock css.shared %}
+{% block css.custom %}{% endblock css.custom %}
+{% endblock css%}
+{% block js %}
+{% block vue.frontend %}
+  <script type="text/javascript" src="{% static 'main.js' %}"></script>
+{% endblock vue.frontend %}
+{% block js.shared %}{% endblock js.shared %}
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha512-oBTprMeNEKCnqfuqKd6sbvFzmFQtlXS3e0C/RGFV0hD6QzhHV+ODfaQbAlmY6/q0ubbwlAM/nCJjkrgA3waLzg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="{% static 'js/params.js' %}"/></script>
+  <script src="{% static 'js/cookie-csrf.js' %}"/></script>
+  <script src="{% static 'js/vuejs-slider.js' %}"/></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/3.4.1/chart.min.js" integrity="sha512-5vwN8yor2fFT9pgPS9p9R7AszYaNn0LkQElTXIsZFCL7ucT8zDCAqlQXDdaqgA1mZP47hdvztBMsIoFxq/FyyQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/vue-chartjs/3.5.1/vue-chartjs.min.js" integrity="sha512-HIA1ey+BHvsI1zt1i4IC52HvVClIQ6pOUbuZ/YN0ko2DPgkJp50ADnA7XXiKU0k1TyLUrW4VCdB/n82Et9NGxA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js" integrity="sha512-/Rynaa6ehLZJO9fdk+EUsgiOdJqFSFUB4Qgy+gP4vU4U1DrmPJWypfXe1CgyaV7rRdZjGxdpLe9djxhx1ZHvqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js" integrity="sha512-8VrjxGFLIkS0mgEmO3p46A5OkqATHhrNVwyv2V7yUeZrk1jmSDuI3SOEpC9XHEHUWEOsfzzcJeBlUkee9lKGrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js" integrity="sha512-namzGTZvHaug0jeipHRN2pMepMiJj+EbrloktVFlMYGnA0EwZhbdLeENjBYLCgoghVbZGinIz/FFYHmB0o3wLw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js" integrity="sha512-whYhDwtTmlC/NpZlCr6PSsAaLOrfjVg/iXAnC4H/dtiHawpShhT2SlIMbpIhT/IL/NrpdMm+Hq2C13+VKpHTYw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script>
+  (() => {
+    const notify_badge_class = 'badge';
+    const notify_api_url = '/inbox/notifications/api/unread_count/';
+    const notify_fetch_count = '5';
+    const notify_refresh_period = 0;
+    const consecutive_misfires = 0;
+
+    function fill_notification_badge(data) {
+      const badges = document.getElementsByClassName(notify_badge_class);
+      for (let i = 0; i < badges.length|0; i++) {
+        badges[i].innerHTML = data;
+      }
+    }
+
+    function fetch_api_data() {
+      fetch(notify_api_url+'?max='+notify_fetch_count, {credentials: 'same-origin'})
+      .then(response => {
+        if (response.ok) {
+          response.json()
+          .then(data => {
+            fill_notification_badge(data.unread_count);
+          })
+          if (notify_refresh_period) {
+            setTimeout(fetch_api_data, notify_refresh_period);
+          }
+        } else {
+          swal('Oops', E_SERVER_ERROR, 'error');
+          console.debug(response);
+        }
+      })
+      .catch(e => {
+        fill_notification_badge('!');
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", fetch_api_data)
+  })()
+  </script>
+
+{% block js.custom %}{% endblock js.custom %}
+  <script src="//cdn.jsdelivr.net/npm/bootstrap-vue-next@0.20.0/dist/bootstrap-vue-next.umd.min.js" integrity="sha512-t9WHfCJcfpdWNpb3oFQ7WYU19fCeUuxzKrEgeRY9V4TTMx7sxVvvwf9Hkm+qsISDbb90vtJ55pfwNalSG+YT6A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{% endblock js%}
+{% if debug %}
+  <script>
+    Vue.options.debug = true
+  </script>
+{% endif %}
+  <script>
+    $(function(){
+      $('[data-toggle="popover"]').popover({trigger: 'hover','placement': 'top'});
+    });
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    });
+  </script>
+</head>
+{% endblock head %}
+
+<body>
+  <div id="app">
+{% block header %}
+    <div id="hd">
+      {% block header_content %}{% include 'shared/header.html' %}{% endblock header_content %}
+    </div>
+{% endblock header %}
+
+{% block body %}
+    <div id="bd" style="padding-top:15px; padding-bottom: 20px">
+      {% block body_content %}{% endblock body_content %}
+    </div>
+{% endblock body %}
+
+{% block footer %}
+    <div id="ft">
+      {% block footer_content %}{% include 'shared/footer.html' %}{% endblock footer_content %}
+    </div>
+{% endblock footer %}
+  </div>
+</body>
+
+</html>
+{% endblock layout.base %}
