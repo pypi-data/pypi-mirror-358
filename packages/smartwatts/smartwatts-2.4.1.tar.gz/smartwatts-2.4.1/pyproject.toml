@@ -1,0 +1,55 @@
+[build-system]
+requires = ["uv-build>=0.6.6,<0.8"]
+build-backend = "uv_build"
+
+[project]
+name = "smartwatts"
+version = "2.4.1"
+description = "SmartWatts is a formula for a self-adaptive software-defined power meter based on the PowerAPI framework."
+readme = "README.md"
+keywords = ["powerapi", "energy", "power-meter", "power-model", "green-computing", "containers"]
+license = {text = "BSD-3-Clause"}
+requires-python = ">=3.10"
+
+classifiers = [
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: BSD License",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "Development Status :: 5 - Production/Stable",
+    "Topic :: System :: Monitoring",
+]
+
+authors = [
+    {name = "Guillaume Fieni", email = "guillaume.fieni@inria.fr"},
+]
+
+dependencies = [
+    "powerapi[everything] == 2.10.0",
+    "scikit-learn >= 0.20.2",
+]
+
+[dependency-groups]
+test = [
+    "pytest >= 3.9.2",
+    "pytest-cov >= 4.0.0"
+]
+
+lint = [
+    "ruff >= 0.0.262",
+    "pylint >= 2.16.0"
+]
+
+dev = [
+    {include-group = 'test'},
+    {include-group = 'lint'}
+]
+
+[project.urls]
+homepage = "https://powerapi.org"
+documentation = "https://powerapi.readthedocs.org"
+repository = "https://github.com/powerapi-ng/smartwatts-formula"
