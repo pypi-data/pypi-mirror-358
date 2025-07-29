@@ -1,0 +1,69 @@
+[project]
+name = "fastpluggy-plugins"
+version = "0.0.44"
+description = "Official plugin bundle for FastPluggy"
+authors = [{ name = "Your Name", email = "you@example.com" }]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "jinja2",
+    "redis",
+    "croniter",
+    "psutil",
+    "loguru",
+    "prometheus_client",
+    "babel",
+    "passlib",
+    "python-jose",
+    "python-multipart",
+    "packaging",
+]
+
+[project.entry-points."fastpluggy.plugins"]
+auth_user = "fastpluggy_plugin.auth_user.plugin:AuthUserPlugin"
+crud_tools = "fastpluggy_plugin.crud_tools.plugin:CrudToolsModule"
+redis_tools = "fastpluggy_plugin.redis_tools.plugin:RedisToolsPlugin"
+scheduled_query = "fastpluggy_plugin.scheduled_query.plugin:ScheduledQueryPlugin"
+tasks_worker = "fastpluggy_plugin.tasks_worker.plugin:TaskRunnerPlugin"
+ui_tools = "fastpluggy_plugin.ui_tools.plugin:UiToolsModule"
+websocket_tool = "fastpluggy_plugin.websocket_tool.plugin:WebSocketToolPlugin"
+debug_tools = "fastpluggy_plugin.debug_tools.plugin:DebugToolsPlugin"
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = [
+    "fastpluggy_plugin",
+    "fastpluggy_plugin.auth_user",
+    "fastpluggy_plugin.crud_tools",
+    "fastpluggy_plugin.debug_tools",
+    "fastpluggy_plugin.redis_tools",
+    "fastpluggy_plugin.scheduled_query",
+    "fastpluggy_plugin.tasks_worker",
+    "fastpluggy_plugin.ui_tools",
+    "fastpluggy_plugin.websocket_tool",
+]
+include-package-data = true
+
+[tool.setuptools.package-dir]
+"fastpluggy_plugin" = "fastpluggy_plugin"
+"fastpluggy_plugin.auth_user" = "fastpluggy_plugin/auth_user/src"
+"fastpluggy_plugin.crud_tools" = "fastpluggy_plugin/crud_tools/src"
+"fastpluggy_plugin.debug_tools" = "fastpluggy_plugin/debug_tools/src"
+"fastpluggy_plugin.redis_tools" = "fastpluggy_plugin/redis_tools/src"
+"fastpluggy_plugin.scheduled_query" = "fastpluggy_plugin/scheduled_query/src"
+"fastpluggy_plugin.tasks_worker" = "fastpluggy_plugin/tasks_worker/src"
+"fastpluggy_plugin.ui_tools" = "fastpluggy_plugin/ui_tools/src"
+"fastpluggy_plugin.websocket_tool" = "fastpluggy_plugin/websocket_tool/src"
+
+[tool.setuptools.package-data]
+"fastpluggy_plugin.auth_user" = ["**/*","templates/**/*.html", "templates/**/*.j2", "static/**/*"]
+"fastpluggy_plugin.crud_tools" = ["**/*","templates/**/*.html", "templates/**/*.j2", "static/**/*"]
+"fastpluggy_plugin.debug_tools" = ["**/*","templates/**/*.html", "templates/**/*.j2", "static/**/*"]
+"fastpluggy_plugin.redis_tools" = ["**/*","templates/**/*.html", "templates/**/*.j2", "static/**/*"]
+"fastpluggy_plugin.scheduled_query" = ["**/*","templates/**/*.html", "templates/**/*.j2", "static/**/*"]
+"fastpluggy_plugin.tasks_worker" = ["**/*","templates/**/*.html", "templates/**/*.j2", "static/**/*"]
+"fastpluggy_plugin.ui_tools" = ["**/*","templates/**/*.html", "templates/**/*.j2", "static/**/*"]
+"fastpluggy_plugin.websocket_tool" = ["**/*","templates/**/*.html", "templates/**/*.j2", "static/**/*"]
