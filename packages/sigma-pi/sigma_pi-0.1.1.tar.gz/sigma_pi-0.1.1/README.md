@@ -1,0 +1,152 @@
+# ΣPI: Observe the Cognitive ability of Your AI Model
+
+[![PyPI version](https://badge.fury.io/py/sigma-pi.svg)](https://badge.fury.io/py/sigma-pi)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/dmf-archive/SigmaPI)
+
+**ΣPI** is a lightweight, universal SDK to calculate Predictive Integrity (PI), a metric from the Integrated Predictive Workspace Theory (IPWT) of consciousness. It provides a powerful, real-time proxy for your model's "cognitive state" during training.
+
+Stop just looking at `loss`. Start observing how your model _learns_.
+
+## What is Predictive Integrity (PI)?
+
+PI is a score (0 to 1) reflecting a model's internal world model integrity, derived from prediction error (Epsilon), model uncertainty (Tau), and global gradient norm (Surprise). High PI indicates healthy learning; a drop can signal issues like overfitting before loss metrics do.
+
+### Why Use ΣPI?
+
+- **Early Warning for Training Instability:** Detects subtle shifts in model "cognition" before loss metrics diverge.
+- **Insight into OOD Impact:** Quantifies the "surprise" your model experiences when encountering out-of-distribution data.
+- **Understanding Model Overfitting:** Reveals when your model's internal world becomes too rigid or too chaotic.
+- **Quantifying Cognitive Load:** Provides a novel metric for the "effort" your model expends to integrate new information.
+
+## Model Zoo & Experiments
+
+Our test suite is now centered around a lightweight (~1M parameter) Vision Transformer architecture to facilitate rapid experimentation on cognitive learning principles. We compare three main variants on CIFAR-10, using SVHN as an Out-of-Distribution (OOD) validation set.
+
+The goal is to observe how different learning strategies perform under resource constraints, providing a clearer view of the benefits of mechanisms like Gated Backpropagation (GBP).
+
+**"Don't just train your model. Understand its mind."**
+
+| **Baseline ViT** | **4x1 MoE-ViT** | **16x4 MoE-ViT** | **16x4 GBP-MoE-ViT with 3σ Learning** |
+| :---: | :---: | :---: | :---: |
+| ~0.81M | ~1.21M | ~1.23M | ~1.23M |
+| <img src="output/ViT/20250626-BASE_ViT-Params_0.81M.png" style="max-width:200px;"> | <img src="output/ViT/20250626-MOE_4x1_ViT-Params_1.21M.png" style="max-width:200px;"> | <img src="output/ViT/20250626-MOE_16x4_ViT-Params_1.23M.png" style="max-width:200px;"> | <img src="output/ViT/20250626-GBP_MOE_ViT-Params_1.23M.png" style="max-width:200px;"> |
+
+Old result (CNN, ResNet...) in [here](https://github.com/dmf-archive/SigmaPI/blob/ae4290e6a5687e0c1415a919afec3d992b0ecfc0/README.md).
+
+## Installation
+
+```bash
+pip install sigma-pi
+```
+
+## How to Use
+
+The `sigma-pi` package provides the core `SigmaPI` monitor. To replicate the experiments and use the full testing framework, you must first clone the repository.
+
+```bash
+git clone https://github.com/dmf-archive/SigmaPI.git
+cd SigmaPI
+```
+
+**Note:** This package does not automatically install PyTorch. Please manually install the appropriate version for your system (CPU or CUDA) before proceeding.
+
+After setting up PyTorch, install the testing framework dependencies:
+```bash
+pip install -e .[dev]
+```
+
+The testing framework is modular and configuration-driven.
+
+### 1. Configure Your Experiment
+
+Create or modify a configuration file in `test/configs/`. For example, `test/configs/base_vit.py`:
+
+```python
+# test/configs/base_vit.py
+
+# Model parameters
+model_config = {
+    'model_type': 'base',
+    'embed_dim': 128,
+    'depth': 6,
+    # ... other model params
+}
+
+# Training parameters
+train_config = {
+    'epochs': 20,
+    'batch_size': 256,
+    # ... other training params
+}
+```
+
+### 2. Run the Experiment
+
+Launch the experiment from the root directory using the `test/run_experiment.py` script:
+
+```bash
+python test/run_experiment.py --config test/configs/base_vit.py
+```
+
+To run the other variants, simply point to their respective config files:
+
+```bash
+# Run MoE-ViT experiment
+python test/run_experiment.py --config test/configs/moe_vit.py
+
+# Run GBP-MoE-ViT experiment
+python test/run_experiment.py --config test/configs/gbp_moe_vit.py
+```
+
+### 3. Integrating ΣPI
+
+```python
+# (Inside the training/validation loop)
+
+# Calculate loss
+loss_epsilon = loss_fn(logits, target)
+
+# Compute gradients
+model.zero_grad()
+loss_epsilon.backward()
+
+# Calculate PI metrics
+pi_metrics = pi_monitor.calculate(
+    model=model,
+    loss_epsilon=loss_epsilon,
+    logits=logits
+)
+
+print(f"PI: {pi_metrics['pi_score']:.4f}, Surprise: {pi_metrics['surprise']:.4f}")
+```
+
+The returned `pi_metrics` dictionary contains:
+
+- `pi_score`: The overall predictive integrity (0-1)
+- `surprise`: Gradient norm indicating model adaptation
+- `normalized_error`: Error scaled by model uncertainty
+- `cognitive_cost`: Combined cost of error and surprise
+- Additional component metrics for detailed analysis
+
+## Further Reading
+
+PI is a concept derived from the **Integrated Predictive Workspace Theory (IPWT)**, a computational theory of consciousness. To understand the deep theory behind this tool, please refer to <https://github.com/dmf-archive/IPWT>
+
+## Citation
+
+If you wish to cite this work, please use the following BibTeX entry:
+
+```bibtex
+@misc{sigma_pi,
+  author       = {Rui, L.},
+  title        = {{ΣPI: Observe the Cognitive ability of Your AI Model}},
+  year         = {2025},
+  publisher    = {GitHub},
+  url          = {https://github.com/dmf-archive/SigmaPI}
+}
+```
+
+## License
+
+This project is licensed under the MIT License.
