@@ -1,0 +1,31 @@
+[build-system]
+requires = ["maturin>=1.8,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "photoncube"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+dynamic = ["version"]
+dependencies = [
+    "typing_extensions",
+    "numpy"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "black",
+    "imageio"
+]
+
+[tool.maturin]
+features = ["pyo3/extension-module"]
+
+[project.scripts]
+photoncube = "photoncube:cli_entrypoint"
+pcube = "photoncube:cli_entrypoint"
