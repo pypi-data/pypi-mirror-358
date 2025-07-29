@@ -1,0 +1,14 @@
+[project]
+name = "reallife-client-mac"
+version = "0.1.16"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [ "appscriptz>=0.1.4", "apscheduler>=3.11.0", "canvaz>=0.1.3", "kanbanz==0.2.7", "requests>=2.32.3", "toml>=0.10.2",]
+
+[tool.setuptools.package-data]
+clientz = [ "config.yaml",]
+
+[tool.pytest.ini_options]
+testpaths = [ "tests",]
+pythonpath = [ "src",]
