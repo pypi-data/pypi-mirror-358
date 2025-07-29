@@ -1,0 +1,86 @@
+Metadata-Version: 2.4
+Name: cloudscale-cli
+Version: 1.5.0
+Summary: Command line interface client for cloudscale.ch
+Home-page: https://github.com/cloudscale-ch/cloudscale-cli
+Author: René Moser
+Author-email: mail@renemoser.net
+License: MIT
+Classifier: Intended Audience :: System Administrators
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Environment :: Console
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: cloudscale-sdk>=0.6.2
+Requires-Dist: click>=7.0.0
+Requires-Dist: tabulate
+Requires-Dist: pygments
+Requires-Dist: jmespath
+Requires-Dist: yaspin
+Requires-Dist: natsort
+Provides-Extra: highlight
+Requires-Dist: pygments; extra == "highlight"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license
+Dynamic: license-file
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+![license](https://img.shields.io/pypi/l/cloudscale-cli.svg)
+![python versions](https://img.shields.io/pypi/pyversions/cloudscale-cli.svg)
+![status](https://img.shields.io/pypi/status/cloudscale-cli.svg)
+[![pypi version](https://img.shields.io/pypi/v/cloudscale-cli.svg)](https://pypi.org/project/cloudscale-cli/)
+![PyPI - Downloads](https://img.shields.io/pypi/dw/cloudscale-cli)
+
+# cloudscale.ch CLI
+
+The official [cloudscale.ch](https://www.cloudscale.ch) command line interface (CLI) client.
+
+## Install
+
+~~~shell
+pipx install cloudscale-cli
+cloudscale --help
+~~~
+
+## Usage
+
+~~~raw
+Usage: cloudscale [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  --version                  Show the version and exit.
+  -a, --api-token TEXT       API token.
+  -p, --profile TEXT         Profile used in config file.
+  --debug                    Enables debug log output.
+  -o, --output [table|json]  Output format.  [default: table]
+  -h, --help                 Show this message and exit.
+
+Commands:
+  custom-image
+  flavor
+  floating-ip
+  image
+  network
+  objects-user
+  region
+  server
+  server-group
+  subnet
+  volume
+~~~
+
+## Documentation
+
+Please visit [https://cloudscale-ch.github.io/cloudscale-cli](https://cloudscale-ch.github.io/cloudscale-cli).

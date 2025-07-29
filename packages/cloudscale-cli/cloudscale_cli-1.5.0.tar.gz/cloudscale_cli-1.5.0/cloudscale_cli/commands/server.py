@@ -1,0 +1,299 @@
+import os
+import sys
+import uuid
+
+import click
+import jmespath
+from cloudscale import CloudscaleApiException
+
+from ..interface_parameter_parser import parse_interface
+
+
+@click.group()
+@click.pass_context
+def server(ctx):
+
+    headers = [
+        "name",
+        "status",
+        "flavor",
+        "zone",
+        "tags",
+        "uuid",
+    ]
+
+    verbose_headers = [
+        "name",
+        "image",
+        "flavor",
+        "status",
+        "zone",
+        "public_ips",
+        "private_ips",
+        "server_groups",
+        "volumes",
+        "tags",
+        "uuid",
+    ]
+
+    ctx.obj.cloud_resource_name = "server"
+    ctx.obj.headers = verbose_headers if ctx.obj.verbose else headers
+    ctx.obj.response_transform_json = """
+        [].{
+            "name": name,
+            "image": image.slug,
+            "flavor": flavor.slug,
+            "tags": tags,
+            "server_groups": server_groups,
+            "volumes": volumes[].name,
+            "public_ips": interfaces[?type=='public'].addresses[].address,
+            "private_ips": interfaces[?type=='private'].addresses[].address,
+            "zone": zone.slug,
+            "status": status,
+            "uuid": uuid
+            }
+    """
+
+
+@click.option("--filter-tag")
+@click.option("--filter-json")
+@click.option("--action", type=click.Choice(["start", "stop", "reboot"]))
+@click.option("--delete", is_flag=True)
+@click.option("--force", is_flag=True)
+@click.option("--wait", is_flag=True)
+@server.command("list")
+@click.pass_obj
+def cmd_list(cloudscale, filter_tag, filter_json, action, delete, force, wait):
+    cloudscale.cmd_list(
+        filter_tag=filter_tag,
+        filter_json=filter_json,
+        action=action,
+        delete=delete,
+        force=force,
+        wait=wait,
+    )
+
+
+@click.argument("uuid", required=True)
+@server.command("show")
+@click.pass_obj
+def cmd_show(cloudscale, uuid):
+    cloudscale.cmd_show(
+        uuid=uuid,
+    )
+
+
+@click.option("--count", type=click.IntRange(1, 10), default=1, show_default=True)
+@click.option("--name", required=True)
+@click.option("--flavor", required=True)
+@click.option("--image", required=True)
+@click.option("--zone")
+@click.option("--volume-size", type=int, default=10)
+@click.option("--volume", "volumes", multiple=True)
+@click.option("--interface", "interfaces", multiple=True)
+@click.option("--ssh-key", "ssh_keys", multiple=True)
+@click.option("--password")
+@click.option("--use-public-network/--no-use-public-network", default=True)
+@click.option("--use-private-network/--no-use-private-network", default=False)
+@click.option("--use-ipv6/--no-use-ipv6", default=True)
+@click.option("--server-group", "server_groups", multiple=True)
+@click.option("--user-data")
+@click.option("--tag", "tags", multiple=True)
+@click.option("--wait", is_flag=True, help="Wait for status is running.")
+@server.command("create")
+@click.pass_obj
+def cmd_create(
+    cloudscale,
+    name,
+    flavor,
+    image,
+    zone,
+    volume_size,
+    volumes,
+    interfaces,
+    ssh_keys,
+    password,
+    use_public_network,
+    use_private_network,
+    use_ipv6,
+    server_groups,
+    user_data,
+    tags,
+    count,
+    wait,
+):
+    servers_created = list()
+    while len(servers_created) < count:
+        uid = str(uuid.uuid4()).split("-")[0]
+        counter = len(servers_created) + 1
+        try:
+            server_name = name.format(uid=uid, counter=counter)
+        except KeyError as e:
+            click.echo(f"Error: Could not format name '{name}': {e}", err=True)
+            sys.exit(1)
+
+        interfaces_parsed = [parse_interface(i).as_json() for i in interfaces]
+
+        kwargs = {}
+        if not interfaces_parsed:
+            kwargs["use_public_network"] = use_public_network
+            kwargs["use_private_network"] = use_private_network
+
+        s = cloudscale.cmd_create(
+            silent=True,
+            name=server_name,
+            flavor=flavor,
+            image=image,
+            zone=zone,
+            volume_size=volume_size,
+            volumes=volumes or None,
+            interfaces=interfaces_parsed or None,
+            ssh_keys=ssh_keys or None,
+            password=password,
+            use_ipv6=use_ipv6,
+            server_groups=server_groups or None,
+            user_data=user_data,
+            tags=tags,
+        )
+        servers_created.append(s)
+
+    if wait:
+        _tmp = []
+        for i, server_created in enumerate(servers_created):
+            s = cloudscale.wait_for_status(server_created["uuid"])
+            _tmp.append(s)
+
+        servers_created = _tmp
+
+    click.echo(cloudscale._format_output(servers_created))
+
+
+@click.argument("uuid", required=True)
+@click.option("--name")
+@click.option("--flavor")
+@click.option("--interface", "interfaces", multiple=True)
+@click.option("--tag", "tags", multiple=True)
+@click.option("--clear-tag", "clear_tags", multiple=True)
+@click.option("--clear-all-tags", is_flag=True)
+@click.option("--wait", is_flag=True, help="Wait for changes applied.")
+@server.command("update")
+@click.pass_obj
+def cmd_update(
+    cloudscale, uuid, name, flavor, interfaces, wait, tags, clear_tags, clear_all_tags
+):
+    interfaces_parsed = [parse_interface(i).as_json() for i in interfaces]
+
+    cloudscale.cmd_update(
+        uuid=uuid,
+        tags=tags,
+        clear_tags=clear_tags,
+        clear_all_tags=clear_all_tags,
+        name=name,
+        flavor=flavor,
+        interfaces=interfaces_parsed or None,
+        wait=wait,
+    )
+
+
+@click.argument("uuid", required=True)
+@click.option("--force", is_flag=True)
+@server.command("delete")
+@click.pass_obj
+def cmd_delete(cloudscale, uuid, force):
+    cloudscale.cmd_delete(
+        uuid=uuid,
+        force=force,
+    )
+
+
+@click.argument("uuid", required=True)
+@click.option("--wait", is_flag=True, help="Wait for status is running.")
+@server.command("start")
+@click.pass_obj
+def cmd_start(cloudscale, uuid, wait):
+    cloudscale.cmd_act(
+        action="start",
+        uuid=uuid,
+        wait=wait,
+    )
+
+
+@click.argument("uuid", required=True)
+@click.option("--wait", is_flag=True, help="Wait for status is stopped.")
+@server.command("stop")
+@click.pass_obj
+def cmd_stop(cloudscale, uuid, wait):
+    cloudscale.cmd_act(
+        action="stop",
+        uuid=uuid,
+        wait=wait,
+    )
+
+
+@click.argument("uuid", required=True)
+@click.option("--wait", is_flag=True, help="Wait for status is running.")
+@server.command("reboot")
+@click.pass_obj
+def cmd_reboot(cloudscale, uuid, wait):
+    cloudscale.cmd_act(
+        action="reboot",
+        uuid=uuid,
+        wait=wait,
+    )
+
+
+@click.argument("uuid", required=True)
+@click.option(
+    "--interface",
+    type=click.Choice(["public", "private"]),
+    default="public",
+    show_default=True,
+)
+@server.command("ssh")
+@click.pass_obj
+def cmd_ssh(cloudscale, uuid, interface):
+    try:
+        response = cloudscale.get_client_resource().get_by_uuid(uuid)
+    except CloudscaleApiException as e:
+        results = cloudscale.cmd_get_by_name(name=uuid)
+        if not results:
+            if cloudscale.resource_name_key:
+                msg = f"No resource found for {cloudscale.cloud_resource_name} having UUID or {cloudscale.resource_name_key}: {uuid}"
+            else:
+                msg = f"No resource found for {cloudscale.cloud_resource_name} having UUID: {uuid}"
+            click.echo(msg, err=True)
+            sys.exit(1)
+
+        if len(results) > 1:
+            click.echo(
+                f"Error: More than one resource found for {cloudscale.cloud_resource_name} having name: {uuid}. Please use UUID to select the resource.",
+                err=True,
+            )
+            sys.exit(1)
+
+        response = results[0]
+
+    except Exception as e:
+        click.echo(e, err=True)
+        sys.exit(1)
+
+    try:
+        filter_json = """
+            {
+            "public": interfaces[?type=='public'].addresses[0].address,
+            "private": interfaces[?type=='private'].addresses[0].address,
+            "username": image.default_username
+            }
+        """
+        response = jmespath.search(filter_json, response)
+        for host in response[interface]:
+            ssh_cmd = f"ssh {response['username']}@{host}"
+            os.system(ssh_cmd)
+            break
+        else:
+            click.echo(f"No IP on interface found: {interface}", err=True)
+            sys.exit(1)
+
+    except Exception as e:
+        click.echo(e, err=True)
+        sys.exit(1)
