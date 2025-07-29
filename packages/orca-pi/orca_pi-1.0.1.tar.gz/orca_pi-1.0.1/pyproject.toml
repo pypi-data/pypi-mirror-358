@@ -1,0 +1,162 @@
+[project]
+name = "orca-pi"
+dynamic = ["version"]
+description = "Python interface for the quantum chemical ORCA software package."
+authors = [
+    {name = "FACCTS GmbH", email = "info@faccts.de"},
+]
+dependencies = [
+    "numpy>=2.2.6,<3",
+    "platformdirs>=4.3.8,<5",
+    "pydantic>=2.11.5,<3",
+    "rdkit>=2025.3.2,<2026",
+    "semantic-version>=2.10.0,<3",
+]
+requires-python = ">=3.11"
+readme = "README.md"
+license = {file = "LICENSE"}
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Development Status :: 5 - Production/Stable",
+  "Operating System :: OS Independent",
+  "Intended Audience :: Developers",
+  "License :: Other/Proprietary License",
+]
+keywords = [
+  "orca",
+  "hpc", 
+  "chemistry", 
+  "machine learning", 
+  "interface",
+]
+
+[project.urls]
+Homepage = "https://faccts.de"
+Documentation = "https://www.faccts.de/docs/opi/nightly/docs/"
+Repository = "https://github.com/faccts/opi"
+Issues = "https://github.com/faccts/opi/issues"
+Changelog = "https://github.com/faccts/opi/blob/main/CHANGELOG.md"
+
+[build-system]
+requires = ["hatchling", "uv-dynamic-versioning"]
+build-backend = "hatchling.build"
+
+# // Project version
+[tool.hatch.version]
+source = "uv-dynamic-versioning"
+
+# > Wheel target
+[tool.hatch.build.targets.wheel]
+packages = ["src/opi"]
+
+# > Fallback version
+[tool.uv-dynamic-versioning]
+fallback-version = "0.0.0"
+
+
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$
+#    DEPENDENCY GROUPS
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+[dependency-groups]
+dev = [
+    "nox>=2025.5.1",
+]
+tests = [
+    "hypothesis>=6.133.0,<7",
+    "jsonschema>=4.24.0,<5",
+    "pytest>=8.3.5,<9",
+    "pytest-randomly>=3.16.0,<4",
+]
+lint = [
+    "ruff>=0.11.12",
+]
+type-check = [
+    "mypy>=1.16.0,<2",
+    "rdkit-stubs>=0.8",
+]
+spell-check = [
+    "codespell>=2.4.1",
+]
+dead-code = [
+    "vulture>=2.14",
+]
+docs = [
+    "autodoc-pydantic>=2.2.0,<3",
+    "sphinx>=8.2.3,<9",
+    "sphinx-autobuild>=2024.10.3,<2025",
+    "beautifulsoup4>=4.13.4,<5",
+    "furo>=2024.8.6,<2025",
+    "linuxdoc>=20240924",
+    "matplotlib>=3.10.3,<4",
+    "myst-nb>=1.2.0,<2",
+    "myst-parser>=4.0.1,<5",
+    "requests>=2.32.3,<3",
+    "scipy>=1.15.3,<2",
+    "sphinx-copybutton>=0.5.2",
+    "sphinx-design>=0.6.1",
+    "sphinx-notfound-page>=1.1.0,<2",
+    "sphinx-prompt>=1.9.0,<2",
+    "sphinx-subfigure>=0.2.4",
+    "sphinxcontrib-svg2pdfconverter>=1.3.0,<2",
+    "nbconvert>=7.16.6,<8",
+    "nbformat>=5.10.4,<6",
+    "sphinx-autoapi>=3.6.0,<4",
+]
+
+
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$
+#    CODE QUALITY TOOLS
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+# ////  PYTEST  ////
+[tool.pytest]
+xfail_strict = true
+strict_markers = true
+
+
+# ////  MYPY  ////
+[tool.mypy]
+strict = true
+pretty = true
+files = "src/"
+plugins = ['pydantic.mypy']
+
+[[tool.mypy.overrides]]
+module = ["semantic_versioning.*"]
+follow_untyped_imports = true
+
+
+# ////  RUFF  ////
+[tool.ruff]
+include = [
+    "pyproject.toml",
+    "src/**/*.py",
+    "tests/**/*.py"
+]
+# > Default max line-length: 100 chars
+line-length = 100
+
+[tool.ruff.lint]
+ignore = ["E203"]
+
+
+# ////  CODESPELL  ////
+[tool.codespell]
+skip = '*.pyc,*.densities*,*.gbw,./build/,./_venv'
+count = true
+summary = true
+quiet-level = 3
+ignore-words = '.codespellignore'
+enable-colors = true
+
+
+# ////  VULTURE  ////
+[tool.vulture]
+#exclude = []
+#ignore_decorators = []
+ignore_names = ["RdkitMol"]
+make_whitelist = false
+min_confidence = 70
+paths = ["src/"]
+#verbose = false
