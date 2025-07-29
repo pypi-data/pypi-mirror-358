@@ -1,0 +1,86 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "simple_config_builder"
+dynamic = ["version"]
+description = ''
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "Gehlen, Joshua", email = "joshuagehlen@hotmail.com" },
+]
+classifiers = [
+  "Development Status :: 1 - Planning",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+  "click",
+  "toml",
+  "pyaml",
+  "pydantic",
+  "fastapi[all]",
+]
+
+[project.optional-dependencies]
+docs = [
+  "mkdocs",
+  "mkdocs-material",
+  "mkdocstrings[python]",
+  "mkdocs-material-extensions",
+  "mkdocs-autorefs",
+  "mkdocs-include-markdown-plugin",
+  "mike",
+  ]
+
+
+
+[project.urls]
+Documentation = "https://jogehl.github.io/config"
+Issues = "https://github.com/jogehl/config/issues"
+Source = "https://github.com/jogehl/config"
+
+[project.scripts]
+simple_config_builder = "simple_config_builder.cli:config"
+
+[tool.hatch.version]
+  path = "src/simple_config_builder/__about__.py"
+
+[tool.hatch.envs.default]
+type = "virtual"
+path = ".venv"
+
+[tool.hatch.envs.types]
+extra-dependencies = [
+  "mypy>=1.0.0",
+]
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/config tests}"
+
+[tool.hatch.envs.hatch-static-analysis]
+config-path = "ruff.toml"
+
+[tool.coverage.run]
+source_pkgs = ["simple_config_builder", "tests"]
+branch = true
+parallel = true
+omit = [
+  "src/simple_config_builder/__about__.py",
+]
+
+[tool.coverage.paths]
+config = ["src/simple_config_builder"]
+tests = ["tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
