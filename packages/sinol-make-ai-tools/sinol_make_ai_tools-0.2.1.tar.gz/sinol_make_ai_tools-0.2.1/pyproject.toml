@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sinol-make-ai-tools"
+version = "0.2.1"
+authors = [
+  { name="Wojciech Malinowski", email="wojciech.malinowski.100@gmail.com" },
+]
+description = "A wrapper for sinol-make with tools for generating packages with AI."
+readme = "README.md" # It's good practice to add a README file
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "GPL-3.0"
+license-files = ["LICEN[CS]E*"]
+
+# This is the magic for pipx!
+# It creates a command-line script named 'smash' that calls the 'main'
+# function inside the 'sinol_make_ai_tools.cli' module.
+[project.scripts]
+sinol-make-ai-tools = "sinol_make_ai_tools.cli:main"
+smat = "sinol_make_ai_tools.cli:main"
+
+# Tells setuptools where to find your package code
+[tool.setuptools.packages.find]
+where = ["src"]
