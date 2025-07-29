@@ -1,0 +1,203 @@
+Metadata-Version: 2.4
+Name: mplviz
+Version: 0.3
+Summary: A fluent wrapper around matplotlib for easy, expressive visualizations
+Home-page: https://github.com/BBEK-Anand/mplviz
+Author: BBEK-Anand
+License: MIT
+Project-URL: Homepage, https://github.com/BBEK-Anand/mplviz
+Project-URL: Repository, https://github.com/BBEK-Anand/mplviz
+Project-URL: Issues, https://github.com/BBEK-Anand/mplviz/issues
+Keywords: matplotlib,visualization,wrapper,plotting
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Topic :: Scientific/Engineering :: Visualization
+Classifier: Framework :: Matplotlib
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: matplotlib>=3.6.0
+Requires-Dist: numpy>=1.18.0
+Requires-Dist: ipython>=7.0.0
+Provides-Extra: docs
+Requires-Dist: sphinx; extra == "docs"
+Requires-Dist: sphinx_rtd_theme; extra == "docs"
+Requires-Dist: myst-parser; extra == "docs"
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-python
+
+<!-- CI Badges -->
+![Tests](https://github.com/BBEK-Anand/mplviz/actions/workflows/tests.yml/badge.svg?branch=main)
+[![Lint & Format](https://github.com/BBEK-Anand/mplviz/actions/workflows/lint-format.yml/badge.svg)](https://github.com/BBEK-Anand/mplviz/actions/workflows/lint-format.yml)
+![Tested](https://img.shields.io/badge/Tested-Py38--310_/_MPL_3.6--3.10-green)
+[![PyPI Version](https://img.shields.io/pypi/v/mplviz.svg)](https://pypi.org/project/mplviz/)
+[![Dependencies Status](https://img.shields.io/librariesio/github/BBEK-Anand/mplviz)](https://libraries.io/github/BBEK-Anand/mplviz)
+[![Docs (latest)](https://readthedocs.org/projects/mplviz/badge/?version=latest)](https://mplviz.readthedocs.io/en/latest/)
+
+# mplviz
+
+
+# Viz - A Fluent API Wrapper for Matplotlib
+
+`Viz` is a user-friendly, fluent API wrapper for `matplotlib` designed to streamline the process of creating, customizing, and managing plots in Python. By supporting method chaining and reusable functions, `Viz` makes complex plotting workflows easier to handle, while still offering complete control over `matplotlib` functionalities.
+
+---
+
+## 📦 Installation
+
+To install the `Viz` package, use `pip` from PyPI (once it's published) or from the source.
+
+### Install via PyPI:
+
+```bash
+pip install mplviz
+```
+
+### Install from Source:
+
+```bash
+git clone https://github.com/BBEK-Anand/mplviz.git
+cd mplviz
+pip install .
+```
+
+---
+
+## 🚀 Quick Start
+
+Here’s how you can use `Viz` to create a simple plot:
+
+```python
+import matplotlib.pyplot as plt
+from mplviz import Viz
+
+# Create a figure and axis
+fig, ax = plt.subplots()
+
+# Initialize Viz with the axis
+viz = Viz(ax, fig)
+
+# Plot a line with customization
+viz.plot([1, 2, 3], [4, 5, 6], label='Line') \
+   .set_title("My Plot") \
+   .xlabel("X Axis") \
+   .ylabel("Y Axis") \
+   .legend() \
+   .grid(True) \
+   .show()
+```
+
+---
+
+## 🌟 Key Features
+
+* **Method Chaining**: Easily create readable and customizable plots with fluent syntax.
+* **Support for Multiple Plot Types**: Create line, scatter, bar charts, and more.
+* **Grid and Axis Customization**: Customize axis labels, grid visibility, and other settings.
+* **Flexible Subplot Layout**: Seamlessly create grid-based layouts with subplots.
+* **Save and Export**: Save plots to images or PDFs.
+* **Reusability & Extensibility**: Define reusable styles and settings for plots.
+
+---
+
+## 📊 Supported Plot Types
+
+* **Line Plot**: `viz.plot()`
+* **Scatter Plot**: `viz.scatter()`
+* **Bar Chart**: `viz.bar()`
+* **Contour Plot**: `viz.contour()`
+* **Heatmaps/Images**: `viz.imshow()`
+* **Annotations**: `viz.annotate()`
+* **Axis Customization**: `viz.grid()`, `viz.set_xlim()`, `viz.set_ylim()`
+* **Subplots Layout**: `viz.add_subplot()`
+* **Multiple Y-Axes**: `viz.twinx()`
+
+---
+
+## 🛠️ Method Overview
+
+### Basic Plotting
+
+* `viz.plot(x, y, **kwargs)` - Create a line plot.
+* `viz.scatter(x, y, **kwargs)` - Create a scatter plot.
+* `viz.bar(x, y, **kwargs)` - Create a bar chart.
+
+### Customization
+
+* `viz.set_title(title, **kwargs)` - Set the plot title.
+* `viz.xlabel(text, **kwargs)` - Set the x-axis label.
+* `viz.ylabel(text, **kwargs)` - Set the y-axis label.
+* `viz.grid(flag=True, **kwargs)` - Toggle grid lines on or off.
+* `viz.legend(**kwargs)` - Show the legend.
+
+### Layout and Saving
+
+* `viz.show(clear=False)` - Display the plot in the notebook.
+* `viz.tight_layout(**kwargs)` - Adjust subplot layout to prevent overlap.
+* `viz.save(path, **kwargs)` - Save the plot to a file.
+
+---
+
+## 🔄 Combine Multiple Plots
+
+Combine multiple `Viz` objects into a single figure with subplots for side-by-side comparisons.
+
+```python
+fig, axs = plt.subplots(2, 2, figsize=(10, 10))
+viz1 = Viz(axs[0, 0])
+viz2 = Viz(axs[0, 1])
+
+viz1.plot([1, 2, 3], [4, 5, 6]).set_title("Plot 1")
+viz2.scatter([1, 2, 3], [2, 3, 4]).set_title("Plot 2")
+
+combined_viz = Viz.combine_viz([viz1, viz2])
+combined_viz.show()
+```
+
+---
+
+## ⚙️ Customization and Style
+
+You can apply predefined `matplotlib` styles using `plt.style` for quick and consistent styling:
+
+```python
+viz.style('seaborn-darkgrid')
+```
+
+---
+
+## 🤝 Contributing
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature-name`).
+3. Commit your changes (`git commit -am 'Add feature'`).
+4. Push your branch (`git push origin feature-name`).
+5. Open a Pull Request.
+
+---
+
+## 📄 License
+
+Distributed under the MIT License. See the `LICENSE` file for more information.
+
+---
+
+## 🙋‍♂️ Questions?
+
+If you have any questions or issues, feel free to open an issue on the GitHub repository. You can also contribute by improving the documentation or adding new features!
+
+---
+
+## 📍 Future Enhancements
+
+* Adding interactive features with libraries like `mplcursors` or `plotly`.
+* Improving subplot layout and positioning for more complex figure structures.
+* Expanding export options (e.g., support for SVG, LaTeX-friendly outputs).
+* Automatic color-mapping for scatter plots or heatmaps.
+
