@@ -1,0 +1,1 @@
+"""Generated MCP server package"""
