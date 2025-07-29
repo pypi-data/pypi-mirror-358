@@ -1,0 +1,111 @@
+{
+  "event_rates_interleaved_flatfield_rate": {
+    "fetchedData": {
+      "x": [-2, 1, 3, 4.5, 7, 10],
+      "y": [-40, 20, 30, 40, -20, 10]
+    },
+    "fetchedMetadata": {
+      "title": "Mock title: interleaved flatfield rate",
+      "xLabel": "mock x axis label",
+      "yLabel": "mock y axis label",
+      "xUnit": "mock x unit",
+      "yUnit": "mock y unit",
+      "xMin": -3,
+      "xMax": 11,
+      "yMin": -50,
+      "yMax": 50,
+      "criteriaReport": {
+        "TelescopeRangeCriterion": {
+          "config": {
+            "TelescopeRangeCriterion": {
+              "max_value": [["type", "*", 30]],
+              "min_value": [["type", "*", -30]]
+            }
+          },
+          "result": false
+        }
+      }
+    }
+  },
+  "event_rates_cosmics_rate": {
+    "fetchedData": {
+      "x": [-2, 0, 2, 3.5, 6, 8, 10],
+      "y": [-40, -30, -35, -50, -10, -20, -30],
+      "xerr": [0.5, 0.5, 0.75, 0.5, 1, 0.5, 0.5],
+      "yerr": [6, 5, 7, 4, 7, 5, 8]
+    },
+
+    "fetchedMetadata": {
+      "title": "Mock title: cosmic rate",
+      "xLabel": "mock x axis label",
+      "yLabel": "mock y axis label",
+      "xUnit": "mock x unit",
+      "yUnit": "mock y unit",
+      "criteriaReport": {
+        "RangeCriterion": {
+          "config": {
+            "RangeCriterion": {
+              "max_value": -8.0,
+              "min_value": -51.0
+            }
+          },
+          "result": true
+        }
+      }
+    }
+  },
+
+  "event_rates_contained_mu-rings_rate": {
+    "fetchedData": {
+      "x": [-2, 0, 2, 3.5, 6, 8, 10],
+      "y": [-40, -30, -35, -50, -10, -20, -30],
+      "xerr": [0.5, 0.5, 0.75, 0.5, 1, 0.5, 0.5],
+      "yerr": [6, 5, 7, 4, 7, 5, 8]
+    },
+    "fetchedMetadata": {
+      "title": "Mock title: contained mu-rings rate",
+      "xLabel": "mock x axis label",
+      "yLabel": "mock y axis label",
+      "xUnit": "mock x unit",
+      "yUnit": "mock y unit",
+      "criteriaReport": {
+        "TelescopeThresholdCriterion": {
+          "config": {
+            "TelescopeThresholdCriterion": {
+              "above": false,
+              "threshold": [["type", "*", -25]]
+            }
+          },
+          "result": false
+        }
+      }
+    }
+  },
+
+  "event_rates_interleaved_pedestals_rate": {
+    "fetchedData": {
+      "x": [-2, 0, 2, 3.5, 6, 8, 10],
+      "y": [-30, -20, -10, -50, -35, -30, -40],
+      "xerr": [0.5, 0.5, 1, 0.5, 0.75, 0.5, 0.5],
+      "yerr": [8, 5, 7, 4, 7, 5, 6]
+    },
+    "fetchedMetadata": {
+      "title": "Mock title: interleaved pedestals rate",
+      "xLabel": "mock x axis label",
+      "yLabel": "mock y axis label",
+      "xUnit": "mock x unit",
+      "yUnit": "mock y unit",
+      "criteriaReport": {
+        "ThresholdCriterion": {
+          "config": {
+            "ThresholdCriterion": {
+              "above": true,
+              "threshold": -52
+            }
+          },
+          "result": true
+        }
+      }
+    }
+  }
+}

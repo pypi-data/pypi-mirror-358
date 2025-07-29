@@ -1,0 +1,14 @@
+{% macro add_css(list) %}
+
+{% set css_map = {
+'badger': '/static/css/badger.css',
+'scatterPlot': '/static/css/scatterPlot.css'
+} %}
+
+{% for css in list %}
+{% if css in css_map %}
+<link href="{{ css_map[css] }}" rel="stylesheet">
+{% endif %}
+{% endfor %}
+
+{% endmacro %}

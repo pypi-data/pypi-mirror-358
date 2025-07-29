@@ -1,0 +1,66 @@
+include:
+  - project: 'cta-computing/dpps/aiv/dpps-aiv-toolkit'
+    ref: 1e9b640800ac73c215ce59df01330085d05b335e
+    file: "ci-functions.yml"
+  - "aiv-config.yml"
+
+stages:
+  - prepare
+  - lint
+  - build
+  - tests
+  - sonarqube
+  - report
+  - doc
+  - publish
+  - changelog
+
+test:
+  stage: tests
+  image: harbor.cta-observatory.org/proxy_cache/python:3.12
+  needs: [pre-commit-hooks, pylint]
+
+  before_script:
+    - python --version
+    - pip install -e .[test]
+
+  script:
+    - mkdir -pv test
+    - >-
+      pytest -v --color=yes
+      --doctest-modules --doctest-glob='docs/**/*.rst'
+      --ignore-glob='src/qualpipe_webapp/_dev_version/*'
+      --cov --cov-report=xml:test/coverage.xml
+      --junitxml=test/report.xml
+      --log-cli-level=INFO
+
+  after_script: []
+
+  artifacts:
+    paths:
+      - test/coverage.xml
+      - test/report.xml
+
+build-docs:
+  stage: build
+  image: ${PYTHON_IMAGE}
+
+  before_script:
+    - apt update && apt install -y pandoc
+    - python --version
+    - pip install .[doc]
+
+publish-chart:
+  rules:
+    - when: never
+
+collect-test-artifacts:
+    needs:
+    - job: test
+      artifacts: true
+    - job: collect-manual-tests
+      artifacts: true
+
+k8s-integration-tests:
+    rules:
+    - when: never

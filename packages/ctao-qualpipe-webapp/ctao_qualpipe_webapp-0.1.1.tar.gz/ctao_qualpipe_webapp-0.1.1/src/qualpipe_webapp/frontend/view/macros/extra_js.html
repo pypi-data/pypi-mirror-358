@@ -1,0 +1,20 @@
+{% macro add_js(list) %}
+
+{% set js_map = {
+'d3': '/static/lib/js/d3.v7.js',
+'scatterPlot': '/static/js/scatterPlot.js',
+'criteriaPlot': '/static/js/criteriaPlot.js',
+'plot': '/static/js/plot.js'
+} %}
+
+
+
+{% for js in list %}
+{% if js in js_map %}
+<script src="{{ js_map[js] }}"></script>
+{% endif %}
+{% endfor %}
+
+
+
+{% endmacro %}
