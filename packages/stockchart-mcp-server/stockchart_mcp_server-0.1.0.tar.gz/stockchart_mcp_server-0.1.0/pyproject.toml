@@ -1,0 +1,24 @@
+[project]
+name = "stockchart-mcp-server"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "oyodev2", email = "adam.tykim@gmail.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "build>=1.2.2.post1",
+    "matplotlib>=3.10.3",
+    "mcp>=1.10.1",
+    "pandas>=2.3.0",
+    "twine>=6.1.0",
+    "yfinance>=0.2.63",
+]
+
+[project.scripts]
+stockchart-mcp-server = "stockchart_mcp_server:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
