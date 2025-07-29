@@ -1,0 +1,90 @@
+Metadata-Version: 2.4
+Name: martini-templates
+Version: 0.1.0
+Summary: Create Martini force field templates for GROMACS
+Author-email: Alex Moriarty <amoriarty14@gmail.com>
+License-Expression: MIT
+License-File: LICENSE
+Keywords: biomolecules,force field,gromacs,martini,simulation,template
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
+Classifier: Topic :: Scientific/Engineering :: Chemistry
+Classifier: Topic :: Scientific/Engineering :: Physics
+Requires-Python: >=3.10
+Requires-Dist: jinja2>=3.1.6
+Description-Content-Type: text/markdown
+
+# Martini Templates
+
+Martini Templates is a Python package that provides a CLI for generating Martini MDP files with sensible defaults. It uses Jinja2 templates to create MDP files for molecular dynamics simulations, allowing users to customize parameters and generate files for different simulation types.
+
+## Features
+
+- Generate MDP files for NVT, NPT, and energy minimization simulations.
+- Override default values for reference temperature (`ref_t`) and pressure (`ref_p`).
+- Create all simulation files at once using the `--all` flag.
+- Customizable output filenames.
+
+## Installation
+
+Ensure Python 3.10 or higher is installed, then install the package using:
+
+```bash
+pip install .
+```
+
+## Usage
+
+Run the CLI tool to generate MDP files:
+
+```bash
+martini-templates [options]
+```
+
+### Options
+
+- `--nvt`: Generate an NVT file (20 ns, no pressure coupling).
+- `--npt`: Generate an NPT file (50 ns, pressure coupling).
+- `--em`: Generate an energy minimization file.
+- `--all`: Generate all files (NVT, NPT, EM).
+- `--ref_t`: Set the reference temperature (default: 298 K).
+- `--ref_p`: Set the reference pressure (default: 1 bar).
+- `--output`: Specify a custom output filename (overrides default naming).
+
+### Examples
+
+Generate an NVT file with default settings:
+
+```bash
+martini-templates --nvt
+```
+
+Generate an NPT file with a custom temperature and pressure:
+
+```bash
+martini-templates --npt --ref_t 310 --ref_p 1.5
+```
+
+Generate all files:
+
+```bash
+martini-templates --all
+```
+
+### Recommended Usage with `uvx`
+
+For better CLI experience and command management, it is recommended to use `uvx`:
+
+```bash
+uvx martini-templates --nvt
+```
+
+## License
+
+This project is licensed under the MIT License.
