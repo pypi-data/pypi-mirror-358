@@ -1,0 +1,119 @@
+[project]
+name = "charfinder"
+dynamic = ["version"]
+description = "A CLI and library for normalized Unicode character search with fuzzy matching."
+authors = [{ name = "Hamed VAHEB", email = "hamed.vaheb@protonmail.com" }]
+keywords = ["unicode", "cli", "fuzzy", "search", "character", "text"]
+readme = "README.md"
+license = { file = "LICENSE.txt" }
+requires-python = ">=3.10"
+
+dependencies = [
+  "argcomplete>=3.1.0",
+  "colorama>=0.4.0",
+  "Levenshtein>=0.27.1",
+  "python-dotenv>=1.0",
+  "RapidFuzz>=3.13.0",
+  "typing_extensions>=4.4.0"
+]
+
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "Topic :: Text Processing",
+  "Topic :: Utilities",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent"
+]
+
+[project.optional-dependencies]
+dev = [
+  "build",
+  "coverage==7.5.0",
+  "coveralls>=3.3.2 ; python_version < '3.13'",
+  "mypy",
+  "pre-commit",
+  "pytest",
+  "pytest-cov",
+  "pytest-watch",
+  "ruff",
+  "safety",
+  "twine",
+  "types-colorama"
+]
+
+[project.scripts]
+charfinder = "charfinder.cli.cli_main:main"
+
+[build-system]
+requires = ["setuptools>=61.0,<70"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.dynamic]
+version = { attr = "charfinder.__version__" }
+
+# ----------------------------
+# Mypy Configuration
+# ----------------------------
+[tool.mypy]
+files = ["src", "tests"]
+exclude = "(\\.ipynb$|tests/helpers/.*$)"
+strict = true
+ignore_missing_imports = true
+show_error_codes = true
+pretty = true
+
+# ----------------------------
+# Ruff Configuration
+# ----------------------------
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+fix = true
+show-fixes = true
+exclude = ["tests/manual/*", "tests/*"]
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+  "D",       # pydocstyle: disable docstring requirements
+  "TD",      # allow TODO comments
+  "FIX002",  # allow FIXME comments
+  "TC003",   # allow runtime use of typing-only imports like `Path`
+  "COM812"   # avoid conflict with Ruff formatter
+]
+per-file-ignores = {"tests/*" = ["S101", "S603"], "src/charfinder/cli/handlers.py" = ["TRY300", "TRY400"], "src/charfinder/cli/cli_main.py" = ["BLE001"], "src/charfinder/core/utils_color.py" = ["T201", "PLR0913"], "src/charfinder/core/core_main.py" = ["PLR0913"], "src/charfinder/utils/formatter.py" = ["PLR0913"], "src/charfinder/config/types.py" = ["PLR0913"], "src/charfinder/core/handlers.py" = ["PLR0913"], "src/charfinder/core/finders.py" = ["PLR0913"]}
+
+# ----------------------------
+# Pytest Configuration
+# ----------------------------
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--maxfail=1 -v"
+norecursedirs = ["tests/cli/old"]
+filterwarnings = [
+  "ignore::pytest.PytestUnhandledThreadExceptionWarning"
+]
+markers = [
+  "unit: marks tests as unit tests"
+]
+
+# ----------------------------
+# Coverage Configuration
+# ----------------------------
+[tool.coverage.report]
+exclude_lines = [
+  "pragma: no cover",
+  "if TYPE_CHECKING:",
+]
