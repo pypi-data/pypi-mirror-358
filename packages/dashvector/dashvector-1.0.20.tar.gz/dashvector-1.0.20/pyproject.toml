@@ -1,0 +1,73 @@
+[tool.isort]
+profile = "black"
+
+[tool.black]
+line-length = 120
+target-version = ['py38']
+include = '\.pyi?$'
+exclude = '''
+^/(
+  (
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+  )/
+  | foo.py           # also separately exclude a file named foo.py in
+                     # the root of the project
+)
+'''
+
+[tool.poetry]
+name = "dashvector"
+description = "DashVector Client Python Sdk Library"
+version = "1.0.20"
+authors = ["Alibaba"]
+license = "Apache-2.0"
+readme = "README.md"
+documentation = "https://help.aliyun.com/document_detail/2510225.html"
+homepage = "https://github.com/alibaba/proxima"
+keywords = ["DashVector", "vector", "database", "cloud"]
+exclude = ["**/*.proto"]
+classifiers = [
+        "Development Status :: 5 - Production/Stable",
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: Apache Software License",
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Topic :: Database",
+        "Topic :: Software Development",
+        "Topic :: Software Development :: Libraries",
+        "Topic :: Software Development :: Libraries :: Application Frameworks",
+        "Topic :: Software Development :: Libraries :: Python Modules"
+]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+aiohttp = "^3.1.0"
+numpy = "*"
+protobuf = "^3.8.0"
+grpcio = [
+        {version = "<=1.56.0",  markers = "sys_platform == 'win32'"},
+        {version = ">=1.22.0", python = "<3.11"},
+        {version = ">=1.49.1", python = ">=3.11"},
+]
+certifi = "^2023.7.22"
+importlib_metadata = "*"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
