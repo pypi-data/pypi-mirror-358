@@ -1,0 +1,134 @@
+Metadata-Version: 2.4
+Name: nectarchain
+Version: 0.3.0
+Summary: Analysis chain for the CTA MSTN NectarCAM prototype
+Author: CTAO NectarCAM collaboration
+License: BSD-3-Clause
+Project-URL: Bug Tracker, https://github.com/cta-observatory/nectarchain/issues
+Project-URL: Source Code, https://github.com/cta-observatory/nectarchain
+Classifier: Development Status :: 3 - Alpha
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering :: Astronomy
+Classifier: Topic :: Scientific/Engineering :: Physics
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Requires-Python: >=3.10
+Description-Content-Type: text/x-rst
+License-File: LICENSE.md
+Requires-Dist: ctapipe~=0.24
+Requires-Dist: ctapipe-io-nectarcam>0.1
+Requires-Dist: bokeh
+Requires-Dist: iminuit
+Requires-Dist: matplotlib
+Requires-Dist: pandas
+Requires-Dist: scipy
+Requires-Dist: zodb
+Requires-Dist: zeo
+Requires-Dist: lmfit
+Requires-Dist: h5py
+Requires-Dist: pyqt5
+Requires-Dist: pyqtgraph
+Requires-Dist: tomli; python_version < "3.11"
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
+Requires-Dist: pytest-cov; extra == "test"
+Requires-Dist: pytest-xdist; extra == "test"
+Provides-Extra: dev
+Requires-Dist: setuptools_scm; extra == "dev"
+Provides-Extra: docs
+Requires-Dist: sphinx; extra == "docs"
+Requires-Dist: sphinx-autodoc-typehints; extra == "docs"
+Requires-Dist: sphinx-automodapi; extra == "docs"
+Requires-Dist: sphinx-design; extra == "docs"
+Requires-Dist: sphinx-qt-documentation; extra == "docs"
+Requires-Dist: pydata_sphinx_theme; extra == "docs"
+Requires-Dist: numpydoc; extra == "docs"
+Provides-Extra: all
+Requires-Dist: nectarchain[dev,docs,test]; extra == "all"
+Dynamic: license-file
+
+================================================
+nectarchain |pypi| |conda| |CI| |docs| |codecov|
+================================================
+
+
+Repository for the high level analysis of the NectarCAM data, a camera
+to equip the medium-sized telescopes of `CTAO <https://www.ctao.org/>`__
+in its Northern site. The analysis is heavily based on
+`ctapipe <https://github.com/cta-observatory/ctapipe>`__, adding custom
+code for NectarCAM calibration.
+
+``nectarchain`` is currently pinned to ``ctapipe`` version 0.24.0.
+
+This code is under rapid development. It is not recommended for
+production use unless you are an expert or developer!
+
+- Code: https://github.com/cta-observatory/nectarchain
+- Docs: https://nectarchain.readthedocs.io/
+
+Installation for Users
+======================
+
+``nectarchain`` and its dependencies may be installed using the
+*Anaconda* or *Miniconda* package system. We recommend creating a conda
+virtual environment first, to isolate the installed version and
+dependencies from your main environment (this is optional).
+
+The latest version of ``nectarchain`` can be installed via:
+
+::
+
+   mamba install -c conda-forge nectarchain
+
+or via:
+
+::
+
+   pip install nectarchain
+
+**Note**: to install a specific version of ``nectarchain``, take look at
+the documentation
+`here <https://nectarchain.readthedocs.io/en/latest/user-guide/index.html>`__.
+
+**Note**: ``mamba`` is a C++ reimplementation of conda and can be found
+`here <https://github.com/mamba-org/mamba>`__.
+
+Note this is *pre-alpha* software and is not yet stable enough for
+end-users (expect large API changes until the first stable 1.0 release).
+
+Developers should follow the development install instructions found in
+the
+`documentation <https://nectarchain.readthedocs.io/en/latest/developer-guide/index.html>`__.
+
+Contributing
+============
+
+All contribution are welcome.
+
+Guidelines are the same as `ctapipe's
+ones <https://ctapipe.readthedocs.io/en/latest/developer-guide/getting-started.html>`__.
+See
+`here <https://ctapipe.readthedocs.io/en/latest/developer-guide/pullrequests.html#pullrequests>`__
+how to make a pull request to contribute.
+
+Report issue / Ask a question
+=============================
+
+Please use `GitHub
+Issues <https://github.com/cta-observatory/nectarchain/issues>`__ to
+report issues or `GitHub
+Discussions <https://github.com/cta-observatory/nectarchain/discussions>`__
+for questions and discussions.
+
+.. |pypi| image:: https://badge.fury.io/py/nectarchain.svg
+   :target: https://pypi.org/project/nectarchain
+.. |conda| image:: https://anaconda.org/conda-forge/nectarchain/badges/version.svg
+   :target: https://anaconda.org/conda-forge/nectarchain
+.. |CI| image:: https://github.com/cta-observatory/nectarchain/actions/workflows/ci.yml/badge.svg?branch=main
+   :target: https://github.com/cta-observatory/nectarchain/actions/workflows/ci.yml?query=workflow%3ACI+branch%3Amain
+.. |docs| image:: https://readthedocs.org/projects/nectarchain/badge/?version=latest
+   :target: https://nectarchain.readthedocs.io/en/latest/?badge=latest
+.. |codecov| image:: https://codecov.io/github/cta-observatory/nectarchain/graph/badge.svg?token=TDhZlJtbMv
+   :target: https://codecov.io/github/cta-observatory/nectarchain
