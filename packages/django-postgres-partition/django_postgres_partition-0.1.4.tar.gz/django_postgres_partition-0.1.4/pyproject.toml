@@ -1,0 +1,41 @@
+[project]
+name = "django-postgres-partition"
+version = "0.1.4"
+description = "Partition support for django, based on django-postgres-extra"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["django>=5.2", "psycopg>=3.2.6", "python-dateutil>=2.9.0.post0"]
+license = "MIT"
+keywords = [
+    "django",
+    "postgres",
+    "postgresql",
+    "partitioning",
+    "partition",
+    "database",
+    "psqlextra",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",     # Or 4 - Beta, depending on readiness
+    "Framework :: Django",
+    "Framework :: Django :: 5.2",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Topic :: Database",
+]
+
+[project.urls]
+Homepage = "https://gitlab.com/burke-software/django-postgres-partition"
+
+[tool.uv]
+dev-dependencies = ["ruff>=0.11.5"]
+
+[build-system]
+requires = ["setuptools>=61.0"]         # Specify setuptools as the build backend
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+exclude = ["demo*", "tests*", "psqlextra*"]
