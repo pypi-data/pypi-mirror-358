@@ -1,0 +1,69 @@
+C:/python/gruel>localimps -rt
+Scanning files... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  0s
+Import tree
+├── core
+│   ├── crawler
+│   └── brewer
+├── requests
+│   ├── crawler
+│   └── core
+│       ├── crawler
+│       └── brewer
+└── models
+    ├── crawler
+    └── test_models
+
+C:/python/gruel>localimps -ro
+Scanning files... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  0s
+Refactoring order:
+models
+test_models
+requests
+core
+brewer
+crawler
+
+C:/python/gruel>localimps -rot
+Scanning files... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  0s
+Refactor order
+├── models
+│   ├── crawler
+│   └── test_models
+├── test_models
+├── requests
+│   ├── core
+│   │   ├── brewer
+│   │   └── crawler
+│   └── crawler
+├── core
+│   ├── brewer
+│   └── crawler
+├── crawler
+└── brewer
+
+C:/python/gruel>localimps -rm requests
+Scanning files... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  0s
+Imports requests
+├── crawler
+└── core
+    ├── brewer
+    └── crawler
+
+C:/python/gruel>localimps -ru
+Scanning files... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  0s
+Unimported modules:
+scratch
+subgruel
+brewer
+template
+crawler
+__init__
+test_gruel
+test_gruelfinder
+test_brewer
+test_request
+test_models
+test_crawler
+__init__
+dummy
+dummy2

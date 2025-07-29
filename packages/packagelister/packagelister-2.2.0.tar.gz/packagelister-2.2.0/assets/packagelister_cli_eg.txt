@@ -1,0 +1,78 @@
+C:/python/packagelister>packagelister
+Scanning 6 files in C:/python/packagelister for imports...
+ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.00% 0s
+Packages imported by packagelister:
+argshell v1.6.5
+pathier v1.5.4
+printbuddies v2.1.3
+pytest v7.2.1
+rich v13.7.1
+typing_extensions v4.12.2
+
+C:/python/packagelister>packagelister -b
+Scanning 6 files in C:/python/packagelister for imports...
+ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.00% 0s
+Packages imported by packagelister:
+argshell v1.6.5
+pathier v1.5.4
+printbuddies v2.1.3
+pytest v7.2.1
+rich v13.7.1
+typing_extensions v4.12.2
+ast
+collections
+dataclasses
+importlib
+sys
+
+C:/python/packagelister>packagelister -f
+Scanning 6 files in C:/python/packagelister for imports...
+ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.00% 0s
+Packages imported by packagelister:
+argshell v1.6.5
+pathier v1.5.4
+printbuddies v2.1.3
+pytest v7.2.1
+rich v13.7.1
+typing_extensions v4.12.2
+Files importing each package:
+argshell:
+  C:/python/packagelister/src/packagelister/packagelister_cli.py
+  C:/python/packagelister/src/packagelister/whouses.py
+  C:/python/packagelister/src/packagelister/localscanner.py
+pathier:
+  C:/python/packagelister/src/packagelister/packagelister.py
+  C:/python/packagelister/src/packagelister/packagelister_cli.py
+  C:/python/packagelister/src/packagelister/whouses.py
+  C:/python/packagelister/src/packagelister/localscanner.py
+  C:/python/packagelister/tests/test_packagelister.py
+printbuddies:
+  C:/python/packagelister/src/packagelister/packagelister.py
+  C:/python/packagelister/src/packagelister/whouses.py
+  C:/python/packagelister/src/packagelister/localscanner.py
+pytest:
+  C:/python/packagelister/tests/test_packagelister.py
+rich:
+  C:/python/packagelister/src/packagelister/localscanner.py
+typing_extensions:
+  C:/python/packagelister/src/packagelister/packagelister.py
+
+C:/python/packagelister>packagelister -gv ">="
+Scanning 6 files in C:/python/packagelister for imports...
+ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.00% 0s
+Packages imported by packagelister:
+argshell v1.6.5
+pathier v1.5.4
+printbuddies v2.1.3
+pytest v7.2.1
+rich v13.7.1
+typing_extensions v4.12.2
+Generating `requirements.txt`.
+
+C:/python/packagelister>cat requirements.txt
+argshell>=1.6.5
+pathier>=1.5.4
+printbuddies>=2.1.3
+pytest>=7.2.1
+rich>=13.7.1
+typing_extensions>=4.12.2

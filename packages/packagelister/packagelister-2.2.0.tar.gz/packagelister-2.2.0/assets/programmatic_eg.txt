@@ -1,0 +1,105 @@
+>>> from pathlib import Path
+>>> import json
+>>> from packagelister import packagelister
+>>> project = packagelister.scan_dir(Path.cwd())
+Scanning 6 files in C:/python/packagelister for imports...
+ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.00% 0s
+>>> print(*project.packages, sep="\n")
+Package(name='argshell', distribution_name='argshell', version='1.6.5', builtin=False)
+Package(name='ast', distribution_name='', version='', builtin=True)
+Package(name='collections', distribution_name='', version='', builtin=True)
+Package(name='dataclasses', distribution_name='', version='', builtin=True)
+Package(name='importlib', distribution_name='', version='', builtin=True)
+Package(name='localscanner', distribution_name='', version='', builtin=False)
+Package(name='pathier', distribution_name='pathier', version='1.5.4', builtin=False)
+Package(name='printbuddies', distribution_name='printbuddies', version='2.1.3', builtin=False)
+Package(name='pytest', distribution_name='pytest', version='7.2.1', builtin=False)
+Package(name='rich', distribution_name='rich', version='13.7.1', builtin=False)
+Package(name='sys', distribution_name='', version='', builtin=True)
+Package(name='typing_extensions', distribution_name='typing_extensions', version='4.12.2', builtin=False)
+Package(name='whouses', distribution_name='', version='', builtin=False)
+>>>
+>>> print(project.get_formatted_requirements(">="))
+['argshell>=1.6.5', 'pathier>=1.5.4', 'printbuddies>=2.1.3', 'pytest>=7.2.1', 'rich>=13.7.1', 'typing_extensions>=4.12.2']
+>>>
+>>> print(json.dumps(project.get_files_by_package(), indent=2, default=str))
+{
+  "argshell": [
+    "C:/python/packagelister/src/packagelister/packagelister_cli.py",
+    "C:/python/packagelister/src/packagelister/whouses.py",
+    "C:/python/packagelister/src/packagelister/localscanner.py"
+  ],
+  "ast": [
+    "C:/python/packagelister/src/packagelister/packagelister.py",
+    "C:/python/packagelister/src/packagelister/localscanner.py"
+  ],
+  "collections": [
+    "C:/python/packagelister/src/packagelister/localscanner.py"
+  ],
+  "dataclasses": [
+    "C:/python/packagelister/src/packagelister/packagelister.py"
+  ],
+  "importlib": [
+    "C:/python/packagelister/src/packagelister/packagelister.py"
+  ],
+  "localscanner": [
+    "C:/python/packagelister/src/packagelister/__init__.py"
+  ],
+  "pathier": [
+    "C:/python/packagelister/src/packagelister/packagelister.py",
+    "C:/python/packagelister/src/packagelister/packagelister_cli.py",
+    "C:/python/packagelister/src/packagelister/whouses.py",
+    "C:/python/packagelister/src/packagelister/localscanner.py",
+    "C:/python/packagelister/tests/test_packagelister.py"
+  ],
+  "printbuddies": [
+    "C:/python/packagelister/src/packagelister/packagelister.py",
+    "C:/python/packagelister/src/packagelister/whouses.py",
+    "C:/python/packagelister/src/packagelister/localscanner.py"
+  ],
+  "pytest": [
+    "C:/python/packagelister/tests/test_packagelister.py"
+  ],
+  "rich": [
+    "C:/python/packagelister/src/packagelister/localscanner.py"
+  ],
+  "sys": [
+    "C:/python/packagelister/src/packagelister/packagelister.py"
+  ],
+  "typing_extensions": [
+    "C:/python/packagelister/src/packagelister/packagelister.py"
+  ],
+  "whouses": [
+    "C:/python/packagelister/src/packagelister/__init__.py"
+  ]
+}
+>>>
+>>> print(json.dumps({k:v for k,v in project.get_files_by_package().items() if k in project.packages.third_party.names}, indent=2, default=str))
+{
+  "argshell": [
+    "C:/python/packagelister/src/packagelister/packagelister_cli.py",
+    "C:/python/packagelister/src/packagelister/whouses.py",
+    "C:/python/packagelister/src/packagelister/localscanner.py"
+  ],
+  "pathier": [
+    "C:/python/packagelister/src/packagelister/packagelister.py",
+    "C:/python/packagelister/src/packagelister/packagelister_cli.py",
+    "C:/python/packagelister/src/packagelister/whouses.py",
+    "C:/python/packagelister/src/packagelister/localscanner.py",
+    "C:/python/packagelister/tests/test_packagelister.py"
+  ],
+  "printbuddies": [
+    "C:/python/packagelister/src/packagelister/packagelister.py",
+    "C:/python/packagelister/src/packagelister/whouses.py",
+    "C:/python/packagelister/src/packagelister/localscanner.py"
+  ],
+  "pytest": [
+    "C:/python/packagelister/tests/test_packagelister.py"
+  ],
+  "rich": [
+    "C:/python/packagelister/src/packagelister/localscanner.py"
+  ],
+  "typing_extensions": [
+    "C:/python/packagelister/src/packagelister/packagelister.py"
+  ]
+}
