@@ -1,0 +1,28 @@
+default:
+  just --list
+
+# Define the list of APIs - single source of truth
+# All 8 APIs from Street Manager V6.0 documentation
+apis_list := "work reporting lookup geojson party data-export event sampling"
+
+render api="work":
+  docker run -it --rm -v $PWD:/app/ -w /app swaggerapi/swagger-codegen-cli-v3:3.0.68 generate \
+      -i "https://department-for-transport-streetmanager.github.io/street-manager-docs/api-documentation/V6/V6.0/json/{{api}}-swagger.json" \
+      -l python -o src/streetmanager/{{api}}
+
+apis:
+  # Clean up existing API directories
+  for api in {{apis_list}}; do \
+    rm -rf src/streetmanager/$$api/; \
+  done
+  # Generate all APIs
+  for api in {{apis_list}}; do \
+    just render $$api; \
+  done
+  uv run ./scripts/fix_swagger_imports.py
+  uv run ./scripts/test_swagger_imports.py
+
+publish:
+  rm -rf dist/ build/ src/*.egg-info/
+  uv build
+  uv publish
