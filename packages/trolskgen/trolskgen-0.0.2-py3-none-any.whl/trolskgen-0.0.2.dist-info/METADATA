@@ -1,0 +1,46 @@
+Metadata-Version: 2.4
+Name: trolskgen
+Version: 0.0.2
+Summary: Cute Python codegen
+Author-email: Oliver Russell <ojhrussell@gmail.com>
+Maintainer-email: Oliver Russell <ojhrussell@gmail.com>
+Project-URL: homepage, https://github.com/leontrolski/trolskgen
+Keywords: codegen
+Classifier: Programming Language :: Python
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+License-File: LICENCE
+Requires-Dist: typing-extensions>=4.10.0
+Provides-Extra: dev
+Requires-Dist: pytest==8.3.5; extra == "dev"
+Requires-Dist: ruff==0.11.2; extra == "dev"
+Requires-Dist: mypy==1.15.0; extra == "dev"
+Requires-Dist: rich==14.0.0; extra == "dev"
+Requires-Dist: pydantic==2.11.7; extra == "dev"
+Dynamic: license-file
+
+# Trolskgen
+
+# Hello World
+
+After `pip install trolskgen`, just run:
+
+# TODO
+
+- README
+    - Walk through each converter
+    - Plugins example
+- Implement comments somehow? Monkeypatch ast?
+- Notes on comments - use docstrings etc.
+
+# Development
+
+```
+uv pip install -e '.[dev]'
+mypy .
+pytest -vv
+uv pip install build twine
+python -m build
+twine check dist/*
+twine upload dist/*
+```
