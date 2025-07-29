@@ -1,0 +1,200 @@
+[project]
+name = "stdatamodels"
+description = "Core support for DataModel classes used in calibration pipelines"
+requires-python = ">=3.11"
+authors = [
+    { name = "STScI" },
+]
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Astronomy",
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "asdf>=3.3.0",
+    "asdf-transform-schemas>=0.6.0",
+    "asdf-astropy>=0.6.0",
+    "numpy>=1.25",
+    "astropy>=6.1",
+]
+license-files = ["LICENSE"]
+dynamic = [
+    "version",
+]
+
+[project.readme]
+file = "README.md"
+content-type = "text/markdown"
+
+[project.urls]
+Homepage = "https://github.com/spacetelescope/stdatamodels"
+"Bug Tracker" = "https://github.com/spacetelescope/stdatamodels/issues"
+"Source Code" = "https://github.com/spacetelescope/stdatamodels"
+
+[project.entry-points."asdf.extensions"]
+jwst_pipeline = "stdatamodels.jwst.transforms.integration:get_extensions"
+
+[project.entry-points."asdf.resource_mappings"]
+jwst_datamodel = "stdatamodels.jwst.datamodels.integration:get_resource_mappings"
+jwst_pipeline = "stdatamodels.jwst.transforms.integration:get_resource_mappings"
+
+[project.optional-dependencies]
+test = [
+    "psutil",
+    "pyyaml",
+    "pytest>=4.6.0",
+    "pytest-doctestplus",
+    "crds>=11.17.1",
+    "requests",
+]
+docs = [
+    "sphinx",
+    "sphinx-automodapi",
+    "numpydoc",
+    "sphinx-rtd-theme",
+    "sphinx-asdf>=0.1.1",
+]
+
+[build-system]
+requires = [
+    "setuptools>=61.2",
+    "setuptools_scm[toml]>=3.4",
+    "wheel",
+]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+zip-safe = true
+include-package-data = false
+
+[tool.setuptools.packages.find]
+where = [
+    "src",
+]
+namespaces = false
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.setuptools.package-data]
+"*" = [
+    "*.yaml",
+]
+"stdatamodels.jwst.transforms" = [
+    "resources/schemas/stsci.edu/jwst_pipeline/*.yaml",
+]
+
+[tool.flake8]
+exclude = [
+    ".git",
+    "__pycache__",
+    "docs",
+    "build",
+    "dist",
+    ".tox",
+    ".eggs",
+]
+ignore = [
+    "E203",
+    "W503",
+    "W504",
+    "W605",
+]
+max-line-length = 130
+select = [
+    "F",
+    "W",
+    "E101",
+    "E111",
+    "E112",
+    "E113",
+    "E401",
+    "E402",
+    "E501",
+    "E711",
+    "E722",
+]
+
+[tool.numpydoc_validation]
+checks = [
+    "all", # Adds all rules except the ones listed below
+    "EX01", # No examples section found
+    "SA01", # See Also section not found
+    "ES01", # No extended summary found
+    "GL08", # Object does not have a docstring. Ruff catches these, and allows more granular ignores.
+    "PR01", # Parameters not documented. Already caught by ruff.
+    "PR09", # Parameter description should finish with a period
+    "RT02", # First line of return should contain only the type
+    "RT05", # Return value description should finish with a period
+]
+exclude = [ # exclude the following methods
+    "shape$",
+    "validate$",
+    "copy$",
+    "__call__$",
+    "inverse$",
+    "__str__$",
+]
+
+[tool.codespell]
+skip = "*.fits, *.asdf, ./build, ./docs/_build, CHANGES.rst, *.schema.yaml"
+ignore-words-list = "indx, delt, Shepard, fo"
+
+[tool.pytest.ini_options]
+minversion = "4.6"
+doctest_plus = true
+doctest_rst = true
+text_file_format = "rst"
+addopts = "--color=yes"
+testpaths = [
+    "docs",
+    "tests",
+    "src/stdatamodels/jwst",
+]
+filterwarnings = [
+    # turn all warnings into errors, this includes ResourceWarning which
+    # allows catching files left open by tests
+    "error",
+    # astropy table issues this warning on import so we ignore it here
+    "ignore:numpy.ndarray size changed:RuntimeWarning",
+]
+asdf_schema_tests_enabled = true
+asdf_schema_validate_default = false
+asdf_schema_root = "src/stdatamodels/jwst/datamodels/schemas\nsrc/stdatamodels/jwst/transforms/resources/schemas"
+norecursedirs = [
+    "build",
+    ".tox",
+    ".eggs",
+    "venv",
+]
+
+[tool.setuptools_scm]
+write_to = "src/stdatamodels/_version.py"
+
+[tool.coverage.run]
+omit = [
+    '*/tests/*',
+]
+
+[tool.towncrier]
+filename = "CHANGES.rst"
+directory = "changes"
+package = "stdatamodels"
+title_format = "{version} ({project_date})"
+ignore = [".gitkeep"]
+wrap = true
+issue_format = "`#{issue} <https://github.com/spacetelescope/stdatamodels/issues/{issue}>`_"
+
+[tool.towncrier.fragment.feature]
+name = "New Features"
+
+[tool.towncrier.fragment.bugfix]
+name = "Bug Fixes"
+
+[tool.towncrier.fragment.doc]
+name = "Documentation"
+
+[tool.towncrier.fragment.removal]
+name = "Deprecations and Removals"
+
+[tool.towncrier.fragment.misc]

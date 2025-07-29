@@ -1,0 +1,142 @@
+%YAML 1.1
+---
+$schema: "http://stsci.edu/schemas/asdf/asdf-schema-1.1.0"
+id: "http://stsci.edu/schemas/jwst_datamodel/slitmeta.schema"
+type: object
+properties:
+  name:
+    title: Slit name
+    type: string
+    fits_keyword: SLTNAME
+    fits_hdu: SCI
+  xstart:
+    title: "Slit starting pixel index along axis 1"
+    type: integer
+    fits_keyword: SLTSTRT1
+    fits_hdu: SCI
+  xsize:
+    title: "Slit size along axis 1"
+    type: integer
+    fits_keyword: SLTSIZE1
+    fits_hdu: SCI
+  ystart:
+    title: "Slit starting pixel index along axis 2"
+    type: integer
+    fits_keyword: SLTSTRT2
+    fits_hdu: SCI
+  ysize:
+    title: "Slit size along axis 2"
+    type: integer
+    fits_keyword: SLTSIZE2
+    fits_hdu: SCI
+  slitlet_id:
+    title: Slitlet ID
+    type: integer
+    default: 0
+    fits_keyword: SLITID
+    fits_hdu: SCI
+  shutter_id:
+    title: Shutter ID
+    type: integer
+    fits_keyword: SHUTTRID
+    fits_hdu: SCI
+  source_id:
+    title: Source ID number
+    type: integer
+    default: 0
+    fits_keyword: SOURCEID
+    fits_hdu: SCI
+  source_name:
+    title: Source name
+    type: string
+    fits_keyword: SRCNAME
+    fits_hdu: SCI
+  source_alias:
+    title: Source alias
+    type: string
+    fits_keyword: SRCALIAS
+    fits_hdu: SCI
+  stellarity:
+    title: Source stellarity
+    type: number
+    fits_keyword: STLARITY
+    fits_hdu: SCI
+  source_type:
+    title: Source type used for calibration
+    type: string
+    enum: [EXTENDED, POINT, UNKNOWN]
+    fits_keyword: SRCTYPE
+    fits_hdu: SCI
+  is_extended:
+    title: Flag indicating whether the source is extended
+    type: boolean
+  source_xpos:
+    title: Source position in slit (x-axis)
+    type: number
+    default: 0.0
+    fits_keyword: SRCXPOS
+    fits_hdu: SCI
+  source_ypos:
+    title: Source position in slit (y-axis)
+    type: number
+    default: 0.0
+    fits_keyword: SRCYPOS
+    fits_hdu: SCI
+  shutter_state:
+    title: Status of all shutters in the slitlet
+    type: string
+    default: ""
+    fits_keyword: SHUTSTA
+    fits_hdu: SCI
+  quadrant:
+    title: MSA quadrant for slit
+    type: integer
+    fits_keyword: MSAQUAD
+    fits_hdu: SCI
+  xcen:
+    title: Center of shutter in MSA coordinates (X dir)
+    type: integer
+  ycen:
+    title: Center of shutter in MSA coordinates (Y dir)
+    type: integer
+  source_ra:
+    title: Right Ascension of the source
+    type: number
+    fits_keyword: SRCRA
+    fits_hdu: SCI
+  source_dec:
+    title: Declination of the source
+    type: number
+    fits_keyword: SRCDEC
+    fits_hdu: SCI
+  slit_ymin:
+    title: Bottom of slit in slit_frame relative to (0, 0) center
+    type: number
+  slit_ymax:
+    title: Top of slit in slit_frame relative to (0, 0) center
+    type: number
+  slit_xscale:
+    title: Scale open to full MSA slit coordinates (X dir)
+    type: number
+    fits_keyword: SLTXSCL
+    fits_hdu: SCI
+  slit_yscale:
+    title: Scale open to full MSA slit coordinates (Y dir)
+    type: number
+    fits_keyword: SLTYSCL
+    fits_hdu: SCI
+  wavelength_corrected:
+    title: Wavelength corrected (T/F)
+    type: boolean
+    fits_keyword: WAVECOR
+    fits_hdu: SCI
+  pathloss_correction_type:
+    title: Type of pathloss correction applied
+    type: string
+    fits_keyword: PTHLOSS
+    fits_hdu: SCI
+  barshadow_corrected:
+    title: Barshadow corrected (T/F)
+    type: boolean
+    fits_keyword: BARSHDW
+    fits_hdu: SCI
