@@ -1,0 +1,86 @@
+# Use https protocol for redirect URIs on each application in the suite
+
+# Course Management Studio
+./manage.py lms create_dot_application \
+  --grant-type authorization-code \
+  --redirect-uris "https://{{ CMS_HOST }}/complete/edx-oauth2/" \
+  --client-id {{ CMS_OAUTH2_KEY_SSO }} \
+  --client-secret {{ CMS_OAUTH2_SECRET }} \
+  --scopes user_id \
+  --skip-authorization \
+  --update cms-sso cms
+
+# Discovery service.
+{% if DISCOVERY_HOST is defined and DISCOVERY_OAUTH2_KEY is defined and DISCOVERY_OAUTH2_SECRET is defined %}
+./manage.py lms create_dot_application \
+    --grant-type client-credentials \
+    --redirect-uris "https://{{ DISCOVERY_HOST }}/complete/edx-oauth2/" \
+    --client-id {{ DISCOVERY_OAUTH2_KEY }} \
+    --client-secret {{ DISCOVERY_OAUTH2_SECRET }} \
+    --scopes user_id \
+    --skip-authorization \
+    --update \
+    discovery \
+    discovery
+
+./manage.py lms create_dot_application \
+    --grant-type authorization-code \
+    --redirect-uris "https://{{ DISCOVERY_HOST }}/complete/edx-oauth2/" \
+    --client-id {{ DISCOVERY_OAUTH2_KEY_SSO }} \
+    --client-secret {{ DISCOVERY_OAUTH2_SECRET_SSO }} \
+    --scopes user_id \
+    --skip-authorization \
+    --update \
+    discovery-sso \
+    discovery
+{% endif %}
+
+# Ecommerce application
+{% if ECOMMERCE_HOST is defined and ECOMMERCE_OAUTH2_KEY is defined and ECOMMERCE_OAUTH2_SECRET is defined %}
+./manage.py lms create_dot_application \
+  --grant-type client-credentials \
+  --redirect-uris "https://{{ ECOMMERCE_HOST }}/complete/edx-oauth2/" \
+  --client-id {{ ECOMMERCE_OAUTH2_KEY }} \
+  --client-secret {{ ECOMMERCE_OAUTH2_SECRET }} \
+  --scopes user_id \
+  --skip-authorization \
+  --update \
+  ecommerce \
+  ecommerce
+
+./manage.py lms create_dot_application \
+  --grant-type authorization-code \
+  --redirect-uris "https://{{ ECOMMERCE_HOST }}/complete/edx-oauth2/" \
+  --client-id {{ ECOMMERCE_OAUTH2_KEY_SSO }} \
+  --client-secret {{ ECOMMERCE_OAUTH2_SECRET_SSO }} \
+  --scopes user_id \
+  --skip-authorization \
+  --update \
+  ecommerce-sso \
+  ecommerce
+{% endif %}
+
+# Credentials service
+{% if CREDENTIALS_HOST is defined and CREDENTIALS_OAUTH2_KEY is defined and CREDENTIALS_OAUTH2_SECRET is defined %}
+./manage.py lms create_dot_application \
+  --grant-type client-credentials \
+  --redirect-uris "https://{{ CREDENTIALS_HOST }}/complete/edx-oauth2/" \
+  --client-id {{ CREDENTIALS_OAUTH2_KEY }} \
+  --client-secret {{ CREDENTIALS_OAUTH2_SECRET }} \
+  --scopes user_id \
+  --skip-authorization \
+  --update \
+  credentials \
+  credentials
+
+./manage.py lms create_dot_application \
+  --grant-type authorization-code \
+  --redirect-uris "https://{{ CREDENTIALS_HOST }}/complete/edx-oauth2/" \
+  --client-id {{ CREDENTIALS_OAUTH2_KEY_SSO }} \
+  --client-secret {{ CREDENTIALS_OAUTH2_SECRET_SSO }} \
+  --scopes user_id \
+  --skip-authorization \
+  --update \
+  credentials-sso \
+  credentials
+{% endif %}
