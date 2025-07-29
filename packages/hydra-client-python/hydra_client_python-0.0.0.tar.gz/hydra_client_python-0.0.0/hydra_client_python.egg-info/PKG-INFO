@@ -1,0 +1,65 @@
+Metadata-Version: 2.4
+Name: hydra-client-python
+Version: 0.0.0
+Summary: Client library to communicate with hydra platform
+Author-email: Stephen Knox <knoxsp@gmail.com>
+Project-URL: Documentation, https://hydraplatform.org
+Project-URL: Repository, https://github.com/hydraplatform/hydra-client-python
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: hydra-base
+Requires-Dist: lxml
+Requires-Dist: requests
+Requires-Dist: cryptography
+Dynamic: license-file
+
+# hydra-client-python
+Hydra Platform client libraries for Python
+
+Installation
+------------
+
+pip install hydra-client-python
+
+
+Usage:
+------
+
+The hydra client can interact with both hydra-base and hydra-server. Here
+we give an example of each, requesting a network from its ID.
+
+Hydra Base
+**********
+
+```
+import hydra_client as hc
+
+hb_conn = hc.JSONConnection()
+
+hb_conn.login(username='root', password='')
+
+hb_conn.get_network(2)
+
+```
+
+Hydra Server
+************
+
+First, start hydra server:
+
+```
+hydra-server run
+
+```
+
+```
+import hydra_client as hc
+
+hb_conn = hc.RemoteJSONConnection(url='http://localhost:8080/json')
+
+hb_conn.login(username='root', password='')
+
+hb_conn.get_network({'network_id':1})
+
+```
