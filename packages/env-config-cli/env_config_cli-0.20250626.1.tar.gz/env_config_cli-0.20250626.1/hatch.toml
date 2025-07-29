@@ -1,0 +1,17 @@
+## Build
+[build]
+dev-mode-dirs = ['src']
+
+[build.targets.wheel]
+packages = ['src/env_config']
+
+
+## Env: default
+[envs.default]
+installer = "uv"
+
+
+## Version
+[version]
+source = 'regex_commit'
+path = 'src/env_config/version.py'
