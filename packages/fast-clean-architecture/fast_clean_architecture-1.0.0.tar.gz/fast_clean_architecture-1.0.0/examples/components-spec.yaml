@@ -1,0 +1,107 @@
+# Example component specification for batch creation
+# Use this file with: fca-scaffold batch-create examples/components-spec.yaml
+
+systems:
+  - name: user_management
+    description: "User management system context"
+    modules:
+      - name: authentication
+        description: "User authentication and authorization"
+        components:
+          domain:
+            entities: ["user", "role", "permission"]
+            repositories: ["user", "role"]
+            value_objects: ["email", "password", "username"]
+          application:
+            services: ["auth_service", "user_service", "role_service"]
+            commands: ["create_user", "login", "logout", "change_password"]
+            queries: ["get_user", "list_users", "get_user_roles"]
+          infrastructure:
+            models: ["user", "role", "permission"]
+            repositories: ["user", "role"]
+            external: ["email_service", "sms_service"]
+          presentation:
+            api: ["auth", "users", "roles"]
+            schemas: ["user", "auth", "role"]
+      
+      - name: profile
+        description: "User profile management"
+        components:
+          domain:
+            entities: ["profile", "address"]
+            repositories: ["profile"]
+            value_objects: ["phone_number", "date_of_birth"]
+          application:
+            services: ["profile_service"]
+            commands: ["update_profile", "upload_avatar"]
+            queries: ["get_profile", "search_profiles"]
+          infrastructure:
+            models: ["profile", "address"]
+            repositories: ["profile"]
+            external: ["file_storage_service"]
+          presentation:
+            api: ["profiles"]
+            schemas: ["profile"]
+
+  - name: order_management
+    description: "Order processing and management"
+    modules:
+      - name: orders
+        description: "Core order functionality"
+        components:
+          domain:
+            entities: ["order", "order_item", "product"]
+            repositories: ["order", "product"]
+            value_objects: ["money", "quantity", "order_status"]
+          application:
+            services: ["order_service", "product_service"]
+            commands: ["create_order", "cancel_order", "update_order_status"]
+            queries: ["get_order", "list_orders", "get_order_history"]
+          infrastructure:
+            models: ["order", "order_item", "product"]
+            repositories: ["order", "product"]
+            external: ["payment_service", "inventory_service"]
+          presentation:
+            api: ["orders", "products"]
+            schemas: ["order", "product"]
+      
+      - name: payments
+        description: "Payment processing"
+        components:
+          domain:
+            entities: ["payment", "refund"]
+            repositories: ["payment"]
+            value_objects: ["payment_method", "transaction_id"]
+          application:
+            services: ["payment_service"]
+            commands: ["process_payment", "refund_payment"]
+            queries: ["get_payment", "list_payments"]
+          infrastructure:
+            models: ["payment", "refund"]
+            repositories: ["payment"]
+            external: ["stripe_service", "paypal_service"]
+          presentation:
+            api: ["payments"]
+            schemas: ["payment"]
+
+  - name: notification_system
+    description: "Notification and messaging system"
+    modules:
+      - name: notifications
+        description: "Core notification functionality"
+        components:
+          domain:
+            entities: ["notification", "template"]
+            repositories: ["notification", "template"]
+            value_objects: ["notification_type", "priority"]
+          application:
+            services: ["notification_service"]
+            commands: ["send_notification", "create_template"]
+            queries: ["get_notifications", "get_template"]
+          infrastructure:
+            models: ["notification", "template"]
+            repositories: ["notification", "template"]
+            external: ["email_provider", "sms_provider", "push_service"]
+          presentation:
+            api: ["notifications"]
+            schemas: ["notification"]
