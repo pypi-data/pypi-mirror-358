@@ -1,0 +1,68 @@
+Metadata-Version: 2.4
+Name: CMGDB
+Version: 1.3.0
+Summary: CMGDB (Conley Morse Graph Database) Python Extension
+Author-Email: Marcio Gameiro <marciogameiro@gmail.com>
+License-Expression: MIT
+License-File: LICENSE
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Science/Research
+Classifier: Intended Audience :: Education
+Classifier: Programming Language :: C++
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX
+Classifier: Operating System :: Unix
+Classifier: Operating System :: MacOS
+Project-URL: Repository, https://github.com/marciogameiro/CMGDB
+Requires-Python: >=3.9
+Requires-Dist: graphviz>=0.20
+Requires-Dist: matplotlib>=3.6.0
+Requires-Dist: numpy>=1.23.0
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
+Description-Content-Type: text/markdown
+
+# CMGDB
+Conley Morse Graph Database
+
+## Overview
+
+This project uses combinatorial and topological methods to compute dynamics of discrete dynamical systems.
+
+## Installation
+
+Install the latest tagged version:
+
+	pip install CMGDB
+
+To uninstall:
+
+	pip uninstall CMGDB
+
+## Documentation and examples
+
+To get started on how to run the code see the examples in the Jupyter notebooks in the [examples](examples) folder.
+
+In particular the notebooks [Examples.ipynb](examples/Examples.ipynb), [Gaussian\_Process\_Example.ipynb](examples/Gaussian_Process_Example.ipynb), and [Conley\_Index\_Examples.ipynb](examples/Conley_Index_Examples.ipynb) present basic examples on how to run the code and are a good starting point.
+
+Here is an old [survey](http://chomp.rutgers.edu/Projects/survey/cmdbSurvey.pdf) and a
+[talk](http://chomp.rutgers.edu/Projects/Databases_for_the_Global_Dynamics/software/LorentzCenterAugust2014.pdf) that might be useful.
+
+## Installing from source and dependencies
+
+To install from source you need a C++ compiler and the following dependencies installed: [Boost](https://www.boost.org/), [GMP](https://gmplib.org/), and the [Succinct Data Structure Library (SDSL)](https://github.com/simongog/sdsl-lite). Assuming you have these dependencies installed in your system, you can install from source with the command:
+
+	pip install --force-reinstall --no-deps --no-cache-dir git+https://github.com/marciogameiro/CMGDB.git
+
+Alternatively, you can clone the GitHub repository and install with:
+
+	git clone https://github.com/marciogameiro/CMGDB.git
+	cd CMGDB
+	./install.sh
