@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "etsi-fliplist"
+version = "0.1.0"
+description = "A simple tool from ETSI to reverse lists in different ways"
+authors = [
+  { name="Priyansh Srivastava", email="your_email@example.com" }
+]
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.7"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent"
+]
+
+[project.urls]
+Homepage = "https://github.com/etsi-org/fliplist"
+
+[tool.setuptools]
+packages = ["etsi.fliplist"]
