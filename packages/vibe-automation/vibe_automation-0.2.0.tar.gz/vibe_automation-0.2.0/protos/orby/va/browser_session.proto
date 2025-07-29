@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package orby.va;
+
+enum ServiceType {
+  SERVICE_TYPE_UNSPECIFIED = 0;
+  BROWSER_BASE = 1;
+}
+
+// Request to create a browser session
+message CreateSessionRequest {
+  string workflow_id = 1;
+  // for logging
+  string execution_id = 2;
+}
+
+// Response with browser session details
+message CreateSessionResponse {
+  ServiceType service_type = 1;
+  string connection_url = 2;
+  string live_view_url = 3;
+}
+

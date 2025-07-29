@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package orby.va;
+
+import "orby/va/browser_session.proto";
+
+service BrowserService {
+    rpc CreateSession(CreateSessionRequest) returns (CreateSessionResponse);
+}

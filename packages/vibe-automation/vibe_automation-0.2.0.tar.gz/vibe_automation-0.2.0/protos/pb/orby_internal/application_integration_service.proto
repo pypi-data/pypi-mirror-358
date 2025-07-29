@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package pb.orby_internal;
+
+import "google/protobuf/field_mask.proto";
+import "pb/v1alpha1/auth_connection.proto";
+
+option go_package = "github.com/orby-ai-engineering/web-api-server/pb/"
+                    "internal_app";
+
+// Application Integrations Service
+// Serves as a registry of the Application Integrations 
+// we support (EXCEL, GSHEETS, etc.)
+service ApplicationIntegrationService {
+  // Create a new application integration
+  rpc CreateApplicationIntegration(CreateApplicationIntegrationRequest) 
+    returns (CreateApplicationIntegrationResponse) {}
+  // Get an application integration by ID
+  rpc GetApplicationIntegration(GetApplicationIntegrationRequest) 
+    returns (GetApplicationIntegrationResponse) {}
+  // List all application integrations
+  rpc ListApplicationIntegrations(ListApplicationIntegrationsRequest) 
+    returns (ListApplicationIntegrationsResponse) {}
+  // Update an application integration
+  rpc UpdateApplicationIntegration(UpdateApplicationIntegrationRequest) 
+    returns (UpdateApplicationIntegrationResponse) {}
+}
+
+
+message CreateApplicationIntegrationRequest {
+  pb.v1alpha1.ApplicationIntegration application_integration = 1;
+}
+
+message CreateApplicationIntegrationResponse {
+  pb.v1alpha1.ApplicationIntegration application_integration = 1;
+}
+
+message GetApplicationIntegrationRequest {
+  string id = 1;
+}
+message GetApplicationIntegrationResponse {
+  pb.v1alpha1.ApplicationIntegration application_integration = 1;
+}
+
+message ListApplicationIntegrationsRequest {
+  // Defaults to all application integrations
+  int32 page_size = 1;
+  int32 page_number = 2;
+  message Filters {
+    string application_type = 1;
+  }
+  Filters filters = 3;
+}
+
+message ListApplicationIntegrationsResponse {
+  repeated pb.v1alpha1.ApplicationIntegration application_integrations = 1;
+  int32 total_size = 2;
+}
+
+message UpdateApplicationIntegrationRequest {
+  pb.v1alpha1.ApplicationIntegration application_integration = 1;
+  // Valid fields to update:
+  // authorized_scopes
+  // display_name
+  // metadata (icon_urls, connection_types)
+  google.protobuf.FieldMask update_mask = 2;
+}
+
+message UpdateApplicationIntegrationResponse {
+  pb.v1alpha1.ApplicationIntegration application_integration = 1;
+}

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Dropdown Test Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    select {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+
+    #selection-result {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #f5f5f5;
+      border: 1px solid #ddd;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Dropdown Selection Test</h1>
+  <form id="test-form">
+    <div class="form-group">
+      <label for="simple-dropdown">Simple Dropdown:</label>
+      <select id="simple-dropdown" name="simple-dropdown">
+        <option value="">Please select</option>
+        <option value="option1">Option 1</option>
+        <option value="option2">Option 2</option>
+        <option value="option3">Option 3</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="grouped-dropdown">Grouped Dropdown:</label>
+      <select id="grouped-dropdown" name="grouped-dropdown">
+        <option value="">Please select</option>
+        <optgroup label="Group A">
+          <option value="a1">A1</option>
+          <option value="a2">A2</option>
+        </optgroup>
+        <optgroup label="Group B">
+          <option value="b1">B1</option>
+          <option value="b2">B2</option>
+        </optgroup>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="multiple-dropdown">Multiple Selection:</label>
+      <select id="multiple-dropdown" name="multiple-dropdown" multiple size="4">
+        <option value="item1">Item 1</option>
+        <option value="item2">Item 2</option>
+        <option value="item3">Item 3</option>
+        <option value="item4">Item 4</option>
+      </select>
+    </div>
+  </form>
+
+  <div id="selection-result"></div>
+
+  <script>
+    // Handle dropdown changes
+    const simpleDropdown = document.getElementById('simple-dropdown');
+    const groupedDropdown = document.getElementById('grouped-dropdown');
+    const multipleDropdown = document.getElementById('multiple-dropdown');
+    const selectionResult = document.getElementById('selection-result');
+
+    function updateSelectionDisplay() {
+      const simpleValue = simpleDropdown.value;
+      const groupedValue = groupedDropdown.value;
+
+      const multipleValues = Array.from(multipleDropdown.selectedOptions)
+        .map(option => option.value);
+
+      selectionResult.style.display = 'block';
+      selectionResult.innerHTML = `
+        <p><strong>Simple Dropdown:</strong> ${simpleValue || 'None'}</p>
+        <p><strong>Grouped Dropdown:</strong> ${groupedValue || 'None'}</p>
+        <p><strong>Multiple Selection:</strong> ${multipleValues.length ? multipleValues.join(', ') : 'None'}</p>
+      `;
+    }
+
+    simpleDropdown.addEventListener('change', updateSelectionDisplay);
+    groupedDropdown.addEventListener('change', updateSelectionDisplay);
+    multipleDropdown.addEventListener('change', updateSelectionDisplay);
+  </script>
+</body>
+
+</html>

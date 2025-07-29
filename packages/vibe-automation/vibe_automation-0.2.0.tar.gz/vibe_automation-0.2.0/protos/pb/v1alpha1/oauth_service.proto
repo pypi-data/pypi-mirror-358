@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package pb.v1alpha1;
+
+option go_package = "github.com/orby-ai-engineering/web-api-server/pb/v1alpha1";
+
+// OauthService defines the gRPC service for managing applications which use Oauth 2.0
+// to authenticate and access Orby's system.
+// Will be protected by a feature flag, to restrict access to select users
+service OAuth {
+  // Allows user to register for Client ID/Secret credentials
+  rpc CreateOAuthApp (CreateOauthAppRequest) returns (OauthCredentials) {}
+  // Returns information about all existing configurations
+  rpc ListOAuthConfigs (ListOAuthConfigsRequest) returns (ListOAuthConfigsResponse) {}
+  // Updates an existing configuration
+  // Currently, we only support updating redirect_uris
+  rpc UpdateOAuthConfig (UpdateOAuthConfigRequest) returns (OauthCredentials) {}
+}
+
+message CreateOauthAppRequest {
+  repeated string redirect_uris = 1;
+  string app_name = 2;
+}
+
+message OauthCredentials {
+  string client_id = 1;
+  string client_secret = 2;
+  repeated string redirect_uris = 3;
+  string app_name = 4;
+}
+
+message ListOAuthConfigsRequest {}
+
+message ListOAuthConfigsResponse {
+  repeated OauthCredentials client_configs = 1;
+}
+
+message UpdateOAuthConfigRequest {
+  string client_id = 1;
+  repeated string redirect_uris = 2;
+}

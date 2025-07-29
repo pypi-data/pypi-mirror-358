@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom Dropdown Test Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    .custom-dropdown {
+      position: relative;
+      width: 100%;
+    }
+
+    .dropdown-header {
+      padding: 10px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      background-color: #f8f8f8;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .dropdown-header:after {
+      content: '▼';
+      font-size: 12px;
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      border: 1px solid #ccc;
+      border-top: none;
+      display: none;
+      background-color: white;
+      z-index: 100;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .dropdown-menu.show {
+      display: block;
+    }
+
+    .dropdown-item {
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    .dropdown-item:hover {
+      background-color: #f5f5f5;
+    }
+
+    .custom-multi-dropdown .dropdown-menu {
+      max-height: 300px;
+    }
+
+    .custom-multi-dropdown .dropdown-item {
+      display: flex;
+      align-items: center;
+    }
+
+    .custom-multi-dropdown .dropdown-item.selected {
+      background-color: #e8f0fe;
+    }
+
+    .custom-multi-dropdown .dropdown-item:before {
+      content: '✓';
+      visibility: hidden;
+      margin-right: 5px;
+      color: #1a73e8;
+    }
+
+    .custom-multi-dropdown .dropdown-item.selected:before {
+      visibility: visible;
+    }
+
+    #selection-result {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #f5f5f5;
+      border: 1px solid #ddd;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Custom Dropdown Test</h1>
+
+  <div class="form-group">
+    <label for="custom-dropdown">Custom Dropdown:</label>
+    <div id="custom-dropdown" class="custom-dropdown" role="combobox">
+      <div class="dropdown-header" id="custom-dropdown-header">Select an option</div>
+      <div class="dropdown-menu" id="custom-dropdown-menu">
+        <div class="dropdown-item" data-value="option1">Option 1</div>
+        <div class="dropdown-item" data-value="option2">Option 2</div>
+        <div class="dropdown-item" data-value="option3">Option 3</div>
+        <div class="dropdown-item" data-value="option4">Option 4</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="custom-dropdown-grouped">Custom Grouped Dropdown:</label>
+    <div id="custom-dropdown-grouped" class="custom-dropdown" role="combobox">
+      <div class="dropdown-header" id="custom-dropdown-grouped-header">Select an option</div>
+      <div class="dropdown-menu" id="custom-dropdown-grouped-menu">
+        <div class="dropdown-group">
+          <div class="dropdown-group-header">Group A</div>
+          <div class="dropdown-item" data-value="a1">A1</div>
+          <div class="dropdown-item" data-value="a2">A2</div>
+        </div>
+        <div class="dropdown-group">
+          <div class="dropdown-group-header">Group B</div>
+          <div class="dropdown-item" data-value="b1">B1</div>
+          <div class="dropdown-item" data-value="b2">B2</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="custom-multi-dropdown">Custom Multi-Select Dropdown:</label>
+    <div id="custom-multi-dropdown" class="custom-dropdown custom-multi-dropdown" role="listbox"
+      aria-multiselectable="true">
+      <div class="dropdown-header" id="custom-multi-dropdown-header">Select options</div>
+      <div class="dropdown-menu" id="custom-multi-dropdown-menu">
+        <div class="dropdown-item" data-value="item1" role="option">Item 1</div>
+        <div class="dropdown-item" data-value="item2" role="option">Item 2</div>
+        <div class="dropdown-item" data-value="item3" role="option">Item 3</div>
+        <div class="dropdown-item" data-value="item4" role="option">Item 4</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="selection-result">Select an option to see the result</div>
+
+  <script>
+    // Custom dropdown logic
+    document.addEventListener('DOMContentLoaded', function () {
+      // Single select dropdown
+      const customDropdown = document.getElementById('custom-dropdown');
+      const customDropdownHeader = document.getElementById('custom-dropdown-header');
+      const customDropdownMenu = document.getElementById('custom-dropdown-menu');
+      const customDropdownItems = customDropdownMenu.querySelectorAll('.dropdown-item');
+
+      // Grouped dropdown
+      const customGroupedDropdown = document.getElementById('custom-dropdown-grouped');
+      const customGroupedDropdownHeader = document.getElementById('custom-dropdown-grouped-header');
+      const customGroupedDropdownMenu = document.getElementById('custom-dropdown-grouped-menu');
+      const customGroupedDropdownItems = customGroupedDropdownMenu.querySelectorAll('.dropdown-item');
+
+      // Multi-select dropdown
+      const customMultiDropdown = document.getElementById('custom-multi-dropdown');
+      const customMultiDropdownHeader = document.getElementById('custom-multi-dropdown-header');
+      const customMultiDropdownMenu = document.getElementById('custom-multi-dropdown-menu');
+      const customMultiDropdownItems = customMultiDropdownMenu.querySelectorAll('.dropdown-item');
+
+      const selectionResult = document.getElementById('selection-result');
+
+      // Toggle dropdown menu
+      function toggleDropdown(dropdown, menu) {
+        menu.classList.toggle('show');
+      }
+
+      // Close all dropdowns
+      function closeAllDropdowns() {
+        const allMenus = document.querySelectorAll('.dropdown-menu');
+        allMenus.forEach(menu => menu.classList.remove('show'));
+      }
+
+      // Handle click outside to close dropdowns
+      document.addEventListener('click', function (event) {
+        if (!event.target.closest('.custom-dropdown')) {
+          closeAllDropdowns();
+        }
+      });
+
+      // Single select dropdown events
+      customDropdownHeader.addEventListener('click', function (event) {
+        event.stopPropagation();
+        closeAllDropdowns();
+        toggleDropdown(customDropdown, customDropdownMenu);
+      });
+
+      customDropdownItems.forEach(item => {
+        item.addEventListener('click', function () {
+          const value = this.getAttribute('data-value');
+          const text = this.textContent;
+          customDropdownHeader.textContent = text;
+          customDropdownMenu.classList.remove('show');
+
+          updateSelectionResult();
+        });
+      });
+
+      // Grouped dropdown events
+      customGroupedDropdownHeader.addEventListener('click', function (event) {
+        event.stopPropagation();
+        closeAllDropdowns();
+        toggleDropdown(customGroupedDropdown, customGroupedDropdownMenu);
+      });
+
+      customGroupedDropdownItems.forEach(item => {
+        item.addEventListener('click', function () {
+          const value = this.getAttribute('data-value');
+          const text = this.textContent;
+          customGroupedDropdownHeader.textContent = text;
+          customGroupedDropdownMenu.classList.remove('show');
+
+          updateSelectionResult();
+        });
+      });
+
+      // Multi-select dropdown events
+      customMultiDropdownHeader.addEventListener('click', function (event) {
+        event.stopPropagation();
+        closeAllDropdowns();
+        toggleDropdown(customMultiDropdown, customMultiDropdownMenu);
+      });
+
+      customMultiDropdownItems.forEach(item => {
+        item.addEventListener('click', function (event) {
+          event.stopPropagation();
+          this.classList.toggle('selected');
+
+          updateMultiDropdownHeader();
+          updateSelectionResult();
+        });
+      });
+
+      function updateMultiDropdownHeader() {
+        const selectedItems = customMultiDropdownMenu.querySelectorAll('.dropdown-item.selected');
+
+        if (selectedItems.length === 0) {
+          customMultiDropdownHeader.textContent = 'Select options';
+        } else if (selectedItems.length === 1) {
+          customMultiDropdownHeader.textContent = selectedItems[0].textContent;
+        } else {
+          customMultiDropdownHeader.textContent = `${selectedItems.length} items selected`;
+        }
+      }
+
+      function updateSelectionResult() {
+        // Get values from all dropdowns
+        const singleValue = customDropdownHeader.textContent !== 'Select an option' ?
+          customDropdownHeader.textContent : 'None';
+
+        const groupedValue = customGroupedDropdownHeader.textContent !== 'Select an option' ?
+          customGroupedDropdownHeader.textContent : 'None';
+
+        const selectedMultiItems = Array.from(customMultiDropdownMenu.querySelectorAll('.dropdown-item.selected'))
+          .map(item => item.getAttribute('data-value'));
+        const multiValues = selectedMultiItems.length > 0 ? selectedMultiItems.join(', ') : 'None';
+
+        selectionResult.innerHTML = `
+          <p><strong>Custom Dropdown:</strong> ${singleValue}</p>
+          <p><strong>Custom Grouped Dropdown:</strong> ${groupedValue}</p>
+          <p><strong>Custom Multi-Select:</strong> ${multiValues}</p>
+        `;
+      }
+    });
+  </script>
+</body>
+
+</html>

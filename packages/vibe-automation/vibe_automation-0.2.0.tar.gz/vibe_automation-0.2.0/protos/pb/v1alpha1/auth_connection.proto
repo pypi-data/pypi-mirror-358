@@ -1,0 +1,172 @@
+syntax = "proto3";
+
+package pb.v1alpha1;
+
+import "pb/v1alpha1/oauth2_token.proto";
+
+option go_package = "github.com/orby-ai-engineering/web-api-server/pb/v1alpha1";
+
+// Central definition for an application integration.
+message ApplicationIntegration {
+  // The unique identifier for this application integration.
+  // This will be set by the BE when the application integration is created.
+  string id = 1;
+  // Unique string identifier for this application 
+  // (e.g., "GMAIL", "ONEDRIVE_SHAREPOINT", "GDRIVE", "OUTLOOK", etc.).
+  string application_type = 2;
+  // List of default authorized scopes required by this application.
+  repeated string authorized_scopes = 3;
+  string display_name = 4;
+
+  message Metadata {
+    repeated string icon_urls = 1;
+    // Indicates what connection types are supported by this application.
+    repeated AuthorizationConnectionType connection_types = 2;
+  }
+  Metadata metadata = 5;
+}
+
+// Indicates the connection method: either delegated (user-based) 
+// or application-only.
+enum AuthorizationConnectionType {
+  AUTHORIZATION_CONNECTION_TYPE_UNSPECIFIED = 0;
+  // Uses user consent and tokens.
+  AUTHORIZATION_CONNECTION_TYPE_ORBY_DELEGATED = 1;    
+  // Uses user consent and tokens.     
+  AUTHORIZATION_CONNECTION_TYPE_CUSTOM_DELEGATED = 2; 
+  // Uses service accounts or app credentials.        
+  AUTHORIZATION_CONNECTION_TYPE_ORBY_OAUTH_APPLICATION_ONLY = 3;  
+  // Uses service accounts or app credentials.
+  AUTHORIZATION_CONNECTION_TYPE_CUSTOM_OAUTH_APPLICATION_ONLY = 4;  
+  // Uses service accounts or app credentials.
+  AUTHORIZATION_CONNECTION_TYPE_ORBY_SERVICE_ACCOUNT_APPLICATION_ONLY = 5; 
+  // Uses service accounts or app credentials.
+  AUTHORIZATION_CONNECTION_TYPE_CUSTOM_SERVICE_ACCOUNT_APPLICATION_ONLY = 6; 
+}
+
+// Represents a live, user- or org-level connection to an external application.
+message AuthorizationConnection {
+  // Unique ID of the connection.
+  string id = 1;
+  // Reference to the associated application integration.
+  string application_integration_id = 2;
+  // The name of the connection.
+  // This is unique per user and per application integration.
+  string name = 3;
+
+  // Whether this connection is visible to all 
+  // users in the org or just the creator.
+  enum Visibility {
+    VISIBILITY_UNSPECIFIED = 0;
+    VISIBILITY_PRIVATE = 1;
+    VISIBILITY_PUBLIC = 2;
+  }
+  Visibility visibility = 4;
+  AuthorizationConnectionType connection_type = 5;
+
+  // Provider-specific configuration for the connection.
+  oneof connection_param {
+    DelegatedAccessParam delegated_access = 6;
+    ApplicationAccessParam application_access = 7;
+  }
+
+  // The actual OAuth2 token used for access.
+  // May become invalid; should be refreshed or rotated when needed.
+  // Refresh for ApplicationOnlyAccess can be handled by the server 
+  // whereas for delegated it has to happen from the FE using the consent.
+  // OAuth2Token based on https://golang.org/x/oauth2#Token
+  Oauth2Token token = 8;
+  // The user ID of the person who created this connection.
+  string creator_id = 9;
+  // The organization ID of the organization that owns this connection.
+  string org_id = 10;
+}
+
+// Configuration for delegated (user-level) OAuth access.
+message DelegatedAccessParam {
+  // OAuth application credential used to authorize access.
+  //
+  // We will return only the non-secret fields when 
+  // returning the connection to the FE.
+  OAuthApplicationCredential oauth_application_credential = 1;
+  // The email of the user for whom delegated access was granted.
+  string authorized_user_email = 2;
+}
+
+// Configuration for application-only (non-user) access.
+// This is used for either service accounts and OAuth applications.
+message ApplicationAccessParam {
+  // Client credentials flow, eg. Microsoft Azure.
+  //
+  // Application-only access in Microsoft is based on application permissions
+  // For Orby-owned OAuth applications, we maintain two multi-tenant apps:
+  //   1) OneDrive and SharePoint
+  //   2) Outlook
+  //
+  // These apps are pre-registered and configured with the required 
+  // application-level scopes (e.g., Files.Read.All, Mail.Read).
+  // This allows us to reuse them across all customers by simply 
+  // requesting admin consent from the customer's tenant admin.
+  //
+  // For customer-owned applications, the customer is responsible for 
+  // configuring the required application permissions and granting 
+  // admin consent accordingly (planned for future support).
+
+  message OAuthAppAccess {
+    // The OAuth application credential used for access.
+    OAuthApplicationCredential oauth_application_credential = 1; 
+    // The Azure tenant ID of the organization.
+    string tenant_id = 2;    
+    // The email of the user for whom application access was granted.
+    string authorized_user_email = 3;               
+  }
+
+  message ServiceAccountAccess {
+    // The service account credential used for access.
+    ServiceAccountCredentials service_account_credential = 1;
+    // The email of the user for whom application access was granted.
+    string authorized_user_email = 2;
+  }
+
+  oneof connection_param {
+    ServiceAccountAccess service_account_access = 1;
+    OAuthAppAccess oauth_app_access = 2;
+  }
+}
+
+// Represents an OAuth2 application (client ID, secret, and ownership).
+message OAuthApplicationCredential {
+  // The unique identifier for this OAuth application credential.
+  string id = 1;
+  // The OAuth 2.0 Client ID.
+  //
+  // This can be used to identify the OAuth application credential.
+  string client_id = 2;
+  // The OAuth 2.0 Client Secret (stored securely).
+  //
+  // This will never be returned to the FE, will be used only 
+  // when creating a new connection and FE needs to pass it 
+  // in the request.
+  string client_secret = 3;
+}
+
+// Service account-based credentials, eg. Google Workspace.
+// Orby-owned service acconuts, we can create 
+// separate service accounts for each tenant.
+message ServiceAccountCredentials {
+  // The unique identifier for this service account credential.
+  string id = 1;
+  // The email address of the service account.
+  //
+  // This can be used to identify the service account credential.
+  string email_address = 2; 
+  // Private key JSON content or vault reference (stored securely).
+  //
+  // This will never be returned to the FE, will be used only 
+  // when creating a new connection and FE needs to pass it 
+  // in the request.
+  //
+  // This is the service account key in JSON format.
+  // This will be sent as a base64 encoded string in the request.
+  string account_key = 3;   
+}
