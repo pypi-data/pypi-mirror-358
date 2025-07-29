@@ -1,0 +1,56 @@
+# pyproject.toml
+[tool.poetry]
+name = "dtwheel"
+version = "0.1.0"
+description = "Intuitive Datetime Manipulation for Python"
+authors = ["Your Name <ucsa8005@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/UdhayChandra/dtwheel"
+repository = "https://github.com/UdhayChandra/dtwheel"
+keywords = ["datetime", "date", "time", "utility", "timezones"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<4.0" # Requiring Python 3.9+ to directly use zoneinfo
+tzdata = "^2024.1" # Add tzdata to provide timezone definitions for zoneinfo
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0"
+pytest-cov = "^5.0"
+black = "^24.3.0"
+isort = "^5.13.2"
+mypy = "^1.9.0"
+mkdocs = "^1.5.3"
+mkdocs-material = "^9.5.17"
+# For publishing
+twine = "^5.0.0"
+wheel = "^0.43.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.black]
+line-length = 88
+target-version = ['py39']
+
+[tool.mypy]
+python_version = "3.9"
+strict = true
+ignore_missing_imports = true
