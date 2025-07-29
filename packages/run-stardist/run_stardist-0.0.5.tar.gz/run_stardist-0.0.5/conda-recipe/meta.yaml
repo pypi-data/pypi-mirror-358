@@ -1,0 +1,34 @@
+package:
+  name: "run-stardist"
+  version: "0.0.5"
+
+source:
+  path: ..
+
+build:
+  noarch: python
+  script: "pip install . --no-deps --ignore-installed --no-cache-dir"
+  number: 1
+  entry_points:
+    - train-stardist = runstardist.train:main
+    - predict-stardist = runstardist.predict:main
+
+requirements:
+  build:
+    - python
+    - pip
+
+  run:
+    - python>=3.10 # for `|` in pydantic
+    # - tensorflow # many users have their own installation
+    - stardist
+    - wandb
+    - pydantic
+    - pyyaml
+
+about:
+  home: https://github.com/kreshuklab/go-nuclear
+  doc_url: https://kreshuklab.github.io/go-nuclear/
+  dev_url: https://github.com/kreshuklab/go-nuclear
+  license: MIT
+  license_family: MIT
