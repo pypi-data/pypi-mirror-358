@@ -1,0 +1,52 @@
+Metadata-Version: 2.4
+Name: colight-site
+Version: 2025.4.1.dev202506261406
+Summary: Static site generator for Colight visualizations
+Author-email: Matthew Huebert <me@matt.is>
+License: MIT
+Requires-Python: >=3.10
+Requires-Dist: click>=8.1
+Requires-Dist: colight
+Requires-Dist: libcst>=1.4
+Requires-Dist: livereload>=2.7.1
+Requires-Dist: markdown>=3.5
+Requires-Dist: watchfiles>=0.21.0
+Description-Content-Type: text/markdown
+
+# Colight Site
+
+Static site generator for Colight visualizations.
+
+Converts `.colight.py` files into markdown/HTML documents where:
+
+- Comments become narrative markdown
+- Code blocks are executed to generate Colight visualizations
+- Output is embedded as interactive `.colight` files
+
+## Usage
+
+```bash
+# Build a single file
+colight-site build src/post.colight.py --output build/post.md
+
+# Watch for changes
+colight-site watch src/ --output build/
+
+# Initialize new project
+colight-site init my-blog/
+```
+
+## File Format
+
+`.colight.py` files mix comments (markdown) with executable Python code:
+
+```python
+# My Data Visualization
+# This creates an interactive plot...
+
+import numpy as np
+x = np.linspace(0, 10, 100)
+
+# The sine wave
+np.sin(x)  # This expression generates a colight visualization
+```
