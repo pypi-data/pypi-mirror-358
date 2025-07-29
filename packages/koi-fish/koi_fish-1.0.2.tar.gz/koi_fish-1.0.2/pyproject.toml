@@ -1,0 +1,41 @@
+[project]
+name = "koi-fish"
+version = "1.0.2"
+description = "CLI task runner & automation tool"
+keywords = [
+    "task automation",
+    "cli tool",
+    "command line runner",
+    "task runner",
+]
+authors = [
+    { name = "kaliv0", email = "kaloyan.ivanov88@gmail.com" },
+]
+license-files = [
+    "LICENSE",
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
+
+[project.urls]
+repository = "https://github.com/kaliv0/koi_fish.git"
+
+[project.scripts]
+koi = "koi.__main__:main"
+
+[dependency-groups]
+dev = [
+    "ruff>=0.12.0",
+    "mypy>=1.16.1",
+]
+
+[build-system]
+build-backend = "pdm.backend"
+requires = [
+    "pdm-backend",
+]
+
+[tool.ruff]
+fix = true
+line-length = 100
