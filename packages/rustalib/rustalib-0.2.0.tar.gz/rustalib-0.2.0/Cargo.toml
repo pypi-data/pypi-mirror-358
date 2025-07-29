@@ -1,0 +1,21 @@
+[package]
+name = "rustalib"
+version = "0.2.0"
+edition = "2021"
+authors = ["Cuantilab"]
+license = "MIT"
+description = "Python wrapper for rustalib-core, a high-performance technical analysis library written in Rust."
+repository = "https://github.com/cuantilab/rustalib"
+homepage = "https://github.com/cuantilab"
+documentation = "https://github.com/cuantilab/rustalib#readme"
+
+[lib]
+name = "rustalib"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.25.1", features = ["extension-module"] }
+numpy = "0.25.0"
+
+# Rust core dependency (private)
+rustalib_core = { git = "ssh://git@github.com/cuantilab/rustalib-core.git", branch = "main" }

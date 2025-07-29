@@ -1,0 +1,23 @@
+[build-system]
+requires = ["maturin>=1.8,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "rustalib"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+dynamic = ["version"]
+license = { text = "MIT" }
+readme = "README.md"
+
+[project.url]
+Homepage = "https://github.com/cuantilab/rustalib"
+Issues = "https://github.com/cuantilab/rustalib/issues"
+
+[tool.maturin]
+features = ["pyo3/extension-module"]
+module-name = "rustalib"

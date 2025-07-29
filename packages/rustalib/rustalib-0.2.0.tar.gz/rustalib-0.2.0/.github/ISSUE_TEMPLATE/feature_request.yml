@@ -1,0 +1,38 @@
+name: ✨ Feature Request
+description: Propose a new feature or improvement for rustalib
+title: "[Feature] "
+labels: [enhancement]
+
+body:
+  - type: textarea
+    id: feature
+    attributes:
+      label: Describe the feature
+      description: What should be added or improved?
+      placeholder: I'd like to have support for...
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Why is this feature important?
+      description: Explain the problem this feature would solve.
+      placeholder: Currently, it's hard to...
+    validations:
+      required: false
+
+  - type: textarea
+    id: implementation
+    attributes:
+      label: Possible implementation (optional)
+      description: Do you have an idea on how this could be implemented?
+    validations:
+      required: false
+
+  - type: input
+    id: related
+    attributes:
+      label: Related issues or indicators (optional)
+      description: If this relates to an existing indicator or issue, add the link or name.
+      placeholder: Related to MACD or Issue #12

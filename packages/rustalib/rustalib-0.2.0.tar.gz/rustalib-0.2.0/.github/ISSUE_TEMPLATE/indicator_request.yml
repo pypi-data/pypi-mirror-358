@@ -1,0 +1,50 @@
+name: 📈 Indicator Request
+description: Suggest a new technical indicator to be added to rustalib
+title: "[Request] New indicator: "
+labels: [indicator, enhancement]
+
+body:
+  - type: input
+    id: indicator_name
+    attributes:
+      label: Indicator name
+      placeholder: e.g., VWAP, RSI, MACD
+      description: What is the name of the indicator you'd like to suggest?
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Briefly describe what this indicator does and why it's useful.
+      placeholder: This indicator measures...
+    validations:
+      required: true
+
+  - type: textarea
+    id: inputs
+    attributes:
+      label: Required inputs
+      description: List all necessary inputs (e.g., close price, period, high/low).
+      placeholder: close price, period = 14...
+    validations:
+      required: false
+
+  - type: textarea
+    id: output
+    attributes:
+      label: Expected output
+      description: What does the indicator return? (e.g., single line, bands, histogram).
+      placeholder: Returns a single line representing...
+    validations:
+      required: false
+
+  - type: input
+    id: references
+    attributes:
+      label: References (optional)
+      placeholder: Link to documentation, paper, or website
+      description: Provide any external link explaining the indicator formula or usage.
+    validations:
+      required: false
