@@ -1,0 +1,20 @@
+Metadata-Version: 2.4
+Name: rrule-fork
+Version: 0.0.2
+Classifier: Programming Language :: Rust
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown; charset=UTF-8; variant=GFM
+
+# rrule
+
+RRULE library for Python backed by [rust-rrule](https://github.com/fmeringdal/rust-rrule).
+
+## Fork
+
+This library is a fork from https://pypi.org/project/rrule/.
+
+It adds protection against ill formatted recurrence rules by returning None,
+instead of throwing an uncatchable PanicException.
+
