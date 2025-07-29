@@ -1,0 +1,43 @@
+Metadata-Version: 2.1
+Name: epi2melabs
+Version: 0.0.59
+Summary: EPI2ME labs notebook utilities.
+Home-page: https://github.com/epi2me-labs/epi2melabs
+Author: cwright
+Author-email: cwright@nanoporetech.com
+Platform: Linux
+Platform: Mac OS X
+Platform: Windows
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE.md
+Requires-Dist: colorama
+Requires-Dist: requests
+Requires-Dist: sqlalchemy
+Requires-Dist: shortuuid
+Requires-Dist: jsonschema
+Requires-Dist: psutil
+
+epi2melabs
+==========
+
+The `epi2melabs` python package provides utility functions and scripts for
+running in notebook environments.
+
+Installation
+------------
+
+`epi2melabs` is easily installed in the standard python tradition:
+
+    git clone --recursive https://github.com/epi2me-labs/epi2melabs.git
+    cd epi2melabs
+    pip install -r requirements.txt
+    python setup.py install
+
+or via pip:
+
+    pip install epi2melabs.
