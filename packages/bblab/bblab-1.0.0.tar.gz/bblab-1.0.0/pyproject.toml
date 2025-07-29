@@ -1,0 +1,65 @@
+[build-system]
+requires = ["hatchling", "uv-dynamic-versioning"]
+build-backend = "hatchling.build"
+
+[project]
+name = "bblab"
+dynamic = ["version"]
+description = """
+bblab - A namespace for BitByteLab libraries, tools, scripts, and utilities.
+It does not contain any functional logic beyond branding and identification;
+created only to reserve the `bblab` name as a namespace package.
+
+It allows future submodules like bblab.cli, bblab.utils, bblab.ai and others
+to coexist under a unified namespace in the BitByteLab ecosystem,
+following modern Python packaging practices.
+"""
+readme = "README.md"
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+requires-python = ">=3.10"
+keywords = ["bitbytelab", "bblab", "namespace package"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+authors = [
+  { name = "Hasan Rasel", email = "rrss.mahmud@gmail.com" },
+]
+
+maintainers = [
+  { name = "Hasan Rasel", email = "rrss.mahmud@gmail.com" },
+]
+
+[project.urls]
+Homepage = "https://bitbytelab.github.io/"
+BitByteLab = "https://github.com/bitbytelab"
+PyPI = "https://pypi.org/project/bblab/"
+
+Author-GitHub = "https://github.com/rsmahmud"
+Author-LinkedIn = "https://www.linkedin.com/in/rsmahmud"
+Author-Portfolio = "https://rsmahmud.github.io/"
+
+[tool.hatch.version]
+source = "uv-dynamic-versioning"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+sources = ["src"]
+only-include = ["src/bblab"]
+
+[tool.hatch.build.targets.sdist]
+only-include = [
+    "docs",
+    "examples",
+    "src",
+    "tests",
+    "README.md",
+    "pyproject.toml",
+    "ruff.toml"
+]
