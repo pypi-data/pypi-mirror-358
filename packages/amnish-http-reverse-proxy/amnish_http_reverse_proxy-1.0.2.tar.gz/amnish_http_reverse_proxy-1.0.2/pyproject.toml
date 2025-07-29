@@ -1,0 +1,39 @@
+[project]
+name = "amnish-http-reverse-proxy"
+version = "1.0.2"
+description = "A secure HTTP reverse proxy supporting features like load-balancing and caching."
+authors = [
+    { name = "Amnish Singh Arora", email = "amnishsingh04@gmail.com" }
+]
+dependencies = [
+    "flask>=3.1.1",
+    "requests>=2.32.4",
+    "python-dotenv>=1.1.1",
+]
+readme = "README.md"
+requires-python = ">= 3.8"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+managed = true
+dev-dependencies = [
+    "pytest>=8.4.1",
+    "pytest-cov>=6.2.1",
+]
+
+[tool.rye.scripts]
+start-test-server = "python src/amnish_http_reverse_proxy/main.py"
+test = "pytest"
+test-coverage = ["pytest", "--cov=src"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/amnish_http_reverse_proxy"]
+
+[project.urls]
+Homepage = "https://github.com/Amnish04/amnish-http-reverse-proxy"
