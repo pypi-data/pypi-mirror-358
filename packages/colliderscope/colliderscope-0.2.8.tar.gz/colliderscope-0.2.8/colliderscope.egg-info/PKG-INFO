@@ -1,0 +1,104 @@
+Metadata-Version: 2.4
+Name: colliderscope
+Version: 0.2.8
+Summary: Plotting tools for Monte-Carlo particle showers.
+Author: Jacan Chaplais
+Maintainer: Jacan Chaplais
+License: BSD 3-Clause License
+        
+        Copyright (c) 2021, Jacan Chaplais.
+        All rights reserved.
+        
+        Redistribution and use in source and binary forms, with or without
+        modification, are permitted provided that the following conditions are met:
+        
+        * Redistributions of source code must retain the above copyright notice, this
+          list of conditions and the following disclaimer.
+        
+        * Redistributions in binary form must reproduce the above copyright notice,
+          this list of conditions and the following disclaimer in the documentation
+          and/or other materials provided with the distribution.
+        
+        * Neither the name of the colliderscope package developers nor the names of its
+          contributors may be used to endorse or promote products derived from
+          this software without specific prior written permission.
+        
+        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+        AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+        IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+        DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+        FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+        DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+        SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+        CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+        OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+        OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+        
+Project-URL: repository, https://github.com/jacanchaplais/colliderscope
+Project-URL: documentation, https://colliderscope.readthedocs.io
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/x-rst
+License-File: LICENSE.txt
+Requires-Dist: numpy>=1.21.0
+Requires-Dist: pandas
+Requires-Dist: scipy
+Requires-Dist: pyvis<=0.1.9
+Requires-Dist: colour
+Requires-Dist: webcolors
+Requires-Dist: graphicle>=0.4.1
+Requires-Dist: plotly
+Requires-Dist: more-itertools>=2.1
+Provides-Extra: dev
+Requires-Dist: pre-commit==2.19.0; extra == "dev"
+Requires-Dist: flake8==3.9.2; extra == "dev"
+Requires-Dist: pytest==6.2.5; extra == "dev"
+Requires-Dist: pytest-cov==2.12.1; extra == "dev"
+Requires-Dist: mypy==1.0.1; extra == "dev"
+Provides-Extra: webui
+Requires-Dist: showerpipe; extra == "webui"
+Requires-Dist: click; extra == "webui"
+Requires-Dist: dash; extra == "webui"
+Dynamic: license-file
+
+colliderscope
+=============
+
+|PyPI version| |Tests| |Documentation| |License| |pre-commit| |Code style:
+black|
+
+Visualise your high energy physics (HEP) data with colliderscope!
+
+Features
+--------
+Provides utilities for
+
+* interactive HTML visualisations of whole event records as directed acyclic
+  graphs (DAGs)
+* scatter plots of particles across the pseudorapidity-azimuth plane
+* creating, visualising, and fitting to fixed memory ``Histogram`` objects
+
+Installation
+------------
+
+::
+
+   pip install colliderscope
+
+
+More information on the API is available in the
+`documentation <https://colliderscope.readthedocs.io>`__
+
+.. |PyPI version| image:: https://img.shields.io/pypi/v/colliderscope.svg
+   :target: https://pypi.org/project/colliderscope/
+.. |Documentation| image:: https://readthedocs.org/projects/colliderscope/badge/?version=latest
+   :target: https://colliderscope.readthedocs.io
+.. |License| image:: https://img.shields.io/pypi/l/colliderscope
+   :target: https://raw.githubusercontent.com/jacanchaplais/colliderscope/main/LICENSE.txt
+.. |pre-commit| image:: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit
+   :target: https://github.com/pre-commit/pre-commit
+.. |Code style: black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
+   :target: https://github.com/psf/black
+.. |Tests| image:: https://github.com/jacanchaplais/colliderscope/actions/workflows/tests.yml/badge.svg
