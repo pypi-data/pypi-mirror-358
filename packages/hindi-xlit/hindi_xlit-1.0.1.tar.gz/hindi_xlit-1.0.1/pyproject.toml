@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hindi_xlit"
+version = "1.0.1"
+description = "A Hindi transliteration library based on AI4Bharat's IndicXlit"
+readme = "README.md"
+authors = [
+    {name = "Aman Ranjan Verma", email = "aman.ranjanverma@gmail.com"}
+]
+license = {file = "LICENSE"}
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Text Processing :: Linguistic",
+    "Natural Language :: Hindi",
+    "Natural Language :: English",
+]
+requires-python = ">=3.6"
+dependencies = [
+    "torch>=2.0.0,<3.0.0",
+    "numpy>=2.0.0,<2.3.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "build>=0.10.0",
+    "twine>=4.0.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/arverma/HindiXlit"
+Repository = "https://github.com/arverma/HindiXlit.git"
+
+[project.scripts]
+hindi-xlit = "hindi_xlit.transliterator:main"
+
+[tool.setuptools]
+package-data = {hindi_xlit = ["models/hindi/*.pth", "models/hindi/*.json"]}
+packages = ["hindi_xlit"] 
