@@ -1,0 +1,104 @@
+[project]
+name = "minion-agent-x"
+version = "0.1.4"
+description = "An enhanced version of minion-agent with extended capabilities"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+    {name = "femtozheng", email = "femtozheng@example.com"},
+]
+keywords = ["agent", "ai", "llm", "automation", "browser", "mcp"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "smolagents>=0.0.1",
+    "python-dotenv>=1.0.0",
+    "browser-use>=0.0.1",
+    "loguru>=0.0.1",
+
+]
+requires-python = ">=3.11"
+
+[project.optional-dependencies]
+dev = [
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "pytest>=7.0.0",
+]
+mcp = [
+    "mcp>=1.5.0",
+    "asyncio>=3.4.3",
+    "playwright>=1.51.0",
+    "openai>=1.75.0",
+    "markdownify>=1.1.0",
+    "langchain-core>=0.3.49",
+    "langchain-openai>=0.3.11",
+    "smolagents[mcp]>=1.13.0"
+]
+google = [
+  "google-adk","litellm"
+]
+smolagents = [
+  "smolagents[litellm,mcp]>=1.10.0",
+  "openinference-instrumentation-smolagents"
+]
+openai = [
+  "openai-agents>=0.0.7",
+  "openinference-instrumentation-openai-agents>=0.1.5"
+]
+minion = [
+  "minionx>=0.1.1",
+  "nltk>=0.0.1"
+]
+deep-research = [
+    "nest_asyncio>=0.0.1",
+    "pydantic",
+    "litellm",
+    "datasets",
+    "commonmark",
+    "xhtml2pdf",
+    "pypandoc",
+    "pandoc",
+    "filelock",
+    "together>=1.3.5",
+    "pandas>=1.5.0",
+    "tavily-python>=0.5.1",
+    "tenacity>=9.0.0",
+    "pymdown-extensions>=10.14.3",
+    "smolagents>=1.13.0",
+    "langgraph>=0.3.29",
+    "langchain-together>=0.3.0",
+    "langchain>=0.3.23",
+    "gradio>=5.25.0",
+]
+serve = [
+  "a2a-sdk>=0.2.5",
+]
+all = [
+  "minion-agent-x[google,smolagents,mcp,minion,deep-research]"
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.black]
+line-length = 88
+target-version = ['py39']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+
+[tool.hatch.build.targets.wheel]
+packages = ["minion_agent"]
