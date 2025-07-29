@@ -1,0 +1,20 @@
+[project]
+name = "mcp-lsq"
+version = "0.1.1"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "dartou", email = "" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "mcp[cli]>=1.10.0",
+    "requires",
+]
+
+[project.scripts]
+mcp-lsq = "mcp_lsq:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
