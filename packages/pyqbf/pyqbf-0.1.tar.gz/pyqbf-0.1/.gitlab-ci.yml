@@ -1,0 +1,25 @@
+image: gitlab.sai.jku.at:5050/qbf/pyqbf-builder/image:latest
+stages:
+  - test
+  - deploy
+
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
+pages:
+  stage: deploy
+  script:
+    - pip install .
+    - cd docs && make html && cd -
+    - mv docs/_build/html/ public
+  artifacts:
+    paths:
+      - public/
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+
+tests:
+  stage: test
+  script: 
+    - pip install .

@@ -1,0 +1,6 @@
+set(SRCS
+  ${CMAKE_CURRENT_SOURCE_DIR}/pcnf.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/preprocessor.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/pyqbf.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/solver.cpp
+PARENT_SCOPE)

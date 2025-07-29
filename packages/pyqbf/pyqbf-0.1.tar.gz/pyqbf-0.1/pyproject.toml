@@ -1,0 +1,17 @@
+[project]
+name = "pyqbf"
+version = "0.1"
+description = "A Python Framework for Solving Quantfied Boolean Formulas"
+requires-python = ">= 3.9"
+license = "MIT"
+authors = [{name = "Mark Peyrer", email = "mark.peyrer@jku.at"}, {name = "Maximilian Heisinger", email = "maximilian.heisinger@jku.at"}, {name = "Martina Seidl", email = "martina.seidl@jku.at"}]
+dependencies = ["python-sat", "py-aiger-cnf"]
+
+[project.urls]
+homepage = "https://gitlab.sai.jku.at/qbf/pyqbf"
+repository = "https://gitlab.sai.jku.at/qbf/pyqbf"
+changelog = "https://gitlab.sai.jku.at/qbf/pyqbf/-/commits/main"
+
+[build-system]
+requires = ["cmeel[build]", "python-sat", "py-aiger-cnf"]
+build-backend = "cmeel"
