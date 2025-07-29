@@ -1,0 +1,36 @@
+{
+  "name": "sunsynk-docs",
+  "version": "0.0.0",
+  "description": "Sunsynk Home Assistant Addon documentation",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "postdocs:build": "node ./docs/.vitepress/build_sitemap.js",
+    "docs:serve": "vitepress serve docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kellerza/sunsynk.git"
+  },
+  "author": "Johann Kellerman <kellerza@gmail.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/kellerza/sunsynk"
+  },
+  "homepage": "https://github.com/kellerza/sunsynk",
+  "dependencies": {
+    "clipboard": "^2.0.11"
+  },
+  "devDependencies": {
+    "js-yaml": "^4.1.0",
+    "markdown-it-deflist": "^3.0.0",
+    "markdown-it-imsize": "^2.0.1",
+    "sitemap-ts": "^1.8.0",
+    "vitepress": "^1.5.0",
+    "vue": "^3.5.13",
+    "vue3-json-viewer": "^2.2.2"
+  }
+}
