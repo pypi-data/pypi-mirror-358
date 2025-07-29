@@ -1,0 +1,42 @@
+Metadata-Version: 2.4
+Name: komodo-api
+Version: 0.0.3
+Summary: Komodo client API
+Project-URL: Homepage, https://github.com/dkarv/komodo-api
+Project-URL: Issues, https://github.com/dkarv/komodo-api/issues
+Author-email: David Punzet <punzet.david@gmail.com>
+License-Expression: GPL-3.0-only
+License-File: LICENSE
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.9
+Requires-Dist: aiohttp
+Requires-Dist: pydantic
+Description-Content-Type: text/markdown
+
+# Komodo
+
+_A system to build and deploy software across many servers_. [https://komo.do](https://komo.do)
+
+```sh
+pip install komodo-api
+```
+
+```py
+from komodo_api.lib import KomodoClient, ApiKeyInitOptions
+from komodo_api.types import *
+
+api = KomodoClient(
+    url = "https://demo.komo.do/",
+    options = ApiKeyInitOptions(
+        key = "your-key",
+        secret = "your-secret",
+    ))
+    
+print(await api.auth.getUser(GetUser()))
+print(await api.auth.getLoginOptions(GetLoginOptions()))
+print(await api.read.listAlerts(ListAlerts()))
+print(await api.read.listServers(ListServers()))
+print(await api.read.listStacks(ListStacks()))
+print(await api.read.listUpdates(ListUpdates()))
+```
