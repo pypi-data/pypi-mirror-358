@@ -1,0 +1,21 @@
+[workspace]
+members = ["crates/*"]
+resolver = "2"
+
+
+[workspace.package]
+#name = "bermuda"
+version = "0.1.0"
+license = "BSD-3"
+homepage = "https://github.com/napari/bermuda"
+repository = "https://github.com/napari/bermuda.git"
+
+[workspace.dependencies]
+triangulation = { path = "crates/triangulation" }
+pyo3 = { version = "0.24.1", features = ["extension-module"] }
+numpy = "0.24.0"
+rstest = "0.25.0"
+
+
+[workspace.lints.rust]
+unsafe_code = "warn"
