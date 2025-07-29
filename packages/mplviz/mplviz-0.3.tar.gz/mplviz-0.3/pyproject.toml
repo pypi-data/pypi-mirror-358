@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mplviz"
+version = "0.3"
+description = "A fluent wrapper around matplotlib for easy, expressive visualizations"
+readme = "README.md"
+requires-python = ">=3.7"
+authors = [
+  { name="BBEK-Anand" }
+]
+license = { text = "MIT" }
+dependencies = [
+  "matplotlib>=3.6.0",
+  "numpy>=1.18.0",
+  "ipython>=7.0.0"
+]
+keywords = ["matplotlib", "visualization", "wrapper", "plotting"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Topic :: Scientific/Engineering :: Visualization",
+  "Framework :: Matplotlib"
+]
+
+[project.urls]
+Homepage = "https://github.com/BBEK-Anand/mplviz"
+Repository = "https://github.com/BBEK-Anand/mplviz"
+Issues = "https://github.com/BBEK-Anand/mplviz/issues"
+
+[project.optional-dependencies]
+docs = [
+  "sphinx",
+  "sphinx_rtd_theme",
+  "myst-parser"
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
