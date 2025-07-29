@@ -1,0 +1,396 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Odoo RPC Client &mdash; PRS Commons 0.2.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=dd2ddd4a" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=dd2ddd4a" />
+
+  
+      <script src="_static/documentation_options.js?v=fc7d8818"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Database Clients" href="database.html" />
+    <link rel="prev" title="PRS Commons" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2e8b57" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PRS Commons
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Odoo RPC Client</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api-reference">API Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#OdooRPClient"><code class="docutils literal notranslate"><span class="pre">OdooRPClient</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#example-usage">Example Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#error-handling">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#see-also">See Also</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="database.html">Database Clients</a></li>
+<li class="toctree-l1"><a class="reference internal" href="storage.html">Storage Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aws.html">AWS S3 Client</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2e8b57" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PRS Commons</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Odoo RPC Client</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/odoo.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="odoo-rpc-client">
+<h1>Odoo RPC Client<a class="headerlink" href="#odoo-rpc-client" title="Link to this heading">¶</a></h1>
+<p>A high-level client for interacting with Odoo’s XML-RPC/JSON-RPC API.</p>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">¶</a></h2>
+<p>The OdooRPClient can be configured using environment variables for convenience. All parameters are optional and can be overridden when initializing the client.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 10.0%" />
+<col style="width: 10.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ODOO_HOST</p></td>
+<td><p>string</p></td>
+<td><p>None</p></td>
+<td><p>Odoo server hostname or IP address</p></td>
+</tr>
+<tr class="row-odd"><td><p>ODOO_PORT</p></td>
+<td><p>int</p></td>
+<td><p>8069</p></td>
+<td><p>Odoo server port number</p></td>
+</tr>
+<tr class="row-even"><td><p>ODOO_PROTOCOL</p></td>
+<td><p>string</p></td>
+<td><p>jsonrpc</p></td>
+<td><p>Protocol to use (jsonrpc or xmlrpc)</p></td>
+</tr>
+<tr class="row-odd"><td><p>ODOO_DB</p></td>
+<td><p>string</p></td>
+<td><p>None</p></td>
+<td><p>Database name to connect to</p></td>
+</tr>
+<tr class="row-even"><td><p>ODOO_LOGIN</p></td>
+<td><p>string</p></td>
+<td><p>None</p></td>
+<td><p>Username for authentication</p></td>
+</tr>
+<tr class="row-odd"><td><p>ODOO_PASSWORD</p></td>
+<td><p>string</p></td>
+<td><p>None</p></td>
+<td><p>Password for authentication</p></td>
+</tr>
+</tbody>
+</table>
+<p>Example <code class="docutils literal notranslate"><span class="pre">.env</span></code> file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">ODOO_HOST</span><span class="o">=</span>localhost
+<span class="nv">ODOO_PORT</span><span class="o">=</span><span class="m">8069</span>
+<span class="nv">ODOO_DB</span><span class="o">=</span>my_database
+<span class="nv">ODOO_LOGIN</span><span class="o">=</span>admin
+<span class="nv">ODOO_PASSWORD</span><span class="o">=</span>admin_password
+<span class="c1"># Optional: ODOO_PROTOCOL=jsonrpc (default: jsonrpc)</span>
+</pre></div>
+</div>
+<p>When using environment variables, you can initialize the client without any parameters:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">prs_commons.odoo.rpc_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">OdooRPClient</span>
+
+<span class="c1"># Uses environment variables for configuration</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">OdooRPClient</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="OdooRPClient">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">OdooRPClient</span></span><a class="headerlink" href="#OdooRPClient" title="Link to this definition">¶</a></dt>
+<dd><p>Initialize the Odoo RPC client. This is a singleton class that reads configuration from environment variables.
+Multiple instantiations will return the same instance.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The client is configured using environment variables as described in the Configuration section above.
+The connection is automatically established on first use and will be reused across instances.
+Automatically called on first RPC operation if not already connected.</p>
+<dl class="field-list simple">
+<dt class="field-odd">raises ConnectionError<span class="colon">:</span></dt>
+<dd class="field-odd"><p>If connection cannot be established</p>
+</dd>
+<dt class="field-even">raises ValueError<span class="colon">:</span></dt>
+<dd class="field-even"><p>If required credentials are missing</p>
+</dd>
+<dt class="field-odd">raises Exception<span class="colon">:</span></dt>
+<dd class="field-odd"><p>For other connection-related errors</p>
+</dd>
+</dl>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="OdooRPClient.ensure_connection">
+<span class="sig-name descname"><span class="pre">ensure_connection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#OdooRPClient.ensure_connection" title="Link to this definition">¶</a></dt>
+<dd><p>Ensure connection to the Odoo server is established.
+Automatically called on first RPC operation if not already connected.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ConnectionError" title="(in Python v3.13)"><strong>ConnectionError</strong></a> – If connection cannot be established</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If required credentials are missing</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.13)"><strong>Exception</strong></a> – For other connection-related errors</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="OdooRPClient.search_read">
+<span class="sig-name descname"><span class="pre">search_read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#OdooRPClient.search_read" title="Link to this definition">¶</a></dt>
+<dd><p>Search and read records matching the criteria.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Name of the Odoo model (e.g., ‘res.partner’)</p></li>
+<li><p><strong>domain</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a>) – Search domain (list of tuples)</p></li>
+<li><p><strong>fields</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a>) – List of fields to return</p></li>
+<li><p><strong>offset</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Number of records to skip</p></li>
+<li><p><strong>limit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Maximum number of records to return</p></li>
+<li><p><strong>order</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Sort order (e.g., ‘name asc, id desc’)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of dictionaries containing record data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="OdooRPClient.create_record">
+<span class="sig-name descname"><span class="pre">create_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#OdooRPClient.create_record" title="Link to this definition">¶</a></dt>
+<dd><p>Create a new record in the specified model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Name of the Odoo model</p></li>
+<li><p><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a>) – Field values for the new record</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ID of the created record</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="OdooRPClient.write_record">
+<span class="sig-name descname"><span class="pre">write_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#OdooRPClient.write_record" title="Link to this definition">¶</a></dt>
+<dd><p>Update existing record(s).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Name of the Odoo model</p></li>
+<li><p><strong>ids</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a>) – List of record IDs to update</p></li>
+<li><p><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a>) – Field values to update</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if successful</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">async</span> <span class="pre">execute_method(model:</span> <span class="pre">str,</span> <span class="pre">method:</span> <span class="pre">str,</span> <span class="pre">ids:</span> <span class="pre">List[int],</span> <span class="pre">*args,</span> <span class="pre">**kwargs)</span> <span class="pre">-&gt;</span> <span class="pre">Any</span></span></dt>
+<dd><p>Execute a method on the Odoo model asynchronously.</p>
+<dl>
+<dt>Example:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Call a custom method on a record</span>
+<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">execute_method</span><span class="p">(</span>
+    <span class="s1">&#39;sale.order&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;action_confirm&#39;</span><span class="p">,</span>
+    <span class="p">[</span><span class="n">order_id</span><span class="p">]</span>  <span class="c1"># List of record IDs</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> – Name of the Odoo model (e.g., ‘sale.order’)</p></li>
+<li><p><strong>method</strong> – Method name to call</p></li>
+<li><p><strong>ids</strong> – List of record IDs to operate on</p></li>
+<li><p><strong>args</strong> – Positional arguments for the method</p></li>
+<li><p><strong>kwargs</strong> – Keyword arguments for the method</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Result of the method call</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.13)"><strong>Exception</strong></a> – If the method execution fails</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="example-usage">
+<h2>Example Usage<a class="headerlink" href="#example-usage" title="Link to this heading">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">prs_commons.odoo.rpc_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">OdooRPClient</span>
+
+<span class="hll"><span class="c1"># Initialize the client (singleton pattern)</span>
+</span><span class="n">client</span> <span class="o">=</span> <span class="n">OdooRPClient</span><span class="p">()</span>
+
+<span class="hll"><span class="c1"># Ensure connection</span>
+</span><span class="n">client</span><span class="o">.</span><span class="n">ensure_connection</span><span class="p">()</span>
+
+<span class="hll"><span class="c1"># Search for partner records</span>
+</span><span class="n">domain</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;is_company&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)]</span>
+<span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">]</span>
+<span class="n">partners</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">search_read</span><span class="p">(</span><span class="s1">&#39;res.partner&#39;</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="n">fields</span><span class="p">)</span>
+
+<span class="hll"><span class="c1"># Create a new partner</span>
+</span><span class="n">new_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">create_record</span><span class="p">(</span><span class="s1">&#39;res.partner&#39;</span><span class="p">,</span> <span class="p">{</span>
+    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Acme Inc.&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;is_company&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="s1">&#39;email&#39;</span><span class="p">:</span> <span class="s1">&#39;info@acme.com&#39;</span>
+<span class="p">})</span>
+
+<span class="hll"><span class="c1"># Update the partner</span>
+</span><span class="n">client</span><span class="o">.</span><span class="n">write_record</span><span class="p">(</span><span class="s1">&#39;res.partner&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">new_id</span><span class="p">],</span> <span class="p">{</span>
+    <span class="s1">&#39;email&#39;</span><span class="p">:</span> <span class="s1">&#39;contact@acme.com&#39;</span>
+<span class="p">})</span>
+
+<span class="hll"><span class="c1"># Execute a method</span>
+</span><span class="n">result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">execute_method</span><span class="p">(</span><span class="s1">&#39;res.partner&#39;</span><span class="p">,</span> <span class="s1">&#39;search_read&#39;</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="n">fields</span><span class="p">)</span>
+
+<span class="hll"><span class="c1"># Close the connection (optional, connection will be closed on program exit)</span>
+</span><span class="n">client</span><span class="o">.</span><span class="n">close_connection</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Link to this heading">¶</a></h2>
+<p>This client requires the <cite>odoorpc</cite> package. Install it using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">odoorpc</span>
+</pre></div>
+</div>
+<p>For development, you may also want to install the test dependencies:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="s2">&quot;.[test]&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Link to this heading">¶</a></h2>
+<p>To run the test suite, ensure you have the test dependencies installed and run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="n">tests</span><span class="o">/</span> <span class="o">-</span><span class="n">v</span>
+</pre></div>
+</div>
+</section>
+<section id="error-handling">
+<h2>Error Handling<a class="headerlink" href="#error-handling" title="Link to this heading">¶</a></h2>
+<p>The client raises appropriate exceptions for different error conditions:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ConnectionError" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ConnectionError</span></code></a>: When unable to connect to Odoo server</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></a>: For invalid input parameters</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a>: For other Odoo-specific errors</p></li>
+</ul>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.odoo.com/documentation/16.0/developer/misc/api/odoo.html">Odoo’s External API Documentation</a></p></li>
+<li><p><a class="reference external" href="https://pythonhosted.org/OdooRPC/">OdooRPC Library</a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="PRS Commons" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="database.html" class="btn btn-neutral float-right" title="Database Clients" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Isha Foundation IT.
+      <span class="lastupdated">Last updated on 2025-06-26 11:32.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

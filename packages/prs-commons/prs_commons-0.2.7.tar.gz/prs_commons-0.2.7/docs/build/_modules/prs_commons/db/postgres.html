@@ -1,0 +1,450 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>prs_commons.db.postgres &mdash; PRS Commons 0.2.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=dd2ddd4a" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=dd2ddd4a" />
+
+  
+      <script src="../../../_static/documentation_options.js?v=fc7d8818"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2e8b57" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            PRS Commons
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../odoo.html">Odoo RPC Client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../database.html">Database Clients</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../storage.html">Storage Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../aws.html">AWS S3 Client</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2e8b57" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PRS Commons</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">prs_commons.db.postgres</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for prs_commons.db.postgres</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;PostgreSQL database client implementation using asyncpg.</span>
+
+<span class="sd">This module provides an async PostgreSQL client that implements the DatabaseClient interface.</span>
+<span class="sd">It supports connection pooling, query execution, and transaction management with singleton pattern.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">asynccontextmanager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">AsyncIterator</span><span class="p">,</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">asyncpg</span>  <span class="c1"># type: ignore[import-untyped]</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing_extensions</span><span class="w"> </span><span class="kn">import</span> <span class="n">override</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">prs_commons.db.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">DatabaseClient</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;PostgresClient&quot;</span><span class="p">]</span>
+
+<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s2">&quot;PostgresClient&quot;</span><span class="p">)</span>
+
+<span class="n">_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="PostgresClient">
+<a class="viewcode-back" href="../../../database.html#prs_commons.db.postgres.PostgresClient">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PostgresClient</span><span class="p">(</span><span class="n">DatabaseClient</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Asynchronous PostgreSQL database client using asyncpg with singleton pattern.</span>
+<span class="sd">    </span>
+<span class="sd">    This client provides a high-level interface for interacting with a PostgreSQL database</span>
+<span class="sd">    asynchronously using connection pooling. Only one instance of this class will be created</span>
+<span class="sd">    per process, ensuring a single connection pool is used.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        dsn: The connection string for the PostgreSQL database</span>
+<span class="sd">        min_size: Minimum number of connections in the pool (default: 1)</span>
+<span class="sd">        max_size: Maximum number of connections in the pool (default: 50)</span>
+<span class="sd">        **kwargs: Additional connection parameters passed to asyncpg.create_pool</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_instance</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">PostgresClient</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_initialized</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PostgresClient</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ensure only one instance of PostgresClient exists.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span>
+
+<div class="viewcode-block" id="PostgresClient.__init__">
+<a class="viewcode-back" href="../../../database.html#prs_commons.db.postgres.PostgresClient.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">dsn</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">min_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">max_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the PostgreSQL client.</span>
+
+<span class="sd">        Note: This will only initialize the instance once due to the singleton pattern.</span>
+<span class="sd">        Subsequent calls with different parameters will be ignored.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dsn</span> <span class="o">=</span> <span class="n">dsn</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_dsn</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_min_size</span> <span class="o">=</span> <span class="n">min_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_max_size</span> <span class="o">=</span> <span class="n">max_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pool</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">asyncpg</span><span class="o">.</span><span class="n">Pool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_connection_kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+   
+    <span class="k">def</span><span class="w"> </span><span class="nf">_build_dsn</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build a PostgreSQL connection string from environment variables.</span>
+<span class="sd">        </span>
+<span class="sd">        Constructs a connection string in the format:</span>
+<span class="sd">        postgresql://user:password@host:port/database?sslmode=mode</span>
+<span class="sd">        </span>
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If required environment variables (DB_USER, DB_PASSWORD) are not set</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            str: A connection string suitable for asyncpg.create_pool()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;DB_USER&#39;</span><span class="p">)</span>
+        <span class="n">password</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;DB_PASSWORD&#39;</span><span class="p">)</span>
+        <span class="n">host</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;DB_HOST&#39;</span><span class="p">,</span> <span class="s1">&#39;localhost&#39;</span><span class="p">)</span>
+        <span class="n">port</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;DB_PORT&#39;</span><span class="p">,</span> <span class="s1">&#39;5432&#39;</span><span class="p">)</span>
+        <span class="n">database</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;DB_NAME&#39;</span><span class="p">,</span> <span class="s1">&#39;postgres&#39;</span><span class="p">)</span>
+        <span class="n">ssl</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;DB_SSLMODE&#39;</span><span class="p">,</span> <span class="s1">&#39;disable&#39;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">user</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">password</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;DB_USER and DB_PASSWORD environment variables must be set&quot;</span><span class="p">)</span>
+            
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;postgresql://</span><span class="si">{</span><span class="n">user</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">password</span><span class="si">}</span><span class="s2">@</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">database</span><span class="si">}</span><span class="s2">?sslmode=</span><span class="si">{</span><span class="n">ssl</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<div class="viewcode-block" id="PostgresClient.connect">
+<a class="viewcode-back" href="../../../database.html#prs_commons.db.postgres.PostgresClient.connect">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the database connection pool.</span>
+<span class="sd">        </span>
+<span class="sd">        Creates a connection pool with the configured parameters. This method is</span>
+<span class="sd">        called automatically when the first database operation is performed.</span>
+<span class="sd">        </span>
+<span class="sd">        The connection pool parameters are:</span>
+<span class="sd">        - min_size: Minimum number of connections to keep open</span>
+<span class="sd">        - max_size: Maximum number of connections to allow</span>
+<span class="sd">        - Other parameters passed during client initialization</span>
+<span class="sd">        </span>
+<span class="sd">        Note:</span>
+<span class="sd">            This method is idempotent - calling it multiple times will only create</span>
+<span class="sd">            the pool once.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pool</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pool</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncpg</span><span class="o">.</span><span class="n">create_pool</span><span class="p">(</span>
+                <span class="n">dsn</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_dsn</span><span class="p">,</span>
+                <span class="n">min_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_min_size</span><span class="p">,</span>
+                <span class="n">max_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_max_size</span><span class="p">,</span>
+                <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_connection_kwargs</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Created PostgreSQL connection pool&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PostgresClient.disconnect">
+<a class="viewcode-back" href="../../../database.html#prs_commons.db.postgres.PostgresClient.disconnect">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Close all connections in the connection pool.</span>
+<span class="sd">        </span>
+<span class="sd">        This method should be called when the database client is no longer needed</span>
+<span class="sd">        to ensure proper cleanup of resources. After calling this method, the client</span>
+<span class="sd">        can be reused by calling connect() again.</span>
+<span class="sd">        </span>
+<span class="sd">        Note:</span>
+<span class="sd">            It&#39;s good practice to call this when your application shuts down.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pool</span><span class="p">:</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pool</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Closed PostgreSQL connection pool&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PostgresClient.connection">
+<a class="viewcode-back" href="../../../database.html#prs_commons.db.postgres.PostgresClient.connection">[docs]</a>
+    <span class="nd">@asynccontextmanager</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">connection</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AsyncIterator</span><span class="p">[</span><span class="n">asyncpg</span><span class="o">.</span><span class="n">Connection</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a managed database connection with transaction support.</span>
+<span class="sd">        </span>
+<span class="sd">        This context manager provides a connection from the pool and automatically:</span>
+<span class="sd">        1. Starts a new transaction</span>
+<span class="sd">        2. Commits on successful completion</span>
+<span class="sd">        3. Rolls back on any exception</span>
+<span class="sd">        4. Returns the connection to the pool</span>
+<span class="sd">        </span>
+<span class="sd">        Example:</span>
+<span class="sd">            .. code-block:: python</span>
+<span class="sd">            </span>
+<span class="sd">                async with db.connection() as conn:</span>
+<span class="sd">                    await conn.execute(&quot;INSERT INTO table VALUES ($1)&quot;, 1)</span>
+<span class="sd">                    # Changes are committed if no exceptions occur</span>
+<span class="sd">            </span>
+<span class="sd">        Yields:</span>
+<span class="sd">            asyncpg.Connection: A database connection from the pool</span>
+<span class="sd">            </span>
+<span class="sd">        Note:</span>
+<span class="sd">            Nested transactions are supported using savepoints. For example:</span>
+
+<span class="sd">            .. code-block:: python</span>
+
+<span class="sd">                async with db.connection() as conn:</span>
+<span class="sd">                    # Outer transaction starts automatically</span>
+<span class="sd">                    await conn.execute(&quot;INSERT INTO users (name) VALUES (&#39;user1&#39;)&quot;)</span>
+<span class="sd">                    </span>
+<span class="sd">                    try:</span>
+<span class="sd">                        # Start a nested transaction (savepoint)</span>
+<span class="sd">                        async with conn.transaction():</span>
+<span class="sd">                            await conn.execute(&quot;INSERT INTO accounts (user_id, balance) VALUES (1, 100)&quot;)</span>
+<span class="sd">                            # This savepoint can be rolled back independently</span>
+<span class="sd">                            raise Exception(&quot;Something went wrong&quot;)</span>
+<span class="sd">                            </span>
+<span class="sd">                    except Exception as e:</span>
+<span class="sd">                        # Only the inner transaction is rolled back</span>
+<span class="sd">                        print(f&quot;Caught error: {e}&quot;)</span>
+<span class="sd">                        # The outer transaction continues and will be committed</span>
+<span class="sd">                        await conn.execute(&quot;UPDATE users SET status = &#39;active&#39; WHERE name = &#39;user1&#39;&quot;)</span>
+<span class="sd">                    </span>
+<span class="sd">                    # The outer transaction is committed here if no exceptions</span>
+<span class="sd">            </span>
+<span class="sd">            Important:</span>
+<span class="sd">                If an exception occurs in the outer transaction after an inner transaction</span>
+<span class="sd">                has committed, the entire transaction (including the committed savepoint)</span>
+<span class="sd">                will be rolled back. This ensures transaction atomicity - either all</span>
+<span class="sd">                changes complete successfully, or none of them do.</span>
+<span class="sd">                </span>
+<span class="sd">                If you need the inner transaction to persist regardless of the outer</span>
+<span class="sd">                transaction&#39;s outcome, use separate database connections/transactions</span>
+<span class="sd">                instead of nested transactions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pool</span><span class="p">:</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+            
+        <span class="n">conn</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pool</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>  <span class="c1"># type: ignore[union-attr]</span>
+        <span class="n">tr</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">transaction</span><span class="p">()</span>
+        <span class="k">await</span> <span class="n">tr</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">conn</span>
+            <span class="k">await</span> <span class="n">tr</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">await</span> <span class="n">tr</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+            <span class="k">raise</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pool</span><span class="o">.</span><span class="n">release</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>  <span class="c1"># type: ignore[union-attr]</span></div>
+
+    
+<div class="viewcode-block" id="PostgresClient.fetch_one">
+<a class="viewcode-back" href="../../../database.html#prs_commons.db.postgres.PostgresClient.fetch_one">[docs]</a>
+    <span class="nd">@override</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">fetch_one</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fetch a single row from the database.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pool</span><span class="p">:</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+            
+        <span class="n">conn</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pool</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>  <span class="c1"># type: ignore[union-attr]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="k">await</span> <span class="n">conn</span><span class="o">.</span><span class="n">fetchrow</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">if</span> <span class="n">row</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pool</span><span class="o">.</span><span class="n">release</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>  <span class="c1"># type: ignore[union-attr]</span></div>
+
+
+<div class="viewcode-block" id="PostgresClient.fetch_all">
+<a class="viewcode-back" href="../../../database.html#prs_commons.db.postgres.PostgresClient.fetch_all">[docs]</a>
+    <span class="nd">@override</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">fetch_all</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fetch multiple rows from the database.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pool</span><span class="p">:</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+            
+        <span class="n">conn</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pool</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>  <span class="c1"># type: ignore[union-attr]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">rows</span> <span class="o">=</span> <span class="k">await</span> <span class="n">conn</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">[</span><span class="nb">dict</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">]</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pool</span><span class="o">.</span><span class="n">release</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>  <span class="c1"># type: ignore[union-attr]</span></div>
+
+
+<div class="viewcode-block" id="PostgresClient.execute">
+<a class="viewcode-back" href="../../../database.html#prs_commons.db.postgres.PostgresClient.execute">[docs]</a>
+    <span class="nd">@override</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute a write query (INSERT, UPDATE, DELETE) and return the result.</span>
+<span class="sd">        </span>
+<span class="sd">        This is a convenience method for executing write operations without explicit</span>
+<span class="sd">        transaction management. Each call runs in its own transaction.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            query: The SQL query to execute</span>
+<span class="sd">            *args: Query parameters</span>
+<span class="sd">            timeout: Optional timeout in seconds</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Tuple[bool, Union[int, str]]: </span>
+<span class="sd">                - (True, affected_rows) on success</span>
+<span class="sd">                - (False, error_message) on failure</span>
+<span class="sd">                </span>
+<span class="sd">        Example:</span>
+<span class="sd">            ```python</span>
+<span class="sd">            success, result = await db.execute(</span>
+<span class="sd">                &quot;UPDATE users SET active = $1 WHERE id = $2&quot;, </span>
+<span class="sd">                True, 123</span>
+<span class="sd">            )</span>
+<span class="sd">            if success:</span>
+<span class="sd">                print(f&quot;Updated {result} rows&quot;)</span>
+<span class="sd">            ```</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pool</span><span class="p">:</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+            
+        <span class="n">conn</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pool</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>  <span class="c1"># type: ignore[union-attr]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s1">&#39;INSERT&#39;</span><span class="p">,</span> <span class="s1">&#39;UPDATE&#39;</span><span class="p">,</span> <span class="s1">&#39;DELETE&#39;</span><span class="p">)):</span>
+                <span class="c1"># Extract the number of affected rows</span>
+                <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">result</span>
+        <span class="k">except</span> <span class="p">(</span><span class="n">asyncpg</span><span class="o">.</span><span class="n">PostgresError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">_logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Error executing query: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pool</span><span class="o">.</span><span class="n">release</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>  <span class="c1"># type: ignore[union-attr]</span></div>
+
+
+<div class="viewcode-block" id="PostgresClient.execute_returning">
+<a class="viewcode-back" href="../../../database.html#prs_commons.db.postgres.PostgresClient.execute_returning">[docs]</a>
+    <span class="nd">@override</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">execute_returning</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute a query that returns the affected row.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            A tuple of (success, result_dict) where result_dict is the affected row</span>
+<span class="sd">            or None if no rows were affected</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pool</span><span class="p">:</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+            
+        <span class="n">conn</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pool</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>  <span class="c1"># type: ignore[union-attr]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="k">await</span> <span class="n">conn</span><span class="o">.</span><span class="n">fetchrow</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">if</span> <span class="n">row</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="k">except</span> <span class="n">asyncpg</span><span class="o">.</span><span class="n">PostgresError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">_logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Error executing query with return: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pool</span><span class="o">.</span><span class="n">release</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>  <span class="c1"># type: ignore[union-attr]</span></div>
+
+
+<div class="viewcode-block" id="PostgresClient.__aenter__">
+<a class="viewcode-back" href="../../../database.html#prs_commons.db.postgres.PostgresClient.__aenter__">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="fm">__aenter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;PostgresClient&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Async context manager entry.&quot;&quot;&quot;</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+
+<div class="viewcode-block" id="PostgresClient.__aexit__">
+<a class="viewcode-back" href="../../../database.html#prs_commons.db.postgres.PostgresClient.__aexit__">[docs]</a>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="fm">__aexit__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">exc_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">type</span><span class="p">[</span><span class="ne">BaseException</span><span class="p">]],</span>
+        <span class="n">exc_val</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="ne">BaseException</span><span class="p">],</span>
+        <span class="n">exc_tb</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Async context manager exit.&quot;&quot;&quot;</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">disconnect</span><span class="p">()</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Isha Foundation IT.
+      <span class="lastupdated">Last updated on 2025-06-26 11:32.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

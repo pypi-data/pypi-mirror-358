@@ -1,0 +1,75 @@
+/* Custom CSS for PRS Commons documentation */
+
+/* Override theme colors */
+:root {
+    --primary: #2e8b57;  /* Dark green */
+    --secondary: #3aa76d;
+    --accent: #1f6e43;
+}
+
+/* Style for code blocks */
+pre, code {
+    font-family: 'Roboto Mono', 'Courier New', monospace;
+    font-size: 0.9em;
+}
+
+/* Style for API documentation */
+.py.class, .py.function, .py.method, .py.attribute {
+    margin-bottom: 2em;
+    padding-top: 1em;
+    border-top: 1px solid #e1e4e5;
+}
+
+/* Style for method/class signatures */
+.sig {
+    font-family: 'Roboto Mono', 'Courier New', monospace;
+}
+
+/* Style for parameter lists */
+.field-list dt {
+    font-weight: 600;
+    color: var(--primary);
+}
+
+/* Style for note/warning boxes */
+.admonition {
+    border-radius: 4px;
+    padding: 1em;
+    margin: 1em 0;
+}
+
+.admonition.note {
+    background-color: #e7f5ff;
+    border-left: 4px solid #4dabf7;
+}
+
+.admonition.warning {
+    background-color: #fff3bf;
+    border-left: 4px solid #ffd43b;
+}
+
+/* Style for tables */
+.wy-table-responsive table td, .wy-table-responsive table th {
+    white-space: normal;
+}
+
+/* Style for method parameters */
+.sig-param {
+    font-style: italic;
+}
+
+/* Style for method return value */
+.property {
+    display: inline-block;
+    padding-right: 8px;
+    max-width: 100%;
+}
+
+/* Style for code in tables */
+.code {
+    font-family: 'Roboto Mono', 'Courier New', monospace;
+    background-color: #f5f5f5;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-size: 0.9em;
+}

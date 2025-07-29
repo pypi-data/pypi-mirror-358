@@ -1,0 +1,205 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PRS Commons &mdash; PRS Commons 0.2.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=dd2ddd4a" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=dd2ddd4a" />
+
+  
+      <script src="_static/documentation_options.js?v=fc7d8818"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Odoo RPC Client" href="odoo.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2e8b57" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            PRS Commons
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="odoo.html">Odoo RPC Client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="database.html">Database Clients</a></li>
+<li class="toctree-l1"><a class="reference internal" href="storage.html">Storage Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aws.html">AWS S3 Client</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2e8b57" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">PRS Commons</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">PRS Commons</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="prs-commons">
+<h1>PRS Commons<a class="headerlink" href="#prs-commons" title="Link to this heading">¶</a></h1>
+<p>Welcome to the PRS Commons documentation!</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
+<p>A Python library providing common utilities and integrations for the PRS system.</p>
+</section>
+<section id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="odoo.html"><span class="doc std std-doc">Odoo RPC Client</span></a> - High-level client for Odoo’s XML-RPC API</p></li>
+<li><p><a class="reference internal" href="database.html"><span class="doc std std-doc">Database Client</span></a> - Async PostgreSQL client with connection pooling</p></li>
+<li><p><a class="reference internal" href="storage.html"><span class="doc std std-doc">Storage Module</span></a> - Unified interface for storage backends</p></li>
+<li><p><a class="reference internal" href="aws.html"><span class="doc std std-doc">AWS S3 Client</span></a> - Thread-safe singleton client for AWS S3 storage operations</p></li>
+</ul>
+</section>
+<section id="features">
+<h2>Features<a class="headerlink" href="#features" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Odoo RPC Client</strong>: A high-level client for interacting with Odoo’s XML-RPC API</p></li>
+<li><p><strong>Database Client</strong>: Asynchronous PostgreSQL client with connection pooling and transaction support</p></li>
+<li><p><strong>Storage Module</strong>: Unified interface for interacting with different storage backends</p>
+<ul>
+<li><p>Extensible base class for custom storage implementations</p></li>
+<li><p>Built-in AWS S3 client</p></li>
+<li><p>Consistent API across storage providers</p></li>
+</ul>
+</li>
+<li><p><strong>AWS S3 Client</strong>: Thread-safe singleton client for AWS S3 storage operations</p>
+<ul>
+<li><p>File upload/download/delete</p></li>
+<li><p>Pre-signed URL generation</p></li>
+<li><p>Base64 encoding/decoding</p></li>
+</ul>
+</li>
+<li><p><strong>Common Utilities</strong>: Shared utilities and helpers for PRS services</p></li>
+<li><p><strong>Type Hints</strong>: Full type annotations for better IDE support and code quality</p></li>
+</ul>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>prs-commons
+</pre></div>
+</div>
+</section>
+<section id="contributing">
+<h2>Contributing<a class="headerlink" href="#contributing" title="Link to this heading">¶</a></h2>
+<p>Contributions are welcome! Please read our <a class="reference internal" href="#CONTRIBUTING.md"><span class="xref myst">Contributing Guide</span></a> for details.</p>
+</section>
+<section id="license">
+<h2>License<a class="headerlink" href="#license" title="Link to this heading">¶</a></h2>
+<p>This project is licensed under the MIT License - see the <a class="reference internal" href="#LICENSE"><span class="xref myst">LICENSE</span></a> file for details.</p>
+</section>
+<section id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="odoo.html">Odoo RPC Client</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="odoo.html#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="odoo.html#api-reference">API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="odoo.html#example-usage">Example Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="odoo.html#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="odoo.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="odoo.html#error-handling">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="odoo.html#see-also">See Also</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="database.html">Database Clients</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="database.html#postgresql-client">PostgreSQL Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database.html#environment-variables">Environment Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database.html#basic-usage">Basic Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database.html#api-reference">API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database.html#error-handling">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database.html#see-also">See Also</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="storage.html">Storage Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="storage.html#base-storage-interface">Base Storage Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="storage.html#available-implementations">Available Implementations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="storage.html#creating-a-custom-storage-client">Creating a Custom Storage Client</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="aws.html">AWS S3 Client</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="aws.html#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aws.html#basic-usage">Basic Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aws.html#api-reference">API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aws.html#id3">File Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aws.html#thread-safety">Thread Safety</a></li>
+<li class="toctree-l2"><a class="reference internal" href="aws.html#dependencies">Dependencies</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="odoo.html" class="btn btn-neutral float-right" title="Odoo RPC Client" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Isha Foundation IT.
+      <span class="lastupdated">Last updated on 2025-06-26 11:32.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

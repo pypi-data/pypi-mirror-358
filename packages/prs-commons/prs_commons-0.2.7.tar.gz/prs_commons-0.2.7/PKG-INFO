@@ -1,0 +1,240 @@
+Metadata-Version: 2.4
+Name: prs-commons
+Version: 0.2.7
+Summary: Common utilities and shared code for PRS microservices
+Author-email: Isha Foundation IT <it@ishafoundation.org>
+Maintainer-email: Isha Foundation IT <it@ishafoundation.org>
+License: MIT
+Project-URL: Homepage, https://github.com/IshaFoundationIT/prs-facade-common
+Project-URL: Documentation, https://ishafoundationit.github.io/prs-facade-common/
+Project-URL: Repository, https://github.com/IshaFoundationIT/prs-facade-common
+Project-URL: Issues, https://github.com/IshaFoundationIT/prs-facade-common/issues
+Project-URL: Changelog, https://github.com/IshaFoundationIT/prs-facade-common/blob/main/CHANGELOG.md
+Keywords: odoo,rpc,utilities,microservices,aws,s3,async
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Typing :: Typed
+Classifier: Framework :: AsyncIO
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: aioboto3>=12.6.0
+Requires-Dist: asyncpg>=0.29.0
+Requires-Dist: odoorpc==0.10.1
+Requires-Dist: python-dotenv>=1.0.0
+Requires-Dist: boto3>=1.28.0
+Requires-Dist: botocore>=1.31.0
+Requires-Dist: typing-extensions>=4.0.0
+Requires-Dist: aiohttp>=3.9.0
+Provides-Extra: dev
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: isort>=5.12.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.20.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
+Requires-Dist: pytest-mock>=3.10.0; extra == "dev"
+Requires-Dist: types-requests>=2.31.0.1; extra == "dev"
+Requires-Dist: types-python-dateutil>=2.8.19.4; extra == "dev"
+Requires-Dist: twine>=4.0.0; extra == "dev"
+Requires-Dist: build>=0.10.0; extra == "dev"
+Requires-Dist: flake8>=6.0.0; extra == "dev"
+Requires-Dist: pre-commit>=3.6.0; extra == "dev"
+Provides-Extra: docs
+Requires-Dist: sphinx>=7.0.0; extra == "docs"
+Requires-Dist: sphinx-rtd-theme>=1.3.0; extra == "docs"
+Requires-Dist: myst-parser>=2.0.0; extra == "docs"
+Dynamic: license-file
+
+# PRS Commons
+
+[![PyPI Version](https://img.shields.io/pypi/v/prs-commons.svg)](https://pypi.org/project/prs-commons/)
+[![Python Versions](https://img.shields.io/pypi/pyversions/prs-commons.svg)](https://pypi.org/project/prs-commons/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Downloads](https://static.pepy.tech/badge/prs-commons/month)](https://pepy.tech/project/prs-commons)
+
+A Python library containing common utilities and shared code for PRS microservices, including a high-level Odoo RPC client.
+
+📖 [Documentation](https://ishafoundationit.github.io/prs-facade-common/) |
+🐛 [Issue Tracker](https://github.com/IshaFoundationIT/prs-facade-common/issues) |
+📦 [PyPI](https://pypi.org/project/prs-commons/)
+
+## Features
+
+- **AWS S3 Integration**: Async S3 client for file operations
+- **PostgreSQL Client**: Async PostgreSQL client with connection pooling
+- **Odoo RPC Client**: High-level client for interacting with Odoo's XML-RPC API
+- **Type Annotations**: Full type hints for better IDE support
+- **Environment Variable Support**: Easy configuration via `.env` files
+- **Async/Await Support**: Built with modern Python async/await syntax
+
+## Installation
+
+### From PyPI (Recommended)
+
+```bash
+pip install prs-commons
+```
+
+### From Source (Development Only)
+
+For development or contributing to the project:
+
+For development, clone and install in editable mode:
+
+```bash
+git clone https://<token>@github.com/IshaFoundationIT/prs-facade-common.git
+cd prs-facade-common
+pip install -e ".[dev]"  # Install with development dependencies
+```
+
+### From Private Package Repository
+
+Add your private package repository to pip configuration and install:
+
+```bash
+# Configure pip to use your private repository
+pip config set global.extra-index-url https://your.private.registry.com/simple/
+
+# Install the package
+pip install prs-commons
+```
+
+## Quick Start
+
+### Odoo RPC Client
+
+```python
+from prs_commons.odoo.rpc_client import OdooRPClient
+from dotenv import load_dotenv
+
+# Initialize the client (singleton)
+client = OdooRPClient()
+
+# Search for records
+try:
+    # Search for active partners
+    domain = [('is_company', '=', True), ('active', '=', True)]
+    fields = ['id', 'name', 'email']
+    partners = client.search_read('res.partner', domain, fields=fields)
+
+    # Create a new record
+    new_partner_id = client.create_record('res.partner', {
+        'name': 'John Doe',
+        'email': 'john@example.com',
+        'is_company': False
+    })
+
+    # Update a record
+    client.write_record('res.partner', [new_partner_id], {
+        'email': 'john.doe@example.com'
+    })
+
+except Exception as e:
+    print(f"Error: {e}")
+```
+
+## Configuration
+
+Create a `.env` file in your project root:
+
+```env
+ODOO_HOST=your-odoo-host.com
+ODOO_DB=your_database
+ODOO_LOGIN=your_email@example.com
+ODOO_PASSWORD=your_password
+```
+
+## Documentation
+
+For full documentation, please see the [API Reference](https://github.com/IshaFoundationIT/prs-facade-common#readme).
+
+## Contributing
+
+Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details.
+
+## Development
+
+### Prerequisites
+
+- Python 3.11+
+- [Poetry](https://python-poetry.org/) (recommended) or pip
+
+### Setup
+
+1. Clone the repository:
+   ```bash
+   git clone https://<token>@github.com/IshaFoundationIT/prs-facade-common.git
+   cd prs-facade-common
+   ```
+
+2. Install dependencies:
+   ```bash
+   # Using Poetry
+   poetry install --with dev
+
+   # Or using pip
+   pip install -e ".[dev]"
+   ```
+
+3. Install pre-commit hooks:
+   ```bash
+   pre-commit install
+   ```
+
+### Running Tests
+
+```bash
+# Run all tests
+pytest
+
+# Run with coverage report
+pytest --cov=prs_commons --cov-report=term-missing
+```
+
+## Publishing New Versions
+
+### Prerequisites
+
+1. Set up your `~/.pypirc` file with your GitHub token:
+   ```ini
+   [distutils]
+   index-servers =
+       github
+
+   [github]
+   repository = https://upload.pypi.org/legacy/
+   username = __token__
+   password = your_github_token_here
+   ```
+
+   Replace `your_github_token_here` with a GitHub Personal Access Token with `write:packages` scope.
+
+2. Update the version in `pyproject.toml`
+
+3. Build the package:
+   ```bash
+   python -m build
+   ```
+
+4. Publish to GitHub Package Registry:
+   ```bash
+   python -m twine upload --repository github dist/*
+   ```
+
+## Contributing
+
+1. Create a feature branch
+2. Make your changes
+3. Run tests and pre-commit checks
+4. Submit a pull request
+
+## License
+
+MIT
