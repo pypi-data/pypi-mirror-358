@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "super-ivim-dc"
+version = "1.1.0"
+description = ""
+authors = []
+license = { file = "LICENSE" }
+readme = "README.md"
+
+dependencies = [
+    "numpy",
+    "scipy==1.16.0",
+    "matplotlib",
+    "pandas",
+    "SimpleITK",
+    "torch==2.7.1",
+    "tqdm",
+    "joblib"
+]
+
+[project.scripts]
+super-ivim-dc = "super_ivim_dc.main:main"
+super-ivim-dc-sim-infer = "super_ivim_dc.infer:infer_entry"
+super-ivim-dc-sim = "super_ivim_dc.simulate:simulate_entry"
