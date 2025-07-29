@@ -1,0 +1,131 @@
+Metadata-Version: 2.4
+Name: vme-mcp-cli
+Version: 0.1.7
+Summary: VME Infrastructure Management CLI Tool - Chat interface with voice commands
+Project-URL: Homepage, https://github.com/frippe75/vme-fastmcp-server-v2
+Project-URL: Repository, https://github.com/frippe75/vme-fastmcp-server-v2
+Project-URL: Issues, https://github.com/frippe75/vme-fastmcp-server-v2/issues
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: anthropic>=0.54.0
+Requires-Dist: openai>=1.0.0
+Requires-Dist: fastmcp>=2.8.1
+Requires-Dist: click>=8.0.0
+Requires-Dist: textual==0.85.2
+Requires-Dist: rich>=13.0.0
+Requires-Dist: pyyaml>=6.0.2
+Requires-Dist: python-dotenv>=1.1.0
+Requires-Dist: websockets<14.0
+Requires-Dist: httpx>=0.25.0
+Provides-Extra: audio
+Requires-Dist: pyaudio>=0.2.11; extra == "audio"
+Requires-Dist: sounddevice>=0.4.0; extra == "audio"
+Requires-Dist: soundfile>=0.12.0; extra == "audio"
+Requires-Dist: numpy>=1.20.0; extra == "audio"
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.21.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: isort>=5.12.0; extra == "dev"
+
+# VME MCP CLI
+
+Rich terminal chat interface for VME infrastructure management with voice support.
+
+## Installation
+
+### From PyPI (Coming Soon)
+
+```bash
+# Basic installation
+pip install vme-mcp-cli
+
+# With audio support
+pip install "vme-mcp-cli[audio]"
+```
+
+### From Source (Current Method)
+
+```bash
+# Clone the repository
+git clone https://github.com/frippe75/vme-fastmcp-server-v2.git
+cd vme-fastmcp-server-v2
+
+# Install with uv
+uv pip install -e packages/vme-mcp-cli
+
+# Or with pip
+pip install -e packages/vme-mcp-cli
+```
+
+### Server Package
+
+The `vme-mcp-server` package is not yet available on PyPI. For local server usage, install from source:
+
+```bash
+uv pip install -e packages/vme-mcp-server
+```
+
+## Quick Start
+
+```bash
+# First time setup - create config
+vme-mcp-cli config
+
+# Set your API credentials
+export VME_API_BASE_URL=https://your-vme.com
+export VME_API_TOKEN=your-token
+export ANTHROPIC_API_KEY=your-anthropic-key
+
+# Start the chat interface
+vme-mcp-cli
+```
+
+## Configuration
+
+Config file location:
+- Linux/Mac: `~/.config/vme-cli/config.yaml`
+- Windows: `%APPDATA%\vme-cli\config.yaml`
+
+### Using a Remote Server
+
+Edit your config to use HTTP transport:
+
+```yaml
+server:
+  servers:
+    vme:
+      transport: http
+      path_or_url: http://your-server:8080
+```
+
+Or use the config command:
+```bash
+vme-mcp-cli config --server-transport http --server-url http://your-server:8080
+```
+
+## Features
+
+- 🎨 Rich terminal interface with GitHub-inspired theme
+- 💬 Natural language infrastructure management
+- 🎙️ Voice commands and responses (optional)
+- 🔧 Progressive tool discovery
+- 📊 Real-time operation status
+- 🔒 Secure credential handling
+
+## Usage Examples
+
+```
+# In the chat interface:
+> What tools are available?
+> List all VMs
+> Create a VM called web-server-01
+> Show me the appliance settings
+```
+
+## Requirements
+
+- Python 3.10+
+- Anthropic API key (for Claude)
+- OpenAI API key (for voice features)
+- VME/Morpheus API credentials
