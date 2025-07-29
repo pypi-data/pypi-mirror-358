@@ -1,0 +1,75 @@
+Metadata-Version: 2.4
+Name: sdb2xml
+Version: 0.2.0
+Summary: Dump SDB file to xml using apphelp.dll
+Project-URL: Homepage, https://pypi.org/project/sdb2xml/
+Project-URL: Changelog, https://github.com/learn-more/sdb2xml/releases
+Project-URL: Issues, https://github.com/learn-more/sdb2xml/issues
+Project-URL: CI, https://github.com/learn-more/sdb2xml/actions
+Project-URL: Repository, https://github.com/learn-more/sdb2xml
+Author-email: Mark Jansen <mark.jansen@reactos.org>
+License-Expression: MIT
+License-File: LICENSE.txt
+Keywords: appcompat,apphelp,sdb,sdb2xml,shim,shimeng
+Classifier: Development Status :: 3 - Alpha
+Classifier: Environment :: Console
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Utilities
+Requires-Python: >=3.10
+Requires-Dist: click>=8.2.1
+Description-Content-Type: text/markdown
+
+# sdb2xml
+
+A tool for converting Microsoft Application Compatibility Database (SDB) files to XML format.
+
+## Features
+
+- Parses SDB files used by Windows for application compatibility.
+- Converts SDB data into readable XML.
+- Useful for analysis, migration, or documentation.
+
+## Requirements
+
+- Python 3.10+
+
+## Usage
+
+### With uv (recommended)
+
+1. [Install uv](https://docs.astral.sh/uv/getting-started/installation/).
+2. Use `uvx sdb2xml` to run this tool, or `uv tool install sdb2xml` to install it.
+
+For help, run:
+```bash
+uvx sdb2xml --help
+```
+or when installed:
+```bash
+sdb2xml --help
+```
+
+### With pip
+
+Install this tool using `pip`:
+```bash
+pip install sdb2xml
+```
+
+For help, run:
+```bash
+sdb2xml --help
+```
+You can also use:
+```bash
+python -m sdb2xml --help
+```
+
+## Contributing
+
+Contributions are welcome! Please open issues or submit pull requests.
+
+## License
+
+This project is licensed under the MIT License.
