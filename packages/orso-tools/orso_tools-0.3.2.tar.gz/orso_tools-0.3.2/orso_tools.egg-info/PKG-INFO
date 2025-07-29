@@ -1,0 +1,51 @@
+Metadata-Version: 2.4
+Name: orso_tools
+Version: 0.3.2
+Summary: Tools for reflectometry from the Open Reflectometry Standards Organization (ORSO)
+Home-page: https://github.com/reflectivity/orso_tools
+Author: ORSO contributors (see AUTHORS.rst)
+Author-email: artur.glavic@psi.ch
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Scientific/Engineering
+Classifier: Development Status :: 3 - Alpha
+Requires-Python: >=3.9
+License-File: LICENSE
+Requires-Dist: PySide6
+Requires-Dist: numpy
+Requires-Dist: pyyaml
+Requires-Dist: orsopy
+Requires-Dist: matplotlib
+Requires-Dist: refnx
+Requires-Dist: pint
+Dynamic: license-file
+
+==========
+Orso Tools
+==========
+
+Package providing tools for ORSO file types and reflectometry related applications.
+
+Usefull for users but also developers of data reduction.
+
+Currently under development and not considered stable for end-users.
+
+=========
+GUI Tools
+=========
+
+The package provides two tools that can be started after installation:
+
+- osb: ORSO Sampe Builder, an editor tool to help create YAML code for sample model.
+- orso_viewer: ORSO file viewer to vizualize a dataset and explore header information.
+
+============
+Installation
+============
+
+Create a python >=3.9 environment and install the module via pip:
+
+**$ pip install orso-tools**
+
+Alternative is a windows build that can directly be downloaded from GitHub.
