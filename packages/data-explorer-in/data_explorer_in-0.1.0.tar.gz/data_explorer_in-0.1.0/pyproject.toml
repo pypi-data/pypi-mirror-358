@@ -1,0 +1,21 @@
+[project]
+name = "data-explorer-in"
+version = "0.1.0"
+description = "Exploration des données économiques via l'API World Bank"
+license = "MIT"
+readme = "README.md"
+requires-python = ">=3.7"
+
+authors = [{ name = "Ibrahima Ndao", email = "ndaoibrahima037@gmail.com" }]
+
+dependencies = [
+    "pandas",
+    "requests"
+]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["data_explorer"]
