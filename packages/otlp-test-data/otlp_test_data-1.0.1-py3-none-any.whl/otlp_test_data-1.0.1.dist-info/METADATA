@@ -1,0 +1,59 @@
+Metadata-Version: 2.4
+Name: otlp-test-data
+Version: 1.0.1
+Summary: Produces OTLP data using OTEL instrumentation
+Project-URL: Repository, https://github.com/dimaqq/otlp-test-data
+Project-URL: Issues, https://github.com/dimaqq/otlp-test-data/issues
+License: Apache License (2.0)
+Classifier: Development Status :: 3 - Alpha
+Classifier: Framework :: OpenTelemetry
+Classifier: Framework :: OpenTelemetry :: Exporters
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: 3.14
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Classifier: Topic :: Software Development :: Testing
+Classifier: Topic :: Software Development :: Testing :: Traffic Generation
+Requires-Python: >=3.8
+Requires-Dist: freezegun~=1.5
+Requires-Dist: grpcio<2.0.0,>=1.66.2; python_version >= '3.13'
+Requires-Dist: opentelemetry-api~=1.30
+Requires-Dist: opentelemetry-exporter-otlp-proto-http~=1.30
+Requires-Dist: opentelemetry-exporter-otlp~=1.30
+Description-Content-Type: text/markdown
+
+# otlp-test-data
+
+Produces OTLP data using OTEL instrumentation.
+
+### Features
+
+- Fixed, configurable timestamps
+- aims to cover as much of OTEL API as possible
+- Cover all valid data types
+- Events
+
+### Limitations
+
+- currently only tracing data is generated, PRs are welcome to add metrics and logs data
+- data is generated in process, remote (forwarded) spans are not supported
+
+### TODO
+
+- Links
+- Baggage
+- Schemata, when https://github.com/open-telemetry/opentelemetry-python/pull/4359 lands
+- Attribute value type coercion, e.g. `class Str(str): ...` and objects with `__str__(self)`.
+- Exceptions
