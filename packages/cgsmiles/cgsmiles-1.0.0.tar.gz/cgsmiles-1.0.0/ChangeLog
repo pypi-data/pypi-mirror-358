@@ -1,0 +1,270 @@
+CHANGES
+=======
+
+v1.0.0
+------
+
+* Update deploy.yml
+* Update deploy.yml
+* address review comments
+* add deploy workflow
+* use token authentication
+* test vermouth workflow
+* remove pysmiles git referenc
+* More robust drawing tutorial
+* Update README.rst (refine text)
+* Fix citation (use .rst instead of \`\`\`) in main README.rst
+* Fix typos and add JCIM citation to main readme
+* Add matplotli plotting to drawing tutorial
+* Update resolve.py
+* set sphinx version
+* quickfix rdkit docstring
+* quickfix rdkit docstring
+* quickfix rdkit docstring
+* fix docstring typo
+* add rdkit to dosc requr
+* add test utils
+* add rdkit as required
+* update tests
+* update docs
+* test coordinates
+* test rdkit conversion functions
+* add coordinate generation
+* Update resolve.py
+* Create LICENSE
+* change CGSmiles to CGsmiles
+* add images
+* fix resolve docstring
+* have tutorials
+* update docs
+* change name to CGsmiles
+* change name to CGsmiles
+* update installation
+* update doc confs
+* fix docstrings
+* remove nit
+* remove nit
+* fix docs ref
+* fix docs ref
+* change name of README in config
+* add docs to test workflow
+* add read the docs yml
+* update requirements
+* add missing version variable in \_\_init\_\_
+* add doc
+* fix multi squash
+* remove README.md und add README.rst
+* Update cgsmiles/drawing.py
+* update docstirng
+* assing alignment by keyword based on dict
+* Apply suggestions from code review
+* allow flexible axis rotation
+* have default drawing method
+* fix docstring
+* remove duplicate function
+* fix docstring
+* fix docstring
+* raise scale error
+* remove import from \_init\_
+* Update cgsmiles/graph\_layout\_utils.py
+* Apply suggestions from code review
+* address comments
+* add scipy to dep list
+* add mpl to dep list
+* bug fix
+* expose drawing
+* add linalg functions
+* fix default labels and provide example
+* validate input
+* update dependency
+* address comments
+* fix cis trans test
+* take care of align api
+* CIS trans aware drawing
+* implement correct cis trans drawing
+* set some defaults
+* refactor graph layout
+* refactor drawing utils
+* refactor drawing
+* adjust and add tests
+* remove bits related to old chiral atom processingt
+* remove bits related to old chiral atom processingt
+* remove bits related to old chiral atom processingt
+* add explicit type and make sure that None values are removed
+* Update cgsmiles/dialects.py
+* fix merge add test
+* add test
+* remove leftovers
+* tests and account for bond order
+* remove double atomname assignment in resolve
+* set atomnames also for meta-graph if one is provided
+* adjust hcount by bonding op number if required
+* add tests for multiple bonding descriptors each having a bond order different from 1
+* clear bond orders correclty
+* add tests
+* allow bonding after branch
+* return positions
+* change c to q and use fullnames for weight and charge
+* enable explicit hatoms
+* rename base dialect to default dialect
+* test more verbose errors
+* fix bugs regarding kwargs; raise more verbose errors
+* merge master
+* address some comments
+* remove prints
+* bug fix cis trans
+* implement dialects and annotations
+* implement dialects and annotations
+* add more verbose error
+* updated hydrogen accounting and aromaticity
+* have hydrogen weights reconstructed
+* take care of case where h comes first
+* tests for hydrogen weights
+* have hydrogen weights
+* updated drawing
+* updated drawing
+* drawing utils
+* patch tests
+* have cg charges
+* add error message and tests
+* Update cgsmiles/read\_cgsmiles.py
+* patch bug when string ends before we check a character
+* add bond orders in combination with branches, expansion operators, and branch expansion
+* equalize %01 1
+* address comments
+* add tests
+* update tests
+* implement weight annotation
+* implement bond order syntax for CG
+* Update cgsmiles/tests/test\_write\_cgsmiles.py
+* remove print
+* bug fix
+* update tests
+* update tests
+* allow higher order rings
+* address comments
+* address comments
+* address comments
+* clean and add some wrappers
+* address comment
+* update writer
+* fix bug
+* overhaul write cgsmiles
+* fix dep
+* have rings taken into account when dealing with chirality; account correctly for implicit hydrogens
+* draft
+* address some comments
+* Update cgsmiles/sample.py
+* update tests and remove print
+* update tests
+* typo sphinx link
+* Apply suggestions from code review
+* fix doscstrings and spelling
+* fix doscstrings
+* fix doscstrings
+* implement isomerism bug fixes plus tests
+* update docstring
+* address comments
+* update docstring
+* change naming in sampler and update doc strings
+* change meaning of bonding operators and fix in test
+* update sampler and change meaning of bonding operators
+* keep proper track of fragid when adding terminals
+* expose sampler
+* install pysmiles master
+* update sampler
+* finalize tests for init function
+* update handling of terminal addition
+* add more tests
+* refactor sample
+* update function call set\_atom\_names\_atomistic according to new args
+* the fragid for cgsmiles fragments should be 0 in agreement with the convention used in cgsmiles
+* when annontating atomnames make meta\_graph optional; otherwise go off fragid
+* adjust open bonds function to optionally take target nodes
+* address style comments
+* refactor random seed
+* add seeds
+* patch latest pysmiles version
+* address comments and refactor slightly
+* update docstrings
+* make deepcopy when merging
+* init draft for sampler
+* Apply suggestions from code review
+* rebase continue
+* simplify and clean up writer
+* doc strings
+* get connections from full resolution molecule
+* get connections from full resolution molecule
+* implement cgsmiles writer for fragments
+* implement cgsmiles writer for resgraphs
+* first draft write cgsmiles
+* adjust doc strings and add error message
+* fix typo
+* Apply suggestions from code review
+* refactor new API using constructors
+* read all fragments during init
+* add tests for resolve and fix bugs in workflow
+* refactor and include comments
+* Apply suggestions from code review
+* fix handling of fragments
+* fix typo set\_atom\_names\_atomistic
+* add a resolve all
+* Apply suggestions from code review
+* set atomnames according to all-atom MD convetion if resolution is AA
+* add test for layering
+* implement layered resolutions
+* small bug fix; when the multiplication operator is used in fragments it is possible that it is the last character
+* put change of supported python versions in setup.cfg
+* increase python version requirement to 3.8
+* install pysmiles from GH
+* fix hydrogen count
+* utalize latest pysmiles valance assignment
+* utalize latest pysmiles valance assignment
+* annotate aromatic edges before rebuilding hydrogen
+* fix annotation of bond order in bonding descriptor
+* fix count of hydrogen
+* fix multiletter atoms
+* refactor according to walrus
+* adjust name of generate\_edge in test
+* rename generate edge to better reflect what it does
+* rebase and integrate with new pysmiles
+* properly rebase branch
+* add new iterator
+* use \_valence function to get valences
+* add hcounts
+* allow bond orders based on SMILES syntax for bonding descrip
+* Apply suggestions from code review
+* add test for node with two additional cycle edges
+* fix multiple cycles bug; add tests
+* fix multiple cycles
+* improve bonding function by making deepcopy of bonding list in first place
+* make squash function even easier
+* add test where squash and conect are used on same atom
+* adjust test
+* clean up squash function
+* clean up squash function
+* clean up resolve part I
+* move rebuilding of hydrogen atoms to pysmiles utils and do after connecting molecule
+* remove rebuilding of hydrogen atoms from fragment reader
+* update tests with new ordering; assert equivl. based on graph isomorphism
+* implement new sorting function; attatch graph\_frag as node attribute in annotate fragments
+* implement squash operator
+* make fragid a list to allow a single atom to belong to more than one fragment
+* implement squash operator
+* add CI
+* rename files
+* implement test for resolving molecules
+* fix counting bug
+* replace resname for fragname
+* add tests for cgsmile parsing
+* update setup
+* add package details
+* add tests
+* add high level API
+* add molecule resolver
+* add reader for fragments
+* add reader for cgsmiles
+* add function for annotating fragments
+* leightweight utilities for graphs
+* Update README.md
+* Initial commit
