@@ -1,0 +1,75 @@
+[project]
+name = "ken-mcp"
+version = "3.5.1"
+description = "MCP server generator with modular architecture for creating FastMCP servers from natural language requirements"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.8"
+authors = [
+    {name = "KEN-MCP Contributors"},
+]
+keywords = ["mcp", "ai", "generator", "fastmcp", "model-context-protocol"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Code Generators",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "fastmcp>=0.1.0",
+    "httpx",
+    "pydantic"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/ken-mcp/ken-mcp"
+"Bug Reports" = "https://github.com/ken-mcp/ken-mcp/issues"
+"Source" = "https://github.com/ken-mcp/ken-mcp"
+
+[project.scripts]
+ken-mcp-server = "ken_mcp.server:main"
+ken-mcp = "ken_mcp.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.0.0",
+    "pytest-mock>=3.10.0"
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["ken_mcp"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+asyncio_mode = "auto"
+addopts = "-v --cov=ken_mcp --cov-report=term-missing --cov-report=html"
+
+[tool.coverage.run]
+source = ["ken_mcp"]
+omit = ["*/tests/*", "*/__init__.py"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:"
+]
