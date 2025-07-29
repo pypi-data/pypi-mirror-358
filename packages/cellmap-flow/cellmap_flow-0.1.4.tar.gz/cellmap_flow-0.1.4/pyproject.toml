@@ -1,0 +1,81 @@
+[project]
+name = "cellmap-flow"
+description = "Realtime prediction using neuroglancer"
+readme = "README.md"
+requires-python = ">=3.11,<4.0"
+version = "0.1.4"
+license = { text = "BSD 3-Clause License" }
+authors = [
+    { email = "ackermand@hhmi.org", name = "David Ackerman" },
+    { email = "zouinkhim@hhmi.org", name = "Marwan Zouinkhi"},
+]
+
+dependencies = [
+    "pymorton",
+    "numpy",
+    "PyYAML",
+    "gunicorn",
+    "fastremap",
+    "fastmorph",
+    "flask",
+    "flask-cors",
+    "tensorstore",
+    "funlib.geometry",
+    "marshmallow",
+    "scikit-image",
+    "flasgger",
+    "numcodecs",
+    "zarr==2.18.4",
+    "h5py",
+    "s3fs",
+    "torch",    
+    "universal_pathlib",
+    "mwatershed",
+    "funlib.math",
+    "neuroglancer",
+    "pydantic",
+    ]
+
+# extras
+# https://peps.python.org/pep-0621/#dependencies-optional-dependencies
+[project.optional-dependencies]
+dacapo = ["dacapo-ml"]
+cellpose = ["cellpose==3.1.1.1"]
+bioimageio = ["bioimageio.core[onnx,pytorch]==0.7.0"]
+test = ["pytest", "pytest-cov", "pytest-lazy-fixtures"]
+dev = [
+    "black",
+    "mypy",
+    "pdbpp",
+    "rich",
+    "ruff",
+    "pre-commit",
+]
+docs = [
+    "sphinx-autodoc-typehints",
+    "sphinx-autoapi",
+    "sphinx-click",
+    "sphinx-rtd-theme",
+    "myst-parser",
+]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+exclude = ["ignore"]
+
+[tool.setuptools.package-data]
+"cellmap_flow.dashboard" = ["templates/*.html", "templates/_*.html", "static/css/*.css", "static/js/*.js", "static/img/*"]
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4.1"
+
+[project.scripts]
+cellmap_flow = "cellmap_flow.cli.cli:cli"
+cellmap_flow_server = "cellmap_flow.cli.server_cli:cli"
+cellmap_flow_multiple = "cellmap_flow.cli.multiple_cli:main"
+cellmap_flow_yaml = "cellmap_flow.cli.multiple_yaml_cli:main"
+cellmap_flow_blockwise_processor = "cellmap_flow.blockwise.cli:cli"
