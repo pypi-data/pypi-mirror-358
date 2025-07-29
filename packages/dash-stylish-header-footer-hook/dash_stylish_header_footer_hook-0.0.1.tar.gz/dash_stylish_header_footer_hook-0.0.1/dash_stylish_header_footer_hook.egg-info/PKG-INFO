@@ -1,0 +1,50 @@
+Metadata-Version: 2.4
+Name: dash_stylish_header_footer_hook
+Version: 0.0.1
+Summary: Stylish header and footer components for Dash applications using Dash Hooks
+Home-page: https://github.com/banana0000/dash_stylish_header
+Author: koveszter
+Author-email: Eszter <koveszter7@gmail.com>
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: dash>=3.0.0
+Provides-Extra: dev
+Requires-Dist: pytest>=6.0; extra == "dev"
+Requires-Dist: ruff>=0.11.0; extra == "dev"
+Dynamic: author
+Dynamic: home-page
+
+# Dash Hooks Demo
+
+A stylish header and footer component for Dash applications using Dash Hooks.
+
+## Installation
+
+```bash
+pip install dash-stylish-header-footer-hook
+```
+
+## Usage
+
+```python
+from dash import Dash
+import dash_stylish_header_footer_hook  
+
+# Register the header with custom title
+dash_stylish_header_footer_hook.add_header(
+    title="My Dash App",
+    gradient="linear-gradient(90deg, black, red)"
+)
+dash_stylish_header_footer_hook.add_footer_hook("© 2025 My Dash App")
+
+app = Dash(__name__)
+# Rest of your app code...
+```
+
+## Example
+
+Run the included example:
+
+```bash
+python example.py
+```
