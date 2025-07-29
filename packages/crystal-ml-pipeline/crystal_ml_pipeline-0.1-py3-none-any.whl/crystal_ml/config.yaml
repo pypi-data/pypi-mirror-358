@@ -1,0 +1,203 @@
+################# SECTION 1: STARTING DATASET #################
+Data_Ingestion:
+  enable: true #if set to False, the whole pipeline (except GOSDT, assuming data are provided in another way) cannot be executed
+  input_data_complete: null  # null otherwise. Path to a single CSV/XLSX containing both train & test. If set, input_data_train and input_data_test are ignored.
+  input_data_train: 'train_set.xlsx' # Path to a pre-split training file (CSV or XLSX).
+  input_data_test: 'test_set.xlsx' # Path to a pre-split test file (CSV or XLSX).
+  target_column: "y720" #Name of the target variable column (e.g. "y720"). It is always MANDATORY (also if enable: false) --> needed for GOSDT
+  #in case enable:false, target_column must be the name of the target column passed to GOSDT in y_train_discr.xlsx and y_test_discr.xlsx
+  train_test_split: #see sklearn documentation
+    test_size: 0.3
+    random_state: 42
+    shuffle: true
+    stratify: true
+################# SECTION 2: BASE MODELS #################
+Balanced_Random_Forest: #for other params see imblearn documentation
+  enabled: false #If true, run the BRF search; otherwise skip it.
+  output_dir: "logs/brf" #Directory to save CV outputs.
+  replacement: false
+  sampling_strategy: "auto"
+  param_grid:
+    n_estimators: [100, 200, 300, 500, 1000]
+    max_depth: [2, 3, 5, 7, 10, 20, 30]
+    max_features: ["sqrt", "log2", null]
+    min_samples_split: [2, 5, 10, 15, 20]
+    min_samples_leaf: [1, 2, 4, 6, 8, 10]
+    class_weight: [null, "balanced", "balanced_subsample"]
+    bootstrap: [true, false]
+    criterion: ["gini", "entropy"]
+  n_iter: 200
+  scoring: "f1"
+  n_jobs: -1
+  cv_splits: 5
+  cv_shuffle: true
+  random_state: 42
+
+SVM: #for other params see sklearn documentation
+  enabled: false #If true, run the SVM search (using sklearn SVC); otherwise skip it.
+  output_dir: "logs/svm" #Directory to save outputs
+  param_grid:
+    kernel: ["linear", "poly", "rbf", "sigmoid"]
+    C: [0.1, 1, 10, 100]
+    degree: [2, 3, 4]
+    gamma: ["scale", "auto", 0.01, 0.1, 1]
+    coef0: [0, 0.1, 0.5, 1]
+  n_iter: 100
+  cv: 3
+  n_jobs: -1
+  verbose: 3
+  random_state: 42
+  probability: true
+
+XGBoost: #for other params, see official xgboost documentation
+  enabled: false #If true, run the XGBoost search (using xgboost library); otherwise skip it.
+  output_dir: "logs/xgboost" #Directory to save outputs
+  param_grid:
+    n_estimators: [100, 200, 500, 1000]
+    learning_rate: [0.01, 0.05, 0.1, 0.2]
+    max_depth: [3, 5, 7, 10]
+    subsample: [0.5, 0.7, 0.9, 1.0]
+    colsample_bytree: [0.5, 0.7, 0.9, 1.0]
+    gamma: [0, 0.1, 0.2, 0.5, 1.0]
+    min_child_weight: [1, 3, 5, 10]
+    reg_alpha: [0, 0.1, 0.5, 1.0]
+    reg_lambda: [1.0, 1.5, 2.0, 3.0]
+  n_iter: 200
+  cv: 5
+  n_jobs: -1
+  verbose: 1
+  random_state: 42
+
+AutoGluon: #for other params, see AutoGluon Official documentation
+  enabled: false #If true, run the AutoGluon search
+  output_dir: "logs/autogluon"  #Directory to save outputs
+  time_limit: 3600
+  eval_metric: "f1"
+  num_bag_folds: 5
+  num_stack_levels: 1
+  sample_weight: true #if true, a new column (not used for prediction) containing sample-specific weights is added to the dataset
+  weight_evaluation: true #if sample_weight is true and weight evaluation is true, sample-specific weights are computed and used in the training process
+################# SECTION 3: SVM-based Undersampling Algorithm #################
+SVM_Downsampling: #for other params, see sklearn official documentation
+  enabled: true #if true, SVM-Based Downsampling algorithm is executed
+  output_dir: "logs/SVM_Downsampling" #Directory to save outputs
+  param_grid:
+    kernel: ['linear', 'poly', 'rbf', 'sigmoid']
+    C: [0.1, 1, 10, 100]
+    degree: [2,3,4]
+    gamma: ['scale','auto',0.01,0.1,1]
+    coef0: [0,0.1,0.5,1]
+  n_iter: 100
+  cv: 3
+  random_state: 42
+  n_jobs: -1
+  verbose: 2
+  n_free_models: 10 #number of models to be used to select support vectors (the higher this number, the weaker the downsampling)
+  save_output: true #if true, downsampled dataset is saved using pickle
+  load_saved_output: true #if true, last obtained downsampled data is loaded using pickle (if enable and save_output are true, the last one is loaded)
+  percentage_performance_drop_threshold: 20
+  percentage_performance_drop_metric: "f1" #can be "Accuracy", "Recall", "Precision", "f1", or "f2"
+
+BRF_Validation_Undersampling: #same parameters as previous BRF
+  enabled: true
+  output_dir: "logs/brf_undersampling_validation"                # cartella dove salvare Excel
+  replacement: false
+  sampling_strategy: "auto"
+  param_grid:
+    n_estimators: [100, 200, 300, 500, 1000]
+    max_depth: [2, 3, 5, 7, 10, 20, 30]
+    max_features: ["sqrt", "log2", null]
+    min_samples_split: [2, 5, 10, 15, 20]
+    min_samples_leaf: [1, 2, 4, 6, 8, 10]
+    class_weight: [null, "balanced", "balanced_subsample"]
+    bootstrap: [true, false]
+    criterion: ["gini", "entropy"]
+  n_iter: 200
+  scoring: "f1"
+  n_jobs: -1
+  cv_splits: 5
+  cv_shuffle: true
+  random_state: 42
+
+XGBoost_Validation_Undersampling: #same parameters as previous XGB
+  enabled: true
+  output_dir: "logs/xgboost"
+  param_grid:
+    n_estimators: [100, 200, 500, 1000]
+    learning_rate: [0.01, 0.05, 0.1, 0.2]
+    max_depth: [3, 5, 7, 10]
+    subsample: [0.5, 0.7, 0.9, 1.0]
+    colsample_bytree: [0.5, 0.7, 0.9, 1.0]
+    gamma: [0, 0.1, 0.2, 0.5, 1.0]
+    min_child_weight: [1, 3, 5, 10]
+    reg_alpha: [0, 0.1, 0.5, 1.0]
+    reg_lambda: [1.0, 1.5, 2.0, 3.0]
+  n_iter: 200
+  cv: 5
+  n_jobs: -1
+  verbose: 1
+  random_state: 42
+
+AutoGluon_Validation_Undersampling: #same parameters as previous AutoGluon
+  enabled: true
+  output_dir: "logs/autogluon"
+  time_limit: 3600
+  eval_metric: "f1"
+  num_bag_folds: 5
+  num_stack_levels: 1
+  sample_weight: true #if true, a new column (not used for prediction) containing sample-specific weights is added to the dataset
+  weight_evaluation: true #if sample_weight is true and weight evaluation is true, sample-specific weights are computed and used in the training process
+################# SECTION 4: DATA DISCRETIZATION #################
+BRF_FCCA: #same parameters as previous BRF
+  enabled: true
+  replacement: false
+  sampling_strategy: "auto"
+  param_grid:
+    n_estimators: [100, 200, 300, 500, 1000]
+    max_depth: [2, 3, 5, 7, 10, 20, 30]
+    max_features: ["sqrt", "log2", null]
+    min_samples_split: [2, 5, 10, 15, 20]
+    min_samples_leaf: [1, 2, 4, 6, 8, 10]
+    class_weight: [null, "balanced", "balanced_subsample"]
+    bootstrap: [true, false]
+    criterion: ["gini", "entropy"]
+  n_iter: 200
+  scoring: "f1"
+  n_jobs: -1
+  cv_splits: 5
+  cv_shuffle: true
+  random_state: 42
+
+
+FCCA: #for these params, see https://github.com/ceciliasalvatore/supervised-discretization
+  enabled: true
+  output_dir: "logs/fcca"
+  p1_values: [1]
+  lambda1_values: [1]
+  lambda2_values: [0]
+  lambda0_values: [0.1, 1, 100]
+  p0_values: [0.5, 0.65]
+  tao_q_values: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95]
+################# SECTION 5: INTERPRETABLE MODELS #################
+GOSDT:
+  enabled: false
+  input_dir: ""           # the path to upload the data discretized from FCCA or other techniques (xlsx files x_train_discr, x_test_discr, y_train_discr and y_test_discr)--> see folder "FCCA_results" inside FCCA's output_dir
+  output_dir: "logs/gosdt"            # where to save outputs (included optimal tree plot)
+  # GOSDTClassifier Params: see the official documentation at https://github.com/ubc-systopia/gosdt-guesses  
+  regularization:       0.001
+  allow_small_reg:      true
+  depth_budget:         5
+  time_limit:           3600
+  balance:              true
+  cancellation:         false
+  look_ahead:           false
+  similar_support:      false
+  rule_list:            false
+  non_binary:           false
+  diagnostics:          false
+  uncertainty_tolerance: 0.0
+  upperbound_guess:     null
+  model_limit:          1
+  worker_limit:         5
+  verbose:              true
+  debug:                false
