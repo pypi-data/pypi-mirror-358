@@ -1,0 +1,85 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "weaverbird"
+version = "0.26.19"
+description = "A visual data pipeline builder with various backends"
+authors = ["Toucan Toco <dev@toucantoco.com>"]
+keywords = ["mongodb", "pandas", "sql", "data", "dataviz", "pipeline", "query", "builder"]
+license = "BSD-3-Clause"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.10, <3.11"
+pandas = "^1.2.5"
+pydantic = "^1.9.1"
+numexpr = "^2.8.1"
+typing_extensions = "^4.2"
+geopandas = ">=1,<2"
+PyPika = "^0.48.9"
+
+# Dependencies for extras
+quart = {version = ">=0.17,<0.19", optional = true}
+Quart-CORS = {version = "^0.5.0", optional = true}
+hypercorn = {version = ">=0.13,<0.15", optional = true}
+pymongo = {version = ">=4.2.0", optional = true, extras = ["srv", "tls"]}
+snowflake-connector-python = {version = "^2.7.8", extras = ["pandas"], optional = true}
+psycopg = {optional = true, version = "^3.0.15"}
+google-cloud-bigquery = {version = "^3.3.0", optional = true, extras = ["pandas", "bqstorage"]}
+toucan-connectors = {version = "^3.17.4", optional = true, extras = ["awsathena"]}
+
+[tool.poetry.dev-dependencies]
+pytest-cov = "^4.0.0"
+pytest-mock = "^3.10.0"
+pytest-xdist = "^2.5.0"
+# required so we can use nosql_apply_parameters_to_query during tests
+toucan-connectors = { version = "^3.17.4", extras = ["awsathena"] }
+pytest-benchmark = "^3.4.1"
+snowflake-sqlalchemy = "^1.4.3"
+types-python-dateutil = "^2.8.19"
+snowflake-connector-python = {version = "^2.7.8", extras = ["pandas"]}
+pytest = "^7.2.0"
+black = "^22.10.0"
+flake8 = "^5.0.4"
+isort = "^5.6.4"
+mypy = ">=0.981,<1"
+docker = "^6.0.0"
+sqlalchemy = "^1.4.42"
+pymysql = "^1.0.2"
+psycopg2 = "^2.9.4"
+pymongo = ">=4.2.0"
+redshift-connector = "^2.0.909"
+sqlalchemy-redshift = ">=0.8.11,<1"
+google-cloud-bigquery = {version = "^3.11.0", extras = ["pandas", "bqstorage"]}
+PyYAML = "^6.0"
+
+[tool.poetry.extras]
+playground = ["quart", "Quart-CORS", "hypercorn", "pymongo", "pandas", "snowflake-connector-python", "psycopg", "google-cloud-bigquery", "toucan-connectors"]
+
+[tool.black]
+line-length = 100
+target-version = ["py310"]
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+include_trailing_comma = true
+line_length = 100
+
+[tool.mypy]
+files = "src/"
+exclude = "weaverbird/backends/sql_translator"
+plugins = "pydantic.mypy"
+follow_imports = "silent"
+ignore_missing_imports = true
+allow_redefinition = true
+check_untyped_defs = true
+
+[tool.pytest.ini_options]
+pythonpath = "."
+testpaths = "tests"
+markers = [
+    "serial: marks tests as serial (deselect with '-m \"not serial\"')",
+]
