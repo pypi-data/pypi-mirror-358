@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "datacleanx"
+version = "0.1.0"
+description = "Fast data cleaning engine for ML projects"
+authors = ["Esther <esther@example.com>"]
+homepage = "https://github.com/essiebx/datacleanx"
+repository = "https://github.com/essiebx/datacleanx"
+keywords = ["data-cleaning", "ML", "CLI", "preprocessing"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pandas = "^2.2"
+numpy = "^1.26"
+scikit-learn = "^1.5"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+datacleanx = "datacleanx.cli:main"
