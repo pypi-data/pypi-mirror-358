@@ -1,0 +1,30 @@
+# Starlord
+
+Dual system training framework for robotics.
+
+The overall structure borrowed from GR00T, with these modifications:
+
+- Simplifer VLM model, introduced more advanced VLM and larger slow system;
+- Connecting fast system without cross-attention, using text encoder instead;
+
+
+
+## Slow thought system
+
+will goes `starlord/model/backbone` contains various VLMs. Provides a unified interface connect with fast system (action expert)
+
+
+
+## Fast action system
+
+Currently support:
+
+- DiT: diffusion transformer
+- QwenFlow: flowmatching based action expert
+
+
+
+## Training
+
+training scripts goes to `scripts/xxx.sh`
+

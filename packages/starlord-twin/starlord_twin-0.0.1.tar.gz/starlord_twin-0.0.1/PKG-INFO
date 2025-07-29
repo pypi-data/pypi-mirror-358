@@ -1,0 +1,65 @@
+Metadata-Version: 2.4
+Name: starlord-twin
+Version: 0.0.1
+Summary: VLA training framework.
+Home-page: https://github.com/
+Author: Lucas Jin
+Author-email: jinfagang@163.com
+License: GPL-3.0
+Keywords: deep learning,script helper,tools
+Platform: any
+Classifier: Operating System :: OS Independent
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Education
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Scientific/Engineering :: Image Recognition
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Description-Content-Type: text/markdown
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: platform
+Dynamic: summary
+
+# Starlord
+
+Dual system training framework for robotics.
+
+The overall structure borrowed from GR00T, with these modifications:
+
+- Simplifer VLM model, introduced more advanced VLM and larger slow system;
+- Connecting fast system without cross-attention, using text encoder instead;
+
+
+
+## Slow thought system
+
+will goes `starlord/model/backbone` contains various VLMs. Provides a unified interface connect with fast system (action expert)
+
+
+
+## Fast action system
+
+Currently support:
+
+- DiT: diffusion transformer
+- QwenFlow: flowmatching based action expert
+
+
+
+## Training
+
+training scripts goes to `scripts/xxx.sh`
+
