@@ -1,0 +1,10 @@
+import os
+
+from bluer_options.env import load_config, load_env, get_env
+from bluer_objects.env import abcli_path_git
+
+load_config(__name__)
+
+
+BLUER_ALGO_FRUITS_360_REPO_ADDRESS = get_env("BLUER_ALGO_FRUITS_360_REPO_ADDRESS")
+BLUER_ALGO_FRUITS_360_REPO_PATH = os.path.join(abcli_path_git, "fruits-360-100x100")
