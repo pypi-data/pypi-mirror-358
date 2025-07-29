@@ -1,0 +1,51 @@
+[project]
+name = "canpeek"
+version = "0.4.0"
+description = "A simple CAN bus monitoring tool, with dbc support."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "cantools>=40.2.3",
+    "docstring-parser>=0.16",
+    "PyQtDarkTheme-fork>=2.1.0",
+    "pyside6>=6.9.1",
+    "python-can>=4.5.0",
+]
+
+[project.scripts]
+canpeek = "canpeek.__main__:main"
+
+[project.optional-dependencies]
+interfaces = [
+    "canalystii>=0.1",
+    "ics>=0.7.2",
+    "nixnet>=0.3.2",
+    "usb>=0.0.83.dev0",
+    "pyserial>=3.5", # You won't be able to use the serial can backend without the serial module installed!
+    "uptime>=3.0.1", # "uptime library not available, timestamps are relative to boot time and not to Epoch UTC" from python-can.interfaces.pcan
+    "filelock>=3.18.0", # Using ICS neoVI can backend without the filelock module installed may cause some issues!: No module named 'filelock'
+    "gs-usb>=0.3.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=8.3.3",
+    "pytest-qt",
+    "pytest-mock",
+    "ruff>=0.7.1",
+]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+# -ra: show extra test summary info for all but passed tests
+# --import-mode=importlib: modern import mode that's good practice
+addopts = "-ra --import-mode=importlib"
+testpaths = [
+    "tests",
+]
+# Needed for pytest-qt to know which Qt binding to use
+qt_api = "pyside6"
