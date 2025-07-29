@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "principia"
+version = "0.1.0"
+authors = [
+  { name="Keenan Finkelstein", email="keenanfinkelstein@gmail.com" },
+]
+description = "A lightweight, powerful Python framework for building self-verifying, robust, and elegant software by making all implicit assumptions explicit and verifiable at runtime."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "pandas",
+    "statsmodels",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/pypa/sampleproject"
+"Bug Tracker" = "https://github.com/pypa/sampleproject/issues"
