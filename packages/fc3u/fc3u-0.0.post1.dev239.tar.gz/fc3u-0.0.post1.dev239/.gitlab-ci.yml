@@ -1,0 +1,112 @@
+include:
+  project: '$CI_PROJECT_ROOT_NAMESPACE/sys/runner_tools'
+  file:
+    - 'jrsrp_vars.yml'
+    - 'python.yml'
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
+    - if: $CI_COMMIT_BRANCH
+    - if: $CI_COMMIT_TAG
+
+stages:
+  - test
+  - build_doc
+  - release
+
+.pkginstall: &pkginstall
+  - apt update -y 
+  - apt install -y "g++" git python3-dev libpq-dev
+  - curl -LsSf https://astral.sh/uv/install.sh -o install.sh
+  - sh install.sh
+  - source $HOME/.local/bin/env
+  - PYTHON_VERSION="${!PY_VERSION}" # indirect variable reference 
+  - uv venv -p $PYTHON_VERSION /opt/venv
+  - source /opt/venv/bin/activate
+  - uv pip install numpy setuptools wheel pytest pytest-cov pytest-env
+  - uv pip install gdal[numpy]==$(gdal-config --version) --no-build-isolation-package=gdal
+  - uv pip install .[rsc] --pre rsc
+  - uv build
+  - |
+    cat <<EOF > pytest.ini
+    [pytest]
+    env =
+        RSS_ENV_STATE=external
+    EOF
+
+
+test:
+  stage: test
+  image: ghcr.io/osgeo/gdal:ubuntu-small-3.8.5
+  id_tokens:
+    VAULT_ID_TOKEN:
+      aud: ${VAULT_SERVER_URL}
+  parallel:
+    matrix:
+      - PY_VERSION:
+        - "PYTHON_VERSION_LEGACY"
+        - "PYTHON_VERSION_CURRENT"
+        - "PYTHON_VERSION_EDGE"
+  script:
+    - !reference [.get_extra_index_using_curl, script]
+    - *pkginstall
+    - pytest --cov=/project --junitxml=report.xml --cov-report term-missing --cov-report html:cov_html
+    - ls dist
+  rules:
+    - if: '$PY_VERSION == "PYTHON_VERSION_EDGE"'
+      when: on_success
+      allow_failure: true
+    - if: '$PY_VERSION'
+      when: on_success
+      allow_failure: false
+  artifacts:
+    untracked: false
+    expire_in: 30 days
+    paths:
+      - cov_html
+      - dist/fractionalcover3*whl
+      - dist/fractionalcover3*.tar.gz
+    reports:
+      junit: report.xml
+
+
+pages:
+  stage: build_doc
+  image: ghcr.io/osgeo/gdal:ubuntu-small-3.8.5
+  id_tokens:
+    VAULT_ID_TOKEN:
+      aud: ${VAULT_SERVER_URL}
+  script:
+    - !reference [.get_extra_index_using_curl, script]
+    - export PY_VERSION=$PYTHON_VERSION_CURRENT
+    - *pkginstall
+    - uv pip install -r doc-requirements.txt
+    - export RSCUTILS_ENV_STATE=external
+    - sphinx-build docs build/sphinx || true
+    - mkdir -p public
+    - cp -r build/sphinx/* public/
+  artifacts:
+    paths:
+    - public
+  only:
+    - main
+
+publish:
+  stage: release
+  dependencies: [test]
+  image: "python:3.12"
+  rules: [if: $CI_COMMIT_TAG]
+  script:
+    - apt-get update && apt-get install -y --no-install-recommends curl ca-certificates
+    - curl -LsSf https://astral.sh/uv/install.sh --output install.sh
+    - sh install.sh
+    - source $HOME/.local/bin/env
+    - uv publish dist/frac*
+    - echo "done"
+
+
+
+
