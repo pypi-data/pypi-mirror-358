@@ -1,0 +1,33 @@
+query listQueries($input: ListQueriesInput!) {
+  listQueries(input: $input) {
+    start
+    total
+    count
+    queries {
+      ...query
+      __typename
+    }
+    __typename
+  }
+}
+
+fragment query on QueryEntity {
+  urn
+  properties {
+    name
+    description
+    source
+    statement {
+      value
+      language
+    }
+  }
+  subjects {
+    dataset {
+      urn
+    }
+    schemaField {
+      urn
+    }
+  }
+}
