@@ -1,0 +1,165 @@
+name: Release FrogML
+
+on:
+  workflow_dispatch:
+
+env:
+  GIT_CREDENTIALS_USER_EMAIL: ${{ vars.GIT_CREDENTIALS_USER_EMAIL }}
+  GIT_CREDENTIALS_USER_NAME: ${{ vars.GIT_CREDENTIALS_USER_NAME }}
+  GIT_CREDENTIALS_TOKEN_OWNER: ${{ vars.GIT_CREDENTIALS_TOKEN_OWNER }}
+  PACKAGE_BEAUTY_NAME: FrogML SDK
+  PACKAGE_NAME: frogml-sdk
+jobs:
+  trigger_test_workflow:
+    name: Tests
+    uses: ./.github/workflows/template.pr.yml
+    secrets:
+      ARTIFACTORY_USERNAME: ${{secrets.ARTIFACTORY_USERNAME}}
+      ARTIFACTORY_PASSWORD: ${{secrets.ARTIFACTORY_PASSWORD}}
+
+  build_and_release:
+    name: Build And Release FrogML
+    needs: trigger_test_workflow
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9.21'
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
+          fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          python-version: '3.9.21'
+
+      - name: Install Dependencies
+        run: uv sync --only-group versioning
+
+      - name: Set git credentials
+        env:
+          TOKEN: ${{ secrets.GIT_ACTIONS_TOKEN }}
+        run: |
+          git config --global user.email "$GIT_CREDENTIALS_USER_EMAIL"
+          git config --global user.name "$GIT_CREDENTIALS_USER_NAME"
+          git remote set-url origin "https://$GIT_CREDENTIALS_TOKEN_OWNER:$TOKEN@github.com/jfrog/frogml-sdk.git"
+
+      - name: Bump prod version
+        env:
+          TOKEN: ${{ secrets.GIT_ACTIONS_TOKEN }}
+        run: |
+          set -x
+          git checkout main -- VERSION frogml/version.py .bumpversion.cfg sonar-project.properties pyproject.toml
+          prev_version=$(cat VERSION)
+          make bump-version-prod
+          new_version=$(cat VERSION)
+          echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
+          echo "package_version=$new_version" >> $GITHUB_OUTPUT
+          echo "Bump version: frogml-sdk from $prev_version to $new_version" > $RUNNER_TEMP/bump
+          git commit -am "$(cat $RUNNER_TEMP/bump)" || true
+
+      - name: Release prod version
+        env:
+          PYPI_USER: ${{ secrets.PYPI_USER }}
+          PYPI_API_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
+        run: make prod-release
+
+      - name: Release changelog
+        run: |
+          set -x
+          if [ -f "CHANGELOG.md" ]; then
+            yes | uv run changelog release --patch || { echo 'Failed to update change log version' ; exit 1; }
+            SDK_VERSION="$(uv run changelog current)"
+            DOCS_CHANGELOG="$(git rev-parse --show-toplevel)"/docs/changelog/${{ env.PACKAGE_NAME }}.md
+            sed '/'$SDK_VERSION'/,$!d' CHANGELOG.md > "$DOCS_CHANGELOG"
+            sed -ie '1s/^/# ${{ env.PACKAGE_BEAUTY_NAME }} changelog\n/' "$DOCS_CHANGELOG"
+            mv "${DOCS_CHANGELOG}e" "$DOCS_CHANGELOG"
+            git add "$DOCS_CHANGELOG"
+            echo "Update ${{ env.PACKAGE_BEAUTY_NAME }} Changelog" > $RUNNER_TEMP/changelog
+            git commit -am "$(cat $RUNNER_TEMP/changelog)" || true
+          else
+            echo "No changelog file found"
+          fi
+
+      - name: Tag new version
+        id: tag_new_version
+        env:
+          TOKEN: ${{ secrets.GIT_ACTIONS_TOKEN }}
+        run: |
+          set -x
+          git status
+          git reset --hard
+          git clean -df
+          git remote set-url origin "https://$GIT_CREDENTIALS_TOKEN_OWNER:$TOKEN@github.com/jfrog/frogml-sdk.git"
+          git fetch origin main
+          git rebase --reapply-cherry-picks origin/main
+          new_version="v$(cat VERSION)"
+          git tag $new_version
+          git push origin $new_version
+
+      - name: Patch version
+        id: patch_version
+        env:
+          TOKEN: ${{ secrets.GIT_ACTIONS_TOKEN }}
+        run: |
+          set -x
+          prev_version=$(cat VERSION)
+          make patch-version
+          new_patch_version=$(cat VERSION)
+          echo "Bump version: frogml-sdk from $prev_version to $new_patch_version" > $RUNNER_TEMP/patch
+          echo "package_dev_version=$new_patch_version" >> $GITHUB_OUTPUT
+          git commit -am "$(cat $RUNNER_TEMP/patch)" || true
+
+#      - name: Release dev version
+#        working-directory: ${{ inputs.package_path }}
+#        env:
+#          JFROG_USER: ${{ secrets.JFROG_USER }}
+#          JFROG_PASSWORD: ${{ secrets.JFROG_PASSWORD }}
+#          JFROG_ARTIFACTORY_URL: ${{ vars.JFROG_ARTIFACTORY_URL }}
+#        run: make dev-release
+
+      - name: Revert on failure
+        if: ${{ failure() }}
+        env:
+          TOKEN: ${{ secrets.GIT_ACTIONS_TOKEN }}
+        run: |
+          set -x
+          git remote set-url origin "https://$GIT_CREDENTIALS_TOKEN_OWNER:$TOKEN@github.com/jfrog/frogml-sdk.git"
+          git reset --hard
+          git clean -df
+          git revert -m 1 --no-edit HEAD
+          git push origin main --force
+
+      - name: Push to main
+        env:
+          TOKEN: ${{ secrets.GIT_ACTIONS_TOKEN }}
+        run: |
+          set -x
+          git status
+          git reset --hard
+          git clean -df
+          git remote set-url origin "https://$GIT_CREDENTIALS_TOKEN_OWNER:$TOKEN@github.com/jfrog/frogml-sdk.git"
+          git fetch origin main
+          git rebase --reapply-cherry-picks origin/main
+          git push origin main --force
+
+#      - name: Post to a Slack channel
+#        if: always()
+#        uses: slackapi/slack-github-action@v1.17.0
+#        with:
+#          channel-id: 'qwak-releases'
+#          slack-message: "\
+#              * Package : ${{ env.PACKAGE_BEAUTY_NAME }} Prod \n\n\
+#              * Version: ${{ env.NEW_VERSION }} \n\n\
+#              * Owner: ${{ github.actor }} \n\n\
+#              * Status: ${{ job.status }} \n\n\
+#              * Workflow URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} \n\n
+#              * Installation: `pip install ${{ env.PACKAGE_NAME }}==${{ env.NEW_VERSION }}`\n\n"
+#        env:
+#          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}

@@ -1,0 +1,80 @@
+# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
+
+name: FrogML Package Tests CI
+
+on:
+  pull_request:
+    branches: [ "main" ]
+  workflow_call:
+    secrets:
+        ARTIFACTORY_USERNAME:
+          required: true
+        ARTIFACTORY_PASSWORD:
+            required: true
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Python 3.9.21
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9.21
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          python-version: 3.9.21
+
+      - name: Linters
+        run: |
+          echo "If Failed try to run make format and make lint to fix format and input errors"
+          make lint
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.10", "3.11"]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+    - name: Setup Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: 1.22.x
+        cache: false
+
+    - uses: actions/checkout@v4
+
+    - name: Install Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+      with:
+        enable-cache: true
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install project dependencies
+      if: runner.os != 'Windows'
+      run: make install
+      shell: bash
+
+    - name: Install project dependencies
+      if: runner.os == 'Windows'
+      run: make install
+      shell: pwsh
+
+    - name: Run Unit Tests
+      run: |
+        make unit-test
+
+#    In the future once integration tests will be able to run independently See MLOPS-2366
+#    - name: Run Tests
+#      run: |
+#        make test

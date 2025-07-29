@@ -1,0 +1,103 @@
+name: Release FrogML SDK Dev
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+env:
+  GIT_CREDENTIALS_USER_EMAIL: ${{ vars.GIT_CREDENTIALS_USER_EMAIL }}
+  GIT_CREDENTIALS_USER_NAME: ${{ vars.GIT_CREDENTIALS_USER_NAME }}
+  GIT_CREDENTIALS_TOKEN_OWNER: ${{ vars.GIT_CREDENTIALS_TOKEN_OWNER }}
+
+jobs:
+  trigger_test_workflow:
+    name: Tests
+    if: "!startsWith(github.event.head_commit.message, 'Bump version:') && !startsWith(github.event.head_commit.message, 'Revert')"
+    uses: ./.github/workflows/template.pr.yml
+    secrets:
+      ARTIFACTORY_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}
+      ARTIFACTORY_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }}
+
+  build_and_release:
+    name: Build And Release Dev Version FrogML SDK
+    needs: trigger_test_workflow
+    runs-on: ubuntu-22.04
+    if: "!startsWith(github.event.head_commit.message, 'Bump version:') && !startsWith(github.event.head_commit.message, 'Revert')"
+    outputs:
+      package_version: ${{ steps.bump_dev.outputs.package_version }}
+    steps:
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9.21'
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
+          fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          python-version: '3.9.21'
+
+      - name: Install Dependencies
+        run: uv sync --only-group versioning
+
+      - name: Set git credentials
+        env:
+          TOKEN: ${{ secrets.GIT_ACTIONS_TOKEN }}
+        run: |
+          git config --global user.email "$GIT_CREDENTIALS_USER_EMAIL"
+          git config --global user.name "$GIT_CREDENTIALS_USER_NAME"
+          git remote set-url origin "https://$GIT_CREDENTIALS_TOKEN_OWNER:$TOKEN@github.com/jfrog/frogml-sdk.git"
+
+      - name: Bump dev version
+        id: bump_dev
+        working-directory: ${{ inputs.package_path }}
+        run: |
+          set -x
+          prev_version=$(cat VERSION)
+          make bump-version-dev
+          new_version=$(cat VERSION)
+          echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
+          echo "package_version=$new_version" >> $GITHUB_OUTPUT
+          echo "Bump version: ${{ inputs.package_beauty_name }} from $prev_version to $new_version" > $RUNNER_TEMP/bump
+          git commit -am "$(cat $RUNNER_TEMP/bump)" || true
+
+#      - name: Release dev version
+#        env:
+#          JFROG_USER: ${{ vars.GIT_CREDENTIALS_USER_NAME }}
+#          JFROG_PASSWORD: ${{ secrets.REPO21_SERVICE_TOKEN }}
+#          JFROG_ARTIFACTORY_URL: ${{ vars.JFROG_ARTIFACTORY_URL }}
+#        run: make dev-release
+
+      - name: Revert on failure
+        if: ${{ failure() }}
+        env:
+          TOKEN: ${{ secrets.GIT_ACTIONS_TOKEN }}
+        run: |
+          set -x
+          git remote set-url origin "https://$GIT_CREDENTIALS_TOKEN_OWNER:$TOKEN@github.com/jfrog/frogml-sdk.git"
+          git reset --hard
+          git clean -df
+          git revert -m 1 --no-edit HEAD
+          git push origin main --force
+
+      - name: Push to main
+        env:
+          TOKEN: ${{ secrets.GIT_ACTIONS_TOKEN }}
+        run: |
+          set -x
+          git status
+          git reset --hard
+          git clean -df
+          git remote set-url origin "https://$GIT_CREDENTIALS_TOKEN_OWNER:$TOKEN@github.com/jfrog/frogml-sdk.git"
+          git fetch origin main
+          git rebase --reapply-cherry-picks origin/main
+          git push origin main --force

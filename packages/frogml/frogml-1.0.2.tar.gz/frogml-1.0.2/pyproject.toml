@@ -1,0 +1,96 @@
+[project]
+name = "frogml"
+version = "1.0.2"
+description = "FrogML is a powerful and flexible Python library designed to provide advanced ML model and dataset management capabilities by seamlessly integrating JFrog Artifactory as the primary model store and leveraging the JFrog ML Platform."
+readme = "README.md"
+authors = [
+    {name = "JFrog Ltd.", email = "contact@jfrog.com"}
+]
+keywords = ["jfrog", "ml", "mlops"]
+include = [
+    { path = "frogml/**/*", format = ["sdist", "wheel"] },
+    { path = "LICENSE", format = "sdist" },
+]
+classifiers = [
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+requires-python = ">=3.9,<3.12"
+dependencies = [
+    "astor",
+    "cloudpickle>=3.1.1",
+    "frogml-core>=0.0.16",
+    "joblib",
+    "libcst",
+    "pydantic",
+    "requests",
+    "typing-extensions",
+]
+
+[dependency-groups]
+dev = [
+    "bandit[toml]>=1.8.3",
+    "black>=25.1.0",
+    "catboost>=1.2.7",
+    "coverage>=7.6.12",
+    "flake8>=7.1.2",
+    "grpcio>=1.72.1",
+    "onnx>=1.17.0",
+    "podman>=5.4.0.1",
+    "pre-commit>=4.1.0",
+    "pytest-mock>=3.14.0",
+    "python-dotenv>=1.0.1",
+    "ruff>=0.11.12",
+    "scikit-learn>=1.6.1",
+    "sphinx>=7.4.7",
+    "torch>=2.6.0",
+    "transformers>=4.49.0",
+]
+versioning = [
+    "bump2version>=1.0.1",
+    "changelog-cli>=0.7.1",
+]
+
+[project.optional-dependencies]
+catboost = [
+    "catboost",
+]
+scikit-learn = [
+    "scikit-learn",
+]
+onnx = [
+    "onnx",
+]
+transformers = [
+    "transformers",
+]
+torch = [
+    "torch",
+]
+
+[tool.bandit]
+exclude_dirs = ["tests"]
+
+[tool.ruff]
+exclude = [
+    "docs",
+    "frogml/__init__.py"
+]
+
+[tool.pytest.ini_options]
+addopts = [
+    "--strict-markers"
+]
+markers = [
+    "integration: marks tests as slow (deselect with '-m \"not integration\"')",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

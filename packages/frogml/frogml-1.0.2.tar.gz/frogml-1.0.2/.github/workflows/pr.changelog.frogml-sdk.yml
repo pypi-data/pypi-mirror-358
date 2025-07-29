@@ -1,0 +1,24 @@
+name: FrogML SDK Changelog Test
+
+on:
+  pull_request:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+jobs:
+  trigger_test_workflow:
+    name: Tests
+    uses: ./.github/workflows/template.pr.yml
+    secrets:
+      ARTIFACTORY_USERNAME: ${{secrets.ARTIFACTORY_USERNAME}}
+      ARTIFACTORY_PASSWORD: ${{secrets.ARTIFACTORY_PASSWORD}}
+
+  changelog:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dangoslen/changelog-enforcer@v3
+        with:
+          changeLogPath: 'CHANGELOG.md'
