@@ -1,0 +1,409 @@
+
+{% extends "idr_gallery/base.html" %}
+
+{% block content %}
+
+<style>
+  .study{
+    width: 247px;
+    height: 247px;
+  }
+  .study a:hover {
+    color: #1e94e6;
+  }
+  .maprViewerLink {
+    position: relative;
+  }
+  a.maprViewerLink div {
+    display: inline-block;
+    position:relative;
+  }
+  a.maprViewerLink i {
+    visibility: hidden;
+    color: white;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+  }
+  a.maprViewerLink:hover i{
+    visibility: visible;
+  }
+  .exampleImages .thumbnail {
+    max-height: 45px;
+    max-width: 45px;
+  }
+  .filterMessage {
+    font-size: 120%;
+  }
+  .filterMessage strong {
+    color: #1976d2;
+  }
+  #results td, #results th {
+    text-align: center;
+  }
+  #filterCount {
+    clear: right;
+  }
+
+  /* 'Search' button hidden for now */
+  button[type='submit'] {
+    display: none;
+    background: #1976d2;
+    float: right;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 5px;
+  }
+
+  .close {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    z-index: 100;
+    font-size: 2rem;
+    padding: 2px 9px;
+  }
+  .scrollable {
+    position: absolute;
+    inset: 0;
+    overflow: auto;
+    height: 100%;
+    z-index: 0;
+    padding: 5px;
+  }
+  #kvp_popover {
+    margin: auto;
+    position: fixed;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    width: 400px;
+    height: 65%;
+    overflow: auto;
+    box-shadow: 5px 4px 10px -5px #737373;
+    border: solid 1px black;
+    border-radius: 10px;
+  }
+  #kvp_popover_content {
+    color: hsl(210, 10%, 30%);
+    font-size: 12px;
+    background-color: hsl(220,20%,95%);
+    display: flex;
+    flex-direction: column;
+    z-index: 0;
+  }
+  #kvp_popover_content h2 {
+    font-size: 16px;
+    color: hsl(210, 10%, 30%);
+    inset: 0;
+    flex: auto 0 0;
+    margin: 10px;
+  }
+  #kvp_popover_content th h2 {
+    font-size: 15px;
+    margin: 0;
+  }
+  #kvp_popover_content a {
+    font-weight: normal;
+  }
+  #popover_links a {
+    font-weight: normal;
+    display: inline-block;
+    border: solid #ccc 1px;
+    padding: 5px;
+    border-radius: 10px;
+    background: rgba(256, 256, 256, 0.5);
+  }
+  #kvp_popover_content i.fas {
+    margin: 0 10px;
+  }
+  #popover_links {
+    flex: auto 0 0;
+    margin: 0 10px 10px 10px;
+  }
+  #popover_kvp {
+    flex: auto 1 1;
+    overflow: auto;
+  }
+
+  @media (max-width: 800px) {
+    #mypopover {
+      width: 100%;
+    }
+  }
+  .map_ann tbody tr {
+    background: hsl(220,20%,95%);
+    border: solid #ddd 1px;
+  }
+  .map_ann td, .map_ann th {
+    padding: 2px;
+    background-color: hsl(220,20%,95%);
+    width: 50%;
+    max-width: 100px;
+    overflow-wrap: break-word;
+    overflow: hidden;
+  }
+  .map_ann {
+    padding: 5px;
+    margin: 5px;
+  }
+  .map_ann table {
+    margin: 0;
+  }
+  .favion img {
+    border: 1px solid hsl(210, 8%, 65%);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    vertical-align: middle;
+    width: 15px;
+    height: 15px;
+  }
+</style>
+
+<link rel="stylesheet" href="{% static 'idr_gallery/css/search_form_styles.css' %}?_={{VERSION}}" />
+
+<div class="row column">
+  <!-- Home button - bit painful to handle /cell/search etc -->
+  <a  {% if super_category %}
+        {% for c, data in super_categories.items %}
+          {% if c == category %} href="{% url 'gallery_super_category' super_category=c %}" {% endif %}
+        {% endfor %}
+      {% else %}
+        href="{% url 'idr_gallery_index' %}"
+      {% endif %}
+        style="background: #263238; border-radius: 10px; color: #eceff1; padding: 10px; margin:10px 5px 5px; display: inline-block; font-weight: normal;">
+    <i class="fa fa-caret-left"></i> Home
+  </a>
+</div>
+
+<div class="row column">
+
+<div class="small-12 small-centered medium-12 medium-centered columns">
+
+    <div class="row horizontal">
+
+      <form id="search_form">
+      </form>
+
+      <div id="filterCount" class="row horizontal text-center">
+        <!-- results message here -->
+      </div>
+    </div>
+
+    <div id="filterSpinner" class="row horizontal text-center">
+      <div id="filterSpinnerMessage">
+        <!-- Show a waiting... message here -->
+      </div>
+      <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="sync" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="svg-inline--fa fa-sync fa-w-16 fa-spin fa-lg"><path fill="currentColor" d="M440.65 12.57l4 82.77A247.16 247.16 0 0 0 255.83 8C134.73 8 33.91 94.92 12.29 209.82A12 12 0 0 0 24.09 224h49.05a12 12 0 0 0 11.67-9.26 175.91 175.91 0 0 1 317-56.94l-101.46-4.86a12 12 0 0 0-12.57 12v47.41a12 12 0 0 0 12 12H500a12 12 0 0 0 12-12V12a12 12 0 0 0-12-12h-47.37a12 12 0 0 0-11.98 12.57zM255.83 432a175.61 175.61 0 0 1-146-77.8l101.8 4.87a12 12 0 0 0 12.57-12v-47.4a12 12 0 0 0-12-12H12a12 12 0 0 0-12 12V500a12 12 0 0 0 12 12h47.35a12 12 0 0 0 12-12.6l-4.15-82.57A247.17 247.17 0 0 0 255.83 504c121.11 0 221.93-86.92 243.55-201.82a12 12 0 0 0-11.8-14.18h-49.05a12 12 0 0 0-11.67 9.26A175.86 175.86 0 0 1 255.83 432z" class=""></path></svg>
+    </div>
+
+    <div id="studies" class="row horizontal">
+    </div>
+
+    <ul id="results" class="resultsList"></ul>
+</div>
+
+</div>
+
+<div id="kvp_popover" popover>
+  <button class="close" popovertarget="kvp_popover">&times;</button>
+  <div id="kvp_popover_content" class="scrollable">
+    <h2 id="popover_imagename">Image Name</h2>
+    <div id="popover_links"></div>
+    <div id="popover_kvp"></div>
+  </div>
+</div>
+
+<script>
+  // Various global constants from omero config set...
+  var FILTER_KEYS = {{ filter_keys|safe }};
+  var FILTER_MAPR_KEYS = {{ filter_mapr_keys|safe }};
+  // e.g. GALLEY_INDEX/api-gallery/thumbnails for loading from IDR
+  const GALLERY_INDEX = "{{ gallery_index }}";
+  // this is the home of this app, e.g. for GALLERY_HOME/search/
+  const GALLERY_HOME = "{% url 'idr_gallery_index' %}";
+  const BASE_URL = "{{ base_url }}";
+  const CATEGORY_QUERIES = {{ category_queries|safe }};
+  var TITLE_KEYS = {{ TITLE_KEYS|safe }};
+  var STUDY_SHORT_NAME = {{ STUDY_SHORT_NAME|safe }};
+  var SUPER_CATEGORIES = {{ SUPER_CATEGORIES|safe }};
+  var SUPER_CATEGORY {% if super_category %} = {{ super_category|safe }} {% endif %};
+  var STATIC_DIR = "{% static 'gallery/' %}";
+  var SEARCH_ENGINE_URL = `${BASE_URL}searchengine/api/v1/`;
+</script>
+
+<script src="{% static 'idr_gallery/omero_search_form.js' %}?_={{VERSION}}"></script>
+
+<script>
+  const searchForm = new OmeroSearchForm("search_form", SEARCH_ENGINE_URL, "results");
+
+  // custom handling of search results, not handled by OmeroSearchForm
+  searchForm.on("results", function(event, data) {
+    console.log("on.results", event, data);
+    let studiesList = data.results?.results || [];
+    let imgCount = studiesList.reduce((prev, study) => prev += study["image count"], 0);
+    let studies = studiesList.length === 1 ? DISPLAY_TYPES[studiesList[0].type] : 'experiments/screens';
+    let searchQuery = searchForm.getHumanReadableQuery();
+    let msg = `<p class="filterMessage">
+      Search ${searchQuery} found <strong>${imgCount}</strong> images in <strong>${studiesList.length}</strong> ${studies}
+    </p>`;
+    document.getElementById("filterCount").innerHTML = msg;
+  });
+
+  searchForm.on("form_updated", function(event, data) {
+    // Update URL, adding to browser's history
+    let search_query = searchForm.getCurrentQuery();
+    // for now, we only support the first AND clause...
+    const clause = search_query.query_details.and_filters[0];
+    let params = new URLSearchParams();
+    params.append("key", clause.name);
+    params.append("value", clause.value);
+    params.append("operator", clause.operator);
+    params.append("resource", clause.resource);
+    history.pushState(null, "", "?" + params.toString());
+  });
+
+
+  function searchFromUrl() {
+    const searchParams = new URLSearchParams(window.location.search);
+    let key = searchParams.get("key");
+    let value = searchParams.get("value");
+    let resource = searchParams.get("resource") || "image";
+    if (key && value) {
+      let operator = searchParams.get("operator") || "equals";
+      searchForm.setKeyValueQuery({key, value, operator, resource});
+      searchForm.submitSearch();
+    } else if (key) {
+      searchForm.setKeyValueQuery({key, value: "", operator: "contains", resource});
+    }
+    // 'hidden' support for ?advanced=true to show AND/OR buttons
+    let advanced = searchParams.get("advanced");
+    if (advanced) {
+      searchForm.setAdvanced(true);
+    } else {
+      searchForm.setAdvanced(false);
+    }
+  }
+
+
+  searchForm.on("ready", function(){
+    searchFromUrl();
+  });
+
+  $(".resultsList").on("click", "a.thumblink", function(event){
+    event.preventDefault();
+    document.getElementById("popover_kvp").innerHTML = `<div style='padding:10px'>Loading Attributes...</div>`;
+    document.getElementById("kvp_popover").showPopover();
+    let $thumb = $(event.target);
+    $(".studyThumb a").removeClass("selected");
+    $thumb.parents(".studyThumb").find("a").addClass("selected");
+
+    let image_id = event.target.dataset.image_id;
+    let image_name = event.target.dataset.image_name;
+    document.getElementById("popover_imagename").innerHTML = image_name;
+    let linkshtml = `
+        <div><a target="_blank" href="${BASE_URL}webclient/?show=image-${image_id}">
+          Browse image metadata<i class="fas fa-info"></i></a>
+        <a target="_blank" href="${BASE_URL}webclient/img_detail/${image_id}">
+          Open Image in Viewer<i class="fas fa-eye"></i></a></div>`
+    document.getElementById("popover_links").innerHTML = linkshtml;
+
+    let url = `${BASE_URL}webclient/api/annotations/?type=map&image=${image_id}`;
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {        
+        var experimenters = [];
+        if (data.experimenters.length > 0) {
+            // manipulate data...
+            // make an object of eid: experimenter
+            experimenters = data.experimenters.reduce(function(prev, exp){
+                prev[exp.id + ""] = exp;
+                return prev;
+            }, {});
+        }
+
+        var populate_experimenter = function(ann) {
+            if (data.experimenters.length > 0) {
+                ann.owner = experimenters[ann.owner.id];
+            }
+            if (ann.link && ann.link.owner) {
+                ann.link.owner = experimenters[ann.link.owner.id];
+                // AddedBy IDs for filtering
+                ann.addedBy = [ann.link.owner.id];
+            }
+            return ann;
+        };
+
+        // Populate experimenters within anns
+        var anns = data.annotations.map(populate_experimenter);
+
+        // Replace namespace with label
+        var ns2menu = {};
+        Object.entries(MAPR_CONFIG).forEach(([key, obj]) => {
+          ns2menu[obj.ns] = obj.label;
+        });
+
+        // Combine e.g. "Gene Identifier" and following "Gene Identifier URL" into one
+        anns = anns.map((ann, i) => {
+          ann.values = ann.values.map((kv, idx) => {
+            if (ann.values[idx + 1] && ann.values[idx + 1][0] === kv[0] + " URL") {
+              let url = ann.values[idx + 1][1];
+              // Add URL to kvp
+              kv = [...kv, url];
+            }
+            return kv;
+          });
+          ann.values = ann.values.filter((kv, idx) => {
+            // if the previous kvp have URL, skip this one
+            return !(idx > 0 && ann.values[idx - 1][2]);
+          });
+          return ann;
+        });
+
+        // Update html...
+        let html = anns.map(ann => {
+          return `
+            <div class="map_ann">
+              <table>
+                <thead>
+                <tr title="${ann.ns}">
+                  <th colspan="2"><h2>${ns2menu[ann.ns] || ann.ns}</h2></th>
+                </tr>
+                </thead>
+                <tbody>
+                ${ann.values.map(v => {
+                  return `<tr>
+                    <td>${v[0]}</td>
+                    <td>
+                      <a title="Search for images with ${v[0]}: ${v[1]}" href="/search/?key=${encodeURIComponent(v[0])}&value=${encodeURIComponent(v[1])}&operator=equals&resource=image">
+                        ${v[1]}
+                      </a>
+                      ${v[2] ? `<span class='favicon'><a href="${v[2]}" target="_blank">
+                        <img src="/mapr/favicon/?u=${v[2]}">
+                      </a></span>` : ""}
+                    </td>
+                  </tr>`
+                }).join("")}
+                </tbody>
+              </table>
+            </div>`
+        });
+
+        document.getElementById("popover_kvp").innerHTML = html.join("\n");
+      });
+  });
+
+  // load mapr config at the start...
+  window.MAPR_CONFIG = {};
+  let maprConigUrl = `${BASE_URL}mapr/api/config/`;
+  fetch(maprConigUrl).then(response => response.json())
+  .then(data => {window.MAPR_CONFIG = data;});
+
+
+  window.onpopstate = (event) => {
+    console.log(`onpopstate location: ${document.location}, state: ${JSON.stringify(event.state)}`)
+    searchFromUrl();
+  }
+
+</script>
+
+{% endblock %}
