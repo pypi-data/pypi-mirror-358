@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "etool"
+version = "1.4.3"
+authors = [
+  { name="Allen", email="jiangyangcreate@gmail.com" },
+]
+
+description = "A etool package for security monitoring"
+readme = "README.md"
+requires-python = ">=3.6"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "schedule>=1.1.0",
+    "speedtest-cli",
+    "flask",
+    "pillow",
+    "pypdf",
+    "openpyxl",
+    "numpy",
+    "numba",
+    "opencv-python-headless",
+    "python-docx",
+    "easyqr",
+    "MyQR",
+    "qrcode",
+    "scikit-image",
+    "pdf2docx",
+    "etool",
+    "markdown",
+    "beautifulsoup4"
+]
+
+[project.urls]
+Homepage = "https://github.com/jiangyangcreate/etool"
+Issues = "https://github.com/jiangyangcreate/etool/issues"
