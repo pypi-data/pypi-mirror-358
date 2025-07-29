@@ -1,0 +1,373 @@
+Metadata-Version: 2.4
+Name: ken-mcp
+Version: 3.0.0
+Summary: MCP server generator with modular architecture for creating FastMCP servers from natural language requirements
+Requires-Python: >=3.8
+Requires-Dist: fastmcp>=0.1.0
+Requires-Dist: httpx
+Requires-Dist: pydantic
+Provides-Extra: test
+Requires-Dist: pytest-asyncio>=0.21.0; extra == 'test'
+Requires-Dist: pytest-cov>=4.0.0; extra == 'test'
+Requires-Dist: pytest-mock>=3.10.0; extra == 'test'
+Requires-Dist: pytest>=7.0.0; extra == 'test'
+Description-Content-Type: text/markdown
+
+# KEN-MCP 🏗️ - Universal MCP Server Generator
+
+KEN-MCP is a powerful MCP (Model Context Protocol) server generator that creates complete, production-ready MCP servers from natural language descriptions. It works for ANY type of MCP - not just APIs!
+
+## Features
+
+- 🎯 **Universal Generation**: Creates MCP servers for any purpose - productivity tools, data processing, utilities, creative tools, and more
+- 🤖 **AI-Powered**: Uses Claude's capabilities to understand requirements and generate appropriate implementations
+- 📦 **Complete Projects**: Generates full project structure with server code, documentation, and configuration
+- ✅ **Production Ready**: Includes proper error handling, type hints, and validation
+- 📚 **Well Documented**: Auto-generates comprehensive README and documentation
+
+## Installation
+
+KEN-MCP is an MCP server that runs within Claude Desktop. To install:
+
+1. Add to your Claude Desktop configuration:
+
+```json
+{
+  "mcpServers": {
+    "KEN-MCP": {
+      "command": "python",
+      "args": ["/path/to/KEN-MCP/server.py"]
+    }
+  }
+}
+```
+
+2. Restart Claude Desktop
+
+## Usage
+
+Simply describe what kind of MCP server you want:
+
+```
+Generate an MCP server that:
+- Manages todo lists with priorities
+- Tracks deadlines
+- Can mark items as complete
+```
+
+KEN-MCP will create a complete MCP server with all the necessary tools, proper error handling, and documentation.
+
+### Examples
+
+- **Productivity**: "I want an MCP that manages todo lists with priorities and deadlines"
+- **Development**: "Create an MCP for generating git commit messages based on code changes"
+- **Data**: "Build an MCP that can analyze CSV files and generate statistics"
+- **Utilities**: "I need an MCP for converting between different text encodings"
+- **Creative**: "Make an MCP that generates creative writing prompts"
+
+## How It Works
+
+1. **Analyze Requirements**: KEN-MCP uses AI to understand your natural language description
+2. **Plan Implementation**: Creates a detailed plan with tools, resources, and prompts
+3. **Generate Code**: Produces complete, working FastMCP server implementation
+4. **Create Documentation**: Generates README, usage guides, and configuration instructions
+5. **Validate**: Ensures the generated code is syntactically correct and complete
+
+## Generated Projects
+
+Each generated MCP server includes:
+- `server.py` - The main MCP server implementation
+- `README.md` - Comprehensive documentation
+- `mcp.md` - Technical details and architecture
+- `pyproject.toml` - Python package configuration
+- `.gitignore` - Version control setup
+
+## Requirements
+
+- Python 3.10+
+- FastMCP framework (automatically included in generated projects)
+
+## Troubleshooting Generated MCPs
+
+### When Claude Code Shows "Failed"
+
+When adding an MCP to Claude Code, if you see a generic "Failed" error, you need to diagnose the issue systematically.
+
+#### Step 1: Check if MCP is Active
+
+After adding an MCP, verify it's working:
+
+```bash
+# List all MCPs
+claude mcp list
+
+# Look for your MCP in the output. It should show:
+# ✓ your-mcp-name    Active    python3 /path/to/your-mcp/server.py
+# ✗ your-mcp-name    Failed    python3 /path/to/your-mcp/server.py
+```
+
+#### Step 2: Test the MCP Manually
+
+Before troubleshooting Claude Code, ensure the MCP works standalone:
+
+```bash
+# Navigate to your MCP directory
+cd /path/to/your-mcp
+
+# Test the server directly
+python3 server.py
+
+# Expected output: "Server started on stdio"
+# If you see errors here, fix them first!
+```
+
+#### Step 3: Remove and Re-add the MCP
+
+If the MCP shows as "Failed":
+
+```bash
+# Remove the MCP
+claude mcp remove your-mcp-name
+
+# IMPORTANT: Restart Claude Code after removal
+claude
+
+# Re-add with correct configuration
+claude mcp add your-mcp-name "python3 /path/to/your-mcp/server.py"
+
+# IMPORTANT: Restart Claude Code again
+claude
+```
+
+### Common Causes of "Failed" Status
+
+Since Claude Code only shows "Failed" without details, try these fixes in order:
+
+### 1. Wrong Python Command (Most Common)
+
+**Diagnosis**: Run `which python3` to find your Python path
+
+**Fix**: Try these commands in order when adding the MCP:
+
+```bash
+# First, find your Python:
+which python3
+# Example output: /usr/bin/python3
+
+# Try 1: Use python3
+claude mcp remove your-mcp-name
+claude  # Restart
+claude mcp add your-mcp-name "python3 /path/to/your-mcp/server.py"
+claude  # Restart
+
+# Try 2: Use full path from 'which' command
+claude mcp remove your-mcp-name
+claude  # Restart
+claude mcp add your-mcp-name "/usr/bin/python3 /path/to/your-mcp/server.py"
+claude  # Restart
+
+# Try 3: Use specific version
+claude mcp remove your-mcp-name
+claude  # Restart
+claude mcp add your-mcp-name "python3.11 /path/to/your-mcp/server.py"
+claude  # Restart
+```
+
+### 2. Missing Dependencies
+
+**Diagnosis**: Test manually with `cd /path/to/your-mcp && python3 server.py`
+
+**Fix**: Install dependencies in the correct Python environment:
+```bash
+# Navigate to the MCP directory
+cd /path/to/your-mcp
+
+# Install with the same Python you're using in Claude
+python3 -m pip install -e .
+
+# Then re-add the MCP
+claude mcp remove your-mcp-name
+claude  # Restart
+claude mcp add your-mcp-name "python3 /path/to/your-mcp/server.py"
+claude  # Restart
+```
+
+### 3. Wrong File Path
+
+**Diagnosis**: Check if server.py exists at the path you specified
+
+**Fix**: Verify the exact path:
+```bash
+# Find the correct server.py location
+find /path/to/your-mcp -name "server.py"
+
+# Use the exact path when adding
+claude mcp remove your-mcp-name
+claude  # Restart
+claude mcp add your-mcp-name "python3 /exact/path/to/server.py"
+claude  # Restart
+```
+
+### Quick Diagnostic Checklist
+
+When you see "Failed" status, run through this checklist:
+
+1. **Test manually first**:
+   ```bash
+   cd /path/to/your-mcp
+   python3 server.py
+   # Should output: "Server started on stdio"
+   ```
+
+2. **Check Python path**:
+   ```bash
+   which python3
+   # Use this exact path when adding MCP
+   ```
+
+3. **Verify dependencies installed**:
+   ```bash
+   python3 -m pip list | grep fastmcp
+   # Should show: fastmcp 0.1.0 or higher
+   ```
+
+4. **Check file permissions**:
+   ```bash
+   ls -la /path/to/your-mcp/server.py
+   # Should be readable/executable
+   ```
+
+5. **Try virtual environment**:
+   ```bash
+   cd /path/to/your-mcp
+   python3 -m venv venv
+   source venv/bin/activate
+   pip install -e .
+   # Then use: /path/to/your-mcp/venv/bin/python
+   ```
+
+### Managing MCPs in Claude Code
+
+#### Adding an MCP
+```bash
+# Add the MCP
+claude mcp add mcp-name "python3 /path/to/server.py"
+
+# ALWAYS restart Claude Code after adding
+claude
+
+# Check if it's active
+claude mcp list
+# Should show: ✓ mcp-name    Active
+```
+
+#### Removing an MCP
+```bash
+# Remove the MCP
+claude mcp remove mcp-name
+
+# ALWAYS restart Claude Code after removing
+claude
+
+# Verify it's removed
+claude mcp list
+# Should not show the MCP anymore
+```
+
+#### Updating an MCP
+```bash
+# Remove old version
+claude mcp remove mcp-name
+claude  # Restart
+
+# Add updated version
+claude mcp add mcp-name "python3 /path/to/updated/server.py"
+claude  # Restart
+```
+
+### Important Notes
+
+1. **Always restart Claude Code** after any MCP changes using the `claude` command
+2. **"Failed" status is generic** - you must diagnose by testing manually
+3. **Python environment matters** - the Python used by Claude must have all dependencies installed
+4. **Use absolute paths** - always use full paths like `/Users/you/project/server.py`
+5. **Check permissions** - ensure Claude can read and execute your files
+
+---
+
+## For Claude Code: MCP Troubleshooting Protocol
+
+**If you are Claude Code helping a user with a failed MCP**, follow this systematic process:
+
+### Required Commands to Run
+
+1. **Always check MCP status first**:
+   ```bash
+   claude mcp list
+   ```
+
+2. **Test the MCP manually before any fixes**:
+   ```bash
+   cd /path/to/mcp-directory
+   python3 server.py
+   # Expected: "Server started on stdio"
+   ```
+
+3. **After any configuration change, ALWAYS**:
+   ```bash
+   claude mcp remove mcp-name
+   # Tell user: "Please EXIT Claude Code (type 'exit' or Ctrl+C) and restart with 'claude'"
+   # Wait for confirmation before proceeding
+   claude mcp add mcp-name "python3 /absolute/path/to/server.py"
+   # Tell user: "Please EXIT Claude Code (type 'exit' or Ctrl+C) and restart with 'claude'"
+   # Wait for confirmation before proceeding
+   claude mcp list  # Verify it's now Active
+   ```
+
+### Critical Points
+
+- **Gather system info first** - run comprehensive system analysis to understand user's Python setup
+- **Never skip manual testing** - if `python3 server.py` doesn't work, fix that first
+- **Always request EXIT and restart** - tell user "Please EXIT Claude Code (type 'exit' or Ctrl+C) and restart with 'claude'" after every add/remove
+- **Use system-specific Python paths** - use the exact Python path found in system analysis
+- **Fix dependencies first** - run `python3 -m pip install -e .` in the MCP directory if imports fail
+- **"Failed" is generic** - you must diagnose by testing the MCP manually
+- **Be specific about user's system** - reference their OS, Python version, and paths in explanations
+
+**📋 See CLAUDE_CODE_MCP_TROUBLESHOOTING.md for the complete troubleshooting guide with detailed procedures and error-specific solutions.**
+
+## Changelog
+
+### Version 2.1.8
+- **NEW FEATURE**: Automatic test.py generation for all MCPs
+- Generated test suite includes:
+  - Server initialization tests
+  - Tool function tests with valid/invalid inputs
+  - Parameter validation tests
+  - Resource and prompt tests (if applicable)
+  - Comprehensive test runner with detailed output
+- Smart test value generation based on parameter names and types
+- Clear instructions for Claude to run tests immediately
+- Updated help.md with testing documentation
+
+### Version 2.1.7
+- **IMPORTANT FIX**: Generate separate `help.md` file instead of overwriting README.md
+- Added comprehensive troubleshooting documentation in generated help.md files
+- Improved project validation to check for both README.md and help.md
+- README.md now properly references help.md for setup and troubleshooting
+
+### Version 2.1.6
+- Fixed critical backslash escaping issue in requirements
+- Connected dependency detection function (10x improvement in detected dependencies)
+- Enhanced dependency patterns for modern development frameworks
+
+### Version 2.1.5
+- Multiple syntax error fixes for generated MCPs
+- Improved string escaping in docstrings
+
+## License
+
+MIT
+
+---
+Generated by KEN-MCP
