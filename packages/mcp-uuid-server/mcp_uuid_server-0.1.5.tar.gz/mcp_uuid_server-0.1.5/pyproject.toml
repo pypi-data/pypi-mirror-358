@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mcp-uuid-server"
+version = "0.1.5"
+authors = [
+  { name="Pomazan Bohdan", email="pomazan.bogdan@gmail.com" },
+]
+description = "MCP server for generating UUIDv7 strings."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "mcp",
+    "uuid6"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/pomazanbohdan/mcp-uuidv7-generator"  # Replace with actual URL
+"Bug Tracker" = "https://github.com/pomazanbohdan/mcp-uuidv7-generator/issues" # Replace with actual URL
+
+[project.scripts]
+mcp-uuid-server = "mcp_uuid_server.server:main"
