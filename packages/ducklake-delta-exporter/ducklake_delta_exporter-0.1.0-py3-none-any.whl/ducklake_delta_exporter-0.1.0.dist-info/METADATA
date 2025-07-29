@@ -1,0 +1,52 @@
+Metadata-Version: 2.4
+Name: ducklake-delta-exporter
+Version: 0.1.0
+Summary: A utility to export DuckLake database metadata to Delta Lake transaction logs.
+Home-page: https://github.com/djouallah/ducklake-delta-exporter
+Author: mim
+Author-email: your.email@example.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Development Status :: 3 - Alpha
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: duckdb
+Requires-Dist: pyarrow
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+
+# DuckLake Delta Exporter
+A Python utility to synchronize metadata from a DuckLake database with Delta Lake transaction logs. This allows you to manage data in DuckLake and make it discoverable and queryable by Delta Lake compatible tools (e.g., Spark, Delta Lake Rust/Python clients).
+
+# Features
+DuckLake to Delta Sync: Generates incremental Delta Lake transaction logs (_delta_log/*.json) and checkpoint files (_delta_log/*.checkpoint.parquet) based on the latest state of tables in a DuckLake database.
+
+Schema Mapping: Automatically maps DuckDB data types to their Spark SQL equivalents for Delta Lake schema definitions.
+
+Change Detection: Identifies added and removed data files since the last Delta export, ensuring only necessary updates are written to the log.
+
+Checkpointing: Supports creating Delta Lake checkpoint files at a configurable interval for efficient state reconstruction.
+
+# Installation
+You can install this package using pip:
+
+pip install ducklake-delta-exporter
+
+
+
+# Usage
+```
+from ducklake_delta_exporter import generate_latest_delta_log
+generate_latest_delta_log('path/to/your/ducklake.db', data_root='/lakehouse/default/Tables', checkpoint_interval=1)
+```
