@@ -1,0 +1,333 @@
+from io import BytesIO
+
+import httpx
+from ..models.chat import (
+    LanguageModelInput,
+    format_messages,
+    ChatCompletionResponse,
+    ChatCompletionChunk,
+)
+from typing import Optional, AsyncGenerator, Union, List, Any, Tuple
+
+from ..models.collections import GroupCollections, PointDetails
+from ..models.embeddings import (
+    EncodingFormat,
+    EncodingResponse,
+    ChunksDataList,
+    RerankerResponse,
+)
+from ..models.models import Model
+from ..models.token import TokenInfo
+from ..models.workflows import WorkflowDetails, Workflow
+from ..utils import parse_chat_line, WorkflowLineParser
+from ..requests.async_requests import areq, areq_stream
+from ..models.requests import AnyDict, AnyList
+
+
+async def models(client: httpx.AsyncClient) -> List[Model]:
+    """
+    Get the list of available models.
+    """
+    resp = await areq(client, "GET", "/v1/models", AnyDict)
+    data = resp.data
+    if not data or not isinstance(data, list):
+        raise ValueError("Invalid response format for models")
+    return [Model.model_validate(item) for item in data]
+
+
+async def workflows(client: httpx.AsyncClient) -> List[Workflow]:
+    """
+    Get the list of available workflows.
+    """
+    resp = await areq(client, "GET", "/workflow/light", AnyList)
+    return [Workflow.model_validate(item) for item in resp.root]
+
+
+async def workflow(client: httpx.AsyncClient, workflow_id: str) -> WorkflowDetails:
+    """
+    Get details of a specific workflow.
+    """
+    try:
+        resp = await areq(
+            client, "GET", f"/workflow/details/{workflow_id}", WorkflowDetails
+        )
+        return resp
+    except httpx.HTTPStatusError as e:
+        if e.response.status_code == 404:
+            raise ValueError(f"Workflow with ID {workflow_id} not found")
+        raise e
+
+
+async def collections(client: httpx.AsyncClient) -> List[GroupCollections]:
+    """
+    Get the list of available collections.
+    """
+    resp = await areq(client, "GET", "/collections", AnyList)
+    return [GroupCollections.model_validate(item) for item in resp.root]
+
+
+async def collection(
+    client: httpx.AsyncClient, collection_id: str, group_id: str
+) -> List[PointDetails]:
+    """
+    Get details of a specific collection.
+    """
+    try:
+        resp = await areq(
+            client, "GET", f"/collections/{collection_id}/{group_id}", AnyList
+        )
+        return [PointDetails.model_validate(item) for item in resp.root]
+    except httpx.HTTPStatusError as e:
+        if e.response.status_code == 404:
+            raise ValueError(
+                f"Collection with ID {collection_id} not found in group {group_id}"
+            )
+        raise e
+
+
+async def me(client: httpx.AsyncClient) -> TokenInfo:
+    """
+    Get the details of the current user.
+    """
+    return await areq(client, "GET", "/users/me", TokenInfo)
+
+
+async def chat(
+    client: httpx.AsyncClient,
+    input: LanguageModelInput,
+    model: str = None,
+    temperature: float = 0.7,
+    tools: Optional[list] = None,
+    group: Optional[str] = None,
+    **kwargs,
+) -> ChatCompletionResponse:
+    """
+    Send a chat message and get a response from an LLM endpoint.
+    """
+    if model is None:
+        raise ValueError("Model must be specified")
+
+    formatted_messages = format_messages(input)
+
+    payload = {
+        "model": model,
+        "messages": formatted_messages,
+        "temperature": temperature,
+        "stream": False,
+        **kwargs,
+    }
+
+    if group is not None:
+        payload["group"] = group
+
+    if tools is not None:
+        payload["tools"] = tools
+
+    return await areq(
+        client,
+        "POST",
+        "/v1/chat/completions",
+        ChatCompletionResponse,
+        json=payload,
+    )
+
+
+async def chat_stream(
+    client: httpx.AsyncClient,
+    input: LanguageModelInput,
+    model: str,
+    temperature: float = 0.7,
+    full_chunk: bool = True,
+    group: Optional[str] = None,
+    **kwargs,
+) -> AsyncGenerator[Union[str, ChatCompletionChunk], None]:
+    """
+    Stream de complétions OpenAI.
+    - Si `full_chunk` est True (défaut) : chaque yield est le JSON complet du chunk.
+    - Sinon : on garde la compat ascendante → on ne yield que le delta.content + marquages.
+    """
+    formatted_messages = format_messages(input)
+
+    payload = {
+        "model": model,
+        "messages": formatted_messages,
+        "temperature": temperature,
+        "stream": True,
+        **kwargs,
+    }
+
+    if group is not None:
+        payload["group"] = group
+
+    async for chunk in areq_stream(
+        client,
+        "POST",
+        "/v1/chat/completions",
+        parse_line=lambda line: parse_chat_line(line, full_chunk=full_chunk),
+        json=payload,
+    ):
+        data = ChatCompletionChunk.model_validate(chunk)
+
+        if data is None:
+            continue
+
+        if full_chunk:
+            yield data
+        else:
+            yield data.choices[0].delta.content if data.choices else ""
+
+
+async def embeddings(
+    client: httpx.AsyncClient,
+    input: str,
+    model: str,
+    encoding_format: EncodingFormat,
+    normalize: bool,
+    group: Optional[str] = None,
+    **kwargs,
+) -> EncodingResponse:
+    """
+    Get embeddings for a given input using the specified model.
+    """
+    payload = {
+        "model": model,
+        "input": input,
+        "encoding_format": encoding_format,
+        "normalize": normalize,
+        **kwargs,
+    }
+
+    if group is not None:
+        payload["group"] = group
+
+    return await areq(
+        client,
+        "POST",
+        "/v1/embeddings",
+        EncodingResponse,
+        json=payload,
+    )
+
+
+async def retrieve(
+    client: httpx.AsyncClient,
+    query: str,
+    collections_names: List[str],
+    limit: int,
+    score_threshold: float,
+    filters: list,
+    beta: float,
+    group: Optional[str] = None,
+    **kwargs,
+) -> ChunksDataList:
+    """
+    Retrieve the most relevant documents based on the given query from specified collections.
+    """
+    data = {
+        "query": query,
+        "collections_names": collections_names,
+        "limit": limit,
+        "score": score_threshold,
+        "filters": filters,
+        "beta": beta,
+        **kwargs,
+    }
+
+    if group is not None:
+        data["group"] = group
+
+    return await areq(
+        client,
+        "POST",
+        "/collections/run/search",
+        ChunksDataList,
+        json=data,
+    )
+
+
+async def rerank(
+    client: httpx.AsyncClient,
+    query: str,
+    documents: List[str],
+    model: str,
+    top_n: int,
+    return_documents: bool,
+    group: Optional[str] = None,
+    **kwargs,
+) -> RerankerResponse:
+    """
+    Rerank a list of documents based on their relevance to a given query using the specified model.
+    """
+    payload = {
+        "query": query,
+        "documents": documents,
+        "model": model,
+        "top_n": top_n,
+        "return_documents": return_documents,
+        **kwargs,
+    }
+
+    if group is not None:
+        payload["group"] = group
+
+    return await areq(
+        client,
+        "POST",
+        "/v1/rerank",
+        RerankerResponse,
+        json=payload,
+    )
+
+
+async def run_workflow(
+    client: httpx.AsyncClient,
+    workflow_id: str,
+    data: dict,
+) -> Any:
+    """
+    Run a specific workflow with the provided data.
+    """
+    try:
+        parser = WorkflowLineParser()
+        async for chunk in areq_stream(
+            client,
+            "POST",
+            f"/workflow/run/{workflow_id}",
+            parse_line=parser,
+            json=data,
+        ):
+            yield chunk
+    except httpx.HTTPStatusError as e:
+        if e.response.status_code == 404:
+            raise ValueError(f"Workflow with ID {workflow_id} not found")
+        raise e
+
+
+async def parse_document(
+    client: httpx.AsyncClient,
+    file: Tuple[bytes, str],
+    source: str,
+    group: Optional[str] = None,
+) -> str:
+    """
+    Parse a document using the specified model.
+    """
+    payload = {
+        "source": source,
+    }
+
+    if group is not None:
+        payload["group"] = group
+
+    files = {"file": (file[1], BytesIO(file[0]), "application/octet-stream")}
+
+    response = areq(
+        client,
+        "POST",
+        "/document-parser/parsing/parse",
+        AnyDict,
+        files=files,
+        json=payload,
+    )
+    print(response)
+    return response
