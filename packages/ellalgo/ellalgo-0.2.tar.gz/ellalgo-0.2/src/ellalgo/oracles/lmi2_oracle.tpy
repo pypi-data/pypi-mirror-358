@@ -1,0 +1,51 @@
+# -*- coding: utf-8 -*-
+import numpy as np
+from .chol_ext import LDLTMgr
+from typing import Tuple
+
+Cut = Tuple[np.ndarray, float]
+
+
+class LMI2Oracle:
+    """
+        Oracle for Linear Matrix Inequality constraint
+            0 <= F * x <= U
+    """
+
+    def __init__(self, mat_f, U):
+        self.mat_f = mat_f
+        self.U = U
+        self.A = np.zeros(U.shape)
+        self.S = np.zeros(U.shape)
+        self.ldlt_mgr = LDLTMgr(len(U))
+
+    def assess_feas(self, x: np.ndarray) -> Optional[Cut]:
+        #A = self.U.copy()
+        #S = np.zeros(A.shape)
+        n = len(x)
+
+        def getS(i, j):
+            self.S[i, j] = sum(self.mat_f[k][i, j] * x[k] for k in range(n))
+            return self.S[i, j]
+
+        def get_elem(i, j):
+            # for k in range(n):
+            #     S[i, j] = self.mat_f[k][i, j] * x[k]
+            self.A[i, j] = self.U[i, j]
+            self.A[i, j] -= sum(self.mat_f[k][i, j] * x[k] for k in range(n))
+            return self.A[i, j]
+
+        if not self.ldlt_mgr.factor(get_elem):
+            f = self.ldlt_mgr.witness()
+            # p = len(v)
+            fj = f + self.ldlt_mgr.sym_quad(self.U)
+            #fj = v @ S[:p, :p] @ v
+            g = np.array([self.ldlt_mgr.sym_quad(self.mat_f[i]) for i in range(n)])
+            return g, (f, fj)
+
+        if not self.ldlt_mgr.factor(getS):
+            f = self.ldlt_mgr.witness()
+            # p = len(v)
+            fj = f + self.ldlt_mgr.sym_quad(self.U)
+            g = np.array([-self.ldlt_mgr.sym_quad(self.mat_f[i]) for i in range(n)])
+            return g, (f, fj)

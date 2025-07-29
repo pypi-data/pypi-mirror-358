@@ -1,0 +1,67 @@
+import math
+
+import numpy as np
+from pytest import approx
+
+from ellalgo.cutting_plane import OracleOptim, cutting_plane_optim
+from ellalgo.ell_stable import EllStable
+
+
+class MyQuasicvxOracle(OracleOptim):
+    def assess_optim(self, z, gamma: float):
+        """[summary]
+
+        Arguments:
+            z ([type]): [description]
+            gamma (float): the best-so-far optimal value
+
+        Returns:
+            [type]: [description]
+        """
+        sqrtx, logy = z
+
+        # constraint 1: exp(x) <= y, or sqrtx**2 <= logy
+        if (fj := sqrtx * sqrtx - logy) > 0:
+            return (np.array([2 * sqrtx, -1.0]), fj), None
+
+        # constraint 3: x > 0
+        # if x <= 0.:
+        #     return (np.array([-1., 0.]), -x), None
+
+        # objective: minimize -sqrt(x) / y
+        y = math.exp(logy)
+        tmp3 = gamma * y
+        if (fj := -sqrtx + tmp3) >= 0.0:  # feasible
+            return (np.array([-1.0, tmp3]), fj), None
+        gamma = sqrtx / y
+        return (np.array([-1.0, sqrtx]), 0), gamma
+
+
+def test_case_feasible():
+    """[summary]"""
+    xinit = np.array([0.0, 0.0])  # initial xinit
+    ellip = EllStable(10.0, xinit)
+    omega = MyQuasicvxOracle()
+    xbest, fbest, _ = cutting_plane_optim(omega, ellip, 0.0)
+    assert xbest is not None
+    assert fbest == approx(0.4288819424771711)
+    assert xbest[0] * xbest[0] == approx(0.5000021895211592)
+    assert math.exp(xbest[1]) == approx(1.6487248806185175)
+
+
+def test_case_infeasible1():
+    """[summary]"""
+    xinit = np.array([100.0, 100.0])  # wrong initial guess,
+    ellip = EllStable(10.0, xinit)  # or ellipsoid is too small
+    omega = MyQuasicvxOracle()
+    xbest, _, _ = cutting_plane_optim(omega, ellip, 0.0)
+    assert xbest is None
+
+
+def test_case_infeasible2():
+    """[summary]"""
+    xinit = np.array([0.0, 0.0])  # initial xinit
+    ellip = EllStable(10.0, xinit)
+    omega = MyQuasicvxOracle()
+    xbest, _, _ = cutting_plane_optim(omega, ellip, 100)  # wrong init best-so-far
+    assert xbest is None
