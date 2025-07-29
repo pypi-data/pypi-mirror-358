@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nb2latex"
+version = "0.1.0"
+description = "CLI to convert Jupyter notebooks to a single LaTeX document"
+authors = [
+    { name="Archie Benn", email="archiesnbenn@gmail.com" }
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "nbconvert>=7.16.6",
+    "notebook",
+    "ipykernel",
+]
+license = { file = "LICENSE" }
+
+[tool.setuptools.packages.find]
+include = ["nb2latex*"]
+exclude = ["notebooks*"]
+
+
+[project.scripts]
+nb2latex = "nb2latex.nb2latex:main"
+
