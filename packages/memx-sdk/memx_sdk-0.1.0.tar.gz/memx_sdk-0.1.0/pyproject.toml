@@ -1,0 +1,17 @@
+[project]
+name = "memx-sdk"
+version = "0.1.0"
+description = "Python client for memX shared memory platform"
+authors = [{ name="Mehul", email="memx.founders@gmail.com" }]
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+  "httpx>=0.24.0",
+  "websockets",
+  "hatchling (>=1.27.0,<2.0.0)"
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
