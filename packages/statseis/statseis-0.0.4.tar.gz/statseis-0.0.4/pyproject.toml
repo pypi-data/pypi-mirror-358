@@ -1,0 +1,37 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "statseis"
+version = "0.0.4"
+authors = [
+  { name="RussellAzadKhan", email="russellazadkhan@gmail.com" },
+]
+description = "Package to statistically analyse seismicity"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+  "matplotlib",
+  "numpy",
+  "pandas",
+  "scipy",
+  "pyproj",
+  "IPython",
+  "seaborn",
+  "cartopy",
+  "tqdm",
+  "geopandas",
+  "shapely",
+  "plotly",
+  "statsmodels"
+]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/RussellAzadKhan/seispy"
