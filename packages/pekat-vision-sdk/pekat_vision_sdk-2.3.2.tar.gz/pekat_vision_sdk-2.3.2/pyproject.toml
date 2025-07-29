@@ -1,0 +1,87 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pekat-vision-sdk"
+dynamic = ["version"]
+description = "A Python module for communication with PEKAT VISION"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.8"
+authors = [{ email = "developers@pekatvision.com" }]
+maintainers = [{ email = "developers@pekatvision.com" }]
+keywords = ["pekat", "pekatvision", "pekatvisionsdk", "vision", "sdk"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3 :: Only",
+]
+dependencies = ["numpy", "requests", "packaging", "netifaces2"]
+
+[project.optional-dependencies]
+opencv = ["opencv-python"]
+
+[project.urls]
+Homepage = "https://github.com/pekat-vision/pekat-vision-sdk-python"
+Documentation = "https://pekat-vision.github.io/pekat-vision-sdk-python/"
+Repository = "https://github.com/pekat-vision/pekat-vision-sdk-python.git"
+Changelog = "https://github.com/pekat-vision/pekat-vision-sdk-python/blob/master/CHANGELOG.md"
+
+[tool.hatch.version]
+path = "src/PekatVisionSDK/__about__.py"
+
+[tool.hatch.build.targets.sdist]
+packages = ["src/PekatVisionSDK"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/PekatVisionSDK"]
+
+[tool.hatch.envs.test]
+dependencies = ["pytest", "requests", "numpy", "packaging"]
+
+[tool.hatch.envs.test.scripts]
+test = "pytest {args:test}"
+
+[tool.hatch.envs.dev]
+description = "Full development environment."
+type = "virtual"
+path = ".venv"
+python = "3.8"
+dependencies = [
+    "requests",
+    "numpy",
+    "packaging",
+    "opencv-python",
+    "mkdocs-material",
+    "mkdocstrings-python",
+    "black",
+    "ruff",
+    "mypy",
+    "netifaces2",
+    "rich",
+]
+
+[tool.hatch.envs.docs]
+detached = true
+dependencies = ["mkdocs-material", "mkdocstrings-python", "black"]
+
+[tool.hatch.envs.docs.scripts]
+serve = "mkdocs serve"
+build = "mkdocs build"
+deploy = "mkdocs gh-deploy --strict"
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = ["D105", "D107", "E501"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.pyupgrade]
+keep-runtime-typing = true
