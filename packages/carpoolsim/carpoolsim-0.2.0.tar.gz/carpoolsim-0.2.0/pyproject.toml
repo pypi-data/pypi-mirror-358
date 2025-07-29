@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "carpoolsim"
+version = "0.2.0"
+description = "A simulation tool to find as many as carpool-able trips given drive-alone trips"
+authors = ["Diyi Liu"]
+license = "GPL-3.0-or-later"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+networkx = "^3.2.1"
+geopandas = "^0.14.3"
+pandas = "^2.2.1"
+numpy = "^1.26.4"
+matplotlib = "^3.8.3"
+jupyterlab = "^4.1.5"
+gurobipy = "^11.0.1"
+sqlalchemy = "^2.0.29"
+contextily = "^1.6.0"
+multiprocess = "^0.70.16"
+shapely = "^2.0.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
