@@ -1,0 +1,104 @@
+Metadata-Version: 2.4
+Name: evemap
+Version: 0.0.0b4
+Summary: Example plugin app for Alliance Auth.
+Author-email: Cunning <ryan.cunning@gmail.com>
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Django
+Classifier: Framework :: Django :: 4.0
+Classifier: Framework :: Django :: 4.2
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content
+License-File: LICENSE
+Requires-Dist: allianceauth>=3
+Requires-Dist: django-eveuniverse==1.5.7
+Requires-Dist: django-ninja==1.4.3
+Requires-Dist: geojson==3.2.0
+Requires-Dist: shapely==2.1.1
+Project-URL: Changelog, https://gitlab.com/cunningdesigns/evemap/-/blob/main/CHANGELOG.md
+Project-URL: Documentation, https://gitlab.com/cunningdesigns/evemap/-/tree/main/docs?ref_type=heads
+Project-URL: Homepage, https://gitlab.com/cunningdesigns/evemap
+Project-URL: Source, https://gitlab.com/cunningdesigns/evemap
+Project-URL: Tracker, https://gitlab.com/cunningdesigns/evemap/-/issues
+
+# evemap
+
+Map plugin for [AllianceAuth](https://gitlab.com/allianceauth/allianceauth).
+
+> This is a proof-of-concept that is a work-in-progress.
+
+## Features
+
+- Pan + Zoom
+- - Scroll to zoom
+- - Shift + Drag to zoom to box
+- - Alt + Shift + Drag to rotate
+
+### Regions View
+- Dynamic styles based on zoom level
+- - Far: Regions + Connections
+- - Close: System names + Gate Network
+- Click System Point/Name for info pane
+- Click Region Name to open Single Region View
+
+### Region View
+Isolate and view a region
+- Click Plan View (top left) to open Region Plan View
+
+### Region Plan View
+Whilst maintaining the connections of the Stargate Network, re-organises the layout in a logical view.
+
+## Installation
+
+### Step 1 - Pre-Requisites
+
+Evemap is an App for Alliance Auth, Please make sure you have this installed. Evemap is not a standalone Django Application.
+
+### Step 2 - Install app
+
+pip install evemap
+
+### Step 3 - Configure Auth settings
+
+Configure your Auth settings (`local.py`) as follows:
+
+```python
+INSTALLED_APPS += [
+	'eveuniverse',
+	'evemap',
+...
+```
+
+### Step 4 - Maintain Alliance Auth
+
+- Run migrations `python manage.py migrate`
+- Gather your static-files `python manage.py collectstatic`
+- Restart Alliance Auth
+
+# Screenshots
+
+## Universe
+![Universe](https://i.imgur.com/y6euNrj.png)
+
+## Universe Close
+![Universe Close](https://i.imgur.com/4MBfWVP.png)
+
+## Single Region View
+![Single Region](https://i.imgur.com/Ur2WQse.png)
+
+## Single Region Plan View
+![Single Region Plan](https://i.imgur.com/7rPaFsx.png)
+
+## Single Region Plan View (with info overlay)
+![Single Region Plan Info](https://i.imgur.com/RCg8SUM.png)
+
