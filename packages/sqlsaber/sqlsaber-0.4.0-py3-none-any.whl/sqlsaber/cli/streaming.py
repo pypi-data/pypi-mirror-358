@@ -1,0 +1,94 @@
+"""Streaming query handling for the CLI."""
+
+from rich.console import Console
+
+from sqlsaber.agents.base import BaseSQLAgent
+from sqlsaber.cli.display import DisplayManager
+
+
+class StreamingQueryHandler:
+    """Handles streaming query execution and display."""
+
+    def __init__(self, console: Console):
+        self.console = console
+        self.display = DisplayManager(console)
+
+    async def execute_streaming_query(self, user_query: str, agent: BaseSQLAgent):
+        """Execute a query with streaming display."""
+
+        has_content = False
+        explanation_started = False
+        status = self.console.status(
+            "[yellow]Crunching data...[/yellow]", spinner="bouncingBall"
+        )
+        status.start()
+
+        try:
+            async for event in agent.query_stream(user_query):
+                if event.type == "tool_use":
+                    # Stop any ongoing status, but don't mark has_content yet
+                    self._stop_status(status)
+
+                    if event.data["status"] == "started":
+                        # If explanation was streaming, add newline before tool use
+                        if explanation_started:
+                            self.display.show_newline()
+                        self.display.show_tool_started(event.data["name"])
+                    elif event.data["status"] == "executing":
+                        self.display.show_tool_executing(
+                            event.data["name"], event.data["input"]
+                        )
+
+                elif event.type == "text":
+                    # Always stop status when text streaming starts
+                    self._stop_status(status)
+
+                    if not explanation_started:
+                        explanation_started = True
+                        has_content = True
+
+                    # Print text as it streams
+                    self.display.show_text_stream(event.data)
+
+                elif event.type == "query_result":
+                    if event.data["results"]:
+                        self.display.show_query_results(event.data["results"])
+
+                elif event.type == "tool_result":
+                    # Handle tool results - particularly list_tables and introspect_schema
+                    if event.data.get("tool_name") == "list_tables":
+                        self.display.show_table_list(event.data["result"])
+                        has_content = True
+                    elif event.data.get("tool_name") == "introspect_schema":
+                        self.display.show_schema_info(event.data["result"])
+                        has_content = True
+
+                elif event.type == "processing":
+                    # Show status when processing tool results
+                    if explanation_started:
+                        self.display.show_newline()  # Add newline after explanation text
+                    self._stop_status(status)
+                    status = self.display.show_processing(event.data)
+                    status.start()
+                    has_content = True
+
+                elif event.type == "error":
+                    if not has_content:
+                        self._stop_status(status)
+                        has_content = True
+                    self.display.show_error(event.data)
+
+        finally:
+            # Make sure status is stopped
+            self._stop_status(status)
+
+            # Add a newline after streaming completes if explanation was shown
+            if explanation_started:
+                self.display.show_newline()  # Empty line for better readability
+
+    def _stop_status(self, status):
+        """Safely stop a status spinner."""
+        try:
+            status.stop()
+        except Exception:
+            pass  # Status might already be stopped
