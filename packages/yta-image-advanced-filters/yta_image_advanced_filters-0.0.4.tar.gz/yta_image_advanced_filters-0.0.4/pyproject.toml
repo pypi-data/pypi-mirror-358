@@ -1,0 +1,39 @@
+[project]
+name = "yta-image-advanced-filters"
+version = "0.0.4"
+description = "Youtube Autonomous Image Advanced Filters Module."
+authors = [
+    {name = "danialcala94",email = "danielalcalavalera@gmail.com"}
+]
+readme = "README.md"
+requires-python = "==3.9"
+dependencies = [
+    "yta_image_base (>=0.0.1,<1.0.0)",
+    "yta_constants (>=0.0.1,<1.0.0)",
+    "yta_programming (>=0.0.1,<1.0.0)",
+    "yta_general (>=0.0.1,<1.0.0)",
+    "yta_temp (>=0.0.1,<1.0.0)",
+    "pillow (>=9.5.0,<10.0.0)",
+    "opencv-python (>=4.11.0.86,<5.0.0.0)",
+    # TODO: Update this numpy limit if possible (greater version)
+    "numpy (>=1.23.5,<2.0.0)",
+    "scikit-spatial (>=8.0.0,<10.0.0)",
+]
+
+[tool.poetry]
+packages = [{include = "yta_image_advanced_filters", from = "src"}]
+
+# Optional dependencies below
+[tool.poetry.group.optional]
+optional = true
+
+[tool.poetry.group.optional.dependencies]
+yta_image_advanced = ">=0.0.1,<1.0.0"
+# Optional dependencies above
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
