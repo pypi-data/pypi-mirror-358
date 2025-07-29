@@ -1,0 +1,101 @@
+[build-system]
+requires = ["setuptools>=45", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "mrestimator"
+authors = [
+    { name = "The Priesemann Group"},
+    { name = "Paul Spitzner", email = "paul.spitzner@ds.mpg.de" },
+    { name = "Jonas Dehning", email = "jonas.dehning@ds.mpg.de" },
+]
+description = "Toolbox for the Multistep Regression Estimator."
+readme = "README.md"
+classifiers = [
+  "License :: OSI Approved :: BSD License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+dynamic = ["version"]
+requires-python = '>=3.10.0'
+dependencies = [
+    "numpy >= 1.11",
+    "scipy >= 1.0.0",
+    "matplotlib >= 1.7.0",
+]
+
+[project.optional-dependencies]
+full = [
+    "numba>=0.44",
+    "tqdm",
+]
+numba = [
+    "numba>=0.44",
+]
+docs = [
+    "sphinx>=8.0.0",
+    "sphinx-rtd-theme",  # Read the Docs theme
+    "myst-parser",  # Better Markdown support
+    "nbsphinx",  # For Jupyter notebook documentation
+    "sphinx-autodoc-typehints",  # Better type hints in docs
+    "sphinx-mdinclude",  # Better Markdown inclusion
+    "pandoc",  # Required by nbsphinx
+]
+dev = [
+    "mrestimator[full]",
+    "mrestimator[docs]",  # Include docs dependencies
+    "pre-commit >= 3.3.2",
+    "ruff >= 0.0.272",
+    "pytest >= 7.4.0",  # testing framework
+    "pytest-xdist >= 3.5.0",  # parallel test execution
+]
+
+[project.urls]
+Homepage = "https://github.com/Priesemann-Group/mrestimator"
+"Bug Tracker" = "https://github.com/Priesemann-Group/mrestimator/issues"
+
+
+[tool.ruff.lint]
+ignore = [
+    "E721", # ignore type comparisons
+    "E731", # ignore lambdas rewrites
+    "E741", # ignore ambiguous variable names, because of the example of the S,I,R model
+    "UP007", # don't reformat Optional[...] to ... | None as it isn't supported by
+             # autodoc
+    "E722", # bare excepts
+]
+select = [
+    "E", # pycodestyle
+    "F", # Pyflakes
+    "UP", # pyupgrade
+    "B", # flake8-bugbear
+    "I", # isort
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Ignore `F401` (unused imports) in all `__init__.py` files.
+"__init__.py" = ["F401", "F403", "F405"]
+"tests/__init__.py" = ["F401", "F403", "F405", "E402"]
+
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.setuptools]
+packages = ["mrestimator"]
+
+[tool.setuptools_scm]
+write_to = "mrestimator/_version.py"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py38"

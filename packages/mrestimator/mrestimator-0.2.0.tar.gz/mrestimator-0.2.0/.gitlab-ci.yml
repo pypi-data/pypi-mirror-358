@@ -1,0 +1,20 @@
+image: alpine
+
+pages:
+  stage: deploy
+  script:
+  - ls
+  - ls docs
+  - apk --no-cache add py3-pip python-dev
+  - pip3 install -r ./docs/piprequirements.txt
+  - apk --no-cache add make
+  - make html
+  - mkdir .public
+  - cp -r docs/_build/html/* .public
+  - mv .public public
+  artifacts:
+    paths:
+    - public
+  # only:
+  # - master
+  # - proposal_definitions
