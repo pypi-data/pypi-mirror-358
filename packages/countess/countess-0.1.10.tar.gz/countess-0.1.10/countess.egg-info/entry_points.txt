@@ -1,0 +1,26 @@
+[console_scripts]
+countess_cmd = countess.core.cmd:main
+
+[countess_plugins]
+correlation = countess.plugins.correlation:CorrelationPlugin
+data_table = countess.plugins.data_table:DataTablePlugin
+expression = countess.plugins.expression:ExpressionPlugin
+frequency = countess.plugins.frequency:FrequencyPlugin
+group_by = countess.plugins.group_by:GroupByPlugin
+join = countess.plugins.join:JoinPlugin
+load_csv = countess.plugins.csv:LoadCsvPlugin
+load_fasta = countess.plugins.fastq:LoadFastaPlugin
+load_fastq = countess.plugins.fastq:LoadFastqPlugin
+mutagenize = countess.plugins.mutagenize:MutagenizePlugin
+pivot = countess.plugins.pivot:PivotPlugin
+regex_tool = countess.plugins.regex:RegexToolPlugin
+save_csv = countess.plugins.csv:SaveCsvPlugin
+score = countess.plugins.score:ScoringPlugin
+score_scaling = countess.plugins.score_scale:ScoreScalingPlugin
+vampseq_score = countess.plugins.vampseq:VampSeqScorePlugin
+variant_classifier = countess.plugins.variant:VariantClassifier
+variant_converter = countess.plugins.variant:VariantConverter
+variants = countess.plugins.variant:VariantPlugin
+
+[gui_scripts]
+countess_gui = countess.gui.main:main
