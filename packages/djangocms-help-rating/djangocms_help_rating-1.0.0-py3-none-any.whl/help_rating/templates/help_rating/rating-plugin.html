@@ -1,0 +1,14 @@
+{% load static i18n sekizai_tags %}
+{% addtoblock "js" %}<script type="text/javascript" src="{% static "help_rating/js/send-answer.js" %}"></script>{% endaddtoblock %}
+<div class="help-rating-frame">
+    <a name="help-rating-{{ instance.subject.pk }}" class="question">{% translate "Did this help you?" %}</a>
+    <div class="answers" data-subject_id="{{ instance.subject.pk }}" data-csrftoken="{{ csrf_token }}" data-url="{{ save_score_url }}" data-cookie_pattern="{{ cookie_pattern }}" data-cookie_replacement="{{ cookie_replacement }}">
+        {% for score_item in ratings %}
+            <div class="answer {{ score_item.slug }}{% if answered == score_item.value %} answered{% endif %}" data-score="{{ score_item.value }}">
+                <img src="{% static score_item.icon %}">
+                <span>{{ score_item.label }}</span>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="feedback-message"><div>{% translate "Thank you for your feedback. It will help us improve the content of the site." %}</div></div>
+</div>
