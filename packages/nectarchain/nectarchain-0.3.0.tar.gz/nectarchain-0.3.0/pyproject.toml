@@ -1,0 +1,90 @@
+[build-system]
+requires = ["setuptools >= 65", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nectarchain"
+description = "Analysis chain for the CTA MSTN NectarCAM prototype"
+readme = "README.rst"
+authors = [{name = "CTAO NectarCAM collaboration"}]
+license = {text = "BSD-3-Clause"}
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "License :: OSI Approved :: BSD License",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Astronomy",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11"
+]
+requires-python = ">=3.10"
+dependencies = [
+    "ctapipe~=0.24",
+    "ctapipe-io-nectarcam>0.1",
+    "bokeh",
+    "iminuit",
+    "matplotlib",
+    "pandas",
+    "scipy",
+    "zodb",
+    "zeo",
+    "lmfit",
+    "h5py",
+    "pyqt5",
+    "pyqtgraph",
+    "tomli; python_version < '3.11'",
+]
+
+# needed for setuptools_scm, we don't define a static version
+dynamic = ["version"]
+
+[project.urls]
+"Bug Tracker" = "https://github.com/cta-observatory/nectarchain/issues"
+"Source Code" = "https://github.com/cta-observatory/nectarchain"
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-cov",
+    "pytest-xdist",
+]
+dev = [
+    "setuptools_scm",
+]
+docs = [
+    "sphinx",
+    "sphinx-autodoc-typehints",
+    "sphinx-automodapi",
+    "sphinx-design",
+    "sphinx-qt-documentation",
+    "pydata_sphinx_theme",
+    "numpydoc",
+]
+# we can use self-references to simplify all
+all = [
+    "nectarchain[test,docs,dev]",
+]
+
+
+[tool.pytest.ini_options]
+addopts = "--ignore=src/nectarchain/user_scripts"
+
+
+
+[tool.setuptools.packages.find]
+where = ["src"]
+exclude = ["nectarchain._dev_version"]
+
+[tool.setuptools_scm]
+write_to = "src/nectarchain/_version.py"
+
+[tool.ruff.lint]
+select = ["E", "F", "W"]  # This ensures it mimics Flake8's error codes.
+exclude = ["build/", "dist/", "*.pyc"] 
+
+[tool.ruff]
+line-length = 88
+
+[tool.black]
+line-length = 88
