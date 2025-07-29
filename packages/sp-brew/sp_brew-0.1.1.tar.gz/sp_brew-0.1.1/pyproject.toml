@@ -1,0 +1,42 @@
+[project]
+name = "sp-brew"
+version = "0.1.1"
+description = "Module to visualize and extract information from raw data"
+readme = "README.md"
+authors = [
+    { name = "DMassella", email = "damiano.massella@smartphotonics.nl" },
+    { name = "CMattia", email = "matta.conti@smartphotonics.nl" }
+]
+requires-python = ">=3.9"
+dependencies = [
+    "numpy>=2.0.2",
+    "pandas>=2.2.3",
+    "scipy>=1.13.1",
+]
+
+[project.scripts]
+sp-brew = "sp_brew:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "black>=25.1.0",
+    "furo>=2024.8.6",
+    "pre-commit>=4.2.0",
+    "pydocstyle>=6.3.0",
+    "pytest>=8.3.5",
+    "pytest-cov>=6.1.1",
+    "sphinx>=7.4.7",
+    "sphinx-autodoc-typehints>=2.3.0",
+    "twine>=6.1.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]             # Tell pytest where to look for tests
+python_files = "test_*.py"        # Only discover files starting with 'test_'
+python_classes = "Test*"          # Discover classes starting with 'Test'
+python_functions = "test_*"       # Discover functions starting with 'test_'
+addopts = "--strict-markers --strict-config --import-mode=importlib" # Common useful options
