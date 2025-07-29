@@ -1,0 +1,136 @@
+[project]
+name = "bmi-topography"
+description = "Fetch and cache land elevation data from OpenTopography"
+authors = [
+  {name = "Mark Piper", email = "mark.piper@colorado.edu"},
+]
+maintainers = [
+  {name = "Mark Piper", email = "mark.piper@colorado.edu"},
+  {name = "Eric Hutton", email = "eric.hutton@colorado.edu"},
+]
+keywords = [
+  "bmi",
+  "srtm",
+  "alos",
+  "nasadem",
+  "copernicus",
+  "topography",
+  "elevation",
+  "dem",
+  "data",
+  "csdms",
+  "usgs",
+  "gedi",
+  "gebco",
+  "mrdem",
+]
+license = {text = "MIT License"}
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "Intended Audience :: Education",
+]
+requires-python = ">=3.10"
+dependencies = [
+  "requests",
+  "numpy",
+  "click",
+  "pyyaml",
+  "xarray",
+  "rioxarray",
+  "bmipy",
+]
+dynamic = ["readme", "version"]
+
+[project.urls]
+Homepage = "https://csdms.colorado.edu"
+Documentation = "https://bmi-topography.csdms.io/"
+Repository = "https://github.com/csdms/bmi-topography"
+Changelog = "https://github.com/csdms/bmi-topography/blob/main/CHANGES.md"
+Forum = "https://forum.csdms.io"
+
+[project.optional-dependencies]
+dev = [
+  "nox",
+]
+build = [
+  "build",
+  "twine",
+  "zest.releaser"
+]
+testing = [
+  "pytest",
+  "pytest-cov",
+  "pytest-datadir",
+  "coverage",
+  "coveralls",
+]
+docs = [
+  "sphinx",
+  "myst_parser",
+  "importlib-metadata",
+]
+examples = [
+  "matplotlib",
+]
+
+[project.scripts]
+bmi-topography = "bmi_topography.cli:main"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.dynamic]
+readme = {file = ["README.md", "CREDITS.md", "LICENSE.md"], content-type = "text/markdown"}
+version = {attr = "bmi_topography._version.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["bmi_topography*"]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+testpaths = ["bmi_topography", "tests"]
+norecursedirs = [".*", "*.egg*", "build", "dist"]
+addopts = """
+  --ignore setup.py
+  --tb native
+  --strict-markers
+  --durations 16
+  --doctest-modules
+  -vvv
+  --ignore-glob=examples/*.py
+"""
+doctest_optionflags = [
+  "NORMALIZE_WHITESPACE",
+  "IGNORE_EXCEPTION_DETAIL",
+  "ALLOW_UNICODE"
+]
+markers = [
+  "hasuserkey: marks tests that fail with user key present (deselect with '-m \"not hasuserkey\"')",
+]
+
+[tool.isort]
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+combine_as_imports = true
+line_length = 88
+
+[tool.coverage.run]
+relative_files = true
+omit = [
+  "bmi_topography/bmi.py",
+]
+
+[tool.zest-releaser]
+tag-format = "v{version}"
+python-file-with-version = "bmi_topography/_version.py"
