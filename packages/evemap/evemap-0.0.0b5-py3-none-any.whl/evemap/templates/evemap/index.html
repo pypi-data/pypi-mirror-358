@@ -1,0 +1,31 @@
+{% extends 'evemap/base.html' %}
+{% load i18n %}
+{% load bootstrap %}
+{% load static %}
+{% load humanize %}
+
+{% load render_vite_bundle %}
+
+{% block details %}
+{% get_debug as debug %}
+
+  {% if debug %}
+    <script type="module" src="http://localhost:5173/@vite/client"></script>
+    <script type="module">
+      import RefreshRuntime from 'http://localhost:5173/@react-refresh'
+      if (RefreshRuntime) {
+        RefreshRuntime.injectIntoGlobalHook(window)
+        window.$RefreshReg$ = () => { }
+        window.$RefreshSig$ = () => (type) => type
+        window.__vite_plugin_react_preamble_installed__ = true
+      }
+    </script>
+  {% endif %}
+
+  <div id="evemap-root"></div>
+    {% if debug %}
+      <script type="module" src="http://localhost:5173/src/main.jsx"></script>
+    {% else %}
+      {% render_vite_bundle %}
+    {% endif %}
+{% endblock %}
