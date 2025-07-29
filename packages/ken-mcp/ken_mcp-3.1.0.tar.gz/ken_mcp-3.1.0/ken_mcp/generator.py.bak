@@ -1,0 +1,1506 @@
+#!/usr/bin/env python3.10
+"""
+KEN-MCP: Universal MCP Server Generator
+Generates MCP servers for ANY purpose based on natural language requirements
+"""
+
+from fastmcp import FastMCP, Context
+from fastmcp.exceptions import ToolError
+from pydantic import Field
+from typing import Annotated, Optional, List, Dict, Any
+import json
+import os
+from datetime import datetime
+from pathlib import Path
+import re
+
+# Initialize the MCP server
+mcp = FastMCP(name="KEN-MCP 🏗️")
+
+# ============================================
+# MAIN TOOL - Generate complete MCP server
+# ============================================
+
+@mcp.tool
+async def generate_mcp_server(
+    ctx: Context,
+    requirements: Annotated[str, Field(description="Natural language description of desired MCP functionality")],
+    project_name: Annotated[str, Field(description="Name for the MCP project (e.g., 'todo-manager')")],
+    output_dir: Annotated[Optional[str], Field(description="Directory to create the project in")] = None,
+    include_resources: Annotated[bool, Field(description="Whether to include MCP resources")] = True,
+    include_prompts: Annotated[bool, Field(description="Whether to include MCP prompts")] = True,
+    python_version: Annotated[str, Field(description="Minimum Python version required")] = "3.10",
+    additional_dependencies: Annotated[Optional[List[str]], Field(description="Additional Python packages to include")] = None
+) -> Dict[str, Any]:
+    """Generate a complete MCP server from requirements. Works for ANY type of MCP - not just APIs!
+    
+    Examples:
+    - "I want an MCP that manages todo lists"
+    - "Create an MCP for tracking my daily habits" 
+    - "Build an MCP that can analyze text files"
+    - "I need an MCP that interfaces with YouTube API"
+    """
+    await ctx.info(f"🚀 Starting MCP generation for: {project_name}")
+    
+    try:
+        # Step 1: Analyze requirements and plan the MCP
+        await ctx.report_progress(10, 100, "Analyzing requirements...")
+        plan = await _analyze_and_plan(requirements, ctx, include_resources, include_prompts)
+        
+        # Step 2: Create project structure
+        await ctx.report_progress(30, 100, "Creating project structure...")
+        project_path = await _create_project_structure(project_name, output_dir, ctx)
+        
+        # Step 3: Generate server code
+        await ctx.report_progress(50, 100, "Generating server code...")
+        await _generate_server_code(project_path, plan, ctx, python_version, additional_dependencies)
+        
+        # Step 4: Generate documentation
+        await ctx.report_progress(70, 100, "Creating documentation...")
+        await _generate_documentation(project_path, plan, project_name, ctx, python_version)
+        
+        # Step 5: Generate test suite
+        await ctx.report_progress(80, 100, "Generating test suite...")
+        await _generate_test_file(project_path, plan, project_name, ctx)
+        
+        # Step 6: Validate project
+        await ctx.report_progress(90, 100, "Validating project...")
+        validation = await _validate_project(project_path, ctx)
+        
+        await ctx.report_progress(100, 100, "Generation complete!")
+        
+        return {
+            "success": True,
+            "project_path": str(project_path),
+            "project_name": project_name,
+            "tools_generated": len(plan.get("tools", [])),
+            "resources_generated": len(plan.get("resources", [])),
+            "prompts_generated": len(plan.get("prompts", [])),
+            "validation": validation,
+            "next_steps": [
+                f"1. cd {project_path}",
+                f"2. pip install -e .",
+                f"3. python test.py  # Run tests to verify the MCP works",
+                f"4. Fix any failing tests in server.py",
+                f"5. Add to Claude Desktop config as shown in help.md"
+            ]
+        }
+        
+    except Exception as e:
+        raise ToolError(f"Failed to generate MCP server: {str(e)}")
+
+# ============================================
+# HELPER FUNCTIONS
+# ============================================
+
+def _escape_for_docstring(text: str) -> str:
+    """Escape text to be safely used in Python docstrings"""
+    # Replace all quotes to avoid any issues with docstring delimiters
+    text = text.replace('"', "'")
+    # Escape backslashes
+    text = text.replace("\\", "\\\\")
+    # Remove any trailing/leading whitespace that could cause issues
+    text = text.strip()
+    # Limit length to prevent extremely long docstrings
+    if len(text) > 500:
+        text = text[:497] + "..."
+    return text
+
+def _extract_key_concepts(requirements: str) -> List[str]:
+    """Extract key concepts from requirements for Claude's reference"""
+    concepts = []
+    req_lower = requirements.lower()
+    
+    # Common domains
+    if any(word in req_lower for word in ["recipe", "cook", "ingredient", "meal"]):
+        concepts.append("cooking/recipes")
+    if any(word in req_lower for word in ["task", "todo", "project", "deadline"]):
+        concepts.append("task management")
+    if any(word in req_lower for word in ["monitor", "track", "watch", "alert"]):
+        concepts.append("monitoring/tracking")
+    if any(word in req_lower for word in ["api", "endpoint", "rest", "http"]):
+        concepts.append("API integration")
+    if any(word in req_lower for word in ["file", "document", "pdf", "csv"]):
+        concepts.append("file processing")
+    if any(word in req_lower for word in ["database", "sql", "query", "table"]):
+        concepts.append("database operations")
+    
+    # Actions
+    if "create" in req_lower or "add" in req_lower:
+        concepts.append("creation operations")
+    if "search" in req_lower or "find" in req_lower:
+        concepts.append("search functionality")
+    if "update" in req_lower or "edit" in req_lower:
+        concepts.append("update operations")
+    if "delete" in req_lower or "remove" in req_lower:
+        concepts.append("deletion operations")
+    
+    return concepts if concepts else ["general purpose"]
+
+def _suggest_tool_names(requirements: str, index: int) -> List[str]:
+    """Suggest possible tool names based on requirements"""
+    req_lower = requirements.lower()
+    suggestions = []
+    
+    # Based on common patterns
+    if index == 0:  # First tool - usually create/add
+        if "recipe" in req_lower:
+            suggestions = ["add_recipe", "create_recipe", "save_recipe"]
+        elif "task" in req_lower or "todo" in req_lower:
+            suggestions = ["create_task", "add_todo", "new_task"]
+        elif "monitor" in req_lower:
+            suggestions = ["start_monitor", "add_monitor", "track_item"]
+        else:
+            suggestions = ["create_item", "add_entry", "initialize"]
+    elif index == 1:  # Second tool - usually read/list
+        if "recipe" in req_lower:
+            suggestions = ["list_recipes", "search_recipes", "get_recipe"]
+        elif "task" in req_lower:
+            suggestions = ["list_tasks", "get_tasks", "show_todos"]
+        else:
+            suggestions = ["list_items", "search_data", "query_items"]
+    elif index == 2:  # Third tool - usually update/process
+        if "recipe" in req_lower:
+            suggestions = ["update_recipe", "rate_recipe", "categorize_recipe"]
+        elif "task" in req_lower:
+            suggestions = ["complete_task", "update_task", "mark_done"]
+        else:
+            suggestions = ["update_item", "process_data", "modify_entry"]
+    
+    return suggestions if suggestions else [f"tool_{index + 1}", f"operation_{index + 1}"]
+
+def _suggest_dependencies(requirements: str) -> List[str]:
+    """Suggest potential Python dependencies based on requirements"""
+    deps = []
+    req_lower = requirements.lower()
+    
+    # API/HTTP
+    if any(word in req_lower for word in ["api", "http", "rest", "webhook", "endpoint"]):
+        deps.extend(["httpx", "requests"])
+    
+    # Web scraping
+    if any(word in req_lower for word in ["scrape", "web", "html", "crawl"]):
+        deps.extend(["beautifulsoup4", "requests", "lxml"])
+    
+    # Data processing
+    if "csv" in req_lower or "excel" in req_lower or "data" in req_lower:
+        deps.extend(["pandas", "openpyxl"])
+    
+    # Database
+    if any(word in req_lower for word in ["database", "sql", "postgres", "mysql"]):
+        deps.extend(["sqlalchemy", "psycopg2", "pymysql"])
+    
+    # File formats
+    if "pdf" in req_lower:
+        deps.append("pypdf2")
+    if "image" in req_lower:
+        deps.append("pillow")
+    if "markdown" in req_lower:
+        deps.append("markdown")
+    
+    # Crypto/Finance
+    if any(word in req_lower for word in ["crypto", "bitcoin", "ethereum", "price"]):
+        deps.extend(["ccxt", "yfinance"])
+    
+    # ML/AI
+    if any(word in req_lower for word in ["classify", "predict", "analyze", "nlp"]):
+        deps.extend(["scikit-learn", "nltk", "spacy"])
+    
+    # WebSocket/Real-time
+    if any(word in req_lower for word in ["websocket", "real-time", "streaming", "live"]):
+        deps.extend(["websockets", "asyncio"])
+    
+    # Authentication
+    if any(word in req_lower for word in ["oauth", "auth", "login", "token"]):
+        deps.extend(["authlib", "oauthlib"])
+    
+    # Social Media APIs
+    if "discord" in req_lower:
+        deps.append("discord.py")
+    if "slack" in req_lower:
+        deps.append("slack-sdk")
+    if "github" in req_lower:
+        deps.append("PyGithub")
+    
+    # Data Science/ML specific
+    if any(word in req_lower for word in ["numpy", "pandas", "matplotlib", "chart"]):
+        deps.extend(["numpy", "pandas", "matplotlib"])
+    if any(word in req_lower for word in ["machine learning", "ml", "prediction", "model"]):
+        deps.extend(["scikit-learn", "joblib"])
+    
+    # XML processing
+    if "xml" in req_lower:
+        deps.append("xmltodict")
+    
+    return list(set(deps))  # Remove duplicates
+
+def _generate_tool_implementation(tool: Dict[str, Any]) -> str:
+    """Generate implementation code for a tool based on its purpose"""
+    tool_name = tool["name"]
+    implementation_type = tool.get("implementation", "custom")
+    
+    # Generate boilerplate implementation with TODOs
+    if implementation_type == "boilerplate":
+        tool_desc = tool.get("description", "")
+        return f'''    # TODO: Claude, implement this tool based on the requirements in the docstring above
+    # Consider:
+    # - What data sources or APIs might be needed
+    # - What processing or transformations are required
+    # - What error cases should be handled
+    # - What progress updates would be helpful
+    
+    try:
+        # FastMCP Context Methods Reference:
+        # - await ctx.info("message") - Log information
+        # - await ctx.report_progress(current, total, "message") - Show progress
+        # - await ctx.read_resource("uri") - Read from a resource
+        
+        await ctx.info(f"Starting {tool_name}...")
+        
+        # TODO: Add parameter validation
+        # Example patterns:
+        # if not input_data:
+        #     raise ToolError("input_data is required")
+        # 
+        # if not isinstance(input_data, str):
+        #     raise ToolError("input_data must be a string")
+        #
+        # if len(input_data) > 1000:
+        #     raise ToolError("input_data too long (max 1000 chars)")
+        
+        # TODO: Implement the main functionality
+        # Common patterns by use case:
+        #
+        # For data storage:
+        #   storage_dir = Path.home() / ".mcp_data" / "{tool_name}"
+        #   storage_dir.mkdir(parents=True, exist_ok=True)
+        #
+        # For API calls:
+        #   import httpx
+        #   async with httpx.AsyncClient() as client:
+        #       response = await client.get(url)
+        #
+        # For file processing:
+        #   from pathlib import Path
+        #   file = Path(file_path)
+        #   if not file.exists():
+        #       raise ToolError(f"File not found: {{file_path}}")
+        
+        # TODO: Add progress updates for long operations
+        # await ctx.report_progress(25, 100, "Loading data...")
+        # await ctx.report_progress(50, 100, "Processing...")
+        # await ctx.report_progress(75, 100, "Finalizing...")
+        
+        # TODO: Return appropriate result
+        # Success pattern:
+        # return {{
+        #     "success": True,
+        #     "data": processed_data,
+        #     "count": len(results),
+        #     "message": "Operation completed successfully"
+        # }}
+        
+        result = {{
+            "status": "not_implemented",
+            "message": f"TODO: Implement {tool_name}",
+            "tool": "{tool_name}",
+            "description": {json.dumps(tool_desc)},
+            "input": locals()  # Shows all parameters for debugging
+        }}
+        
+        await ctx.info(f"{tool_name} completed")
+        return result
+        
+    except Exception as e:
+        # Always use ToolError for user-facing errors
+        raise ToolError(f"{tool_name} error: {{str(e)}}")
+'''
+    
+    # Default fallback implementation
+    return _generate_fallback_implementation(tool)
+
+async def _analyze_and_plan(requirements: str, ctx: Context, include_resources: bool = True, include_prompts: bool = True) -> Dict[str, Any]:
+    """Create a generic boilerplate plan that Claude can customize
+    
+    This generates a flexible structure with placeholder tools, resources, and prompts
+    that Claude will implement based on the specific requirements.
+    """
+    await ctx.info("📋 Creating boilerplate structure for Claude to customize...")
+    
+    # Create a generic plan with placeholders
+    # Clean up requirements for description - remove newlines and excessive spaces
+    clean_requirements = ' '.join(requirements.split())[:100]
+    plan = {
+        "description": f"MCP server for: {clean_requirements}{'...' if len(requirements) > 100 else ''}",
+        "tools": [
+            {
+                "name": "tool_one",
+                "description": f"Primary tool - TODO: Implement based on requirements: {requirements}",
+                "parameters": [
+                    {"name": "input_data", "type": "str", "description": "Main input parameter"},
+                    {"name": "options", "type": "Optional[Dict[str, Any]]", "description": "Additional options", "default": None}
+                ],
+                "implementation": "boilerplate"
+            },
+            {
+                "name": "tool_two", 
+                "description": f"Secondary tool - TODO: Implement based on requirements: {requirements}",
+                "parameters": [
+                    {"name": "param1", "type": "str", "description": "First parameter"},
+                    {"name": "param2", "type": "Optional[int]", "description": "Optional second parameter", "default": None}
+                ],
+                "implementation": "boilerplate"
+            },
+            {
+                "name": "tool_three",
+                "description": f"Additional tool - TODO: Implement or remove based on requirements: {requirements}",
+                "parameters": [
+                    {"name": "data", "type": "Any", "description": "Input data"}
+                ],
+                "implementation": "boilerplate"
+            }
+        ],
+        "resources": [],
+        "prompts": [],
+        "dependencies": ["pathlib", "json", "typing"],
+        "original_requirements": requirements
+    }
+    
+    # Add placeholder resources if requested
+    if include_resources:
+        plan["resources"].extend([
+            {
+                "uri_pattern": "data://items",
+                "description": "TODO: List of items - implement based on requirements",
+                "implementation": "boilerplate"
+            },
+            {
+                "uri_pattern": "resource://config", 
+                "description": "TODO: Configuration data - implement based on requirements",
+                "implementation": "boilerplate"
+            },
+            {
+                "uri_pattern": "data://status",
+                "description": "TODO: Status information - implement or remove based on requirements",
+                "implementation": "boilerplate"
+            }
+        ])
+    
+    # Add placeholder prompts if requested
+    if include_prompts:
+        plan["prompts"].extend([
+            {
+                "name": "help",
+                "description": "TODO: Generate contextual help based on requirements",
+                "parameters": [{"name": "topic", "type": "Optional[str]", "default": None}]
+            },
+            {
+                "name": "assistant",
+                "description": "TODO: Assistant prompt - customize based on requirements", 
+                "parameters": [{"name": "query", "type": "str"}]
+            }
+        ])
+    
+    await ctx.info(f"✅ Boilerplate plan created with {len(plan['tools'])} placeholder tools")
+    return plan
+
+
+def _generate_fallback_implementation(tool: Dict[str, Any]) -> str:
+    """Generate simple fallback implementation when AI is not available"""
+    tool_name = tool["name"]
+    tool_desc = tool.get("description", "")
+    parameters = tool.get("parameters", [])
+    
+    # Generate parameter validation
+    param_validation = ""
+    for param in parameters:
+        param_name = param["name"]
+        param_type = param.get("type", "str")
+        if param_type == "str" and "url" in param_name.lower():
+            param_validation += f'''
+        # Validate {param_name}
+        if not {param_name} or not isinstance({param_name}, str):
+            raise ToolError(f"Invalid {param_name}: must be a valid string")
+        
+        if "{param_name}" == "url" and not ({param_name}.startswith("http://") or {param_name}.startswith("https://")):
+            raise ToolError(f"Invalid URL: {{{param_name}}} must start with http:// or https://")
+'''
+    
+    return f'''    try:
+        from datetime import datetime
+        import json
+        {param_validation}
+        
+        await ctx.info(f"Executing {tool_name}...")
+        
+        # Implementation based on tool purpose
+        result = {{
+            "tool": "{tool_name}",
+            "description": {json.dumps(tool_desc)},
+            "status": "success",
+            "message": "Tool executed successfully",
+            "timestamp": datetime.now().isoformat()
+        }}
+        
+        # Add input parameters to result
+        for param_name, param_value in locals().items():
+            if param_name not in ['ctx', 'result'] and not param_name.startswith('_'):
+                result[f"input_{{param_name}}"] = param_value
+        
+        return result
+        
+    except Exception as e:
+        raise ToolError(f"Failed to execute {tool_name}: {{str(e)}}")
+'''
+
+async def _create_project_structure(project_name: str, output_dir: Optional[str], ctx: Context) -> Path:
+    """Create project directory and basic files"""
+    await ctx.info("📁 Creating project structure...")
+    
+    # Sanitize project name
+    safe_name = re.sub(r'[^a-zA-Z0-9_-]', '_', project_name.lower())
+    
+    # Determine output directory
+    if output_dir:
+        base_path = Path(output_dir) / safe_name
+    else:
+        # Use current working directory
+        base_path = Path.cwd() / safe_name
+    
+    # Create directories
+    base_path.mkdir(parents=True, exist_ok=True)
+    
+    # Create .gitignore
+    gitignore_content = """__pycache__/
+*.py[cod]
+.env
+.venv/
+venv/
+*.log
+.DS_Store
+"""
+    (base_path / ".gitignore").write_text(gitignore_content)
+    
+    # Create .env file with common placeholders
+    env_content = """# Environment variables for MCP server
+# Copy this file to .env and fill in your actual values
+
+# API Keys
+# OPENAI_API_KEY=your_openai_api_key_here
+# ANTHROPIC_API_KEY=your_anthropic_api_key_here
+# GOOGLE_API_KEY=your_google_api_key_here
+
+# Database Configuration
+# DATABASE_URL=postgresql://user:password@localhost:5432/dbname
+# REDIS_URL=redis://localhost:6379
+
+# External Service URLs
+# API_BASE_URL=https://api.example.com
+# WEBHOOK_URL=https://your-webhook-endpoint.com
+
+# Authentication
+# AUTH_TOKEN=your_auth_token_here
+# CLIENT_ID=your_client_id_here
+# CLIENT_SECRET=your_client_secret_here
+
+# Feature Flags
+# DEBUG_MODE=false
+# ENABLE_LOGGING=true
+
+# Rate Limiting
+# RATE_LIMIT_REQUESTS=100
+# RATE_LIMIT_WINDOW=3600
+
+# Custom Configuration
+# Add your own environment variables below:
+"""
+    (base_path / ".env.example").write_text(env_content)
+    
+    # Create __init__.py
+    (base_path / "__init__.py").write_text('"""Generated MCP server package"""')
+    
+    await ctx.info(f"✅ Created project at: {base_path}")
+    return base_path
+
+async def _generate_server_code(project_path: Path, plan: Dict[str, Any], ctx: Context, python_version: str = "3.10", additional_dependencies: Optional[List[str]] = None) -> None:
+    """Generate the server.py file"""
+    await ctx.info("💻 Generating server code...")
+    
+    # Add required imports based on tool implementations
+    imports = [
+        "from fastmcp import FastMCP, Context",
+        "from fastmcp.exceptions import ToolError", 
+        "from typing import Dict, List, Any, Optional",
+        "from pathlib import Path",
+        "import json",
+        "import os"
+    ]
+    
+    # Check if we need environment variables
+    requirements = plan.get('original_requirements', '')
+    needs_env = any(keyword in requirements.lower() for keyword in ["api", "key", "token", "auth", "database", "url", "webhook"])
+    if needs_env:
+        imports.append("from dotenv import load_dotenv")
+    
+    # Generate server code with boilerplate structure
+    server_code = f'''#!/usr/bin/env python3
+"""
+{plan.get('description', 'Generated MCP server')}
+Generated by KEN-MCP on {datetime.now().strftime('%Y-%m-%d')}
+
+TODO: Claude, please customize this MCP server based on these requirements:
+{_escape_for_docstring(plan.get('original_requirements', 'No requirements provided'))}
+
+Instructions:
+1. Rename the placeholder tools to match the actual functionality needed
+2. Update tool descriptions and parameters based on requirements
+3. Implement the actual logic in each tool function
+4. Add/remove tools, resources, and prompts as needed
+5. Update dependencies in pyproject.toml if additional packages are required
+"""
+
+{chr(10).join(imports)}
+
+{"# Load environment variables" + chr(10) + "load_dotenv()" + chr(10) + chr(10) if needs_env else ""}# Initialize the MCP server
+mcp = FastMCP(
+    name="{project_path.name}",
+    instructions="""
+    {plan.get('description', 'MCP server implementation')}
+    
+    Original Requirements:
+    {_escape_for_docstring(plan.get('original_requirements', 'No requirements provided'))}
+    
+    TODO: Claude should update these instructions based on the actual implementation.
+    """
+)
+
+'''
+    
+    # Add tools from plan with implementations
+    for tool in plan.get("tools", []):
+        # Build parameter list
+        params = []
+        param_defaults = []
+        for param in tool.get("parameters", []):
+            p_name = param["name"]
+            p_type = param.get("type", "str")
+            p_default = param.get("default")
+            
+            if p_default is not None:
+                if p_default == "None" or p_type.startswith("Optional"):
+                    param_defaults.append(f"    {p_name}: {p_type} = None,")
+                elif isinstance(p_default, str) and p_default != "None":
+                    param_defaults.append(f"    {p_name}: {p_type} = \"{p_default}\",")
+                else:
+                    param_defaults.append(f"    {p_name}: {p_type} = {p_default},")
+            else:
+                params.append(f"    {p_name}: {p_type},")
+        
+        # Parameters with no defaults first, then those with defaults
+        all_params = params + param_defaults
+        params_str = "\n".join(all_params) if all_params else ""
+        
+        # Generate implementation based on metadata
+        implementation = _generate_tool_implementation(tool)
+        
+        # Clean up any trailing commas in parameters
+        if params_str and params_str.endswith(','):
+            params_str = params_str[:-1]
+        
+        # Escape the description for safe use in docstring
+        escaped_description = _escape_for_docstring(tool["description"])
+        
+        server_code += f'''
+@mcp.tool
+async def {tool["name"]}(
+    ctx: Context,
+{params_str}
+) -> Dict[str, Any]:
+    """{escaped_description}"""
+{implementation}
+'''
+    
+    # Add resources from plan
+    if plan.get("resources"):
+        server_code += "\n# Resources - TODO: Claude, implement these based on requirements\n"
+        for resource in plan["resources"]:
+            uri = resource.get("uri_pattern", "resource://unknown")
+            desc = resource.get("description", "Resource description")
+            impl_type = resource.get("implementation", "custom")
+            
+            if impl_type == "boilerplate":
+                # Escape the description for safe use in docstring
+                escaped_desc = _escape_for_docstring(desc)
+                server_code += f'''
+@mcp.resource("{uri}")
+async def resource_{uri.split("://")[1].replace("/", "_").replace("{", "").replace("}", "")}() -> List[Dict[str, Any]]:
+    """{escaped_desc}"""
+    # TODO: Implement this resource based on requirements
+    # Consider what data should be exposed here
+    return [{{
+        "status": "not_implemented", 
+        "message": "TODO: Implement resource for {uri}",
+        "description": "{desc}"
+    }}]
+'''
+    
+    # Add prompts from plan
+    if plan.get("prompts"):
+        server_code += "\n# Prompts - TODO: Claude, implement these based on requirements\n"
+        for prompt in plan["prompts"]:
+            prompt_name = prompt.get("name", "unknown")
+            desc = prompt.get("description", "Prompt description")
+            params = prompt.get("parameters", [])
+            
+            # Build prompt parameters
+            prompt_params = []
+            for param in params:
+                p_name = param.get("name", "param")
+                p_type = param.get("type", "str")
+                p_default = param.get("default")
+                if p_default is not None:
+                    prompt_params.append(f"{p_name}: {p_type} = {repr(p_default)}")
+                else:
+                    prompt_params.append(f"{p_name}: {p_type}")
+            
+            params_str = ", ".join(prompt_params)
+            
+            # Escape the description for safe use in docstring
+            escaped_desc = _escape_for_docstring(desc)
+            
+            server_code += f'''
+@mcp.prompt
+def {prompt_name}({params_str}) -> str:
+    """{escaped_desc}"""
+    # TODO: Implement this prompt based on requirements
+    # Return a string that will be converted to a user message
+    # or return a PromptMessage object for more control
+    return f"TODO: Implement {prompt_name} prompt - {{locals()}}"
+'''
+    
+    # Add main block
+    server_code += '''
+
+if __name__ == "__main__":
+    mcp.run()
+'''
+    
+    # Write server file
+    server_path = project_path / "server.py"
+    server_path.write_text(server_code)
+    os.chmod(server_path, 0o755)
+    
+    # Create pyproject.toml
+    dependencies = ["fastmcp>=0.1.0"]
+    
+    # Add dependencies from plan (excluding standard library modules)
+    stdlib_modules = {"pathlib", "json", "typing", "os", "datetime", "subprocess", "shlex", "platform"}
+    for dep in plan.get("dependencies", []):
+        if dep not in stdlib_modules and dep not in dependencies:
+            dependencies.append(dep)
+    
+    if additional_dependencies:
+        dependencies.extend(additional_dependencies)
+    
+    # Add python-dotenv if environment variables are likely needed
+    requirements = plan.get('original_requirements', '')
+    if any(keyword in requirements.lower() for keyword in ["api", "key", "token", "auth", "database", "url", "webhook"]):
+        if "python-dotenv" not in dependencies:
+            dependencies.append("python-dotenv")
+    
+    # Add automatically detected dependencies
+    suggested_deps = _suggest_dependencies(plan.get('original_requirements', ''))
+    for dep in suggested_deps:
+        if dep not in dependencies:
+            dependencies.append(dep)
+    
+    pyproject_content = f"""[project]
+name = "{project_path.name}"
+version = "0.1.0"
+description = "{plan.get('description', 'Generated MCP server')}"
+readme = "README.md"
+requires-python = ">={python_version}"
+dependencies = {json.dumps(dependencies)}
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["."]
+"""
+    (project_path / "pyproject.toml").write_text(pyproject_content)
+    
+    await ctx.info("✅ Generated server.py and pyproject.toml")
+
+async def _generate_documentation(project_path: Path, plan: Dict[str, Any], project_name: str, ctx: Context, python_version: str = "3.10") -> None:
+    """Generate help.md with comprehensive setup and troubleshooting guide"""
+    await ctx.info("📚 Generating documentation...")
+    
+    # Create comprehensive help documentation with troubleshooting guide
+    help_content = f"""# {project_name} - Setup & Troubleshooting Guide
+
+## 🚀 Quick Start
+
+### Adding to Claude Code
+```bash
+# Add the MCP server
+claude mcp add {project_name} "python3 {project_path}/server.py"
+
+# IMPORTANT: Exit and restart Claude Code
+# Type 'exit' or press Ctrl+C, then run 'claude' again
+
+# Verify it's active
+claude mcp list
+# Should show: ✓ {project_name}    Active
+```
+
+### Testing the MCP Server
+```bash
+cd {project_path}
+
+# Run the automated test suite
+python3 test.py
+
+# Expected output:
+# ==================================================
+# 🧪 Running MCP Server Tests for {project_name}
+# ==================================================
+# Testing server initialization...
+#   ✅ Server initialization test passed
+# Testing tool_one...
+#   ✅ Valid input test passed
+# ... more tests ...
+# ==================================================
+# 📊 Test Summary: X/Y passed
+# ==================================================
+# ✅ All tests passed! The MCP server is ready to use.
+```
+
+If any tests fail:
+1. Check the error messages in the test output
+2. Fix the implementation in server.py
+3. Run the tests again until all pass
+
+### Manual Testing
+```bash
+# Test the server directly (for debugging)
+python3 server.py
+# Expected output: "Server started on stdio"
+# Press Ctrl+C to stop
+```
+
+## 🔧 Troubleshooting Failed MCP Connection
+
+If the MCP shows as "Failed" in Claude Code, follow these steps:
+
+### Step 1: System Diagnosis
+
+Run this comprehensive system check:
+
+```bash
+# Check MCP status
+claude mcp list
+
+# System information
+echo "=== System Information ==="
+uname -a
+echo "Operating System: $(uname -s)"
+echo "Architecture: $(uname -m)"
+
+# Python availability
+echo "=== Python Installation Analysis ==="
+which python 2>/dev/null && python --version 2>/dev/null || echo "❌ python: not found"
+which python3 2>/dev/null && python3 --version 2>/dev/null || echo "❌ python3: not found"
+
+# Check specific Python versions
+for version in 3.8 3.9 3.10 3.11 3.12; do
+    cmd="python${{version}}"
+    if which "$cmd" >/dev/null 2>&1; then
+        echo "✅ $cmd: $($cmd --version 2>/dev/null)"
+    else
+        echo "❌ $cmd: not found"
+    fi
+done
+
+# Test the MCP directly
+cd {project_path}
+python3 server.py
+```
+
+### Step 2: Common Fixes (Try in Order)
+
+#### 1. Wrong Python Command (Most Common)
+```bash
+# Find your Python
+which python3
+
+# Remove and re-add with correct Python
+claude mcp remove {project_name}
+# EXIT Claude Code (type 'exit' or Ctrl+C) and restart with 'claude'
+
+# Try different Python commands:
+claude mcp add {project_name} "python3 {project_path}/server.py"
+# OR
+claude mcp add {project_name} "/usr/bin/python3 {project_path}/server.py"
+# OR
+claude mcp add {project_name} "python3.11 {project_path}/server.py"
+
+# EXIT Claude Code and restart again
+```
+
+#### 2. Missing Dependencies
+```bash
+cd {project_path}
+python3 -m pip install -e .
+
+# If you get "externally managed environment" error:
+python3 -m pip install --user -e .
+# OR use pipx:
+pipx install -e .
+```
+
+#### 3. Wrong File Path
+```bash
+# Verify the exact path
+ls -la {project_path}/server.py
+
+# Use absolute path when adding
+claude mcp add {project_name} "python3 $(pwd)/server.py"
+```
+
+#### 4. Permission Issues
+```bash
+chmod +x {project_path}/server.py
+```
+
+#### 5. Python Version Conflicts
+```bash
+# This MCP requires Python >= {python_version}
+# Check your version:
+python3 --version
+
+# If too old, use a newer Python:
+claude mcp add {project_name} "python3.11 {project_path}/server.py"
+```
+
+### Step 3: Virtual Environment (If Other Fixes Fail)
+```bash
+cd {project_path}
+python3 -m venv venv
+source venv/bin/activate  # On Windows: venv\\Scripts\\activate
+pip install -e .
+
+# Use venv Python in Claude
+claude mcp remove {project_name}
+# EXIT and restart Claude Code
+claude mcp add {project_name} "{project_path}/venv/bin/python {project_path}/server.py"
+# EXIT and restart Claude Code
+```
+
+## 📋 Quick Fix Checklist
+
+Run through this checklist when troubleshooting:
+
+□ Test manually: `cd {project_path} && python3 server.py`
+□ Check Python path: `which python3`
+□ Install dependencies: `python3 -m pip install -e .`
+□ Use absolute paths in `claude mcp add`
+□ EXIT and restart Claude Code after EVERY change
+□ Check MCP status: `claude mcp list`
+
+## 🔄 Managing This MCP
+
+### Update/Reinstall
+```bash
+# Remove the MCP
+claude mcp remove {project_name}
+# EXIT Claude Code (type 'exit' or Ctrl+C)
+
+# Make any changes to the code if needed
+cd {project_path}
+# Edit files...
+
+# Reinstall dependencies if needed
+python3 -m pip install -e .
+
+# Re-add the MCP
+claude mcp add {project_name} "python3 {project_path}/server.py"
+# EXIT and restart Claude Code
+```
+
+### Check Status
+```bash
+claude mcp list
+# ✓ = Active (working)
+# ✗ = Failed (see troubleshooting above)
+```
+
+### View Logs
+Check Claude Desktop logs for detailed error messages if the above steps don't resolve the issue.
+
+## 🆘 Still Not Working?
+
+If you've tried all the above and the MCP still shows as "Failed":
+
+1. **Test the exact command Claude is using:**
+   ```bash
+   # Copy the exact command from 'claude mcp list' output
+   # Run it directly to see the error
+   ```
+
+2. **Check for conflicting Python packages:**
+   ```bash
+   pip list | grep -E "(fastmcp|pydantic)"
+   ```
+
+3. **Try a completely fresh virtual environment:**
+   ```bash
+   cd {project_path}
+   rm -rf venv
+   python3 -m venv fresh_venv
+   source fresh_venv/bin/activate
+   pip install -e .
+   ```
+
+## 📝 Notes
+
+- Always use absolute paths (full path starting with /)
+- Python environment matters - Claude must use the same Python that has the dependencies
+- "Failed" status is generic - always test manually to find the real error
+- Some systems require specific Python versions or virtual environments
+
+---
+Generated by KEN-MCP - Comprehensive troubleshooting guide included
+"""
+    
+    (project_path / "help.md").write_text(help_content)
+    
+    # Create simple README.md for Python packaging
+    readme_content = f"""# {project_name}
+
+{plan.get('description', 'Generated MCP server')}
+
+## Installation
+
+```bash
+pip install -e .
+```
+
+## Usage
+
+This MCP server is designed to be used with Claude Desktop. See `help.md` for detailed setup and troubleshooting instructions.
+
+## Documentation
+
+- **Setup Guide**: See `help.md` for comprehensive setup instructions
+- **Troubleshooting**: See `help.md` for common issues and solutions
+- **MCP Protocol**: https://modelcontextprotocol.io
+
+---
+Generated by KEN-MCP
+"""
+    
+    (project_path / "README.md").write_text(readme_content)
+    await ctx.info("✅ Generated documentation files")
+
+async def _generate_test_file(project_path: Path, plan: Dict[str, Any], project_name: str, ctx: Context) -> None:
+    """Generate test.py with comprehensive test cases"""
+    await ctx.info("🧪 Generating test suite...")
+    
+    # Extract tools from plan
+    tools = plan.get("tools", [])
+    resources = plan.get("resources", [])
+    prompts = plan.get("prompts", [])
+    requirements = plan.get("original_requirements", "")
+    
+    # Escape requirements for safe use in string
+    escaped_requirements = _escape_for_docstring(requirements)
+    
+    # Generate test content
+    test_content = f'''#!/usr/bin/env python3
+"""
+Automated test suite for {project_name} MCP server
+Generated by KEN-MCP
+
+INSTRUCTIONS FOR CLAUDE:
+1. Run this test file immediately: python test.py
+2. Fix any failing tests in server.py
+3. Add domain-specific test cases based on the requirements
+4. Ensure all tests pass before considering the MCP complete
+
+Original Requirements:
+{escaped_requirements}
+"""
+
+import asyncio
+import json
+import sys
+from pathlib import Path
+
+# Add the parent directory to the path so we can import the server
+sys.path.insert(0, str(Path(__file__).parent))
+
+# Import the generated server
+try:
+    from server import mcp
+except ImportError as e:
+    print(f"❌ Failed to import server: {{e}}")
+    print("Make sure server.py exists and has no syntax errors")
+    sys.exit(1)
+
+# Test utilities
+class MockContext:
+    """Mock context for testing MCP tools"""
+    def __init__(self):
+        self.logs = []
+        self.progress = []
+    
+    async def info(self, msg):
+        self.logs.append(msg)
+    
+    async def report_progress(self, current, total, msg):
+        self.progress.append((current, total, msg))
+    
+    async def read_resource(self, uri):
+        return {{"uri": uri, "content": "mock resource content"}}
+
+# Test functions
+async def test_server_initialization():
+    """Test that the MCP server can be initialized"""
+    print("Testing server initialization...")
+    try:
+        assert mcp.name == "{project_name}"
+        assert hasattr(mcp, 'run')
+        print("  ✅ Server initialization test passed")
+        return True
+    except Exception as e:
+        print(f"  ❌ Server initialization failed: {{e}}")
+        return False
+'''
+    
+    # Generate test for each tool
+    for tool in tools:
+        tool_name = tool["name"]
+        tool_desc = tool["description"]
+        params = tool.get("parameters", [])
+        
+        # Generate test values based on parameter types
+        test_params = []
+        missing_params_test = []
+        invalid_params_test = []
+        
+        for param in params:
+            param_name = param["name"]
+            param_type = param.get("type", "str")
+            param_desc = param.get("description", "")
+            default = param.get("default")
+            
+            # Generate appropriate test value
+            test_value = _generate_test_value(param_name, param_type, param_desc)
+            
+            if default is None and "Optional" not in param_type:
+                # Required parameter
+                test_params.append(f"        {param_name}={test_value}")
+                missing_params_test.append(param_name)
+            else:
+                # Optional parameter
+                test_params.append(f"        {param_name}={test_value}")
+            
+            # Invalid type test
+            invalid_value = _generate_invalid_value(param_type)
+            if invalid_value:
+                invalid_params_test.append((param_name, invalid_value))
+        
+        params_str = ",\n".join(test_params) if test_params else ""
+        
+        test_content += f'''
+
+async def test_{tool_name}():
+    """Test {tool_name}: {_escape_for_docstring(tool_desc[:100])}..."""
+    print(f"\\nTesting {tool_name}...")
+    
+    # Get the tool from the MCP server
+    try:
+        tool_func = None
+        for tool in mcp.tools:
+            if tool.name == "{tool_name}":
+                tool_func = tool.function
+                break
+        
+        if not tool_func:
+            print(f"  ❌ Tool {tool_name} not found in MCP server")
+            return False
+    except Exception as e:
+        print(f"  ❌ Could not access {tool_name}: {{e}}")
+        return False
+    
+    ctx = MockContext()
+    passed = 0
+    failed = 0
+    
+    # Test 1: Valid inputs
+    try:
+        result = await tool_func(
+            ctx=ctx,
+{params_str}
+        )
+        # Check result structure
+        assert isinstance(result, dict), "Result should be a dictionary"
+        assert any(key in result for key in ["success", "status", "data", "result"]), \\
+            "Result should contain success, status, data, or result key"
+        print("  ✅ Valid input test passed")
+        passed += 1
+    except Exception as e:
+        print(f"  ❌ Valid input test failed: {{e}}")
+        failed += 1
+'''
+        
+        # Add missing parameter test if there are required params
+        if missing_params_test:
+            test_content += f'''
+    
+    # Test 2: Missing required parameters
+    try:
+        # Call without required parameter: {missing_params_test[0]}
+        result = await tool_func(ctx=ctx)
+        print(f"  ❌ Should have failed with missing required parameter")
+        failed += 1
+    except TypeError as e:
+        if "{missing_params_test[0]}" in str(e):
+            print(f"  ✅ Missing parameter validation passed")
+            passed += 1
+        else:
+            print(f"  ❌ Wrong error for missing parameter: {{e}}")
+            failed += 1
+    except Exception as e:
+        print(f"  ❌ Unexpected error for missing parameter: {{e}}")
+        failed += 1
+'''
+        
+        # Add invalid type test if we have any
+        if invalid_params_test and len(invalid_params_test) > 0:
+            param_name, invalid_value = invalid_params_test[0]
+            # Build invalid params string by replacing first occurrence
+            invalid_params = []
+            for param in params:
+                p_name = param["name"]
+                if p_name == param_name:
+                    invalid_params.append(f"        {p_name}={invalid_value}")
+                else:
+                    test_value = _generate_test_value(p_name, param.get("type", "str"), param.get("description", ""))
+                    invalid_params.append(f"        {p_name}={test_value}")
+            invalid_params_str = ",\n".join(invalid_params)
+            
+            test_content += f'''
+    
+    # Test 3: Invalid parameter type
+    try:
+        result = await tool_func(
+            ctx=ctx,
+{invalid_params_str}
+        )
+        # If we get here, the tool didn't validate types properly
+        print(f"  ⚠️  No type validation for {param_name}")
+    except (TypeError, ValueError) as e:
+        print(f"  ✅ Type validation passed")
+        passed += 1
+    except Exception as e:
+        # Tool might handle this differently
+        print(f"  ℹ️  Tool handled invalid type: {{e}}")
+        passed += 1
+'''
+        
+        test_content += f'''
+    
+    # Test 4: Edge cases
+    # TODO: Claude, add more specific edge case tests based on the requirements:
+    # - Test with empty strings for string parameters
+    # - Test with None for optional parameters  
+    # - Test with boundary values for numeric parameters
+    # - Test with special characters if applicable
+    # - Test error conditions specific to this tool's purpose
+    
+    print(f"  📊 {tool_name} tests: {{passed}} passed, {{failed}} failed")
+    return failed == 0
+'''
+    
+    # Generate resource tests if any
+    if resources:
+        test_content += '''
+
+async def test_resources():
+    """Test that MCP resources are accessible"""
+    print(f"\\nTesting resources...")
+    
+    try:
+        # Get available resources
+        resources = mcp._resources
+        assert len(resources) > 0, "No resources defined"
+        print(f"  ✅ Found {len(resources)} resources")
+        
+        # Test each resource can be accessed
+        # TODO: Claude, implement actual resource testing based on the specific resources
+        
+        return True
+    except Exception as e:
+        print(f"  ❌ Resource test failed: {e}")
+        return False
+'''
+    
+    # Generate prompt tests if any
+    if prompts:
+        test_content += '''
+
+async def test_prompts():
+    """Test that MCP prompts are defined"""
+    print(f"\\nTesting prompts...")
+    
+    try:
+        # Get available prompts
+        prompts = mcp._prompts
+        assert len(prompts) > 0, "No prompts defined"
+        print(f"  ✅ Found {len(prompts)} prompts")
+        
+        # TODO: Claude, test that each prompt returns valid content
+        
+        return True
+    except Exception as e:
+        print(f"  ❌ Prompt test failed: {e}")
+        return False
+'''
+    
+    # Add main test runner
+    test_content += f'''
+
+async def run_all_tests():
+    """Run all test cases"""
+    print("=" * 50)
+    print(f"🧪 Running MCP Server Tests for {project_name}")
+    print("=" * 50)
+    
+    # List all tests to run
+    tests = [
+        ("Server Initialization", test_server_initialization),'''
+    
+    for tool in tools:
+        test_content += f'''
+        ("{tool['name']}", test_{tool['name']}),'''
+    
+    if resources:
+        test_content += '''
+        ("Resources", test_resources),'''
+    
+    if prompts:
+        test_content += '''
+        ("Prompts", test_prompts),'''
+    
+    test_content += '''
+    ]
+    
+    total_passed = 0
+    total_failed = 0
+    
+    for test_name, test_func in tests:
+        try:
+            result = await test_func()
+            if result:
+                total_passed += 1
+            else:
+                total_failed += 1
+        except Exception as e:
+            print(f"\\n❌ {test_name} crashed: {e}")
+            total_failed += 1
+    
+    # Summary
+    print("\\n" + "=" * 50)
+    print(f"📊 Test Summary: {total_passed}/{len(tests)} passed")
+    print("=" * 50)
+    
+    if total_failed > 0:
+        print(f"\\n⚠️  {total_failed} test(s) failed!")
+        print("\\nNext steps:")
+        print("1. Check the error messages above")
+        print("2. Fix the implementation in server.py")
+        print("3. Run the tests again: python test.py")
+        print("4. All tests must pass before the MCP is ready")
+        return 1
+    else:
+        print("\\n✅ All tests passed! The MCP server is ready to use.")
+        print("\\nYou can now:")
+        print("1. Add it to Claude Desktop (see help.md)")
+        print("2. Add more specific test cases based on your use case")
+        print("3. Test with real data")
+        return 0
+
+if __name__ == "__main__":
+    exit_code = asyncio.run(run_all_tests())
+    sys.exit(exit_code)
+'''
+    
+    # Write test file
+    (project_path / "test.py").write_text(test_content)
+    
+    # Make it executable
+    import stat
+    test_file = project_path / "test.py"
+    test_file.chmod(test_file.stat().st_mode | stat.S_IEXEC)
+    
+    await ctx.info("✅ Generated test.py with comprehensive test suite")
+
+def _generate_test_value(param_name: str, param_type: str, param_desc: str) -> str:
+    """Generate appropriate test value based on parameter name and type"""
+    param_lower = param_name.lower()
+    type_lower = param_type.lower()
+    
+    # Name-based heuristics
+    if "file" in param_lower or "path" in param_lower:
+        return '"/tmp/test_file.txt"'
+    elif "url" in param_lower or "endpoint" in param_lower:
+        return '"https://example.com/api"'
+    elif "email" in param_lower:
+        return '"test@example.com"'
+    elif "name" in param_lower:
+        return '"Test Name"'
+    elif "id" in param_lower:
+        return '"test_id_123"'
+    elif "key" in param_lower:
+        return '"test_key_abc"'
+    elif "token" in param_lower:
+        return '"test_token_xyz"'
+    
+    # Type-based defaults
+    if "str" in type_lower:
+        return '"test_value"'
+    elif "int" in type_lower:
+        return "42"
+    elif "float" in type_lower:
+        return "3.14"
+    elif "bool" in type_lower:
+        return "True"
+    elif "list" in type_lower:
+        return '["item1", "item2"]'
+    elif "dict" in type_lower:
+        return '{"key": "value"}'
+    elif "any" in type_lower:
+        return '{"test": "data"}'
+    else:
+        # Default to string
+        return '"test_input"'
+
+def _generate_invalid_value(param_type: str) -> Optional[str]:
+    """Generate an invalid value for type testing"""
+    type_lower = param_type.lower()
+    
+    if "str" in type_lower:
+        return "123"  # Number instead of string
+    elif "int" in type_lower:
+        return '"not_a_number"'
+    elif "float" in type_lower:
+        return '"not_a_float"'
+    elif "bool" in type_lower:
+        return '"not_a_bool"'
+    elif "list" in type_lower:
+        return '"not_a_list"'
+    elif "dict" in type_lower:
+        return '"not_a_dict"'
+    else:
+        return None  # Can't determine invalid value
+
+async def _validate_project(project_path: Path, ctx: Context) -> Dict[str, Any]:
+    """Validate the generated project"""
+    await ctx.info("✔️ Validating project...")
+    
+    issues = []
+    warnings = []
+    
+    # Check required files
+    required_files = ["server.py", "README.md", "help.md", "test.py", "pyproject.toml", ".gitignore"]
+    for file in required_files:
+        if not (project_path / file).exists():
+            issues.append(f"Missing required file: {file}")
+    
+    # Check Python syntax
+    server_file = project_path / "server.py"
+    if server_file.exists():
+        try:
+            import ast
+            ast.parse(server_file.read_text())
+        except SyntaxError as e:
+            issues.append(f"Syntax error in server.py: {e}")
+    
+    return {
+        "valid": len(issues) == 0,
+        "issues": issues,
+        "warnings": warnings,
+        "files_checked": len(required_files)
+    }
+
+# ============================================
+# ADDITIONAL TOOLS
+# ============================================
+
+@mcp.tool
+async def analyze_requirements(
+    ctx: Context,
+    requirements: Annotated[str, Field(description="Natural language description to analyze")]
+) -> Dict[str, Any]:
+    """Analyze requirements and suggest an implementation plan without generating code"""
+    await ctx.info("🔍 Analyzing requirements...")
+    
+    plan = await _analyze_and_plan(requirements, ctx)
+    
+    return {
+        "description": plan.get("description"),
+        "suggested_tools": len(plan.get("tools", [])),
+        "suggested_resources": len(plan.get("resources", [])),
+        "suggested_prompts": len(plan.get("prompts", [])),
+        "dependencies": plan.get("dependencies", []),
+        "plan_details": plan
+    }
+
+@mcp.tool
+async def list_generated_servers(
+    ctx: Context,
+    directory: Annotated[Optional[str], Field(description="Directory to search in")] = None
+) -> List[Dict[str, Any]]:
+    """List all previously generated MCP servers"""
+    await ctx.info("📋 Listing generated servers...")
+    
+    search_dir = Path(directory) if directory else Path.cwd()
+    servers = []
+    
+    if search_dir.exists():
+        for project_dir in search_dir.iterdir():
+            if project_dir.is_dir() and (project_dir / "server.py").exists():
+                try:
+                    help_path = project_dir / "help.md"
+                    readme_path = project_dir / "README.md"
+                    description = "No description available"
+                    
+                    # Try help.md first, fall back to README.md for backward compatibility
+                    desc_file = help_path if help_path.exists() else readme_path
+                    if desc_file.exists():
+                        lines = desc_file.read_text().split('\n')
+                        for line in lines[1:10]:  # Check first few lines
+                            if line.strip() and not line.startswith('#'):
+                                description = line.strip()
+                                break
+                    
+                    servers.append({
+                        "name": project_dir.name,
+                        "path": str(project_dir),
+                        "description": description,
+                        "created": datetime.fromtimestamp(project_dir.stat().st_ctime).isoformat()
+                    })
+                except Exception:
+                    pass
+    
+    return sorted(servers, key=lambda x: x["created"], reverse=True)
+
+# ============================================
+# MAIN
+# ============================================
+
+if __name__ == "__main__":
+    mcp.run()
