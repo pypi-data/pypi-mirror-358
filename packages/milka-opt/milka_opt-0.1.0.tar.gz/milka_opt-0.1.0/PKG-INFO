@@ -1,0 +1,48 @@
+Metadata-Version: 2.4
+Name: milka-opt
+Version: 0.1.0
+Summary: Библиотека, содержащая пять методов глобальной оптимизации: метод ветвей и границ, сеточный поиск, метод Монте-Карло, имитация отжига, генетический алгоритм.
+Project-URL: Documetation, https://drive.google.com/drive/folders/10BLl6d3GXtyinTO8jlqDekYjo9K1A3uZ?usp=drive_link
+Author-email: Kashina Olesya <kashinaolesya@inbox.ru>
+License-Expression: MIT
+License-File: LICENSE.txt
+Keywords: Monte Carlo,branch and bound,genetic algorithm,global,grid search,optimization,simulated annealing
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.6.0
+Requires-Dist: numpy
+Provides-Extra: dev
+Requires-Dist: pytest; extra == 'dev'
+Description-Content-Type: text/markdown
+
+# Global Meth Package
+
+Библиотека методов глобальной оптимизации, включающая пять реализаций:
+ - Метод ветвей и границ с оценкой Липшица
+ - Сеточный поиск
+ - Метод Монте-Карло
+ - Метод имитации отжига
+ - Генетический алгоритм
+
+## Установка
+
+Рекомендуется использовать виртуальное окружение.
+
+'''bash
+pip install -e ".[dev]"
+
+## Использование
+
+Импортировать нужный метод из пакета можно по примеру:
+ from global_meth_package.branch_and_bound import branch_and_bound
+ from global_meth_package.utils import rastrigin
+ 
+ bounds = [(-5.12, 5.12)] * 3
+ L = 126  # оценка Липшица
+ x, fx = branch_and_bound(rastrigin, bounds, L)
+ print(f"Приближённый глобальный минимум найден в точке: {x}, значение функции в ней: {fx}")
+
+## Тестирование
+
+Запустить тесты можно командой pytest.
