@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "huggingface-datasets-cocoapi-tools"
+version = "0.5.0"
+description = "A helper library for easily converting MSCOCO format data using the loading script of huggingface datasets."
+authors = ["Shunsuke KITADA <shunsuke.kitada.0831@gmail.com>"]
+readme = "README.md"
+packages = [{ include = "hfcocoapi" }]
+package-mode = true
+
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pydantic = ">=2.0.0"
+pycocotools = { version = ">=2.0.2", optional = true }
+datasets = { extras = ["vision"], version = ">=1.0.0", optional = true }
+
+[tool.poetry.group.dev.dependencies]
+ruff = ">=0.1.5"
+mypy = ">=1.0.0"
+pytest = ">=6.0.0"
+
+[tool.poetry.extras]
+cocoapi = ["pycocotools"]
+datasets = ["datasets"]
+all = ["pycocotools", "datasets"]
+
+[tool.mypy]
+python_version = "3.9"
+ignore_missing_imports = true
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
