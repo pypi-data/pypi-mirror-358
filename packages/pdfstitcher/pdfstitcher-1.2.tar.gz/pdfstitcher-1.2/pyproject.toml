@@ -1,0 +1,58 @@
+[project]
+name = "pdfstitcher"
+version = "1.2"
+description = "The open source PDF stitching software for sewists, by sewists."
+readme = "README.md"
+requires-python = ">=3.8"
+license = {file = "LICENSE"}
+keywords = ["pdf", "sewing", "utility", "stitch", "n-up", "page imposition"]
+authors = [
+    {name = "Charlotte Curtis"},
+    {email = "c.f.curtis@gmail.com"}
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)",
+    "Operating System :: OS Independent"
+]
+dependencies = [
+    "pikepdf >= 9.1.1",
+    "Babel",
+    "PyYAML",
+    "appdirs",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "pre-commit",
+    "black"
+]
+gui = [
+    "wxPython >= 4.2",
+    "requests",
+    "pdf-mangler",
+    "psutil",
+]
+
+[project.urls]
+homepage = "https://www.pdfstitcher.org/"
+repository = "https://github.com/cfcurtis/pdfstitcher"
+
+[project.gui-scripts]
+pdfstitcher-gui = "pdfstitcher.gui.app:main"
+
+[project.scripts]
+pdfstitcher = "pdfstitcher.cli.app:main"
+
+[tool.setuptools.packages.find]
+include = ["pdfstitcher", "pdfstitcher.*"]
+
+[build-system]
+requires = ["setuptools", "Babel"]
+# use legacy to force setup.py to run
+build-backend = "setuptools.build_meta"
+
+[tool.black]
+line-length = 100
