@@ -1,0 +1,239 @@
+Metadata-Version: 2.4
+Name: hs-django-admin
+Version: 1.0.0
+Summary: Customized Django admin panel with advanced UI and real-time system insights.
+Home-page: https://github.com/Swe-HimelRana/hs-django-admin
+Author: Himel
+Author-email: Himosoft <contact@himosoft.com.bd>
+Maintainer-email: Himel <contact@himelrana.com>
+License: MIT
+Project-URL: Homepage, https://github.com/Swe-HimelRana/hs-django-admin
+Project-URL: Documentation, https://github.com/Swe-HImelRana/hs-django-admin#readme
+Project-URL: Repository, https://github.com/Swe-HimelRana/hs-django-admin
+Project-URL: Bug Tracker, https://github.com/Swe-HimelRana/hs-django-admin/issues
+Keywords: django,admin,interface,customization,styling,custom django admin
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Django
+Classifier: Framework :: Django :: 5.2
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: Django>=5.2
+Provides-Extra: dev
+Requires-Dist: twine>=4.0.0; extra == "dev"
+Requires-Dist: build>=0.10.0; extra == "dev"
+Requires-Dist: check-manifest>=0.48; extra == "dev"
+Dynamic: author
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-python
+
+# Himosoft Django Admin
+
+Customized Django admin panel with advanced UI and real-time system insights
+
+![Preview](https://raw.githubusercontent.com/Swe-HimelRana/hs-django-admin/refs/heads/main/preview.png)
+
+## Features
+
+- Custom admin site
+- System information display (OS, Python version, Django version, database engine)
+- SSL status indicator
+- Custom CSS styling
+- Responsive design
+- **NEW: Full compatibility with default Django admin.site.register()**
+
+## Installation
+
+### Option 1: Copy the app to your project
+
+1. Copy the `hs_django_admin` directory to your Django project
+2. Add `'hs_django_admin'` to your `INSTALLED_APPS` in `settings.py`
+3. Update your main `urls.py` to use the custom admin site
+
+### Option 2: Use as a reusable app
+
+1. Add `'hs_django_admin'` to your `INSTALLED_APPS` in `settings.py`
+2. Import and use the custom admin site in your `urls.py`
+
+## Usage
+
+### Basic Integration
+
+In you main `settings.py`
+
+```python
+INSTALLED_APPS = [
+    'hs_django_admin', # it must be at top
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    # ... your other apps
+]
+```
+
+In your main `urls.py`:
+
+```python
+from django.urls import path
+from hs_django_admin.admin import hs_admin
+
+urlpatterns = [
+    path('admin/', hs_admin.urls),
+    # ... your other URL patterns
+]
+```
+
+### Model Registration (Multiple Options)
+
+#### Option 1: Use default Django admin.site.register() (Recommended)
+```python
+# your_app/admin.py
+from django.contrib import admin
+from .models import Product
+
+# This automatically works with the custom admin site!
+admin.site.register(Product)
+```
+
+#### Option 2: Use the custom admin site directly
+```python
+from hs_django_admin.admin import get_admin_site
+from your_app.models import YourModel
+
+admin_site = get_admin_site()
+admin_site.register(YourModel)
+```
+
+#### Option 3: Import the admin site instance directly
+```python
+from hs_django_admin.admin import hs_admin
+from your_app.models import YourModel
+
+hs_admin.register(YourModel)
+```
+
+#### Option 4: Create your own admin site instance
+```python
+from hs_django_admin.admin import HSDjangoAdmin
+from your_app.models import YourModel
+
+custom_admin = HSDjangoAdmin(name='my_custom_admin')
+custom_admin.site_header = "My Custom Admin"
+custom_admin.site_title = "My Custom Admin Portal"
+custom_admin.register(YourModel)
+```
+
+### Advanced ModelAdmin Usage
+
+#### Using the Mixin
+```python
+from django.contrib import admin
+from hs_django_admin.admin import HSDjangoAdminMixin
+from .models import Product
+
+class ProductAdmin(HSDjangoAdminMixin, admin.ModelAdmin):
+    list_display = ['name', 'price']
+    search_fields = ['name']
+
+admin.site.register(Product, ProductAdmin)
+```
+
+#### Custom Admin Classes
+```python
+from hs_django_admin.admin import get_admin_site
+from django.contrib import admin
+from .models import Product
+
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ['name', 'price']
+    search_fields = ['name']
+
+admin_site = get_admin_site()
+admin_site.register(Product, ProductAdmin)
+```
+
+### Manual Compatibility Control
+
+If you need to control when compatibility is enabled:
+
+```python
+from hs_django_admin.admin import enable_default_admin_compatibility, disable_default_admin_compatibility
+
+# Enable compatibility
+original_register = enable_default_admin_compatibility()
+
+# Your admin registrations here
+from django.contrib import admin
+from .models import Product
+admin.site.register(Product)
+
+# Disable compatibility (optional)
+disable_default_admin_compatibility(original_register)
+```
+
+## Configuration
+
+The app automatically provides:
+- System information in the admin context
+- Custom styling via static files
+- Enhanced admin templates
+- **Automatic compatibility with default admin.site.register()**
+
+No additional configuration is required for basic functionality.
+
+
+## Your own branding
+
+- In in your django settings.py 
+    ```python
+        # Django Admin Settings
+        ADMIN_SITE_HEADER = "Your Own Admin"
+        ADMIN_SITE_TITLE = "Your Own Admin"
+        ADMIN_INDEX_TITLE = "Welcome to Your Own Admin"
+        ADMIN_LOGO_URL = "https://example.com/logo.png" # this will also work as admin shortcut icon
+        ADMIN_FOOTER_ENABLED = False # this is a footer of himosoft info. You can disable it ❤️
+    ```
+
+## Dependencies
+
+- Django 5.2+ (tested with Django 5.2.3)
+- No additional Python packages required
+
+## Notes
+
+- The app includes a `TestModel` for demonstration purposes
+- Custom admin templates override the default Django admin templates
+- Static files are automatically collected when running `python manage.py collectstatic`
+- **Default admin compatibility is automatically enabled when the app loads**
+- All existing `admin.site.register()` calls will work without modification 
+
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Support
+
+If you encounter any issues or have questions, please [open an issue](https://github.com/Swe-HimelRana/hs-django-admin/issues) on GitHub. 
