@@ -1,0 +1,103 @@
+{# filter_macros.html.j2 #}
+
+{% macro render_text_filter(field_name, filter_data) %}
+    <input type="text" 
+           class="form-control form-control-sm" 
+           name="{{ field_name }}"
+           placeholder="{{ filter_data.placeholder }}"
+           value="{{ request.query_params.get(field_name, '') }}">
+{% endmacro %}
+
+{% macro render_number_filter(field_name, filter_data) %}
+    <input type="number" 
+           class="form-control form-control-sm" 
+           name="{{ field_name }}"
+           placeholder="{{ filter_data.placeholder }}"
+           value="{{ request.query_params.get(field_name, '') }}">
+{% endmacro %}
+
+{% macro render_boolean_filter(field_name, filter_data) %}
+    <select class="form-control form-control-sm"
+            name="{{ field_name }}">
+        <option value="" {% if not request.query_params.get(field_name) %}selected{% endif %}>Any</option>
+        <option value="true" {% if request.query_params.get(field_name) == 'true' %}selected{% endif %}>Yes</option>
+        <option value="false" {% if request.query_params.get(field_name) == 'false' %}selected{% endif %}>No</option>
+    </select>
+{% endmacro %}
+
+{% macro render_filter(field_name, filter_data, request) %}
+    <div class="header-filter">
+        {% if filter_data.type == 'text' %}
+            {{ render_text_filter(field_name, filter_data) }}
+        {% elif filter_data.type == 'number' %}
+            {{ render_number_filter(field_name, filter_data) }}
+        {% elif filter_data.type == 'boolean' %}
+            {{ render_boolean_filter(field_name, filter_data) }}
+        {% else %}
+            {{ render_text_filter(field_name, filter_data) }}
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% macro render_filter_form(widget, request) %}
+    <form method="GET" class="filter-form">
+        {# Preserve existing query parameters that are not filters #}
+        {% for param_name, param_value in request.query_params.items() %}
+            {% if not param_name.startswith('filter_') and param_name != 'page' %}
+                <input type="hidden" name="{{ param_name }}" value="{{ param_value }}">
+            {% endif %}
+        {% endfor %}
+        
+        <div class="table-responsive">
+            <table class="table table-vcenter text-nowrap table-striped table-hover mb-0">
+                <thead class="table-header">
+                <tr>
+                    {% for header in widget.sortable_headers %}
+                        <th class="table-header-cell {% if header.sorted %}sorted sorted-{{ header.order }}{% endif %}">
+                            {% if header.url and widget.sortable %}
+                                <a href="{{ header.url }}"
+                                   class="sort-link justify-content-between align-items-center">
+                                    {{ header.label }}
+                                    <span class="sort-indicator">
+                                        {% if header.sorted %}
+                                            {% if header.order == 'asc' %}
+                                                ↑
+                                            {% else %}
+                                                ↓
+                                            {% endif %}
+                                        {% else %}
+                                            <i class="icon-chevrons-up-down"></i>
+                                        {% endif %}
+                                    </span>
+                                </a>
+                            {% else %}
+                                {{ header.label }}
+                            {% endif %}
+                            
+                            {# Render header filter if enabled #}
+                            {% if widget.header_filters and widget.fields[loop.index0] in widget.header_filters %}
+                                {{ render_filter(widget.fields[loop.index0], widget.header_filters[widget.fields[loop.index0]], request) }}
+                            {% endif %}
+                        </th>
+                    {% endfor %}
+
+                    {# Actions column if there are links/buttons #}
+                    {% if widget.links %}
+                        <th class="table-header-cell actions-header text-center">Actions</th>
+                    {% endif %}
+                </tr>
+                </thead>
+                
+                {# Filter submit button #}
+                <tfoot>
+                    <tr>
+                        <td colspan="{{ widget.sortable_headers|length + (1 if widget.links else 0) }}" class="text-end">
+                            <button type="submit" class="btn btn-primary btn-sm">Apply Filters</button>
+                            <a href="{{ request.url.path }}" class="btn btn-secondary btn-sm">Clear Filters</a>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </form>
+{% endmacro %}
