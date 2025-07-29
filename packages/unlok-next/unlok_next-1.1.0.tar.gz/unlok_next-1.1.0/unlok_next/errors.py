@@ -1,0 +1,2 @@
+class NoUnlokFound(Exception):
+    pass
