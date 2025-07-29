@@ -1,0 +1,63 @@
+Metadata-Version: 2.1
+Name: djangocms-help-rating
+Version: 1.0.0
+Summary: DjangoCMS Help rating.
+Author-email: Zdeněk Böhm <zdenek.bohm@nic.cz>
+License: BSD License
+Project-URL: Homepage, https://gitlab.nic.cz/djangocms-apps/djangocms-help-rating
+Project-URL: Repository, https://gitlab.nic.cz/djangocms-apps/djangocms-help-rating.git
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Web Environment
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Framework :: Django CMS
+Classifier: Framework :: Django CMS :: 3.4
+Classifier: Framework :: Django CMS :: 4.1
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content
+Classifier: Topic :: Software Development
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: Software Development :: Libraries :: Application Frameworks
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: django-cms
+
+# DjangoCMS Help Rating
+
+A project for simple evaluation of [DjangoCMS](https://www.django-cms.org/) website content.
+
+### Install
+
+`pip install djangocms-help-rating`
+
+
+Add into settings.py:
+
+```python
+INSTALLED_APPS = [
+    ...
+    "help_rating",
+]
+```
+
+Add into site urls.py:
+
+```python
+urlpatterns = [
+    ...
+    path('help-rating/', include(('help_rating.urls', "help_rating"))),
+]
+```
+
+If you define a namespace other than ``help_rating`` in the urls.py, you must redefine it in settings with the value ``HELP_RATING_PATH_NAMESPACE``.
+Default of ``HELP_RATING_PATH_NAMESPACE`` is `"help_rating"`.
+
+### License
+
+BSD License

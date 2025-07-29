@@ -1,0 +1,80 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+version = "1.0.0"
+name = "djangocms-help-rating"
+dependencies = [
+  "django-cms",
+]
+requires-python = ">=3.9"
+authors = [
+    {name = "Zdeněk Böhm", email = "zdenek.bohm@nic.cz"},
+]
+description = "DjangoCMS Help rating."
+readme = "README.md"
+license = {text = "BSD License"}
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+
+    "License :: OSI Approved :: BSD License",
+
+    "Operating System :: OS Independent",
+
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+
+    "Framework :: Django CMS",
+    "Framework :: Django CMS :: 3.4",
+    "Framework :: Django CMS :: 4.1",
+
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    "Topic :: Software Development",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+]
+
+[project.urls]
+Homepage = "https://gitlab.nic.cz/djangocms-apps/djangocms-help-rating"
+Repository = "https://gitlab.nic.cz/djangocms-apps/djangocms-help-rating.git"
+
+[tool.ruff]
+line-length = 120
+indent-width = 4
+target-version = "py312"
+exclude = [
+  "migrations",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "C", "B"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+docstring-code-format = false
+docstring-code-line-length = "dynamic"
+
+[tool.bumpversion]
+# Used by bump-my-version
+current_version = "1.0.0"
+search = "{current_version}"
+replace = "{new_version}"
+commit = true
+tag = true
+tag_name = "{new_version}"
+
+[[tool.bumpversion.files]]
+filename = "pyproject.toml"
+search = 'version = "{current_version}"'
+replace = 'version = "{new_version}"'
