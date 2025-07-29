@@ -1,0 +1,17 @@
+fastapi-websocket-rpc<1,>=0.1.25
+packaging>=20.4
+pydantic>=1.9.1
+websockets>=14.0
+permit-broadcaster<1,>=0.2.5
+
+[all]
+permit-broadcaster[kafka,postgres,redis]<1,>=0.2.5
+
+[kafka]
+permit-broadcaster[kafka]<1,>=0.2.5
+
+[postgres]
+permit-broadcaster[postgres]<1,>=0.2.5
+
+[redis]
+permit-broadcaster[redis]<1,>=0.2.5
