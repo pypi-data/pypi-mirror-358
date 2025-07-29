@@ -1,0 +1,86 @@
+Metadata-Version: 2.4
+Name: polarfrost
+Version: 0.1.0
+Summary: A fast k-anonymity implementation using Polars and PySpark
+Home-page: https://github.com/rglew/polarfrost
+Author: Richard Glew
+Author-email: richard.glew@hotmail.com
+Keywords: anonymization,privacy,polars,k-anonymity,data-privacy
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Security
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: polars>=0.13.0
+Requires-Dist: pandas>=1.3.0
+Requires-Dist: numpy>=1.21.0
+Provides-Extra: spark
+Requires-Dist: pyspark>=3.0.0; extra == "spark"
+Provides-Extra: dev
+Requires-Dist: pytest>=6.0; extra == "dev"
+Requires-Dist: pytest-cov>=2.0; extra == "dev"
+Requires-Dist: black>=21.0; extra == "dev"
+Requires-Dist: isort>=5.0; extra == "dev"
+Requires-Dist: mypy>=0.900; extra == "dev"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# Polarfrost
+
+A fast k-anonymity implementation using Polars, featuring both Mondrian and Clustering algorithms for efficient privacy-preserving data analysis.
+
+## Features
+
+- 🚀 Blazing fast k-anonymity using Polars
+- 🧊 Supports both local (Polars) and distributed (PySpark) processing
+- 📊 Preserves data utility while ensuring privacy
+- 🐍 Simple Python API
+
+## Installation
+
+```bash
+pip install polarfrost
+```
+
+## Quick Start
+
+```python
+import polars as pl
+from polarfrost import mondrian_k_anonymity
+
+# Load your data
+df = pl.read_csv("your_data.csv")
+
+# Apply k-anonymity
+anonymized = mondrian_k_anonymity(
+    df,
+    quasi_identifiers=["age", "gender", "zipcode"],
+    sensitive_column="income",
+    k=3,
+    categorical=["gender", "zipcode"]
+)
+
+print(anonymized)
+```
+
+## License
+
+MIT
