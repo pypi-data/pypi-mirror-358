@@ -1,0 +1,16 @@
+[project]
+name = "code-tags-jira-sync"
+version = "0.1.0"
+description = "A jira sync plugin for code_tags"
+dependencies = [
+    # "code_tags"
+]
+
+[project.entry-points."code_tags"] # This is the crucial part for pluggy
+# The key "markdojira_syncwn_view" is the name of the plugin (can be anything unique)
+# The value "code_tags_jira_sync" is the module where pluggy should look for @hookimpls
+jira_sync = "code_tags_jira_sync.main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

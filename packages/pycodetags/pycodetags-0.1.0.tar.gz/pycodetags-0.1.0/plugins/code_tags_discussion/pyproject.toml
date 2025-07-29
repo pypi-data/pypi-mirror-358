@@ -1,0 +1,17 @@
+[project]
+name = "code-tags-html-templates"
+version = "0.1.0"
+description = "Jinja Templated Html reports for code tags"
+dependencies = [
+    # "code_tags"
+    "jinja2"
+]
+
+[project.entry-points."code_tags"] # This is the crucial part for pluggy
+# The key "markdown_view" is the name of the plugin (can be anything unique)
+# The value "code_tags_markdown_view" is the module where pluggy should look for @hookimpls
+code_tags_html_templated = "code_tags_html_templated.main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
