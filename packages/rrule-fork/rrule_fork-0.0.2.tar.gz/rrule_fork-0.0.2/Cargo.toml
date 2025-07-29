@@ -1,0 +1,14 @@
+[package]
+name = "rrule-py"
+version = "0.0.2"
+edition = "2021"
+
+[lib]
+name = "rrule"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.21.1", features = ["chrono", "chrono-tz"] }
+chrono = "0.4.35"
+chrono-tz = "0.8.6"
+rrule = "0.12.0"
