@@ -1,0 +1,71 @@
+Metadata-Version: 2.4
+Name: snakemake-logger-plugin-flowo
+Version: 0.1.2
+Summary: A Snakemake logger plugin that stores workflow execution data in PostgreSQL
+Project-URL: Homepage, https://github.com/your-org/snakemake-logger-plugin-flowo
+Project-URL: Repository, https://github.com/your-org/snakemake-logger-plugin-flowo
+Project-URL: Issues, https://github.com/your-org/snakemake-logger-plugin-flowo/issues
+Author-email: Haomiao Zhang <zhanghm@iregene.com>, Jingmin Zhang <zhangjm@iregene.com>
+Keywords: logger,plugin,postgresql,snakemake,workflow
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.12
+Requires-Dist: psycopg2-binary>=2.9.9
+Requires-Dist: pydantic-settings>=2.9.1
+Requires-Dist: pydantic>=2.11.5
+Requires-Dist: snakemake-interface-logger-plugins>=1.2.3
+Requires-Dist: snakemake>=9.6.2
+Requires-Dist: sqlalchemy>=2.0.41
+Description-Content-Type: text/markdown
+
+# Snakemake Logger Plugin - Flowo
+
+A Snakemake logger plugin that stores workflow execution data in PostgreSQL, making your workflow management more efficient and fun! 🎉
+
+## 🎈 Features
+
+- Stores Snakemake workflow execution data in PostgreSQL database 🚀
+- Tracks jobs, rules, files, and errors 🔍
+- Provides comprehensive logging and monitoring capabilities 🚨
+- Easy integration with existing Snakemake workflows 🔄
+
+## 💻 Installation
+
+```bash
+pip install snakemake-logger-plugin-flowo
+```
+## 🔧 Configuration
+
+```bash
+# To generate the default configuration file, run the following command:
+# This will create the default .env configuration file in your $HOME/.config/flowo/ directory.
+flowo --generate-config
+
+# After generating the .env file, open it with your preferred text editor to adjust the settings:
+vim $HOME/.config/flowo/.env
+```
+The following environment variables are available for configuration in the `.env` file:
+
+- `POSTGRES_USER`: PostgreSQL username (default: flowo)
+- `POSTGRES_PASSWORD`: PostgreSQL password (default: flowo_password)
+- `POSTGRES_DB`: PostgreSQL database name (default: flowo_logs)
+- `POSTGRES_HOST`: PostgreSQL host (default: localhost)
+- `POSTGRES_PORT`: PostgreSQL port (default: localhost: 5432)
+- `FLOWO_USER`: 
+- `FLOWO_WORKING_PATH`:
+
+## 🚀 Usage
+
+```bash
+snakemake --logger flowo 
+```
+
+
+## 📜 License
+
+MIT License
