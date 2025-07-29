@@ -1,0 +1,1 @@
+"""Template constants and strings for KEN-MCP generator"""
