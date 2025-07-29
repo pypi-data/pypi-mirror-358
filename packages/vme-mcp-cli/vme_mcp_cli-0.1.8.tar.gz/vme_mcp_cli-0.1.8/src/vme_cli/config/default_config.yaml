@@ -1,0 +1,70 @@
+# VME CLI Default Configuration
+
+# LLM Settings
+llm:
+  anthropic_key: ${ANTHROPIC_API_KEY}
+  openai_key: ${OPENAI_API_KEY}
+  default_provider: anthropic
+  default_model: claude-3-5-sonnet-20241022
+  timeout: 60
+  temperature: 0.7
+  max_tokens: 4096
+  system_prompt: |
+    You are a helpful AI assistant for VME infrastructure management.
+    Help users manage virtual machines, storage, and networks through natural language.
+    Always be concise and clear in your responses.
+
+# MCP Server Settings
+server:
+  servers:
+    vme:
+      name: "VME Infrastructure Server"
+      transport: "stdio"
+      path_or_url: "vme-mcp-server"  # Command from vme-mcp-server package
+      timeout: 30
+      auto_connect: true
+      enabled: true
+      env:
+        VME_API_BASE_URL: "${VME_API_BASE_URL}"
+        VME_API_TOKEN: "${VME_API_TOKEN}"
+        VME_LAZY_LOADING: "true"
+        VME_INCLUDE_EXAMPLES_ON_ERROR: "true"
+
+# UI Settings
+ui:
+  theme: github_dark
+  show_thinking_indicator: true
+  thinking_messages:
+    - "Thinking..."
+    - "Analyzing..."
+    - "Processing..."
+    - "Considering options..."
+  max_message_history: 1000
+  show_timestamps: true
+  show_tool_calls: true
+  markdown_rendering: true
+
+# Audio Settings (requires pyaudio)
+audio:
+  enabled: false
+  voice: "alloy"  # Options: alloy, echo, fable, onyx, nova, shimmer
+  model: "gpt-4o-realtime-preview-2024-10-01"
+  modalities: ["text", "audio"]
+  instructions: |
+    You are a helpful AI assistant for VME infrastructure management.
+    Speak clearly and concisely. When reading technical information,
+    pace yourself appropriately.
+  turn_detection:
+    type: "server_vad"
+    threshold: 0.5
+    prefix_padding_ms: 300
+    silence_duration_ms: 200
+  mic_wave_color: "#58A6FF"
+  
+# Session Logging
+session:
+  enabled: true
+  log_dir: "session_logs"
+  log_tool_calls: true
+  log_audio_events: true
+  anonymize_keys: true
