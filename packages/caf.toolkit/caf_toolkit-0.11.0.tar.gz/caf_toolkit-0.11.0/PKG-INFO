@@ -1,0 +1,112 @@
+Metadata-Version: 2.4
+Name: caf.toolkit
+Version: 0.11.0
+Summary: A toolkit of transport planning and appraisal functionalities
+Author: Transport for the North
+License: Copyright © Transport for the North (“TfN”) (2023).
+        
+        
+        Use of this software and associated documentation files (“the Software”) by you indicates your acceptance of the terms and conditions below (“the Licence”).
+        We make available the Software to you on the basis of this Licence. We do not sell the Software to you. We remain the owners of the Software at all times. 
+        
+        We grant you a non-exclusive, worldwide, royalty-free, perpetual licence:
+        (a)	to use the Software;
+        (b)	to develop, modify and maintain the Software;
+        (c)	copy, publish, distribute and transmit the Software;
+        (d)	adapt the Software.
+        
+        Where you do any of the above you must acknowledge the source of the Software in your product or application by including or linking the following attribution statement in a prominent and noticeable location in or in the context of your product or application:
+        “Outputs derived from CAF.Toolkit (the Common Analytical Framework Toolkit), developed by Transport for the North [https://github.com/Transport-for-the-North/caf.toolkit]”
+        
+        Any adaptations applied to the Software before application should be briefly described alongside the above citation. We encourage you to submit to us any adaptations to the Software and where you choose to do so your submissions will be considered for integration into the Software.
+        
+        The above are important conditions of this Licence and if you fail to comply with them the rights granted to you under this Licence will end automatically. 
+        This Licence does not grant you any right to use the Software in a way that suggests any official status or that we endorse you or your use of the Software.
+        The Software is licenced 'as is' and we exclude all representations, warranties, obligations and liabilities in relation to the Software to the maximum extent permitted by law.
+        We are not liable for any errors or omissions in the Software and shall not be liable for any loss, injury or damage of any kind caused by its use. We do not guarantee the continued supply of the Software.
+        This Licence is governed by the laws of the jurisdiction in which we have our principal place of business.
+        
+        
+Project-URL: Bug Tracker, https://github.com/Transport-for-the-North/caf.toolkit/issues
+Project-URL: Homepage, https://github.com/Transport-for-the-North/caf.toolkit
+Project-URL: Source, https://github.com/Transport-for-the-North/caf.toolkit
+Project-URL: Documentation, http://caftoolkit.rtfd.io/
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy>=1.19.0
+Requires-Dist: pandas>=2.0.0
+Requires-Dist: tqdm>=4.50.2
+Requires-Dist: pydantic>=2.5.0
+Requires-Dist: strictyaml>=1.6
+Requires-Dist: psutil>=5.9.0
+Provides-Extra: dev
+Requires-Dist: setuptools>=64.0.0; extra == "dev"
+Requires-Dist: black>=24.1.1; extra == "dev"
+Requires-Dist: isort>=5.12.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Requires-Dist: mypy_extensions>=1.0.0; extra == "dev"
+Requires-Dist: pydocstyle[toml]>=6.1.1; extra == "dev"
+Requires-Dist: pylint>=3.3.1; extra == "dev"
+Requires-Dist: pandas-stubs>=2.0.0; extra == "dev"
+Requires-Dist: pytest>=7.4.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.1.0; extra == "dev"
+Requires-Dist: pytest-xdist>=3.3.1; extra == "dev"
+Requires-Dist: tox>=3.24.3; extra == "dev"
+Requires-Dist: openpyxl>=3.1.5; extra == "dev"
+Requires-Dist: versioningit>=2.2.0; extra == "dev"
+Provides-Extra: docs
+Requires-Dist: sphinx>=7.1.2; extra == "docs"
+Requires-Dist: pydata-sphinx-theme>=0.14.1; extra == "docs"
+Requires-Dist: graphviz>=0.20.1; extra == "docs"
+Requires-Dist: sphinx-gallery>=0.17.1; extra == "docs"
+Requires-Dist: matplotlib; extra == "docs"
+Requires-Dist: sphinx-argparse>=0.5.2; extra == "docs"
+Provides-Extra: sparse
+Requires-Dist: sparse>=0.15.4; extra == "sparse"
+Dynamic: license-file
+
+
+![Transport for the North Logo](https://github.com/Transport-for-the-North/caf.toolkit/blob/main/docs/TFN_Landscape_Colour_CMYK.png)
+
+<h1 align="center">CAF.Toolkit</h1>
+
+<p align="center">
+<a href="https://pypi.org/project/caf.toolkit/"><img alt="Supported Python versions" src="https://img.shields.io/pypi/pyversions/caf.toolkit.svg?style=flat-square"></a>
+<a href="https://pypi.org/project/caf.toolkit/"><img alt="Latest release" src="https://img.shields.io/github/release/transport-for-the-north/caf.toolkit.svg?style=flat-square&maxAge=86400"></a>
+<a href="https://anaconda.org/conda-forge/caf.toolkit"><img alt="Conda" src="https://img.shields.io/conda/v/conda-forge/caf.toolkit?style=flat-square&logo=condaforge"></a>
+<a href="https://app.codecov.io/gh/Transport-for-the-North/caf.toolkit"><img alt="Coverage" src="https://img.shields.io/codecov/c/github/transport-for-the-north/caf.toolkit.svg?branch=master&style=flat-square&logo=CodeCov"></a>
+<a href="https://github.com/Transport-for-the-North/caf.toolkit/actions?query=event%3Apush"><img alt="Testing Badge" src="https://img.shields.io/github/actions/workflow/status/transport-for-the-north/caf.toolkit/tests.yml?style=flat-square&logo=GitHub&label=Tests"></a>
+<a href='https://caftoolkit.readthedocs.io/en/stable/?badge=stable'><img alt='Documentation Status' src="https://img.shields.io/readthedocs/caftoolkit?style=flat-square&logo=readthedocs"></a>
+<a href="https://github.com/psf/black"><img alt="code style: black" src="https://img.shields.io/badge/code%20format-black-000000.svg?style=flat-square"></a>
+</p>
+
+
+
+The Common Analytical Framework (CAF) Toolkit is a toolkit of transport
+planning and appraisal functionalities. It's the beginning of a project to make
+a lot of the useful stuff from
+[NorMITs Demand](https://github.com/Transport-for-the-North/NorMITs-Demand)
+more widely available and easily accessible.
+
+## Common Analytical Framework
+
+This package is sits within the [Common Analytical Framework (CAF)](https://transport-for-the-north.github.io/caf_homepage/intro.html),
+which is a collaboration between transport bodies in the UK to develop and maintain commonly used
+transport analytics and appraisal tools.
+
+## Contributing
+CAF.Toolkit happily accepts contributions.
+
+The best way to contribute to this project is to go to the [issues tab](https://github.com/Transport-for-the-North/caf.toolkit/issues)
+to report bugs or submit feature requests. This helps CAF.toolkit become more
+stable and full-featured. Please check the closed bugs before submitting a bug report to see if your
+question has already been answered.
+
+Please see our [contribution guidelines](https://github.com/Transport-for-the-North/.github/blob/main/CONTRIBUTING.rst)
+for details on contributing to the codebase or documentation.
