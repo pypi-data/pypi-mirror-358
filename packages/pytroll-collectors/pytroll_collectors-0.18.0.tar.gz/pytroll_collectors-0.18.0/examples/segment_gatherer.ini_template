@@ -1,0 +1,83 @@
+[ears-viirs]
+# Pattern used to identify time slots and segments.  NOTE: this
+# pattern is not used in forming the metadata sent forward, the
+# published metadata comes directly from eg. trollstalker.
+pattern = SV{segment}C_{orig_platform_name}_d{start_time:%Y%m%d_t%H%M%S}{start_decimal:1d}_e{end_time:%H%M%S}{end_decimal:1d}_b{orbit_number:5d}_c{proctime:s}_eum_ops.h5
+# Segments critical to production
+critical_files =
+# These segments we want to have, but it's still ok if they are missed
+wanted_files = :M,:DNB
+# All possible segments
+all_files = :M,:DNB
+# Listen to messages with this topic
+topics = /EARS/Suomi-NPP/viirs/1b
+# Publish the dataset with this topic
+publish_topic = /segment-EARS/Suomi-NPP/viirs/1b
+# Time to wait after the first segment, in seconds
+timeliness = 240
+# Name of a time field in the pattern above
+time_name = start_time
+# Comma separated list of tag names in the pattern that vary between different
+# segments of the same time slot
+variable_tags = proctime,proc_decimal
+# Listen to messages coming from these extra IP addresses and port
+# addresses = tcp://192.168.0.101:12345 tcp://192.168.0.102:12345
+# Publish messages via this port.  If not set, random free port is used
+# publish_port = 12345
+# Force all files to be local. That is, drop scheme and host from the URIs before handling the messages
+# all_files_are_local = True
+
+# nameserver host to register publisher
+# WARNING: 
+# if nameserver option is set, address broadcasting via multicasting is not used any longer.
+# The corresponding nameserver has to be started with command line option "--no-multicast".
+#nameserver = localhost
+
+[ears-pps]
+pattern = W_XX-EUMETSAT-Darmstadt,SING+LEV+SAT,{orig_platform_name}+{segment}_C_EUMS_{start_time:%Y%m%d%H%M%S}_{orbit_number:5d}.nc
+critical_files = 
+wanted_files = :CTTH,:CT,:CMA
+all_files = :CTTH,:CT,:CMA
+topics = /test-stalker/4/dev
+publish_topic = /test-geo_gatherer/4/dev
+timeliness = 1200
+time_name = start_time
+
+[msg]
+pattern = H-000-{orig_platform_name:4s}__-{orig_platform_name:4s}________-{channel_name:_<9s}-{segment:_<9s}-{start_time:%Y%m%d%H%M}-__
+critical_files = :PRO,:EPI
+wanted_files = VIS006:000006-000008,VIS008:000006-000008,IR_016:000006-000008,IR_039:000006-000008,WV_062:000006-000008,WV_073:000006-000008,IR_087:000006-000008,IR_097:000006-000008,IR_108:000006-000008,IR_120:000006-000008,IR_134:000006-000008,HRV:000022-000024
+all_files = VIS006:000001-000008,VIS008:000001-000008,IR_016:000001-000008,IR_039:000001-000008,WV_062:000001-000008,WV_073:000001-000008,IR_087:000001-000008,IR_097:000001-000008,IR_108:000001-000008,IR_120:000001-000008,IR_134:000001-000008,HRV:000001-000024
+topics = /foo/bar
+publish_topic = /pub/foo/bar
+timeliness = 900
+time_name = start_time
+
+[rss]
+pattern = H-000-{orig_platform_name:4s}__-{orig_platform_name:4s}_RSS____-{channel_name:_<9s}-{segment:_<9s}-{start_time:%Y%m%d%H%M}-__
+critical_files = :PRO,:EPI
+wanted_files = VIS006:000006-000008,VIS008:000006-000008,IR_016:000006-000008,IR_039:000006-000008,WV_062:000006-000008,WV_073:000006-000008,IR_087:000006-000008,IR_097:000006-000008,IR_108:000006-000008,IR_120:000006-000008,IR_134:000006-000008,HRV:000022-000024
+all_files = VIS006:000006-000008,VIS008:000006-000008,IR_016:000006-000008,IR_039:000006-000008,WV_062:000006-000008,WV_073:000006-000008,IR_087:000006-000008,IR_097:000006-000008,IR_108:000006-000008,IR_120:000006-000008,IR_134:000006-000008,HRV:000022-000024
+topics = /foo/bar
+publish_topic = /pub/foo/bar
+timeliness = 300
+time_name = start_time
+
+[hrptl0]
+# Example to collect multiple direct readout instruments for a single
+# timeslot.  This may be needed for some downstream software, such
+# as NWC/PPS.  It does not collect multiple timeslots for a single
+# overpass, that's what gatherer is for.
+pattern = {segment:4s}_HRP_00_{orig_platform_name}_{start_time:%Y%m%d%H%M%S}Z_{end_time:%Y%m%d%H%M%S}Z_N_O_{processing_time:%Y%m%d%H%M%S}Z
+wanted_files = :AVHR,:AMSA,:HIRS,:MHSx
+all_files = :AVHR,:AMSA,:HIRS,:MHSx
+critical_files = :AVHR,:AMSA,:HIRS,:MHSx
+topics = /new/file/yay
+publish_topic = /data/for/aapp
+timeliness = 20
+time_name = start_time
+# Allowed time tolerance in seconds in the "time_name" for segments to be
+# included in the same time slot.  Default: 0
+time_tolerance = 30
+# Here all the time fields are varying
+variable_tags = start_time,end_time,processing_time
