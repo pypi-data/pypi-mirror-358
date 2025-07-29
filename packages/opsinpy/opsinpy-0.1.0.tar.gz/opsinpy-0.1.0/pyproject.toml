@@ -1,0 +1,177 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "opsinpy"
+version = "0.1.0"
+description = "Python bindings for OPSIN (Open Parser for Systematic IUPAC Nomenclature)"
+readme = "README.md"
+authors = [
+    {name = "Charlles Abreu", email = "craabreu@gmail.com"},
+]
+maintainers = [
+    {name = "Charlles Abreu", email = "craabreu@gmail.com"},
+]
+license = {text = "MIT"}
+requires-python = ">=3.8"
+keywords = ["chemistry", "cheminformatics", "iupac", "nomenclature", "opsin"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+        "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Chemistry",
+]
+dependencies = [
+    "JPype1>=1.4.0,<2.0",
+    "typing-extensions>=3.7.4; python_version<'3.8'",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov>=4.0",
+    "coverage[toml]>=7.0",
+    "black>=21.0",
+    "ruff>=0.3.0",
+    "mypy>=0.900",
+    "build>=0.7.0",
+    "twine>=4.0.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/craabreu/opsinpy"
+"Bug Reports" = "https://github.com/craabreu/opsinpy/issues"
+"Source" = "https://github.com/craabreu/opsinpy"
+"Documentation" = "https://opsin.ch.cam.ac.uk/"
+
+[tool.setuptools]
+packages = ["opsinpy"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+"opsinpy" = ["*.jar"]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = [
+    "--cov=opsinpy",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-report=xml",
+    "--cov-fail-under=85",
+    "--strict-markers",
+    "--strict-config",
+    "-ra",
+]
+testpaths = ["tests"]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+]
+
+[tool.coverage.run]
+source = ["opsinpy"]
+branch = true
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "setup.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+show_missing = true
+skip_covered = false
+
+[tool.coverage.html]
+directory = "htmlcov"
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "B",    # flake8-bugbear
+    "C4",   # flake8-comprehensions
+    "UP",   # pyupgrade
+    "N",    # pep8-naming
+    "SIM",  # flake8-simplify
+    "TCH",  # flake8-type-checking
+    "TID",  # flake8-tidy-imports
+    "RUF",  # Ruff-specific rules
+]
+ignore = [
+    "E501",  # line length violations (handled by black)
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["opsinpy"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38', 'py39', 'py310', 'py311', 'py312']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+
+[[tool.mypy.overrides]]
+module = [
+    "uk.ac.cam.ch.wwmm.opsin",
+    "uk.ac.cam.ch.wwmm.opsin.*",
+    "jpype",
+    "jpype.*",
+    "pkg_resources",
+]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "opsinpy.opsinpy"
+# Ignore some runtime-only issues that can't be statically analyzed
+disable_error_code = [
+    "attr-defined",  # Java objects accessed at runtime
+    "no-any-return", # Java objects return Any
+] 
