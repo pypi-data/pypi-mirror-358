@@ -1,0 +1,41 @@
+Metadata-Version: 2.1
+Name: scipion-em-repic
+Version: 3.2.0
+Summary: Plugin to use REPIC within the Scipion framework
+Author-email: Scipion Team <scipion@cnb.csic.es>
+License: GNU General Public License v3 (GPLv3)
+Project-URL: Homepage, https://github.com/scipion-em/scipion-em-repic
+Project-URL: Repository, https://github.com/scipion-em/scipion-em-repic
+Project-URL: Issues, https://github.com/scipion-em/scipion-em-repic/issues
+Keywords: scipion,cryoem,spa,picking,imageprocessing,scipion-3.0
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.8
+Description-Content-Type: text/x-rst
+License-File: LICENSE
+
+========================
+REPIC plugin for Scipion
+========================
+
+REliable PIcking by Consensus (REPIC) provides a picking consensus approach for cryoelectron microscopy data.
+
+Given several set of coordinates picked by several picker, REPIC will determine the consensus set of particles. It means the subset of most reliable particles.
+
+
+Installation
+------------
+- **Install this plugin in devel mode:**
+
+Using the command line:
+
+.. code-block::
+
+    scipion3 installp -p yourpathtoinstall/scipion-em-repic --devel
+
+Reference
+------------
+
+See the preprint in: [https://www.biorxiv.org/content/10.1101/2023.05.13.540636v1]
+
