@@ -1,0 +1,17 @@
+repos:
+  - repo: local
+    hooks:
+      - id: export-requirements
+        name: Export requirements.txt
+        entry: poetry export -f requirements.txt --output requirements.txt
+        language: system
+        files: pyproject.toml
+        pass_filenames: false
+        stages: [commit]
+      - id: export-dev-requirements
+        name: Export dev requirements.txt
+        entry: poetry export -f requirements.txt --output requirements-dev.txt --extras dev
+        language: system
+        files: pyproject.toml
+        pass_filenames: false
+        stages: [commit]
