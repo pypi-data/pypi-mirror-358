@@ -1,0 +1,40 @@
+[build-system]
+requires = [
+    "setuptools>=42.0.0",
+    "wheel"
+]
+
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "signalsage"
+version = "0.1.0"
+description = "A small dsp processors toolkit for digital signal processing on time-series data"          
+readme = "README.md"
+requires-python = ">=3.9"
+
+dependencies = [
+    "numba!=0.53.*,!=0.54.*",
+    "numpy",
+    "scipy",
+    "dspeed"
+]
+
+authors = [
+  { name="Niko Nanda Putra Nila Lay", email="nikonandap.lay@tum.de" }
+]
+license = { file="LICENSE" }
+keywords = ["signal", "time-series", "integration", "digital signal processing"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/nikolay327/SignalSage"
+"Source"   = "https://github.com/nikolay327/SignalSage.git"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["signalsage*"]
