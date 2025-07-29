@@ -1,0 +1,25 @@
+{% block content %}
+<div id="page-content-wrapper">
+    <div class="container-flex px-3 xyz">
+        <h4>Welcome to the 'naked' {{ array_element }} '{{ subitem }}' page</h4>
+        <p>Here there should be several {{ subitem }} plots etc.</p>
+        {% for row in range(4) %}
+        <div class="row mb-3">
+            {% for col in range(3) %}
+            <div class="col-xl-4 col-lg-6 col-md-12 mb-3">
+                <div class="badger badger-left"
+                    data-badger="{{ array_element }} {{ subitem }} plot {{ row }}x{{ col }}">
+                    <div id="{{ active_subitem }}_{{ row }}_{{ col }}" class="border p-3" style="height: 300px;">
+                        <h5 class="card-text">
+                            Placeholder for {{ array_element }} {{ subitem }} plot {{ row }}x{{ col
+                            }}
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

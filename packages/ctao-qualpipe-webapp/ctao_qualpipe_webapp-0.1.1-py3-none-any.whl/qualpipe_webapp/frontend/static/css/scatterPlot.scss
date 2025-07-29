@@ -1,0 +1,53 @@
+@import "color";
+
+.scatterPlot-title {
+  fill: $quaternary;
+  font: bold 16px sans-serif;
+  text-anchor: middle;
+}
+
+.scatterPlot-xlabel {
+  fill: #000;
+  font: 12px sans-serif;
+  text-anchor: middle;
+}
+
+.scatterPlot-ylabel {
+  fill: #000;
+  font: 12px sans-serif;
+  text-anchor: middle;
+}
+
+.scatterPlot-line {
+  fill: none;
+  stroke: $quaternary;
+  stroke-width: 2px;
+}
+
+.scatterPlot-line-dashed {
+  stroke-dasharray: 5, 5;
+}
+
+.scatterPlot-line-dotted {
+  stroke-dasharray: 2, 8;
+}
+
+.scatterPlot-line-dot-dashed {
+  stroke-dasharray: 6, 3, 2, 3;
+}
+
+.scatterPlot-line-dot-dashed-dashed {
+  stroke-dasharray: 6, 3, 2, 3, 6, 3;
+}
+
+.scatterPlot-point {
+  fill: $primary;
+  stroke: #fff;
+  stroke-width: 1px;
+}
+
+.scatterPlot-xerror,
+.scatterPlot-yerror {
+  stroke: $secondary;
+  stroke-width: 1px;
+}
