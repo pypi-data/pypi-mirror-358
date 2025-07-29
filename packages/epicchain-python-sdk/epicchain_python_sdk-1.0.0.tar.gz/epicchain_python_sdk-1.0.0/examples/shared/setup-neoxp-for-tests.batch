@@ -1,0 +1,11 @@
+transfer 50000000 xpr genesis EpicChain Labs
+transfer 26000000 xpp genesis EpicChain Labs
+
+transfer 50000000 xpr genesis user
+transfer 26000000 xpp genesis user
+
+contract deploy xep17-token/xep17token.xef EpicChain Labs
+transfer 100 xpp user XgJ6aLeAi3wJAQ3JbgcWsHGwUT76bvcWMM
+contract invoke ./register-candidate.invoke EpicChain Labs
+
+contract deploy xep11-token/xep11-token.xef EpicChain Labs
