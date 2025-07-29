@@ -1,0 +1,160 @@
+Metadata-Version: 2.4
+Name: obfuscator-ai
+Version: 0.1.5
+Summary: AI-powered code obfuscation utility
+Home-page: 
+Author: 911TheStalker
+Author-email: webinadvance@gmail.com
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: license-file
+Dynamic: requires-python
+Dynamic: summary
+
+﻿# obfuscator-ai
+
+Interactive code obfuscation tool with AI-powered pattern recognition. Protect sensitive information in your code by replacing identifiable elements with secure placeholders.
+
+## Features
+
+- **Interactive GUI** - Click any word to instantly obfuscate it
+- **Pattern Recognition** - Automatically detect and obfuscate similar patterns
+- **Smart Detection** - Auto-identifies emails, IPs, GUIDs, paths, and namespaces
+- **Reversible** - Full deobfuscation with preserved mappings
+- **Multiple Modes** - Exact word matching or pattern-based obfuscation
+- **Persistent Mappings** - Reuse obfuscation mappings across sessions
+
+## Installation
+
+```bash
+pip install obfuscator-ai
+```
+
+## Usage
+
+### Basic Usage
+
+1. Copy your code to clipboard
+2. Run the obfuscator:
+
+```python
+from obfuscator_ai import SecureObfuscator
+import pyperclip
+
+obf = SecureObfuscator()
+obf.run_interactive(pyperclip.paste())
+```
+
+Or run directly:
+```bash
+python -m obfuscator_ai
+```
+
+### GUI Controls
+
+- **Click any word** - Obfuscate all instances
+- **Mode Toggle** - Switch between exact and pattern matching
+- **Pattern Buttons**:
+  - GUIDs - Obfuscate all GUID patterns
+  - Methods - Obfuscate C# method names
+  - Lambda Props - Obfuscate lambda properties
+  - All Strings - Obfuscate all string literals
+- **UNDO** - Revert last action (Ctrl+Z)
+- **Show Mappings** - View all obfuscation mappings
+- **Deobfuscate All** - Restore original text and close
+- **Close & Copy** - Copy obfuscated text to clipboard
+
+### Placeholder Types
+
+The tool uses different prefixes for different content types:
+
+- `SENSITIVE###` - Sensitive words from config
+- `URL###` - Web URLs
+- `STRING###` - String literals
+- `ANONYMIZED###` - User-selected words
+- `PATTERN###` - Pattern-matched content
+- `GUID###` - GUID identifiers
+- `EMAIL###` - Email addresses
+- `IP###` - IP addresses
+- `PATH###` - File paths
+- `NAMESPACE###` - Code namespaces
+- `METHOD###` - Method names
+- `LAMBDA_PROP###` - Lambda properties
+
+## Configuration
+
+Create `config.json` in your working directory:
+
+```json
+{
+  "sensitive_words": ["password", "apikey", "secret"],
+  "rules": [
+    {
+      "pattern": "\\b[A-Z]{3}\\d{4}\\b",
+      "prefix": "ID",
+      "whole_match": true
+    }
+  ]
+}
+```
+
+## Examples
+
+### Before Obfuscation
+```csharp
+public class UserService {
+    private string apiKey = "sk-1234567890";
+    
+    public User GetUser(string email) {
+        var user = db.Users.FirstOrDefault(u => u.Email == email);
+        logger.LogInformation($"Retrieved user: {email}");
+        return user;
+    }
+}
+```
+
+### After Obfuscation
+```csharp
+public class CLASS1 {
+    private string STRING1 = "STRING2";
+    
+    public CLASS2 METHOD1(string ANONYMIZED1) {
+        var ANONYMIZED2 = ANONYMIZED3.CLASS3.METHOD2(LAMBDA_PROP1 => LAMBDA_PROP1.ANONYMIZED1 == ANONYMIZED1);
+        METHOD3.METHOD4($"LOG_CONTENT1");
+        return ANONYMIZED2;
+    }
+}
+```
+
+## Mappings
+
+Mappings are saved to `mapping.json` and persist between sessions. This allows you to:
+- Maintain consistent obfuscation across multiple files
+- Share obfuscated code while keeping mappings secure
+- Deobfuscate at any time with the original mappings
+
+## Security Notes
+
+- Mappings file contains sensitive data - keep it secure
+- Don't commit mapping files to version control
+- Use different mappings for different security contexts
+- The tool is for protecting sensitive information, not encryption
+
+## License
+
+MIT
