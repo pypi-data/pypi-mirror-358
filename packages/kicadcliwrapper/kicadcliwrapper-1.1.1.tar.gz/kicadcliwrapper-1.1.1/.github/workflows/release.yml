@@ -1,0 +1,25 @@
+name: Build and publish Python 🐍 distributions 📦 to PyPI
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  pypi-publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/kicadcliwrapper
+    permissions:
+      id-token: write
+
+    steps:
+    - uses: actions/checkout@v4
+    - uses: astral-sh/setup-uv@v5
+      with:
+        enable-cache: true
+        cache-dependency-glob: "uv.lock"
+    - name: Install build tool
+      run: uv build 
+    - name: Publish distribution 📦 to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
