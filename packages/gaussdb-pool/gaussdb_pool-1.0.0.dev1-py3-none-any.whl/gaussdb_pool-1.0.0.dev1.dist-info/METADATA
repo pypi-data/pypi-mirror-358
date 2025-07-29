@@ -1,0 +1,53 @@
+Metadata-Version: 2.4
+Name: gaussdb-pool
+Version: 1.0.0.dev1
+Summary: Connection Pool for GaussDB
+Author-email: Daniele Varrazzo <daniele.varrazzo@gmail.com>
+License: GNU Lesser General Public License v3 (LGPLv3)
+Project-URL: Homepage, https://gaussdb.org/
+Project-URL: Documentation, https://www.gaussdb.org/gaussdb/docs/advanced/pool.html
+Project-URL: Changes, https://gaussdb.org/gaussdb/docs/news_pool.html
+Project-URL: Code, https://github.com/gaussdb/gaussdb
+Project-URL: Issue Tracker, https://github.com/gaussdb/gaussdb/issues
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Classifier: Topic :: Database
+Classifier: Topic :: Database :: Front-Ends
+Classifier: Topic :: Software Development
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.9
+Description-Content-Type: text/x-rst
+License-File: LICENSE.txt
+Requires-Dist: typing-extensions>=4.6
+Dynamic: license-file
+
+gaussdb: GaussDB database adapter for Python - Connection Pool
+===================================================================
+
+This distribution package is an optional component of `gaussdb`: it
+contains the optional connection pool package `gaussdb_pool`.
+
+This package is kept separate from the main ``gaussdb`` package because it is
+likely that it will follow a different release cycle.
+
+You can also install this package using::
+
+    pip install "gaussdb[pool]"
+
+Please read `the project readme` and `the installation documentation` for
+more details.
+
+
+Copyright (C) 2020 The Psycopg Team
