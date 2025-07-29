@@ -1,0 +1,4 @@
+
+# croptimizer module
+
+::: croptimizer.croptimizer
