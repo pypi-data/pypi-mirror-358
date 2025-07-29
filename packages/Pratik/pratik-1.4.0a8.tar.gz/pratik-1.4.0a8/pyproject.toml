@@ -1,0 +1,45 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+include = [
+    "pratik",
+    "metadata.json",
+    "hatch_plugin.py"
+]
+
+[project]
+dynamic = ["name", "version", "authors", "description"]
+keywords = ["Pratik", "utils", "python"]
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Topic :: Software Development :: Libraries",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Development Status :: 5 - Production/Stable",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3 :: Only",
+]
+license = "GPL-3.0-or-later"
+license-files = ["LICEN[CS]E*"]
+
+[project.urls]
+Homepage = "https://github.com/LassaInora/Pratik"
+Repository = "https://github.com/LassaInora/Pratik.git"
+Issues = "https://github.com/LassaInora/Pratik/issues"
+
+[tool.hatch.metadata.hooks.custom]
+path = "hatch_plugin.py"
+
+[tool.hatch.build.hooks.custom]
+path = "hatch_plugin.py"
