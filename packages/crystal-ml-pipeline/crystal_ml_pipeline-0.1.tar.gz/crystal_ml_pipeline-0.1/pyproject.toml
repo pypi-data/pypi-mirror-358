@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "crystal_ml_pipeline"
+version = "0.1"
+description = "End-to-end interpretable binary-classification pipeline"
+readme = { file = "README.md", content-type = "text/markdown" }
+requires-python = ">=3.7,<=3.12"
+license = { file = "LICENSE" }
+authors = [
+  { name = "Raffaele Mariosa", email = "mraffaele87@gmail.com" }
+]
+dependencies = [
+  "pyyaml",
+  "pandas",
+  "numpy",
+  "scikit-learn",
+  "xgboost",
+  "imbalanced-learn",
+  "autogluon",
+  "openpyxl",
+  "SupervisedDiscretization",
+  "gosdt",
+  "graphviz",
+  "matplotlib",
+  "seaborn",
+  "joblib",
+  "gurobipy"
+]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent"
+]
+
+[project.urls]
+Homepage   = "https://github.com/yourusername/crystal-ml"
+Repository = "https://github.com/yourusername/crystal-ml"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"crystal_ml" = ["config.yaml"]

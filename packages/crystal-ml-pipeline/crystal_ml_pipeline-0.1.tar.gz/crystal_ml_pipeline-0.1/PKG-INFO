@@ -1,0 +1,117 @@
+Metadata-Version: 2.4
+Name: crystal_ml_pipeline
+Version: 0.1
+Summary: End-to-end interpretable binary-classification pipeline
+Author-email: Raffaele Mariosa <mraffaele87@gmail.com>
+License: The MIT License (MIT)
+        Copyright © 2025 <Raffaele Mariosa>
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+Project-URL: Homepage, https://github.com/yourusername/crystal-ml
+Project-URL: Repository, https://github.com/yourusername/crystal-ml
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: <=3.12,>=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pyyaml
+Requires-Dist: pandas
+Requires-Dist: numpy
+Requires-Dist: scikit-learn
+Requires-Dist: xgboost
+Requires-Dist: imbalanced-learn
+Requires-Dist: autogluon
+Requires-Dist: openpyxl
+Requires-Dist: SupervisedDiscretization
+Requires-Dist: gosdt
+Requires-Dist: graphviz
+Requires-Dist: matplotlib
+Requires-Dist: seaborn
+Requires-Dist: joblib
+Requires-Dist: gurobipy
+Dynamic: license-file
+
+# crystal-ml
+
+An **end-to-end interpretable binary‐classification pipeline**.  
+`crystal-ml` provides configurable data ingestion, model training (SVM, Balanced Random Forest, XGBoost, AutoGluon),  
+SVM‐based downsampling algorithm, supervised discretization (FCCA), and optimal decision‐tree induction (GOSDT).
+
+---
+
+## 🚀 Features
+
+- **Data ingestion** from CSV/XLSX, with train/test split or pre-split datasets  
+- **Balanced Random Forest**, **SVM**, **XGBoost**, and **AutoGluon** model training with hyperparameter search  
+- **SVM‐based undersampling**: identify “free” support vectors for downsampling training set (+ validation)
+- **FCCA discretization** 
+- **GOSDT** (Optimal Sparse Decision Trees) for interpretable optimal decision tree
+- Fully **YAML‐driven configuration**
+
+---
+
+## 🛠️ Prerequisites
+
+- Python **3.7** – **3.12** (recommended **3.10**)  
+- `git`, `pip`, and optionally `conda`  
+
+---
+
+## 📦 Installation
+
+### From PyPI
+
+```bash
+# (Optional) Create & activate a fresh conda env with Python 3.10
+conda create -n crystal_ml python=3.10 -y
+conda activate crystal_ml
+
+# Install
+pip install crystal_ml_pipeline
+
+### From source
+git clone https://github.com/yourusername/crystal-ml.git
+cd crystal-ml
+pip install .
+
+⚙️ Configuration
+
+All pipeline options live in a single config.yaml at your project root. Copy the template in the repo ([text](https://gitlab.com/mraffaele87/crystal-ml/-/blob/master/config.yaml?ref_type=heads)) and tweak sections as needed.
+
+🎯 Quickstart
+
+1. Create a script, e.g. run.py:
+
+from crystal_ml.pipeline import run_pipeline
+
+if __name__ == "__main__":
+    run_pipeline("config.yaml")
+
+
+2. Prepare config.yaml and place your train/test files alongside.
+3. Execute:
+
+python run.py (alternatively, use your favourite IDE to run the project)
+
+4. Inspect the logs/ folder for:
+- Excel reports (*_Performance.xlsx, *_Results.xlsx)
+- Pickled objects (.pkl)
+- PNG charts (*.png)
+- Optimal tree tree diagrams
+
+📄 License
+crystal_ml_pipeline is released under the MIT License. See LICENSE for details.
+
+Built with ❤️ by Raffaele Mariosa
+GitHub · PyPI
