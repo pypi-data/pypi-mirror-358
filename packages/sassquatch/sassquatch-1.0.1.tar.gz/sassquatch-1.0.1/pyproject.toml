@@ -1,0 +1,37 @@
+[project]
+name = "sassquatch"
+dynamic = ["version"]
+description = "Dart Sass (Embedded) in Python"
+readme = "README.md"
+authors = [
+    { name = "Robin van der Noord", email = "robinvandernoord@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "sleazy >= 0.2.0, < 1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+]
+
+
+[project.scripts]
+sassquatch = "sassquatch.core:main"
+
+[build-system]
+requires = ["hatchling", "setuptools>=42"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.dynamic]
+version = {attr = "sassquatch.__about__.__version__"}
+
+[tool.semantic_release]
+branch = "master"
+version_variable = "src/sassquatch/__about__.py:__version__"
+change_log = "CHANGELOG.md"
+upload_to_repository = false
+upload_to_release = false
+build_command = "hatch build --target sdist"
