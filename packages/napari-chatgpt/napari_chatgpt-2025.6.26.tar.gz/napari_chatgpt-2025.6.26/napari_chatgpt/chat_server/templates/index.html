@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Omega -- a chatGPT agent for image processing and analysis with
+        napari</title>
+
+    <link rel="icon" type="image/png" href="static/OmegaLogoIcon.png" sizes="192x192">
+
+    <!-- tailwind -->
+    <link href="static/tailwind.min.css" rel="stylesheet"/>-->
+
+    <!-- tailwind style overrides -->
+    <style>
+        .chat-body {
+            width: 90%;
+            height: 90%;
+            margin: 50px auto;
+        }
+
+        .card-body {
+            background-color: #333;
+            color: #fff;
+            border-radius: 10px;
+        }
+
+        .server-message {
+            background-color: #444;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 10px;
+        }
+
+        .client-message {
+            background-color: #555;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 10px;
+        }
+
+        .error-message {
+            background-color: #F4856D;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 10px;
+        }
+
+        .action-message {
+            background-color: #354d5d;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 10px;
+        }
+
+        .form-inline {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form-control {
+            width: 80%;
+            height: auto;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            margin-right: 10px;
+            white-space: pre-wrap;
+            resize: vertical;
+        }
+
+        #send {
+            background-color: #4C4CFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+        }
+
+        .form-message {
+            margin-top: 10px;
+        }
+
+        .wrapper .entry-content ol {
+            list-style-type: decimal;
+            margin: 0;
+            padding-left: 25px;
+        }
+    </style>
+
+    <!-- Marked  -->
+    <script type="text/javascript" src="static/marked.min.js"></script>
+    <script type="text/javascript" src="static/marked-highlight.js"></script>
+
+    <!-- Sunlight  -->
+    <link rel="stylesheet" type="text/css" href="static/sunlight.dark.css" />
+    <script type="text/javascript" src="static/sunlight-min.js"></script>
+    <script type="text/javascript" src="static/sunlight.python-min.js"></script>
+
+    <!-- Chat code  -->
+    <script src="static/chat.js"></script>
+
+    <!-- List style override -->
+    <style>
+       .wrapper .entry-content ol {
+            list-style-type: decimal;
+            margin: 0;
+            padding-left: 25px;
+        }
+    </style>
+</head>
+<body class="bg-black">
+<div class="chat-body card">
+    <div class="card-body p-5">
+        <h4 class="card-title text-center text-xl font-medium"> Omega </h4>
+        <p class="card-text text-center text-sm" id="header"> Ask a question,
+            ask for a widget, or control the napari viewer, or anything
+            else! <br> <a href="https://github.com/royerlab/napari-chatgpt/wiki/Tips&Tricks" class="text-blue-500 underline">How to Prompt Omega - Tips & Tricks</a></p>
+        <hr class="border-gray-500 mb-5" style="margin-top: 20px;">
+        <div id="messages" class="leading-tight overflow-auto"
+             style="max-height: 600px;">
+        </div>
+        <form action="" class="form-inline mt-5" id="chat-form"
+              onsubmit="sendMessage(event)">
+            <textarea class="form-control"
+                      placeholder="Enter your question or request here."
+                      id="messageText" wrap="soft"
+                      onkeydown="if(event.keyCode === 13 && !event.shiftKey) { sendMessage(event); return false; } else if(event.keyCode === 13 && event.shiftKey) { this.value += ''; }"></textarea>
+            <button id="send" type="submit" class="btn btn-primary">Send
+            </button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

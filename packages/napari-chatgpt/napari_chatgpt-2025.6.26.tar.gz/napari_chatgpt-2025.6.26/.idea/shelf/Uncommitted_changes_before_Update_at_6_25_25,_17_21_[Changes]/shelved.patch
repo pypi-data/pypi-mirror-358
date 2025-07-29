@@ -1,0 +1,139 @@
+Index: pyproject.toml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>[build-system]\nrequires = [\"setuptools>=42.0.0\", \"wheel\", \"setuptools_scm\"]\nbuild-backend = \"setuptools.build_meta\"\n\n\n[tool.setuptools_scm]\nwrite_to = \"src/napari_chatgpt/_version.py\"\n\n[tool.black]\nline-length = 79\n\n[tool.isort]\nprofile = \"black\"\nline_length = 79\n\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pyproject.toml b/pyproject.toml
+--- a/pyproject.toml	(revision e60f329b3db7232106fb4fc34b007627772c7ddf)
++++ b/pyproject.toml	(date 1750888195869)
+@@ -2,7 +2,6 @@
+ requires = ["setuptools>=42.0.0", "wheel", "setuptools_scm"]
+ build-backend = "setuptools.build_meta"
+ 
+-
+ [tool.setuptools_scm]
+ write_to = "src/napari_chatgpt/_version.py"
+ 
+Index: setup.cfg
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>[metadata]\nname = napari-chatgpt\nversion = v2024.10.18.1\ndescription = A napari plugin to process and analyse images with chatGPT.\nlong_description = file: README.md\nlong_description_content_type = text/markdown\nurl = https://github.com/royerlab/napari-chatgpt\nauthor = Loic A. Royer and contributors\nauthor_email = royerloic@gmail.com\nlicense = BSD-3-Clause\nlicense_files = LICENSE\nclassifiers =\n    Development Status :: 2 - Pre-Alpha\n    Framework :: napari\n    Intended Audience :: Developers\n    License :: OSI Approved :: BSD License\n    Operating System :: OS Independent\n    Programming Language :: Python\n    Programming Language :: Python :: 3\n    Programming Language :: Python :: 3 :: Only\n    Programming Language :: Python :: 3.9\n    Programming Language :: Python :: 3.10\n    Programming Language :: Python :: 3.11\n    Topic :: Scientific/Engineering :: Image Processing\nproject_urls =\n    Bug Tracker = https://github.com/royerlab/napari-chatgpt/issues\n    Documentation = https://github.com/royerlab/napari-chatgpt#README.md\n    Source Code = https://github.com/royerlab/napari-chatgpt\n    User Support = https://github.com/royerlab/napari-chatgpt/issues\n\n[options]\npackages = find:\ninstall_requires =\n    numpy\n    magicgui\n    scikit-image\n    qtpy\n    QtAwesome\n    langchain==0.2.15\n    langchain-community==0.2.14\n    langchain-openai==0.1.23\n    langchain-anthropic==0.1.23\n#    langchain-google-genai==1.0.10\n    openai==1.42.0\n    anthropic==0.34.1\n    fastapi\n    uvicorn\n    websockets\n    tiktoken\n    wikipedia\n    lxml\n    gTTS\n    playsound\n    matplotlib\n    xarray\n    arbol\n    playwright\n    duckduckgo-search==6.3.2\n    ome-zarr\n    transformers\n    cryptography\n    tabulate\n    numba\n    imageio[ffmpeg,pyav]\n    notebook\n    nbformat\n    jedi\n    black\n    httpx==0.27.2\n\n    # needed because lxml has spun out this code out of its main repo:\n    lxml_html_clean\n\n\npython_requires = >=3.9\ninclude_package_data = True\npackage_dir =\n    =src\nsetup_requires = setuptools_scm\n# add your package requirements here\n\n[options.packages.find]\nwhere = src\n\n[options.entry_points]\nnapari.manifest =\n    napari-chatgpt = napari_chatgpt:napari.yaml\nomega.tools =\n    example_tool = napari_chatgpt.omega.tools.examples.example_omega_tool:ExampleOmegaTool\n\n[options.extras_require]\ntesting =\n    tox\n    pytest  # https://docs.pytest.org/en/latest/contents.html\n    pytest-cov  # https://pytest-cov.readthedocs.io/en/latest/\n    pytest-qt  # https://pytest-qt.readthedocs.io/en/latest/\n    napari\n    pyqt5\n\n[options.package_data]\n* = *.yaml\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/setup.cfg b/setup.cfg
+--- a/setup.cfg	(revision e60f329b3db7232106fb4fc34b007627772c7ddf)
++++ b/setup.cfg	(date 1750887930975)
+@@ -1,6 +1,6 @@
+ [metadata]
+ name = napari-chatgpt
+-version = v2024.10.18.1
++version = v2025.06.25
+ description = A napari plugin to process and analyse images with chatGPT.
+ long_description = file: README.md
+ long_description_content_type = text/markdown
+Index: .napari-hub/DESCRIPTION.md
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!-- This file is a placeholder for customizing description of your plugin \non the napari hub if you wish. The readme file will be used by default if\nyou wish not to do any customization for the napari hub listing.\n\nIf you need some help writing a good description, check out our \n[guide](https://github.com/chanzuckerberg/napari-hub/wiki/Writing-the-Perfect-Description-for-your-Plugin)\n-->\n\nThe developer has not yet provided a napari-hub specific description.\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.napari-hub/DESCRIPTION.md b/.napari-hub/DESCRIPTION.md
+--- a/.napari-hub/DESCRIPTION.md	(revision e60f329b3db7232106fb4fc34b007627772c7ddf)
++++ b/.napari-hub/DESCRIPTION.md	(date 1750888121647)
+@@ -1,9 +1,1 @@
+-<!-- This file is a placeholder for customizing description of your plugin 
+-on the napari hub if you wish. The readme file will be used by default if
+-you wish not to do any customization for the napari hub listing.
+-
+-If you need some help writing a good description, check out our 
+-[guide](https://github.com/chanzuckerberg/napari-hub/wiki/Writing-the-Perfect-Description-for-your-Plugin)
+--->
+-
+-The developer has not yet provided a napari-hub specific description.
++napari-chatgpt(Omega) is a napari plugin that utilizes OpenAI's Large Language Model (LLM) called ChatGPT. It introduces an agent named Omega, which is aware of napari and capable of engaging in conversational image processing and analysis tasks. Omega utilizes the ChatGPT API through the LangChain Python library and napari. Omega demonstrates the potential of LLMs by performing tasks such as writing image processing code, creating napari widgets, correcting coding mistakes, conducting follow-up analysis, and controlling the napari viewer.
+Index: meta.yaml
+===================================================================
+diff --git a/meta.yaml b/meta.yaml
+deleted file mode 100644
+--- a/meta.yaml	(revision e60f329b3db7232106fb4fc34b007627772c7ddf)
++++ /dev/null	(revision e60f329b3db7232106fb4fc34b007627772c7ddf)
+@@ -1,75 +0,0 @@
+-{% set name = "napari-chatgpt" %}
+-{% set version = "2024.2.19" %}
+-
+-package:
+-  name: {{ name|lower }}
+-  version: {{ version }}
+-
+-source:
+-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/napari-chatgpt-{{ version }}.tar.gz
+-  sha256: 4b7238d46766db40fff48735028ff17cd4229f1028a212646f381d459ab89625
+-
+-build:
+-  noarch: python
+-  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+-  number: 0
+-
+-requirements:
+-  host:
+-    - python >=3.9
+-    - setuptools >=42.0.0
+-    - wheel
+-    - setuptools-scm
+-    - pip
+-  run:
+-    - python >=3.9
+-    - numpy
+-    - magicgui
+-    - scikit-image
+-    - qtpy
+-    - qtawesome
+-    - langchain ==0.1.5
+-    - langchain-openai ==0.0.5
+-    - openai
+-    - anthropic
+-    - fastapi
+-    - uvicorn
+-    - websockets
+-    - tiktoken
+-    - wikipedia
+-    - lxml
+-    - gtts
+-    - playsound
+-    - matplotlib-base
+-    - xarray
+-    - arbol
+-    - microsoft::playwright
+-    - duckduckgo-search
+-    - ome-zarr
+-    - transformers
+-    - cryptography
+-    - tabulate
+-    - numba
+-    - imageio
+-    - notebook
+-    - nbformat
+-    - jedi
+-    - black
+-
+-#test:
+-#  imports:
+-#    - napari_chatgpt
+-#  commands:
+-#    - pip check
+-#  requires:
+-#    - pip
+-
+-about:
+-  home: https://github.com/royerlab/napari-chatgpt
+-  summary: A napari plugin to process and analyse images with chatGPT.
+-  license: BSD-3-Clause
+-  license_file: LICENSE
+-
+-extra:
+-  recipe-maintainers:
+-    - royerloic
