@@ -1,0 +1,71 @@
+[project]
+name = "imuthes-alchemy"
+version = "0.1.0"
+description = "SQL Alchemy related utilities"
+license = { text = "LGPL-3.0-or-later" }
+readme = "README.md"
+requires-python = ">=3.11,<4.0"
+authors = [
+    { name = "Bernhard Radermacher", email = "bernhard.radermacher@netlink-consulting.com" },
+]
+keywords = [ "tools", ]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development",
+    "Topic :: Utilities",
+    "Typing :: Typed",
+]
+dependencies = [
+    "sqlalchemy-history (>=2.1.4,<3.0.0)",
+    "setuptools (>=78.1.0,<79.0.0)"
+]
+
+[project.urls]
+#homepage = "https://python-poetry.org/"
+repository = "https://gitlab.com/imuthes-py/imuthes-alchemy"
+#documentation = "https://python-poetry.org/docs/"
+
+[tool.poetry]
+packages = [
+    { include = "imuthes/alchemy" },
+]
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+black = ">=25.1.0,<26.0.0"
+ruff = ">=0.11.0,<0.12.0"
+
+[tool.poetry.group.test]
+optional = true
+
+[tool.poetry.group.test.dependencies]
+pytest-cov = ">=6.0.0,<7.0.0"
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.black]
+line-length = 120
+target-version = ['py313']
+include = '\.pyi?$'
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    'ignore:Deprecated call to `pkg_resources.declare_namespace:DeprecationWarning',
+    'ignore:pkg_resources is deprecated as an API:DeprecationWarning',
+]
+addopts = "--cov=imuthes --cov-report html:__coverage"
+
+[tool.ruff]
+line-length = 120
+target-version = 'py313'
