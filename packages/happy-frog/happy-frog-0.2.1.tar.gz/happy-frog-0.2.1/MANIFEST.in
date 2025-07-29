@@ -1,0 +1,56 @@
+# Happy Frog - Production Package Manifest
+# Only includes essential runtime files, excludes development infrastructure
+
+# Include core documentation
+include README.md
+include LICENSE
+include DISCLAIMER.md
+
+# Include package configuration
+include setup.py
+
+# Include essential payload examples (educational value)
+recursive-include payloads *.txt
+
+# Include core modules
+recursive-include happy_frog_parser *.py
+recursive-include devices *.py
+
+# Include ducky_converter
+include ducky_converter.py
+
+# Include main.py
+include main.py
+
+# Exclude development files
+global-exclude *.pyc
+global-exclude __pycache__
+global-exclude .pytest_cache
+global-exclude .git
+global-exclude .gitignore
+global-exclude .vscode
+global-exclude .idea
+
+# Exclude test files
+global-exclude test_*.py
+global-exclude test_*.txt
+global-exclude tests/
+
+# Exclude development scripts
+global-exclude my_*.py
+
+# Exclude build artifacts
+global-exclude dist/
+global-exclude build/
+global-exclude *.egg-info/
+
+# Exclude documentation (not needed in runtime package)
+global-exclude docs/
+
+# Exclude compiled examples
+global-exclude compiled/
+
+# Exclude development configuration
+global-exclude pytest.ini
+global-exclude .coveragerc
+global-exclude tox.ini 
