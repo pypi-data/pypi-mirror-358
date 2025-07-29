@@ -1,0 +1,87 @@
+path_info:
+  common:
+    base_path: /path/to/data1
+  input:
+    base_path: /path/to/data2
+    folder_name: input
+  select:
+    base_path: /path/to/data3
+    folder_name: select
+  locate:
+    folder_name: select
+  split:
+    folder_name: training
+
+target_set1: &target_set1
+  targets:
+    temp:
+      variable: temp_qc
+    psal:
+      variable: psal_qc
+
+feature_set1: &feature_set1
+  features:
+    - { class: location,
+        scales: { longitude: { min: 14.5, max: 23.5 },
+                  latitude: { min: 55, max: 66 } } }
+    - { class: day_of_year, convert: sine }
+    - { class: profile_summary_stats5,
+        scales: { temp: { mean: { min: 0, max: 12.5 },
+                          median: { min: 0, max: 15 },
+                          sd: { min: 0, max: 6.5 },
+                          pct25: { min: 0, max: 12 },
+                          pct75: { min: 1, max: 19 } },
+                  psal: { mean: { min: 2.9, max: 12 },
+                          median: { min: 2.9, max: 12 },
+                          sd: { min: 0, max: 4 },
+                          pct25: { min: 2.5, max: 8.5 },
+                          pct75: { min: 3, max: 16 } },
+                  pres: { mean: { min: 24, max: 105 },
+                          median: { min: 24, max: 105 },
+                          sd: { min: 13, max: 60 },
+                          pct25: { min: 12, max: 53 },
+                          pct75: { min: 35, max: 156 } } } }
+    - { class: basic_values3_plus_flanks,
+        flank_up: 5,
+        scales: { temp: { min: 0, max: 20 },
+                  psal: { min: 0, max: 20 },
+                  pres: { min: 0, max: 200 } } }
+
+NRT_BO_001:
+  common:
+    folder_name: nrt_bo_001
+  input:
+    file_name: nrt_cora_bo_test.parquet
+  base_class:
+    input: InputDataSetA
+    summary: SummaryDataSetA
+    select: SelectDataSetA
+    locate: LocateDataSetA
+    extract: ExtractDataSetA
+    split: SplitDataSetA
+  <<: *target_set1
+  select:
+    folder_name: nrt_bo_001_test
+    file_name: selected_profiles2.parquet
+  extract:
+    <<: *feature_set1
+  split:
+    test_set_fraction: 0.1
+    k_fold: 3
+
+NRT_BO_002:
+  common:
+    folder_name: nrt_bo_002
+  base_class:
+    input: InputDataSetA
+    summary: SummaryDataSetA
+    select: SelectDataSetA
+    locate: LocateDataSetA
+    extract: ExtractDataSetA
+    split: SplitDataSetA
+  input:
+    folder_name:
+  locate: *target_set1
+  extract:
+    <<: *target_set1
+    <<: *feature_set1

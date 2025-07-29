@@ -1,0 +1,30 @@
+path_info:
+  common:
+    base_path: /path/to/data
+    folder_name: training
+
+target_set1: &target_set1
+  targets: { temp: { }, psal: { } }
+
+NRT_BO_001:
+  common:
+    folder_name: nrt_bo_001
+  <<: *target_set1
+  base_class:
+    input: InputTrainingSetA
+    validate: KFoldValidation
+    model: XGBoost
+  validate:
+    k_fold: 3
+
+NRT_BO_002:
+  common:
+    folder_name: nrt_bo_002
+  <<: *target_set1
+  base_class:
+    input: InputTrainingSetA
+    validate: KFoldValidation
+    model: EmptyModel
+  validate:
+    k_fold: 3
+
