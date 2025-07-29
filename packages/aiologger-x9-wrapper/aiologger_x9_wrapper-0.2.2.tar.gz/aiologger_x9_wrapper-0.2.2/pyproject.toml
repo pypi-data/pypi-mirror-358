@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aiologger_x9_wrapper"
+version = "0.2.2"
+authors = [
+    { name = "Sam", email = "svsposobin@gmail.com" }
+]
+description = "High-level wrapper for aiologger. Asynchronous logging with automatic log directory management and daily file rotation."
+keywords = ["async", "logging", "logger"]
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Topic :: System :: Logging",
+]
+dependencies = [
+    "aiofiles>=24.1.0",
+    "aiologger>=0.7.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/svsposobin/aiologger_x9_wrapper"
+
+[tool.setuptools.packages]
+find = { }
