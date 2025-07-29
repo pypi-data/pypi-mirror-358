@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<scheme version="2.0" title="Darfix workflow for EDF data" description="A darfix workflow for data stored in EDF files">
+	<nodes>
+		<node id="0" name="data selection" qualified_name="orangecontrib.darfix.widgets.edfdataselection.EDFDataSelectionWidgetOW" project_name="darfix" version="" title="data selection" position="(234.0, 315.0)" />
+		<node id="1" name="roi selection" qualified_name="orangecontrib.darfix.widgets.roiselection.RoiSelectionWidgetOW" project_name="darfix" version="" title="roi selection" position="(614.0, 318.0)" />
+		<node id="2" name="noise removal" qualified_name="orangecontrib.darfix.widgets.noiseremoval.NoiseRemovalWidgetOW" project_name="darfix" version="" title="noise removal" position="(850.0, 320.0)" />
+		<node id="3" name="shift correction" qualified_name="orangecontrib.darfix.widgets.shiftcorrection.ShiftCorrectionWidgetOW" project_name="darfix" version="" title="shift correction" position="(1034.0, 317.0)" />
+		<node id="4" name="z sum" qualified_name="orangecontrib.darfix.widgets.zsum.ZSumWidgetOW" project_name="darfix" version="" title="z sum" position="(1214.0, 323.0)" />
+		<node id="5" name="dimension definition" qualified_name="orangecontrib.darfix.widgets.dimensions.DimensionWidgetOW" project_name="darfix" version="" title="dimension definition" position="(423.0, 325.0)" />
+		<node id="6" name="metadata" qualified_name="orangecontrib.darfix.widgets.metadata.MetadataWidgetOW" project_name="darfix" version="" title="metadata" position="(347.0, 216.0)" />
+		<node id="7" name="grain plot" qualified_name="orangecontrib.darfix.widgets.grainplot.GrainPlotWidgetOW" project_name="darfix" version="" title="grain plot" position="(1207.0, 432.0)" />
+	</nodes>
+	<links>
+		<link id="0" source_node_id="0" sink_node_id="6" source_channel="dataset" sink_channel="dataset" enabled="true" source_channel_id="dataset" sink_channel_id="dataset" />
+		<link id="1" source_node_id="5" sink_node_id="1" source_channel="dataset" sink_channel="dataset" enabled="true" source_channel_id="dataset" sink_channel_id="dataset" />
+		<link id="2" source_node_id="1" sink_node_id="2" source_channel="dataset" sink_channel="dataset" enabled="true" source_channel_id="dataset" sink_channel_id="dataset" />
+		<link id="3" source_node_id="2" sink_node_id="3" source_channel="dataset" sink_channel="dataset" enabled="true" source_channel_id="dataset" sink_channel_id="dataset" />
+		<link id="4" source_node_id="3" sink_node_id="4" source_channel="dataset" sink_channel="dataset" enabled="true" source_channel_id="dataset" sink_channel_id="dataset" />
+		<link id="5" source_node_id="0" sink_node_id="5" source_channel="dataset" sink_channel="dataset" enabled="true" source_channel_id="dataset" sink_channel_id="dataset" />
+		<link id="6" source_node_id="3" sink_node_id="7" source_channel="dataset" sink_channel="dataset" enabled="true" source_channel_id="dataset" sink_channel_id="dataset" />
+	</links>
+	<annotations />
+	<thumbnail />
+	<node_properties>
+		<properties node_id="0" format="literal">{'controlAreaVisible': True, 'dark_filename': '', 'filenames': [], 'in_disk': None, 'metadata_url': '', 'on_disk': False, 'raw_filename': '', 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x03\x9c\x00\x00\x01\xd2\x00\x00\x06\x1b\x00\x00\x03\xb1\x00\x00\x03\x9c\x00\x00\x01\xd2\x00\x00\x06\x1b\x00\x00\x03\xb1\x00\x00\x00\x00\x00\x00\x00\x00\n\x00\x00\x00\x03\x9c\x00\x00\x01\xd2\x00\x00\x06\x1b\x00\x00\x03\xb1', '__version__': 1}</properties>
+		<properties node_id="1" format="literal">{'controlAreaVisible': True, 'roi_origin': [0, 0], 'roi_size': [500, 500], 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x00H\x00\x00\x00\x1b\x00\x00\t\xff\x00\x00\x05\x9f\x00\x00\x03\x92\x00\x00\x01\xd1\x00\x00\x06%\x00\x00\x03\xb0\x00\x00\x00\x00\x02\x00\x00\x00\n\x00\x00\x00\x00H\x00\x00\x00@\x00\x00\t\xff\x00\x00\x05\x9f', '__version__': 1}</properties>
+		<properties node_id="2" format="literal">{'background_type': 'Data', 'bottom_threshold': '0', 'chunks': [100, 100], 'controlAreaVisible': True, 'kernel_size': '3', 'mask': None, 'method': 'median', 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x03\x92\x00\x00\x01\x8d\x00\x00\x08E\x00\x00\x05\x08\x00\x00\x03\x92\x00\x00\x01\xb2\x00\x00\x08E\x00\x00\x05\x08\x00\x00\x00\x00\x00\x00\x00\x00\n\x00\x00\x00\x03\x92\x00\x00\x01\xb2\x00\x00\x08E\x00\x00\x05\x08', 'step': '1', 'top_threshold': '4096', '__version__': 1}</properties>
+		<properties node_id="3" format="literal">{'controlAreaVisible': True, 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x03.\x00\x00\x01\xad\x00\x00\x08\xf3\x00\x00\x05m\x00\x00\x03.\x00\x00\x01\xd2\x00\x00\x08\xf3\x00\x00\x05m\x00\x00\x00\x00\x00\x00\x00\x00\n\x00\x00\x00\x03.\x00\x00\x01\xd2\x00\x00\x08\xf3\x00\x00\x05m', 'shift': [0, 0], '__version__': 1}</properties>
+		<properties node_id="4" format="literal">{'controlAreaVisible': True, 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x03\x9c\x00\x00\x01\xad\x00\x00\x08m\x00\x00\x05\x12\x00\x00\x03\x9c\x00\x00\x01\xd2\x00\x00\x08m\x00\x00\x05\x12\x00\x00\x00\x00\x00\x00\x00\x00\n\x00\x00\x00\x03\x9c\x00\x00\x01\xd2\x00\x00\x08m\x00\x00\x05\x12', '__version__': 1}</properties>
+		<properties node_id="5" format="literal">{'_dims': {0: {'name': 'obpitch', 'kind': 2, 'size': 2, 'tolerance': 1e-09}}, 'controlAreaVisible': True, 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\t\x96\x00\x00\x00\xe7\x00\x00\x0c\x15\x00\x00\x02\xde\x00\x00\t\x96\x00\x00\x00\xff\x00\x00\x0c\x15\x00\x00\x02\xde\x00\x00\x00\x01\x00\x00\x00\x00\x07\x80\x00\x00\t\x96\x00\x00\x00\xff\x00\x00\x0c\x15\x00\x00\x02\xde', '__version__': 1}</properties>
+		<properties node_id="6" format="literal">{'controlAreaVisible': True, 'savedWidgetGeometry': None, '__version__': 1}</properties>
+		<properties node_id="7" format="literal">{'controlAreaVisible': True, 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x05\x0e\x00\x00\x00\x97\x00\x00\t6\x00\x00\x034\x00\x00\x05\x0e\x00\x00\x00\xbc\x00\x00\t6\x00\x00\x034\x00\x00\x00\x00\x00\x00\x00\x00\n\x00\x00\x00\x05\x0e\x00\x00\x00\xbc\x00\x00\t6\x00\x00\x034', '__version__': 1}</properties>
+	</node_properties>
+	<session_state>
+		<window_groups />
+	</session_state>
+</scheme>
