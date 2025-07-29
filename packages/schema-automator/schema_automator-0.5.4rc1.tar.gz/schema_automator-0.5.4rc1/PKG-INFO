@@ -1,0 +1,95 @@
+Metadata-Version: 2.3
+Name: schema_automator
+Version: 0.5.4rc1
+Summary: Infer models, enrich with meaning for terms including enum permissible values
+License: BSD 3-Clause
+Keywords: schema,linked data,data modeling,rdf,owl
+Author: Chris Mungall
+Requires-Python: >=3.9,<4.0
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Healthcare Industry
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: BSD License
+Classifier: License :: Other/Proprietary License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Provides-Extra: docs
+Provides-Extra: duckdb
+Provides-Extra: llm
+Provides-Extra: mariadb
+Provides-Extra: postgres
+Requires-Dist: click (>=8.1.7,<9.0.0)
+Requires-Dist: click-log (>=0.4.0)
+Requires-Dist: deprecated (>=1.2.15,<2.0.0)
+Requires-Dist: deprecation (>=2.1.0,<3.0.0)
+Requires-Dist: duckdb (>=0.10.1,<0.11.0) ; extra == "duckdb"
+Requires-Dist: funowl (>=0.2.3)
+Requires-Dist: inflect (>=6.0.0)
+Requires-Dist: jsonasobj2 (>=1.0.4,<2.0.0)
+Requires-Dist: linkml (>=1.9.1,<2.0.0)
+Requires-Dist: linkml-runtime (>=1.9.2,<2.0.0)
+Requires-Dist: llm (>=0.21,<0.22) ; extra == "llm"
+Requires-Dist: mariadb (>=1.1.11,<2.0.0) ; extra == "mariadb"
+Requires-Dist: numpy (<2.0)
+Requires-Dist: oaklib (>=0.5.25)
+Requires-Dist: pandas (>=1.3.5)
+Requires-Dist: pandera (>=0.12.0)
+Requires-Dist: psycopg2-binary (>=2.9.2,<3.0.0) ; extra == "postgres"
+Requires-Dist: pydbml (>=1.1.2,<2.0.0)
+Requires-Dist: python-dateutil (>=2.8.2)
+Requires-Dist: pyyaml (>=6.0.2,<7.0.0)
+Requires-Dist: quantulum3 (>=0.7.9)
+Requires-Dist: rdflib (>=7.1.1,<8.0.0)
+Requires-Dist: requests (>=2.26.0)
+Requires-Dist: schemasheets (>=0.4.0,<0.5.0)
+Requires-Dist: sqlalchemy (>=2.0.36,<3.0.0)
+Requires-Dist: strsimpy (>=0.2.1)
+Requires-Dist: tomlkit (>=0.11.4)
+Project-URL: Documentation, https://linkml.io/schema-automator/
+Project-URL: Repository, https://github.com/linkml/schema-automator/
+Description-Content-Type: text/markdown
+
+# LinkML Schema Automator
+
+This is a toolkit that assists with the generation and enhancement of [LinkML](https://linkml.io/linkml) schemas
+
+## Install
+
+```bash
+pip install schema-automator
+```
+
+## Command Line
+
+See [CLI docs](https://linkml.io/schema-automator/cli)
+
+Generalizing:
+
+```bash
+schemauto generalize-tsv my-data.tsv > my-schema.yaml
+```
+
+Importing:
+
+```bash
+schemauto import-json-schema their.schema.json > my-schema.yaml
+```
+
+Annotating:
+
+```bash
+schemauto annotate-schema my-schema.yaml
+```
+
+## Full Documentation
+
+[linkml.io/schema-automator](https://linkml.io/schema-automator/)
+
