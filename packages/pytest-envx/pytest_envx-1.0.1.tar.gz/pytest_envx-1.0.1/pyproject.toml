@@ -1,0 +1,289 @@
+[build-system]
+requires = [
+    "pdm-backend",
+]
+build-backend = "pdm.backend"
+
+[project]
+name = "pytest-envx"
+dynamic = []
+description = "Pytest plugin for managing environment variables with interpolation and .env file support."
+authors = [
+    { name = "Eugene Liukin", email = "eugeneliukin.dev@gmail.com" },
+]
+requires-python = ">=3.9"
+readme = "README.md"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Framework :: Pytest",
+    "Environment :: Plugins",
+    "Typing :: Typed",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Testing",
+]
+dependencies = [
+    "pytest>=8.4.1",
+    "python-dotenv>=1.1.0",
+    "tomli>=2.2.1; python_version<'3.11'",
+]
+version = "1.0.1"
+
+[project.license]
+text = "MIT"
+
+[project.urls]
+Homepage = "https://github.com/eugeneliukindev/pytest-envx"
+Repository = "https://github.com/eugeneliukindev/pytest-envx"
+Issues = "https://github.com/eugeneliukindev/pytest-envx/issues"
+Changelog = "https://github.com/eugeneliukindev/pytest-envx/releases"
+
+[project.entry-points.pytest11]
+pytest_envx = "pytest_envx.plugin"
+
+[dependency-groups]
+dev = [
+    { include-group = "test" },
+    { include-group = "type" },
+    { include-group = "lint" },
+]
+test = [
+    "coverage>=7.9.1",
+    "pytest>=8.3.4",
+    "pytest-cov>=6.2.1",
+    "pytest-xdist>=3.7.0",
+    "diff-cover>=9.4.1",
+    "covdefaults>=2.3.0",
+]
+type = [
+    "mypy>=1.16.1",
+    "pytest-stub>=1.1.0",
+]
+lint = [
+    "pre-commit>=4.2.0",
+]
+pkg-meta = [
+    "check-wheel-contents>=0.6.1",
+    "twine>=6.1",
+    "uv>=0.5.29",
+]
+
+[tool.pytest]
+testpaths = [
+    "tests",
+]
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests",
+]
+
+[tool.pdm]
+distribution = true
+
+[tool.pdm.version]
+source = "file"
+path = "src/pytest_envx/__version__.py"
+
+[tool.mypy]
+strict = true
+ignore_missing_imports = true
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "W",
+    "F",
+    "I",
+    "B",
+    "C4",
+    "UP",
+]
+ignore = [
+    "E501",
+    "B008",
+    "C901",
+    "W191",
+]
+
+[tool.coverage.run]
+parallel = true
+branch = true
+plugins = [
+    "covdefaults",
+]
+
+[tool.coverage.html]
+skip_covered = false
+show_contexts = true
+
+[tool.coverage.path]
+source = [
+    "src",
+    ".tox*/*/lib/python*/site-packages",
+    ".tox*/pypy*/site-packages",
+    ".tox*\\*\\Lib\\site-packages",
+    "*/src",
+    "*\\src",
+]
+
+[tool.coverage.report]
+fail_under = 100
+omit = [
+    "*/lib/python*/site-packages/pytest_envx/__init__.py",
+    "*/lib/python*/site-packages/pytest_envx/__version__.py",
+    "src/pytest_envx/__init__.py",
+    "src/pytest_envx/__version__.py",
+]
+show_missing = true
+
+[tool.tox]
+requires = [
+    "tox>=4.27.0",
+    "tox-uv>=1.26.1",
+]
+env_list = [
+    "3.13",
+    "3.12",
+    "3.11",
+    "3.10",
+    "3.9",
+    "lint",
+    "type_hints",
+    "pkg-meta",
+]
+skip_missing_interpreters = true
+
+[tool.tox.env_run_base]
+description = "Execute pytest tests for the specified Python environment"
+dependency_groups = [
+    "test",
+]
+package = "wheel"
+wheel_build_env = ".pkg"
+pass_env = [
+    "PYTEST_*",
+    "COVERAGE_*",
+]
+commands = [
+    [
+        "pytest",
+        { replace = "posargs", extend = true, default = [
+    "-p",
+    "no:pytest_envx",
+    "-v",
+    "-n",
+    { replace = "env", name = "PYTEST_XDIST_AUTO_NUM_WORKERS", default = "auto" },
+    "--junitxml",
+    "{toxworkdir}{/}junit.{env_name}.xml",
+    "--no-cov-on-fail",
+    "--cov",
+    "{env_site_packages_dir}{/}pytest_envx",
+    "--cov",
+    "{tox_root}{/}tests",
+    "--cov-config",
+    "{tox_root}{/}pyproject.toml",
+    "--cov-context",
+    "test",
+    "--cov-report",
+    "term-missing",
+    "--cov-report",
+    "html:{env_tmp_dir}{/}htmlcov",
+    "--cov-report",
+    "xml:{env:COVERAGE_XML}",
+] },
+    ],
+    [
+        "diff-cover",
+        "--compare-branch",
+        "{env:DIFF_AGAINST:origin/master}",
+        "{env:COVERAGE_XML}",
+    ],
+]
+
+[tool.tox.env_run_base.set_env.COVERAGE_FILE]
+replace = "env"
+name = "COVERAGE_FILE"
+default = "{toxworkdir}{/}.coverage.{env_name}"
+
+[tool.tox.env_run_base.set_env.COVERAGE_XML]
+replace = "env"
+name = "COVERAGE_XML"
+default = "{env_tmp_dir}{/}coverage.{env_name}.xml"
+
+[tool.tox.env.lint]
+description = "Format code according to style guidelines and report unfixable issues"
+skip_install = true
+dependency_groups = [
+    "lint",
+]
+pass_env = [
+    { replace = "ref", of = [
+    "env_run_base",
+    "pass_env",
+], extend = true },
+    "PROGRAMDATA",
+    "DISABLE_PRE_COMMIT_UV_PATCH",
+]
+commands = [
+    [
+        "pre-commit",
+        "run",
+        "--all-files",
+        "--show-diff-on-failure",
+        { replace = "posargs", extend = true },
+    ],
+]
+
+[tool.tox.env.type_hints]
+description = "Perform static type checking on the code base"
+skip_install = true
+dependency_groups = [
+    "type",
+]
+commands = [
+    [
+        "mypy",
+        "src{/}pytest_envx",
+        "tests",
+    ],
+]
+
+[tool.tox.env.pkg-meta]
+description = "Validate package metadata and build artifacts"
+skip_install = true
+dependency_groups = [
+    "pkg_meta",
+]
+commands = [
+    [
+        "uv",
+        "build",
+        "--sdist",
+        "--wheel",
+        "--out-dir",
+        "{env_tmp_dir}",
+        ".",
+    ],
+    [
+        "twine",
+        "check",
+        "{env_tmp_dir}{/}*",
+    ],
+    [
+        "check-wheel-contents",
+        "--no-config",
+        "{env_tmp_dir}",
+    ],
+]
