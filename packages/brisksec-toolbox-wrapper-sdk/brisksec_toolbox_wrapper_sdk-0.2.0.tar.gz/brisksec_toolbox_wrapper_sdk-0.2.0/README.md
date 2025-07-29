@@ -1,0 +1,124 @@
+# BriskSec Toolbox Wrapper SDK for Python
+
+A simplified Python SDK for parsing security tool outputs and generating events and findings. The Go runtime handles all the complex wrapper logic, messaging, HTTP servers, and pub/sub functionality.
+
+## Philosophy
+
+This SDK follows a simple philosophy:
+- **Focus on parsing**: Your Python code should only focus on parsing tool outputs
+- **Let Go handle complexity**: The Go runtime manages all wrapper infrastructure
+- **Type generation**: Use `tools/typegen` to generate Python types from Go structs
+
+## Installation
+
+```bash
+pip install -e .
+```
+
+## Usage
+
+### Basic Parser
+
+Create a parser by extending `OutputParser`:
+
+```python
+from brisksec_toolbox_wrapper_sdk import OutputParser, Event, Finding
+
+class MyToolParser(OutputParser):
+    def parse_output(self, output: str, metadata=None):
+        events = []
+        findings = []
+        
+        # Parse your tool output here
+        # Convert to events and findings
+        
+        return {
+            "events": events,
+            "findings": findings
+        }
+```
+
+### Events vs Findings
+
+- **Events**: Use for asset discovery (IPs, ports, domains, etc.)
+- **Findings**: Use for security vulnerabilities and issues
+
+### Example: Nmap Parser
+
+```python
+from brisksec_toolbox_wrapper_sdk import OutputParser, AssetIPEvent, AssetPortEvent
+
+class NmapParser(OutputParser):
+    def parse_output(self, output: str, metadata=None):
+        events = []
+        # Parse XML and create events
+        events.append(AssetIPEvent(ip="192.168.1.1"))
+        events.append(AssetPortEvent(ip="192.168.1.1", port="80", protocol="tcp"))
+        
+        return {"events": events, "findings": []}
+```
+
+## Type Generation
+
+The Python types are auto-generated from Go structs using `tools/typegen`. To regenerate types:
+
+```bash
+cd tools/typegen
+go run main.go
+```
+
+This ensures that Python types stay in sync with the Go runtime types.
+
+## Removed Complexity
+
+In this simplified version, we removed:
+- Complex wrapper base classes
+- HTTP server logic (FastAPI/uvicorn)
+- Message handling infrastructure
+- Pub/sub logic
+- Command execution utilities
+
+All of this is now handled by the Go runtime, making the Python SDK focused and lightweight.
+
+## Migration from v0.1.x
+
+If you were using the old wrapper classes:
+
+**Old approach:**
+```python
+class MyWrapper(BaseWrapper):
+    def handle_scan(self, message):
+        # Complex message handling
+        pass
+```
+
+**New approach:**
+```python
+class MyParser(OutputParser):
+    def parse_output(self, output, metadata=None):
+        # Simple output parsing
+        return {"events": [], "findings": []}
+```
+
+The Go runtime will call your parser and handle all the infrastructure.
+
+## Development
+
+### Running Tests
+
+```bash
+pytest tests/
+```
+
+### Code Formatting
+
+```bash
+black .
+isort .
+```
+
+### Type Checking
+
+```bash
+mypy brisksec_toolbox_wrapper_sdk/
+```
