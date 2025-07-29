@@ -1,0 +1,505 @@
+# Payman SDK for Python
+
+This SDK provides a simple way to interact with the Payman AI Platform's API using client credentials (client_credentials) and authorization code (authorization_code) authentication. The SDK automatically handles token management, including fetching and refreshing access tokens.
+
+## Installation
+
+### For End Users
+
+```bash
+pip install paymanai-sdk
+```
+
+### For Developers
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/payman-ai/payman-sdk-python.git
+   cd payman-sdk-python
+   ```
+
+2. Install dependencies using Poetry:
+   ```bash
+   poetry install
+   ```
+
+3. Activate the virtual environment:
+   ```bash
+   poetry shell
+   ```
+
+4. Build the package:
+   ```bash
+   poetry build
+   ```
+
+## Environment Setup
+
+Before running the SDK or tests, you need to set up your environment variables. Create a `.env` file in the root directory with the following variables:
+
+```bash
+PAYMAN_CLIENT_ID=your-client-id
+PAYMAN_CLIENT_SECRET=your-client-secret
+```
+
+These credentials are required for both running the SDK and executing tests.
+
+## Testing
+
+The SDK uses pytest for testing. To run the tests:
+
+1. Make sure you have set up your `.env` file with the required credentials
+2. Install dependencies:
+   ```bash
+   poetry install
+   ```
+3. Run the tests:
+   ```bash
+   poetry run pytest
+   ```
+
+The test suite will verify the SDK's functionality, including authentication, API interactions, and response handling.
+
+## Usage
+
+### Initialization
+
+The SDK provides several ways to initialize the client:
+
+1. **Using client credentials (recommended for server-side applications):**
+```python
+from payman_sdk.client import PaymanClient
+from payman_sdk.types import PaymanConfig
+
+config: PaymanConfig = {
+    'client_id': 'your_client_id',
+    'client_secret': 'your_client_secret',
+    'name': 'my_client',  # optional
+    'session_id': 'ses-existing-session-id'  # optional, for resuming conversations
+}
+client = PaymanClient.with_credentials(config)
+```
+
+2. **Using an authorization code (for OAuth flow):**
+```python
+config: PaymanConfig = {
+    'client_id': 'your_client_id',
+    'client_secret': 'your_client_secret'
+}
+auth_code = 'your_auth_code'
+client = PaymanClient.with_auth_code(config, auth_code)
+```
+
+3. **Using an access token or refresh token:**
+```python
+client_id = 'your_client_id'
+token_info = {
+    'accessToken': 'your_access_token',  # required if refreshToken is not provided
+    'expiresIn': 3600,  # required if accessToken is provided
+    'refreshToken': 'your_refresh_token'  # optional, enables automatic refresh. required if accessToken is not provided
+}
+client = PaymanClient.with_token(client_id, token_info, name='my_client')
+```
+
+- You can also initialize with only a refresh token:
+```python
+client_id = 'your_client_id'
+token_info = {
+    'refreshToken': 'your_refresh_token'
+}
+client = PaymanClient.with_token(client_id, token_info)
+```
+
+4. **Resuming a conversation with an existing session ID:**
+```python
+config: PaymanConfig = {
+    'client_id': 'your_client_id',
+    'client_secret': 'your_client_secret',
+    'session_id': 'ses-existing-session-id'
+}
+client = PaymanClient.with_credentials(config)
+```
+
+### Token Management
+
+The SDK automatically manages OAuth tokens for you:
+- Fetches an access token during initialization (if needed)
+- Refreshes the token before it expires (within 60 seconds of expiry)
+- If you provide an expired token or a token with zero/negative expiration, the client will automatically refresh it
+- If you provide a refresh token, the client will use it to obtain new access tokens as needed
+
+**Retrieving tokens:**
+```python
+token_info = client.get_access_token()
+if token_info:
+    print(token_info.get('accessToken'), token_info.get('expiresIn'))
+
+refresh_token = client.get_refresh_token()
+if refresh_token:
+    print(refresh_token)
+```
+
+### Making Requests
+
+1. **Get a formatted response (recommended for most use cases):**
+```python
+response = client.ask("How much money do I have in my wallet?")
+print(response)
+```
+
+2. **Get a raw response (when you need the full JSON-RPC response):**
+```python
+raw_response = client.ask("How much money do I have in my wallet?", raw=True)
+print(raw_response)
+```
+
+3. **Streaming request with formatted responses:**
+```python
+def on_message(response):
+    print("Formatted response:", response)
+
+client.ask("How much money do I have in my wallet?", {
+    'on_message': on_message
+})
+```
+
+4. **Streaming request with raw responses:**
+```python
+def on_message(response):
+    print("Raw response:", response)
+
+client.ask("How much money do I have in my wallet?", {
+    'on_message': on_message
+}, raw=True)
+```
+
+5. **Start a new session with metadata:**
+```python
+response = client.ask("How much money do I have in my wallet?", {
+    'new_session': True,
+    'metadata': {'source': 'web-app'}
+})
+```
+
+### Session Management
+
+The SDK automatically manages sessions for you. Each client instance maintains a session ID that persists across requests. You can start a new session at any time by setting `new_session: True` in the options.
+
+The SDK also handles OAuth token management automatically:
+- Fetches an access token during initialization
+- Refreshes the token before it expires (within 60 seconds of expiry)
+- Handles token management transparently
+
+### Resuming Conversations
+
+You can resume conversations across different client instances by using session IDs from previous responses:
+
+```python
+# Start a conversation
+response1 = client.ask("How much money do I have in my wallet?")
+session_id = response1['sessionId']  # Save this for later
+
+# Later, resume the conversation with a new client instance
+config: PaymanConfig = {
+    'client_id': 'your_client_id',
+    'client_secret': 'your_client_secret',
+    'session_id': session_id
+}
+client2 = PaymanClient.with_credentials(config)
+response2 = client2.ask("What did we talk about earlier?")
+
+# Or withToken:
+client3 = PaymanClient.with_token(
+    'your_client_id',
+    {
+        'accessToken': 'your_access_token',
+        'expiresIn': 3600
+    },
+    session_id=session_id
+)
+
+# Get the current session ID from any client instance
+current_session_id = client.get_session_id()
+```
+
+Session IDs are included in the response and can be used to maintain conversation context across different client instances or application restarts.
+
+### Streaming Responses
+
+When using streaming responses with the `on_message` callback, you'll receive updates in real-time as they become available. This is useful for:
+- Long-running tasks
+- Real-time updates
+- Progress monitoring
+- Handling artifacts as they become available
+
+The streaming response can include different types of events:
+
+1. **Status Updates:**
+```python
+def on_message(response):
+    if 'status' in response:
+        print(f"Task status: {response['status']}")
+        print(f"Is final: {response['is_final']}")
+
+client.ask("List all payees", {
+    'on_message': on_message
+})
+```
+
+2. **Artifact Updates:**
+```python
+def on_message(response):
+    if 'artifacts' in response:
+        print(f"New artifact: {response['artifacts'][-1]}")
+
+client.ask("List all payees", {
+    'on_message': on_message
+})
+```
+
+### Using Metadata
+
+The SDK supports various types of metadata that can be attached to requests:
+
+1. **Request-level metadata:**
+```python
+client.ask("Pay Tyllen 50$?", {
+    'metadata': {
+        'source': 'mobile-app',
+        'userId': 'user123',
+        'requestId': 'req456'
+    }
+})
+```
+
+2. **Message-level metadata:**
+```python
+client.ask("Create a new payee with the email tyllen@paymanai.com", {
+    'message_metadata': {
+        'priority': 'high',
+        'category': 'payee creation'
+    }
+})
+```
+
+3. **Part-level metadata:**
+```python
+client.ask("List all wallets", {
+    'part_metadata': {
+        'currency': 'USD',
+        'format': 'text'
+    }
+})
+```
+
+## API Reference
+
+### PaymanClient
+
+#### Static Methods
+
+- `with_credentials(config: PaymanConfig) -> PaymanClient`
+  - Creates a client using client credentials
+  - `config`: Configuration object containing client_id, client_secret, and optional environment, name, session_id
+
+- `with_auth_code(config: PaymanConfig, auth_code: str) -> PaymanClient`
+  - Creates a client using an authorization code
+  - `config`: Configuration object containing client_id, client_secret, and optional environment, name, session_id
+  - `auth_code`: Authorization code obtained via OAuth
+
+- `with_token(client_id: str, token_info: Dict[str, Any], environment: Optional[Environment] = 'LIVE', name: Optional[str] = None, session_id: Optional[str] = None) -> PaymanClient`
+  - Creates a client using an existing access token or refresh token
+  - `client_id`: Your Payman client ID
+  - `token_info`: Object containing accessToken and its expiration time, or refreshToken
+  - `environment`: Optional environment to use (defaults to "LIVE")
+  - `name`: Optional client name
+  - `session_id`: Optional session ID for resuming conversations
+
+#### Instance Methods
+
+- `ask(text: str, options: Optional[AskOptions] = None, raw: bool = False) -> Union[FormattedTaskResponse, TaskResponse]`
+  - Sends a message to the Payman AI Agent
+  - `text`: The message or question to send
+  - `options`: Optional parameters for the request
+  - `raw`: Whether to return raw responses (default: False)
+
+- `get_access_token() -> Optional[Dict[str, Any]]`
+  - Gets the current access token and its expiration information
+  - Returns None if no token is set
+
+- `get_refresh_token() -> Optional[str]`
+  - Gets the current refresh token if available
+  - Returns None if no refresh token is set
+
+- `is_access_token_expired() -> bool`
+  - Checks if the current access token has expired
+  - Returns True if the token has expired or is about to expire within 60 seconds
+
+- `get_session_id() -> str`
+  - Gets the current session ID
+  - Returns the session ID being used by this client instance
+
+- `get_client_name() -> Optional[str]`
+  - Gets the name of the Payman client from the configuration
+  - Returns the client name if set in the config, None otherwise
+
+### Types
+
+- `PaymanConfig`
+  ```python
+  {
+      'client_id': str,
+      'client_secret': str,
+      'environment': Optional[Literal['TEST', 'LIVE', 'INTERNAL']],
+      'name': Optional[str],
+      'session_id': Optional[str]
+  }
+  ```
+
+- `AskOptions`
+  ```python
+  {
+      'on_message': Optional[Callable[[Union[FormattedTaskResponse, TaskResponse]], None]],
+      'new_session': Optional[bool],
+      'metadata': Optional[Dict[str, Any]],
+      'part_metadata': Optional[Dict[str, Any]],
+      'message_metadata': Optional[Dict[str, Any]]
+  }
+  ```
+
+### Response Types
+
+- `FormattedTaskResponse`
+  ```python
+  {
+      'status': Literal['completed', 'failed', 'in_progress'],
+      'is_final': bool,
+      'artifacts': Optional[List[Dict[str, Any]]],
+      'error': Optional[Dict[str, Any]],
+      'sessionId': str
+  }
+  ```
+
+- `TaskResponse`
+  ```python
+  {
+      'jsonrpc': Literal['2.0'],
+      'id': str,
+      'result': Optional[Dict[str, Any]],
+      'error': Optional[Dict[str, Any]]
+  }
+  ```
+
+### Events
+
+- `TaskStatusUpdateEvent`
+  ```python
+  {
+      'type': Literal['status_update'],
+      'status': Literal['completed', 'failed', 'in_progress'],
+      'is_final': bool
+  }
+  ```
+
+- `TaskArtifactUpdateEvent`
+  ```python
+  {
+      'type': Literal['artifact_update'],
+      'artifacts': List[Dict[str, Any]]
+  }
+  ```
+
+## Error Handling
+
+The SDK uses the `requests` library for HTTP requests. All API calls will raise an exception if the request fails. You can catch these exceptions and handle them appropriately:
+
+```python
+try:
+    response = client.ask("What's the weather?")
+except requests.exceptions.RequestException as e:
+    if hasattr(e, 'response'):
+        # The request was made and the server responded with a status code
+        # that falls out of the range of 2xx
+        print(e.response.json())
+        print(e.response.status_code)
+    else:
+        # Something happened in setting up the request that triggered an Error
+        print('Error:', str(e))
+```
+
+## Development
+
+### Project Structure
+```
+payman-sdk-python/
+├── payman_sdk/          # Main package directory
+│   ├── __init__.py     # Package initialization
+│   ├── client.py       # Main client implementation
+│   ├── types.py        # Type definitions
+│   └── utils.py        # Utility functions
+├── tests/              # Test suite
+│   ├── __init__.py
+│   ├── conftest.py
+│   ├── test_client.py
+│   ├── test_types.py
+│   └── test_utils.py
+├── examples/           # Example usage
+│   └── basic_usage/
+│       ├── main.py
+│       ├── README.md
+│       ├── requirements.txt
+│       └── run_example.sh
+├── pyproject.toml      # Poetry configuration
+├── pytest.ini         # Pytest configuration
+├── CHANGELOG.md       # Version history
+└── README.md          # This file
+```
+
+### Development Workflow
+
+1. **Setup Development Environment**
+```bash
+# Install all dependencies including development tools
+poetry install
+
+# Activate virtual environment
+poetry shell
+```
+
+2. **Running Tests**
+```bash
+# Run all tests with coverage
+poetry run pytest
+
+# Run specific test file
+poetry run pytest tests/test_client.py -v
+
+# Run tests with coverage report
+poetry run pytest --cov=payman_sdk --cov-report=html
+```
+
+3. **Code Quality**
+```bash
+# Format code
+poetry run black .
+poetry run isort .
+
+# Type checking
+poetry run mypy .
+
+# Run all quality checks
+poetry run black . && poetry run isort . && poetry run mypy .
+```
+
+4. **Building and Publishing**
+```bash
+# Build the package
+poetry build
+
+# Publish to PyPI (requires authentication)
+poetry publish
+```
+
+## License
+
+MIT
