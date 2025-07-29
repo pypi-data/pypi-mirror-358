@@ -1,0 +1,255 @@
+Metadata-Version: 2.4
+Name: reportify-ifes
+Version: 1.2.2
+Summary: Insightful dashboards for GitHub teams, repositories, and organizations.
+Author: Kevin Kliss, Thiago Deps, Matheus Abreu
+Author-email: Miguel Rabelo <miguelrabelo538@gmail.com>, Paulo Sérgio Dos Santos Júnior <paulossjunior@gmail.com>
+License: Apache-2.0
+Keywords: reportify-ifes
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: aiohappyeyeballs==2.6.1
+Requires-Dist: aiohttp==3.12.6
+Requires-Dist: aiosignal==1.3.2
+Requires-Dist: airbyte==0.24.2
+Requires-Dist: airbyte-api==0.52.2
+Requires-Dist: airbyte-cdk==6.48.2
+Requires-Dist: airbyte_protocol_models_dataclasses==0.15.0
+Requires-Dist: airbyte_protocol_models_pdv2==0.13.1
+Requires-Dist: annotated-types==0.7.0
+Requires-Dist: anyascii==0.3.2
+Requires-Dist: anyio==4.9.0
+Requires-Dist: asn1crypto==1.5.1
+Requires-Dist: async-timeout==5.0.1
+Requires-Dist: attributes-doc==0.4.0
+Requires-Dist: attrs==25.3.0
+Requires-Dist: backoff==2.2.1
+Requires-Dist: blinker==1.9.0
+Requires-Dist: boltons==25.0.0
+Requires-Dist: boto3==1.38.5
+Requires-Dist: botocore==1.38.5
+Requires-Dist: bracex==2.5.post1
+Requires-Dist: cachetools==5.5.2
+Requires-Dist: cattrs==24.1.3
+Requires-Dist: certifi==2025.4.26
+Requires-Dist: cffi==1.17.1
+Requires-Dist: charset-normalizer==3.4.1
+Requires-Dist: click==8.1.8
+Requires-Dist: community==1.0.0b1
+Requires-Dist: contourpy==1.3.2
+Requires-Dist: cryptography==44.0.2
+Requires-Dist: cycler==0.12.1
+Requires-Dist: dataclasses-json==0.6.7
+Requires-Dist: discord.py==2.5.2
+Requires-Dist: dpath==2.2.0
+Requires-Dist: duckdb==1.2.2
+Requires-Dist: duckdb_engine==0.13.6
+Requires-Dist: dunamai==1.23.1
+Requires-Dist: exceptiongroup==1.2.2
+Requires-Dist: filelock==3.18.0
+Requires-Dist: Flask==3.1.0
+Requires-Dist: fonttools==4.57.0
+Requires-Dist: frozenlist==1.6.0
+Requires-Dist: genson==1.3.0
+Requires-Dist: google-ai-generativelanguage==0.6.15
+Requires-Dist: google-api-core==2.24.2
+Requires-Dist: google-api-python-client==2.170.0
+Requires-Dist: google-auth==2.39.0
+Requires-Dist: google-auth-httplib2==0.2.0
+Requires-Dist: google-cloud-bigquery==3.30.0
+Requires-Dist: google-cloud-bigquery-storage==2.31.0
+Requires-Dist: google-cloud-core==2.4.3
+Requires-Dist: google-cloud-secret-manager==2.23.3
+Requires-Dist: google-crc32c==1.7.1
+Requires-Dist: google-generativeai==0.8.5
+Requires-Dist: google-resumable-media==2.7.2
+Requires-Dist: googleapis-common-protos==1.70.0
+Requires-Dist: greenlet==3.2.1
+Requires-Dist: grpc-google-iam-v1==0.14.2
+Requires-Dist: grpcio==1.71.0
+Requires-Dist: grpcio-status==1.71.0
+Requires-Dist: h11==0.16.0
+Requires-Dist: httpcore==1.0.9
+Requires-Dist: httplib2==0.22.0
+Requires-Dist: httpx==0.28.1
+Requires-Dist: idna==3.10
+Requires-Dist: isodate==0.6.1
+Requires-Dist: itsdangerous==2.2.0
+Requires-Dist: Jinja2==3.1.6
+Requires-Dist: jmespath==1.0.1
+Requires-Dist: joblib==1.4.2
+Requires-Dist: jsonpatch==1.33
+Requires-Dist: jsonpath-python==1.0.6
+Requires-Dist: jsonpointer==3.0.0
+Requires-Dist: jsonref==0.2
+Requires-Dist: jsonschema==4.17.3
+Requires-Dist: kiwisolver==1.4.8
+Requires-Dist: langchain-core==0.1.42
+Requires-Dist: langsmith==0.1.147
+Requires-Dist: markdown-it-py==3.0.0
+Requires-Dist: MarkupSafe==3.0.2
+Requires-Dist: marshmallow==3.26.1
+Requires-Dist: matplotlib==3.10.1
+Requires-Dist: mdurl==0.1.2
+Requires-Dist: multidict==6.4.4
+Requires-Dist: mypy_extensions==1.1.0
+Requires-Dist: narwhals==1.37.1
+Requires-Dist: network==0.1
+Requires-Dist: networkx==3.4.2
+Requires-Dist: nltk==3.9.1
+Requires-Dist: numpy==1.26.4
+Requires-Dist: orjson==3.10.17
+Requires-Dist: overrides==7.7.0
+Requires-Dist: packaging==23.2
+Requires-Dist: pandas==2.2.2
+Requires-Dist: pillow==11.2.1
+Requires-Dist: platformdirs==4.3.7
+Requires-Dist: plotly==6.0.1
+Requires-Dist: propcache==0.3.1
+Requires-Dist: proto-plus==1.26.1
+Requires-Dist: protobuf==5.29.4
+Requires-Dist: psutil==6.1.0
+Requires-Dist: psycopg==3.2.6
+Requires-Dist: psycopg-binary==3.2.6
+Requires-Dist: psycopg-pool==3.2.6
+Requires-Dist: psycopg2-binary==2.9.10
+Requires-Dist: pyarrow==17.0.0
+Requires-Dist: pyasn1==0.6.1
+Requires-Dist: pyasn1_modules==0.4.2
+Requires-Dist: pycparser==2.22
+Requires-Dist: pydantic==2.11.4
+Requires-Dist: pydantic_core==2.33.2
+Requires-Dist: Pygments==2.19.1
+Requires-Dist: PyJWT==2.10.1
+Requires-Dist: pyOpenSSL==25.0.0
+Requires-Dist: pyparsing==3.2.3
+Requires-Dist: pyrate-limiter==3.1.1
+Requires-Dist: pyrsistent==0.20.0
+Requires-Dist: python-dateutil==2.9.0.post0
+Requires-Dist: python-dotenv==1.1.0
+Requires-Dist: python-ulid==3.0.0
+Requires-Dist: pytz==2024.2
+Requires-Dist: PyYAML==6.0.2
+Requires-Dist: RapidFuzz==3.13.0
+Requires-Dist: regex==2024.11.6
+Requires-Dist: requests==2.32.3
+Requires-Dist: requests-cache==1.2.1
+Requires-Dist: requests-toolbelt==1.0.0
+Requires-Dist: rich==13.9.4
+Requires-Dist: rich-click==1.8.8
+Requires-Dist: rsa==4.9.1
+Requires-Dist: s3transfer==0.12.0
+Requires-Dist: scipy==1.15.2
+Requires-Dist: serpyco-rs==1.13.0
+Requires-Dist: six==1.17.0
+Requires-Dist: sniffio==1.3.1
+Requires-Dist: snowflake-connector-python==3.15.0
+Requires-Dist: snowflake-sqlalchemy==1.7.3
+Requires-Dist: sortedcontainers==2.4.0
+Requires-Dist: SQLAlchemy==2.0.40
+Requires-Dist: sqlalchemy-bigquery==1.12.0
+Requires-Dist: structlog==24.4.0
+Requires-Dist: tenacity==8.5.0
+Requires-Dist: tomlkit==0.13.2
+Requires-Dist: tqdm==4.67.1
+Requires-Dist: typing-inspect==0.9.0
+Requires-Dist: typing-inspection==0.4.0
+Requires-Dist: typing_extensions==4.13.2
+Requires-Dist: tzdata==2025.2
+Requires-Dist: uritemplate==4.1.1
+Requires-Dist: url-normalize==2.2.1
+Requires-Dist: urllib3==2.4.0
+Requires-Dist: uuid7==0.1.0
+Requires-Dist: wcmatch==10.0
+Requires-Dist: Werkzeug==3.1.3
+Requires-Dist: whenever==0.6.17
+Requires-Dist: xmltodict==0.14.2
+Requires-Dist: yarl==1.20.0
+Dynamic: license-file
+
+# 📊 Reportify-IFES
+
+**Reportify-IFES** é uma ferramenta Python para geração de dashboards e relatórios automatizados a partir de dados de repositórios GitHub. Com ele, você obtém insights valiosos sobre sua organização, equipe, colaboração e produtividade no GitHub.
+
+---
+
+## 🚀 Instalação
+
+> ⚠️ **Requisitos:**  
+- Python **3.10** obrigatoriamente.  
+Outras versões podem não ser compatíveis.
+
+### 💡 Caso não tenha essa versão instalada, use `pyenv` para configurar o Python 3.10.12 (Ubuntu/Debian)
+
+1. **Instale as dependências do sistema**:
+
+```bash
+sudo apt update
+sudo apt install -y make build-essential libssl-dev zlib1g-dev \
+  libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
+  libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev \
+  libffi-dev liblzma-dev git
+  curl https://pyenv.run | bash
+```
+2. **Adicione o pyenv ao seu shell (.bashrc, .zshrc, etc):**
+
+```bash
+# Adicione ao final do arquivo
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+```
+3. **Após isso, reabra o terminal ou execute:**
+```bash
+ source ~/.bashrc
+ ```
+4. **Instale o Python 3.10.12 no diretório que deseja executar a ferramenta:**
+
+```bash
+pyenv install 3.10.12
+pyenv local 3.10.12
+ ```
+5. **Crie um ambiente virtual com pyenv-virtualenv:** 
+
+```bash
+pyenv virtualenv 3.10.12 reportify-env
+pyenv activate reportify-env
+ ```
+### Instale via pip:
+
+```bash
+pip install reportify-ifes
+```
+
+⚙️ Configuração
+Crie um arquivo .env no diretório raiz do seu projeto com as seguintes variáveis:
+```bash
+GITHUB_TOKEN=seu_token_github
+GITHUB_REPOSITORY=usuario/repositorio
+```
+
+🏃‍♂️ Como utilizar
+Crie um arquivo Python, por exemplo gerar_relatorio.py, com o seguinte conteúdo:
+```bash
+from reportify import Report
+relatorio = Report()
+relatorio.run()
+```
+📚 Componentes do Relatório
+O relatório é composto por diferentes dashboards, cada um focado em uma perspectiva da organização ou projeto no GitHub:
+
+🔹 DeveloperStats
+Analisa os desenvolvedores do repositório, gerando métricas como quantidade de commits, issues abertas e fechadas, pull requests e participação individual nas atividades. Relatório consolidado e individual.
+
+🔹 OrganizationalDashboard
+Oferece uma visão geral da organização, consolidando dados de múltiplos repositórios e apresentando tendências, produtividade, gargalos e distribuição de tarefas. 
+
+🔹 GitHubIssueStats
+Gera estatísticas específicas sobre as issues, como tempo médio de resolução, tempo de abertura, gargalos e ciclos de desenvolvimento.
+
+🔹 TeamStats
+Foca na dinâmica da equipe, mostrando como os membros colaboram, distribuição de tarefas, taxas de conclusão e engajamento dentro do repositório.
+
+🔹 CollaborationGraph
+Cria um grafo de colaboração que representa visualmente como os membros da equipe interagem entre si por meio de revisões, commits, comentários e interações em issues.
