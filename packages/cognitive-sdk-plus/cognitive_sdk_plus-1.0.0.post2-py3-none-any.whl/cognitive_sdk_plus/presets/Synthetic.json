@@ -1,0 +1,37 @@
+{
+    "ManufacturerModelName": "Synthetic",
+    "SoftwareVersions": "0.0.1",
+    "Middleware": {
+        "brainflow": {
+            "DeviceBoardName": "SYNTHETIC_BOARD",
+            "BoardId": 0,
+            "SubDevices": {
+                "EEG": {
+                    "ChannelsName": ["Fz", "C3", "Cz", "C4", "Pz", "PO7", "Oz", "PO8", "F5", "F7", "F3", "F1", "F2", "F4", "F6", "F8"],
+                    "ChannelsIndex": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+                    "SamplingFrequency": 250,
+                    "Preset": "DEFAULT",
+                    "TimestampChannelIndex": 0
+                }
+            }
+        },
+        "synthetic": {
+            "SamplingRate": 256,
+            "Preset": "relaxed",
+            "ModulationType": "sinusoidal",
+            "PowerLawSlope": 1.0,
+            "Noise": 0.5,
+            "CorrelationStrength": 0.3,
+            "Artifacts": 0.005,
+            "EEGChannelsNames": ["Fp1", "Fp2", "F3", "F4", "C3", "C4", "P3", "P4", "O1", "O2"],
+            "SubDevices": {
+                "EEG": {
+                    "ChannelsName": ["Fp1", "Fp2", "F3", "F4", "C3", "C4", "P3", "P4", "O1", "O2"],
+                    "ChannelsIndex": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    "SamplingFrequency": 256,
+                    "Preset": "relaxed"
+                }
+            }
+        }
+    }
+} 
