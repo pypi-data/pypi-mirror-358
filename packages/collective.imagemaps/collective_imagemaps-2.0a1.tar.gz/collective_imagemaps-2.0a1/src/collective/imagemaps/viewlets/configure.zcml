@@ -1,0 +1,19 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="collective.imagemaps">
+
+  -*- extra stuff goes here -*-
+
+  <browser:viewlet
+     name="image-map-viewlet"
+     for="plone.app.contenttypes.interfaces.IDocument"
+     manager="plone.app.layout.viewlets.interfaces.IPortalFooter"
+     layer="collective.imagemaps.interfaces.ICollectiveImagemapsLayer"
+     class=".image_map_viewlet.ImageMapViewlet"
+     permission="zope2.View"
+     />
+
+
+</configure>

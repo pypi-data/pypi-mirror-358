@@ -1,0 +1,165 @@
+Metadata-Version: 2.4
+Name: collective.imagemaps
+Version: 2.0a1
+Summary: Provides image map behavior for Dexterity types.
+Home-page: https://github.com/collective/collective.imagemaps
+Author: Maik Derstappen
+Author-email: md@derico.de
+License: GPL version 2
+Project-URL: PyPI, https://pypi.python.org/pypi/collective.imagemaps
+Project-URL: Source, https://github.com/collective/collective.imagemaps
+Project-URL: Tracker, https://github.com/collective/collective.imagemaps/issues
+Keywords: Python Plone CMS
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Plone
+Classifier: Framework :: Plone :: Addon
+Classifier: Framework :: Plone :: 6.0
+Classifier: Framework :: Plone :: 6.1
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Operating System :: OS Independent
+Classifier: License :: OSI Approved :: GNU General Public License v2 (GPLv2)
+Requires-Python: >=3.10
+License-File: LICENSE.GPL
+License-File: LICENSE.rst
+Requires-Dist: setuptools
+Requires-Dist: plone.api>=1.8.4
+Requires-Dist: plone.app.dexterity
+Provides-Extra: test
+Requires-Dist: plone.app.testing; extra == "test"
+Requires-Dist: plone.testing>=5.0.0; extra == "test"
+Requires-Dist: plone.app.contenttypes; extra == "test"
+Requires-Dist: plone.app.robotframework[debug]; extra == "test"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: license-file
+Dynamic: project-url
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+.. This README is meant for consumption by humans and pypi. Pypi can render rst files so please do not use Sphinx features.
+   If you want to learn more about writing documentation, please check out: http://docs.plone.org/about/documentation_styleguide.html
+   This text does not appear on pypi or github. It is a comment.
+
+.. image:: https://travis-ci.org/collective/collective.imagemaps.svg?branch=master
+    :target: https://travis-ci.org/collective/collective.imagemaps
+
+.. image:: https://coveralls.io/repos/github/collective/collective.imagemaps/badge.svg?branch=master
+    :target: https://coveralls.io/github/collective/collective.imagemaps?branch=master
+    :alt: Coveralls
+
+.. image:: https://img.shields.io/pypi/v/collective.imagemaps.svg
+    :target: https://pypi.python.org/pypi/collective.imagemaps/
+    :alt: Latest Version
+
+.. image:: https://img.shields.io/pypi/status/collective.imagemaps.svg
+    :target: https://pypi.python.org/pypi/collective.imagemaps
+    :alt: Egg Status
+
+.. image:: https://img.shields.io/pypi/pyversions/collective.imagemaps.svg?style=plastic   :alt: Supported - Python Versions
+
+.. image:: https://img.shields.io/pypi/l/collective.imagemaps.svg
+    :target: https://pypi.python.org/pypi/collective.imagemaps/
+    :alt: License
+
+
+====================
+collective.imagemaps
+====================
+
+Provides an Image Map Behavior for Documents in Plone.
+The Image Map markup is inserted via ImageMapViewlet below the content body.
+
+
+Installation
+------------
+
+Install collective.imagemaps by adding it to your buildout::
+
+    [buildout]
+
+    ...
+
+    eggs =
+        collective.imagemaps
+
+
+and then running ``bin/buildout``
+
+
+Contribute
+----------
+
+- Issue Tracker: https://github.com/collective/collective.imagemaps/issues
+- Source Code: https://github.com/collective/collective.imagemaps
+
+
+Support
+-------
+
+If you are having issues, please open an issue in the tracker.
+
+
+License
+-------
+
+The project is licensed under the GPLv2.
+
+
+Contributors
+============
+
+- Maik Derstappen, md@derico.de
+
+
+Changelog
+=========
+
+
+2.0a1 (2025-06-26)
+------------------
+
+- support Python 3.10/3.11 and Plone 6.0/6.1
+  [MrTango]
+
+
+1.1 (2022-08-04)
+----------------
+
+- move viewlet to IPortalFooter to avoid portaltransforms manipulating script tags
+  [MrTango]
+
+
+1.0 (2022-04-14)
+----------------
+
+- initial final release
+
+
+1.0b3 (2021-02-24)
+------------------
+
+- Fix viewlet issue when imagemap field is None
+  [MrTango]
+
+
+1.0b2 (2021-01-26)
+------------------
+
+- Prevent trace when imagemap behavior field does not exist on current page.
+  [MrTango]
+
+
+1.0b1 (2021-01-22)
+------------------
+
+- Initial release.
+  [MrTango]
