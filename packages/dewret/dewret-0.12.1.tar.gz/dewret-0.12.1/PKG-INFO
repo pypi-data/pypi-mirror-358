@@ -1,0 +1,58 @@
+Metadata-Version: 2.4
+Name: dewret
+Version: 0.12.1
+Summary: DEclarative Workflow REndering Tool
+Author-email: Phil Weir <phil.weir@flaxandteal.co.uk>, Chris Nixon <chris.nixon@sigma-sc.co.uk>, Ellery Ames <ellery.ames@flaxandteal.co.uk>, Sharon Ingram <sharon.ingram@flaxandteal.co.uk>
+License-Expression: Apache-2.0
+License-File: LICENSE
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Requires-Python: >=3.11
+Requires-Dist: attrs
+Requires-Dist: click
+Requires-Dist: dask>=2022
+Requires-Dist: numpy
+Requires-Dist: pyyaml
+Requires-Dist: setuptools>=65.5.1
+Requires-Dist: sympy
+Provides-Extra: docs
+Requires-Dist: tmp-fat-portray>=v1.8.0; extra == 'docs'
+Provides-Extra: test
+Requires-Dist: coverage; extra == 'test'
+Requires-Dist: mypy>=1.14.1; extra == 'test'
+Requires-Dist: pytest; extra == 'test'
+Requires-Dist: ruff; extra == 'test'
+Description-Content-Type: text/markdown
+
+# dewret
+
+DEclarative Workflow REndering Tool
+
+_Pron_: durr-it, like "durable"
+
+### Introduction
+
+Dewret allows certain workflows written in a dynamic
+style to be rendered to a static representation.
+
+Advantages of doing so include:
+
+* **git-versionable workflows**: while code can be versioned, the changes of a dynamic workflow
+  do not necessarily clearly correspond to changes in the executed workflow. This maintains
+  a precise trackable history.
+* **plan and play**: the workflow can be rapidly iterated, analysed and optimized before it
+  is sent for real execution on expensive or restricted HPC hardware.
+* **optimization**: creating the workflow explicitly opens up possibilities for static analysis
+  and refactoring before real execution.
+* **debugging**: a number of classes of workflow planning bugs will not appear until late
+  in a simulation run that might take days or weeks. This catches them before startup.
+* **continuous integration and testing**: complex dynamic workflows can be rapidly sense-checked
+  in CI without needing all the hardware and internal algorithms present to run them.
+
+### Documentation
+
+For further information, see the [documentation](https://flaxandteal.github.io/dewret).
+
+## Developer Set up
+
+For development with conda, run the relevant script in `.set_up`
