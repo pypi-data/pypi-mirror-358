@@ -1,0 +1,26 @@
+[project]
+name = "workflowpy-shortcuts"
+version = "0.1.2"
+description = "Create iOS Shortcuts with Python code"
+authors = [
+    { name = "david-why", email = "david_why@outlook.com" }
+]
+license = "MIT"
+readme = "README.md"
+
+[project.urls]
+repository = "https://github.com/david-why/workflowpy"
+
+[tool.poetry]
+packages = [
+    { include = "workflowpy" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pydantic = "^2.11.7"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
