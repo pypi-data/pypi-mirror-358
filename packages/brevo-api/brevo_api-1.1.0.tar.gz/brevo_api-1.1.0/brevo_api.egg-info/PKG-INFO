@@ -1,0 +1,82 @@
+Metadata-Version: 2.4
+Name: brevo-api
+Version: 1.1.0
+Summary: Python API Client for Brevo
+Project-URL: Homepage, http://github.com/ChemicalLuck/brevo-api-python
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Information Technology
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Software Development :: Testing
+Classifier: Topic :: Utilities
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: brevo-python>=1.1.2
+Dynamic: license-file
+
+# Brevo API Wrapper
+
+[![Python](https://img.shields.io/pypi/pyversions/brevo-api.svg)](https://badge.fury.io/py/brevo-api)
+[![PyPI](https://badge.fury.io/py/brevo-api.svg)](https://badge.fury.io/py/brevo-api)
+[![PyPI](https://github.com/ChemicalLuck/brevo-api/actions/workflows/python-publish.yml/badge.svg)](https://github.com/ChemicalLuck/brevo-api/actions/workflows/python-publish.yml)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/brevo-api)
+
+## Installation
+
+```bash
+pip install brevo-api
+```
+
+## Usage
+
+```python
+from brevo import BrevoAPI
+
+client = BrevoAPI(api_key='YOUR_API_KEY', partner_key='YOUR_PARTNER_KEY')
+
+response = client.Account.get_account()
+print(response)
+```
+
+For more details on the content of the reponses, visit the [generate python SDK by Brevo](https://github.com/getbrevo/brevo-python).
+
+## Resources Available
+
+- AccountApi
+- CompaniesApi
+- ContactsApi
+- ConversationsApi
+- CouponsApi
+- DealsApi
+- DomainsApi
+- EcommerceApi
+- EmailCampaignsApi
+- EventsApi
+- ExternalFeedsApi
+- FilesApi
+- InboundParsingApi
+- MasterAccountApi
+- NotesApi
+- PaymentsApi
+- ProcessApi
+- ResellerApi
+- SMSCampaignsApi
+- SendersApi
+- TasksApi
+- TransactionalSMSApi
+- TransactionalWhatsAppApi
+- TransactionalEmailsApi
+- UserApi
+- WebhooksApi
+- WhatsAppCampaignsApi
+
+## License
+
+[MIT](LICENSE)
+
+## Acknowledgements
+
+This project is a wrapper of brevo_python by getbrevo.
