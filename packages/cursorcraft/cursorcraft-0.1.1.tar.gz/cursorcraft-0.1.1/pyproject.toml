@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "cursorcraft"
+version = "0.1.1"
+description = "Auto-install & update Cursor IDE with desktop integration and notifications"
+authors = ["Muhammad Sadiq Ajmal <sadiqajmal56@gmail.com>"]
+license = "MIT"
+homepage = "https://github.com/sussadiq/cursorcraft"
+repository = "https://github.com/sussadiq/cursorcraft"
+keywords = ["cursor", "appimage", "auto-update", "cli"]
+
+[tool.poetry.dependencies]
+python = ">=3.7"
+requests = "^2.28"
+click = "^8.1"
+python-crontab = "^2.5"
+tqdm = "^4.65"
+
+[tool.poetry.scripts]
+cursorcraft = "cursorcraft.cli:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
