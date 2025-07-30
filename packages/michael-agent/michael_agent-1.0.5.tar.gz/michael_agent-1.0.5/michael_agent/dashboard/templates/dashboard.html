@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartRecruitAgent Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="/static/styles.css">
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <header class="bg-dark text-white p-3">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="h3 mb-0 d-flex align-items-center">
+                    <i class="bi bi-people-fill me-2"></i>
+                    SmartRecruitAgent
+                </h1>
+                <div class="d-flex align-items-center">
+                    <div id="connection-status" class="badge bg-success me-3">Connected</div>
+                    <nav>
+                        <ul class="nav">
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="/jd-creation">
+                                    <i class="bi bi-file-earmark-text me-1"></i> Create JD
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="/career-portal">
+                                    <i class="bi bi-briefcase me-1"></i> Career Portal
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="/resume-scoring">
+                                    <i class="bi bi-bar-chart me-1"></i> Scoring
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="/dashboard">
+                                    <i class="bi bi-speedometer2 me-1"></i> Dashboard
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mt-4">
+        <!-- Welcome Card with Stats -->
+        <div class="card mb-4 shadow-sm">
+            <div class="card-body p-4">
+                <div class="row align-items-center">
+                    <div class="col-lg-8">
+                        <h2 class="mb-1">Welcome to SmartRecruitAgent</h2>
+                        <p class="lead text-muted mb-3">Your AI-powered recruitment assistant</p>
+                        <div class="d-flex flex-wrap gap-2 mt-3">
+                            <a href="/jd-creation" class="btn btn-primary">
+                                <i class="bi bi-file-earmark-text me-1"></i> Create Job Description
+                            </a>
+                            <a href="/career-portal" class="btn btn-info text-white">
+                                <i class="bi bi-briefcase me-1"></i> Career Portal
+                            </a>
+                            <a href="/resume-scoring" class="btn btn-success">
+                                <i class="bi bi-bar-chart me-1"></i> View Resume Scoring
+                            </a>
+                            <a href="/upload-resume" class="btn btn-secondary">
+                                <i class="bi bi-cloud-arrow-up me-1"></i> Upload Resumes
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 text-center mt-4 mt-lg-0">
+                        <div class="stat-card">
+                            <h5>Total Resumes Processed</h5>
+                            <div class="stat-number" id="dashboard-total-resumes">0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Workflow Navigation -->
+        <div class="card mb-3 shadow-sm">
+            <div class="card-header">
+                <i class="bi bi-signpost me-2"></i> Workflow Navigation
+            </div>
+            <div class="card-body">
+                <div class="d-flex flex-wrap gap-2">
+                    <a href="#stage-jd" class="btn btn-sm workflow-nav-link">
+                        <i class="bi bi-1-circle me-1"></i> Job Description
+                    </a>
+                    <a href="#stage-jd-poster" class="btn btn-sm workflow-nav-link">
+                        <i class="bi bi-2-circle me-1"></i> Job Posting
+                    </a>
+                    <a href="#stage-ingest" class="btn btn-sm workflow-nav-link">
+                        <i class="bi bi-3-circle me-1"></i> Resume Ingestion
+                    </a>
+                    <a href="#stage-analyze" class="btn btn-sm workflow-nav-link">
+                        <i class="bi bi-4-circle me-1"></i> Resume Analysis
+                    </a>
+                    <a href="#stage-sentiment" class="btn btn-sm workflow-nav-link">
+                        <i class="bi bi-5-circle me-1"></i> Sentiment Analysis
+                    </a>
+                    <a href="#stage-assessment" class="btn btn-sm workflow-nav-link">
+                        <i class="bi bi-6-circle me-1"></i> Assessment
+                    </a>
+                    <a href="#stage-question" class="btn btn-sm workflow-nav-link">
+                        <i class="bi bi-7-circle me-1"></i> Question Generation
+                    </a>
+                    <a href="#stage-notify" class="btn btn-sm workflow-nav-link">
+                        <i class="bi bi-8-circle me-1"></i> Recruiter Notification
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Node statuses container (was missing) -->
+        <div id="node-statuses" class="d-none"></div>
+        
+        <!-- Main Workflow Pipeline visualization -->
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-diagram-3 me-2"></i> Recruitment Workflow Pipeline</span>
+                <span class="badge bg-success" id="workflow-status">Active</span>
+            </div>
+            <div class="card-body p-0">
+                <div class="workflow-pipeline">
+                    <!-- Stage 1: JD Generation -->
+                    <div class="pipeline-stage" id="stage-jd">
+                        <div class="stage-node">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h5 class="mb-0">Job Description</h5>
+                            <span class="badge" id="jd-generator-badge">Idle</span>
+                        </div>
+                        <p class="small mb-2">Create and manage job descriptions</p>
+                        
+                        <div class="d-flex align-items-center">
+                            <div class="stage-progress flex-grow-1 me-2" id="jd-generator-progress"></div>
+                            <small class="text-muted" id="jd-generator-time">Last run: Never</small>
+                        </div>
+                        
+                        <div class="mt-3 d-flex justify-content-end">
+                            <a href="/jd-creation" class="btn btn-sm btn-outline-primary">Go to Job Creation</a>
+                        </div>
+                    </div>
+                    
+                    <div class="pipeline-arrow">
+                        <i class="bi bi-arrow-down-circle-fill"></i>
+                    </div>
+                    
+                    <!-- Stage 2: Job Posting -->
+                    <div class="pipeline-stage" id="stage-jd-poster">
+                        <div class="stage-node">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h5 class="mb-0">Job Posting</h5>
+                            <span class="badge" id="jd-poster-badge">Idle</span>
+                        </div>
+                        <p class="small mb-2">Post job descriptions to external platforms</p>
+                        <div class="d-flex align-items-center">
+                            <div class="stage-progress flex-grow-1 me-2" id="jd-poster-progress"></div>
+                            <small class="text-muted" id="jd-poster-time">Last run: Never</small>
+                        </div>
+                        
+                        <div class="mt-3 d-flex justify-content-end">
+                            <a href="/career-portal" class="btn btn-sm btn-outline-primary">Go to Career Portal</a>
+                        </div>
+                    </div>
+                    
+                    <div class="pipeline-arrow">
+                        <i class="bi bi-arrow-down-circle-fill"></i>
+                    </div>
+                    
+                    <!-- Stage 3: Resume Ingestion -->
+                    <div class="pipeline-stage" id="stage-ingest">
+                        <div class="stage-node">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h5 class="mb-0">Resume Ingestion</h5>
+                            <span class="badge" id="resume-ingestor-badge">Idle</span>
+                        </div>
+                        <p class="small mb-2">Upload and process resume files</p>
+                        <div class="d-flex align-items-center">
+                            <div class="stage-progress flex-grow-1 me-2" id="resume-ingestor-progress"></div>
+                            <small class="text-muted" id="resume-ingestor-time">Last run: Never</small>
+                        </div>
+                        
+                        <div class="mt-3 d-flex justify-content-end">
+                            <a href="/upload-resume" class="btn btn-sm btn-outline-primary">Go to Resume Upload</a>
+                        </div>
+                    </div>
+                    
+                    <div class="pipeline-arrow">
+                        <i class="bi bi-arrow-down-circle-fill"></i>
+                    </div>
+                    
+                    <!-- Stage 4: Resume Analysis -->
+                    <div class="pipeline-stage" id="stage-analyze">
+                        <div class="stage-node">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h5 class="mb-0">Resume Analysis</h5>
+                            <span class="badge" id="resume-analyzer-badge">Idle</span>
+                        </div>
+                        <p class="small mb-2">Parse and score resumes against job requirements</p>
+                        <div class="d-flex align-items-center">
+                            <div class="stage-progress flex-grow-1 me-2" id="resume-analyzer-progress"></div>
+                            <small class="text-muted" id="resume-analyzer-time">Last run: Never</small>
+                        </div>
+                        
+                        <div class="mt-3 d-flex justify-content-end">
+                            <a href="/resume-analysis" class="btn btn-sm btn-outline-primary">Go to Resume Analysis</a>
+                        </div>
+                    </div>
+                    
+                    <div class="pipeline-arrow">
+                        <i class="bi bi-arrow-down-circle-fill"></i>
+                    </div>
+                    
+                    <!-- Stage 5: Sentiment Analysis -->
+                    <div class="pipeline-stage" id="stage-sentiment">
+                        <div class="stage-node">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h5 class="mb-0">Sentiment Analysis</h5>
+                            <span class="badge" id="sentiment-analysis-badge">Idle</span>
+                        </div>
+                        <p class="small mb-2">Analyze candidate sentiment and motivation</p>
+                        <div class="d-flex align-items-center">
+                            <div class="stage-progress flex-grow-1 me-2" id="sentiment-analysis-progress"></div>
+                            <small class="text-muted" id="sentiment-analysis-time">Last run: Never</small>
+                        </div>
+                        
+                        <div class="mt-3 d-flex justify-content-end">
+                            <a href="/sentiment-analysis" class="btn btn-sm btn-outline-primary">Go to Sentiment Analysis</a>
+                        </div>
+                    </div>
+                    
+                    <div class="pipeline-arrow">
+                        <i class="bi bi-arrow-down-circle-fill"></i>
+                    </div>
+                    
+                    <!-- Stage 6: Assessment -->
+                    <div class="pipeline-stage" id="stage-assessment">
+                        <div class="stage-node">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h5 class="mb-0">Assessment</h5>
+                            <span class="badge" id="assessment-handler-badge">Idle</span>
+                        </div>
+                        <p class="small mb-2">Send assessments to qualified candidates</p>
+                        <div class="d-flex align-items-center">
+                            <div class="stage-progress flex-grow-1 me-2" id="assessment-handler-progress"></div>
+                            <small class="text-muted" id="assessment-handler-time">Last run: Never</small>
+                        </div>
+                        
+                        <div class="mt-3 d-flex justify-content-end">
+                            <a href="/assessment" class="btn btn-sm btn-outline-primary">Go to Assessment</a>
+                        </div>
+                    </div>
+                    
+                    <div class="pipeline-arrow">
+                        <i class="bi bi-arrow-down-circle-fill"></i>
+                    </div>
+                    
+                    <!-- Stage 7: Question Generation -->
+                    <div class="pipeline-stage" id="stage-question">
+                        <div class="stage-node">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h5 class="mb-0">Question Generation</h5>
+                            <span class="badge" id="question-generator-badge">Idle</span>
+                        </div>
+                        <p class="small mb-2">Generate tailored interview questions</p>
+                        <div class="d-flex align-items-center">
+                            <div class="stage-progress flex-grow-1 me-2" id="question-generator-progress"></div>
+                            <small class="text-muted" id="question-generator-time">Last run: Never</small>
+                        </div>
+                        
+                        <div class="mt-3 d-flex justify-content-end">
+                            <a href="/question-generation" class="btn btn-sm btn-outline-primary">Go to Question Generation</a>
+                        </div>
+                    </div>
+                    
+                    <div class="pipeline-arrow">
+                        <i class="bi bi-arrow-down-circle-fill"></i>
+                    </div>
+                    
+                    <!-- Stage 8: Recruiter Notification -->
+                    <div class="pipeline-stage" id="stage-notify">
+                        <div class="stage-node">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h5 class="mb-0">Recruiter Notification</h5>
+                            <span class="badge" id="recruiter-notifier-badge">Idle</span>
+                        </div>
+                        <p class="small mb-2">Send results to recruiters</p>
+                        <div class="d-flex align-items-center">
+                            <div class="stage-progress flex-grow-1 me-2" id="recruiter-notifier-progress"></div>
+                            <small class="text-muted" id="recruiter-notifier-time">Last run: Never</small>
+                        </div>
+                        
+                        <div class="mt-3 d-flex justify-content-end">
+                            <a href="/recruiter-notifications" class="btn btn-sm btn-outline-primary">Go to Notifications</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Dashboard Stats -->
+            <div class="col-md-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span><i class="bi bi-graph-up me-2"></i> System Stats</span>
+                        <span class="badge bg-info text-white">Last 24h</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <div class="stat-card">
+                                    <h5><i class="bi bi-file-earmark-text me-1"></i> Total Resumes</h5>
+                                    <div id="total-resumes" class="stat-number">0</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="stat-card">
+                                    <h5><i class="bi bi-calendar-check me-1"></i> Resumes Today</h5>
+                                    <div id="resumes-today" class="stat-number">0</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Workflow Logs -->
+            <div class="col-md-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span><i class="bi bi-journal-text me-2"></i> Workflow Logs</span>
+                        <button id="refresh-logs" class="btn btn-sm btn-outline-light">
+                            <i class="bi bi-arrow-clockwise me-1"></i> Refresh
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div id="log-entries" class="log-container">
+                            <!-- Log entries will be inserted here -->
+                            <div class="text-center text-muted p-4">
+                                <i class="bi bi-info-circle mb-2 display-6"></i>
+                                <p>No log entries yet</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Connect to Socket.IO server
+        const socket = io();
+        
+        // Track connection status
+        socket.on('connect', () => {
+            document.getElementById('connection-status').classList.remove('bg-danger');
+            document.getElementById('connection-status').classList.add('bg-success');
+            document.getElementById('connection-status').textContent = 'Connected';
+        });
+        
+        socket.on('disconnect', () => {
+            document.getElementById('connection-status').classList.remove('bg-success');
+            document.getElementById('connection-status').classList.add('bg-danger');
+            document.getElementById('connection-status').textContent = 'Disconnected';
+        });
+        
+        // Handle heartbeat
+        socket.on('heartbeat', (data) => {
+            console.log('Heartbeat received:', data.time);
+        });
+        
+        // Handle status updates
+        socket.on('status_update', (data) => {
+            updateNodeStatuses(data.node_statuses);
+            updateWorkflowVisualization(data.node_statuses);
+        });
+        
+        // Handle log updates
+        socket.on('log_update', (data) => {
+            updateLogEntries(data.logs);
+        });
+        
+        // Handle workflow completion
+        socket.on('workflow_completed', function(data) {
+            console.log('Workflow completed:', data);
+            // Force refresh data
+            fetchRecentResumes();
+            updateWorkflowStats();
+        });
+        
+        // Initial data fetch
+        fetchInitialData();
+        
+        function fetchInitialData() {
+            // Fetch logs and status data
+            fetch('/api/logs')
+                .then(response => response.json())
+                .then(data => {
+                    updateNodeStatuses(data.node_statuses);
+                    updateLogEntries(data.logs);
+                })
+                .catch(error => console.error('Error fetching logs:', error));
+            
+            // Fetch system stats
+            fetch('/api/status')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('total-resumes').textContent = data.stats.total_resumes_processed;
+                    document.getElementById('resumes-today').textContent = data.stats.resumes_today;
+                })
+                .catch(error => console.error('Error fetching status:', error));
+        }
+        
+        // Fetch recent resumes (for workflow completion)
+        function fetchRecentResumes() {
+            fetch('/api/recent-resumes')
+                .then(response => response.json())
+                .then(data => {
+                    updateResumeList(data.resumes);
+                })
+                .catch(error => {
+                    console.error('Error fetching recent resumes:', error);
+                });
+        }
+        
+        // Update node statuses in the DOM
+        function updateNodeStatuses(statuses) {
+            // We're still using the hidden container for compatibility
+            const container = document.getElementById('node-statuses');
+            container.innerHTML = '';
+            
+            // Update the hierarchical workflow view
+            for (const [nodeName, nodeData] of Object.entries(statuses)) {
+                const statusClass = getStatusClass(nodeData.status);
+                const formattedName = formatNodeName(nodeName);
+                const lastRun = nodeData.last_run ? new Date(nodeData.last_run).toLocaleString() : 'Never';
+                
+                // Create entry in the hidden container
+                const nodeElement = document.createElement('div');
+                nodeElement.className = 'node-status mb-2';
+                nodeElement.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="node-name">${formattedName}</span>
+                        <span class="badge ${statusClass}">${nodeData.status}</span>
+                    </div>
+                    <div class="text-muted small">Last run: ${lastRun}</div>
+                `;
+                container.appendChild(nodeElement);
+                
+                // Update the badge in the workflow visualization
+                const badgeElement = document.getElementById(`${nodeName}-badge`);
+                if (badgeElement) {
+                    badgeElement.className = `badge ${getStatusClass(nodeData.status)}`;
+                    badgeElement.textContent = nodeData.status;
+                    
+                    const progressElement = document.getElementById(`${nodeName}-progress`);
+                    if (progressElement) {
+                        progressElement.className = 'stage-progress';
+                        
+                        if (nodeData.status.toLowerCase() === 'running' || 
+                            nodeData.status.toLowerCase() === 'processing') {
+                            progressElement.classList.add('in-progress');
+                            progressElement.style.setProperty('--progress', '50%');
+                        } else if (nodeData.status.toLowerCase() === 'completed' || 
+                                   nodeData.status.toLowerCase() === 'success') {
+                            progressElement.classList.add('complete');
+                        } else if (nodeData.status.toLowerCase() === 'error' || 
+                                   nodeData.status.toLowerCase() === 'failed') {
+                            progressElement.classList.add('error');
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Update the hierarchical workflow view with more dynamic behavior
+        function updateWorkflowVisualization(statuses) {
+            for (const [nodeName, nodeData] of Object.entries(statuses)) {
+                const stageElement = document.getElementById(`stage-${nodeName.replace(/_/g, '-')}`);
+                const badgeElement = document.getElementById(`${nodeName}-badge`);
+                const progressElement = document.getElementById(`${nodeName}-progress`);
+                const timeElement = document.getElementById(`${nodeName}-time`);
+                
+                if (!stageElement || !badgeElement || !progressElement) continue;
+                
+                // Reset classes
+                stageElement.classList.remove('active', 'completed', 'error');
+                
+                // Update badge with a nice transition
+                const oldClass = badgeElement.className;
+                badgeElement.className = `badge ${getStatusClass(nodeData.status)}`;
+                badgeElement.textContent = nodeData.status;
+                
+                if (oldClass !== badgeElement.className) {
+                    badgeElement.animate([
+                        { transform: 'scale(1)' },
+                        { transform: 'scale(1.2)' },
+                        { transform: 'scale(1)' }
+                    ], {
+                        duration: 500,
+                        easing: 'ease-in-out'
+                    });
+                }
+                
+                // Update time
+                if (timeElement && nodeData.last_run) {
+                    const lastRun = new Date(nodeData.last_run).toLocaleString();
+                    timeElement.textContent = `Last run: ${lastRun}`;
+                }
+                
+                // Update progress bar with animation
+                progressElement.className = 'stage-progress';
+                
+                // Set appropriate classes and animations based on status
+                const status = nodeData.status.toLowerCase();
+                
+                if (['running', 'processing'].includes(status)) {
+                    stageElement.classList.add('active');
+                    progressElement.classList.add('in-progress');
+                    
+                    // Use provided progress or default to animated progress
+                    let progress = nodeData.progress || 50;
+                    progressElement.style.setProperty('--progress', `${progress}%`);
+                    
+                    // Add subtle pulse animation to the stage
+                    stageElement.animate([
+                        { boxShadow: '0 3px 10px rgba(0, 0, 0, 0.05)' },
+                        { boxShadow: '0 6px 18px rgba(74, 108, 247, 0.2)' },
+                        { boxShadow: '0 3px 10px rgba(0, 0, 0, 0.05)' }
+                    ], {
+                        duration: 2000,
+                        iterations: Infinity
+                    });
+                } 
+                else if (['completed', 'success'].includes(status)) {
+                    stageElement.classList.add('completed');
+                    progressElement.classList.add('complete');
+                }
+                else if (['error', 'failed'].includes(status)) {
+                    stageElement.classList.add('error');
+                    progressElement.classList.add('error');
+                }
+                
+                // Update node icon based on status
+                const nodeIcon = stageElement.querySelector('.stage-node i');
+                if (nodeIcon) {
+                    if (['completed', 'success'].includes(status)) {
+                        nodeIcon.className = 'bi bi-check-circle-fill';
+                    } else if (['error', 'failed'].includes(status)) {
+                        nodeIcon.className = 'bi bi-x-circle-fill';
+                    } else if (['running', 'processing'].includes(status)) {
+                        nodeIcon.className = 'bi bi-arrow-repeat';
+                    } else {
+                        nodeIcon.className = 'bi bi-circle-fill';
+                    }
+                }
+                
+                // Update counts if available
+                const countElement = document.getElementById(`${nodeName}-count`);
+                if (countElement && nodeData.count !== undefined) {
+                    countElement.textContent = nodeData.count;
+                }
+            }
+        }
+        
+        // Update log entries in the DOM with enhanced UI
+        function updateLogEntries(logs) {
+            const container = document.getElementById('log-entries');
+            container.innerHTML = '';
+            
+            if (logs.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center text-muted p-4">
+                        <i class="bi bi-info-circle mb-2 display-6"></i>
+                        <p>No log entries yet</p>
+                    </div>`;
+                return;
+            }
+            
+            // Sort logs by timestamp (newest first)
+            const sortedLogs = [...logs].sort((a, b) => {
+                return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+            });
+            
+            // Display only the most recent 15 logs
+            const recentLogs = sortedLogs.slice(0, 15);
+            
+            for (const log of recentLogs) {
+                const logElement = document.createElement('div');
+                logElement.className = 'log-entry mb-3';
+                
+                const timestamp = new Date(log.timestamp).toLocaleString();
+                const candidateName = log.candidate_name || 'System';
+                const status = log.status || 'processing';
+                const statusClass = getStatusClass(status);
+                
+                // Determine appropriate icon based on status
+                let statusIcon = 'info-circle';
+                if (status.toLowerCase() === 'success' || status.toLowerCase() === 'completed') {
+                    statusIcon = 'check-circle';
+                } else if (status.toLowerCase() === 'error' || status.toLowerCase() === 'failed') {
+                    statusIcon = 'exclamation-triangle';
+                } else if (status.toLowerCase() === 'running' || status.toLowerCase() === 'processing') {
+                    statusIcon = 'arrow-repeat';
+                }
+                
+                logElement.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <div>
+                            <i class="bi bi-${statusIcon} me-2"></i>
+                            <strong>${candidateName}</strong>
+                        </div>
+                        <span class="badge ${statusClass}">${status}</span>
+                    </div>
+                    <div class="log-message">${log.message || ''}</div>
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                        <span class="text-muted small">
+                            <i class="bi bi-clock me-1"></i>${timestamp}
+                        </span>
+                        ${status.toLowerCase() === 'error' || status.toLowerCase() === 'failed' ? 
+                            `<button class="btn btn-sm btn-outline-danger retry-btn" data-job-id="${log.job_id || ''}">
+                                <i class="bi bi-arrow-repeat me-1"></i>Retry
+                            </button>` : ''}
+                    </div>
+                `;
+                
+                container.appendChild(logElement);
+                
+                // Add fade-in animation to new log entries
+                logElement.animate([
+                    { opacity: 0, transform: 'translateY(10px)' },
+                    { opacity: 1, transform: 'translateY(0)' }
+                ], {
+                    duration: 300,
+                    easing: 'ease-out'
+                });
+            }
+            
+            // Attach event listeners to retry buttons
+            document.querySelectorAll('.retry-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const jobId = this.getAttribute('data-job-id');
+                    if (jobId) {
+                        // Add visual feedback when clicking retry
+                        this.innerHTML = '<i class="bi bi-hourglass-split me-1"></i>Retrying...';
+                        this.disabled = true;
+                        retryJob(jobId);
+                    }
+                });
+            });
+        }
+        
+        // Enhanced helper function to get status class for badges
+        function getStatusClass(status) {
+            const statusLower = status.toLowerCase();
+            
+            switch (statusLower) {
+                case 'running':
+                case 'processing':
+                    return 'bg-info text-white';
+                case 'completed':
+                case 'success':
+                    return 'bg-success text-white';
+                case 'error':
+                case 'failed':
+                    return 'bg-danger text-white';
+                case 'waiting':
+                    return 'bg-secondary text-white';
+                case 'retrying':
+                    return 'bg-warning text-dark';
+                case 'idle':
+                    return 'bg-light text-dark';
+                case 'pending':
+                    return 'bg-primary text-white';
+                default:
+                    return 'bg-secondary text-white';
+            }
+        }
+        
+        // Format node name for display
+        function formatNodeName(nodeName) {
+            return nodeName
+                .replace(/_/g, ' ')
+                .split(' ')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
+        }
+        
+        // Improved retry function with visual feedback
+        function retryJob(jobId) {
+            // Show toast notification
+            showToast(`Retrying job ${jobId}...`, 'info');
+            
+            fetch('/api/retry', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ job_id: jobId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showToast(`Job ${jobId} retry successfully initiated`, 'success');
+                    // Refresh data after successful retry
+                    setTimeout(fetchInitialData, 1000);
+                } else {
+                    showToast(`Failed to retry job ${jobId}`, 'danger');
+                }
+            })
+            .catch(error => {
+                console.error('Error retrying job:', error);
+                showToast(`Error retrying job: ${error.message}`, 'danger');
+            });
+        }
+        
+        // Toast notification helper
+        function showToast(message, type = 'info') {
+            // Create toast container if it doesn't exist
+            let toastContainer = document.getElementById('toast-container');
+            if (!toastContainer) {
+                toastContainer = document.createElement('div');
+                toastContainer.id = 'toast-container';
+                toastContainer.className = 'position-fixed bottom-0 end-0 p-3';
+                toastContainer.style.zIndex = '1050';
+                document.body.appendChild(toastContainer);
+            }
+            
+            // Create toast element
+            const toastId = `toast-${Date.now()}`;
+            const toast = document.createElement('div');
+            toast.className = `toast align-items-center text-white bg-${type} border-0`;
+            toast.id = toastId;
+            toast.setAttribute('role', 'alert');
+            toast.setAttribute('aria-live', 'assertive');
+            toast.setAttribute('aria-atomic', 'true');
+            
+            toast.innerHTML = `
+                <div class="d-flex">
+                    <div class="toast-body">
+                        ${message}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            // Initialize and show toast
+            const bsToast = new bootstrap.Toast(toast, {
+                autohide: true,
+                delay: 3000
+            });
+            bsToast.show();
+            
+            // Remove toast after it's hidden
+            toast.addEventListener('hidden.bs.toast', function() {
+                toast.remove();
+            });
+        }
+        
+        // Manual refresh button with visual feedback
+        document.getElementById('refresh-logs').addEventListener('click', function() {
+            const button = this;
+            const originalContent = button.innerHTML;
+            
+            // Change button text and disable it
+            button.innerHTML = '<i class="bi bi-hourglass-split me-1"></i> Refreshing...';
+            button.disabled = true;
+            
+            // Fetch data
+            fetchInitialData();
+            
+            // Reset button after delay
+            setTimeout(() => {
+                button.innerHTML = originalContent;
+                button.disabled = false;
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
