@@ -1,0 +1,73 @@
+[build-system]
+requires = ['flit_core >=3.2,<4']
+build-backend = 'flit_core.buildapi'
+
+[project]
+name = 'mbipy'
+version = '0.1.0'
+description = 'Modulation-based x-ray phase contrast imaging.'
+readme = 'README.md'
+license = {file = 'LICENSE'}
+authors = [{name = 'Chris Ninham', email = 'christopher.ninham@insa-lyon.fr'},]
+dependencies = ['array-api-compat', 'numpy>=1.21',]
+
+[project.optional-dependencies]
+cupy = ['cupy', 'pyvkfft'] # TODO(nin17): cupywt
+jax = ['jax', 'jaxwt'] # TODO(nin17): simple_pytree
+numba = ['numba', 'rocket-fft'] # TODO(nin17): nnls_numba, cminpack_numba
+numpy = ['pywavelets', 'scipy']
+strict = ['array-api-strict',]
+test = ['pytest', 'pytest-cov', 'pytest-env', 'pytest-randomly']
+torch = ['torch>=1.13', 'torch-dct', 'ptwt']
+
+[project.urls]
+'Homepage' = 'https://github.com/Nin17/mbipy'
+'Bug Tracker' = 'https://github.com/Nin17/mbipy/issues'
+
+[project.entry-points.numba_extensions]
+init = 'mbipy.src:_init_numba'
+
+[tool.pytest.ini_options]
+testpaths = ['tests']
+# addopts = ['--import-mode=importlib', '--ignore=**/utils.py']
+# xfail_strict=true
+# addopts = --ignore=somedir
+
+[tool.pytest_env]
+JAX_ENABLE_X64=true
+NUMBA_CACHE_DIR = "numba_cache"
+NUMBA_CAPTURED_ERRORS='new_style'
+
+# [tool.setuptools.packages.find]
+# include = ['mbipy*']
+# exclude = [
+#     'cminpack_numba*',
+#     'cupywt*',
+#     'data*',
+#     'dxraylib*',
+#     'envs*',
+#     'examples*',
+#     'nnls_numba*',
+#     'xraylib_numba',
+# ] 
+
+[tool.ruff]
+line-length = 88
+exclude = ['**.ipynb',] # ???
+
+[tool.ruff.lint]
+select = ['ALL']
+
+[tool.ruff.lint.isort]
+required-imports = ["from __future__ import annotations"]
+
+[tool.ruff.lint.extend-per-file-ignores]
+'mbipy/src/__init__.py' = ['F401',]
+# 'mbipy/src/*/__init__.py' = ['D104', 'F403']
+
+'tests/*' = ['D101', 'N801', 'S101']
+'tests/normal_integration/test_jax.py' =['ANN001', 'ANN202']
+'tests/normal_integration/test_numba.py' = ['ANN001', ]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
