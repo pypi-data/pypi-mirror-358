@@ -1,0 +1,268 @@
+# ZapSEA Python SDK
+
+The official Python SDK for the ZapSEA Intelligence Engine API. Provides simple, async-first interfaces for policy impact simulation, influence analysis, and intelligence gathering.
+
+## Features
+
+- **Async-first design** with automatic job polling
+- **Type-safe** with full Pydantic model support
+- **Comprehensive error handling** with specific exception types
+- **Automatic retries** with exponential backoff
+- **Bearer token authentication** with API key validation
+- **Rate limiting awareness** with tier-based limits
+- **Full V2 API coverage** for all endpoints
+
+## Installation
+
+```bash
+pip install zapsea
+```
+
+### Development Installation
+
+```bash
+git clone https://github.com/Travvy-McPatty/ZapSEA.git
+cd ZapSEA/sdks/python
+pip install -e ".[dev]"
+```
+
+## Quick Start
+
+```python
+import asyncio
+from zapsea import ZapSEA
+
+async def main():
+    # Initialize client
+    client = ZapSEA(api_key="pk_live_your_api_key_here")
+    
+    # Run impact simulation
+    result = await client.impact.simulate(
+        policy_description="Federal AI regulation requiring algorithmic transparency for financial services",
+        analysis_depth="comprehensive",
+        impact_dimensions=["economic", "regulatory", "social"],
+        scenario_types=["optimistic", "realistic", "pessimistic"]
+    )
+    
+    print(f"Simulation ID: {result.simulation_id}")
+    print(f"Success Probability: {result.success_probability}")
+    print(f"Confidence Score: {result.confidence_score}")
+    
+    # Find influence paths
+    path = await client.influence.find_path(
+        source_entity="Congress",
+        target_entity="Tech Industry",
+        max_depth=4,
+        include_alternatives=True
+    )
+    
+    print(f"Influence Path Length: {path.path_length}")
+    print(f"Total Influence Score: {path.total_influence_score}")
+    
+    await client.close()
+
+# Run the example
+asyncio.run(main())
+```
+
+## Authentication
+
+Get your API key from the [ZapSEA Developer Portal](https://api.polityflow.com/developer):
+
+```python
+from zapsea import ZapSEA
+
+# Production API key
+client = ZapSEA(api_key="pk_live_...")
+
+# Test API key (for development)
+client = ZapSEA(api_key="pk_test_...")
+```
+
+## Core Features
+
+### Impact Simulation
+
+```python
+# Basic simulation
+result = await client.impact.simulate(
+    policy_description="AI regulation for financial services",
+    analysis_depth="standard"
+)
+
+# Comprehensive analysis with economic data
+result = await client.impact.analyze_economic_impact(
+    policy_description="Federal minimum wage increase to $15/hour",
+    include_fred_data=True,
+    economic_indicators=["employment", "gdp", "inflation"]
+)
+
+# Scenario comparison
+comparison = await client.impact.compare_scenarios(
+    scenarios=[
+        {
+            "name": "Current Proposal",
+            "policy_description": "AI regulation with transparency requirements"
+        },
+        {
+            "name": "Alternative Approach",
+            "policy_description": "AI regulation with industry self-regulation"
+        }
+    ]
+)
+```
+
+### Influence Analysis
+
+```python
+# Find influence paths
+path = await client.influence.find_path(
+    source_entity="Congress",
+    target_entity="Tech Industry",
+    max_depth=5,
+    include_alternatives=True
+)
+
+# Network analysis
+network = await client.influence.analyze_network(
+    entity_ids=["congress_001", "tech_industry_002", "lobbying_firm_003"],
+    include_centrality_metrics=True
+)
+```
+
+### Job Management
+
+```python
+# Submit job without waiting
+job_id = await client.impact.simulate(
+    policy_description="Policy analysis",
+    auto_wait=False  # Don't wait for completion
+)
+
+# Check job status
+status = await client.jobs.get_status(job_id)
+print(f"Status: {status['status']}")
+print(f"Progress: {status['progress_percentage']}%")
+
+# Wait for completion
+result = await client.jobs.wait_for_completion(job_id)
+
+# Cancel job
+await client.jobs.cancel(job_id)
+
+# List user jobs
+jobs = await client.jobs.list(status_filter="completed", limit=20)
+```
+
+### Feedback and Analytics
+
+```python
+# Submit feedback
+await client.feedback.submit(
+    rating=5,
+    page="impact_simulation",
+    comment="Excellent analysis depth and accuracy!"
+)
+
+# Report a bug
+await client.feedback.report_bug(
+    page="influence_analysis",
+    description="Pathfinding fails with timeout",
+    steps_to_reproduce="1. Submit large entity set 2. Wait for processing"
+)
+
+# Request a feature
+await client.feedback.request_feature(
+    feature_title="Real-time policy monitoring",
+    description="Monitor policy changes in real-time",
+    priority="high"
+)
+```
+
+## Configuration
+
+### Client Options
+
+```python
+client = ZapSEA(
+    api_key="pk_live_...",
+    base_url="https://api.polityflow.com",  # Custom base URL
+    timeout=60,                          # Request timeout (seconds)
+    max_retries=3,                       # Max retry attempts
+    auto_poll=True,                      # Auto-poll for job completion
+    poll_interval=3,                     # Seconds between polls
+    max_poll_time=300                    # Max polling time (seconds)
+)
+```
+
+### Environment Variables
+
+```bash
+export ZAPSEA_API_KEY="pk_live_your_api_key_here"
+export ZAPSEA_BASE_URL="https://api.polityflow.com"
+```
+
+```python
+import os
+from zapsea import ZapSEA
+
+client = ZapSEA(api_key=os.getenv("ZAPSEA_API_KEY"))
+```
+
+## Error Handling
+
+```python
+from zapsea import ZapSEA, ZapSEAError, AuthenticationError, RateLimitError
+
+try:
+    result = await client.impact.simulate(
+        policy_description="Policy analysis"
+    )
+except AuthenticationError:
+    print("Invalid API key")
+except RateLimitError as e:
+    print(f"Rate limit exceeded. Retry after {e.retry_after} seconds")
+except ZapSEAError as e:
+    print(f"API error: {e}")
+```
+
+## Rate Limits
+
+Different subscription tiers have different rate limits:
+
+- **Free**: 60 requests/minute, 1,000/month
+- **Professional**: 300 requests/minute, 10,000/month  
+- **Enterprise**: 1,000 requests/minute, 100,000/month
+
+The SDK automatically handles rate limiting and provides clear error messages when limits are exceeded.
+
+## Async Context Manager
+
+```python
+async with ZapSEA(api_key="pk_live_...") as client:
+    result = await client.impact.simulate(
+        policy_description="Policy analysis"
+    )
+    # Client automatically closed when exiting context
+```
+
+## Examples
+
+See the [examples directory](./examples/) for complete usage examples:
+
+- [Basic Impact Simulation](./examples/basic_simulation.py)
+- [Economic Impact Analysis](./examples/economic_analysis.py)
+- [Influence Pathfinding](./examples/influence_paths.py)
+- [Scenario Comparison](./examples/scenario_comparison.py)
+- [Job Management](./examples/job_management.py)
+
+## Support
+
+- **Documentation**: [https://docs.polityflow.com/sdk/python](https://docs.polityflow.com/sdk/python)
+- **API Reference**: [https://api.polityflow.com/docs](https://api.polityflow.com/docs)
+- **Issues**: [GitHub Issues](https://github.com/Travvy-McPatty/ZapSEA/issues)
+- **Email**: [support@polityflow.com](mailto:support@polityflow.com)
+
+## License
+
+MIT License - see [LICENSE](./LICENSE) for details.
