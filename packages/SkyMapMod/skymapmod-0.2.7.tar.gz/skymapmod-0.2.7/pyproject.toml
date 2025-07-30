@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "SkyMapMod"
+version = "0.2.7"
+authors = [
+ { name="Anna Amineva", email="amineva.2219@physics.msu.ru" },
+]
+description = "A numerical model of the night sky brightness in the optical range"
+readme = "README.md"
+requires-python = ">=3.10.0"
+classifiers = [
+   "Programming Language :: Python :: 3",
+   "License :: OSI Approved :: MIT License",
+   "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://istina.msu.ru/profile/aminevann/"
+
+[tool.hatch.build.targets.wheel]
+include = [
+    "SkyMapMod/data/star_temperatures.npy",
+    "SkyMapMod/data/star_brightness.npy",
+    "SkyMapMod/data/wavelenght_kp.npy",
+    "SkyMapMod/data/intensity_kp.npy",
+    "SkyMapMod/__init__.py",
+    "SkyMapMod/*.py",
+    "SkyMapMod/data/*.py",
+]
