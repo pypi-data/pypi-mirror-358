@@ -1,0 +1,43 @@
+site_name: Game280
+docs_dir: docs-mkdocs
+plugins: 
+  - search
+  - mermaid2
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          paths: [src]
+          options:
+            show_bases: true
+            show_inheritance_diagram: false
+            show_source: false
+            inherited_members: true
+  - api-autonav:
+      modules: [src/game280]
+      api_root_uri: api
+      nav_section_title: API
+
+markdown_extensions: 
+  - attr_list
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+
+watch:
+  - src
+
+nav:
+  - Home: index.md
+  - Getting Started: getting_started.md
+  - API: api
+
+extra_css:
+  - extra.css
+
+theme:
+  name: material
+  palette:
+    scheme: slate
+  features:
+    - content.tabs.link
