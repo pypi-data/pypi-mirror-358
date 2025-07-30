@@ -1,0 +1,105 @@
+[build-system]
+requires = ["setuptools>=64", "wheel", "setuptools_scm>=8.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyradiosky"
+authors = [
+    {name = "Bryna Hazelton", email = "brynah@phys.washington.edu"},
+    {name = "Matthew Kolopanis", email = "mjkolopa@asu.edu"},
+    {name = "Jonathan Pober", email = "jonathan_pober@brown.edu"},
+    {name = "Adam Lanman", email = "alanman@mit.edu"},
+]
+maintainers = [
+    {name = "Bryna Hazelton", email = "brynah@phys.washington.edu"},
+    {name = "Matthew Kolopanis", email = "mjkolopa@asu.edu"}
+]
+description = "Python objects and interfaces for representing diffuse, extended and compact astrophysical radio sources"
+readme = "README.md"
+dynamic = ["version"]
+dependencies = [
+    "astropy>=6.0",
+    "h5py>=3.7",
+    "numpy>=1.23",
+    "pyuvdata>=3.1.0",
+    "scipy>=1.9",
+    "setuptools>=64",
+    "setuptools_scm>=8.1",
+]
+requires-python = ">=3.11"
+keywords = ["radio astronomy"]
+classifiers = [
+    "License :: OSI Approved :: BSD License",
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Astronomy",
+]
+
+[project.optional-dependencies]
+healpix = ["astropy-healpix>=1.0.2"]
+astroquery = ["astroquery>=0.4.4"]
+lunarsky = ["lunarsky>=0.2.5"]
+all = ["pyradiosky[healpix,astroquery,lunarsky]"]
+test = ["coverage", "pre-commit", "pytest", "pytest-cov"]
+doc = ["matplotlib", "pypandoc", "sphinx"]
+dev = ["pyradiosky[all,test,doc]"]
+
+[project.urls]
+Repository = "https://github.com/RadioAstronomySoftwareGroup/pyradiosky"
+Documentation = "https://pyradiosky.readthedocs.io/"
+
+[project.scripts]
+download_gleam = "cli:download_gleam"
+make_flat_spectrum_eor = "cli:make_flat_spectrum_eor"
+
+[tool.setuptools_scm]
+
+[tool.ruff.lint]
+select = [
+    "E", # pycodestyle
+    "W", # pycodestyle warnings
+    "F", # Pyflakes
+    "D", # pydocstyle
+    "UP", # pyupgrade
+    "B", # flake8-bugbear
+    "A", # flake8-builtins
+    "C4", # flake8-comprehensions
+    "N", # pep8-naming
+    "SIM", # flake8-simplify
+    "I", # isort
+    # "C90", # McCabe complexity. Consider for the future
+]
+ignore = [
+    "N806", # non-lowercase variable (we use N* for axes lengths)
+    "B028", # no-explicit-stacklevel for warnings
+    "SIM108", # prefer ternary opperators. I find them difficult to read.
+    "D203", # one-blank-line-before-class. we use two.
+    "D212", # multi-line-summary-first-line. We put it on the second line.
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["D"] # Don't require docstrings for tests
+"docs/*.py" = ["D", "A"] # Don't require docstrings or worry about builtins for docs
+"setup.py" = ["D"] # Don't require docstrings for setup.py
+
+[tool.ruff.format]
+skip-magic-trailing-comma = true
+
+[tool.ruff.lint.pycodestyle]
+max-line-length = 88
+
+# consider setting this in the future
+# [tool.ruff.lint.mccabe]
+# max-complexity = 30
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+known-first-party = ["pyradiosky"]
+split-on-trailing-comma = false
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
