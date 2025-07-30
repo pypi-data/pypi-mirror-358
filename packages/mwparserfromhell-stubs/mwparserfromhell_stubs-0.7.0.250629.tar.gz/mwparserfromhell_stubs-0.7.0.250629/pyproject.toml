@@ -1,0 +1,65 @@
+[build-system]
+requires = ["poetry-core>=2.1.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+[project]
+authors = [
+    { name = "JJMC89" },
+]
+dependencies = [
+    "typing-extensions >= 4.0.0",
+]
+description = "Type annotations for mwparserfromhell"
+dynamic = [
+    "classifiers",
+]
+license = { text = "MIT" }
+name = "mwparserfromhell-stubs"
+readme = "README.md"
+requires-python = ">=3.9"
+version = "0.7.0.250629"
+
+[project.urls]
+repository = "https://github.com/JJMC89/mwparserfromhell-stubs"
+
+
+[tool.black]
+target-version = ["py39"]
+
+
+[tool.isort]
+atomic = true
+profile = "black"
+py_version = 39
+
+
+[tool.mypy]
+enable_error_code = [
+    "ignore-without-code",
+]
+strict = true
+
+
+[tool.poetry]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Typing :: Stubs Only",
+]
+packages = [
+    {include = "mwparserfromhell-stubs", from = "src"}
+]
+
+[tool.poetry.group.typing.dependencies]
+mypy = "1.16.1"
+pyright = "1.1.402"
+
+[tool.poetry.group.stubtest.dependencies]
+mwparserfromhell = "0.7.0"
+
+
+[tool.pyright]
+enableTypeIgnoreComments = false
+typeCheckingMode = "strict"
+reportPrivateUsage = false
+reportUnnecessaryTypeIgnoreComment = true
