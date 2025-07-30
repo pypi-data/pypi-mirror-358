@@ -1,0 +1,34 @@
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sbe2"
+version = "0.1.1"
+description = "Simple Binary Encoding (SBE) 2.0 library for Python with linter"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [
+    { name = "Szymon Wieloch"}
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+dependencies = ['lxml']
+
+[project.optional-dependencies]
+test = [
+    'pytest',
+    'pytest-cov',
+]
+
+[project.urls]
+Homepage = "https://github.com/szymonwieloch/py-simple-binary-encoding"
+
+[tool.hatch.build.targets.wheel]
+packages = ["sbe2"]
