@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+version = "0.1.0"
+name = "syncnet"
+requires-python = ">= 3.12"
+authors = [
+  {name = "Jomari Tenorio", email = "jtenorio.dev@gmail.com"}
+]
+description = "A ligthweight multiplayer networking library for games" 
+readme = "README.md"
+license = { text = "MIT" } 
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3.12",
+]
+
+
+[tool.setuptools.package-data]
+syncnet = ["data/*.json", "templates/*.html"]
