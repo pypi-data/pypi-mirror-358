@@ -1,0 +1,490 @@
+# Pearl RL
+
+<div align="center">
+  <img src="https://i.ibb.co/CpXfbd7c/logo.png" alt="Pearl Logo" width="200"/>
+  <br>
+  <em>A reinforcement learning model selection library using explainability</em>
+</div>
+
+## 📖 Overview
+
+Pearl RL is a cutting-edge library that revolutionizes reinforcement learning evaluation by using explainability techniques to compare agents based on their internal decision-making logic rather than just reward signals. This approach addresses a critical limitation in traditional RL evaluation where two agents may receive similar rewards but behave fundamentally differently.
+
+## 🎯 Motivation
+
+Traditional reinforcement learning evaluation relies heavily on scalar reward signals, which may not always reflect the true quality, stability, or safety of learned policies. Pearl RL addresses this by:
+
+- **Beyond Rewards**: Evaluating agents based on their internal decision-making processes
+- **Explainability-Driven**: Using interpretability techniques as core evaluation metrics
+- **Multi-Method Approach**: Integrating SHAP, LIME, LMUT, stability analysis, and visual saliency
+- **Practical Applications**: Designed for critical systems where explainability and reliability matter
+
+## 🚀 Key Features
+
+- **Multiple Explainability Methods**: SHAP, LIME, LMUT, Stability Analysis, Visual Saliency
+- **Agent Comparison Framework**: Compare agents with similar rewards but different behaviors
+- **Environment Support**: Atari games, Lunar Lander, and custom environments
+- **Flexible Architecture**: Easy integration with existing RL agents and environments
+- **Visualization Tools**: Tree structures, heatmaps, and decision explanations
+- **Production Ready**: Designed for real-world applications in autonomous systems
+
+## 📦 Installation
+
+```bash
+pip install pearl-rl
+```
+
+## 🏗️ Architecture
+
+Pearl RL is built around four core components:
+
+1. **Agents**: RL agents with explainable decision-making
+2. **Environments**: Wrapped environments for Pearl compatibility
+3. **Explainability Methods**: Multiple techniques for agent evaluation
+4. **Evaluation Framework**: Tools for comparing and selecting agents
+
+## 🎮 Quick Start
+
+### Basic Usage
+
+```python
+from pearl import Pearl
+from pearl.agents import SimpleDQN
+from pearl.enviroments import GymRLEnv
+from pearl.methods import ShapExplainability, LimeExplainability
+
+# Create environment
+env = GymRLEnv("LunarLander-v2")
+
+# Create agents
+agent_1 = SimpleDQN(env.observation_space, env.action_space)
+agent_2 = SimpleDQN(env.observation_space, env.action_space)
+
+# Initialize explainability methods
+shap_explainer = ShapExplainability(device, mask)
+lime_explainer = LimeExplainability(device, mask)
+
+# Create Pearl instance
+pearl = Pearl([agent_1, agent_2], env)
+
+# Evaluate agents using explainability
+scores = pearl.evaluate_with_explainability([shap_explainer, lime_explainer])
+```
+
+### Advanced Example: Atari Game Evaluation
+
+```python
+import torch
+import torch.nn as nn
+from pearl.agents.TourchDQN import TorchDQN
+from pearl.enviroments.GymRLEnv import GymRLEnv
+from pearl.methods import ShapExplainability, LimeExplainability, LMUTExplainability
+from pearl.provided.AssaultEnv import AssaultEnvShapMask
+
+# Define DQN architecture
+class DQN(nn.Module):
+    def __init__(self, n_actions: int):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Conv2d(4, 32, kernel_size=8, stride=4), nn.ReLU(),
+            nn.Conv2d(32, 64, kernel_size=4, stride=2), nn.ReLU(),
+            nn.Conv2d(64, 64, kernel_size=3, stride=1), nn.ReLU(),
+            nn.Flatten(),
+            nn.Linear(7 * 7 * 64, 512), nn.ReLU(),
+            nn.Linear(512, n_actions)
+        )
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        return self.net(x)
+
+# Setup
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+mask = AssaultEnvShapMask()
+
+# Initialize explainers
+shap_explainer = ShapExplainability(device, mask)
+lime_explainer = LimeExplainability(device, mask)
+lmut_explainer = LMUTExplainability(device, mask)
+
+# Environment setup
+env = GymRLEnv(
+    env_name='ALE/Assault-v5',
+    stack_size=4,
+    frame_skip=4,
+    render_mode='rgb_array'
+)
+
+n_actions = env.action_space.n
+
+# Load trained agents
+policy_net_good = DQN(n_actions)
+agent_good = TorchDQN('models/dqn_assault_5m.pth', policy_net_good, device)
+
+policy_net_bad = DQN(n_actions)
+agent_bad = TorchDQN('models/dqn_assault_1k.pth', policy_net_bad, device)
+
+agents = [agent_good, agent_bad]
+
+# Prepare explainers
+env.reset()
+shap_explainer.set(env)
+shap_explainer.prepare(agents)
+
+lime_explainer.set(env)
+lime_explainer.prepare(agents)
+
+lmut_explainer.set(env)
+lmut_explainer.prepare(agents)
+lmut_explainer.collect_training_data(10000)
+lmut_explainer.fit_models()
+
+# Evaluation loop
+scores_shap = [0, 0]
+scores_lime = [0, 0]
+scores_lmut = [0, 0]
+
+for i in range(100):
+    obs = env.get_observations()
+    
+    # Get explainability scores
+    new_scores_shap = shap_explainer.value(obs)
+    new_scores_lime = lime_explainer.value(obs)
+    new_scores_lmut = lmut_explainer.value(obs)
+    
+    # Update cumulative scores
+    scores_shap = [s + ns for s, ns in zip(scores_shap, new_scores_shap)]
+    scores_lime = [s + ns for s, ns in zip(scores_lime, new_scores_lime)]
+    scores_lmut = [s + ns for s, ns in zip(scores_lmut, new_scores_lmut)]
+    
+    # Select best agent based on explainability
+    sum_scores = np.array(scores_shap) + np.array(scores_lime)
+    best_agent = np.argmax(sum_scores)
+    agent = agents[best_agent]
+    
+    # Take action
+    action = agent.predict(obs)
+    _, _, terminated, truncated, _ = env.step(action)
+    
+    if terminated:
+        break
+
+print(f"SHAP Scores: Good={scores_shap[0]:.2f}, Bad={scores_shap[1]:.2f}")
+print(f"LIME Scores: Good={scores_lime[0]:.2f}, Bad={scores_lime[1]:.2f}")
+print(f"LMUT Scores: Good={scores_lmut[0]:.2f}, Bad={scores_lmut[1]:.2f}")
+```
+
+### Lunar Lander Example
+
+```python
+import gymnasium as gym
+import torch.nn as nn
+from pearl.agents.TorchPolicy import TorchPolicyAgent
+from pearl.methods import TabularLimeExplainability, LMUTExplainability
+from pearl.provided.LunarLander import LunarLanderTabularMask
+
+# Define REINFORCE network
+class REINFORCE_Net(nn.Module):
+    def __init__(self, input_dim: int, n_actions: int):
+        super().__init__()
+        self.fc1 = nn.Linear(input_dim, 256)
+        self.fc2 = nn.Linear(256, 256)
+        self.pi = nn.Linear(256, n_actions)
+
+    def forward(self, x):
+        x = torch.relu(self.fc1(x))
+        x = torch.relu(self.fc2(x))
+        return self.pi(x)
+
+# Setup
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+env = gym.make("LunarLander-v3")
+n_actions = env.action_space.n
+input_dim = env.observation_space.shape[0]
+
+# Load agents
+agent_good = TorchPolicyAgent('models/lunar_lander_reinforce_500.pth', 
+                             REINFORCE_Net(input_dim, n_actions), device)
+agent_bad = TorchPolicyAgent('models/lunar_lander_reinforce_10.pth', 
+                            REINFORCE_Net(input_dim, n_actions), device)
+agents = [agent_good, agent_bad]
+
+# Prepare explainers
+training_data = np.array([env.reset()[0] for _ in range(500)])
+feature_names = ["x_pos", "y_pos", "x_vel", "y_vel", "angle", "angular_vel", "leg1", "leg2"]
+
+lime_mask = LunarLanderTabularMask(action_space=n_actions)
+lime_explainer = TabularLimeExplainability(
+    device=device,
+    mask=lime_mask,
+    feature_names=feature_names,
+    training_data=training_data
+)
+
+lmut_mask = LunarLanderTabularMask(action_space=n_actions)
+lmut_explainer = LMUTExplainability(device, lmut_mask)
+
+# Setup and train
+obs, _ = env.reset()
+lime_explainer.set(env)
+lime_explainer.prepare(agents)
+
+lmut_explainer.set(env)
+lmut_explainer.prepare(agents)
+lmut_explainer.collect_training_data(5000)
+lmut_explainer.fit_models()
+
+# Evaluation
+scores_lime = [0, 0]
+scores_lmut = [0, 0]
+
+for _ in range(500):
+    obs_tensor = torch.tensor(obs, dtype=torch.float32, device=device).unsqueeze(0)
+    
+    lime_vals = lime_explainer.value(obs_tensor.cpu().numpy())
+    lmut_vals = lmut_explainer.value(obs_tensor.cpu().numpy())
+    
+    scores_lime = [s + v for s, v in zip(scores_lime, lime_vals)]
+    scores_lmut = [s + v for s, v in zip(scores_lmut, lmut_vals)]
+    
+    best_agent = np.argmax(scores_lime)
+    action = agents[best_agent].predict(obs_tensor)
+    
+    obs, _, terminated, truncated, _ = env.step(action)
+    if terminated or truncated:
+        obs, _ = env.reset()
+
+print(f"LIME Scores: Good={scores_lime[0]:.2f}, Bad={scores_lime[1]:.2f}")
+print(f"LMUT Scores: Good={scores_lmut[0]:.2f}, Bad={scores_lmut[1]:.2f}")
+
+# Generate visualizations
+lmut_explainer.visualize_tree_structure(
+    agent_idx=0,
+    save_path="lmut_tree_visualizations/agent_0_tree_structure.png",
+    feature_names=feature_names
+)
+```
+
+## 📊 Results
+
+### LMUT Tree Visualization
+
+Pearl RL provides powerful visualization tools to understand agent decision-making processes. Below is an example of LMUT (Linear Model U-Tree) analysis on Lunar Lander agents:
+
+<div align="center">
+  <img src="https://i.ibb.co/N64QNZ74/lunar-lander-agent-1-tree-structure.png" alt="LMUT Tree Structure for Lunar Lander Agent 1" width="600"/>
+  <br>
+  <em>LMUT Tree Structure Analysis for Lunar Lander Agent 1</em>
+</div>
+
+This visualization shows:
+- **Decision Tree Structure**: How the agent partitions the state space
+- **Feature Importance**: Which state variables (x_pos, y_pos, x_vel, y_vel, angle, angular_vel, leg1_contact, leg2_contact) are most critical for decision-making
+- **Policy Regions**: Different decision regions based on state conditions
+- **Agent Behavior Patterns**: Understanding of how the agent responds to different situations
+
+The tree structure reveals that the agent primarily considers:
+1. **Position and Velocity**: Critical for landing trajectory planning
+2. **Angular State**: Important for orientation control
+3. **Leg Contact**: Essential for landing detection
+
+This level of interpretability goes far beyond simple reward signals, providing deep insights into the agent's internal decision-making logic.
+
+### LIME Heatmaps
+
+Pearl RL also provides LIME (Local Interpretable Model-agnostic Explanations) heatmaps that show which parts of the input are most important for agent decisions at different time steps:
+
+<div align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <img src="https://i.ibb.co/GvhZ7w67/heatmap-step-0-agent-0.png" alt="LIME Heatmap Step 0 Agent 0" width="250"/>
+        <br>
+        <em>Step 0, Agent 0</em>
+      </td>
+      <td align="center">
+        <img src="https://i.ibb.co/qfNt8CG/heatmap-step-1-agent-1.png" alt="LIME Heatmap Step 1 Agent 1" width="250"/>
+        <br>
+        <em>Step 1, Agent 1</em>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="https://i.ibb.co/bMFmJ4p4/heatmap-step-2-agent-0.png" alt="LIME Heatmap Step 2 Agent 0" width="250"/>
+        <br>
+        <em>Step 2, Agent 0</em>
+      </td>
+      <td align="center">
+        <img src="https://i.ibb.co/Kcm3ds5T/heatmap-step-3-agent-1.png" alt="LIME Heatmap Step 3 Agent 1" width="250"/>
+        <br>
+        <em>Step 3, Agent 1</em>
+      </td>
+    </tr>
+  </table>
+  <br>
+  <em>LIME Heatmaps showing feature importance across different time steps and agents</em>
+</div>
+
+These heatmaps demonstrate:
+- **Temporal Evolution**: How agent focus changes over time
+- **Agent Differences**: Different agents may focus on different input regions
+- **Feature Saliency**: Which parts of the observation are most critical for decisions
+- **Decision Rationale**: Understanding why agents make specific choices at each step
+
+The heatmaps reveal that agents dynamically adjust their attention based on the current situation, providing valuable insights into their adaptive decision-making processes.
+
+## 🔧 Core Components
+
+### Agents
+
+Pearl RL supports various RL agent types:
+
+- **TorchDQN**: Deep Q-Network agents
+- **TorchPolicy**: Policy gradient agents (REINFORCE, A2C, etc.)
+- **SimpleDQN**: Basic DQN implementation
+- **Custom Agents**: Extend base classes for custom implementations
+
+### Environments
+
+- **GymRLEnv**: Gymnasium environment wrapper
+- **ObservationWrapper**: Custom observation preprocessing
+- **Provided Environments**: Pre-configured Atari and Lunar Lander environments
+
+### Explainability Methods
+
+#### SHAP (SHapley Additive exPlanations)
+```python
+from pearl.methods.ShapExplainability import ShapExplainability
+
+shap_explainer = ShapExplainability(device, mask)
+shap_explainer.set(env)
+shap_explainer.prepare(agents)
+scores = shap_explainer.value(observation)
+```
+
+#### LIME (Local Interpretable Model-agnostic Explanations)
+```python
+from pearl.methods.LimeExplainability import LimeExplainability
+
+lime_explainer = LimeExplainability(device, mask)
+lime_explainer.set(env)
+lime_explainer.prepare(agents)
+scores = lime_explainer.value(observation)
+```
+
+#### LMUT (Linear Model U-Tree)
+```python
+from pearl.methods.LMUTExplainability import LMUTExplainability
+
+lmut_explainer = LMUTExplainability(device, mask)
+lmut_explainer.set(env)
+lmut_explainer.prepare(agents)
+lmut_explainer.collect_training_data(10000)
+lmut_explainer.fit_models()
+scores = lmut_explainer.value(observation)
+
+# Visualize tree structure
+lmut_explainer.visualize_tree_structure(
+    agent_idx=0,
+    save_path="tree_structure.png",
+    feature_names=["feature1", "feature2", ...]
+)
+```
+
+#### Stability Analysis
+```python
+from pearl.methods.Stability import StabilityExplainability
+
+stability_explainer = StabilityExplainability(
+    device, 
+    noise_type='gaussian', 
+    noise_std=0.01, 
+    num_samples=5
+)
+stability_explainer.set(env)
+stability_explainer.prepare(agents)
+scores = stability_explainer.value(observation)
+```
+
+#### Tabular LIME
+```python
+from pearl.methods.TabularLimeExplainability import TabularLimeExplainability
+
+tabular_lime = TabularLimeExplainability(
+    device=device,
+    mask=mask,
+    feature_names=["x_pos", "y_pos", "x_vel", "y_vel"],
+    training_data=training_data
+)
+```
+
+## 🎯 Use Cases
+
+### 1. Agent Comparison
+Compare agents with similar reward performance but different decision-making strategies.
+
+### 2. Model Selection
+Select the best agent based on explainability scores rather than just rewards.
+
+### 3. Debugging
+Understand why agents make specific decisions in critical situations.
+
+### 4. Safety Analysis
+Evaluate agent stability and robustness in noisy environments.
+
+### 5. Research
+Study the relationship between agent architecture and decision-making patterns.
+
+## 📊 Evaluation Metrics
+
+Pearl RL provides multiple evaluation perspectives:
+
+- **SHAP Scores**: Feature importance-based evaluation
+- **LIME Scores**: Local linear approximation scores
+- **LMUT Scores**: Tree-based decision structure evaluation
+- **Stability Scores**: Robustness to input perturbations
+- **Combined Scores**: Weighted combination of multiple methods
+
+## 🔬 Research Applications
+
+Pearl RL is particularly valuable for:
+
+- **Autonomous Systems**: Where explainability is critical for safety
+- **Network Optimization**: Understanding routing and control decisions
+- **Game AI**: Analyzing strategic decision-making
+- **Robotics**: Evaluating control policies in real-world scenarios
+- **Healthcare**: Understanding medical decision support systems
+
+## 📚 Documentation
+
+For detailed documentation and examples, visit our [documentation page](https://github.com/P-E-A-R-L/Pearl).
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [contributing guidelines](CONTRIBUTING.md) for details.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 📖 Citation
+
+If you use Pearl RL in your research, please cite:
+
+```bibtex
+@software{pearl_rl,
+  title={Pearl RL: A Reinforcement Learning Model Selection Library Using Explainability},
+  author={Youssef Rabie and Abdelrahman Mohamed Mahmoud Sobhy and Youssef Hagag},
+  year={2025},
+  url={https://github.com/P-E-A-R-L/Pearl}
+}
+```
+
+## 🙏 Acknowledgments
+
+Pearl RL builds upon the work of the reinforcement learning and explainable AI communities. We thank the contributors to PyTorch, Gymnasium, SHAP, LIME, and other open-source projects that make this work possible.
+
+---
+
+<div align="center">
+  <strong>Pearl RL: Where Explainability Meets Reinforcement Learning</strong>
+</div> 
