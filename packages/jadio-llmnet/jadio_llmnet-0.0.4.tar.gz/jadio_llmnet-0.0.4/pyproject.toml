@@ -1,0 +1,21 @@
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "jadio-llmnet"
+dynamic = ["version"]
+description = "Jadio-compatible extension package"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.8"
+dependencies = [
+    "jadio>=0.0.2",
+]
+
+[tool.hatch.version]
+path = "src/jadio_llmnet/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/jadio_llmnet"]
