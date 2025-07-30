@@ -1,0 +1,82 @@
+<img src="./extended-figure-1.png" width="450px"></img>
+
+## AlphaGenome (wip)
+
+Implementation of [AlphaGenome](https://deepmind.google/discover/blog/alphagenome-ai-for-better-understanding-the-genome/), Deepmind's updated genomic attention model
+
+
+## Appreciation
+
+- [Miquel Girotto](https://github.com/MiqG) for contributing the organism, output embedding, and all the splicing prediction heads!
+
+## Install
+
+```bash
+$ pip install alphagenome-pytorch
+```
+
+## Usage
+
+```python
+import torch
+from alphagenome_pytorch import AlphaGenome
+
+outheads_kwargs = {
+    "human": {
+        "num_tracks_1bp": 10,
+        "num_tracks_128bp": 10,
+        "num_splicing_contexts": 64, # 2 strands x num. CURIE conditions
+    }
+}
+model = AlphaGenome(outheads_kwargs=outheads_kwargs)
+
+dna = torch.randint(0, 5, (2, 8192))
+organism_index = torch.tensor([0, 0], dtype=torch.long) # the organism that each sequence belongs to
+splice_donor_idx = torch.tensor([[10,100,34],[24,546,870]], dtype=torch.long)
+splice_acceptor_idx = torch.tensor([[15,103,87],[56,653,900]], dtype=torch.long)
+
+# get sequence embeddings
+embeddings_1bp, embeddings_128bp, embeddings_pair = model.get_embeddings(dna, organism_index) # (2, 8192, 1536), (2, 64, 3072), (2, 4, 4, 128)
+print(embeddings_1bp.shape, embeddings_128bp.shape, embeddings_pair.shape)
+
+# get track predictions
+out = model(dna, organism_index, splice_donor_idx, splice_acceptor_idx)
+for organism, outputs in out.items():
+    for out_head, out_values in outputs.items():
+        print(organism, out_head, out_values.shape)
+
+# human 1bp_tracks torch.Size([2, 8192, 10])
+# human 128bp_tracks torch.Size([2, 64, 10])
+# human contact_head torch.Size([2, 4, 4, 128])
+# human splice_probs torch.Size([2, 8192, 5])
+# human splice_usage torch.Size([2, 8192, 64])
+# human splice_juncs torch.Size([2, 3, 3, 64])
+```
+
+## Contributing
+
+First install locally with the following
+
+```bash
+$ pip install '.[test]' # or uv pip install . '[test]'
+```
+
+Then make your changes, add a test to `tests/test_alphagenome.py`
+
+```bash
+$ pytest tests
+```
+
+That's it
+
+Vibe coding with some attention network is totally welcomed, if it works
+
+## Citations
+
+```bibtex
+@article{avsec2025alphagenome,
+  title   = {AlphaGenome: advancing regulatory variant effect prediction with a unified DNA sequence model},
+  author  = {Avsec, {\v{Z}}iga and Latysheva, Natasha and Cheng, Jun and Novati, Guido and Taylor, Kyle R and Ward, Tom and Bycroft, Clare and Nicolaisen, Lauren and Arvaniti, Eirini and Pan, Joshua and Thomas, Raina and Dutordoir, Vincent and Perino, Matteo and De, Soham and Karollus, Alexander and Gayoso, Adam and Sargeant, Toby and Mottram, Anne and Wong, Lai Hong and Drot{\'a}r, Pavol and Kosiorek, Adam and Senior, Andrew and Tanburn, Richard and Applebaum, Taylor and Basu, Souradeep and Hassabis, Demis and Kohli, Pushmeet},
+  year    = {2025}
+}
+```
