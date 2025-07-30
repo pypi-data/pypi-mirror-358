@@ -1,0 +1,421 @@
+openapi: 3.0.3
+info:
+  title: Petstore API
+  description: ペットストアAPIのサンプル
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: support@petstore.com
+
+servers:
+  - url: https://api.petstore.com/v1
+    description: Production server
+  - url: https://staging-api.petstore.com/v1
+    description: Staging server
+
+paths:
+  /pets:
+    get:
+      summary: ペット一覧を取得
+      description: 登録されているすべてのペットの一覧を取得します
+      operationId: getPets
+      tags:
+        - pets
+      parameters:
+        - name: limit
+          in: query
+          description: 取得件数の上限
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: tag
+          in: query
+          description: フィルタリング用のタグ
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: ペット一覧の取得に成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Pet"
+              example:
+                - id: 1
+                  name: "Buddy"
+                  category:
+                    id: 1
+                    name: "Dogs"
+                  tags:
+                    - id: 1
+                      name: "friendly"
+                  status: "available"
+                - id: 2
+                  name: "Whiskers"
+                  category:
+                    id: 2
+                    name: "Cats"
+                  tags:
+                    - id: 2
+                      name: "cute"
+                  status: "available"
+        400:
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    post:
+      summary: 新しいペットを登録
+      description: 新しいペットを店舗に登録します
+      operationId: createPet
+      tags:
+        - pets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewPet"
+            example:
+              name: "Rex"
+              category:
+                id: 1
+                name: "Dogs"
+              tags:
+                - id: 1
+                  name: "playful"
+              status: "available"
+      responses:
+        201:
+          description: ペットの作成に成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+              example:
+                id: 3
+                name: "Rex"
+                category:
+                  id: 1
+                  name: "Dogs"
+                tags:
+                  - id: 1
+                    name: "playful"
+                status: "available"
+        400:
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /pets/{petId}:
+    get:
+      summary: 特定のペットを取得
+      description: ペットIDを指定して特定のペット情報を取得します
+      operationId: getPetById
+      tags:
+        - pets
+      parameters:
+        - name: petId
+          in: path
+          required: true
+          description: ペットID
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: ペット情報の取得に成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+              example:
+                id: 1
+                name: "Buddy"
+                category:
+                  id: 1
+                  name: "Dogs"
+                tags:
+                  - id: 1
+                    name: "friendly"
+                status: "available"
+        404:
+          description: ペットが見つかりません
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    put:
+      summary: ペット情報を更新
+      description: 既存のペット情報を更新します
+      operationId: updatePet
+      tags:
+        - pets
+      parameters:
+        - name: petId
+          in: path
+          required: true
+          description: ペットID
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewPet"
+      responses:
+        200:
+          description: ペット情報の更新に成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+        404:
+          description: ペットが見つかりません
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    delete:
+      summary: ペットを削除
+      description: 指定されたペットを削除します
+      operationId: deletePet
+      tags:
+        - pets
+      parameters:
+        - name: petId
+          in: path
+          required: true
+          description: ペットID
+          schema:
+            type: integer
+            format: int64
+      responses:
+        204:
+          description: ペットの削除に成功
+        404:
+          description: ペットが見つかりません
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /users:
+    get:
+      summary: ユーザー一覧を取得
+      description: 登録されているユーザーの一覧を取得します
+      operationId: getUsers
+      tags:
+        - users
+      responses:
+        200:
+          description: ユーザー一覧の取得に成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+              example:
+                - id: 1
+                  username: "john_doe"
+                  email: "john@example.com"
+                  firstName: "John"
+                  lastName: "Doe"
+                  phone: "123-456-7890"
+
+    post:
+      summary: 新しいユーザーを作成
+      description: 新しいユーザーアカウントを作成します
+      operationId: createUser
+      tags:
+        - users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewUser"
+      responses:
+        201:
+          description: ユーザーの作成に成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+
+components:
+  schemas:
+    Pet:
+      type: object
+      required:
+        - id
+        - name
+        - status
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: ペットID
+          example: 1
+        name:
+          type: string
+          description: ペット名
+          example: "Buddy"
+        category:
+          $ref: "#/components/schemas/Category"
+        tags:
+          type: array
+          items:
+            $ref: "#/components/schemas/Tag"
+        status:
+          type: string
+          enum:
+            - available
+            - pending
+            - sold
+          description: ペットのステータス
+          example: "available"
+
+    NewPet:
+      type: object
+      required:
+        - name
+        - status
+      properties:
+        name:
+          type: string
+          description: ペット名
+          example: "Rex"
+        category:
+          $ref: "#/components/schemas/Category"
+        tags:
+          type: array
+          items:
+            $ref: "#/components/schemas/Tag"
+        status:
+          type: string
+          enum:
+            - available
+            - pending
+            - sold
+          description: ペットのステータス
+          example: "available"
+
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: カテゴリID
+          example: 1
+        name:
+          type: string
+          description: カテゴリ名
+          example: "Dogs"
+
+    Tag:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: タグID
+          example: 1
+        name:
+          type: string
+          description: タグ名
+          example: "friendly"
+
+    User:
+      type: object
+      required:
+        - id
+        - username
+        - email
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: ユーザーID
+          example: 1
+        username:
+          type: string
+          description: ユーザー名
+          example: "john_doe"
+        email:
+          type: string
+          format: email
+          description: メールアドレス
+          example: "john@example.com"
+        firstName:
+          type: string
+          description: 名前
+          example: "John"
+        lastName:
+          type: string
+          description: 姓
+          example: "Doe"
+        phone:
+          type: string
+          description: 電話番号
+          example: "123-456-7890"
+
+    NewUser:
+      type: object
+      required:
+        - username
+        - email
+      properties:
+        username:
+          type: string
+          description: ユーザー名
+          example: "jane_doe"
+        email:
+          type: string
+          format: email
+          description: メールアドレス
+          example: "jane@example.com"
+        firstName:
+          type: string
+          description: 名前
+          example: "Jane"
+        lastName:
+          type: string
+          description: 姓
+          example: "Doe"
+        phone:
+          type: string
+          description: 電話番号
+          example: "987-654-3210"
+
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+          description: エラーコード
+          example: 400
+        message:
+          type: string
+          description: エラーメッセージ
+          example: "Invalid request"
