@@ -1,0 +1,61 @@
+Metadata-Version: 2.4
+Name: stockfetch
+Version: 1.0.1
+Summary: Neofetch for stocks
+Project-URL: Homepage, https://github.com/yourusername/StockFetch
+Project-URL: Repository, https://github.com/yourusername/StockFetch
+Author-email: Avni Badiwale <avnibadiwale@gmail.com>
+License: MIT
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.8
+Requires-Dist: numpy>=1.20.0
+Requires-Dist: pillow>=8.0.0
+Requires-Dist: requests>=2.25.0
+Requires-Dist: yfinance>=0.2.0
+Description-Content-Type: text/markdown
+
+<div align="center">
+
+# Stockfetch
+</div>
+
+**Neofetch for stocks**
+![Screenshot](./image.png)
+
+This is one of my first ventures into creating pip packages, and much of it came into fruition because of my love of (neo/fast)fetch
+
+I've spent lots of time on r/UnixPorn and I hope they have something new to play around with now :)
+
+## Installation
+>pip install stockfetch 
+
+
+### Note:
+
+Older versions of windows CMD might not support ANSI colors by default. Consider using powershell.
+
+
+Help:
+```
+avni@fedora:~/source/repos/StockFetch$ stockfetch -h
+usage: stockfetch [-h] [--no-logo] ticker
+
+StockFetch - Display stock information with ASCII art logos
+
+positional arguments:
+  ticker      Stock ticker symbol (e.g., AAPL, TSLA)
+
+options:
+  -h, --help  show this help message and exit
+  --no-logo   Skip ASCII logo display
+
+Example: stockfetch TSLA
+```
