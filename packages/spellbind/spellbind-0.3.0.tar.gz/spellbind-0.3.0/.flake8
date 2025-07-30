@@ -1,0 +1,12 @@
+[flake8]
+exclude =
+    .git,
+    __pycache__,
+    .venv,
+    env,
+    gen_resources,
+    build,
+
+# Allow assigning lambdas in tests
+per-file-ignores =
+    tests/*:E731,F841
