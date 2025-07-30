@@ -1,0 +1,61 @@
+# elmolcs
+
+ELectron-MOLecule Cross Sections for atmospheric gases: N<sub>2</sub>, O<sub>2</sub>, NO, Ar, O and N.
+
+The default recommended database was constructed from an extensive survey up to 2023 of available experimental and theoretical data. 
+It was developed at the [Instituto de Astrofísica de Andalucía](https://www.iaa.csic.es/) in Granada during the doctoral studies of Anthony Jeseněk under the supervision of Dr. [Alejandro Luque](http://www.iaa.es/~aluque) and Dr. [Nikolai Lehtinen](https://github.com/nlehtinen). The elaboration of the database is thoroughly documented in my [thesis](https://doi.org/10.5281/zenodo.10658286).
+
+The database contains:
+* A complete set of integral cross sections for electron-molecule collision processes (elastic, inelastic, ionisation, attachment);
+* A set of differential cross sections for elastic scattering interpolated between 0° and 180° every 0.5°;
+* Other databases of cross sections hosted on [LXCat](https://nl.lxcat.net/home/);
+    These are mainly `'phelps'`, `'biagi'`, `'hayashi'`, `'ist'`, `'itikawa'` and `'bsr'`;
+* Collections of experimental data published in the literature (differential and integral cross sections);
+* Miscellaneous data such as optical oscillator strengths, Franck-Condon factors and predissociation rates;
+* Bibliographic references for the data gathered in the `references.bib` file;
+* A `reader.py` module in python for reading and loading the data hosted;
+* A `filehandler.py` module in python for reading all sorts of table formats which outputs a [list of] `pandas.DataFrame` objects
+* A `cscoll.py` module for the analytical representation of cross sections.
+* A `constants.py` module containing metadata of molecules, atoms and physical constants necessary to interpret the information given in the database. 
+
+There are two versions of the database: 
+* `'iaa'` : respects the input format of the Boltzmann kinetic solver [`BOLSIG+`](http://www.bolsig.laplace.univ-tlse.fr/), which exclusively uses tabulated data;
+* `'iaa*'`: a custom format which loads the analytical formulae built into the `cscoll.py` module.
+
+The cross sections extend from 0 eV to 10 keV and include analytical extrapolation up to relativistic energies (~ GeV). They can be used for calculating electron transport properties and energy distribution functions under reduced electric fields close to conventional breakdown and at high electric fields from 10 Td up to 1000 Td. Some of the cross sections require adjustement and a higher resolution (more datapoints) at low energies below 1 eV affecting transport under low electric fields.
+
+## Installation 
+The code is now packaged in the PyPI repository and is installable through the command:
+
+> pip install elmolcs
+
+This package, however, includes only the code source files. The database can be downloaded from the project hosted on [CodeBerg](https://codeberg.org/aschmalz/elmolcs). The folder `Data` must be in the root folder of the `elmolcs` package. Otherwise, the user must set the `ROOT` constant to the path of the `Data` folder in the `reader.py` module.
+
+Alternatively, one can directly download the full package with the database.
+The exact package versions as used during the thesis are gathered in requirements.txt; use:
+
+> pip install -r requirements.txt
+
+This may fail depending on your version of python which could not be supported by the version of numba
+If this is the case, you may install the version-free requirements through:
+
+> pip install -r requirements_free.txt
+
+But be aware that the code has not been tested on other versions of numba so it might not work properly.
+
+## Usage
+
+An example of how to use routines for reading differential/integral cross sections from the `reader.py` module is given in the `__main__.py` file. You may execute it from the root folder of the package. 
+Should you use the code as a package, be sure to import it as:
+
+> import elmolcs as ecs
+
+Then, you may either call:
+
+> ecs.reader.loadCS('N2','iaa\*')
+
+or directly:
+
+> ecs.loadCS('N2','iaa\*')
+
+and many other routines as exemplified in the `__main__.py` module.

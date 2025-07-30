@@ -1,0 +1,36 @@
+# pyproject.toml
+
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "elmolcs"
+version = "0.0.1"
+authors = [
+  { name="Anthony Jeseněk", email="anthony.schmalzried@mailfence.com" },
+]
+description = "Package for reading and loading electron-molecule collision (differential) cross sections"
+readme = "README.md"
+requires-python = ">=3.7"
+keywords = ["electron", "cross section", "reader"]
+license = "GPL-3.0-or-later"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "numpy",
+    "bidict",
+    "aenum",
+    "numba",
+    "pandas",
+    "scipy",
+    "sortedcontainers",
+    "uncertainties",
+]
+
+[project.urls]
+"Homepage" = "https://codeberg.org/aschmalz/elmolcs"
+"Bug Tracker" = "https://codeberg.org/aschmalz/elmolcs/issues"
+
