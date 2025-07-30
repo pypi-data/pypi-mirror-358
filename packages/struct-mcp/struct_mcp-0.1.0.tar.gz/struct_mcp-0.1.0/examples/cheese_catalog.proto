@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package cheese_catalog;
+
+// Artisanal cheese catalog with provenance tracking
+message CheeseInventory {
+    // Unique identifier for each cheese
+    string cheese_id = 1;
+    
+    // Display name of the cheese
+    string name = 2;
+    
+    // Stinkiness rating from 1-10
+    int32 stinkiness_level = 3;
+    
+    // Visual representation for UI
+    string emoji = 4;
+    
+    // Country of origin
+    string origin_country = 5;
+    
+    // Expert tasting descriptions
+    repeated string tasting_notes = 6;
+    
+    // Currently in stock and available for purchase
+    bool is_available = 7;
+    
+    // Current retail price per pound in USD
+    double price_per_pound = 8;
+}
+
+// Example of another message that might be in a larger schema
+message CheeseSupplier {
+    string supplier_id = 1;
+    string company_name = 2;
+    string contact_email = 3;
+    repeated string specialties = 4;
+    bool is_active = 5;
+}

@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "cheese_inventory",
+  "description": "Artisanal cheese catalog with provenance tracking",
+  "version": "1.2.0",
+  "type": "object",
+  "properties": {
+    "cheese_id": {
+      "type": "string",
+      "description": "Unique identifier for each cheese",
+      "upstream_table": "inventory.raw_cheese_data",
+      "calculation_logic": "UUID generated at catalog entry"
+    },
+    "name": {
+      "type": "string", 
+      "description": "Display name of the cheese",
+      "upstream_table": "suppliers.cheese_names",
+      "calculation_logic": "Standardized from supplier catalogs"
+    },
+    "stinkiness_level": {
+      "type": "integer",
+      "description": "Stinkiness rating from 1-10",
+      "upstream_table": "quality_control.assessments",
+      "calculation_logic": "AVG(taster_ratings) WHERE category = stink"
+    },
+    "emoji": {
+      "type": "string",
+      "description": "Visual representation for UI",
+      "calculation_logic": "Default 🧀, custom per cheese type"
+    },
+    "origin_country": {
+      "type": "string",
+      "description": "Country of origin",
+      "upstream_table": "geography.cheese_origins",
+      "calculation_logic": "Mapped from historical cheese records"
+    },
+    "tasting_notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Expert tasting descriptions",
+      "upstream_table": "tastings.expert_reviews",
+      "calculation_logic": "ARRAY_AGG(notes) GROUP BY cheese_id"
+    },
+    "is_available": {
+      "type": "boolean",
+      "description": "Currently in stock and available for purchase",
+      "upstream_table": "inventory.current_stock",
+      "calculation_logic": "stock_quantity > 0 AND expiry_date > CURRENT_DATE"
+    },
+    "price_per_pound": {
+      "type": "number",
+      "description": "Current retail price per pound in USD",
+      "upstream_table": "pricing.current_rates",
+      "calculation_logic": "Latest price from pricing engine with markup applied"
+    }
+  },
+  "required": ["cheese_id", "name", "emoji", "is_available"]
+}

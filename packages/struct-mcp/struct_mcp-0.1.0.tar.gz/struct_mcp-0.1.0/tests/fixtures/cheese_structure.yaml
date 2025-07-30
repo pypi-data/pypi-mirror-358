@@ -1,0 +1,46 @@
+cheese_inventory:
+  description: "Artisanal cheese catalog with provenance tracking"
+  version: "1.2.0"
+  
+  fields:
+    cheese_id:
+      type: string
+      nullable: false
+      description: "Unique identifier for each cheese"
+      upstream_table: "inventory.raw_cheese_data"
+      calculation_logic: "UUID generated at catalog entry"
+    
+    name:
+      type: string
+      nullable: false
+      description: "Display name of the cheese"
+      upstream_table: "suppliers.cheese_names"
+      calculation_logic: "Standardized from supplier catalogs"
+    
+    stinkiness_level:
+      type: integer
+      nullable: true
+      description: "Stinkiness rating from 1-10"
+      upstream_table: "quality_control.assessments"
+      calculation_logic: "AVG(taster_ratings) WHERE category = stink"
+    
+    emoji:
+      type: string
+      nullable: false
+      description: "Visual representation for UI"
+      calculation_logic: "Default 🧀, custom per cheese type"
+    
+    origin_country:
+      type: string
+      nullable: true
+      description: "Country of origin"
+      upstream_table: "geography.cheese_origins"
+      calculation_logic: "Mapped from historical cheese records"
+    
+    tasting_notes:
+      type: string
+      nullable: true
+      repeated: true
+      description: "Expert tasting descriptions"
+      upstream_table: "tastings.expert_reviews"
+      calculation_logic: "ARRAY_AGG(notes) GROUP BY cheese_id"

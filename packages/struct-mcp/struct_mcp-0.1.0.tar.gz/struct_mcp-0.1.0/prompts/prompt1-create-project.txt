@@ -1,0 +1,123 @@
+**Struct-MCP Project Setup Prompt**
+
+I want to create a Python package called "struct-mcp" that transforms data structure definitions into queryable MCP servers. The name reflects that it works with any structured data format (starting with YAML, expanding to Pydantic, JSON Schema, etc.) and creates MCP servers.
+
+**Core Functionality:**
+- Parse structure definitions with business context (YAML first, Pydantic next)
+- Create an MCP server that can answer intelligent questions about the structures
+- Convert definitions to different formats (OpenSearch, Avro, Pydantic)
+- CLI interface for validation, conversion, and serving
+
+**Technical Stack:**
+- Python 3.9+
+- uv for package management and dependencies
+- pytest for testing with fixtures
+- MCP Python library for the server implementation
+- Click for CLI interface
+- PyYAML for YAML parsing
+- Publishable to PyPI as `struct-mcp`
+
+**Package Structure:**
+- Package name: `struct_mcp` (underscores for Python import)
+- CLI commands: `struct-mcp serve`, `struct-mcp validate`, `struct-mcp convert`, `struct-mcp docs`
+- Modular parser system: `parsers/yaml_parser.py`, `parsers/pydantic_parser.py` (future)
+- Core: `struct_parser.py`, `mcp_server.py`, `converters/`
+
+**Cheese Example YAML:**
+```yaml
+cheese_inventory:
+  description: "Artisanal cheese catalog with provenance tracking"
+  version: "1.2.0"
+  business_owner: "Cheese Operations Team"
+  
+  fields:
+    cheese_id:
+      type: string
+      nullable: false
+      repeated: false
+      description: "Unique identifier for each cheese in catalog"
+      upstream_table: "inventory.raw_cheese_data"
+      calculation_logic: "UUID generated at catalog entry time"
+      
+    name:
+      type: string
+      nullable: false
+      description: "Display name (e.g. 'Camembert', 'Stilton', 'Manchego')"
+      upstream_table: "suppliers.cheese_names"
+      calculation_logic: "Standardized from supplier catalogs"
+      
+    stinkiness_level:
+      type: integer
+      nullable: true
+      description: "Stinkiness rating from 1-10 (10 = most pungent)"
+      upstream_table: "quality_control.assessments"
+      calculation_logic: "AVG(taster_ratings) WHERE assessment_type = 'aroma'"
+      business_rules: "Only assessed for aged cheeses, null for fresh varieties"
+      
+    emoji:
+      type: string
+      nullable: false
+      description: "Visual representation for UI display"
+      calculation_logic: "Default 🧀, custom mappings per cheese type"
+      
+    origin_country:
+      type: string
+      nullable: true
+      description: "Country where this cheese style originated"
+      upstream_table: "geography.cheese_origins"
+      
+    tasting_notes:
+      type: string
+      nullable: true
+      repeated: true
+      description: "Expert sommelier tasting descriptions"
+      upstream_table: "tastings.expert_reviews"
+      calculation_logic: "ARRAY_AGG(notes) GROUP BY cheese_id"
+      
+    is_stinky:
+      type: boolean
+      nullable: false
+      description: "Whether cheese has strong aroma (stinkiness_level > 5)"
+      calculation_logic: "CASE WHEN stinkiness_level > 5 THEN true ELSE false END"
+```
+
+**MCP Server Capabilities:**
+Answer questions like:
+- "What does cheese_id field represent?"
+- "Which fields are arrays?"  
+- "What makes a cheese stinky?"
+- "Show me all fields from the inventory table"
+- "How is stinkiness_level calculated?"
+- "What cheese fields can be null and why?"
+
+**API Design:**
+```python
+from struct_mcp import StructMCP, MCPServer
+
+# Load and query
+smc = StructMCP.from_yaml("cheese_catalog.yaml")
+nullable_fields = smc.get_fields(nullable=True)
+inventory_fields = smc.get_fields_from_table("inventory")
+
+# Convert formats
+opensearch_mapping = smc.to_opensearch()
+pydantic_model = smc.to_pydantic()
+
+# Serve via MCP
+server = MCPServer(smc)
+server.start()
+```
+
+**Deliverables:**
+1. Complete pyproject.toml with uv configuration for PyPI publishing
+2. All Python source code with proper imports and MCP library integration
+3. Comprehensive pytest test suite with cheese example fixtures
+4. CLI implementation using Click with all commands
+5. Multiple example YAML files including full cheese catalog
+6. Converter implementations for OpenSearch/Avro/Pydantic
+7. MCP server that intelligently answers questions about data structures
+8. README with installation, usage, and roadmap for future formats
+9. Modular parser system ready for Pydantic/JSON Schema expansion
+
+The goal is a pip-installable package that users can immediately use to create MCP servers from their structure definitions, starting with YAML but architected to support any structured data format.
+

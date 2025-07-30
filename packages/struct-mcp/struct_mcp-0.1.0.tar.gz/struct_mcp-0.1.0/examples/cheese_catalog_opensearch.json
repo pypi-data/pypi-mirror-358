@@ -1,0 +1,56 @@
+{
+  "cheese_inventory": {
+    "mappings": {
+      "properties": {
+        "cheese_id": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "name": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "stinkiness_level": {
+          "type": "integer"
+        },
+        "emoji": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "origin_country": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "tasting_notes": {
+          "type": "text"
+        },
+        "is_available": {
+          "type": "boolean"
+        },
+        "price_per_pound": {
+          "type": "double"
+        }
+      }
+    }
+  }
+}

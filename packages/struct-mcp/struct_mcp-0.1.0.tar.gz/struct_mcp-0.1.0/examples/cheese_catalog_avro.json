@@ -1,0 +1,50 @@
+{
+  "type": "record",
+  "name": "cheese_inventory",
+  "doc": "Artisanal cheese catalog with provenance tracking",
+  "fields": [
+    {
+      "name": "cheese_id",
+      "type": "string",
+      "doc": "Unique identifier for each cheese"
+    },
+    {
+      "name": "name", 
+      "type": "string",
+      "doc": "Display name of the cheese"
+    },
+    {
+      "name": "stinkiness_level",
+      "type": ["null", "int"],
+      "doc": "Stinkiness rating from 1-10"
+    },
+    {
+      "name": "emoji",
+      "type": "string",
+      "doc": "Visual representation for UI"
+    },
+    {
+      "name": "origin_country",
+      "type": ["null", "string"],
+      "doc": "Country of origin"
+    },
+    {
+      "name": "tasting_notes",
+      "type": ["null", {
+        "type": "array",
+        "items": "string"
+      }],
+      "doc": "Expert tasting descriptions"
+    },
+    {
+      "name": "is_available",
+      "type": "boolean",
+      "doc": "Currently in stock and available for purchase"
+    },
+    {
+      "name": "price_per_pound",
+      "type": ["null", "double"],
+      "doc": "Current retail price per pound in USD"
+    }
+  ]
+}

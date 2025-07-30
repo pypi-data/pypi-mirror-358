@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:pypi.org)",
+      "Bash(/bin/zsh -c \"pytest -v\")",
+      "Bash(/bin/zsh -c \"pytest -xvs tests/test_multi_format_support.py::test_from_file_opensearch_mapping\")",
+      "Bash(/bin/zsh -c \"pytest -xvs tests/test_multi_format_support.py::test_from_file_avro_schema\")",
+      "Bash(/bin/zsh -c \"pytest -xvs tests/test_pydantic_parser.py::test_pydantic_parser_inheritance_detection\")",
+      "Bash(/bin/zsh -c \"pytest -xvs tests/test_pydantic_parser.py::test_pydantic_parser_class_name_conversion\")",
+      "Bash(/bin/zsh -c \"pytest\")",
+      "Bash(rg:*)",
+      "Bash(find:*)",
+      "Bash(source:*)",
+      "Bash(pytest:*)",
+      "Bash(python -m pytest tests/test_examples_integration.py -v)",
+      "Bash(uv run pytest:*)",
+      "Bash(uv run:*)"
+    ],
+    "deny": []
+  }
+}

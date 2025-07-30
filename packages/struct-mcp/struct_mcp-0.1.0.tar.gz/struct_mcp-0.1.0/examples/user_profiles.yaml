@@ -1,0 +1,30 @@
+user_profile:
+  description: "User data with preferences and behavioral tracking"
+  version: "2.1.0"
+  
+  fields:
+    user_id:
+      type: string
+      nullable: false
+      description: "Unique user identifier"
+    
+    email:
+      type: string
+      nullable: false
+      description: "User email address"
+    
+    preferences:
+      type: string
+      nullable: true
+      repeated: true
+      description: "User preference categories"
+    
+    last_login:
+      type: datetime
+      nullable: true
+      description: "Last login timestamp"
+    
+    is_active:
+      type: boolean
+      nullable: false
+      description: "Whether user account is active"

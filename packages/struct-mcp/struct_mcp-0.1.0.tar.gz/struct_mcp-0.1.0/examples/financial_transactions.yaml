@@ -1,0 +1,44 @@
+financial_transaction:
+  description: "Payment processing with fraud detection metadata"
+  version: "3.0.0"
+  
+  fields:
+    transaction_id:
+      type: string
+      nullable: false
+      description: "Unique transaction identifier"
+    
+    amount:
+      type: decimal
+      nullable: false
+      description: "Transaction amount in USD"
+    
+    currency:
+      type: string
+      nullable: false
+      description: "Currency code (ISO 4217)"
+    
+    timestamp:
+      type: datetime
+      nullable: false
+      description: "Transaction timestamp"
+    
+    merchant_id:
+      type: string
+      nullable: false
+      description: "Merchant identifier"
+    
+    fraud_score:
+      type: decimal
+      nullable: true
+      description: "Fraud detection score (0.0-1.0)"
+    
+    is_flagged:
+      type: boolean
+      nullable: false
+      description: "Whether transaction was flagged for review"
+    
+    payment_method:
+      type: string
+      nullable: false
+      description: "Payment method used"
