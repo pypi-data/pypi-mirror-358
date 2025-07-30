@@ -1,0 +1,60 @@
+Metadata-Version: 2.4
+Name: i-dot-ai-utilities
+Version: 0.1.0
+Summary: Utilities for i.ai to use
+Project-URL: Homepage, https://github.com/i-dot-ai/i-dot-ai-utilities
+Author-email: i-dot-ai-packages <packages@cabinetoffice.gov.uk>
+License: MIT
+License-File: LICENSE
+Keywords: package,python
+Classifier: Development Status :: 2 - Pre-Alpha
+Classifier: Environment :: Web Environment
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Python: <4.0,>=3.10
+Requires-Dist: requests>=2.32.3
+Requires-Dist: structlog>=25.4.0
+Provides-Extra: dev
+Requires-Dist: mypy>=1.15.0; extra == 'dev'
+Requires-Dist: pytest-cov>=6.1.1; extra == 'dev'
+Requires-Dist: pytest>=8.3.5; extra == 'dev'
+Requires-Dist: ruff>=0.11.7; extra == 'dev'
+Description-Content-Type: text/markdown
+
+# i.AI Utility Code
+
+`i-dot-ai-utilities` is a python package used and developed by the i.AI team within DSIT.
+It provides common features used in many of our applications.
+
+## Features
+
+### Current features:
+
+#### Structured Logging
+
+You can find information on usage of the logging library in the [logging library readme](./src/i_dot_ai_utilities/logging/README.md).
+
+### Future features:
+
+- keycloak authentication
+- s3
+- langfuse and litellm
+- logging/observability
+- opensearch
+
+## Settings
+
+This is where some of the above can be found:
+
+
+## How to use
+
+## Licence
+
+MIT
