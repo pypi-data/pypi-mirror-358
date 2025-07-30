@@ -1,0 +1,57 @@
+{% extends base %}
+
+{% block body %}
+
+{% include test/component/example_nav.html %}
+{% include common/script/load_select2.html %}
+
+{% init select2_html = """
+<select style="width: 100px;" data-placeholder="选项">
+    <option value="1">选项1</option>
+    <option value="2">选项2</option>
+</select>
+""" %}
+
+<span class="card-title">select2风格</span>
+<div class="card">
+	<pre class="marked-code">{{select2_html}}</pre>
+    <div class="margin-top-5">
+        {% raw select2_html %}
+    </div>
+</div>
+
+
+{% init html1 = """
+<div class="x-dropdown margin-top-5">
+    <span class="dropdown-btn btn">更多▾</span>
+    <div class="dropdown-content">
+        <a class="dropdown-option">选项1</a>
+        <a class="dropdown-option">选项2</a>
+    </div>
+</div>
+""" %}
+
+{% init html2 = """
+<div class="x-dropdown align-right margin-top-5">
+    <span class="dropdown-btn btn">更多▾</span>
+    <div class="dropdown-content">
+        <a class="dropdown-option">选项1</a>
+        <a class="dropdown-option">选项2</a>
+    </div>
+</div>
+""" %}
+
+<div class="card">
+	<p>dropdown</p>
+	<pre class="marked-code">{{html1}}</pre>
+	{% raw html1 %}
+</div>
+
+<div class="card">
+	<p>dropdown 右对齐</p>
+	<pre class="marked-code">{{html2}}</pre>
+	{% raw html2 %}
+</div>
+
+
+{% end %}
