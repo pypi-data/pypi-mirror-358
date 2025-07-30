@@ -1,0 +1,32 @@
+[project]
+name = "yta-audio-narration-open-voice"
+version = "0.0.1"
+description = "Youtube Autonomous Audio Narration OpenVoice Voice Module."
+authors = [
+    {name = "danialcala94",email = "danielalcalavalera@gmail.com"}
+]
+readme = "README.md"
+requires-python = "==3.9"
+dependencies = [
+    "yta_audio_narration_common (>=0.0.1,<1.0.0)",
+    "yta_constants (>=0.0.1,<1.0.0)",
+    "yta_programming (>=0.0.1,<1.0.0)",
+    "torch (>=2.3.0,<3.0.0)"
+    # TODO: Install openvoice from here:
+    # https://github.com/myshell-ai/OpenVoice/blob/main/docs/USAGE.md#openvoice-v2
+    # pip install git+https://github.com/myshell-ai/MeloTTS.git
+    # TODO: How do you make install a dependency from github (?)
+    # moto = { git = "https://github.com/spulec/moto.git", branch = "master", category="dev" }
+    # To use 'melo' check this link also:
+    # https://youtu.be/BocTU27Yy4U?t=691
+]
+
+[tool.poetry]
+packages = [{include = "yta_audio_narration_open_voice", from = "src"}]
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
