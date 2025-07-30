@@ -1,0 +1,31 @@
+[project]
+name = "daemon-metrics"
+version = "1.0.1"
+description = ""
+authors = [
+    {name = "François Schmidts",email = "francois@schmidts.fr"}
+]
+license = {text = "GPL"}
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "prometheus-client>=0.22.1"
+]
+
+[tool.poetry]
+
+[tool.poetry.group.dev.dependencies]
+black = "^25.1.0"
+isort = "^6.0.1"
+pylint = "^3.3.7"
+flake8 = "^7.3.0"
+pycodestyle = "^2.14.0"
+mypy = "^1.16.1"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 79
+target-version = ["py313"]
