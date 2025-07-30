@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools >= 77.0.3", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "typespy"
+version = "0.1.0"
+description = "Detect python calling types"
+readme = "README.md"
+license-files = ["LICENSE"]
+keywords = ["type detection", "type tracing", "typing"]
+authors = [
+    {name = "Rasmus Nygren"}
+]
+maintainers = [
+    {name = "Rasmus Nygren"}
+]
+requires-python = ">=3.10"
+dependencies = []
+classifiers = [
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+[project.urls]
+Homepage = "https://github.com/rasmusnygren/typespy"
+Repository = "https://github.com/rasmusnygren/typespy"
+
+[project.scripts]
+typespy = "typespy:main"

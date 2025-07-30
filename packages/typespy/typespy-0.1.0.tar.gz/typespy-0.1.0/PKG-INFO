@@ -1,0 +1,40 @@
+Metadata-Version: 2.4
+Name: typespy
+Version: 0.1.0
+Summary: Detect python calling types
+Author: Rasmus Nygren
+Maintainer: Rasmus Nygren
+Project-URL: Homepage, https://github.com/rasmusnygren/typespy
+Project-URL: Repository, https://github.com/rasmusnygren/typespy
+Keywords: type detection,type tracing,typing
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
+Typespy
+=======
+Figure out which types your modules are being called with.
+
+## Installation
+```bash
+pip install typespy
+```
+
+## Usage
+```bash
+usage: typespy [-h] [--verbose] module_names [module_names ...] dir
+
+Analyze function call type information
+
+positional arguments:
+  module_names  Name of the modules to analyze
+  dir           Path to the root directory of repositories
+
+options:
+  -h, --help    show this help message and exit
+  --verbose     Print function calls with file locations
+```
