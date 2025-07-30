@@ -1,0 +1,34 @@
+[project]
+name = "tptt"
+version = "0.6.0"
+description = "TPTT : Transforming Pretrained Transformers into Titans"
+authors = [
+    {name = "fabienfrfr",email = "fabien.furfaro@gmail.com"}
+]
+license = {text = "Apache 2.0"}
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "torch",
+    "transformers",
+    "datasets",
+    "ninja",
+    "einops",
+    "peft",
+]
+
+
+[tool.poetry]
+name = "tptt"
+packages = [
+    { include = "tptt", from = "src" }
+]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.semantic_release]
+version_variable = "src/tptt/__init__.py:__version__"
+branch = "main"
+allow_zero_version = true
