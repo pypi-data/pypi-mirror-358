@@ -1,0 +1,76 @@
+"use client";
+
+import React, {{ useEffect, useState }} from "react";
+import {{ Button, Checkbox, Form, Input, Select, DatePicker }} from "antd";
+import {{{model_name} }} from "../{model_file_name}.model";
+import "@ant-design/v5-patch-for-react-19";
+import use{model_name}Service from "../{model_file_name}.service";
+import {{ useRouter }} from "next/navigation";
+import useHandleError from "@/utils/api/handleError";
+import {{ Navigations }} from "@/utils/common_models/commons.model";
+
+interface {model_name}FormProps extends Partial<{model_name}>, Navigations {{}}
+
+const {model_name}Form: React.FC<{model_name}FormProps> = ({{ id, ...props }}) => {{
+  const [form] = Form.useForm<{model_name}>();
+  const [data, setData] = useState<{model_name}>();
+  const service = use{model_name}Service();
+  const router = useRouter();
+  const errorHandler = useHandleError();
+  const [loading, setLoading] = useState<boolean>();
+
+  useEffect(() => {{
+    if (id) {{
+      service.get{model_name}(id)
+        .then(res => {{
+          form.setFieldsValue(res?.data);
+          setData(res?.data)
+        }})
+        .catch(() => {{}})
+    }}
+  }}, [id]);
+
+  const onFinish = (values: {model_name}) => {{
+    // You can add phone number or date formatting here if needed
+    values = {{...props, ...values}};
+    setLoading(true);
+    if (id) {{
+      service.update{model_name}(id, values)
+        .then(() => router.push(props.detail_navigation || `/admin/{app_file_name}/{model_file_name}s/${{id}}`))
+        .catch(e => errorHandler.handleError(e, form))
+        .finally(() => setLoading(false));
+    }} else {{
+      service.add{model_name}(values)
+        .then(() => router.push(props.list_navigation || `/admin/{app_file_name}/{model_file_name}s`))
+        .catch(e => errorHandler.handleError(e, form))
+        .finally(() => setLoading(false));
+    }}
+  }};
+
+  return (
+    <Form form={{form}} onFinish={{onFinish}} layout="vertical" >
+      <div className="flex justify-between">
+        <div>
+            <h2 className="text-2xl font-bold">{model_name} Form</h2>
+        </div>
+        <div className="flex gap-4 mb-4">
+        {{id ? (
+          <Button loading={{loading}} href={{props.detail_navigation || `/admin/{app_file_name}/{model_file_name}s/${{id}}`}} type="text">Cancel</Button>
+        ) : (
+          <Button loading={{loading}} href={{props.list_navigation || `/admin/{app_file_name}/{model_file_name}s`}} type="text">Cancel</Button>
+        )}}
+        <Form.Item>
+          <Button htmlType="submit" type="primary" loading={{loading}}>
+            Submit
+          </Button>
+        </Form.Item>
+      </div>
+      </div>
+      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6">
+        {fields}
+      </div>
+    </Form>
+  );
+}};
+
+export default {model_name}Form;

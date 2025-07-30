@@ -1,0 +1,11 @@
+import {{ UserOutlined }} from "@ant-design/icons";
+import Link from "next/link";
+
+export const {app_name_pascal}Menu = {{
+    key: "/admin/{app_file_name}",
+    icon: <UserOutlined />,
+    label: "{app_name_tilte}",
+    children: [
+      {children}
+    ],
+}}
