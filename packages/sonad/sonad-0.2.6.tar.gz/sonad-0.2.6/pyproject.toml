@@ -1,0 +1,58 @@
+[tool.poetry]
+name         = "sonad"
+version      = "0.2.6"
+description  = "Software name disambiguation pipeline"
+authors      = ["Jelena Duric <djuricjelena611@gmail.com>"]
+license      = "MIT"
+readme       = "README.md"
+homepage     = "https://github.com/jelenadjuric01/Software-Disambiguation"
+repository   = "https://github.com/jelenadjuric01/Software-Disambiguation"
+keywords     = ["software", "disambiguation", "metadata", "machine learning", "NLP"]
+classifiers  = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3.10",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Topic :: Software Development :: Libraries :: Python Modules"
+]
+
+packages = [
+  { include = "sonad" }
+]
+
+include = [
+  { path = "sonad/model.pkl",           format = ["sdist", "wheel"] },
+  { path = "sonad/CZI/synonyms_matrix.csv",format = ["sdist", "wheel"] },
+  { path = "sonad/json",                 format = ["sdist", "wheel"] }
+]
+
+
+[tool.poetry.dependencies]
+python              = ">=3.10,<=3.13"
+rdflib              = ">=6.0.1"
+somef               = ">=0.9.11"
+click                = "^8.0"
+cloudpickle         = ">=2.0"
+xgboost             = ">=1.5"
+lightgbm            = ">=3.3"
+sentence-transformers = ">=2.2"
+textdistance        = ">=4.2"
+beautifulsoup4      = ">=4.9"
+SPARQLWrapper       = "^1.8"
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+pytest   = "^7.0"
+coverage = "^7.2"
+
+[tool.poetry.scripts]
+sonad = "sonad.cli:cli"
+
+
+
+[build-system]
+requires    = ["poetry-core>=1.5.0"]
+build-backend = "poetry.core.masonry.api"
