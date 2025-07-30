@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gpx2kml"
+version = "0.1.1"
+authors = [
+  { name="Kan Fu", email="fukan.thu@gmail.com" },
+]
+description = "A library to combine gpx files exported from runkeeper.com to kml files"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/kan-fu/gpx2kml"
+"Bug Tracker" = "https://github.com/kan-fu/gpx2kml/issues"
+
+[project.optional-dependencies]
+dev = [
+    "tox",
+    "pytest",
+]
+
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+]
+testpaths =  "test"
+
+[tool.isort]
+profile = "black"
+src_paths = ["src", "test"]
+
+[tool.pylint.messages_control]
+disable = [
+  "line-too-long",
+  "missing-function-docstring",
+  "missing-module-docstring",
+  "missing-class-docstring",
+  "no-else-return",
+  "broad-except",
+  "fixme",
+]
+
+
+[project.scripts]
+gpx-archive = "gpx2kml.util:gpx_archive_cmd"
+kml-gen = "gpx2kml.util:kml_generate_cmd"
+kml-combine = "gpx2kml.util:kml_combine_cmd"
