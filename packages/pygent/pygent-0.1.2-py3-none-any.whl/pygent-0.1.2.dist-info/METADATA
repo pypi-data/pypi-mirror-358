@@ -1,0 +1,19 @@
+Metadata-Version: 2.4
+Name: pygent
+Version: 0.1.2
+Summary: Pygent is a minimalist coding assistant that runs commands in a Docker container when available and falls back to local execution. See https://marianochaves.github.io/pygent for documentation and https://github.com/marianochaves/pygent for the source code.
+Author-email: Mariano Chaves <mchaves.software@gmail.com>
+Project-URL: Documentation, https://marianochaves.github.io/pygent
+Project-URL: Repository, https://github.com/marianochaves/pygent
+Requires-Python: >=3.9
+License-File: LICENSE
+Requires-Dist: rich>=13.7.0
+Provides-Extra: llm
+Requires-Dist: openai>=1.0.0; extra == "llm"
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
+Provides-Extra: docs
+Requires-Dist: mkdocs; extra == "docs"
+Provides-Extra: docker
+Requires-Dist: docker>=7.0.0; extra == "docker"
+Dynamic: license-file
