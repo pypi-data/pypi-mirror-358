@@ -1,0 +1,21 @@
+[build-system]
+        requires = ["hatchling>=1.18"]
+        build-backend = "hatchling.build"
+
+        [project]
+        name = "pyw-fs"
+        version = "0.0.0"
+        description = "Filesystem abstraction (local, S3, GCS) (placeholder)"
+        authors = [{name = "pythonWoods"}]
+        license = {text = "MIT"}
+        requires-python = ">=3.9"
+        dependencies = [
+  "pyw-core>=0.0.0",
+  "fsspec>=2024.3"
+]
+
+[project.urls]
+Source = "https://github.com/pythonWoods/pyw-fs"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pyw"]
