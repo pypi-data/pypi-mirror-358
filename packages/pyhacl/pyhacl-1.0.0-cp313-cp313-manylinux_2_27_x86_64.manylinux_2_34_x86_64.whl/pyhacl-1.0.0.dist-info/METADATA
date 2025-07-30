@@ -1,0 +1,73 @@
+Metadata-Version: 2.4
+Name: pyhacl
+Version: 1.0.0
+Summary: Python binding to the HACL* library
+Author: Julien Castiaux
+Author-email: julien.castiaux@mailfence.com
+License: Apache-2.0
+Project-URL: Download, https://pypi.org/project/pyhacl/
+Project-URL: Repository, https://codeberg.org/drlazor8/pyhacl
+Project-URL: Documentation, https://pyhacl.readthedocs.io/en/latest/
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Cython
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Security :: Cryptography
+Requires-Python: >=3.10
+License-File: LICENSE
+Requires-Dist: cython>=3.1
+Provides-Extra: dev
+Requires-Dist: build; extra == "dev"
+Requires-Dist: parameterized; extra == "dev"
+Requires-Dist: sphinx; extra == "dev"
+Requires-Dist: furo; extra == "dev"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: license
+Dynamic: license-file
+Dynamic: project-url
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+pyhacl
+======
+
+Cython bindings for `HACL*`_ the *High Assurance Cryptographic Library*.
+
+Disclaimer
+----------
+
+There is this recurring blog post `Cryptographic Right Answsers`_ that
+gets published every once in a while by various security experts and
+security firms. Out of the many recommendations is the general advice
+that people should stick with major libraries: NaCL, OpenSSL, or
+whatever is available in the standard library of each programming
+langage.
+
+Altough HACL* itself is becoming a major library, this binding is
+**not**. Following the above expert recommendations, you should **not**
+use pyhacl. At least not until it has been formally reviewed.
+
+Please instead use PyCA's `PyNaCl`_ or `cryptography`_ which are the
+official python bindings for NaCL and OpenSSL respectively.
+
+Contributions welcome
+---------------------
+
+We limited this binding to the portable C functions of HACL*, please get
+in touch with us by email or via codeberg if you need anything that's
+available in HACL* but that's missing from pyhacl.
+
+.. _HACL*: https://hacl-star.github.io/index.html
+.. _Cryptographic Right Answsers: https://www.latacora.com/blog/2018/04/03/cryptographic-right-answers/
+.. _cryptography: https://cryptography.io/en/latest/
+.. _PyNaCl: https://pynacl.readthedocs.io/en/latest/
