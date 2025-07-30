@@ -1,0 +1,38 @@
+\documentclass[12pt]{standalone}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{adjustbox}
+\usepackage[utf8]{inputenc}
+\usepackage{relsize}
+\usepackage{setspace}
+\linespread{0.75}
+\setlength\parindent{0pt}
+\begin{document}
+\setlength{\fboxsep}{0pt}
+\fbox{%
+  % need sizes:
+  % width (reduce by 0.24 cm)
+  % height
+  % text primary language
+  % text secondary language
+  % image path
+  % location shortcut
+  % optional: text size (default: \relscale{1} or something guessed based on existing algorithm)
+  % optional: image height (otherwise half of entire size)
+  \begin{minipage}[t][2.3cm][t]{17.86cm}
+    \vspace{1mm}
+    \setlength{\parskip}{0pt}
+    \centering
+    {\relscale{4.7368421052631575}
+      Vorbauklemmschraube
+    }
+
+    {\relscale{5.624999999999999} Quill stem screw}
+
+    \vspace*{-1.5\baselineskip}
+    \includegraphics[height=0cm,keepaspectratio,width=17.86cm]{../../../../../Hobby/fahrrad/things-data/things/vorbauklemmschraube/image.jpg}
+    \vspace*{-.8\baselineskip}
+    \flushright {\tiny R-L-K-6-4}
+  \end{minipage}
+}
+\end{document}

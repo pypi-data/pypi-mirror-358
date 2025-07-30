@@ -1,0 +1,38 @@
+\documentclass[12pt]{standalone}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{adjustbox}
+\usepackage[utf8]{inputenc}
+\usepackage{relsize}
+\usepackage{setspace}
+\linespread{0.75}
+\setlength\parindent{0pt}
+\begin{document}
+\setlength{\fboxsep}{0pt}
+\fbox{%
+  % need sizes:
+  % width (reduce by 0.24 cm)
+  % height
+  % text primary language
+  % text secondary language
+  % image path
+  % location shortcut
+  % optional: text size (default: \relscale{1} or something guessed based on existing algorithm)
+  % optional: image height (otherwise half of entire size)
+  \begin{minipage}[t][9cm][t]{9.86cm}
+    \vspace{1mm}
+    \setlength{\parskip}{0pt}
+    \centering
+    {\relscale{4.166666666666666}
+      Lampenhalter
+    }
+
+    {\relscale{2.6934439889905475} Mount for front lighting}
+
+    \vspace*{1pt}
+    \includegraphics[height=4.5cm,keepaspectratio,width=9.86cm]{../../../../../Hobby/fahrrad/things-data/things/lampenhalter/image.jpg}
+    \vspace*{-.8\baselineskip}
+    \flushright {\tiny Rad i.O. \textgreater{} Lager \textgreater{} Kleinteileregal Werkstattseite \textgreater{} 6 \textgreater{} 5}
+  \end{minipage}
+}
+\end{document}
