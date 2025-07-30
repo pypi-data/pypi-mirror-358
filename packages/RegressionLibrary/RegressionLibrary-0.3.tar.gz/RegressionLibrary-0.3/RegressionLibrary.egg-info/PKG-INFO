@@ -1,0 +1,63 @@
+Metadata-Version: 2.1
+Name: RegressionLibrary
+Version: 0.3
+Summary: Educational regression models built from scratch in Python
+Home-page: https://github.com/Alouakhalid/RegressionLibrary
+Author: Ali Khalid Ali Khalid
+Author-email: ali88883737@gmail.com
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+License-File: LICENSE.save
+
+# RegressionLib
+
+**RegressionLib** is a lightweight, educational regression library implemented from scratch in Python with NumPy. It supports multiple regression models, aiming to help students and researchers understand the mathematical foundations of regression algorithms without the black-box nature of larger frameworks.
+
+---
+
+## 🚀 Features
+
+- Linear Regression  
+- Lasso Regression (L1 regularization)  
+- Ridge Regression (L2 regularization)  
+- Polynomial Regression  
+- Clean, beginner-friendly API (`fit`, `predict`, `evaluate`)  
+- Minimal dependencies (NumPy only)  
+- Clear educational codebase, easy to extend
+import numpy as np
+from regressionlib import LinearRegression, LassoRegression, RidgeRegression, PolynomialRegression
+
+# Example training data
+X_train = np.array([[1], [2], [3], [4], [5]])
+y_train = np.array([1.5, 2.5, 3.5, 4.5, 5.5])
+
+# Linear Regression
+lr_model = LinearRegression()
+lr_model.fit(X_train.flatten(), y_train, learning_rate=0.01, epochs=1000)
+mse, r2, acc = lr_model.evaluate(X_train.flatten(), y_train)
+print(f"Linear Regression - MSE: {mse:.4f}, R2: {r2:.4f}, Accuracy: {acc:.2f}%")
+
+# Lasso Regression
+lasso = LassoRegression(learning_rate=0.01, iterations=1000, l1_penalty=0.1)
+lasso.fit(X_train, y_train)
+mse, r2, acc = lasso.evaluate(X_train, y_train)
+print(f"Lasso Regression - MSE: {mse:.4f}, R2: {r2:.4f}, Accuracy: {acc:.2f}%")
+
+# Ridge Regression
+ridge = RidgeRegression(learning_rate=0.01, epochs=1000, l2_penalty=0.1)
+ridge.fit(X_train, y_train)
+mse, r2, acc = ridge.evaluate(X_train, y_train)
+print(f"Ridge Regression - MSE: {mse:.4f}, R2: {r2:.4f}, Accuracy: {acc:.2f}%")
+
+# Polynomial Regression
+poly = PolynomialRegression(degree=2, learning_rate=0.01, epochs=1000)
+poly.fit(X_train, y_train)
+mse, r2, acc = poly.evaluate(X_train, y_train)
+print(f"Polynomial Regression - MSE: {mse:.4f}, R2: {r2:.4f}, Accuracy: {acc:.2f}%")
+
