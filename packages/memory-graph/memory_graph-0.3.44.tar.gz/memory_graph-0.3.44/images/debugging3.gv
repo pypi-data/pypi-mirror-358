@@ -1,0 +1,57 @@
+digraph memory_graph {
+	node [shape=plaintext]
+	node132636374552128 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="lightcoral" PORT="table">
+    <TR><TD BORDER="0"><font color="#505050">0</font></TD><TD BORDER="1"> 1 </TD></TR>
+    <TR><TD BORDER="0"><font color="#505050">1</font></TD><TD BORDER="1"> 4 </TD></TR>
+    <TR><TD BORDER="0"><font color="#505050">2</font></TD><TD BORDER="1"> 9 </TD></TR>
+    <TR><TD BORDER="0"><font color="#505050">3</font></TD><TD BORDER="1"> 16 </TD></TR>
+</TABLE>
+> xlabel=list]
+	node132636373377280 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="lightcoral" PORT="table">
+    <TR><TD BORDER="0"><font color="#505050">0</font></TD><TD BORDER="1"> 1 </TD></TR>
+</TABLE>
+> xlabel=list]
+	node132636368641984 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="lightcoral" PORT="table">
+    <TR><TD BORDER="0"><font color="#505050">0</font></TD><TD BORDER="1"> 1 </TD></TR>
+    <TR><TD BORDER="0"><font color="#505050">1</font></TD><TD BORDER="1"> 4 </TD></TR>
+</TABLE>
+> xlabel=list]
+	node132636368978304 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="lightcoral" PORT="table">
+    <TR><TD BORDER="0"><font color="#505050">0</font></TD><TD BORDER="1"> 1 </TD></TR>
+    <TR><TD BORDER="0"><font color="#505050">1</font></TD><TD BORDER="1"> 4 </TD></TR>
+    <TR><TD BORDER="0"><font color="#505050">2</font></TD><TD BORDER="1"> 9 </TD></TR>
+</TABLE>
+> xlabel=list]
+	node132636368959360 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="lightcoral" PORT="table">
+    <TR><TD BORDER="0"><font color="#505050">0</font></TD><TD BORDER="1"> 1 </TD></TR>
+    <TR><TD BORDER="0"><font color="#505050">1</font></TD><TD BORDER="1"> 4 </TD></TR>
+    <TR><TD BORDER="0"><font color="#505050">2</font></TD><TD BORDER="1"> 9 </TD></TR>
+    <TR><TD BORDER="0"><font color="#505050">3</font></TD><TD BORDER="1"> 16 </TD></TR>
+</TABLE>
+> xlabel=list]
+	node132636372640896 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="lightcoral" PORT="table">
+    <TR><TD BORDER="0"><font color="#505050">0</font></TD><TD BORDER="0"><font color="#505050">1</font></TD><TD BORDER="0"><font color="#505050">2</font></TD><TD BORDER="0"><font color="#505050">3</font></TD></TR>
+    <TR><TD BORDER="1" PORT="ref0"> </TD><TD BORDER="1" PORT="ref1"> </TD><TD BORDER="1" PORT="ref2"> </TD><TD BORDER="1" PORT="ref3"> </TD></TR>
+</TABLE>
+> xlabel=list]
+	node132636372640896:ref0 -> node132636373377280:table [style=solid]
+	node132636372640896:ref1 -> node132636368641984:table [style=solid]
+	node132636372640896:ref2 -> node132636368978304:table [style=solid]
+	node132636372640896:ref3 -> node132636368959360:table [style=solid]
+	node132636372846528 [label=<
+<TABLE BORDER="3" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="#60a5ff" PORT="table">
+    <TR><TD BORDER="1" STYLE="ROUNDED"> squares </TD><TD BORDER="1" STYLE="ROUNDED"> squares_collector </TD><TD BORDER="1" STYLE="ROUNDED"> i </TD></TR>
+    <TR><TD BORDER="1" PORT="ref0"> </TD><TD BORDER="1" PORT="ref1"> </TD><TD BORDER="1"> 4 </TD></TR>
+</TABLE>
+> xlabel=dict]
+	node132636372846528:ref0 -> node132636374552128:table [style=solid]
+	node132636372846528:ref1 -> node132636372640896:table [style=solid]
+subgraph { rank=same; node132636374552128 -> node132636372640896[weight=10, style=invis]; }
+subgraph { rank=same; node132636373377280 -> node132636368641984 -> node132636368978304 -> node132636368959360[weight=10, style=invis]; }
+}
