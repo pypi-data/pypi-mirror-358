@@ -1,0 +1,155 @@
+# NGD - Bioinformatics Programs Package
+
+A comprehensive Python package containing 10 essential bioinformatics programs for DNA/RNA analysis, sequence manipulation, and protein structure visualization.
+
+## Installation
+
+You can install the package using pip:
+
+```bash
+pip install ngd
+```
+
+Or install from source:
+
+```bash
+git clone https://github.com/yourusername/ngd.git
+cd ngd
+pip install -e .
+```
+
+## Available Programs
+
+The package includes 10 comprehensive bioinformatics programs:
+
+### 1. **DNA Manipulation and Translation**
+- DNA sequence slicing and concatenation
+- DNA to RNA transcription
+- RNA to protein translation
+- Basic sequence operations using Biopython
+
+### 2. **Reading FASTA Files**
+- Parse and read FASTA format files
+- Extract sequence descriptions and data
+- Handle multiple sequences in a single file
+
+### 3. **Writing and Reading GenBank Format**
+- Create GenBank records with annotations
+- Write sequences to GenBank format
+- Read and parse GenBank files
+- Handle sequence metadata
+
+### 4. **Converting FASTA to GenBank with Annotations**
+- Convert between sequence formats
+- Add annotations during conversion
+- Batch processing of multiple sequences
+- Format validation
+
+### 5. **Adding Features and Annotations to SeqRecord**
+- Create detailed sequence records
+- Add gene features and annotations
+- Modify sequence metadata
+- Handle complex biological annotations
+
+### 6. **Fetching Sequences from NCBI using Entrez**
+- Access NCBI databases programmatically
+- Retrieve GenBank records by ID
+- Extract sequence information
+- Handle NCBI API responses
+
+### 7. **Pairwise Sequence Alignment**
+- Align two DNA sequences
+- Calculate alignment scores
+- Visualize sequence similarities
+- Handle alignment parameters
+
+### 8. **Multiple Sequence Alignment using MUSCLE**
+- Perform multiple sequence alignment
+- Use external MUSCLE tool
+- Handle alignment output
+- Process alignment results
+
+### 9. **Constructing Phylogenetic Trees**
+- Build phylogenetic trees from alignments
+- Calculate distance matrices
+- Create UPGMA trees
+- Visualize and save tree structures
+
+### 10. **PDB 3D Structure Visualization**
+- Download protein structures from PDB
+- Parse mmCIF files
+- Extract atomic coordinates
+- Create 3D structure visualizations
+
+## Usage
+
+To view the code for any program, use the `print_program` function:
+
+```python
+from ngd.programs import print_program
+
+# Print program 1 (DNA Manipulation)
+print_program(1)
+
+# Print program 2 (FASTA Reading)
+print_program(2)
+
+# Print program 3 (GenBank Operations)
+print_program(3)
+
+# And so on for programs 4-10...
+```
+
+## Requirements
+
+The package requires the following dependencies:
+- **biopython** >= 1.79 - Core bioinformatics functionality
+- **matplotlib** >= 3.5.0 - Plotting and visualization
+- **numpy** >= 1.21.0 - Numerical computations
+- **pandas** >= 1.3.0 - Data manipulation
+- **requests** >= 2.25.0 - HTTP requests for NCBI access
+
+## Features
+
+- **Comprehensive Coverage**: From basic DNA manipulation to advanced phylogenetic analysis
+- **Educational**: Well-commented code suitable for learning bioinformatics
+- **Practical**: Real-world applications using popular bioinformatics tools
+- **Extensible**: Easy to modify and extend for specific research needs
+- **Cross-platform**: Works on Windows, macOS, and Linux
+
+## Examples
+
+### Basic DNA Operations
+```python
+from ngd.programs import print_program
+print_program(1)  # DNA manipulation and translation
+```
+
+### Sequence Analysis
+```python
+from ngd.programs import print_program
+print_program(7)  # Pairwise sequence alignment
+```
+
+### Database Access
+```python
+from ngd.programs import print_program
+print_program(6)  # NCBI sequence fetching
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Citation
+
+If you use this package in your research, please cite:
+
+```
+NGD Bioinformatics Package (2024). A comprehensive collection of bioinformatics programs.
+Available at: https://pypi.org/project/ngd/
+``` 
