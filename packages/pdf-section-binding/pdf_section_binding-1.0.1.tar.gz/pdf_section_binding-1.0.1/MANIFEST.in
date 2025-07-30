@@ -1,0 +1,53 @@
+include README.md
+include LICENSE
+include pyproject.toml
+include requirements.txt
+
+# Include only the core package
+recursive-include src/pdf_section_binding *.py
+
+# Exclude all development and utility files
+exclude src/demo.py
+exclude src/section_binding.py
+exclude src/test_section_binding.py
+exclude src/create_test_pdf.py
+exclude src/example_usage.py
+exclude src/add_page_numbers.py
+
+# Exclude ad-hoc test files from root
+exclude test_signature_order.py
+exclude quick_test_signature_order.py
+exclude simple_test.py
+
+# Exclude publishing and documentation files
+exclude publish.py
+exclude PUBLISHING.md
+exclude QUICK_PUBLISH.md
+exclude PUBLISH_NOW.md
+
+# Exclude convenience scripts
+exclude create_test_pdf
+exclude add_page_numbers
+exclude example_usage
+
+# Exclude all test files and data
+exclude tests/*
+exclude tests/test-data/*
+recursive-exclude tests *
+
+# Exclude development directories
+exclude data/*
+recursive-exclude data *
+
+# Exclude build artifacts
+exclude build/*
+recursive-exclude build *
+exclude dist/*
+recursive-exclude dist *
+exclude *.egg-info/*
+recursive-exclude *.egg-info *
+
+# Exclude other development files
+exclude .pylintrc
+exclude .coverage
+exclude .gitignore
