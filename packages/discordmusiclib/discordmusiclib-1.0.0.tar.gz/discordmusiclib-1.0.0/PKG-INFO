@@ -1,0 +1,215 @@
+Metadata-Version: 2.1
+Name: discordmusiclib
+Version: 1.0.0
+Summary: A custom YouTube audio downloader for Discord bots
+Home-page: https://github.com/yourusername/discordmusiclib
+Author: Your Name
+Author-email: your.email@example.com
+Keywords: discord,music,youtube,audio,bot
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Multimedia :: Sound/Audio
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: aiohttp>=3.8.0
+Requires-Dist: discord.py>=2.0.0
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: black; extra == "dev"
+Requires-Dist: flake8; extra == "dev"
+
+
+# DiscordMusicLib
+
+A custom YouTube audio downloader library specifically designed for Discord bots. This library provides a simple way to extract audio streams from YouTube videos without relying on external dependencies like yt-dlp.
+
+## Features
+
+- ✅ Extract audio streams from YouTube videos
+- ✅ Discord bot integration ready
+- ✅ Async/await support
+- ✅ Multiple extraction methods (webpage and embed)
+- ✅ Built-in signature deciphering
+- ✅ Search functionality
+- ✅ Simple API wrapper
+
+## Installation
+
+```bash
+pip install discordmusiclib
+```
+
+## Quick Start
+
+### Basic Usage
+
+```python
+import asyncio
+from discordmusiclib import YouTubeAudioDownloader
+
+async def main():
+    async with YouTubeAudioDownloader() as downloader:
+        # Get video info
+        info = await downloader.extract_video_info("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+        print(f"Title: {info['title']}")
+        
+        # Get stream URL
+        stream_url, _ = await downloader.get_audio_stream_url("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+        print(f"Stream URL: {stream_url}")
+
+asyncio.run(main())
+```
+
+### Discord Bot Integration
+
+```python
+import discord
+from discord.ext import commands
+from discordmusiclib import DiscordMusicBot
+
+class MusicBot(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+        self.music_bot = DiscordMusicBot()
+    
+    @commands.command(name='play')
+    async def play_music(self, ctx, *, url):
+        """Play music from YouTube URL"""
+        if not ctx.voice_client:
+            if ctx.author.voice:
+                await ctx.author.voice.channel.connect()
+            else:
+                await ctx.send("You need to be in a voice channel!")
+                return
+        
+        await ctx.send("🎵 Searching...")
+        
+        # Get audio stream
+        result = await self.music_bot.play_youtube_audio(url)
+        
+        if not result['success']:
+            await ctx.send(f"❌ Error: {result['error']}")
+            return
+        
+        # Create audio source
+        audio_source = discord.FFmpegPCMAudio(
+            result['stream_url'],
+            before_options='-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5'
+        )
+        
+        # Play audio
+        ctx.voice_client.play(audio_source)
+        
+        embed = discord.Embed(
+            title="🎵 Now Playing",
+            description=result['title'],
+            color=0x00ff00
+        )
+        embed.add_field(name="Duration", value=f"{result['duration']} seconds")
+        embed.add_field(name="Uploader", value=result['uploader'])
+        
+        await ctx.send(embed=embed)
+
+# Bot setup
+intents = discord.Intents.default()
+intents.message_content = True
+bot = commands.Bot(command_prefix='!', intents=intents)
+
+@bot.event
+async def on_ready():
+    print(f'{bot.user} has connected to Discord!')
+    await bot.add_cog(MusicBot(bot))
+
+bot.run('YOUR_BOT_TOKEN')
+```
+
+### Simple Synchronous API
+
+```python
+from discordmusiclib import SimpleYouTubeAudio
+
+# Get video info
+info = SimpleYouTubeAudio.get_audio_info("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+print(f"Title: {info['title']}")
+
+# Get stream URL
+stream_url = SimpleYouTubeAudio.get_stream_url("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+print(f"Stream URL: {stream_url}")
+```
+
+### YouTube Search
+
+```python
+from discordmusiclib import YouTubeSearcher
+
+async def search_example():
+    async with YouTubeSearcher() as searcher:
+        results = await searcher.search_youtube("Rick Astley Never Gonna Give You Up")
+        for result in results:
+            print(f"Title: {result['title']}")
+            print(f"URL: {result['url']}")
+            print(f"Duration: {result['duration']} seconds")
+```
+
+## API Reference
+
+### YouTubeAudioDownloader
+
+Main class for extracting YouTube audio streams.
+
+#### Methods
+
+- `extract_video_info(url: str) -> Dict`: Extract video information
+- `get_audio_stream_url(url: str, prefer_format: str = 'best') -> Tuple[str, Dict]`: Get audio stream URL
+
+### DiscordMusicBot
+
+Helper class for Discord bot integration.
+
+#### Methods
+
+- `play_youtube_audio(url: str) -> Dict`: Get YouTube audio stream for Discord playback
+
+### SimpleYouTubeAudio
+
+Synchronous wrapper for simple usage.
+
+#### Methods
+
+- `get_audio_info(url: str) -> dict`: Get video information synchronously
+- `get_stream_url(url: str) -> str`: Get stream URL synchronously
+
+### YouTubeSearcher
+
+Search YouTube videos.
+
+#### Methods
+
+- `search_youtube(query: str, max_results: int = 5) -> List[Dict]`: Search for videos
+
+## Requirements
+
+- Python 3.8+
+- aiohttp
+- discord.py (for Discord bot features)
+
+## License
+
+MIT License
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Disclaimer
+
+This library is for educational purposes only. Please respect YouTube's Terms of Service and consider using official APIs when possible.
