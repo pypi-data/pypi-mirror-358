@@ -1,0 +1,64 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "latexofme"
+version = "0.1.0"
+authors = [
+    {name = "Hajime Hinata", email = "onmyojiflow@gmail.com"},
+]
+description = "LaTeX formatting utilities for scientific notation in Jupyter notebooks"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Education",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Text Processing :: Markup :: LaTeX",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "ipython>=7.0.0",
+]
+keywords = ["latex", "scientific-notation", "jupyter", "formatting", "math", "display"]
+license = {text = "MIT"}
+
+[project.urls]
+Homepage = "https://github.com/SOYONAOC/latexofme"
+Repository = "https://github.com/SOYONAOC/latexofme"
+"Bug Reports" = "https://github.com/SOYONAOC/latexofme/issues"
+Documentation = "https://github.com/SOYONAOC/latexofme#readme"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov>=2.0",
+    "black>=21.0",
+    "flake8>=3.8",
+    "mypy>=0.800",
+    "jupyter>=1.0.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["latexofme*"]
+
+[tool.black]
+line-length = 88
+target-version = ['py37']
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]

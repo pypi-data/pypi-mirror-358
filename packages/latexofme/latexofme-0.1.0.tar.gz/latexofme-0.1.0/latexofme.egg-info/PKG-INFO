@@ -1,0 +1,308 @@
+Metadata-Version: 2.4
+Name: latexofme
+Version: 0.1.0
+Summary: LaTeX formatting utilities for scientific notation in Jupyter notebooks
+Home-page: https://github.com/SOYONAOC/latexofme
+Author: Hajime Hinata
+Author-email: Hajime Hinata <onmyojiflow@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/SOYONAOC/latexofme
+Project-URL: Repository, https://github.com/SOYONAOC/latexofme
+Project-URL: Bug Reports, https://github.com/SOYONAOC/latexofme/issues
+Project-URL: Documentation, https://github.com/SOYONAOC/latexofme#readme
+Keywords: latex,scientific-notation,jupyter,formatting,math,display
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Science/Research
+Classifier: Intended Audience :: Education
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Text Processing :: Markup :: LaTeX
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: ipython>=7.0.0
+Provides-Extra: dev
+Requires-Dist: pytest>=6.0; extra == "dev"
+Requires-Dist: pytest-cov>=2.0; extra == "dev"
+Requires-Dist: black>=21.0; extra == "dev"
+Requires-Dist: flake8>=3.8; extra == "dev"
+Requires-Dist: mypy>=0.800; extra == "dev"
+Requires-Dist: jupyter>=1.0.0; extra == "dev"
+Dynamic: author
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-python
+
+# LatexOfMe
+
+[![PyPI version](https://badge.fury.io/py/latexofme.svg)](https://badge.fury.io/py/latexofme)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/)
+
+A Python package for converting numbers to LaTeX-formatted scientific notation in Jupyter notebooks. This package provides utilities for displaying scientific numbers in a clean, readable LaTeX format with proper scientific notation.
+
+## Features
+
+- **Scientific Notation Formatting**: Convert numbers to LaTeX scientific notation format
+- **Unit Support**: Handle numbers with units (e.g., from astropy quantities)
+- **Precision Control**: Configurable decimal precision for mantissa
+- **Jupyter Integration**: Seamless integration with IPython/Jupyter display system
+- **Automatic Formatting**: Intelligently chooses between regular and scientific notation
+
+## Installation
+
+### From PyPI (recommended)
+
+```bash
+pip install latexofme
+```
+
+### From Source
+
+```bash
+git clone https://github.com/SOYONAOC/latexofme.git
+cd latexofme
+pip install -e .
+```
+
+## Quick Start
+
+```python
+from latexofme import scicount
+from IPython.display import Math, display
+
+# Basic usage with numbers
+number = 1.23456e15
+formatted = scicount(number, pci=3)
+display(Math(formatted))
+# Output: 1.235 \times 10^{15}
+
+# With precision control
+number = 0.00456
+formatted = scicount(number, pci=2)
+display(Math(formatted))
+# Output: 4.56 \times 10^{-3}
+
+# Numbers between 1 and 10 (no scientific notation)
+number = 5.67
+formatted = scicount(number, pci=2)
+display(Math(formatted))
+# Output: 5.67
+```
+
+## Core Function
+
+### scicount(x, pci=2)
+
+Converts a number to LaTeX-formatted scientific notation.
+
+**Parameters:**
+- `x` (float or quantity): The number to format. Can be a plain number or a quantity with units
+- `pci` (int, optional): Number of decimal places for the mantissa (default: 2)
+
+**Returns:**
+- `str`: LaTeX-formatted string ready for display
+
+**Behavior:**
+- Numbers with absolute value between 1 and 10: Returns regular decimal format
+- Numbers outside this range: Returns scientific notation format
+- Numbers with units: Includes unit information in the output
+
+## Advanced Usage
+
+### Working with Units
+
+If you're using libraries like `astropy` that provide quantities with units:
+
+```python
+import astropy.units as u
+from latexofme import scicount
+from IPython.display import Math, display
+
+# Number with units
+mass = 1.989e30 * u.kg
+formatted = scicount(mass, pci=3)
+display(Math(formatted))
+# Output: 1.989 \times 10^{30} \, kg
+```
+
+### Precision Examples
+
+```python
+# Different precision levels
+number = 1.23456789e-12
+
+# Low precision
+low_prec = scicount(number, pci=1)
+display(Math(low_prec))
+# Output: 1.2 \times 10^{-12}
+
+# High precision
+high_prec = scicount(number, pci=5)
+display(Math(high_prec))
+# Output: 1.23457 \times 10^{-12}
+```
+
+### In Jupyter Notebooks
+
+```python
+# Create a helper function for easy display
+def show_scientific(value, precision=2):
+    """Display a number in scientific notation"""
+    from IPython.display import Math, display
+    from latexofme import scicount
+    display(Math(scicount(value, pci=precision)))
+
+# Usage
+show_scientific(6.626e-34, 3)  # Planck constant
+show_scientific(9.109e-31, 2)  # Electron mass
+show_scientific(299792458, 1)  # Speed of light
+```
+
+## Use Cases
+
+- **Scientific Publications**: Format numbers for LaTeX documents
+- **Educational Materials**: Display scientific constants and calculations
+- **Data Analysis**: Present results in clean, professional format
+- **Research Notebooks**: Maintain consistent number formatting across analyses
+
+## Requirements
+
+- Python ≥ 3.7
+- IPython ≥ 7.0.0 (for Jupyter notebook integration)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Support
+
+If you encounter any problems or have suggestions, please [open an issue](https://github.com/SOYONAOC/latexofme/issues) on GitHub.
+
+## Examples Gallery
+
+### Physical Constants
+
+```python
+# Display common physical constants
+constants = {
+    'Speed of light': 299792458,
+    'Planck constant': 6.62607015e-34,
+    'Electron mass': 9.1093837015e-31,
+    'Proton mass': 1.67262192369e-27,
+    'Avogadro number': 6.02214076e23
+}
+
+for name, value in constants.items():
+    print(f"{name}: {scicount(value, pci=3)}")
+```
+
+### Astronomical Values
+
+```python
+# Astronomical distances and masses
+astro_values = {
+    'Earth mass': 5.972e24,
+    'Solar mass': 1.989e30,
+    'Earth-Sun distance': 1.496e11,
+    'Hubble constant': 2.3e-18,
+    'Age of universe': 4.35e17
+}
+
+for name, value in astro_values.items():
+    formatted = scicount(value, pci=2)
+    display(Math(f"\\text{{{name}}}: {formatted}"))
+```
+fesc_values = [0.1, 0.2, 0.3]
+barriers = [Barrier(fesc=f, z_v=12.0) for f in fesc_values]
+results = [b.Calcul_deltaVM(1e15) for b in barriers]
+
+print("Escape fraction vs Barrier height:")
+for fesc, delta_v in zip(fesc_values, results):
+    print(f"fesc = {fesc:.1f}: δ_v = {delta_v:.3f}")
+```
+
+## Physical Background
+
+This package implements models for:
+
+1. **Barrier Method**: Calculates the density threshold required for halo formation in ionized regions
+2. **Ionization Balance**: Self-consistent treatment of ionization and recombination
+3. **Mass Functions**: Modified halo mass functions accounting for ionization feedback
+4. **X-ray Heating**: Effects of X-ray sources from minihalos on reionization
+
+The models are particularly useful for:
+- 21cm signal predictions
+- Reionization simulations
+- Studying the connection between galaxies and ionized bubbles
+- Modeling the impact of X-ray sources on reionization
+
+## Dependencies
+
+- `numpy >= 1.18.0`
+- `scipy >= 1.5.0`
+- `astropy >= 4.0`
+- `matplotlib >= 3.0.0`
+- `pandas >= 1.0.0`
+- `joblib >= 1.0.0`
+- `massfunc` (custom cosmology package - required but not available on PyPI)
+
+## Examples
+
+See the `examples/` directory for Jupyter notebooks demonstrating:
+- Basic barrier calculations
+- Parameter sensitivity studies
+- Parallel computation examples
+- Minihalo effects analysis
+
+## Citation
+
+If you use this package in your research, please cite:
+
+```bibtex
+@misc{bubblebarrier2025,
+  author = {Hajime Hinata},
+  title = {BubbleBarrier: A Python package for reionization bubble modeling},
+  year = {2025},
+  url = {https://github.com/SOYONAOC/BubbleBarrier}
+}
+```
+
+## Contributing
+
+Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+- **Author**: Hajime Hinata
+- **Email**: onmyojiflow@gmail.com
+- **GitHub**: [SOYONAOC](https://github.com/SOYONAOC)
+
+## Acknowledgments
+
+- Based on the barrier method for reionization modeling
+- Implements algorithms from modern reionization literature
+- Thanks to the astrophysics community for theoretical foundations
