@@ -1,0 +1,256 @@
+name: 角色tool聊天-wechat
+description: ''
+blocks:
+  - type: auto:url_to_message
+    name: 8bd5a2f0-b598-4384-9ff4-c4976e4ec8e8
+    params: {}
+    position:
+      x: 1380
+      y: 420
+    connected_to:
+      - target: 7633e8ef-0661-4f08-9d59-791617f775f6
+        mapping:
+          from: message
+          to: msg
+  - type: internal:chat_memory_query
+    name: 4337938a-bb7c-4b78-b8f4-591418746fc0
+    params:
+      scope_type: group
+      decomposer_name: multi_element
+    position:
+      x: -75
+      y: 525
+    connected_to:
+      - target: 9fff5990-b964-45ae-b6c7-fe3362a3be98
+        mapping:
+          from: memory_content
+          to: memory_content
+  - type: internal:chat_message_constructor
+    name: 9fff5990-b964-45ae-b6c7-fe3362a3be98
+    params: {}
+    position:
+      x: 225
+      y: 60
+    connected_to:
+      - target: 3823a6a6-cff6-4679-bd21-ccf870453ef8
+        mapping:
+          from: llm_msg
+          to: prompt
+  - type: internal:text_block
+    name: b0e7afac-433b-4f28-8ba2-b44368f7212d
+    params:
+      text: '{user_name}(qq号是{user_id})说：{user_msg}'
+    position:
+      x: -195
+      y: -45
+    connected_to:
+      - target: 9fff5990-b964-45ae-b6c7-fe3362a3be98
+        mapping:
+          from: text
+          to: user_prompt_format
+  - type: internal:text_concat_block
+    name: 51db7ebd-b200-4834-821a-ec630d4417c2
+    params: {}
+    position:
+      x: 930
+      y: 165
+    connected_to:
+      - target: 0037a610-a64b-4d1d-8dff-3685313e9d6e
+        mapping:
+          from: text
+          to: user_prompt_format
+  - type: internal:get_message
+    name: b3bf9f91-2222-4683-9857-298d318ff96c
+    params: {}
+    position:
+      x: -105
+      y: 150
+    connected_to:
+      - target: 9fff5990-b964-45ae-b6c7-fe3362a3be98
+        mapping:
+          from: msg
+          to: user_msg
+      - target: 0d6de1fd-2174-4ba3-927e-f15f0dcf829c
+        mapping:
+          from: sender
+          to: target
+      - target: 4337938a-bb7c-4b78-b8f4-591418746fc0
+        mapping:
+          from: sender
+          to: chat_sender
+      - target: 0037a610-a64b-4d1d-8dff-3685313e9d6e
+        mapping:
+          from: msg
+          to: user_msg
+      - target: 719d2018-6887-42c3-9d3b-43e9c49ed769
+        mapping:
+          from: sender
+          to: chat_sender
+      - target: 9dbc2b74-3adc-4e3f-9362-3abfc457823d
+        mapping:
+          from: msg
+          to: user_msg
+      - target: 7633e8ef-0661-4f08-9d59-791617f775f6
+        mapping:
+          from: sender
+          to: target
+  - type: internal:text_block
+    name: 735b1a6d-fce0-4c44-8446-7dfd31e540db
+    params:
+      text: "\n{user_name}(qq号是{user_id})：{user_msg}\n"
+    position:
+      x: 510
+      y: 315
+    connected_to:
+      - target: 51db7ebd-b200-4834-821a-ec630d4417c2
+        mapping:
+          from: text
+          to: text2
+  - type: internal:text_block
+    name: 7340e5a6-5eca-45ef-a4cd-ed1c5376792b
+    params:
+      text: "# Information\n\n以下是当前的系统信息：\n当前日期时间：{current_date_time}\n\n# Memories\n以下是之前发生过的对话记录。\n-- 对话记录开始 --\n{memory_content}\n-- 对话记录结束 --"
+    position:
+      x: -210
+      y: 345
+    connected_to:
+      - target: 9fff5990-b964-45ae-b6c7-fe3362a3be98
+        mapping:
+          from: text
+          to: system_prompt_format
+  - type: internal:chat_memory_query
+    name: 719d2018-6887-42c3-9d3b-43e9c49ed769
+    params:
+      scope_type: group
+      decomposer_name: multi_element
+      extra_identifier: ''
+    position:
+      x: 495
+      y: 480
+    connected_to:
+      - target: 0037a610-a64b-4d1d-8dff-3685313e9d6e
+        mapping:
+          from: memory_content
+          to: memory_content
+  - type: auto:auto_execute_tools
+    name: 3823a6a6-cff6-4679-bd21-ccf870453ef8
+    params:
+      model_name: gemini-2.5-flash-preview-04-17
+      max_retries: 3
+      available_block_names:
+        - create_task
+        - create_one_time_task
+        - get_tasks
+        - delete_task
+        - delete_all_tasks
+        - web_search_by_keyword
+        - music_search
+        - weather_search
+        - random_girl_video
+        - random_cosplay
+        - random_emoji
+        - sougou_image_search
+        - douyin_video_search
+        - bilibili_search
+        - text_to_music
+        - image_to_video
+        - send_qq_email
+        - find_qq_emails
+        - dreamo_image_generate
+    position:
+      x: 510
+      y: 30
+    connected_to:
+      - target: 51db7ebd-b200-4834-821a-ec630d4417c2
+        mapping:
+          from: results
+          to: text1
+      - target: 8bd5a2f0-b598-4384-9ff4-c4976e4ec8e8
+        mapping:
+          from: results
+          to: text
+  - type: internal:send_message
+    name: 7633e8ef-0661-4f08-9d59-791617f775f6
+    params:
+      im_name: wechat
+    position:
+      x: 1710
+      y: 495
+  - type: internal:chat_message_constructor
+    name: 0037a610-a64b-4d1d-8dff-3685313e9d6e
+    params: {}
+    position:
+      x: 1005
+      y: 450
+    connected_to:
+      - target: a1ac38d9-d452-477e-bda1-3a37186b651f
+        mapping:
+          from: llm_msg
+          to: prompt
+  - type: internal:llm_response_to_text
+    name: 8b16f4fc-0eeb-4e44-bac8-22991031da41
+    params: {}
+    position:
+      x: 1395
+      y: -240
+    connected_to:
+      - target: 2d2fc927-c373-4f80-b7e8-03cab6df1a8a
+        mapping:
+          from: text
+          to: text
+  - type: internal:send_message
+    name: 0d6de1fd-2174-4ba3-927e-f15f0dcf829c
+    params:
+      im_name: wechat
+    position:
+      x: 2385
+      y: -285
+  - type: internal:chat_memory_store
+    name: 9dbc2b74-3adc-4e3f-9362-3abfc457823d
+    params:
+      scope_type: group
+    position:
+      x: 1950
+      y: 285
+  - type: internal:chat_completion
+    name: a1ac38d9-d452-477e-bda1-3a37186b651f
+    params:
+      model_name: gemini-2.5-flash
+    position:
+      x: 1185
+      y: 45
+    connected_to:
+      - target: 8b16f4fc-0eeb-4e44-bac8-22991031da41
+        mapping:
+          from: resp
+          to: response
+      - target: 9dbc2b74-3adc-4e3f-9362-3abfc457823d
+        mapping:
+          from: resp
+          to: llm_resp
+  - type: internal:text_to_im_message
+    name: 2d2fc927-c373-4f80-b7e8-03cab6df1a8a
+    params:
+      split_by: ''
+    position:
+      x: 1770
+      y: -270
+    connected_to:
+      - target: 0d6de1fd-2174-4ba3-927e-f15f0dcf829c
+        mapping:
+          from: msg
+          to: msg
+  - type: internal:text_block
+    name: ced49154-770b-481e-a15e-8f89c19ae84a
+    params:
+      text: "# Information\n以下是当前的系统信息：\n当前日期时间：{current_date_time}\n\n# Memories\n以下是之前发生过的对话记录。\n-- 对话记录开始 --\n{memory_content}\n-- 对话记录结束 --\n"
+    position:
+      x: 420
+      y: 735
+    connected_to:
+      - target: 0037a610-a64b-4d1d-8dff-3685313e9d6e
+        mapping:
+          from: text
+          to: system_prompt_format
+config:
+  max_execution_time: 36000
