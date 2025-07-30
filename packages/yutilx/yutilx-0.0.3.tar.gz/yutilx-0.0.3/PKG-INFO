@@ -1,0 +1,124 @@
+Metadata-Version: 2.4
+Name: yutilx
+Version: 0.0.3
+Summary: Xinyu's common utilities
+Project-URL: Source, https://github.com/cauyxy/yutilx/
+Author-email: Xinyu Yang <cauyxy@gmail.com>
+Maintainer-email: Xinyu Yang <cauyxy@gmail.com>
+License-File: LICENSE
+Requires-Python: >=3.9
+Requires-Dist: tqdm>=4.60.0
+Description-Content-Type: text/markdown
+
+# yutilx
+
+[![PyPI version](https://badge.fury.io/py/yutilx.svg)](https://badge.fury.io/py/yutilx)
+[![Python Version](https://img.shields.io/pypi/pyversions/yutilx.svg)](https://pypi.org/project/yutilx/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+A Python utilities library providing efficient parallel processing with caching capabilities.
+
+## Features
+
+- **Parallel Processing**: Execute functions concurrently using ThreadPoolExecutor
+- **Smart Caching**: Automatic result caching with MD5-based deduplication
+- **Flexible Storage**: Choose between file-based (JSONL) or in-memory caching
+- **Retry Logic**: Built-in retry mechanism for handling transient failures
+- **Progress Tracking**: Real-time progress visualization with tqdm
+- **Thread-Safe**: Safe concurrent access to cache
+
+## Installation
+
+```bash
+pip install yutilx
+```
+
+## Quick Start
+
+```python
+from yutilx import CachedParallelProcessor
+
+# Define your processing function
+def process_text(text: str) -> str:
+    # Your processing logic here
+    return text.upper()
+
+# Create a processor instance
+processor = CachedParallelProcessor(
+    process_func=process_text,
+    max_retry_cnt=3,
+    cache_filename="results.jsonl"
+)
+
+# Process data in parallel
+inputs = ["hello", "world", "python", "rocks"]
+processor.run(inputs, num_threads=4)
+
+# Retrieve results
+results = processor.get_result(inputs)
+print(results)  # ['HELLO', 'WORLD', 'PYTHON', 'ROCKS']
+```
+
+## API Reference
+
+### CachedParallelProcessor
+
+```python
+CachedParallelProcessor(
+    process_func: Callable[[str], str],
+    max_retry_cnt: int = 3,
+    cache_filename: Optional[str] = None,
+    cache_file_free: bool = False
+)
+```
+
+#### Parameters
+
+- `process_func`: Function to process each input string
+- `max_retry_cnt`: Maximum retry attempts for failed processing (default: 3)
+- `cache_filename`: Path to cache file (default: "cache.jsonl")
+- `cache_file_free`: If True, use in-memory cache only (default: False)
+
+#### Methods
+
+- `run(input_lis: list[str], num_threads: int = 10)`: Process inputs in parallel
+- `get_result(input_lis: list[str]) -> list[str]`: Retrieve cached results
+
+## Development
+
+This project uses [uv](https://github.com/astral-sh/uv) for dependency management.
+
+### Setup Development Environment
+
+```bash
+# Clone the repository
+git clone https://github.com/cauyxy/yutilx.git
+cd yutilx
+
+# Install dependencies
+uv sync
+
+# Run tests
+uv run pytest
+
+# Format code
+uv run ruff format
+
+# Lint code
+uv run ruff check
+```
+
+### Building
+
+```bash
+# Build distribution packages
+uv build
+```
+
+## License
+
+MIT License - see [LICENSE](LICENSE) for details.
+
+## Author
+
+Xinyu Yang (<cauyxy@gmail.com>)
