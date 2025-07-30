@@ -1,0 +1,148 @@
+Metadata-Version: 2.4
+Name: caspyan
+Version: 0.2.1
+Summary: minimal Python implementation of Caspian SNN processor
+Author-email: Kevin Zhu <kzhu4@gmu.edu>
+License: MIT License
+        
+        Copyright (c) 2025 Kevin G Zhu
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+Project-URL: Homepage, https://github.com/pypa/sampleproject
+Project-URL: Issues, https://github.com/pypa/sampleproject/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: license-file
+
+# casPYan
+
+A Python implementation of the Caspian SNN processor simulator.
+
+## Installation
+
+```bash
+pip install caspyan
+```
+
+## Usage
+
+```python
+import casPYan
+```
+
+### Loading a Caspian network
+
+```python
+# load a network from a json file
+import json
+with open("network.json") as f:
+    network = json.load(f)
+
+# Create a processor and load the network into it
+processor = casPYan.Processor()
+processor.load_network(network)
+```
+
+### Setting up Encoders and Decoders
+
+```python
+import casPYan.ende.rate as ende
+
+# Create encoder and decoder arrays
+encoders = [
+    ende.RateEncoder(interval=10, domain=[0.0, 1.0])
+    for _ in processor.inputs
+]
+decoders = [
+    ende.RateDecoder(interval=10, domain=[0.0, 1.0])
+    for _ in processor.outputs
+]
+```
+
+### Running a Caspian processor
+
+```python
+input_vector = [0.5, 1.0]
+
+# encode to spikes
+spikes = [enc.get_spikes(x) for enc, x in zip(encoders, input_vector)]
+
+# apply spikes
+processor.apply_spikes(spikes)
+# run processor for 10 ticks
+processor.run(10)
+
+# decode spikes to floats
+data = [dec.decode(node.history) for dec, node in zip(decoders, processor.outputs)]
+```
+
+### Saving a Caspian network
+
+```python
+network = processor.to_tennlab()
+with open("network.json", "w") as f:
+    json.dump(network, f)
+```
+
+### Creating a Caspian network from scratch
+
+The low-level representation of a Caspian network is a list of nodes,
+along with a list of inputs and outputs that reference those nodes.
+
+```python
+nodes = []
+
+nodes.append(casPYan.Node(threshold=0.5, delay=0.0, leak=0.0))
+nodes.append(casPYan.Node(threshold=1.0, delay=0.0, leak=0.0))
+
+inputs = [nodes[0]]
+outputs = [nodes[1]]
+
+casPYan.connect(nodes[0], nodes[1], weight=0.5, delay=0)
+
+casPYan.run(nodes, 10)
+
+spikes = [node.history for node in outputs]
+
+# saving and loading node representations
+json_dict = casPYan.to_tennlab(nodes, inputs, outputs)
+# json_dict is a Python dict that can be saved to a json file
+# It is similar to what is loaded by casPYan.network_from_json
+nodes, inputs, outputs = casPYan.network_from_json(json_dict)
+```
+
+See the following files for more low-level functions:
+
+- `casPYan/node.py`
+- `casPYan/edge.py`
+- `casPYan/network.py`
+
+## Disclaimer
+
+This software does not guarantee the correctness of the simulation in relation to
+the original Caspian SNN simulator, Caspian processors, or any other software.
+
+casPYan is not a substitute for the original software, and it is not supported by
+the original authors.
+
+It should not be thought of as a port.
