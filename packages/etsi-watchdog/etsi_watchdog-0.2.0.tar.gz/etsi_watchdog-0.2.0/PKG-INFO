@@ -1,0 +1,80 @@
+Metadata-Version: 2.4
+Name: etsi-watchdog
+Version: 0.2.0
+Summary: Real-time drift detection for ML pipelines using PSI
+Author-email: Etsi <etsi.hq@gmail.com>
+License: MIT
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: pandas
+Requires-Dist: numpy
+
+# etsi-watchdog
+
+**Real-time Drift Detection for Machine Learning Pipelines**
+
+`etsi-watchdog` is a lightweight, pluggable Python library that detects distribution shifts between training and production data. It supports both numeric and categorical features using Population Stability Index (PSI), and allows users to trigger custom actions on drift detection.
+
+---
+
+## Installation
+
+Install the latest version:
+
+```bash
+pip install etsi-watchdog
+```
+---
+
+## Features
+
+``` bash
+Supports numeric and categorical features
+
+Uses PSI (Population Stability Index) for drift detection
+
+Safe binning and smoothing to avoid division errors
+
+Per-column drift scoring
+
+Customizable hooks via .on_drift() to trigger actions
+
+Simple and extensible API
+```
+
+---
+
+## Quick Start
+
+``` bash
+
+from etsi.watchdog import DriftMonitor
+import pandas as pd
+
+# Reference (training) data
+X_ref = pd.read_csv("train.csv")
+
+# Incoming (production) batch
+X_live = pd.read_csv("production.csv")
+
+# Initialize and monitor
+monitor = DriftMonitor(reference=X_ref)
+
+# Run check and handle drift
+monitor.watch(X_live, threshold=0.2).on_drift(lambda: print("Drift detected"))
+```
+
+---
+
+## Use Cases
+
+``` bash 
+Monitor batch data for concept drift
+
+Trigger model retraining workflows
+
+Add drift alerts to production pipelines
+
+Validate incoming data quality in staging or CI pipelines
+
+```
