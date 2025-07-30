@@ -1,0 +1,169 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ohlcv-to-orderbook"
+version = "0.1.0"
+description = "Pipeline per convertire dati OHLCV in orderbook L1 e viceversa"
+authors = [
+    {name = "Luca", email = "luca@example.com"}
+]
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.8"
+keywords = ["ohlcv", "orderbook", "trading", "financial-data", "quantitative"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Financial and Insurance Industry",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business :: Financial",
+    "Topic :: Scientific/Engineering",
+    "Typing :: Typed",
+]
+
+dependencies = [
+    "pandas>=2.0.0",
+    "numpy>=1.21.0",
+    "pyarrow>=10.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "mypy>=1.8.0",
+    "pandas-stubs>=2.0.0",
+    "types-pytz",
+]
+
+test = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+]
+
+typing = [
+    "mypy>=1.8.0",
+    "pandas-stubs>=2.0.0",
+    "types-pytz",
+]
+
+[project.urls]
+Homepage = "https://github.com/luca/ohlcv-to-orderbook"
+Repository = "https://github.com/luca/ohlcv-to-orderbook.git"
+Issues = "https://github.com/luca/ohlcv-to-orderbook/issues"
+
+[project.scripts]
+ohlcv-to-orderbook = "ohlcv_to_orderbook.ohlcv_to_orderbook:main"
+orderbook-to-ohlcv = "ohlcv_to_orderbook.orderbook_to_ohlcv:main"
+ohlcv-converter = "ohlcv_to_orderbook.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ohlcv_to_orderbook*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--verbose",
+    "--tb=short",
+    "--strict-markers",
+    "--strict-config",
+    "--durations=10",
+    "--color=yes",
+    "--disable-warnings",
+    "-ra",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+    "smoke: marks tests as smoke tests",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
+]
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+check_untyped_defs = true
+strict_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+show_error_codes = true
+namespace_packages = true
+explicit_package_bases = true
+
+[[tool.mypy.overrides]]
+module = "pyarrow.*"
+ignore_missing_imports = true
+
+[tool.coverage.run]
+source = ["ohlcv_to_orderbook"]
+omit = [
+    "*/tests/*",
+    "*/__pycache__/*",
+    "*/venv/*",
+    "*/.venv/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+known_first_party = ["ohlcv_to_orderbook"]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.14.1",
+    "pandas-stubs>=2.0.2.230605",
+    "types-pytz>=2024.2.0.20241221",
+]
