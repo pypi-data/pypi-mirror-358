@@ -1,0 +1,71 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "rongcloud-native-mcp-python"
+version = "0.1.4"
+description = "Rongcloud IM Service based on MCP Protocol (Rust SDK Wrapper)"
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [
+    { name = "Rongcloud", email = "imsdk@rongcloud.cn" }
+]
+dependencies = [
+    "mcp[cli]",
+    "uvicorn",
+    "pydantic",
+    "pydantic-settings",
+    "click>=8.0.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pip-tools"
+]
+
+[project.scripts]
+rongcloud-native-mcp-python = "src.server.server:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
+include = [
+    "src/**/*.py",
+    "src/lib/**/*.so",
+    "src/lib/**/*.dylib",
+    "src/lib/**/*.dll"
+]
+
+[tool.hatch.build]
+exclude = [
+    "src/imsdk/rust_db/",
+    "src/imsdk/rust_db/**/*",
+    "src/lib/rust_db/",
+    "src/lib/rust_db/**/*",
+    "**/*.db",
+    "**/*.db-shm",
+    "**/*.db-wal",
+    "**/*.kv",
+    ".vscode/",
+    ".idea/",
+    ".env",
+    ".venv",
+    ".DS_Store",
+    ".gitignore",
+    ".cursorrules",
+    "config.json",
+    "setup.py",
+    "main.py",
+    ".python-version",
+    "**/*.egg-info",
+    "**/*.egg-info/**/*"
+]
+artifacts = [
+    "src/imsdk/rust_db/**",
+    "src/lib/rust_db/**",
+    "readme_img/**"
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
