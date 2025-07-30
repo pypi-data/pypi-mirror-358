@@ -1,0 +1,63 @@
+[build-system]
+requires = ["setuptools"]
+
+[project]
+name = "steam-client"
+authors = [
+    {name = "William McAllister", email = "dev.garulf@gmail.com"}
+]
+version = "2.1.0-dev.0"
+description = "Steam client library for Python"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+]
+dependencies = [
+    'vdf>=3.4',
+    'pycrc>=0.10.0'
+]
+
+[project.urls]
+Source = "https://github.com/garulf/steam-client"
+
+[tool.setuptools]
+packages = ["steam_client"]
+
+[tool.setuptools.package-data]
+"steam_client" = ["py.typed"]
+
+[tool.bumpversion]
+current_version = "2.0.1-dev.0"
+parse = """(?x)
+    (?P<major>[0-9]+)
+    \\.(?P<minor>[0-9]+)
+    \\.(?P<patch>[0-9]+)
+    (?:
+        -(?P<label>dev|rc|release)
+        (?:.(?P<label_n>[0-9]+))?
+    )?
+"""
+serialize = [
+    "{major}.{minor}.{patch}-{label}.{label_n}",
+    "{major}.{minor}.{patch}",
+]
+search = "version = '{current_version}'"
+replace = "version = '{new_version}'"
+tag = true
+allow_dirty = false
+commit = true
+
+[tool.bumpversion.parts.label]
+optional_value = "release"
+values =[
+	"dev",
+	"rc",
+	"release",
+]
+
+[[tool.bumpversion.files]]
+filename = "pyproject.toml"
