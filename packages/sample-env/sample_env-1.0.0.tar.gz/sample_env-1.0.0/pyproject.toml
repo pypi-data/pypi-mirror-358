@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=70.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sample-env"
+requires-python = ">=3.10"
+authors = [{ name = "sandbox", email = "sandbox@sandbox.com.np" }]
+description = "A command line tool for generating sample env files from pydantic BaseSettings."
+readme = "README.md"
+license-files = ["LICENSE"]
+keywords = []
+classifiers = ["Programming Language :: Python :: 3"]
+dependencies = ["pydantic", "pydantic-settings", "pydantic-core"]
+dynamic = ["version"]
+
+[project.scripts]
+sample-env = "sample_env.__main__:main"
+
+[project.optional-dependencies]
+pre-commit = ["pre-commit"]
+build = ["build", "wheel", "setuptools"]
+
+[project.urls]
+Homepage = "https://github.com/sandbox-pokhara/sample-env"
+Issues = "https://github.com/sandbox-pokhara/sample-env/issues"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.package-dir]
+"sample_env" = "sample_env"
+
+[tool.setuptools.dynamic]
+version = { attr = "sample_env.__version__" }
+
+[tool.isort]
+profile = "black"
+line_length = 79
+force_single_line = true
+
+[tool.black]
+line-length = 79
+preview = true
+enable-unstable-feature = ["string_processing"]
+
+[tool.pyright]
+venvPath = "."
+venv = "venv"
+include = ["pydgenv", "test.py"]
+typeCheckingMode = "strict"
