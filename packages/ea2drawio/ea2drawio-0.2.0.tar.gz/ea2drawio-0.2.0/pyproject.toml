@@ -1,0 +1,30 @@
+# https://packaging.python.org/en/latest/specifications/pyproject-toml/
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ea2drawio"
+version = "0.2.0"
+description = "Convert EA diagrams to draw.io format"
+readme = "README.md"
+requires-python = ">=3.7"
+license = "MIT"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: Microsoft :: Windows"
+]
+
+dependencies = ["pywin32"]
+scripts = { "ea2drawio" = "ea2drawio.cli:main" }
+
+authors = [{name = "Andrey Kolesov", email = "never-ya@yandex.ru"}]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["ea2drawio*"]
+namespaces = false
+
+[tool.setuptools.package-data]
+ea2drawio = ["eadefault.json"]

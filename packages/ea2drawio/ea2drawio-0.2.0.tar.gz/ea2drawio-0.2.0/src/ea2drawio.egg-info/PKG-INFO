@@ -1,0 +1,46 @@
+Metadata-Version: 2.4
+Name: ea2drawio
+Version: 0.2.0
+Summary: Convert EA diagrams to draw.io format
+Author-email: Andrey Kolesov <never-ya@yandex.ru>
+License-Expression: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: Microsoft :: Windows
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pywin32
+Dynamic: license-file
+
+# ea2drawio
+
+A simple CLI tool to convert diagram from Sparx EA to Drawio file
+
+## Usage
+
+- select diagram in project tree in Sparx EA
+- run script ea2drawio
+- diagram will be created in current folder
+
+## Installation
+
+```bash
+pip install ea2drawio
+```
+
+# Requirements
+
+Python >= 3.7
+
+pywin32
+
+# Changelog
+
+## 0.2.0
+All default settings for Enterprise Architect elements have been moved to `eadefault.json`.  
+On the first run of the script, the file `eadefault.json` is created in the current directory.  
+It can be edited to suit your preferences.
+
+
+[![License](https://img.shields.io/github/license/AndyTakker/ea2drawio)](https://github.com/AndyTakker/ea2drawio)
+
