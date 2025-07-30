@@ -1,0 +1,30 @@
+{% load adminlte_tags static %}
+
+{% block scripts %}
+
+  {% block scripts_main %}
+
+    {# If in debug mode, load resources from localhost. Else, load from CDNs #}
+    {% if debug %}
+      {% block scripts_debug %}
+        {% include 'adminlte2/partials/_scripts/_scripts_debug.html' %}
+      {% endblock scripts_debug %}
+    {% else %}
+      {% block scripts_prod %}
+        {% include 'adminlte2/partials/_scripts/_scripts_prod.html' %}
+      {% endblock scripts_prod %}
+    {% endif %}
+
+  {% endblock scripts_main %}
+
+  {% block scripts_main_fixes %}
+    <!-- Extra Features and Fixes -->
+    <script src="{% static 'adminlte2_pdq/extra-features/extra-features.js' %}"></script>
+    <script src="{% static 'adminlte2_pdq/extra-features/header-breadcrumb-overlap-fix.js' %}"></script>
+  {% endblock scripts_main_fixes %}
+
+  {% block scripts_main_extra %}
+    <!-- Extra Libraries -->
+  {% endblock scripts_main_extra %}
+
+{% endblock scripts %}

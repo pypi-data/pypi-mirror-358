@@ -1,0 +1,30 @@
+{% load adminlte_tags static %}
+
+{% block styles %}
+
+  {% block styles_main %}
+
+    {# if in debug mode, load resources from localhost. Else, load from CDNs #}
+    {% if debug %}
+      {% block styles_debug %}
+        {% include 'adminlte2/partials/_styles/_styles_debug.html' %}
+      {% endblock styles_debug %}
+    {% else %}
+      {% block styles_prod %}
+        {% include 'adminlte2/partials/_styles/_styles_prod.html' %}
+      {% endblock styles_prod %}
+    {% endif %}
+
+  {% endblock styles_main %}
+
+  {% block styles_main_fixes %}
+    <!-- Extra Features and Fixes -->
+    <link rel="stylesheet" type="text/css" href="{% static 'adminlte2_pdq/extra-features/extra-features.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'adminlte2_pdq/extra-features/header-breadcrumb-overlap-fix.css' %}">
+  {% endblock styles_main_fixes %}
+
+  {% block styles_main_extra %}
+    <!-- Extra Libraries -->
+  {% endblock styles_main_extra %}
+
+{% endblock styles %}
