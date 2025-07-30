@@ -1,0 +1,41 @@
+[tool.poetry]
+name = "gallagher-restapi"
+version = "1.1.7"
+description = "Python library for Gallagher REST API"
+authors = ["Rami Mousleh <engrbm87@gmail.com>"]
+packages = [{ include = "gallagher_restapi" }]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+httpx = "^0.28.1"
+pytz = "^2025.2.0"
+dacite = "^1.9.2"
+
+
+[tool.poetry.group.dev.dependencies]
+types-pytz = "^2025.2.0"
+pytest = "8.4.1"
+pytest-asyncio = "^1.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+ignore = [
+    "E731", # do not assign a lambda expression, use a def
+]
+
+[tool.pylint."MESSAGES CONTROL"]
+disable = [
+    "invalid-name",                  # N815
+    "line-too-long",                 # E501, disabled globally
+    "too-many-arguments",
+    "too-many-lines",
+    "too-many-instance-attributes",
+    "too-many-public-methods",
+    "too-many-positional-arguments",
+    "too-many-branches",             # PLR0912
+    "redefined-builtin",             # A001
+    "protected-access",              # SLF001
+]
