@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "json-analyzer"
+version = "0.1.0"
+description = "Analyze, visualize, and explore JSON data from files or URLs"
+authors = [
+    { name="Muaaze Alsaied", email="muaaz.alsaied@gmail.com" }
+]
+dependencies = [
+    "rich",
+    "requests",
+    "matplotlib",
+    "numpy",
+]
+requires-python = ">=3.7"
+readme = "README.md"
+license = {file = "LICENSE"}
+
+[project.scripts]
+json_explorer = "json_explorer.main:main"
