@@ -1,0 +1,19 @@
+# Include all files in the package
+recursive-include my_package *
+recursive-include my_package/cie1 *
+recursive-include my_package/cie2 *
+recursive-include my_package/master *
+
+# Include specific file types if needed
+include *.txt
+include *.md
+include *.json
+include *.xml
+include *.html
+include *.css
+include *.js
+
+# Exclude unwanted files
+global-exclude *.pyc
+global-exclude __pycache__
+global-exclude .DS_Store

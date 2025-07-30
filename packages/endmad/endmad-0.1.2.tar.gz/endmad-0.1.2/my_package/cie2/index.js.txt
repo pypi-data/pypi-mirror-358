@@ -1,0 +1,2000 @@
+AlertDialog:
+
+main.kt:
+
+class MainActivity : AppCompatActivity() {
+
+    // Lateinit keyword means this variable will be initialized later, before use.
+    lateinit var showDialogMessage : Button
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // Sets the content view to the layout defined in activity_main.xml
+        setContentView(R.layout.activity_main)
+
+        // Find the button by its ID from the layout
+        showDialogMessage = findViewById(R.id.buttonDialogMessage)
+
+        // Set an OnClickListener for the button
+        showDialogMessage.setOnClickListener {
+            // Call the function to show the AlertDialog when the button is clicked
+            showAlertDialog()
+        }
+    }
+
+    /**
+     * Function to display an AlertDialog.
+     * It prompts the user if they want to change the button's text.
+     */
+    fun showAlertDialog() {
+        // Create an instance of AlertDialog.Builder
+        val alertDialog = AlertDialog.Builder(this@MainActivity)
+
+        // Set the title of the dialog
+        alertDialog.setTitle("Change")
+            // Set the message of the dialog
+            .setMessage("Do you want to change the text of the button?")
+            // Set an icon for the dialog.
+            // Using a default Android system icon as 'R.drawable.warning' might not exist by default.
+            // If you have a custom 'warning.png' or 'warning.xml', place it in 'res/drawable'.
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            // Set whether the dialog can be cancelled by touching outside it or pressing back button
+            .setCancelable(false)
+            // Set the Negative button (e.g., "No") and its click listener
+            .setNegativeButton("No", DialogInterface.OnClickListener {
+                    dialogInterface, which ->
+                // Dismiss the dialog when "No" is clicked
+                dialogInterface.cancel()
+                Toast.makeText(this, "Button text not changed.", Toast.LENGTH_SHORT).show()
+            })
+            // Set the Positive button (e.g., "Yes") and its click listener
+            .setPositiveButton("Yes", DialogInterface.OnClickListener {
+                    dialogInterface, which ->
+                // Change the text of the button to "Alert Dialog" when "Yes" is clicked
+                showDialogMessage.text = "Alert Dialog"
+                Toast.makeText(this, "Button text changed to 'Alert Dialog'.", Toast.LENGTH_SHORT).show()
+            })
+
+        // Create the AlertDialog object and show it
+        alertDialog.create().show()
+    }
+}
+
+
+
+
+xml:
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/myLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/buttonDialogMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show Dialog Message"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
+
+
+
+
+----------------------------------------------------------------
+
+ProgressBar:
+
+kt file:
+
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper // Import Looper for Handler
+import android.view.View
+import android.widget.Button
+import android.widget.ProgressBar
+import android.widget.TextView
+import android.support.v7.app.AppCompatActivity // Using android.support.v7.app.AppCompatActivity as requested
+
+class MainActivity : AppCompatActivity() {
+
+    private var progressBar: ProgressBar? = null
+    private var i = 0
+    private var txtView: TextView? = null
+    // Initialize Handler with Looper.getMainLooper() for UI thread operations
+    private val handler = Handler(Looper.getMainLooper())
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // Finding progressbar by its id and casting it to ProgressBar
+        progressBar = findViewById<ProgressBar>(R.id.progress_Bar)
+
+        // Finding textview by its id
+        txtView = findViewById<TextView>(R.id.text_view)
+
+        // Finding button by its id
+        val btn = findViewById<Button>(R.id.show_button)
+
+        // Handling click on button
+        btn.setOnClickListener {
+            // Before clicking the button, the progress bar will be invisible,
+            // so we have to change the visibility of the progress bar to visible.
+            progressBar!!.visibility = View.VISIBLE
+            i = progressBar!!.progress // Get current progress (should be 0 initially)
+
+            // Start a new thread for the progress simulation to avoid blocking the UI thread
+            Thread(Runnable {
+                // This loop will run until the value of i becomes 99
+                while (i < 100) {
+                    i += 1
+                    // Update the progress bar and display the current value on the UI thread
+                    handler.post(Runnable {
+                        progressBar!!.progress = i
+                        // Setting current progress to the textview
+                        txtView!!.text = "${i}/${progressBar!!.max}"
+                    })
+                    try {
+                        // Pause the thread to simulate work
+                        Thread.sleep(100)
+                    } catch (e: InterruptedException) {
+                        e.printStackTrace()
+                    }
+                }
+                // After the loop, set the visibility of the progressbar to invisible on the UI thread
+                handler.post {
+                    progressBar!!.visibility = View.INVISIBLE
+                    txtView!!.text = "Progress Complete!" // Optional: show completion message
+                }
+            }).start() // Start the new thread
+        }
+    }
+}
+
+
+
+xml file:
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ProgressBar
+        android:id="@+id/progress_Bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:indeterminate = "true"
+        android:max="100"
+        android:minWidth="200dp"
+        android:minHeight="50dp"
+        android:progress="0"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/progress_Bar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/show_button"
+        android:layout_width="191dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_view"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Progress Bar" />
+
+</RelativeLayout>
+
+
+
+--------------------------------------------------------------------------
+
+
+
+Canvas:
+
+
+kt:
+
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.OvalShape
+import android.graphics.drawable.shapes.RectShape
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.ImageView
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        val bitmap: Bitmap = Bitmap.createBitmap(700, 1000,
+            Bitmap.Config.ARGB_8888)
+        val canvas: Canvas = Canvas(bitmap)
+        var shapeDrawable: ShapeDrawable
+// rectangle positions
+        var left = 100
+        var top = 100
+        var right = 600
+        var bottom = 400
+
+// draw rectangle shape to canvas
+        shapeDrawable = ShapeDrawable(RectShape())
+        shapeDrawable.setBounds( left, top, right, bottom)
+        shapeDrawable.getPaint().setColor(Color.parseColor("#009944"))
+        shapeDrawable.draw(canvas)
+// draw oval shape to canvas
+        shapeDrawable = ShapeDrawable(OvalShape())
+        shapeDrawable.setBounds( 100, 500, 600, 800)
+        shapeDrawable.getPaint().setColor(Color.parseColor("#009191"))
+        shapeDrawable.draw(canvas)
+        val iv = findViewById<ImageView>(R.id.imageV)
+// now bitmap holds the updated pixels
+// set bitmap as background to ImageView
+
+        val pCircle = Paint()
+        pCircle.setColor(Color.BLACK)
+        canvas.drawCircle(30f, 30f, 30f, pCircle)
+        val pBackground = Paint()
+        pBackground.color = Color.RED
+        canvas.drawRect(450f, 450f, 500f, 500f, pBackground)
+        iv.background = BitmapDrawable(getResources(), bitmap)
+    }
+}
+
+
+
+xml:
+
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/imageV"
+        android:layout_width="315dp"
+        android:layout_height="526dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
+
+
+
+----------------------------------------------------------------
+
+
+animation:
+
+
+
+mainxml:
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/linearLayout"
+        android:gravity="center"
+        android:text="Mobile Application Development"
+        android:textSize="32sp"
+        android:textColor="@color/teal_200"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/fade_in"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Fade In"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/fade_out"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Fade Out"
+                android:textAllCaps="false" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/zoom_in"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Zoom In"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/zoom_out"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Zoom Out"
+                android:textAllCaps="false" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/slide_down"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Slide Down"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/slide_up"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Slide Up"
+                android:textAllCaps="false" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/bounce"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Bounce"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/rotate"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Rotate"
+                android:textAllCaps="false" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>
+
+
+res -> new -> android resource directory -> type= anim
+add new animation resource file
+
+
+bounce.xml:
+
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <translate
+        android:fromYDelta="100%"
+        android:toYDelta="-20%"
+        android:duration="300" />
+    <translate
+        android:startOffset="500"
+        android:fromYDelta="-20%"
+        android:toYDelta="10%"
+        android:duration="150" />
+    <translate
+        android:startOffset="1000"
+        android:fromYDelta="10%"
+        android:toYDelta="0"
+        android:duration="100" />
+</set>
+
+
+fad_in.xml:
+
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <alpha
+        android:duration="1000"
+        android:fromAlpha="0.1"
+        android:toAlpha="1.0" />
+</set>
+
+
+fade_out.xml:
+
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <alpha
+        android:duration="2000"
+        android:fillAfter="true"
+        android:fromAlpha="1.0"
+        android:toAlpha="0.1" />
+</set>
+
+
+slide_down.xml:
+
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <translate
+        android:duration="1000"
+        android:fromYDelta="-100%"
+        android:toYDelta="0" />
+</set>
+
+
+slide_up.xml:
+
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <translate
+        android:duration="1000"
+        android:fromYDelta="100%"
+        android:toYDelta="0" />
+</set>
+
+
+zoom_in.xml:
+
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <scale
+        android:duration="1000"
+        android:fromXScale="1"
+        android:fromYScale="1"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:toXScale="1.5"
+        android:toYScale="1.5" />
+</set>
+
+
+zoom_out.xml:
+
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <scale
+        android:duration="1000"
+        android:fromXScale="1.0"
+        android:fromYScale="1.0"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:toXScale="0.5"
+        android:toYScale="0.5" />
+</set>
+
+
+
+main kt.file 
+
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.view.animation.AnimationUtils
+import android.widget.Button
+import android.widget.TextView
+
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val textView = findViewById<TextView>(R.id.textView)
+
+        findViewById<Button>(R.id.fade_in).setOnClickListener {
+            val animation = AnimationUtils.loadAnimation(this, R.anim.fad_in)
+            textView.startAnimation(animation)
+        }
+
+        findViewById<Button>(R.id.fade_out).setOnClickListener {
+            val animation = AnimationUtils.loadAnimation(this, R.anim.fade_out)
+            textView.startAnimation(animation)
+        }
+
+        findViewById<Button>(R.id.zoom_in).setOnClickListener {
+            val animation = AnimationUtils.loadAnimation(this, R.anim.zoom_in)
+            textView.startAnimation(animation)
+        }
+
+        findViewById<Button>(R.id.zoom_out).setOnClickListener {
+            val animation = AnimationUtils.loadAnimation(this, R.anim.zoom_out)
+            textView.startAnimation(animation)
+        }
+
+        findViewById<Button>(R.id.slide_up).setOnClickListener {
+            val animation = AnimationUtils.loadAnimation(this, R.anim.slide_up)
+            textView.startAnimation(animation)
+        }
+
+        findViewById<Button>(R.id.slide_down).setOnClickListener {
+            val animation = AnimationUtils.loadAnimation(this, R.anim.slide_down)
+            textView.startAnimation(animation)
+        }
+
+        findViewById<Button>(R.id.bounce).setOnClickListener {
+            val animation = AnimationUtils.loadAnimation(this, R.anim.bounce)
+            textView.startAnimation(animation)
+        }
+
+        findViewById<Button>(R.id.rotate).setOnClickListener {
+            textView.animate().apply {
+                duration = 1000
+                rotationXBy(360f)
+            }.start()
+        }
+    }
+}
+
+
+
+
+----------------------------------------------------------------------------------------------
+
+
+
+contextMenu
+
+
+activitymain.xml:
+
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/B1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Context Menu"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
+
+
+java>new menu directory>new menu resource file named "menu_main.xml"
+
+
+
+menu_main.xml:
+
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/item1"
+        android:title="Open"
+        app:showAsAction="never"
+        />
+    <item android:id="@+id/item2"
+        android:title="Search"
+        app:showAsAction="never"
+        />
+    <item android:id="@+id/item3"
+        android:title="Exit"
+        app:showAsAction="never"
+        />
+</menu>
+
+
+
+
+main.kt:
+
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.support.v7.widget.PopupMenu
+import android.view.ContextMenu
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.widget.Button
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        val B1 = findViewById<Button>(R.id.B1)
+        registerForContextMenu(B1)
+        B1.setOnClickListener { v -> openContextMenu(v)}
+    }
+    override fun onCreateContextMenu(
+        menu: ContextMenu?,
+        v: View?,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+        menuInflater.inflate(R.menu.menu_main,menu)
+    }
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        when (item.itemId){
+            R.id.item1 -> Toast.makeText(this,"Open Selected",Toast.LENGTH_SHORT).show()
+            R.id.item2 -> Toast.makeText(this,"Search Selected",Toast.LENGTH_SHORT).show()
+            R.id.item3 -> Toast.makeText(this,"Exit Selected",Toast.LENGTH_SHORT).show()
+        }
+        return super.onContextItemSelected(item)
+    }
+}
+
+
+
+
+
+----------------------------------------------------------------------------------------
+
+
+OptionsMenu     
+
+java>new menu directory>new menu resource file named "menu_main.xml"
+
+
+
+
+main.xml:
+
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
+
+
+drawable-> new -> vector asset-> select clip art -> select icon -> name0 it properly
+
+menu_main.xml:
+
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/overflowMenu"
+        android:icon="@drawable/menu"
+        android:title=""
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/settings"
+                android:icon="@drawable/setting"
+                android:title="SETTINGS"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/about"
+                android:icon="@drawable/about"
+                android:title="ABOUT"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/exit"
+                android:icon="@drawable/exit"
+                android:title="EXIT"
+                app:showAsAction="never" />
+        </menu>
+    </item>
+</menu>
+
+
+
+main.kt :
+
+
+
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main,menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId){
+            R.id.about -> Toast.makeText(this,"About Selected",Toast.LENGTH_SHORT).show()
+            R.id.settings -> Toast.makeText(this,"Settings Selected",Toast.LENGTH_SHORT).show()
+            R.id.exit -> Toast.makeText(this,"Exit Selected",Toast.LENGTH_SHORT).show()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+}
+
+
+
+
+
+
+---------------------------------------------------------------------------------
+
+
+
+PopMenu          
+
+java>new menu directory>new menu resource file named "menu_main.xml"
+
+
+
+actvitymain.xml:
+
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/B1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Popup menu"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
+
+
+
+
+menu_main.xml:
+
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/item1"
+        android:title="Open"
+        app:showAsAction="never"
+        />
+    <item android:id="@+id/item2"
+        android:title="Search"
+        app:showAsAction="never"
+        />
+    <item android:id="@+id/item3"
+        android:title="Exit"
+        app:showAsAction="never"
+        />
+</menu>
+
+
+
+
+main.kt:
+
+
+
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.support.v7.widget.PopupMenu
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Button
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val B1 = findViewById<Button>(R.id.B1)
+        B1.setOnClickListener {
+            val popupMenu: PopupMenu = PopupMenu(this, B1)
+            popupMenu.menuInflater.inflate(R.menu.menu_main, popupMenu.menu)
+
+            // 02-05-2025 Rashmi R, iSE 23 (This line appears to be a comment/note, not code)
+
+            popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.item1 ->
+                        Toast.makeText(
+                            this@MainActivity,
+                            "You Clicked : " + item.title,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    R.id.item2 ->
+                        Toast.makeText(
+                            this@MainActivity,
+                            "You Clicked : " + item.title,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    R.id.item3 ->
+                        Toast.makeText(
+                            this@MainActivity,
+                            "You Clicked : " + item.title,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                }
+                true
+            })
+            popupMenu.show()
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------
+
+
+fragments
+
+java > fragment > blankfragment > automatic kt and its corresponding xml created
+
+
+
+main.xml:
+
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="410dp"
+        android:layout_height="399dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/blueButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:layout_weight="1"
+        android:text="Fragment 1"
+        android:backgroundTint="#2196F3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragmentContainer"
+        tools:ignore="ExtraText" />
+
+    <Button
+        android:id="@+id/yellowButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:layout_weight="1"
+        android:text="Fragment 2"
+        android:backgroundTint="#FFEB3B"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragmentContainer" />
+
+</android.support.constraint.ConstraintLayout>
+
+
+
+
+fragment_1.xml:
+
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#2196F3"
+    tools:context=".fragment_1">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/hello_blank_fragment" />
+
+</FrameLayout>
+
+
+fragment_2.xml:
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFEB3B"
+    tools:context=".fragment_2">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/hello_blank_fragment" />
+
+</FrameLayout>
+
+
+
+
+
+main.kt:
+
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.widget.Button
+
+@Suppress("DEPRECATION")
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+//        lateinit var fragmentManager: FragmentManager
+        var blueButton = findViewById<Button>(R.id.blueButton);
+        var yellowButton = findViewById<Button>(R.id.yellowButton);
+//        fragmentManager = getSupportFragmentManager();
+
+        blueButton.setOnClickListener {
+            loadFragment(fragment_1())
+        }
+
+        yellowButton.setOnClickListener {
+            loadFragment(fragment_2())
+        }
+    }
+
+    private fun loadFragment(fragment: Fragment) {
+        // Use supportFragmentManager directly
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+}
+
+
+
+fragment_1.kt:
+
+import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+
+// TODO: Rename parameter arguments, choose names that match
+// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+private const val ARG_PARAM1 = "param1"
+private const val ARG_PARAM2 = "param2"
+
+/**
+ * A simple [Fragment] subclass.
+ * Use the [fragment_1.newInstance] factory method to
+ * create an instance of this fragment.
+ */
+class fragment_1 : Fragment() {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_1, container, false)
+    }
+}
+
+
+fragment_2.kt:
+
+
+import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+
+private const val ARG_PARAM1 = "param1"
+private const val ARG_PARAM2 = "param2"
+
+class fragment_2 : Fragment() {
+    // TODO: Rename and change types of parameters
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_2, container, false)
+    }
+}
+
+
+
+
+
+
+
+----------------------------------------------------------------------------------------------
+
+
+
+shared1:
+
+main.xml:
+
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+    <EditText
+        android:id="@+id/ed1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:ems="10"
+        android:hint="Username"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <EditText
+        android:id="@+id/ed2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ed1" />
+
+    <Button
+        android:id="@+id/b1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="95dp"
+        android:text="Save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.235"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ed2" />
+    <Button
+        android:id="@+id/b2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="95dp"
+        android:text="Load"
+        app:layout_constraintStart_toEndOf="@+id/b1"
+        app:layout_constraintTop_toBottomOf="@+id/ed2" />
+    <Button
+        android:id="@+id/b4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="68dp"
+        android:text="DELETE"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/b2" />
+</android.support.constraint.ConstraintLayout>
+
+
+main.kt:
+
+import android.content.Context
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val name = findViewById<EditText>(R.id.ed1)
+        val password = findViewById<EditText>(R.id.ed2)
+        val save = findViewById<Button>(R.id.b1)
+        val load = findViewById<Button>(R.id.b2)
+        val del = findViewById<Button>(R.id.b4)
+
+        // Instantiate SharedPreferences
+        val sharedPref = getSharedPreferences("addName", Context.MODE_PRIVATE)
+        val edit = sharedPref.edit()
+
+        // Save data
+        save.setOnClickListener {
+            edit.putString("name", name.text.toString())
+            edit.putString("password", password.text.toString())
+            edit.commit()
+            Toast.makeText(this, "Data Saved", Toast.LENGTH_LONG).show()
+        }
+
+        // Load data
+        load.setOnClickListener {
+            val getName = sharedPref.getString("name", "default value")
+            val getPass = sharedPref.getString("password", "default value")
+            Toast.makeText(this, "$getName $getPass", Toast.LENGTH_LONG).show()
+        }
+
+        // Delete data
+        del.setOnClickListener {
+            edit.clear()
+            edit.commit()
+            Toast.makeText(this, "Data Cleared", Toast.LENGTH_SHORT).show()
+        }
+    }
+}
+
+
+
+
+
+
+
+
+----------------------------------------------------------------------------------------------
+
+
+
+shared2
+
+
+
+main.xml:
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    tools:ignore="HardcodedText">
+
+    <TextView
+        android:id="@+id/textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:text="Shared Preferences"
+        android:textColor="@android:color/black"
+        android:textSize="24sp" />
+
+    <EditText
+        android:id="@+id/ed1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textview"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Enter your Name"
+        android:padding="10dp" />
+
+    <EditText
+        android:id="@+id/ed2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ed1"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Enter your Age"
+        android:inputType="number"
+        android:padding="10dp" />
+
+
+
+</RelativeLayout>
+
+
+
+
+main.kt:
+
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.EditText
+
+
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var name: EditText
+    private lateinit var age: EditText
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        name = findViewById(R.id.ed1)
+        age = findViewById(R.id.ed2)
+    }
+
+    // Fetch the stored data in onResume()
+    // Because this is what will be called when the app opens again
+    override fun onResume() {
+        super.onResume()
+
+        // Fetching the stored data from SharedPreferences
+        val sh = getSharedPreferences("MySharedPref", MODE_PRIVATE)
+
+        val s1 = sh.getString("name", "")
+        val a = sh.getInt("age", 0)
+
+        // Setting the fetched data in the EditTexts
+        name.setText(s1)
+        age.setText(a.toString())
+    }
+
+    // Store the data in SharedPreferences in the onPause()
+    // This method is called when the user closes the application
+    override fun onPause() {
+        super.onPause()
+
+        // Creating a SharedPreferences object
+        val sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE)
+        val myEdit = sharedPreferences.edit()
+
+        // Writing user data to SharedPreferences
+        myEdit.putString("name", name.text.toString())
+
+        // Safely parsing age input
+        val ageText = age.text.toString()
+        val ageInt = ageText.toIntOrNull() ?: 0
+        myEdit.putInt("age", ageInt)
+
+        // Applying changes
+        myEdit.apply()
+    }
+}
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------------------------
+
+database sqlit 
+
+right click your package (com.example.database) -> new -> kotlin class/file -> file -> Databasehelper.kt
+
+
+layout->dialog_update_student.xml
+
+
+
+
+main.xml:
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <EditText
+        android:id="@+id/et_firstName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="First Name"
+        android:inputType="textPersonName"
+        android:layout_marginBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/et_lastName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Last Name"
+        android:inputType="textPersonName"
+        android:layout_marginBottom="16dp"/>
+
+    <Button
+        android:id="@+id/btn_addStudent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ADD STUDENT"
+        android:layout_marginBottom="8dp"/>
+
+    <Button
+        android:id="@+id/btn_deleteStudent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DELETE STUDENT"
+        android:layout_marginBottom="8dp"/>
+
+    <Button
+        android:id="@+id/btn_updateStudent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="UPDATE STUDENT"
+        android:layout_marginBottom="8dp"/>
+
+    <Button
+        android:id="@+id/btn_listStudents"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="LIST STUDENTS"/>
+
+
+</LinearLayout>
+
+
+
+
+
+dialog_update_student.xml:
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/et_newFirstName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="New First Name"
+        android:inputType="textPersonName"
+        android:layout_marginBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/et_newLastName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="New Last Name"
+        android:inputType="textPersonName"/>
+
+</LinearLayout>
+
+
+
+
+main.kt: 
+
+
+import android.content.DialogInterface
+import android.database.Cursor
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.support.v7.app.AlertDialog
+import android.view.LayoutInflater
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var etFirstName: EditText
+    private lateinit var etLastName: EditText
+    private lateinit var btnAddStudent: Button
+    private lateinit var btnDeleteStudent: Button
+    private lateinit var btnUpdateStudent: Button
+    private lateinit var btnListStudents: Button
+    private lateinit var databaseHelper: DatabaseHelper
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        etFirstName = findViewById(R.id.et_firstName)
+        etLastName = findViewById(R.id.et_lastName)
+        btnAddStudent = findViewById(R.id.btn_addStudent)
+        btnDeleteStudent = findViewById(R.id.btn_deleteStudent)
+        btnUpdateStudent = findViewById(R.id.btn_updateStudent)
+        btnListStudents = findViewById(R.id.btn_listStudents)
+
+        databaseHelper = DatabaseHelper(this)
+
+        // Add Student
+        btnAddStudent.setOnClickListener {
+            val firstName = etFirstName.text.toString().trim()
+            val lastName = etLastName.text.toString().trim()
+
+            if (firstName.isEmpty() || lastName.isEmpty()) {
+                Toast.makeText(this, "Please enter both First Name and Last Name", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (databaseHelper.addStudent(firstName, lastName)) {
+                Toast.makeText(this, "Student added successfully!", Toast.LENGTH_SHORT).show()
+                etFirstName.text.clear()
+                etLastName.text.clear()
+            } else {
+                Toast.makeText(this, "Failed to add student. Maybe student already exists or an error occurred.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // Delete Student
+        btnDeleteStudent.setOnClickListener {
+            val firstName = etFirstName.text.toString().trim()
+
+            if (firstName.isEmpty()) {
+                Toast.makeText(this, "Please enter the First Name to delete", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (databaseHelper.deleteStudent(firstName)) {
+                Toast.makeText(this, "Student deleted successfully!", Toast.LENGTH_SHORT).show()
+                etFirstName.text.clear()
+                etLastName.text.clear()
+            } else {
+                Toast.makeText(this, "Failed to delete student. Student not found or an error occurred.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // Update Student
+        btnUpdateStudent.setOnClickListener {
+            val oldFirstName = etFirstName.text.toString().trim()
+
+            if (oldFirstName.isEmpty()) {
+                Toast.makeText(this, "Please enter the First Name of the student to update", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (!databaseHelper.studentExists(oldFirstName)) {
+                Toast.makeText(this, "Student with this First Name does not exist.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // Show an alert dialog to get the new name
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Update Student Name")
+
+            // Set up the input fields
+            val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_update_student, null)
+            val newFirstNameEt = dialogView.findViewById<EditText>(R.id.et_newFirstName)
+            val newLastNameEt = dialogView.findViewById<EditText>(R.id.et_newLastName)
+            builder.setView(dialogView)
+
+            // Set up the buttons
+            builder.setPositiveButton("Update") { dialog: DialogInterface, _: Int ->
+                val newFirstName = newFirstNameEt.text.toString().trim()
+                val newLastName = newLastNameEt.text.toString().trim()
+
+                if (newFirstName.isEmpty() || newLastName.isEmpty()) {
+                    Toast.makeText(this, "New First Name and Last Name cannot be empty.", Toast.LENGTH_SHORT).show()
+                    return@setPositiveButton
+                }
+
+                if (databaseHelper.updateStudent(oldFirstName, newFirstName, newLastName)) {
+                    Toast.makeText(this, "Student updated successfully!", Toast.LENGTH_SHORT).show()
+                    etFirstName.text.clear()
+                    etLastName.text.clear()
+                } else {
+                    Toast.makeText(this, "Failed to update student. An error occurred.", Toast.LENGTH_SHORT).show()
+                }
+            }
+            builder.setNegativeButton("Cancel") { dialog: DialogInterface, _: Int ->
+                dialog.cancel()
+            }
+
+            builder.show()
+        }
+
+        // List Students
+        btnListStudents.setOnClickListener {
+            val res = databaseHelper.getAllStudents()
+            if (res == null || res.count == 0) {
+                // Show message
+                showMessage("Error", "No students found")
+                return@setOnClickListener
+            }
+
+            val buffer = StringBuffer()
+            while (res.moveToNext()) {
+                buffer.append("ID: ${res.getString(0)}\n")
+                buffer.append("First Name: ${res.getString(1)}\n")
+                buffer.append("Last Name: ${res.getString(2)}\n\n")
+            }
+
+            // Show all data
+            showMessage("Student Data", buffer.toString())
+            res.close() // Close the cursor
+        }
+    }
+
+    private fun showMessage(title: String, message: String) {
+        val builder = AlertDialog.Builder(this)
+        builder.setCancelable(true)
+        builder.setTitle(title)
+        builder.setMessage(message)
+        builder.show()
+    }
+}
+
+
+
+
+
+
+
+databasehelper.kt:
+
+
+import android.content.ContentValues
+import android.content.Context
+import android.database.Cursor
+import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
+
+class DatabaseHelper(context: Context) :
+    SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+
+    companion object {
+        private const val DATABASE_NAME = "StudentDB.db"
+        private const val DATABASE_VERSION = 1
+
+        const val TABLE_STUDENTS = "students"
+        const val COL_ID = "id"
+        const val COL_FIRST_NAME = "first_name"
+        const val COL_LAST_NAME = "last_name"
+
+        // SQL query to create the table
+        private const val CREATE_TABLE_STUDENTS =
+            "CREATE TABLE $TABLE_STUDENTS (" +
+                    "$COL_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "$COL_FIRST_NAME TEXT," +
+                    "$COL_LAST_NAME TEXT" +
+                    ")"
+    }
+
+    override fun onCreate(db: SQLiteDatabase) {
+        db.execSQL(CREATE_TABLE_STUDENTS)
+    }
+
+    override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
+        // Drop older table if existed
+        db.execSQL("DROP TABLE IF EXISTS $TABLE_STUDENTS")
+        // Create tables again
+        onCreate(db)
+    }
+
+    // --- CRUD Operations ---
+
+    // Add a new student
+    fun addStudent(firstName: String, lastName: String): Boolean {
+        val db = this.writableDatabase
+        val values = ContentValues().apply {
+            put(COL_FIRST_NAME, firstName)
+            put(COL_LAST_NAME, lastName)
+        }
+
+        val result = db.insert(TABLE_STUDENTS, null, values)
+        db.close()
+        return result != -1L // Returns true if data inserted successfully, false otherwise
+    }
+
+    // Delete a student by first name
+    fun deleteStudent(firstName: String): Boolean {
+        val db = this.writableDatabase
+        val result = db.delete(
+            TABLE_STUDENTS,
+            "$COL_FIRST_NAME = ?",
+            arrayOf(firstName)
+        )
+        db.close()
+        return result > 0 // Returns true if one or more rows were deleted
+    }
+
+    // Update a student's name
+    fun updateStudent(oldFirstName: String, newFirstName: String, newLastName: String): Boolean {
+        val db = this.writableDatabase
+        val values = ContentValues().apply {
+            put(COL_FIRST_NAME, newFirstName)
+            put(COL_LAST_NAME, newLastName)
+        }
+
+        val result = db.update(
+            TABLE_STUDENTS,
+            values,
+            "$COL_FIRST_NAME = ?",
+            arrayOf(oldFirstName)
+        )
+        db.close()
+        return result > 0 // Returns true if one or more rows were updated
+    }
+
+    // Get all students
+    fun getAllStudents(): Cursor? {
+        val db = this.readableDatabase
+        return db.rawQuery("SELECT * FROM $TABLE_STUDENTS", null)
+    }
+
+    // Check if a student exists by first name
+    fun studentExists(firstName: String): Boolean {
+        val db = this.readableDatabase
+        val cursor = db.query(
+            TABLE_STUDENTS,
+            arrayOf(COL_ID),
+            "$COL_FIRST_NAME = ?",
+            arrayOf(firstName),
+            null, null, null
+        )
+        val exists = cursor.count > 0
+        cursor.close()
+        db.close()
+        return exists
+    }
+}
+
+
+
+--------------------------------------------------------------------------------------------
+
+
+implicit and explicit
+
+
+activitymain.xml:
+
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/ExplicitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="400dp"
+        android:layout_marginTop="88dp"
+        android:text="Explicit Intents"
+        android:textAllCaps="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.455"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:id="@+id/B1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="144dp"
+        android:text="Implicit Intents"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ExplicitButton" />
+
+</android.support.constraint.ConstraintLayout>
+
+
+
+
+
+second.xml:
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".secondactivity">
+    <TextView
+        android:id="@+id/resultTv"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:text="helllo"
+        android:textColor="#000"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>
+
+
+
+mainActivity.kt:
+
+import android.content.Intent
+import android.net.Uri
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import android.widget.Button
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // Explicit Intent
+        val explicitButton = findViewById<Button>(R.id.ExplicitButton)
+        explicitButton.setOnClickListener {
+            Toast.makeText(this, "Explicit Intent", Toast.LENGTH_SHORT).show()
+            val explicitIntent = Intent(this, secondactivity::class.java)
+            startActivity(explicitIntent)
+        }
+
+        // Implicit Intent
+        val url = "https://www.google.com"
+        val ib = findViewById<Button>(R.id.B1)
+        ib.setOnClickListener {
+            val implicitIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(implicitIntent)
+        }
+    }
+}
+
+
+
+
+secondActivity.kt:
+
+import android.content.Intent
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Button
+
+class secondactivity:AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.second)
+
+//Explicit Intent
+
+    }
+}
+
+
+
+
+
+
+---------------------------------------------------------------------------------------------
+
+
+
+only explicit 
+
+
+
+
+Saving content in another file
+
+
+add this in manifest before closing of application
+
+<activity android:name=".SecondActivity" />
+
+
+
+
+
+activitymain.xml:
+
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <EditText
+        android:id="@+id/nameEt"
+        android:hint="Enter Name"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/emailEt"
+        android:hint="Enter Email"
+        android:inputType="textEmailAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/phoneEt"
+        android:hint="Enter Phone"
+        android:inputType="phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/saveBtn"
+        android:text="Save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
+
+
+
+activity_second.xml:
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SecondActivity">
+    <TextView
+        android:id="@+id/resultTv"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>
+
+
+
+
+mainactivity.kt:
+
+
+import android.content.Intent
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val nameEt = findViewById<EditText>(R.id.nameEt)
+        val emailEt = findViewById<EditText>(R.id.emailEt)
+        val phoneEt = findViewById<EditText>(R.id.phoneEt)
+        val saveBtn = findViewById<Button>(R.id.saveBtn)
+
+        saveBtn.setOnClickListener {
+            val name = nameEt.text.toString()
+            val email = emailEt.text.toString()
+            val phone = phoneEt.text.toString()
+
+            val intent = Intent(this, SecondActivity::class.java)
+            intent.putExtra("Name", name)
+            intent.putExtra("Email", email)
+            intent.putExtra("Phone", phone)
+            startActivity(intent)
+        }
+    }
+}
+
+
+
+
+secondactivity.kt:
+
+import android.content.Intent
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import android.widget.Button
+import android.widget.TextView
+
+class SecondActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_second)
+//get data from intent
+        val intent = intent
+        val name = intent.getStringExtra("Name")
+        val email = intent.getStringExtra("Email")
+        val phone = intent.getStringExtra("Phone")
+//textview
+        val resultTv = findViewById<TextView>(R.id.resultTv)
+//setText
+        resultTv.text = "Name: "+name+"\nEmail: "+email+"\nPhone: "+phone
+    }
+}

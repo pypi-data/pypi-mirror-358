@@ -1,0 +1,96 @@
+
++ --------------------------------------------------------------+         
+|   this code is for image q1.png                               |
+|                                                               |
++ --------------------------------------------------------------+ 
+
+
+=============================================
+activity_main.xml
+=============================================
+
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.example.cie3_custom_shapes.MyCanvasView
+
+        android:id="@+id/customCanvas"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</FrameLayout>
+
+=============================================
+MainActivity.kt
+=============================================
+
+package com.example.cie3_custom_shapes
+
+import android.app.Activity
+import android.os.Bundle
+
+class MainActivity : Activity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main) // Set the layout with the custom view
+    }
+}
+
+=============================================
+MyCanvasView.xml
+=============================================
+
+
+package com.example.cie3_custom_shapes
+
+import android.content.Context
+import android.graphics.*
+import android.util.AttributeSet
+import android.view.View
+
+class MyCanvasView(context: Context, attrs: AttributeSet) : View(context, attrs) {
+
+    private val redPaint = Paint().apply {
+        color = Color.RED
+        style = Paint.Style.FILL
+    }
+
+    private val bluePaint = Paint().apply {
+        color = Color.BLUE
+        style = Paint.Style.FILL
+    }
+
+    private val greenPaint = Paint().apply {
+        color = Color.GREEN
+        style = Paint.Style.FILL
+    }
+
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
+
+        // Red Squares
+        canvas.drawRect(50f, 100f, 100f, 150f, redPaint)
+        canvas.drawRect(100f, 250f, 150f, 300f, redPaint)
+        canvas.drawRect(50f, 400f, 100f, 450f, redPaint)
+
+        // Blue Circles
+        canvas.drawCircle(150f, 125f, 25f, bluePaint)
+        canvas.drawCircle(150f, 275f, 25f, bluePaint)
+        canvas.drawCircle(150f, 425f, 25f, bluePaint)
+
+        // Green Triangles
+        drawTriangle(canvas, 250f, 100f, greenPaint)
+        drawTriangle(canvas, 350f, 100f, greenPaint)
+    }
+
+    private fun drawTriangle(canvas: Canvas, x: Float, y: Float, paint: Paint) {
+        val path = Path()
+        path.moveTo(x, y)                // Top point
+        path.lineTo(x - 30f, y + 50f)    // Bottom-left
+        path.lineTo(x + 30f, y + 50f)    // Bottom-right
+        path.close()
+        canvas.drawPath(path, paint)
+    }
+}

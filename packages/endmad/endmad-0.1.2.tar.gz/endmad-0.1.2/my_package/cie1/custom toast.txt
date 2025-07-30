@@ -1,0 +1,93 @@
+Custom Toast
+
+
+activity.xml:
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:padding="12dp"
+    android:background="@drawable/ic_launcher_background"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/toast_icon"
+        android:src="@drawable/img"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="8dp" />
+
+    <TextView
+        android:id="@+id/toast_text"
+        android:text="Custom Toast!"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>
+
+
+
+
+toast_custom.xml:
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:padding="12dp"
+    android:background="@drawable/ic_launcher_background"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/toast_icon"
+        android:src="@drawable/img"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="8dp" />
+
+    <TextView
+        android:id="@+id/toast_text"
+        android:text="Custom Toast!"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>
+
+
+
+kt file:
+
+package com.example.test1
+
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.widget.TextView
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        showCustomToast("Toast Test!")
+    }
+
+    private fun showCustomToast(message: String) {
+        val inflater = layoutInflater
+        val layout = inflater.inflate(R.layout.toast_custom, null)
+
+        val textView = layout.findViewById<TextView>(R.id.toast_text)
+        textView.text = message
+
+        val toast = Toast(applicationContext)
+        toast.view = layout
+        toast.duration = Toast.LENGTH_SHORT
+        toast.setGravity(Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL, 0, 100)
+        toast.show()
+    }
+}

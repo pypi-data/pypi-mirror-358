@@ -1,0 +1,72 @@
++ --------------------------------------------------------------+         
+|   this code is for image button_in_center.png                 |
+|                                                               |
++ --------------------------------------------------------------+ 
+
+--------------------------------------------
+activity_main.xml
+---------------------------------------------
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context=".MainActivity">
+
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="177dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="#FFBB86FC"
+        android:text="12334567890" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="177dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button3"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="22dp"
+        android:background="#FF018786"
+        android:text="cancel it" />
+</RelativeLayout>
+
+
+--------------------------------------------
+MainActivity.kt
+---------------------------------------------
+
+import android.app.Activity
+import android.os.Bundle
+import android.view.View
+import android.widget.Button
+import android.widget.Toast
+
+class MainActivity : Activity() {
+
+    private lateinit var button3: Button
+    private lateinit var button4: Button
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        button3 = findViewById(R.id.button3)
+        button4 = findViewById(R.id.button4)
+
+        // When button3 is clicked
+        button3.setOnClickListener {
+            Toast.makeText(this, "Number: ${button3.text}", Toast.LENGTH_SHORT).show()
+        }
+
+        // When button4 is clicked (cancel it)
+        button4.setOnClickListener {
+            button3.text = ""
+            Toast.makeText(this, "Cancelled!", Toast.LENGTH_SHORT).show()
+        }
+    }
+}

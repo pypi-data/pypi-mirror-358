@@ -1,0 +1,80 @@
++ --------------------------------------------------------------+         
+|   this code is for image add_2_numbers.png                    |
+|                                                               |
++ --------------------------------------------------------------+ 
+
+
+
+--------------------------------------------
+activity_main.xml
+---------------------------------------------
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+
+    <EditText
+        android:id="@+id/num1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:hint="Number 1"
+        tools:layout_editor_absoluteX="98dp"
+        tools:layout_editor_absoluteY="111dp" />
+
+    <EditText
+        android:id="@+id/num2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:hint="Number 2"
+        tools:layout_editor_absoluteX="100dp"
+        tools:layout_editor_absoluteY="177dp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="sum"
+        android:text="Add" />
+</LinearLayout>
+
+
+
+--------------------------------------------
+MainActivity.kt
+---------------------------------------------
+
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.view.View
+import android.widget.EditText
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+    var summ=0
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+    }
+
+    fun sum(view: View) {
+        val s1=findViewById<EditText>(R.id.num1)
+        val s2=findViewById<EditText>(R.id.num2)
+        val num1=s1.text.toString().toIntOrNull() ?:0
+        val num2=s2.text.toString().toIntOrNull() ?:0
+
+        val sum=num1+num2
+        Toast.makeText(this, " sum : $sum ",Toast.LENGTH_SHORT).show()
+    }
+}

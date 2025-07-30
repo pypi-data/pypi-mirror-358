@@ -1,0 +1,177 @@
+
++ --------------------------------------------------------------+         
+|   this code is for image RadioButton.png                      |
+|                                                               |
++ --------------------------------------------------------------+ 
+
+
+==================================================
+MainActivity.kt
+==================================================
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.view.View
+import android.widget.Button
+import android.widget.CheckBox
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+    private lateinit var java: RadioButton
+
+    private lateinit var c1: RadioButton
+
+    private lateinit var python: RadioButton
+
+    private lateinit var c: RadioButton
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+
+        super.onCreate(savedInstanceState)
+
+        setContentView(R.layout.activity_main)
+
+        java = findViewById(R.id.java)
+
+        c1 = findViewById(R.id.c1)
+
+        python = findViewById(R.id.python)
+
+        c = findViewById(R.id.c)
+
+    }
+
+    fun onRadioClick(view: View) {
+
+        val checked = (view as RadioButton).isChecked
+
+        var str = ""
+
+        when (view.id) {
+
+            R.id.java -> if (checked) str = "Java Selected"
+
+            R.id.c1 -> if (checked) str = "C++ Selected"
+
+            R.id.python -> if (checked) str = "Python Selected"
+
+            R.id.c -> if (checked) str = "C Selected"
+
+        }
+
+        Toast.makeText(this, str, Toast.LENGTH_LONG).show()
+
+    }
+
+}
+======================================================================
+activity_main.xml 
+=================================================================
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+    <TextView
+
+        android:id="@+id/textView"
+
+        android:layout_width="128dp"
+
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentStart="true"
+
+        android:layout_alignParentTop="true"
+
+        android:layout_alignParentEnd="true"
+
+        android:layout_alignParentBottom="true"
+
+        android:layout_marginStart="49dp"
+
+        android:layout_marginTop="96dp"
+
+        android:layout_marginEnd="234dp"
+
+        android:layout_marginBottom="616dp"
+
+        android:text="Select your course" />
+
+    <RadioGroup
+
+        android:layout_width="274dp"
+
+        android:layout_height="307dp"
+
+        android:layout_alignParentStart="true"
+
+        android:layout_alignParentTop="true"
+
+        android:layout_alignParentEnd="true"
+
+        android:layout_alignParentBottom="true"
+
+        android:layout_marginStart="49dp"
+
+        android:layout_marginTop="147dp"
+
+        android:layout_marginEnd="88dp"
+
+        android:layout_marginBottom="277dp">
+        <RadioButton
+
+            android:id="@+id/java"
+
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+
+            android:text="Java"
+
+            android:onClick="onRadioClick"/>
+
+        <RadioButton
+
+            android:id="@+id/c1"
+
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+
+            android:text="C++"
+
+            android:onClick="onRadioClick"/>
+
+        <RadioButton
+
+            android:id="@+id/python"
+
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+
+            android:text="Python"
+
+            android:onClick="onRadioClick"/>
+
+        <RadioButton
+
+            android:id="@+id/c"
+
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+
+            android:text="C"
+
+            android:onClick="onRadioClick"/>
+
+    </RadioGroup>
+
+</RelativeLayout>

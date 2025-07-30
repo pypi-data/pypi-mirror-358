@@ -1,0 +1,55 @@
+TimePicker
+
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TimePicker
+        android:id="@+id/tp1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginEnd="31dp"
+        android:layout_marginBottom="150dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+
+package com.example.test3
+
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import android.widget.TimePicker
+import android.widget.Toast
+
+@Suppress("NAME_SHADOWING")
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        val tp=findViewById<TimePicker>(R.id.tp1)
+        tp.setOnTimeChangedListener{_,hour,minute->
+            val am_pm=""
+            val hour=if(hour<10) "0" + hour else hour
+            val min=if(minute<10) "0" +minute else minute
+            val msg="Time is: + $hour : $min $am_pm"
+            Toast.makeText(this@MainActivity,msg,Toast.LENGTH_SHORT).show()
+        }
+
+    }
+}

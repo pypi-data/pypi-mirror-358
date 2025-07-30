@@ -1,0 +1,49 @@
+DatePicker
+
+
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <DatePicker
+        android:id="@+id/element1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginEnd="31dp"
+        android:layout_marginBottom="150dp" />
+
+</RelativeLayout>
+
+
+
+-------------------------------------------------------------------------------------------------------------------------
+
+package com.example.test1
+
+import android.os.Build
+import android.os.Bundle
+import android.support.annotation.RequiresApi
+import android.support.v7.app.AppCompatActivity
+import android.widget.DatePicker
+import android.widget.Toast
+
+@Suppress("NAME_SHADOWING")
+class MainActivity : AppCompatActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        val picker1=findViewById<DatePicker>(R.id.element1)
+        picker1.setOnDateChangedListener { picker1, i, i2, i3 -> val i2 = i2 + 1
+            Toast.makeText(applicationContext,"Date is: $i3/$i2/$i",Toast.LENGTH_SHORT).show()
+        }
+
+    }
+}
+

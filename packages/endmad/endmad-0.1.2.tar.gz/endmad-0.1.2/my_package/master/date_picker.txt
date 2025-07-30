@@ -1,0 +1,41 @@
+activity_main.xml :
+
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+<DatePicker
+    android:id="@+id/cal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:datePickerMode="calendar"
+    android:calendarTextColor="@color/purple_200"
+    />
+
+
+
+
+</android.support.constraint.ConstraintLayout>
+
+---------------------------------------------------------------------------
+
+MainActivity.kt :
+
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val datePicker=findViewById<DatePicker>(R.id.cal)
+        val today=Calendar.getInstance()
+        datePicker.init(today.get(Calendar.YEAR),today.get(Calendar.MONTH),today.get(Calendar.DAY_OF_MONTH)){ _,year,month,day->
+            val monthh=month+1
+            val msg="You selected: $day/$monthh/$year"
+            Toast.makeText(this@MainActivity,msg,Toast.LENGTH_SHORT).show()
+        }
+    }
+}

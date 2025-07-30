@@ -1,0 +1,172 @@
++ --------------------------------------------------------------+         
+|   this code is for image Default+custom_checkbox.png          |
+|                                                               |
++ --------------------------------------------------------------+ 
+
+
+--------------------------------------------
+activity_main.xml
+---------------------------------------------
+
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Registration"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textColor="#FFFFFF"
+        android:background="#6200EE"
+        android:padding="10dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Section Label: Default Check Box -->
+    <TextView
+        android:id="@+id/labelDefault"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Default Check Box"
+        android:textColor="#888888"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/titleText"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <!-- Default CheckBox 1 -->
+    <CheckBox
+        android:id="@+id/defaultCheckBox1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="CheckBox1"
+        app:layout_constraintTop_toBottomOf="@+id/labelDefault"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"/>
+
+    <!-- Default CheckBox 2 -->
+    <CheckBox
+        android:id="@+id/defaultCheckBox2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="CheckBox2"
+        app:layout_constraintTop_toBottomOf="@id/defaultCheckBox1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Divider -->
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="#CCCCCC"
+        app:layout_constraintTop_toBottomOf="@+id/defaultCheckBox2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp" />
+
+    <!-- Section Label: Custom Check Box -->
+    <TextView
+        android:id="@+id/labelCustom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Custom Check Box"
+        android:textColor="#888888"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/divider"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Custom CheckBox 3 -->
+    <CheckBox
+        android:id="@+id/checkBox1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@drawable/ic_baseline_exit_to_app_24"
+        android:checked="true"
+        android:text="CheckBox3"
+        app:layout_constraintTop_toBottomOf="@+id/labelCustom"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp" />
+
+    <!-- Custom CheckBox 4 -->
+    <CheckBox
+        android:id="@+id/checkBox2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@drawable/ic_baseline_access_time_24"
+        android:checked="true"
+        android:text="CheckBox4"
+        app:layout_constraintTop_toBottomOf="@id/checkBox1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Show Button -->
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SHOW CHECKED"
+        android:layout_marginTop="16dp"
+        android:background="#6200EE"
+        android:textColor="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
+
+=====================================================================
+MainActivity.kt
+=====================================================================
+
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Button
+import android.widget.CheckBox
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val btn = findViewById<Button>(R.id.button)
+        btn.setOnClickListener {
+            val selected = StringBuilder("")
+
+            val boxes = listOf(
+                R.id.defaultCheckBox1,
+                R.id.defaultCheckBox2,
+                R.id.checkBox1,
+                R.id.checkBox2
+            )
+
+            for (id in boxes) {
+                val cb = findViewById<CheckBox>(id)
+                if (cb.isChecked) selected.append(cb.text).append("\n")
+            }
+
+            Toast.makeText(this, selected.toString(), Toast.LENGTH_LONG).show()
+        }
+    }
+}
+==============================
+drawable-->right click-->vector asset-->select image and check the size
