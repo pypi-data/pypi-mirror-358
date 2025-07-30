@@ -1,0 +1,87 @@
+Metadata-Version: 2.1
+Name: typing-extensions-plus
+Version: 3.1.3
+Summary: Extended typing support with additional features
+Home-page: https://github.com/typeextension/typing-extensions-plus
+Author: TypeExtension Team
+Author-email: contact@typeextension.dev
+Project-URL: Bug Reports, https://github.com/typeextension/typing-extensions-plus/issues
+Project-URL: Source, https://github.com/typeextension/typing-extensions-plus
+Keywords: typing,type hints,annotations,static typing
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Software Development :: Quality Assurance
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests>=2.20.0
+
+# Type Extension
+
+Enhanced typing support library with additional features for Python applications.
+
+## Features
+
+- ✅ **Extended Type Hints** - Enhanced typing support beyond standard library
+- ✅ **Cross-Platform** - Works on Windows, macOS, and Linux
+- ✅ **Python 3.6+** - Compatible with modern Python versions
+- ✅ **Easy Integration** - Simple import and use
+- ✅ **Lightweight** - Minimal dependencies
+
+## Installation
+
+Install from PyPI:
+
+```bash
+pip install type-extension
+```
+
+## Quick Start
+
+```python
+import type_extension
+from type_extension import Optional, Union, List, Dict
+
+# Use enhanced typing features
+def process_data(data: Optional[List[Dict[str, Union[str, int]]]]) -> bool:
+    """Process data with enhanced type hints"""
+    if data is None:
+        return False
+    
+    for item in data:
+        print(f"Processing: {item}")
+    
+    return True
+
+# Example usage
+sample_data = [
+    {"name": "John", "age": 30},
+    {"name": "Jane", "age": 25}
+]
+
+result = process_data(sample_data)
+print(f"Processing result: {result}")
+```
+
+## Requirements
+
+- Python 3.6 or higher
+- requests >= 2.20.0
+
+## License
+
+MIT License - see LICENSE file for details.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
