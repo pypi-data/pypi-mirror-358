@@ -1,0 +1,89 @@
+# ACM Certificates
+# Note: This represents the state of existing certificates for import/reference purposes.
+# For new certificates, you may want to manage the validation and issuance process separately.
+
+{% for cert in resources -%}
+{%- if cert.is_acm_issued %}
+# ACM-issued certificate (managed by AWS)
+resource "aws_acm_certificate" "cert_{{ cert.domain_sanitized }}" {
+  domain_name       = "{{ cert.DomainName }}"
+  validation_method = "{{ cert.Options.ValidationMethod if cert.get('Options') and cert.Options.get('ValidationMethod') else 'DNS' }}"
+
+  {%- if cert.get('sans_formatted') %}
+  subject_alternative_names = [
+    {%- for san in cert.sans_formatted -%}
+    {%- if san != cert.DomainName %}
+    "{{ san }}",
+    {%- endif %}
+    {%- endfor %}
+  ]
+  {%- endif %}
+
+  {%- if cert.get('Options') and cert.Options.get('CertificateTransparencyLoggingPreference') %}
+  options {
+    certificate_transparency_logging_preference = "{{ cert.Options.CertificateTransparencyLoggingPreference }}"
+  }
+  {%- endif %}
+
+  tags = {
+    {%- for tag in cert.get('Tags', []) -%}
+    "{{ tag.Key }}" = "{{ tag.Value }}"
+    {%- endfor %}
+  }
+
+  lifecycle {
+    create_before_destroy = true
+    # Prevent replacement due to validation changes
+    ignore_changes = [
+      validation_method,
+    ]
+  }
+}
+
+{%- if cert.get('domain_validation_formatted') and cert.Options.get('ValidationMethod') == 'DNS' %}
+# DNS validation records (for reference - may need manual creation)
+{% for dvo in cert.domain_validation_formatted -%}
+{%- if dvo.get('ResourceRecord') %}
+# DNS validation record for {{ dvo.DomainName }}
+# Create this record in your DNS zone:
+# Name: {{ dvo.ResourceRecord.Name }}
+# Type: {{ dvo.ResourceRecord.Type }}
+# Value: {{ dvo.ResourceRecord.Value }}
+{%- endif %}
+{%- endfor %}
+{%- endif %}
+
+{%- else %}
+# Imported certificate (externally managed)
+resource "aws_acm_certificate" "cert_{{ cert.domain_sanitized }}" {
+  # This is an imported certificate - the actual certificate, private key, 
+  # and certificate chain must be managed outside of Terraform.
+  # Terraform can only import and reference existing certificates.
+  
+  # Note: To import an external certificate, you would typically use:
+  # certificate_body = file("path/to/certificate.pem")
+  # private_key = file("path/to/private-key.pem")
+  # certificate_chain = file("path/to/certificate-chain.pem")
+  
+  # However, since this represents an existing imported certificate,
+  # the actual certificate data is not available through the ACM API.
+  
+  tags = {
+    {%- for tag in cert.get('Tags', []) -%}
+    "{{ tag.Key }}" = "{{ tag.Value }}"
+    {%- endfor %}
+    "ImportedCertificate" = "true"
+    "DomainName" = "{{ cert.DomainName }}"
+  }
+
+  lifecycle {
+    # Prevent accidental deletion of imported certificates
+    prevent_destroy = true
+  }
+}
+{%- endif %}
+
+{%- if not loop.last %}
+
+{% endif %}
+{%- endfor %}

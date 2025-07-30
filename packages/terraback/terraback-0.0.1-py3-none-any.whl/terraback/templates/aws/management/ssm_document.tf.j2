@@ -1,0 +1,39 @@
+# AWS Systems Manager Documents
+
+{% for doc in resources %}
+resource "aws_ssm_document" "{{ doc.name_sanitized }}" {
+  name            = "{{ doc.Name }}"
+  document_type   = "{{ doc.DocumentType }}"
+  document_format = "{{ doc.DocumentFormat }}"
+  
+  {% if doc.Description %}
+  content = <<DOC
+{{ doc.Content }}
+DOC
+  {% endif %}
+  
+  {% if doc.TargetType %}
+  target_type = "{{ doc.TargetType }}"
+  {% endif %}
+  
+  {% if doc.VersionName %}
+  version_name = "{{ doc.VersionName }}"
+  {% endif %}
+  
+  {% if doc.tags_formatted %}
+  tags = {
+    {% for key, value in doc.tags_formatted.items() %}
+    {{ key }} = "{{ value }}"
+    {% endfor %}
+  }
+  {% endif %}
+  
+  {% if doc.parameters_formatted %}
+  # Document parameters:
+  {% for param in doc.parameters_formatted %}
+  # - {{ param.Name }} ({{ param.Type }}): {{ param.Description | default('No description') }}
+  {% endfor %}
+  {% endif %}
+}
+
+{% endfor %}

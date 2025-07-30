@@ -1,0 +1,9 @@
+{% for resource in resources -%}
+# This defines a path segment (e.g., /users, /items/{itemId}) for your API.
+# The 'parent_id' links it to either the root of the API or another resource.
+resource "aws_api_gateway_resource" "resource_{{ resource.restApiId }}_{{ resource.id }}" {
+  rest_api_id = "{{ resource.restApiId }}"
+  parent_id   = "{{ resource.parentId }}"
+  path_part   = "{{ resource.pathPart }}"
+}
+{% endfor %}

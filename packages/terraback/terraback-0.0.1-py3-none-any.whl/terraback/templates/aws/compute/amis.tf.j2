@@ -1,0 +1,15 @@
+{% for ami in resources -%}
+resource "aws_ami" "ami_{{ ami.ImageId | replace('ami-', '') | replace('-', '_') }}" {
+  name                = "{{ ami.Name }}"
+  description         = "{{ ami.Description | default('') }}"
+  architecture        = "{{ ami.Architecture }}"
+  root_device_name    = "{{ ami.RootDeviceName }}"
+  virtualization_type = "{{ ami.VirtualizationType }}"
+
+  tags = {
+    {%- for tag in ami.get('Tags', []) -%}
+    "{{ tag.Key }}" = "{{ tag.Value }}"
+    {%- endfor %}
+  }
+}
+{% endfor %}

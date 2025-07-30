@@ -1,0 +1,82 @@
+
+{% for api in resources -%}
+resource "aws_api_gateway_rest_api" "api_{{ api.name | replace('-', '_') | lower }}" {
+  name        = "{{ api.name }}"
+  description = "{{ api.description | default('') }}"
+}
+{% endfor %}
+```jinja
+// File: terraback/templates/api_gateway_resource.tf.j2
+{% for resource in resources -%}
+resource "aws_api_gateway_resource" "resource_{{ resource.restApiId }}_{{ resource.id }}" {
+  rest_api_id = "{{ resource.restApiId }}"
+  parent_id   = "{{ resource.parentId }}"
+  path_part   = "{{ resource.pathPart }}"
+}
+{% endfor %}
+```jinja
+// File: terraback/templates/api_gateway_method.tf.j2
+{% for method in resources -%}
+resource "aws_api_gateway_method" "method_{{ method.rest_api_id }}_{{ method.resource_id }}_{{ method.http_method | lower }}" {
+  rest_api_id   = "{{ method.rest_api_id }}"
+  resource_id   = "{{ method.resource_id }}"
+  http_method   = "{{ method.http_method }}"
+  authorization = "{{ method.authorizationType }}"
+}
+{% endfor %}
+```jinja
+// File: terraback/templates/api_gateway_integration.tf.j2
+{% for integration in resources -%}
+resource "aws_api_gateway_integration" "integration_{{ integration.rest_api_id }}_{{ integration.resource_id }}_{{ integration.http_method | lower }}" {
+  rest_api_id = "{{ integration.rest_api_id }}"
+  resource_id = "{{ integration.resource_id }}"
+  http_method = "{{ integration.http_method }}"
+  type        = "{{ integration.type }}"
+
+  {%- if integration.type == "AWS_PROXY" %}
+  integration_http_method = "POST"
+  uri                     = "arn:aws:apigateway:{{ integration.uri.split(':')[3] }}:lambda:path/2015-03-31/functions/{{ integration.uri.split('functions/')[1] }}/invocations"
+  {%- endif %}
+}
+{% endfor %}
+```jinja
+// File: terraback/templates/api_gateway_deployment.tf.j2
+{% for deployment in resources -%}
+resource "aws_api_gateway_deployment" "deployment_{{ deployment.id }}" {
+  rest_api_id = "{{ deployment.restApiId }}"
+  
+  # Note: A deployment is triggered by changes. This ensures a new deployment on apply.
+  triggers = {
+    redeployment = sha1(jsonencode([
+      aws_api_gateway_resource.resource_{{ deployment.restApiId }}_*.id,
+      aws_api_gateway_method.method_{{ deployment.restApiId }}_*.*.id,
+      aws_api_gateway_integration.integration_{{ deployment.restApiId }}_*.*.id,
+    ]))
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+{% endfor %}
+```jinja
+// File: terraback/templates/api_gateway_stage.tf.j2
+{% for stage in resources -%}
+resource "aws_api_gateway_stage" "stage_{{ stage.restApiId }}_{{ stage.stageName }}" {
+  deployment_id = "{{ stage.deploymentId }}"
+  rest_api_id   = "{{ stage.restApiId }}"
+  stage_name    = "{{ stage.stageName }}"
+}
+{% endfor %}
+```jinja
+// File: terraback/templates/lambda_permission.tf.j2
+{% for perm in resources -%}
+resource "aws_lambda_permission" "apigw_permission_{{ perm.function_name | lower }}" {
+  statement_id  = "{{ perm.statement_id }}"
+  action        = "lambda:InvokeFunction"
+  function_name = "{{ perm.function_name }}"
+  principal     = "apigateway.amazonaws.com"
+
+  source_arn = "arn:aws:execute-api:*:*:{{ perm.rest_api_id }}/*/*/*"
+}
+{% endfor %}

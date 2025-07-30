@@ -1,0 +1,53 @@
+# AWS SQS Queues
+
+{% for queue in resources %}
+resource "aws_sqs_queue" "{{ queue.name_sanitized }}" {
+  name = "{{ queue.QueueName }}"
+  
+  {% if queue.is_fifo %}
+  fifo_queue = true
+  {% if queue.content_based_deduplication %}
+  content_based_deduplication = {{ queue.content_based_deduplication | lower }}
+  {% endif %}
+  {% if queue.deduplication_scope %}
+  deduplication_scope = "{{ queue.deduplication_scope }}"
+  {% endif %}
+  {% if queue.fifo_throughput_limit %}
+  fifo_throughput_limit = "{{ queue.fifo_throughput_limit }}"
+  {% endif %}
+  {% endif %}
+  
+  visibility_timeout_seconds = {{ queue.visibility_timeout }}
+  message_retention_seconds  = {{ queue.message_retention_period }}
+  max_message_size          = {{ queue.max_message_size }}
+  delay_seconds             = {{ queue.delay_seconds }}
+  receive_wait_time_seconds = {{ queue.receive_wait_time }}
+  
+  {% if queue.redrive_policy_formatted %}
+  redrive_policy = jsonencode({
+    deadLetterTargetArn = "{{ queue.redrive_policy_formatted.deadLetterTargetArn }}"
+    maxReceiveCount     = {{ queue.redrive_policy_formatted.maxReceiveCount }}
+  })
+  {% endif %}
+  
+  {% if queue.kms_master_key_id %}
+  kms_master_key_id                 = "{{ queue.kms_master_key_id }}"
+  kms_data_key_reuse_period_seconds = {{ queue.kms_data_key_reuse_period }}
+  {% endif %}
+  
+  {% if queue.policy %}
+  policy = <<POLICY
+{{ queue.policy }}
+POLICY
+  {% endif %}
+  
+  {% if queue.tags_formatted %}
+  tags = {
+    {% for key, value in queue.tags_formatted.items() %}
+    {{ key }} = "{{ value }}"
+    {% endfor %}
+  }
+  {% endif %}
+}
+
+{% endfor %}

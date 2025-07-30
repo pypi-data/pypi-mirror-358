@@ -1,0 +1,21 @@
+{% for deployment in resources -%}
+# This resource represents a "snapshot" of your API that can be deployed to a stage.
+resource "aws_api_gateway_deployment" "deployment_{{ deployment.id }}" {
+  rest_api_id = "{{ deployment.restApiId }}"
+  
+  # Note: A deployment is triggered by changes to its associated resources.
+  # This block creates a hash of all method and integration configurations.
+  # If any of them change, this hash changes, forcing a new deployment.
+  triggers = {
+    redeployment = sha1(jsonencode([
+      for r in var.api_resources : r.id,
+      for m in var.api_methods : m.id,
+      for i in var.api_integrations : i.id,
+    ]))
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+{% endfor %}

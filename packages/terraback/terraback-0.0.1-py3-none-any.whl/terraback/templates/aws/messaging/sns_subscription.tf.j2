@@ -1,0 +1,38 @@
+# AWS SNS Subscriptions
+
+{% for sub in resources %}
+resource "aws_sns_topic_subscription" "{{ sub.name_sanitized }}" {
+  topic_arn = "{{ sub.TopicArn }}"
+  protocol  = "{{ sub.Protocol }}"
+  endpoint  = "{{ sub.Endpoint }}"
+  
+  {% if sub.subscription_role_arn %}
+  subscription_role_arn = "{{ sub.subscription_role_arn }}"
+  {% endif %}
+  
+  {% if sub.raw_message_delivery %}
+  raw_message_delivery = {{ sub.raw_message_delivery | lower }}
+  {% endif %}
+  
+  {% if sub.filter_policy %}
+  filter_policy = jsonencode({{ sub.filter_policy | tojson }})
+  {% endif %}
+  
+  {% if sub.filter_policy_scope and sub.filter_policy_scope != "MessageAttributes" %}
+  filter_policy_scope = "{{ sub.filter_policy_scope }}"
+  {% endif %}
+  
+  {% if sub.delivery_policy %}
+  delivery_policy = jsonencode({{ sub.delivery_policy | tojson }})
+  {% endif %}
+  
+  {% if sub.redrive_policy %}
+  redrive_policy = jsonencode({{ sub.redrive_policy | tojson }})
+  {% endif %}
+  
+  {% if sub.confirmation_was_authenticated %}
+  confirmation_was_authenticated = {{ sub.confirmation_was_authenticated | lower }}
+  {% endif %}
+}
+
+{% endfor %}

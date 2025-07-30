@@ -1,0 +1,32 @@
+{% for volume in resources -%}
+resource "aws_ebs_volume" "vol_{{ volume.VolumeId | replace('-', '_') }}" {
+  availability_zone = "{{ volume.AvailabilityZone }}"
+  size              = {{ volume.Size }}
+  type              = "{{ volume.VolumeType }}"
+
+  {%- if volume.get('Iops') and volume.VolumeType in ['io1', 'io2', 'gp3'] %}
+  iops              = {{ volume.Iops }}
+  {%- endif %}
+  
+  {%- if volume.get('Throughput') and volume.VolumeType == 'gp3' %}
+  throughput        = {{ volume.Throughput }}
+  {%- endif %}
+
+  {%- if volume.get('Encrypted') %}
+  encrypted         = true
+    {%- if volume.get('KmsKeyId') %}
+  kms_key_id        = "{{ volume.KmsKeyId }}"
+    {%- endif %}
+  {%- endif %}
+
+  {%- if volume.get('SnapshotId') %}
+  snapshot_id       = "{{ volume.SnapshotId }}"
+  {%- endif %}
+
+  tags = {
+    {%- for tag in volume.get('Tags', []) -%}
+    "{{ tag.Key }}" = "{{ tag.Value }}"
+    {%- endfor %}
+  }
+}
+{% endfor %}

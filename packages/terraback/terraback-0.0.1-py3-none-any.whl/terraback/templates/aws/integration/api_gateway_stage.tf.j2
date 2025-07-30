@@ -1,0 +1,9 @@
+{% for stage in resources -%}
+# This resource creates a stage (e.g., dev, prod) for an API deployment,
+# making it publicly accessible.
+resource "aws_api_gateway_stage" "stage_{{ stage.restApiId }}_{{ stage.stageName }}" {
+  deployment_id = "{{ stage.deploymentId }}"
+  rest_api_id   = "{{ stage.restApiId }}"
+  stage_name    = "{{ stage.stageName }}"
+}
+{% endfor %}

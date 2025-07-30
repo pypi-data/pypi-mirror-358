@@ -1,0 +1,31 @@
+{% for record in resources -%}
+resource "aws_route53_record" "record_{{ record.ZoneId }}_{{ record.Name | replace('.', '_') | replace('*', 'star') | replace('-', '_') | lower }}_{{ record.Type | lower }}" {
+  zone_id = "{{ record.ZoneId }}"
+  name    = "{{ record.Name }}"
+  type    = "{{ record.Type }}"
+  
+  {%- if record.get('TTL') %}
+  ttl     = {{ record.TTL }}
+  {%- endif %}
+
+  {%- if record.get('ResourceRecords') %}
+  records = [
+    {%- for rec_value in record.ResourceRecords -%}
+    "{{ rec_value.Value }}",
+    {%- endfor %}
+  ]
+  {%- endif %}
+
+  {%- if record.get('AliasTarget') %}
+  alias {
+    name                   = "{{ record.AliasTarget.DNSName }}"
+    zone_id                = "{{ record.AliasTarget.HostedZoneId }}"
+    evaluate_target_health = {{ record.AliasTarget.EvaluateTargetHealth | lower }}
+  }
+  {%- endif %}
+  
+  {%- if record.get('SetIdentifier') %}
+  set_identifier = "{{ record.SetIdentifier }}"
+  {%- endif %}
+}
+{% endfor %}

@@ -1,0 +1,29 @@
+{% for bucket in resources -%}
+resource "aws_s3_bucket" "bucket_{{ bucket.Name | replace('-', '_') | lower }}" {
+  bucket = "{{ bucket.Name }}"
+}
+
+{% if bucket.get('Versioning') and bucket.Versioning.Status == 'Enabled' -%}
+resource "aws_s3_bucket_versioning" "versioning_{{ bucket.Name | replace('-', '_') | lower }}" {
+  bucket = aws_s3_bucket.bucket_{{ bucket.Name | replace('-', '_') | lower }}.id
+  versioning_configuration {
+    status = "{{ bucket.Versioning.Status }}"
+  }
+}
+{%- endif %}
+
+{% if bucket.get('PublicAccessBlock') -%}
+resource "aws_s3_bucket_public_access_block" "pab_{{ bucket.Name | replace('-', '_') | lower }}" {
+  bucket = aws_s3_bucket.bucket_{{ bucket.Name | replace('-', '_') | lower }}.id
+
+  block_public_acls       = {{ bucket.PublicAccessBlock.BlockPublicAcls | lower }}
+  block_public_policy     = {{ bucket.PublicAccessBlock.BlockPublicPolicy | lower }}
+  ignore_public_acls      = {{ bucket.PublicAccessBlock.IgnorePublicAcls | lower }}
+  restrict_public_buckets = {{ bucket.PublicAccessBlock.RestrictPublicBuckets | lower }}
+}
+{%- endif %}
+
+{% if not loop.last %}
+
+{% endif %}
+{%- endfor %}
