@@ -1,0 +1,66 @@
+[project]
+name = "aac-metrics"
+authors = [
+    {name = "Étienne Labbé (Labbeti)", email = "labbeti.pub@gmail.com"},
+]
+description = "Metrics for evaluating Automated Audio Captioning systems, designed for PyTorch."
+readme = "README.md"
+requires-python = ">=3.9"
+keywords = ["audio", "metrics", "text", "captioning", "audio-captioning"]
+license-files = ["LICENSE", "COCO_LICENSE"]
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS",
+]
+maintainers = [
+    {name = "Étienne Labbé (Labbeti)", email = "labbeti.pub@gmail.com"},
+]
+dynamic = ["version", "dependencies", "optional-dependencies"]
+
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[project.urls]
+Homepage = "https://pypi.org/project/aac-metrics/"
+Documentation = "https://aac-metrics.readthedocs.io/"
+Repository = "https://github.com/Labbeti/aac-metrics.git"
+Changelog = "https://github.com/Labbeti/aac-metrics/blob/main/CHANGELOG.md"
+Tracker = "https://github.com/Labbeti/aac-metrics/issues"
+
+[project.scripts]
+aac-metrics = "aac_metrics.__main__:_print_usage"
+aac-metrics-download = "aac_metrics.download:_main_download"
+aac-metrics-eval = "aac_metrics.eval:_main_eval"
+aac-metrics-info = "aac_metrics.info:print_install_info"
+
+[tool.setuptools.packages.find]
+where = ["src"]  # list of folders that contain the packages (["."] by default)
+include = ["aac_metrics*"]  # package names should match these glob patterns (["*"] by default)
+
+[tool.setuptools.dynamic]
+version = {attr = "aac_metrics.__version__"}
+dependencies = {file = ["requirements.txt"]}
+optional-dependencies = {dev = { file = ["requirements-dev.txt"] }}
+
+[tool.pyright]
+include = ["src"]
+exclude = ["**/__pycache__"]
+pythonVersion = "3.9"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = ["ignore::FutureWarning", "ignore::DeprecationWarning"]
+addopts = ["--ignore=tests/caption-evaluation-tools", "--ignore=tests/fense", "--ignore=tests/mace"]
+
+[tool.coverage.run]
+source = ["src"]
