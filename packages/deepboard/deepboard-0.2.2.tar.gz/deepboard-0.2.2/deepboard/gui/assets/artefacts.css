@@ -1,0 +1,108 @@
+/*
+This css file contains classes for all artefacts tabs:
+- Images
+- Figures
+- Text
+- Html fragments
+ */
+
+.artefact-split-select{
+    appearance: none;
+    background-color: inherit;
+    color: var(--sp-color);
+    border: none;
+    /*border-bottom: var(--artefacts-split-option-border);*/
+    padding-left: 36px;
+    padding-right: 24px;
+    margin-bottom: 0;
+    font-size: 1.75em;
+    font-weight: bold;
+    outline: none;
+    transition: border 0.1s ease, box-shadow 0.1s ease;
+    cursor: pointer;
+
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='10' viewBox='0 0 14 10'%3E%3Cpath fill='%23ccc' d='M7 10L0 0h14z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: left 10px center;
+    background-size: 12px;
+}
+.artefact-split-option{
+    /* Empty for now */
+}
+
+.artefact-stats-column{
+    /* Nothing here yet */
+}
+
+.artefact-card-header{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    padding-bottom: 1em;
+    border-bottom: var(--artefacts-header-line)
+}
+
+.artefact-card{
+    background-color: var(--artefacts-card-bg);
+    box-shadow: var(--artefacts-card-shadow);
+    padding: 1em;
+    border-radius: var(--artefacts-card-radius);
+    display: flex;
+    flex-direction: column;
+    /*Margin top: 1em and bottom: 1em. 0 otherwise*/
+    margin-bottom: 2em;
+}
+
+.artefact-group-container{
+    margin-top: 1em;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1em;
+    justify-content: space-evenly;
+}
+
+
+.image{
+  width: var(--artefacts-image_size);
+  height: var(--artefacts-image_size);
+  display: inline-block;
+  overflow: hidden;
+}
+
+.interactive-image-container{
+    width: 92vw;
+    height: 100vh;
+    overflow: hidden;
+    margin: 20px auto;
+    background: inherit;
+}
+.interactive-image{
+    width: 100%;
+    height: 100%;
+    /*transition: transform 0.1s ease;*/
+    transform-origin: center center;
+}
+
+.interactive-image img {
+    object-fit: contain;
+    display: block;
+}
+
+.fragment-text-container {
+    background-color: var(--fv-bg);
+    padding: 1em;
+    border-radius: 0.25em;
+    overflow: auto;
+    width: 100%;
+}
+
+.fragment-text{
+    margin: 0;
+    padding: 0.5em;
+    font-size: 0.8rem;
+    color: var(--artefacts-text-color);
+    font-family: var(--artefacts-text-font), monospace;
+    white-space: pre-wrap;
+}
