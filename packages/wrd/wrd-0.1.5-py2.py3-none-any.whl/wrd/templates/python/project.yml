@@ -1,0 +1,39 @@
+# Python project template configuration
+name: python
+version: 1.0.0
+description: A Python project template for WRD
+
+# Files to create with their content templates
+files:
+  - path: pyproject.toml
+    template: pyproject.toml.j2
+  - path: README.md
+    template: README.md.j2
+  - path: .gitignore
+    template: gitignore.j2
+  - path: src/{{ package_name }}/__init__.py
+    content: |
+      """{{ project_name }} - {{ description }}"""
+      
+      __version__ = "0.1.0"
+  - path: tests/__init__.py
+    content: "# Test package"
+  - path: tests/test_basic.py
+    content: |
+      """Basic tests for {{ project_name }}."""
+      
+      def test_import():
+          """Test that the package can be imported."""
+          import {{ package_name }}
+          assert {{ package_name }} is not None
+
+# Directories to create
+directories:
+  - src/{{ package_name }}
+  - tests
+
+# Commands to run after project creation
+post_create_commands:
+  - git init
+  - git add .
+  - git commit -m "Initial commit"
