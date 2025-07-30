@@ -1,0 +1,243 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pytestee"
+version = "0.1.0"
+description = "pytest test quality checker CLI tool"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {file = "LICENSE"}
+authors = [
+    {name = "mmocchi", email = "mmocchi@example.com"}
+]
+keywords = ["pytest", "testing", "quality", "cli"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Testing",
+    "Topic :: Software Development :: Quality Assurance",
+]
+dependencies = [
+    "click>=8.0.0",
+    "colorama>=0.4.6",
+    "rich>=13.0.0",
+    "tomli>=1.2.0;python_version<'3.11'",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "mypy>=1.0.0",
+    "ruff>=0.1.0",
+    "types-colorama",
+]
+
+[project.scripts]
+pytestee = "pytestee.main:main"
+
+[project.urls]
+Homepage = "https://github.com/mmocchi/pytestee"
+Documentation = "https://github.com/mmocchi/pytestee"
+Repository = "https://github.com/mmocchi/pytestee"
+Issues = "https://github.com/mmocchi/pytestee/issues"
+
+[tool.ruff.lint]
+exclude = [".venv"]
+select = [
+    "E",      # pycodestyle errors
+    "W",      # pycodestyle warnings
+    "F",      # pyflakes
+    "I",      # isort
+    "UP",     # pyupgrade
+    "B",      # flake8-bugbear
+    "TCH",    # flake8-type-checking
+    # Phase 1: Security and Code Quality
+    "S",   # bandit (security)
+    "A",   # flake8-builtins (builtin shadowing)
+    "RET", # flake8-return (return optimization)
+    "SIM", # flake8-simplify (code simplification)
+    "ARG", # flake8-unused-arguments (unused arguments)
+    "PTH", # flake8-use-pathlib (pathlib usage)
+    "RUF", # Ruff-specific rules
+    # Phase 2: Type Hints and Documentation
+    "ANN", # flake8-annotations (type annotations)
+    "TCH", # flake8-type-checking (TYPE_CHECKING blocks)
+    "D",   # pydocstyle (docstring style)
+    # Phase 3: Advanced Static Analysis
+    "ERA", # eradicate (commented-out code)
+    "TRY", # tryceratops (exception handling best practices)
+    "PERF", # perflint (performance improvements)
+    "PL",  # pylint (advanced static analysis)
+    "PT",  # flake8-pytest-style (pytest best practices)
+]
+
+ignore = [
+    "E501",  # line too long, handled by formatter
+    "D203",  # Insert 1 blank line before class docstring
+    "D213",  # multi-line-summary-second-line
+    "D107",   # missing docstring in __init__
+    "D105",   # missing docstring in magic methods (__post_init__)
+    "D400",   # first line should end with period (conflicts with Click)
+    "D415",   # first line should end with punctuation (conflicts with Click)
+    "PLR0913",  # too many arguments in function definition (CLI needs many options)
+    "S101",   # use of assert in tests (pytest requires assert statements)
+    "PLR2004", # magic values in tests (test constants are acceptable)
+    "RUF001", # ambiguous unicode characters (emojis are intentional)
+    "TRY003", # avoid long messages outside exception class (helpful for users)
+    "TRY301", # abstract raise to inner function (not needed for simple CLI)
+    "TRY300", # move statement to else block (not always clearer)
+    "PERF203", # try-except in loop (error handling required)
+    "ARG002", # unused method argument (config parameter for future use)
+]
+
+# Per-file ignores for fixtures
+[tool.ruff.lint.per-file-ignores]
+"tests/fixtures/*.py" = ["ANN401"]  # Allow Any in test fixtures
+"tests/**/*.py" = ["PLC2401"]  # Allow non-ASCII function names in tests
+"src/pytestee/registry.py" = ["PLC0415"] # import should be at the top-level (lazy imports for circular dependencies)
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = false
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = "tomli"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "tomllib"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+ignore_missing_imports = true
+check_untyped_defs = false
+disallow_untyped_defs = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--cov=src/pytestee",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-fail-under=30",
+    "--cov-branch",
+]
+
+[tool.coverage.run]
+source = ["src"]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+
+[tool.pytestee]
+
+# select = ["PTST001", "PTAS005"]  # Use structural patterns + assertion count OK
+
+# Import Linter Configuration for Clean Architecture
+[tool.importlinter]
+root_package = "pytestee"
+
+[[tool.importlinter.contracts]]
+name = "Domain Core Independence"
+type = "forbidden"
+source_modules = [
+    "pytestee.domain.models",
+    "pytestee.domain.interfaces",
+]
+forbidden_modules = [
+    "pytestee.usecases",
+    "pytestee.adapters", 
+    "pytestee.infrastructure",
+    "pytestee.registry",
+]
+
+[[tool.importlinter.contracts]]
+name = "Use Cases Layer Dependencies" 
+type = "forbidden"
+source_modules = ["pytestee.usecases"]
+forbidden_modules = [
+    "pytestee.adapters",
+    "pytestee.registry",
+]
+
+[[tool.importlinter.contracts]]
+name = "CLI Cannot Import Infrastructure Directly"
+type = "forbidden"
+source_modules = ["pytestee.adapters.cli"]
+forbidden_modules = [
+    "pytestee.infrastructure.checkers",
+    "pytestee.infrastructure.rules",
+]
+
+[[tool.importlinter.contracts]]
+name = "Presenters Cannot Import Infrastructure"
+type = "forbidden"
+source_modules = ["pytestee.adapters.presenters"]
+forbidden_modules = [
+    "pytestee.infrastructure",
+    "pytestee.usecases",
+]
+
+[[tool.importlinter.contracts]]
+name = "Repository Layer Boundaries"
+type = "forbidden"
+source_modules = ["pytestee.adapters.repositories"]
+forbidden_modules = [
+    "pytestee.usecases",
+    "pytestee.adapters.cli",
+    "pytestee.adapters.presenters",
+]
+
+
+[dependency-groups]
+dev = [
+    "mypy>=1.14.1",
+    "pytest>=8.3.5",
+    "pytest-cov>=5.0.0",
+    "ruff>=0.12.0",
+    "types-colorama>=0.4.15.20240311",
+    "types-toml>=0.10.8.20240310",
+    "import-linter>=2.0.0",
+]
