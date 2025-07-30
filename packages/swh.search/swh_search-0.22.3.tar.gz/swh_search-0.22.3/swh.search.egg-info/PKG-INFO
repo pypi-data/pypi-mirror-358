@@ -1,0 +1,131 @@
+Metadata-Version: 2.4
+Name: swh.search
+Version: 0.22.3
+Summary: Software Heritage search service
+Author-email: Software Heritage developers <swh-devel@inria.fr>
+Project-URL: Homepage, https://gitlab.softwareheritage.org/swh/devel/swh-search
+Project-URL: Bug Reports, https://gitlab.softwareheritage.org/swh/devel/swh-search/-/issues
+Project-URL: Funding, https://www.softwareheritage.org/donate
+Project-URL: Documentation, https://docs.softwareheritage.org/devel/swh-search/
+Project-URL: Source, https://gitlab.softwareheritage.org/swh/devel/swh-search.git
+Classifier: Programming Language :: Python :: 3
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Operating System :: OS Independent
+Classifier: Development Status :: 3 - Alpha
+Requires-Python: >=3.9
+Description-Content-Type: text/x-rst
+License-File: LICENSE
+License-File: AUTHORS
+Requires-Dist: click
+Requires-Dist: elasticsearch<8.0.0,>=7.0.0
+Requires-Dist: typing-extensions
+Requires-Dist: tree_sitter<0.22.0
+Requires-Dist: iso8601
+Requires-Dist: swh.core[http]>=4.5.1
+Requires-Dist: swh.indexer
+Requires-Dist: swh.journal>=0.1.0
+Requires-Dist: swh.model>=6.13.0
+Provides-Extra: testing
+Requires-Dist: click; extra == "testing"
+Requires-Dist: elasticsearch<8.0.0,>=7.0.0; extra == "testing"
+Requires-Dist: typing-extensions; extra == "testing"
+Requires-Dist: tree_sitter<0.22.0; extra == "testing"
+Requires-Dist: iso8601; extra == "testing"
+Requires-Dist: swh.core[http]>=4.5.1; extra == "testing"
+Requires-Dist: swh.indexer; extra == "testing"
+Requires-Dist: swh.journal>=0.1.0; extra == "testing"
+Requires-Dist: swh.model>=6.13.0; extra == "testing"
+Requires-Dist: confluent-kafka; extra == "testing"
+Requires-Dist: msgpack-types; extra == "testing"
+Requires-Dist: pytest>=8.1; extra == "testing"
+Requires-Dist: pytest-mock; extra == "testing"
+Requires-Dist: swh.core[testing]; extra == "testing"
+Requires-Dist: swh.journal[pytest]>=2.0.0; extra == "testing"
+Requires-Dist: types-confluent-kafka; extra == "testing"
+Requires-Dist: types-pytz; extra == "testing"
+Requires-Dist: types-pyyaml; extra == "testing"
+Requires-Dist: types-requests; extra == "testing"
+Requires-Dist: types-setuptools; extra == "testing"
+Dynamic: license-file
+
+Software Heritage - Search service
+==================================
+
+Search service for the Software Heritage archive.
+
+It is similar to swh-storage in what it contains, but provides different ways
+to query it: while swh-storage is mostly a key-value store that returns an
+object from a primary key, swh-search is focused on reverse indices, to allow
+finding objects that match some criteria; for example full-text search.
+
+Currently uses ElasticSearch, and provides only origin search (by URL and
+metadata).
+
+Dependencies
+------------
+
+- Python tests for this module include tests that cannot be run without a local
+  ElasticSearch instance, so you need the ElasticSearch server executable on
+  your machine (no need to have a running ElasticSearch server).
+
+  - Debian-like host
+
+    The elasticsearch package is required. As it's not part of debian-stable,
+    `another debian repository is required to be configured`_
+
+    .. _`another debian repository is required to be configured`: https://www.elastic.co/guide/en/elasticsearch/reference/current/deb.html
+
+  - Non Debian-like host
+
+    The tests expect:
+
+    - ``/usr/share/elasticsearch/jdk/bin/java`` to exist.
+    - ``org.elasticsearch.bootstrap.Elasticsearch`` to be in java's classpath.
+
+- Emscripten is required for generating tree-sitter WASM module. The following
+  commands need to be executed for the setup:
+
+  .. code-block:: shell
+
+     cd /opt && git clone https://github.com/emscripten-core/emsdk.git && cd emsdk && \
+     ./emsdk install latest && ./emsdk activate latest
+     PATH="${PATH}:/opt/emsdk/upstream/emscripten"
+
+
+  **Note:** If emsdk isn't found in the PATH, the tree-sitter cli automatically pulls `emscripten/emsdk` image from docker hub when `make ts-build-wasm` or `make ts-build` is used.
+
+
+Make targets
+------------
+
+Below is the list of available make targets that can be executed from the root
+directory of swh-search in order to build and/or execute the swh-search under
+various configurations:
+
+* **ts-install**: Install node_modules and emscripten SDK required for
+  TreeSitter
+
+* **ts-generate**: Generate parser files(C and JSON) from the grammar
+
+* **ts-repl**: Starts a web based playground for the TreeSitter grammar. It's
+  the recommended way for developing TreeSitter grammar.
+
+* **ts-dev**: Parse the `query_language/sample_query` and print the
+  corresponding syntax expression along with the start and end positions of all
+  the nodes.
+
+* **ts-dev sanitize=1**: Same as **ts-dev** but without start and end position
+  of the nodes. This format is expected by TreeSitter's native test command.
+  `sanitize=1` cleans the output of **ts-dev** using `sed` to achieve the
+  desired format.
+
+* **ts-test**: executes TreeSitter's native tests
+
+* **ts-build-so**: Generates `swh_ql.so` file from the previously generated
+  parser using py-tree-sitter
+
+* **ts-build-so**: Generates `swh_ql.wasm` file from the previously generated
+  parser using emscripten
+
+* **ts-build**: Executes both **ts-build-so** and **ts-build-so**
