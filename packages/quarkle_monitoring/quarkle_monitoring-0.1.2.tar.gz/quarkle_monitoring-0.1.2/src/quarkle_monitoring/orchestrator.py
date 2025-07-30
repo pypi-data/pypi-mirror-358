@@ -1,0 +1,131 @@
+"""Orchestrator to connect independent monitoring components."""
+
+import logging
+from typing import Optional, Dict, Any
+from functools import wraps
+
+from .cache import QuarkleCache
+from .errors import ErrorTracker, MemoryCache
+from .notifications import SlackNotifier
+
+logger = logging.getLogger(__name__)
+
+
+class QuarkleMonitoring:
+    """Thin wrapper that orchestrates cache, error tracking, and notifications."""
+
+    def __init__(
+        self,
+        stage: str = None,
+        service_name: str = None,
+        slack_token: str = None,
+        slack_channel: str = None,
+        use_redis: bool = True,
+        version: str = None,
+    ):
+        """
+        Initialize QuarkleMonitoring orchestrator.
+
+        Args:
+            stage: Deployment stage for cache discovery
+            service_name: Service name for tracking
+            slack_token: Slack bot token (optional)
+            slack_channel: Slack channel ID (optional)
+            use_redis: Whether to use Redis cache (vs in-memory)
+            version: Version string (optional, defaults to env vars)
+        """
+        self.service_name = service_name
+
+        # Initialize cache (Redis or in-memory)
+        if use_redis:
+            self.cache = QuarkleCache(stage=stage, service_name=service_name)
+        else:
+            self.cache = MemoryCache()
+
+        # Initialize error tracker with cache and version info
+        self.error_tracker = ErrorTracker(
+            cache=self.cache,
+            service_name=service_name,
+            version=version,
+        )
+
+        # Initialize notifications (optional)
+        self.slack = SlackNotifier(token=slack_token, channel=slack_channel)
+
+    def track_error(
+        self,
+        error_code: int,
+        endpoint: str = None,
+        user_id: str = None,
+        extra: Dict = None,
+        send_slack_alert: bool = True,
+    ) -> bool:
+        """Track error and optionally send Slack alert."""
+        should_alert, error_data = self.error_tracker.track_error(
+            error_code=error_code,
+            endpoint=endpoint,
+            user_id=user_id,
+            extra=extra,
+        )
+
+        if should_alert and send_slack_alert and error_data:
+            try:
+                self.slack.send_error_alert(error_data)
+                logger.info(
+                    f"Sent Slack alert for error {error_data.get('error_hash')}"
+                )
+            except Exception as e:
+                logger.error(f"Failed to send Slack alert: {e}")
+
+        return should_alert
+
+    def send_lifecycle_alert(self, event: str, version: str = None) -> bool:
+        """Send service lifecycle alert to Slack."""
+        try:
+            return self.slack.send_lifecycle_alert(
+                service=self.service_name or "unknown",
+                event=event,
+                git_hash=version or self.error_tracker._git_hash,
+            )
+        except Exception as e:
+            logger.error(f"Failed to send lifecycle alert: {e}")
+            return False
+
+    def track_errors_decorator(self, send_slack_alert: bool = True):
+        """Decorator to automatically track errors with optional Slack alerts."""
+
+        def decorator(func):
+            @wraps(func)
+            def wrapper(*args, **kwargs):
+                try:
+                    return func(*args, **kwargs)
+                except Exception as e:
+                    status = getattr(e, "status_code", 500)
+                    if 400 <= status < 500:
+                        self.track_error(
+                            error_code=status,
+                            endpoint=func.__name__,
+                            extra={"exception": str(e)},
+                            send_slack_alert=send_slack_alert,
+                        )
+                    raise
+
+            return wrapper
+
+        return decorator
+
+    # Expose individual components for advanced usage
+    @property
+    def cache_client(self):
+        """Access to the underlying cache client."""
+        return self.cache
+
+    @property
+    def error_client(self):
+        """Access to the underlying error tracker."""
+        return self.error_tracker
+
+    @property
+    def slack_client(self):
+        """Access to the underlying Slack client."""
+        return self.slack
