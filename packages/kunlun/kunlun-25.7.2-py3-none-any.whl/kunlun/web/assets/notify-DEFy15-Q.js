@@ -1,0 +1,1 @@
+import{c as e,h as n}from"./index-DL8e7wsY.js";import{h as a}from"./_plugin-vue_export-helper-14mw3PxB.js";const c=e({name:"QSpace",setup(){const s=n("div",{class:"q-space"});return()=>s}});function i(){const s=a();function o(t){s.notify({message:t,position:"top",progress:!0,type:"positive"})}return o}export{c as Q,i as s};
