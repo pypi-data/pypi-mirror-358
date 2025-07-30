@@ -1,0 +1,75 @@
+Metadata-Version: 2.4
+Name: ViswamAuth
+Version: 0.0.1
+Summary: ViswamAuth is a lightweight Python module for user authentication, featuring secure sign-up, login, passcode verification, and Gmail-based password recovery. Designed for Windows console applications, it is ideal for small projects, prototypes, and educational use.
+Author: Viswam Groups and Technologies
+Author-email: viswamgroupstechnologies@gmail.com
+License: MIT
+Keywords: authorization,signin,login,password,viswam
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: google-auth-oauthlib
+Requires-Dist: google-api-python-client
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: keywords
+Dynamic: license
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: summary
+
+# ViswamAuth 🔐
+
+**A simple Python-based user authentication system with email-based password recovery and secure login.**
+
+ViswamAuth is a lightweight, console-driven authentication module for Windows. It provides essential features such as user registration, login, password masking, passcode generation, and recovery through email verification.
+
+---
+
+## ✨ Features
+
+- ✅ Account creation with name, username, and email
+- 🔐 Secure password input (console-masked)
+- 🧾 Auto-generated passcodes stored locally
+- 📧 Password recovery with email-based OTP
+- 🆘 Help menu with Gmail App Password support
+- 📂 Local file-based storage (`CSV` and `.txt`)
+
+---
+
+## 📦 Installation
+
+```bash
+pip install viswamauth
+
+
+from viswamauth import sign_acc, log_acc, passcode_verification, pass_forgot, help
+
+sign_acc()                 # Register a new user
+log_acc()                  # Login using credentials
+passcode_verification()    # Verify using one of 4 generated passcodes
+pass_forgot(email, app_password)  # Recover password with Gmail
+help()                     # Learn or get support
+
+
+Change Log
+=============
+
+0.0.1 (30/06/2025)
+
+---------------------
+- First Release
