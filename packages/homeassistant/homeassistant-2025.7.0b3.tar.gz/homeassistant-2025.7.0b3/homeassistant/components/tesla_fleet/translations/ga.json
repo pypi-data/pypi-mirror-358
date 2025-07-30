@@ -1,0 +1,186 @@
+{
+    "config": {
+        "error": {
+            "invalid_domain": "Form\u00e1id fearainn neamhbhail\u00ed. Cuir isteach ainm fearainn bail\u00ed le do thoil.",
+            "invalid_response": "Dhi\u00faltaigh Tesla don chl\u00e1r\u00fa",
+            "precondition_failed": "N\u00ed hionann an fearann \u200b\u200bagus bun\u00fas ceadaithe an fheidhmchl\u00e1ir.",
+            "public_key_mismatch": "N\u00ed hionann an eochair phoibl\u00ed at\u00e1 \u00e1 \u00f3st\u00e1il ag do fhearann \u200b\u200bagus an eochair a bhfuiltear ag s\u00fail l\u00e9i. Cinntigh le do thoil go bhfuil an eochair phoibl\u00ed cheart \u00e1 \u00f3st\u00e1il ag an su\u00edomh sonraithe.",
+            "public_key_not_found": "N\u00edor aims\u00edodh an eochair phoibl\u00ed.",
+            "unknown_error": "Tharla earr\u00e1id anaithnid: {error}"
+        },
+        "step": {
+            "domain_input": {
+                "data": {
+                    "domain": "Fearann"
+                },
+                "description": "Cuir isteach an fearann \u200b\u200ba \u00f3st\u00e1lfaidh d\u2019eochair phoibl\u00ed. De ghn\u00e1th is \u00e9 seo fearann \u200b\u200ban tionscnaimh a shonraigh t\u00fa le linn cl\u00e1r\u00fach\u00e1in ag {dashboard}.",
+                "title": "Cl\u00e1r\u00fa fearainn Tesla Fleet"
+            },
+            "domain_registration": {
+                "description": "N\u00ed m\u00f3r duit an eochair phoibl\u00ed a \u00f3st\u00e1il ag:\n\n{public_key_url}\n\n```\n{pem}\n```",
+                "title": "Ag cl\u00e1r\u00fa eochair phoibl\u00ed"
+            },
+            "pick_implementation": {
+                "data": {
+                    "implementation": "Dinti\u00fair Iarratais"
+                },
+                "data_description": {
+                    "implementation": "Na dinti\u00fair is mian leat a \u00fas\u00e1id chun f\u00edordheimhni\u00fa."
+                }
+            },
+            "registration_complete": {
+                "description": "Chun s\u00edni\u00fa orduithe a chumas\u00fa, n\u00ed m\u00f3r duit aip Tesla a oscailt, do fheithicil a roghn\u00fa, agus ansin cuairt a thabhairt ar an URL seo a leanas chun eochair fh\u00edor\u00fail a shocr\u00fa. N\u00ed m\u00f3r duit an pr\u00f3iseas seo a athdh\u00e9anamh do gach feithicil.\n\n{virtual_key_url}",
+                "title": "S\u00edni\u00fa ordaithe"
+            }
+        }
+    },
+    "entity": {
+        "climate": {
+            "driver_temp": {
+                "state_attributes": {
+                    "preset_mode": {
+                        "state": {
+                            "off": "Gn\u00e1th"
+                        }
+                    }
+                }
+            }
+        },
+        "select": {
+            "climate_state_seat_heater_left": {
+                "state": {
+                    "high": "Ard",
+                    "low": "\u00cdseal",
+                    "medium": "Me\u00e1nach"
+                }
+            },
+            "climate_state_seat_heater_rear_center": {
+                "state": {
+                    "high": "Ard",
+                    "low": "\u00cdseal",
+                    "medium": "Me\u00e1nach"
+                }
+            },
+            "climate_state_seat_heater_rear_left": {
+                "state": {
+                    "high": "Ard",
+                    "low": "\u00cdseal",
+                    "medium": "Me\u00e1nach"
+                }
+            },
+            "climate_state_seat_heater_rear_right": {
+                "state": {
+                    "high": "Ard",
+                    "low": "\u00cdseal",
+                    "medium": "Me\u00e1nach"
+                }
+            },
+            "climate_state_seat_heater_right": {
+                "state": {
+                    "high": "Ard",
+                    "low": "\u00cdseal",
+                    "medium": "Me\u00e1nach"
+                }
+            },
+            "climate_state_seat_heater_third_row_left": {
+                "state": {
+                    "high": "Ard",
+                    "low": "\u00cdseal",
+                    "medium": "Me\u00e1nach"
+                }
+            },
+            "climate_state_seat_heater_third_row_right": {
+                "state": {
+                    "high": "Ard",
+                    "low": "\u00cdseal",
+                    "medium": "Me\u00e1nach"
+                }
+            },
+            "climate_state_steering_wheel_heat_level": {
+                "state": {
+                    "high": "Ard",
+                    "low": "\u00cdseal"
+                }
+            }
+        },
+        "sensor": {
+            "battery_energy_exported": {
+                "name": "Ceallra\u00ed easp\u00f3rt\u00e1ilte"
+            },
+            "battery_energy_imported_from_generator": {
+                "name": "Ceallra\u00ed allmhairithe \u00f3n nginead\u00f3ir"
+            },
+            "battery_energy_imported_from_grid": {
+                "name": "Ceallra\u00ed allmhairithe \u00f3n eangach"
+            },
+            "battery_energy_imported_from_solar": {
+                "name": "Ceallra\u00ed allmhairithe \u00f3 ghr\u00e9ine"
+            },
+            "charge_state_charging_state": {
+                "state": {
+                    "charging": "Muirear\u00fa",
+                    "stopped": "Stoptha"
+                }
+            },
+            "consumer_energy_imported_from_battery": {
+                "name": "Tomhalt\u00f3ir allmhairithe \u00f3 cheallra\u00ed"
+            },
+            "consumer_energy_imported_from_generator": {
+                "name": "Tomhalt\u00f3ir allmhairithe \u00f3 ghinead\u00f3ir"
+            },
+            "consumer_energy_imported_from_grid": {
+                "name": "Tomhalt\u00f3ir allmhairithe \u00f3n eangach"
+            },
+            "consumer_energy_imported_from_solar": {
+                "name": "Tomhalt\u00f3ir\u00ed allmhairithe \u00f3 ghr\u00e9ine"
+            },
+            "generator_energy_exported": {
+                "name": "Ginead\u00f3ir onnmhairithe"
+            },
+            "grid_energy_exported_from_battery": {
+                "name": "Eangach a easp\u00f3rt\u00e1il \u00f3n gceallra\u00ed"
+            },
+            "grid_energy_exported_from_generator": {
+                "name": "Eangach a easp\u00f3rt\u00e1il \u00f3n nginead\u00f3ir"
+            },
+            "grid_energy_exported_from_solar": {
+                "name": "Eangach a onnmhair\u00edtear \u00f3n ngrian"
+            },
+            "grid_energy_imported": {
+                "name": "Eangach allmhairithe"
+            },
+            "grid_services_energy_exported": {
+                "name": "Seirbh\u00eds\u00ed eanga\u00ed a onnmhairi\u00fa"
+            },
+            "grid_services_energy_imported": {
+                "name": "Seirbh\u00eds\u00ed eanga\u00ed allmhairithe"
+            },
+            "solar_energy_exported": {
+                "name": "Gr\u00e9ine a onnmhairi\u00fa"
+            },
+            "storm_mode_active": {
+                "name": "Faire Stoirme gn\u00edomhach"
+            },
+            "total_battery_charge": {
+                "name": "Ceallra\u00ed luchtaithe"
+            },
+            "total_battery_discharge": {
+                "name": "Ceallra\u00ed urscaoilte"
+            },
+            "total_grid_energy_exported": {
+                "name": "Eangach easp\u00f3rt\u00e1ilte"
+            },
+            "total_home_usage": {
+                "name": "\u00das\u00e1id sa bhaile"
+            },
+            "total_solar_generation": {
+                "name": "Ginte gr\u00e9ine"
+            }
+        },
+        "switch": {
+            "charge_state_charging_state": {
+                "name": "Muirear"
+            }
+        }
+    }
+}
