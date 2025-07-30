@@ -1,0 +1,123 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "wxc"
+version = "7.2.0"
+description = "A CLI facility to inspect Python environments."
+authors = [
+    { name = "C.M.T. Robert" },
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Programming Language :: Python :: 3",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "rich>=10.13.0",
+]
+
+[project.license]
+text = "GPL-3.0"
+
+[project.readme]
+file = "README.md"
+content-type = "text/markdown"
+
+[project.scripts]
+wxc = "wxc.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/neutrinoceros/wxc"
+Changelog = "https://github.com/neutrinoceros/wxc/blob/main/CHANGELOG.md"
+
+[dependency-groups]
+test = [
+    "pytest>=6.0.2",
+    "pytest-mock>=3.5.1",
+    "schema>=0.7.2",
+]
+covcheck = [
+    {include-group = "test"},
+    "coverage>=6.5.0 ; python_full_version >= '3.11'",
+    "coverage[toml]>=6.5.0 ; python_full_version < '3.11'",
+]
+typecheck = [
+    "mypy>=1.13.0",
+]
+dev = [
+    "matplotlib-inline>=0.1.7 ; python_version < '3.14'",
+    "numpy>=2.0.2 ; python_version < '3.14'",
+]
+
+
+[tool.ruff.lint]
+exclude = ["*__init__.py"]
+ignore = ["E501"]
+select = [
+    "E",
+    "F",
+    "W",
+    "C4",  # flake8-comprehensions
+    "B",   # flake8-bugbear
+    "YTT", # flake8-2020
+    "I",   # isort
+    "UP",  # pyupgrade
+]
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+known-first-party = ["wxc"]
+
+[tool.coverage.paths]
+source = [
+  "/home/runner/work/wxc",
+  "/Users/runner/work/wxc",
+  "D:\\a\\wxc",
+]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+exclude_lines = [
+    # a more strict default pragma
+    "\\# pragma: no cover\\b",
+
+    # allow defensive code
+    "^\\s*raise NotImplementedError\\b",
+
+    # typing-related code
+    "^if TYPE_CHECKING:",
+    ": \\.\\.\\.(\\s*#.*)?$",
+    "^ +\\.\\.\\.$",
+    "-> ['\"]?NoReturn['\"]?:",
+]
+
+[tool.coverage.run]
+source = ["src/wxc"]
+include = [
+  "src/wxc",
+  "tests",
+]
+omit = [
+  "tests/data/*.py",
+  "src/wxc/__main__.py",
+]
+parallel = true
+
+[tool.mypy]
+python_version = "3.10"
+show_error_codes = true
+pretty = true
+warn_return_any = true
+warn_unused_configs = true
+warn_unreachable = true
+
+[tool.pytest]
+filterwarnings = [
+  "error",
+]
