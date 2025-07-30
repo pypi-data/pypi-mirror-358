@@ -1,0 +1,92 @@
+Metadata-Version: 2.4
+Name: lotuschat-bot-sdk
+Version: 0.1.15
+Summary: SDK for interacting with LotusChat API
+Author-email: Yuriko <tunguyenanh@vccorp.vn>
+License: MIT
+Description-Content-Type: text/markdown
+Requires-Dist: requests
+Requires-Dist: schedule
+Requires-Dist: flask
+Requires-Dist: pydantic
+Requires-Dist: aiohttp
+
+# Lotus-chat Bot Sdk
+
+A lightweight and extensible Python SDK to interact with the LotusChat Bot API
+
+---
+
+## 🚀 Summary
+
+LotusChat Bot SDK simplifies integration with the LotusChat platform. It supports:
+- Sending messages, documents, and commands
+- Receiving and handling incoming messages via webhook or polling
+- Custom keyboard and entity formatting
+- Async and sync interfaces
+
+--- 
+## 💻 Version 
+
+lastest verison: 0.1.15
+
+Install dependencies:
+```bash
+pip install lotuschat-bot-sdk
+```
+
+---
+
+## ⚙️ Python Compatibility
+
+- **Supported versions:** `>=3.13`
+
+---
+
+## 📦 Dependencies
+
+| Library       | Purpose                     |
+|---------------|-----------------------------|
+| `aiohttp`     | Async HTTP requests         |
+| `pydantic`    | Data validation / modeling  |
+| `schedule`    | Scheduled jobs              |
+| `flask`       | Webhook support (optional)  |
+| `requests`    | Synchronous fallback        |
+| `pillow`      | Image conversion (.webp, etc) |
+| `beautifulsoup4` | HTML parsing for sticker sets |
+| `playwright`  | Optional: scrape dynamic content (requires install) |
+
+## Change log versions:
+- 0.1.14:
+  - fix send message có truyền entity
+  - and 3 api set,get,delete command
+  - fix return raw messge nếu response nó trả về không phải json
+- 0.1.13: 
+  - add async cho function 
+  - add delete message function
+  - change package sdk -> lotuschat_sdk
+- 0.1.12:
+  - update 2 api sendMessage & getUpdates full parameters
+  - open entity_extract used for extract entities in messages object
+
+---
+
+## How to use
+### init
+```python
+    bot = ChatBot(
+        name="bot name used for filter message from this bot",
+        token="bot token, get from @BotCreator",
+        max_threads=5, # Optional : thread number used for bot, default = 5
+        is_vpn=True # Optional : True for develop, False for lotuschat.vn
+    )
+```
+
+### hook message
+```python
+    app = Flask(__name__)
+    
+    @app.route("/", methods=["POST"])
+    def lc_webhook():
+        return bot.web_hook()
+```
