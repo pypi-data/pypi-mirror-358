@@ -1,0 +1,40 @@
+{
+  "global": {
+    "pii_keys": [
+      "email", "phone", "mobile", "address", "name", "full_name", "dob",
+      "birthdate", "ssn", "credit_card", "card_number", "cvv", "pan",
+      "passport", "aadhaar", "zipcode", "zip", "pin", "ip", "location",
+      "latitude", "longitude"
+    ],
+    "regex_keys": [
+      "(?i)token", "(?i)secret", "(?i)auth", "(?i)password|pwd", "(?i)_key$",
+      "(?i)credit.*card", "(i?)ssn", "(?i)birth|dob", "(?i)ip.*address",
+      "(?i)phone|mobile", "(?i)email", "(?i)address|street"
+    ]
+  },
+  "user_profile": {
+    "schema": {
+      "user_id": "no_redact",
+      "username": "no_redact",
+      "is_active": "no_redact",
+      "last_login_ip": "pii",
+      "contact": {
+        "email": "pii",
+        "phone": "pii"
+      }
+    }
+  },
+  "transaction_log": {
+    "schema": {
+      "transaction_id": "no_redact",
+      "user_id": "no_redact",
+      "amount": "no_redact",
+      "currency": "no_redact",
+      "payment_details": {
+        "card_number": "pii",
+        "card_holder_name": "pii",
+        "billing_address": "pii"
+      }
+    }
+  }
+}

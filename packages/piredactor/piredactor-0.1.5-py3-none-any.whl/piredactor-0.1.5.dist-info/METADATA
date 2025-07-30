@@ -1,0 +1,650 @@
+Metadata-Version: 2.4
+Name: piredactor
+Version: 0.1.5
+Summary: A flexible Python package for redacting Personally Identifiable Information (PII) from dictionaries and lists using a schema-based approach.
+Author: Piyush Chauhan
+Author-email: Piyush Chauhan <piyush23321@gmail.com>
+License: MIT License
+        
+        Copyright (c) 2025 Piyush Chauhan
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+Keywords: pii,redact,privacy,decorator,schema,gdpr,security
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Security
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: PyYAML>=5.0
+Dynamic: license-file
+
+# 📦 piredactor
+
+`piredactor` is a Python package designed to **redact sensitive information (PII)** from nested dictionaries using a clean, schema-driven, and decorator-based approach. It simplifies secure logging and data handling where hiding sensitive fields is crucial.
+
+---
+
+## ✨ Features
+
+- 🔐 Redacts PII fields in deeply nested dictionaries.
+- 🧾 Schema-based control via a simple JSON configuration.
+- 🔍 Supports regex-based and partial-key matching for flexibility.
+- 🧱 Decorator-style usage for easy integration with functions.
+- 🧪 Optional strict schema validation for safe deployments.
+- 🧰 Configurable placeholder values for redaction.
+
+---
+
+## 📦 Installation
+
+```bash
+pip install piredactor
+```
+
+
+⚙️ Configuration
+Create a pii_config.json file that looks like this:
+- It also support yaml file
+```json
+{
+  "user_data": {
+    "schema": {
+      "user": {
+        "email": "pii",
+        "password": "pii",
+        "addresses": {
+          "*": {
+            "zip": "pii"
+          }
+        }
+      },
+      "session": {
+        "auth_token": "pii",
+        "auth_key": "pii",
+        "user_id": "no_redact"
+      }
+    }
+  },
+}
+```
+## ✨ Features
+One of the core design principles of piredactor is to be incredibly easy to use for the most common scenarios. This is made possible through its Zero-Configuration Automatic Mode.
+
+Effortless Out-of-the-Box Redaction
+If you need to quickly redact the most common types of Personally Identifiable Information (PII) without writing any configuration files, this is the mode for you.
+
+How It Works
+When you apply the @redact_pii() decorator to a function without passing any arguments, it activates a simple and predictable set of rules:
+
+The Trigger: This mode is used when the decorator is empty:
+
+```python
+
+@redact_pii()
+def my_function():
+    ...
+```
+The Rule Set: It exclusively uses the pii_keys list from the global section of your configuration.
+
+If you have a piredactor.yaml or pii_config.json file in your project's root directory, it will use the global.pii_keys list from that file.
+
+If you don't have a configuration file, it falls back to the default list of common PII keys that ships with the package (including "email", "phone", "ssn", "name", "address", etc.).
+
+The Matching Logic: It performs an exact, case-sensitive match on the key names in your data.
+
+What Is Ignored: For simplicity and speed, this mode intentionally ignores all advanced features. The following have no effect:
+
+- regex_keys
+
+- partial_match
+
+- strict_validation
+
+Any custom schemas or value-based rules.
+
+Example
+Let's see it in action. You have a function that returns a dictionary with various keys.
+
+Your Python Code:
+```python
+
+from piredactor import redact_pii
+
+# We apply the decorator with no arguments
+@redact_pii()
+def get_user_summary():
+    """
+    This function returns data with some keys that are in the default
+    pii_keys list and some that are not.
+    """
+    return {
+        "user_id": 101,
+        "full_name": "Piyush Chauhan",   # This key is NOT in the default list
+        "name": "Piyush",                # EXACT MATCH -> This will be redacted
+        "email": "piyush@example.com",   # EXACT MATCH -> This will be redacted
+        "user_token": "abc-123-xyz",     # This key would match a regex, but regex is ignored here
+        "is_active": True
+    }
+
+# Let's see the output
+redacted_data = get_user_summary()
+print(redacted_data)
+```
+Output:
+
+```json
+
+{
+  "user_id": 101,
+  "full_name": "Piyush Chauhan",
+  "name": "***",
+  "email": "***",
+  "user_token": "abc-123-xyz",
+  "is_active": true
+}
+```
+As you can see, only the keys that had a perfect, exact match in the pii_keys list ("name" and "email") were redacted. The other keys were left untouched.
+
+## When to Use This Mode
+For quick setup in new projects.
+
+For simple applications or scripts where key names are consistent and match common PII types.
+
+When you want predictable, safe redaction without needing to manage complex rules.
+
+# ⚙️ Mastering the Decorator: All Parameters Explained
+The `@redact_pii decorator` is the heart of the piredactor package. While it works out-of-the-box with no arguments, you can fine-tune its behavior with a set of powerful optional parameters.
+
+Here is a detailed guide to every parameter, what it does, and when you should use it.
+
+## config_key
+- Type: str
+
+- Optional: Yes
+
+- Default: None
+
+This is the most important parameter as it determines which mode of operation the decorator will use.
+
+What it does: It activates the powerful Schema-Based Mode by telling piredactor which specific schema block to use from your configuration file. The string you provide must match a top-level key in your piredactor.yaml or JSON file.
+
+When to use it: Use this whenever you need precise control over the redaction logic for a specific data structure. If you omit this parameter, the decorator runs in the simple, zero-config Automatic Mode.
+
+`Example:`
+```python
+#This tells the decorator to find the 'user_profile' block in your config and use the schema defined within it.
+@redact_pii(config_key='user_profile')
+def get_user_with_schema():
+    return {"user_id": 123, "name": "Piyush Chauhan"}
+```
+
+## config_path
+- Type: str
+
+- Optional: Yes
+
+- Default: None
+
+`What it does:` It provides an explicit path to a configuration file. This overrides the package's automatic discovery mechanism (which looks for piredactor.yaml, etc., in the current directory).
+
+`When to use it:`
+
+When your configuration file is located in a different directory (e.g., /etc/app/config/).
+
+When your configuration file has a non-standard name.
+
+> When you need to manage multiple configuration files for different environments (e.g., development vs. production).
+
+`Example:`
+
+```python
+# The decorator will ignore any local piredactor.yaml and load this specific file instead.
+@redact_pii(config_key='prod_settings', config_path='/etc/app/production.yaml')
+def get_production_data():
+    # ...
+
+  ```
+
+## placeholder 
+- Type: str
+
+- Optional: Yes
+
+- Default: ***
+
+`What it does:` It changes the default string that is used to replace redacted data. This change applies only to the specific function call being decorated.
+
+When to use it: When you want a more descriptive placeholder for a certain type of data, like [REDACTED] or [SENSITIVE DATA REMOVED].
+
+`Example:`
+
+```python
+# For this function, all redacted fields will be replaced with '[DATA MASKED]'.
+@redact_pii(config_key='user_profile', placeholder='[DATA MASKED]')
+def get_masked_data():
+    return {"name": "Piyush Chauhan", "email": "piyush@example.com"}
+
+# Output: {'name': '[DATA MASKED]', 'email': '[DATA MASKED]'}
+```
+## partial_match
+- Type: bool
+
+- Optional: Yes
+
+- Default: False
+
+`What it does:` When set to True, it makes the `global.pii_keys` matching more aggressive. Instead of looking for an exact key match, it will redact any data key that contains a string from the pii_keys list as a substring. This parameter has no effect in the zero-config Automatic Mode.
+
+`When to use it:` When dealing with inconsistent key names from an external source and you need broad coverage.
+
+`⚠️ Warning:` Use with caution, as it can lead to false positives. For example, if "pin" is a PII key, this will redact a key named "opinion". Using regex_keys in your global config is often a safer alternative.
+
+`Example:`
+> (Assuming pii_keys contains "name")
+
+```python
+@redact_pii(config_key='some_schema', partial_match=True)
+def get_data_from_partner_api():
+    # The key "user_full_name" is not an exact match for "name", but it contains it.
+    return {"user_full_name": "Piyush Chauhan"}
+
+# Output: {'user_full_name': '***'}
+```
+## strict_validation
+- Type: bool
+
+- Optional: Yes
+
+- Default: False
+
+`What it does:` When set to True, it acts as a data quality check. It forces the structure of your data to strictly match the structure defined in your schema. If there is a type mismatch (e.g., the schema expects a dictionary but the data provides a string), it will raise a TypeError instead of failing silently. This parameter has no effect in Automatic Mode.
+
+`When to use it:` In production environments or data pipelines where you need to guarantee that the data being processed conforms to your expectations. It's excellent for catching data corruption issues early.
+
+`Example:`
+(Assuming your schema for user_profile expects the contact field to be a dictionary)
+
+
+```python
+@redact_pii(config_key='user_profile', strict_validation=True)
+def process_unreliable_data():
+    # This will raise a TypeError because the schema expected a dictionary for 'contact'.
+    return {"contact": "this should have been a dict"}
+```
+
+
+# Here is a detailed guide on how to use the default configuration, define your own custom one, and how the global rules are applied and overridden.
+
+`The Configuration Hierarchy:` A Tale of Three Files
+piredactor uses a priority-based system to find and load its configuration. It checks for files in this specific order:
+
+> The config_path Parameter (Highest Priority):
+
+`What it is:` The file path you pass directly to the decorator (e.g., @redact_pii(config_path='/path/to/my/special.yaml')).
+
+`When to use it:` For special cases, one-off scripts, or when you need to use a configuration that is not in your project's main directory. This file takes precedence over everything else.
+
+> The Project-Level Custom Config (Recommended Method):
+
+`What it is:` A file you create in the root directory of your project. piredactor will automatically find it.
+
+`Where to define it:` Create a file named piredactor.yaml (or piredactor.json, pii_config.yaml, pii_config.json).
+
+`When to use it:` This is the standard way to set up custom rules for your entire application.
+
+> The Default Package Config (Lowest Priority):
+
+`What it is:` The built-in pii_config.json that comes with the piredactor package itself.
+
+`When it's used:` It acts as the ultimate fallback. If you don't provide a config_path and there is no project-level config file, piredactor will use this one. This allows the decorator to work out-of-the-box.
+
+> **The Role of the global Block: Your Safety Net**
+
+The global block in your configuration file is designed to be your application's "safety net." It contains the default redaction rules that apply only when a data key is not specifically handled by a more detailed schema.
+
+> It contains two key lists: 
+
+
+`pii_keys:` A list of strings for exact key matching (e.g., "email", "ssn"). This is fast and predictable.
+
+`regex_keys:` A list of regex patterns for pattern-based key matching (e.g., "(?i)token", ".*_key$"). This is powerful for catching variations.
+
+> *How Overriding and Merging Works*
+
+- You do not need to copy the entire default configuration. You only need to specify what you want to add or change.
+
+> The system works by:
+
+- First, loading the default package config as a base.
+
+- Then, if it finds your custom project-level config, it intelligently merges your custom rules on top of the base.
+
+`Example 1:` Adding a New Schema (without changing globals)
+
+Let's say you just want to add a new schema for your application's logs, but you are happy with the default global rules.
+
+> Your piredactor.yaml (in your project root):
+
+```yaml
+
+# You don't need to define a 'global' block.
+# The default global rules for email, phone, token, etc., will be used automatically.
+
+# You are only ADDING a new schema for your specific use case.
+app_logs:
+  schema:
+    log_id: "no_redact"
+    user_id: "no_redact"
+    session_details: "pii"
+Result: The final configuration in memory will contain the default global block plus your new app_logs block.
+```
+`Example 2:` Overriding and Extending the global Block
+
+Now, let's say you want to keep the default global rules but also add drivers_license as a new PII key for your entire project.
+
+Your piredactor.yaml:
+
+```yaml
+
+# By defining a 'global' block, you are telling piredactor to update the defaults.
+global:
+  # The 'pii_keys' list you provide here will UPDATE the default list.
+  # So, you should include the defaults you want to keep.
+  # (In a future version, we could make this an append operation, but for now, it's an update).
+  # For simplicity, let's just show adding a new key.
+  # The final loaded config will contain the defaults + your additions if you structure it right.
+  # The easiest way is to let the merge happen. If you only provide `pii_keys`, only that gets updated.
+  pii_keys:
+    - email
+    - phone
+    - ssn
+    - address
+    - name
+    - drivers_license # Your new addition
+# The default `regex_keys` from the package will still be loaded because you didn't define it here.
+```
+The merging logic is designed to be intuitive: your custom configuration specifies the changes, and the package handles the rest. Just create a piredactor.yaml in your project root, and you're ready to customize.
+
+## Understanding the schema
+A schema is a blueprint that you define in your configuration file (e.g., piredactor.yaml). It exactly mirrors the structure of the data you want to redact and assigns a specific rule to each key.
+
+You activate a schema by passing its name to the decorator:
+`@redact_pii(config_key='my_schema_name')`
+
+> **The Core Rules: pii and no_redact**
+
+These are the fundamental building blocks of any schema.
+
+**1. The "pii" Rule**
+
+This is the simplest and most direct rule. It tells the redactor: "Always redact this field."
+
+How to use it: Assign the string "pii" as the value for a key in your schema.
+
+Example:
+Your piredactor.yaml:
+
+```yaml
+
+user_profile:
+  schema:
+    user_id: "no_redact"
+    email: "pii"
+    name: "pii"
+  ```
+Your Data:
+
+```json
+
+{
+  "user_id": 123,
+  "email": "piyush@example.com",
+  "name": "Piyush Chauhan"
+}
+```
+
+Result:
+```json
+
+JSON
+
+{
+  "user_id": 123,
+  "email": "***",
+  "name": "***"
+}
+```
+**2. The "no_redact" Rule**
+
+This is the "override" or "exception" rule. It tells the redactor: "Never redact this field, no matter what." This rule has the highest priority and will win against any global PII key or regex match.
+
+`How to use it:` 
+
+Assign the string "no_redact" to a key.
+
+`When to use it:`
+
+ When a key (like ip_address) is in your global redaction list, but you need to see its value for a specific function (e.g., a security log).
+
+`Using Regular Expressions in a Schema`
+
+This is where the power of piredactor truly shines. You can use regex to apply rules to keys based on patterns. There are two advanced ways to do this:
+
+> 1. Regex as Keys (For Key-Name Matching)
+
+This is the primary way to handle local regex rules. You use a regular expression pattern directly as a key in your schema. If a key from your data matches this pattern, the corresponding rule is applied.
+
+`How to use it:` 
+
+Define a key in your schema that is a valid regex string.
+
+`When to use it:` 
+
+When you want to apply a rule to a pattern of key names (e.g., all keys ending in _token) within a specific schema.
+
+`Example:` 
+
+Redact any key that starts with user_ and any key that ends with _key.
+Your piredactor.yaml:
+
+```yaml
+
+api_log:
+  schema:
+    request_id: "no_redact"
+    # This regex key will match 'user_id', 'user_name', etc.
+    '^user_.*$': 'pii'
+
+    # This regex key provides a custom placeholder for any key ending in '_key'
+    '.*_key$': { "pii": "[KEY MASKED]" }
+    ```
+Your Data:
+
+```json
+
+{
+  "request_id": "req-001",
+  "user_id": 123,
+  "api_secret_key": "secret-abc"
+}
+```
+Result:
+
+```json
+
+{
+  "request_id": "req-001",
+  "user_id": "***",
+  "api_secret_key": "[KEY MASKED]"
+}
+```
+
+> 2. Value-Based Regex (For Content Inspection)
+
+This is the most advanced feature. It allows you to inspect the value of a field and decide whether to redact it based on a regex match.
+
+`How to use it:` 
+
+The schema rule for your key must be a dictionary containing a special __match_value__ key. This key holds another dictionary of { "regex_pattern": "redaction_rule" }.
+
+`When to use it:` 
+
+When the sensitivity of a field depends on its content, not its name. For example, redacting an ID only if it's a temporary one.
+
+`Example:` 
+
+For a key named event_id, redact it with a custom placeholder if its value starts with temp_, but do not redact it if its value starts with final_.
+Your piredactor.yaml:
+
+```yaml
+
+event_data:
+  schema:
+    event_id:
+      __match_value__:
+        # This rule applies if the value matches '^temp_.*'
+        '^temp_.*': '[TEMP ID]'
+
+        # This rule applies if the value matches '^final_.*'
+        '^final_.*': 'no_redact'
+        ```
+Your Data:
+
+```json
+
+{
+  "event_id_1": "temp_abc-123",
+  "event_id_2": "final_xyz-789"
+}
+(Assuming event_id_1 and event_id_2 both fall under an event_id regex key or you check both)
+
+```
+The logic will apply to the values, resulting in something conceptually like:
+
+```json
+
+{
+  "event_id_1": "[TEMP ID]",
+  "event_id_2": "final_xyz-789"
+}
+```
+By mastering these schema rules, you can move from simple redaction to creating a sophisticated, precise, and maintainable system for protecting sensitive data in any part of your application.
+
+
+
+## Piredactor Capabilities: What It Can and Cannot Do
+This guide clarifies the specific capabilities and design limitations of the piredactor package.
+
+`Q: What data structures can piredactor process?`
+
+A: piredactor is specifically designed for dict and list objects.
+
+- YES, it can handle dictionaries. This is its primary function.
+
+- YES, it can handle lists, especially lists that contain dictionaries.
+
+- YES, it can handle any level of nested lists and dictionaries. The redaction logic is recursive and will drill down into any complex structure, as long as your schema mirrors that structure.
+
+`Q: Can piredactor handle other Python data types?`
+
+Ans: 
+- No. The package is highly specialized for performance on JSON-like data structures.
+
+- NO, it cannot process a tuple. If the redactor encounters a tuple, it will treat it as a single, opaque value and return it unmodified. It will not inspect the contents of the tuple, even if it contains dictionaries with sensitive PII.
+
+- NO, it cannot process a set. Like tuples, sets will be returned as-is without any redaction.
+
+- NO, you cannot use non-string keys like a tuple as a dictionary key. The configuration system and internal regex engine require all keys to be strings.
+
+`Q: Can piredactor find PII inside a raw string?`
+
+Ans: 
+
+- No. piredactor is a key-based redactor, not a content scanner.
+
+Its logic is built around this principle: "Does the name of the key (e.g., "email") tell me that its value is sensitive?" It does not inspect the content of the string itself.
+
+`Example:`
+
+```python
+# This will be redacted because the key is "email".
+{"email": "piyush@example.com"}
+
+# This will NOT be redacted because the package does not scan string content.
+"My email is piyush@example.com"
+```
+
+`Q: Can piredactor handle a simple list of strings?`
+
+Ans: 
+
+- No. A list of strings like ["piyush@example.com", "My phone is 555-1234"] contains no keys for the redactor to inspect. The list will be returned completely unmodified.
+
+
+# `piredactor` Roadmap: Future Features & Improvements
+This document outlines potential new features and quality-of-life improvements for the piredactor package.
+
+`Tier 1:` Quality-of-Life & Usability Improvements
+More Informative Error Messages:
+
+Introduce custom exception classes like SchemaNotFoundError for clearer feedback.
+
+Enhanced Configuration Merging:
+
+Add an __append__ syntax to allow users to add to global lists (pii_keys, regex_keys) instead of replacing them.
+
+Command-Line Interface (CLI) Tool:
+
+Create a CLI to redact JSON/YAML files directly from the terminal.
+
+Verbose Logging:
+
+Implement an optional debug/verbose mode to log redaction decisions for easier debugging.
+
+`Tier 2:` Major New Features & Capabilities
+Support for More Data Structures:
+
+Add recursive processing support for tuple and set objects.
+
+Pluggable Redaction Strategies:
+
+Allow users to choose different redaction actions beyond placeholder replacement, such as:
+
+hash_sha256
+
+mask_last_4
+
+replace with fake data
+
+Full Content-Scanning Mode:
+
+Implement a true value-based redaction mode to find PII within any string.
+
+
+
