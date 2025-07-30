@@ -1,0 +1,1 @@
+from gemmoai.prompt.latest_prompt import get_latest_prompt_version
