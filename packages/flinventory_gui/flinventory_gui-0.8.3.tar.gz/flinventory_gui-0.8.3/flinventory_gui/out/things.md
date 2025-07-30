@@ -1,0 +1,1645 @@
+---
+classoption:
+- twocolumn
+geometry:
+- margin=0.5cm
+- bottom=1.5cm
+---
+
+# Fahrradteile
+- **** → Standard Steuersatz AHEAD Teile 
+- **1 1/8 Zoll Metallzylinder** → Sägeführung für Gabelschaft 
+- **1 1/8'' Zylinder** → Einschlaghilfe Ahead-Kralle R.W
+- **1' Kontermutter Steuersatz** → Steuersatzkontermutter 1 Zoll 
+- **1' Lock nut head set** → Steuersatzkontermutter 1 Zoll 
+- **1,6mm Endhülse** → Bremsbowdenzugendkappe 
+- **1.1mm crimp** → Schaltbowdenzugendkappe 
+- **1.1mm Klemmhülse** → Schaltbowdenzugendkappe 
+- **1.6mm Crimp** → Bremsbowdenzugendkappe 
+- **1/8 inch chain** → Kette Singlespeed 
+- **1/8 Zoll breite Kette** → Kette Singlespeed 
+- **11-tooth sprocket** → Ritzel (einzeln) R.L.W.2.3
+- **11-Zahn Ritzel** → Ritzel (einzeln) R.L.W.2.3
+- **2,4 mm breite Kette** → Kette Kettenschaltung 
+- **2.4mm chain** → Kette Kettenschaltung 
+- **25,4mm Mutter** → Steuersatzkontermutter 1 Zoll 
+- **25.4mm nut** → Steuersatzkontermutter 1 Zoll 
+- **26 inch tube** → Schlauch 26' 
+- **26 Zoll Schlauch** → Schlauch 26' 
+- **27,5' Schlauch** → Schlauch 28' 
+- **27.5 inch tube** → Schlauch 28' 
+- **28 inch tube** → Schlauch 28' 
+- **28 Zoll Hinterrad** → Hinterrad 28 Zoll R.L.R.O
+- **28 Zoll Schlauch** → Schlauch 28' 
+- **28'' Back wheel** → Hinterrad 28 Zoll R.L.R.O
+- **29 inch tube** → Schlauch 28' 
+- **29' Schlauch** → Schlauch 28' 
+- **3,2 mm breite Kette** → Kette Singlespeed 
+- **3.2mm chain** → Kette Singlespeed 
+- **3/32 inch chain** → Kette Kettenschaltung 
+- **3/32 Zoll breite Kette** → Kette Kettenschaltung 
+- **30mm inbus screw** → V-Brake Befestigungsschraube 
+- **30mm Inbusschraube** → V-Brake Befestigungsschraube 
+- **559mm Schlauch** → Schlauch 26' 
+- **559mm tube** → Schlauch 26' 
+- **622mm Schlauch** → Schlauch 28' 
+- **622mm tube** → Schlauch 28' 
+- **6er inbus screw** → V-Brake Befestigungsschraube 
+- **6er Inbusschraube 30mm** → V-Brake Befestigungsschraube 
+- **9er Mutter** → Kontermutter für Achskonus 
+- **9er nut** → Kontermutter für Achskonus 
+- **?**: R.L
+- **Abdeckkappen Nabenschaltung** → Staubkappe für Nabenschaltung 
+- **Abdeckung** → Lagerabdeckung 
+- **Abdeckung Kurbel** → Staubkappe für Kurbel 
+- **Abdeckung Nabe Gummi** → Staubkappe für Nabenschaltung 
+- **Abdeckung V-Brake Feder** → V-Brake Feder & Abdeckung 
+- **abgeflachter Keil mit Gewinde** → Kurbelkeil 
+- **Abstandsgummi** → Gummi divers 
+- **Abstandshalter** → Distanzring klein 
+- **Abstandshalter** → Schaltwerkschutzbügel 
+- **Abstützung Rücktrittbremse** → Drehmomentstütze 
+- **Achse** (**Axle**): 
+- **Achsenschreck** → Schraubkranz R.L.W.2.2
+- **Achslageneinsteller** → Kettenspanner für horizontale Ausfallenden 
+- **Achsmutter** (**Axle nut**): 
+- **Achsmutter alle Größen (vorerst)** → Achsmutter 
+- **Achssicherung ohne Nase** → Riffelscheibe für Achse 
+- **Achsunterlegscheibe** → Riffelscheibe für Achse 
+- **Adjuster gear cables** → Schaltzugeinsteller mit Feder, Schraube, Griff 
+- **Adjusting screw for brake** → Zugeinsteller Bremse 
+- **Ahead claw batter** → Einschlaghilfe Ahead-Kralle R.W
+- **Aheadset-Vorbau** (**Threadless stem**): 
+- **Air pump** → Luftpumpe 
+- **Akkufrontleuchte** → Batteriefrontleuchte 
+- **Akkurückleuchte** → Batterierückleuchte 
+- **Alligatorventil** → Fahrradventil 
+- **alte Shimano Schalthebel** → Friktionsschaltgriff R.L.B.3
+- **alter kleiner Schalthebel** → SIS Schalthebel R.L.B.3
+- **Alter Vorbau** → Vorbau mit Innenklemmung 
+- **Alukappe** → Staubkappe für Kurbel 
+- **American valve** → Autoventilteile 
+- **Ampere meter** → Multimeter 
+- **Anchor bolt** → Bowdenzugbefestigung versch. 
+- **Anhängerkupplung** (**Tow hitch**): 
+- **Anschlagschrauben** → Begrenzungsschraube Schaltung 
+- **Anti-fraying for brake cable** → Bremsbowdenzugendkappe 
+- **Anti-fraying for shifter cable** → Schaltbowdenzugendkappe 
+- **Anti-rotation washer** → Sicherungsscheibe für Achse 
+- **Arched cable clamp** → Kabelschelle zweilaschig R.L.W.S.A.1.4
+- **Arm left** → Tretkurbel links 
+- **Arm with several chainrings** → Kurbelgarnitur 
+- **Attachment for handlebar basket** → Befestigung für Lenkerkorb 
+- **Attachment ring** → Schelle Metall 
+- **Aufbewahrungsgefäße** → Schachtel 
+- **Aufstecker für Lichtkabel ♀** → Kabelschuh 
+- **Aufstecker für Lichtkabel ♂** → Kabelzunge 
+- **Ausschlacht-Fahrräder** (**Scrap bikes**): 
+- **Autoventil** → Autoventilteile 
+- **Autoventilteile** (**Schrader valve parts**): 
+- **Außengewindeschneider** → Gewindeschneider 
+- **außenliegender Steuersatz AHEAD Teile** → Standard Steuersatz AHEAD Teile 
+- **Außensechskant M3-Schraube** → M3-Schraube, Mutter, Unterlegscheibe 
+- **Außensechskant M4-Schraube** → M4-Schraube, Mutter, Unterlegscheibe 
+- **Außensechskant M5-Schraube** → M5-Schraube, Mutter, Unterlegscheibe 
+- **Außensechskant M6-Schraube** → M6-Schraube, Mutter, Unterlegscheibe 
+- **Außensechskant M7-Schraube** → M7-Schraube, Mutter, Unterlegscheibe 
+- **Außensechskantschraube** → Kurbelschraube 
+- **Außensechskantschraube M10** → M10-Schraube, Mutter, Unterlegscheibe 
+- **Außensechskantschraube M3** → M3-Schraube, Mutter, Unterlegscheibe 
+- **Außensechskantschraube M4** → M4-Schraube, Mutter, Unterlegscheibe 
+- **Außensechskantschraube M5** → M5-Schraube, Mutter, Unterlegscheibe 
+- **Außensechskantschraube M6** → M6-Schraube, Mutter, Unterlegscheibe 
+- **Außensechskantschraube M7** → M7-Schraube, Mutter, Unterlegscheibe 
+- **Außensechskantschraube M8** → M8-Schraube, Mutter, Unterlegscheibe 
+- **Axis nut** → Achsmutter 
+- **Axis with lever** → Schnellspanner für Achse R.L.W.7.2
+- **Axle** → Achse 
+- **Axle nut** → Achsmutter 
+- **Axle with lever** → Schnellspanner für Achse R.L.W.7.2
+- **Axle with lever for back wheel** → Schnellspanner für Hinterrad 
+- **Axle with lever for front wheel** → Schnellspanner für Vorderrad 
+- **Back light** → Rückleuchte 
+- **Back light battery based** → Batterierückleuchte 
+- **Back reflector** → Reflektor 
+- **Back wheel 28 inch** → Hinterrad 28 Zoll R.L.R.O
+- **back wheel hub with gears** → Nabenschaltung 
+- **Back wheel hub with thread** → Schraubkranznabe 
+- **Ball bearing cap** → Lagerabdeckung 
+- **Ball bearing nut** → Konus 
+- **Ball cage, all sizes** → Kugelring, alle Größen 
+- **Ball cap for pump** → Pumpe Kleinteile 
+- **Ball retainer** → Kugelring, alle Größen 
+- **Ball separator** → Kugelring, alle Größen 
+- **Ball, all sizes** → Kugel, alle Größen 
+- **Ballpumpenaufsatz** → Pumpe Kleinteile 
+- **Barrel adjuster** → Zugeinsteller Bremse 
+- **Basket** → Korb 
+- **Basket mount** → Befestigung für Lenkerkorb 
+- **Batteriefrontleuchte** (**Battery front light**): 
+- **Batterierückleuchte** (**Battery rear light**): 
+- **Battery front light** → Batteriefrontleuchte 
+- **Battery rear light** → Batterierückleuchte 
+- **Baudenzug** → Bremszug 
+- **Baudenzug** → Schaltzug 
+- **Bautenzug** → Bremszug 
+- **Bautenzug** → Schaltzug 
+- **Bearing ball** → Kugel, alle Größen 
+- **Bearing cage** → Kugelring, alle Größen 
+- **Bearing cap** → Lagerabdeckung 
+- **Bearing cup almost inside frame** → Semi-integrierter Steuersatz AHEAD Teile 
+- **Bearing fat** → Kugellagerfett 
+- **Bearing grease** → Kugellagerfett 
+- **Bearing shell bottom bracket** → Lagerschale Tretlager 
+- **Bearing shell bottom bracket** → Tretlager 
+- **Bearings steering** → Steuersatzteile 
+- **Befestigung** → Gepäckbefestigung 
+- **Befestigung für Frontlicht** → Lampenhalter 
+- **Befestigung für Lenkerkorb** (**Mount for handlebar basket**): 
+- **Befestigung für Schaltwerk** → Schaltauge 
+- **Befestigung für Schloss** → Schlosszubehör 
+- **Befestigung für Schutzblech** → Schutzblechhalterung 
+- **Befestigungsschelle** → Schelle Plastik R.L.W.2.1
+- **Befestigungsstrebe für Schutzblech** → Schutzblech Streben 
+- **Begrenzungsschraube Schaltung** (**Limit screws for gears**): 
+- **Bell** → Klingel 
+- **bent nut** → Bremsschuhteil V-Brake 
+- **Bezahnte Mutter** → Kontermutter für Achskonus 
+- **Bicycle Dynamo Cap** → Dynamokappe 
+- **Bicycle fork** → Fahrradgabel 
+- **Bike helmet** → Helm 
+- **Bike lock** → Schloss 
+- **Bike lock part** → Schlosszubehör 
+- **Bike stand** → Fahrradständer 
+- **Birne** → Lämpchen 
+- **Birnenförmiges Ende an Bowdenzug** → Rennradbremsbowdenzug 
+- **Blitzventil** → Fahrradventil 
+- **block** → Kassette R.L.W.1.1
+- **BMX Bremszugverdreher** (**Detangler**): 
+- **BMX Footstep** → BMX Fußtritt 
+- **BMX Fußtritt** (**BMX Footstep**): 
+- **Bolt for the quill stem** → Vorbauklemmschraube 
+- **Bottle dynamo** → Seitenläuferdynamo 
+- **Bottle holder** → Flaschenhalter 
+- **Bottom bracket** → Tretlager 
+- **Bottom bracking bearing shell** → Lagerschale Tretlager 
+- **Bowden cable end** → Bremsbowdenzugendkappe 
+- **Bowden cable end for shifter** → Schaltbowdenzugendkappe 
+- **Bowden cable for racing bike brakes** → Rennradbremsbowdenzug 
+- **Bowden cable housing brake** → Bremsbowdenzughülle 
+- **Bowden cable housing end cap 5mm** → Bremsbowdenzughüllenendkappe 
+- **Bowden cable housing for gears** → Schaltbowdenzughülle 
+- **Bowden cable housing MTB** → Bowdenzughülle für MTB 
+- **Bowden cable mount** → Bowdenzugbefestigung versch. 
+- **Bowden cable pulley** → Umlenkrolle 
+- **Bowden gear cable end cap** → Schaltbowdenzughüllenendhülse 
+- **Bowdenzug mit Birnennippel** → Rennradbremsbowdenzug 
+- **Bowdenzug mit länglichem Knuppel** → Rennradbremsbowdenzug 
+- **Bowdenzugbefestigung versch.** (**Bowden cable mount**): 
+- **Bowdenzuggegenhalter verdrehbar** → BMX Bremszugverdreher 
+- **Bowdenzughülle Bremse** → Bremsbowdenzughülle 
+- **Bowdenzughülle für MTB** (**Bowden cable housing MTB**): 
+- **Bowdenzughülle mit durchgängigen metallener Hülle** → Bremsbowdenzughülle 
+- **Bowdenzughülle mit vielen Seelen als metallener Hülle** → Schaltbowdenzughülle 
+- **Bowdenzughülle Schaltung** → Schaltbowdenzughülle 
+- **Bowdenzughüllenendhalterung** → Gegenhalter 
+- **Bowdenzughüllenendhülse Bremse** → Bremsbowdenzughüllenendkappe 
+- **Bowdenzughüllenendhülse Schaltung** → Schaltbowdenzughüllenendhülse 
+- **Bowdenzugklemmung**: 
+- **Bowdenzugrolle** → Umlenkrolle 
+- **Bowdenzugseele** → Bremszug 
+- **Bowdenzugseele** → Schaltzug 
+- **Bowdenzugumlenkrolle** → Umlenkrolle 
+- **Box** → Schachtel 
+- **Brake arm Cantilever** → Cantilever Bremsarm R.L.B.4
+- **Brake arm V-Brake** → V-Brake Arm R.L.B.4
+- **Brake booster** → Hydraulische Felgenbremse Kleinteile 
+- **Brake boot** → Faltenbalg für V-Bremse 
+- **Brake boot V-Brake** → Faltenbalg für V-Bremse 
+- **Brake cable** → Bremszug 
+- **Brake cable duplicator** → Bremszugteiler 
+- **Brake cable housing** → Bremsbowdenzughülle 
+- **Brake cable housing end cap** → Bremsbowdenzughüllenendkappe 
+- **Brake cable housing end cap 5mm** → Bremsbowdenzughüllenendkappe 
+- **Brake cable housing MTB** → Bowdenzughülle für MTB 
+- **Brake cable with long endd thingy** → Rennradbremsbowdenzug 
+- **Brake cleaner** → Bremsenreiniger 
+- **Brake lever** → Bremshebel 
+- **Brake lever and shifter combination** → Bremsschalthebel R.L.B.4
+- **Brake lever Cantilever** → Bremshebel Cantilever 
+- **Brake lever V-Brake** → Bremshebel V-Bremse 
+- **Brake lever with shifter** → Bremsschalthebel R.L.B.4
+- **Brake lining Cantilever** → Cantilever Bremsbelag 
+- **Brake pad Cantilever** → Bremsschuh Cantileverbremse 
+- **Brake pad Cantilever** → Cantilever Bremsbelag 
+- **Brake pad Magura** → Magura Bremsschuh Felgenbremse 
+- **brake pad part V-Brake** → Bremsschuhteil V-Brake 
+- **Brake pad spring** → Bremsbelagfeder Hydraulikscheibenbremse R.L.L.11.2
+- **Brake pad V-Brake left** → Bremsschuh V-Bremse links 
+- **Brake pad V-Brake right** → Bremsschuh V-Bremse rechts 
+- **Brake pad with short screw** → Seitenzugbremse Bremsbelag 
+- **brake shoe part V-Brake** → Bremsschuhteil V-Brake 
+- **Brake yoke hanger** → Querzugträger 
+- **brake-away torque wrench** → Drehmomentschlüssel R.W.M
+- **Brakeshoe part V-Brake** → Bremsschuhteil V-Brake 
+- **Bremsarm Cantilever** → Cantilever Bremsarm R.L.B.4
+- **Bremsarm V-Brake** → V-Brake Arm R.L.B.4
+- **Bremsbelag Cantilever** → Bremsschuh Cantileverbremse 
+- **Bremsbelag Cantilever** → Cantilever Bremsbelag 
+- **Bremsbelag hydraulische Felgenbremse** → Magura Bremsschuh Felgenbremse 
+- **Bremsbelag Magura Felgenbremse** → Magura Bremsschuh Felgenbremse 
+- **Bremsbelag mit kurzer Schraube** → Seitenzugbremse Bremsbelag 
+- **Bremsbelag Seitenzugbremse** → Seitenzugbremse Bremsbelag 
+- **Bremsbelag V-Brake links** → Bremsschuh V-Bremse links 
+- **Bremsbelag V-Brake rechts** → Bremsschuh V-Bremse rechts 
+- **Bremsbelagfeder Hydraulikscheibenbremse** (**Brake pad spring**): R.L.L.11.2
+- **Bremsbelagkleinteil V-Brake** → Bremsschuhteil V-Brake 
+- **Bremsbowdenzug länglichem Knubbel** → Rennradbremsbowdenzug 
+- **Bremsbowdenzugendkappe** (**Crimp for brake cable**): 
+- **Bremsbowdenzughülle** (**Brake cable housing**): 
+- **Bremsbowdenzughüllenendhülse** → Bremsbowdenzughüllenendkappe 
+- **Bremsbowdenzughüllenendkappe** (**Brake cable housing end cap**): 
+- **Bremse Magura Kleinteile** → Hydraulische Felgenbremse Kleinteile 
+- **Bremsenreiniger** (**Brake cleaner**): 
+- **Bremsenzugeinsteller** → Zugeinsteller Bremse 
+- **Bremshebel** (**Brake lever**): 
+- **Bremshebel Cantilever** (**Brake lever Cantilever**): 
+- **Bremshebel V-Bremse** (**Brake lever V-Brake**): 
+- **Bremshebelschaltgriffkombi** → Bremsschalthebel R.L.B.4
+- **Bremsklotz Cantilever** → Bremsschuh Cantileverbremse 
+- **Bremsklotz Cantilever** → Cantilever Bremsbelag 
+- **Bremsklotz V-Brake links** → Bremsschuh V-Bremse links 
+- **Bremsklotz V-Brake rechts** → Bremsschuh V-Bremse rechts 
+- **Bremsklotzteil** → Bremsschuhteil V-Brake 
+- **Bremssattel** (**Disk brake caliper**): 
+- **Bremsschalthebel** (**Brake lever with shifter**): R.L.B.4
+- **Bremsscheibenschraube** (**Disk brake disk screw**): 
+- **Bremsschlauchhalterung Nylon** → R-Typ Kabelhalter R.L.W.S.A.6.2
+- **Bremsschrauben** → Bowdenzugbefestigung versch. 
+- **Bremsschuh Cantileverbremse** (**Brake pad Cantilever**): 
+- **Bremsschuh Cantileverbremse** → Cantilever Bremsbelag 
+- **Bremsschuh V-Bremse links** (**Brake pad V-Brake left**): 
+- **Bremsschuh V-Bremse rechts** (**Brake pad V-Brake right**): 
+- **Bremsschuhteil V-Brake** (**Brakeshoe part V-Brake**): 
+- **Bremszug** (**Brake cable**): 
+- **Bremszugbefestigung** → Bowdenzugbefestigung versch. 
+- **Bremszugführung V-Brake** → Zugführungsrohr 
+- **Bremszughülle** → Bremsbowdenzughülle 
+- **Bremszughülle MTB** → Bowdenzughülle für MTB 
+- **Bremszugklemmung** → Bowdenzugklemmung 
+- **Bremszugteiler** (**Brake cable duplicator**): 
+- **Bremszugverdreher** → BMX Bremszugverdreher 
+- **Brennkolben** → Lötkolben 
+- **Brifter** → Schalthebel Nabenschaltung 
+- **Brifter** → Schalthebel Kettenschaltung 
+- **BSA Lager** → Tretlager 
+- **Bulb** → Lämpchen 
+- **Bügelschloss** → Schloss 
+- **Cable** → Bremszug 
+- **Cable** → Schaltzug 
+- **Cable** → Kabel 
+- **Cable clip at mudguard** → ? R.L
+- **Cable for speedometer** → Tachometerteile 
+- **Cable hanger** → Gegenhalter 
+- **Cable lead unit** → Zugführungsrohr 
+- **Cable lock** → Schloss 
+- **cable lug** → Kabelschuh 
+- **Cable shoe** → Kabelschuh 
+- **Cable shoe male** → Kabelzunge 
+- **cable socket** → Kabelschuh 
+- **Cable stop** → Gegenhalter 
+- **Cable ties** → Kabelbinder 
+- **Cable tips for shifter** → Schaltbowdenzugendkappe 
+- **Cable tube for heating** → Schrumpfschlauch 
+- **Caliper** → Messschieber 
+- **Caliper brake** → Seitenzugbremse 
+- **Caliper brake pad** → Seitenzugbremse Bremsbelag 
+- **Campagnolo saddle clamp** → Sattelkloben 
+- **Campagnolo saddle clamp** → Schnellspanner am Sattelrohr 
+- **Canti brake arm** → Cantilever Bremsarm R.L.B.4
+- **Canti Bremsarm** → Cantilever Bremsarm R.L.B.4
+- **Canti Bremsklotz** → Cantilever Bremsbelag 
+- **Canti Bremsschuh** → Cantilever Bremsbelag 
+- **Canti Bremszugteiler** → Querzugträger 
+- **Cantibremshebel** → Bremshebel Cantilever 
+- **Cantibremshebel** → Bremshebel 
+- **Cantibremsklotz** → Bremsschuh Cantileverbremse 
+- **Cantibremsschuh** → Bremsschuh Cantileverbremse 
+- **Cantilever brake arm** → Cantilever Bremsarm R.L.B.4
+- **Cantilever brake pad** → Cantilever Bremsbelag 
+- **Cantilever brake part** → Cantileverbremse Kleinteil 
+- **Cantilever Bremsarm** (**Cantilever brake arm**): R.L.B.4
+- **Cantilever Bremsbelag** (**Cantilever brake pad**): 
+- **Cantilever Bremshebel** → Cantilever Bremsarm R.L.B.4
+- **Cantilever Bremsschuh** → Cantilever Bremsbelag 
+- **Cantileverarm** → Cantilever Bremsarm R.L.B.4
+- **Cantileverbremse Kleinteil** (**Cantilever brake part**): 
+- **Cap for bearing** → Lagerabdeckung 
+- **Cap for bottom bracket** → Staubkappe für Kurbel 
+- **Cap for bowden cable end for gears** → Schaltbowdenzughüllenendhülse 
+- **Cap for bowden cable housing end** → Bremsbowdenzughüllenendkappe 
+- **Cap for pumps** → Pumpe Kleinteile 
+- **Cap for V-Brake spring** → V-Brake Feder & Abdeckung 
+- **Cap with hole** → Bremsbowdenzughüllenendkappe 
+- **Cap with hole plastic** → Schaltbowdenzughüllenendhülse 
+- **Car valve** → Autoventilteile 
+- **Cassette** → Kassette R.L.W.1.1
+- **Cat's eye** → Speichenreflektor 
+- **Center of back wheel** → Kassettennabe 
+- **Center of back wheel with thread** → Schraubkranznabe 
+- **Centerlock ring**: R.L.L.11.5
+- **Centerlock-6-bolt-adapter** → Centerlock-6-Loch-Adapter R.L.L.11.4
+- **Centerlock-6-Loch-Adapter** (**Centerlock-6-bolt-adapter**): R.L.L.11.4
+- **Centre-pull caliper brake** → Seitenzugbremse 
+- **Chain as bike lock** → Schloss 
+- **Chain fat** → Kettenfett 
+- **Chain for derailleurs** → Kette Kettenschaltung 
+- **Chain for gears** → Kette Kettenschaltung 
+- **Chain for hub gears** → Kette Singlespeed 
+- **Chain gauge** → Kettenverschleißlehre 
+- **Chain gear** → Schaltwerk R.L.B.2
+- **chain guard** → Kettenschutz 
+- **Chain lengthing tool** → Kettenverschleißlehre 
+- **Chain link** → Kettenschloss 
+- **Chain lock plyer** → Kettenschlosszange 
+- **Chain lubricant** → Kettenfett 
+- **Chain oil** → Kettenfett 
+- **Chain pin pusher** → Kettennietdrücker 
+- **Chain pin pusher pin** → Kettennietstift 
+- **Chain ring** → Kettenschutzring 
+- **Chain ring** → Kettenblatt 
+- **Chain shifter** → Schalthebel Kettenschaltung 
+- **Chain tensioner** → Kettenspanner für horizontale Ausfallenden 
+- **chain tool** → Kettennietdrücker 
+- **Chain wheel** → Kurbelgarnitur 
+- **Chain wheel** → Kettenblatt 
+- **Chain whip** → Kettenpeitsche 
+- **Chain with stick** → Schaltkettchen 
+- **Check nut** → Kontermutter für Achskonus 
+- **Clamp for seat post** → Sattelklemme 
+- **Clamp metal** → Schelle Metall 
+- **Clamp plastic** → Schelle Plastik R.L.W.2.1
+- **Clamp small, plastic with 2 holes** → Schutzblechstrebenbefestigungsclips minimal R.L.W.S.A.1.2
+- **Clip für Lichtkabel im Schutzblech** → ? R.L
+- **cluster** → Kassette R.L.W.1.1
+- **Cogset** → Schraubkranz R.L.W.2.2
+- **Cogwheel (small)** → Ritzel (einzeln) R.L.W.2.3
+- **Computer** → Tachometerteile 
+- **Conus** → Konus 
+- **Corrugated washer** → Riffelscheibe für Achse 
+- **Counter nut for conus** → Kontermutter für Achskonus 
+- **Cover for bearing** → Lagerabdeckung 
+- **Crank arm Hollowtech** → Hollowtech Kurbel R.L.Ö.1
+- **Crank arm left** → Tretkurbel links 
+- **Crank arm with several gears** → Kurbelgarnitur 
+- **Crank bolt** → Kurbelschraube 
+- **Crank cotter** → Kurbelkeil 
+- **Crank screw** → Kurbelschraube 
+- **Crankset** → Kurbelgarnitur 
+- **Crimp for brake cable** → Bremsbowdenzugendkappe 
+- **Crimp for shifte cable** → Schaltbowdenzugendkappe 
+- **Cyclocomputer** → Tachometerteile 
+- **Cylinder with thread outside** → Lagerschale Tretlager 
+- **D-lock** → Schloss 
+- **Daumenschalter** → Schalthebel Nabenschaltung 
+- **Daumenschalter** → Schalthebel Kettenschaltung 
+- **Derailleur** → Umwerfer R.L.B.2
+- **Derailleur** → Schaltwerk R.L.B.2
+- **Derailleur cable** → Bremszug 
+- **Derailleur cable** → Schaltzug 
+- **Derailleur guard** → Schaltwerkschutzbügel 
+- **derailleur hanger** → Schaltauge 
+- **Detangler** → BMX Bremszugverdreher 
+- **dicke Kette** → Kette Singlespeed 
+- **Dicke kurze Schraube** → Ständerschraube 
+- **Dickenausgleich Gummi** → Gummi divers 
+- **Dickenausgleicher für Fahrradtaschen** → Haken Einsatz Fahrradtasche 
+- **Digital multimeter** → Multimeter 
+- **Direct pull brake brakeshoe part** → Bremsschuhteil V-Brake 
+- **Disk brake adapter** → Scheibenbremsenadapter R.L.L.4.1
+- **Disk brake caliper** → Bremssattel 
+- **Disk brake disk screw** → Bremsscheibenschraube 
+- **Disk brake pad** → Scheibenbremsbelag R.L.L.12.2
+- **Disk brake parts** → Scheibenbremsen Kleinteil 
+- **Disk with hole M3** → M3-Schraube, Mutter, Unterlegscheibe 
+- **Disk with hole M4** → M4-Schraube, Mutter, Unterlegscheibe 
+- **Disk with hole M5** → M5-Schraube, Mutter, Unterlegscheibe 
+- **Disk with hole M6** → M6-Schraube, Mutter, Unterlegscheibe 
+- **Disk with hole M7** → M7-Schraube, Mutter, Unterlegscheibe 
+- **Distanzring klein** (**Spacer small**): 
+- **Doppelbremshebel** → Rennradbremshebel R.L.B.4
+- **Double brake lever** → Rennradbremshebel R.L.B.4
+- **Drehgriff** → Schalthebel Nabenschaltung 
+- **Drehgriff** → Schalthebel Kettenschaltung 
+- **Drehmomentschlüssel** (**Torque handle**): R.W.M
+- **Drehmomentstütze** (**Reaction arm**): 
+- **Drehschalthebel** → Friktionsschaltgriff R.L.B.3
+- **Drehschalthebel mit Stufen** → SIS Schalthebel R.L.B.3
+- **Drum brake** → Trommelbremse 
+- **Dual-control brake lever** → Rennradbremshebel R.L.B.4
+- **Dunlop valve** → Fahrradventil 
+- **Dunlopventil** → Fahrradventil 
+- **Dust cap** → Fahrradventil 
+- **Dust cap hub gears** → Staubkappe für Nabenschaltung 
+- **Dynamo** → Seitenläuferdynamo 
+- **Dynamo cap** → Dynamokappe 
+- **Dynamokappe** (**Dynamo cap**): 
+- **einadriges Kabel** → Kabel 
+- **Einbeiniger Ständer** → Fahrradständer 
+- **Einschlagdorn** → Einschlaghilfe Ahead-Kralle R.W
+- **Einschlaghilfe Ahead-Kralle** (**Push-in tool for ahead set star nuts**): R.W
+- **Einschlagwerkzeug Ahead** → Einschlaghilfe Ahead-Kralle R.W
+- **Einstellschraube Bremse** → Zugeinsteller Bremse 
+- **Einstellschraube für Schaltzug** → Schaltzugeinsteller mit Feder, Schraube, Griff 
+- **Einstellschraube Schaltung** → Begrenzungsschraube Schaltung 
+- **Einzelnes Ritzel** → Ritzel (einzeln) R.L.W.2.3
+- **Electrical soldering iron** → Lötkolben 
+- **Elektrokabel** → Kabel 
+- **Elektrolötkolben** → Lötkolben 
+- **Elektromessgerät** → Multimeter 
+- **Elektroverbindungsmessgerät** → Multimeter 
+- **End cap for brake cable** → Bremsbowdenzugendkappe 
+- **End caps for shifter** → Schaltbowdenzugendkappe 
+- **Endhülse für Bremsbowdenzug** → Bremsbowdenzugendkappe 
+- **Endhülse für Schaltbowdenzug** → Schaltbowdenzugendkappe 
+- **Endkappe Bowdenzug Bremse 5mm** → Bremsbowdenzughüllenendkappe 
+- **Endkappe für Bremsbowdenzug** → Bremsbowdenzugendkappe 
+- **Endkappe für Schaltbowdenzug** → Schaltbowdenzugendkappe 
+- **englisches Lager** → Tretlager 
+- **English valve** → Fahrradventil 
+- **Entfetter** → Bremsenreiniger 
+- **Entgrater** → Rohrschneider 
+- **Ersatzstift für Kettennietdrücker** → Kettennietstift 
+- **Ersatzteilspender** → Ausschlacht-Fahrräder 
+- **exaktes Lineal** → Messschieber 
+- **Expander** → Gepäckbefestigung 
+- **External cup AHEAD set parts** → Standard Steuersatz AHEAD Teile 
+- **Fahrradcomputer** → Tachometerteile 
+- **Fahrradgabel** (**Bicycle fork**): 
+- **Fahrradhelm** → Helm 
+- **Fahrradkurbel** → Tretkurbel links 
+- **Fahrradkurbel Kettenschaltung** → Kurbelgarnitur 
+- **Fahrradschlauch 26 Zoll** → Schlauch 26' 
+- **Fahrradschlauch 28 Zoll** → Schlauch 28' 
+- **Fahrradschloss** → Schloss 
+- **Fahrradschlossteile** → Schlosszubehör 
+- **Fahrradständer** (**Kickstand**): 
+- **Fahrradständerschraube** → Ständerschraube 
+- **Fahrradventil** (**Dunlop valve**): 
+- **Faltenbalg für V-Bremse** (**Brake boot**): 
+- **Faltradpedal** (**Folding bike pedal**): 
+- **Faltschloss** → Schloss 
+- **Fat for bearings** → Fett für Kugellager 
+- **Fat for the chain** → Kettenfett 
+- **Feder für Schaltzugeinstellung** → Schaltzugeinsteller mit Feder, Schraube, Griff 
+- **Feder V-Brake** → V-Brake Feder & Abdeckung 
+- **Federgabel** → Fahrradgabel 
+- **Felgenband** (**Rim tape**): 
+- **Felgenbremsenrad 28 Zoll** → Hinterrad 28 Zoll R.L.R.O
+- **Felgenmutter** (**Rim nut**): 
+- **Fender** → Schutzblech 
+- **Fender mount** → Schutzblechhalterung 
+- **Fender screw** → Strebenkloben R.L.W.S.A.4.3
+- **Fender stay** → Schutzblech Streben 
+- **Fender stay bolt** → Schutzblechstrebenbolzen R.L.W.S.A.4.2
+- **Ferrule for brake cable** → Bremsbowdenzugendkappe 
+- **Ferrule for shifter cable** → Schaltbowdenzugendkappe 
+- **festes Pedal** → BMX Fußtritt 
+- **Fett für auf Freilaufkörper** → Kugellagerfett 
+- **Fett für die Kette** → Kettenfett 
+- **Fett für Kugellager** (**Grease**): 
+- **Fett für Kugellager** → Kugellagerfett 
+- **Fett für Sattelstange** → Kugellagerfett 
+- **Fixed gears chain** → Kette Singlespeed 
+- **Fixie sprocket** → Single speed Ritzel 
+- **Flaschenhalter** (**Bottle holder**): 
+- **Flicken** (**Patch**): 
+- **Flickenkleber** → Vulkanisierflüssigkeit 
+- **Flickset** (**Patch set**): 
+- **Flügelmutter** → Achsmutter 
+- **Foldable pedal** → Faltradpedal 
+- **Folding bike pedal** → Faltradpedal 
+- **fork** → Fahrradgabel 
+- **Frame lock** → Rahmenschloss 
+- **französisches Ventil** (**Presta valve**): 
+- **Freehub** → Kassettennabe 
+- **freewheel** → Schraubkranz R.L.W.2.2
+- **Freewheel** → Schraubkranz R.L.W.2.2
+- **Freewheel hub** → Schraubkranznabe 
+- **Freilauf mit Ritzeln** → Schraubkranz R.L.W.2.2
+- **French valve** → französisches Ventil 
+- **Friction shifter** → Friktionsschaltgriff R.L.B.3
+- **Friktionsschaltgriff** (**Friction shifter**): R.L.B.3
+- **Front derailleur** → Umwerfer R.L.B.2
+- **Front gear switcher** → Umwerfer R.L.B.2
+- **Front light** → Frontscheinwerfer 
+- **Front light battery based** → Batteriefrontleuchte 
+- **Front light mount** → Lampenhalter 
+- **Front reflector** → Reflektor 
+- **Frontbirnchen** → Lämpchen 
+- **Frontleuchte** → Frontscheinwerfer 
+- **Frontlicht batteriebetrieben** → Batteriefrontleuchte 
+- **Frontlichthalterung** → Lampenhalter 
+- **Frontreflektor** → Reflektor 
+- **Frontschaltung** → Umwerfer R.L.B.2
+- **Frontscheinwerfer** (**Front light**): 
+- **Fußtritt BMX** → BMX Fußtritt 
+- **Führungsröhrchen V-Brake (gebogen)** → Zugführungsrohr 
+- **Gabel** → Fahrradgabel 
+- **Gear (small)** → Ritzel (einzeln) R.L.W.2.3
+- **Gear bowden cable housing** → Schaltbowdenzughülle 
+- **Gear cable** → Schaltzug 
+- **Gear cable end cap** → Schaltbowdenzughüllenendhülse 
+- **Gear cable housing** → Schaltbowdenzughülle 
+- **Gear cable housing MTB** → Bowdenzughülle für MTB 
+- **Gear cable MTB parts bag** → Schaltzug MTB über Sattelstütze Kleinteiletüte 
+- **Gear case** → Kettenschutz 
+- **Gear chain** → Schaltkettchen 
+- **Gear cogset** → Kassette R.L.W.1.1
+- **Gear control** → Schalthebel Nabenschaltung 
+- **Gear control** → Sattelschienenklemmung 
+- **Gear control** → Schalthebel Kettenschaltung 
+- **Gear guard** → Schaltwerkschutzbügel 
+- **gear hub** → Nabenschaltung 
+- **Gear hub chain** → Schaltkettchen 
+- **Gear lever** → Schalthebel Nabenschaltung 
+- **Gear lever** → Schalthebel Kettenschaltung 
+- **Gear switcher** → Umwerfer R.L.B.2
+- **Gears** → Schaltwerk R.L.B.2
+- **Gears with free hub** → Schraubkranz R.L.W.2.2
+- **gebogenes Röhrchen** → Zugführungsrohr 
+- **Gegenhalter** (**Cable stop**): 
+- **Gegenhalterlager** → BMX Bremszugverdreher 
+- **Gegenstück zum Kabelschuh** → Kabelzunge 
+- **Gegenstück zur Kabelzunge** → Kabelschuh 
+- **gelber Reflektor** → Speichenreflektor 
+- **Gepäckbefestigung** (**Tie down strap**): 
+- **Gepäckspanner** → Gepäckbefestigung 
+- **Gewindeschneider** (**tap and die**): 
+- **Glühbirnchen** → Lämpchen 
+- **golden contact for light cable ♀** → Kabelschuh 
+- **golden contact for light cable ♂** → Kabelzunge 
+- **goldener Kontakt für Kabel ♀** → Kabelschuh 
+- **goldener Kontakt für Kabel ♂** → Kabelzunge 
+- **Grease** → Fett für Kugellager 
+- **Griff** → Lenkergriff 
+- **Grip** → Lenkergriff 
+- **Grip shifter** → Schalthebel Nabenschaltung 
+- **Grip shifter** → Schalthebel Kettenschaltung 
+- **großes Lager mit Gegenhaltern** → BMX Bremszugverdreher 
+- **Guide pulley** → Schaltungsrädchen 
+- **Guide roller** → Umlenkrolle 
+- **Gum diverse** → Gummi divers 
+- **Gum pipe V-Brake** → Faltenbalg für V-Bremse 
+- **Gummi Cantilever** → Cantilever Bremsbelag 
+- **Gummi divers** (**Rubber diverse**): 
+- **Gummiabdeckung Nabenschaltung** → Staubkappe für Nabenschaltung 
+- **Gummikleber** → Vulkanisierflüssigkeit 
+- **Gummiring** → Staubkappe für Nabenschaltung 
+- **Gummiröhrchen** → Faltenbalg für V-Bremse 
+- **Gurt** → Gepäckbefestigung 
+- **Gyro** → BMX Bremszugverdreher 
+- **Haifischzahnscheibe M5** → Zahnscheibe M5 
+- **Haken Einsatz Fahrradtasche** (**Hook inserts Bike bag**): 
+- **Halter für Trinkflasche** → Flaschenhalter 
+- **Halterung für Schutzblech** → Schutzblechhalterung 
+- **Halterung für Schutzblechstreben** → Schutzblechstrebenbolzen R.L.W.S.A.4.2
+- **Hand pump** → Luftpumpe 
+- **Handbremshebel** → Bremshebel V-Bremse 
+- **Handbremshebel** → Bremshebel Cantilever 
+- **Handbremshebel** → Bremshebel 
+- **Handlebar** → Lenker 
+- **Handlebar basket mount** → Befestigung für Lenkerkorb 
+- **Handlebar grip** → Lenkergriff 
+- **Handpumpe** → Luftpumpe 
+- **Hanger** → Tretlager 
+- **has no place** → zu sortieren 
+- **head set AHEAD zero stack parts** → Semi-integrierter Steuersatz AHEAD Teile 
+- **Head set parts** → Steuersatzteile 
+- **Head tube** → Steuersatzteile 
+- **Heat shrink tubes** → Schrumpfschlauch 
+- **Hebel mit Bowdenzugaufnahme** → Kleinteile mechanischer Scheibenbremssattel R.L.L.11.1
+- **Heckreflektor** → Reflektor 
+- **Helm** (**Helmet**): 
+- **Helmet** → Helm 
+- **Hex M3 screw** → M3-Schraube, Mutter, Unterlegscheibe 
+- **Hex M4 screw** → M4-Schraube, Mutter, Unterlegscheibe 
+- **Hex M5 screw** → M5-Schraube, Mutter, Unterlegscheibe 
+- **Hex M6 screw** → M6-Schraube, Mutter, Unterlegscheibe 
+- **Hex M7 screw** → M7-Schraube, Mutter, Unterlegscheibe 
+- **Hintere Lampe batteriebetrieben** → Batterierückleuchte 
+- **Hinterer Reflektor** → Reflektor 
+- **Hinterrad 28 Zoll** (**Back wheel 28 inch**): R.L.R.O
+- **Hinterradnabe mit Kassettenaufnahme** → Kassettennabe 
+- **Hinterradnabe mit Schaltung** → Nabenschaltung 
+- **Hinterradnabe mit Schraubkranzaufnahme** → Schraubkranznabe 
+- **Holder for front light** → Lampenhalter 
+- **Hollowtech crank arm** → Hollowtech Kurbel R.L.Ö.1
+- **Hollowtech Kurbel** (**Hollowtech crank arm**): R.L.Ö.1
+- **hook for derailleur** → Schaltauge 
+- **Hook inserts Bike bag** → Haken Einsatz Fahrradtasche 
+- **Hosendreckschutz** → Kettenschutz 
+- **Hosenschutz, der sich mitdreht** → Kettenschutzring 
+- **Hub for cogset** → Schraubkranznabe 
+- **Hub for freewheel** → Schraubkranznabe 
+- **Hub gear** → Nabenschaltung 
+- **hub Shifter** → Schalthebel Nabenschaltung 
+- **Hub with mount for a cassette** → Kassettennabe 
+- **Hub with thread** → Schraubkranznabe 
+- **Hutmutter** → Achsmutter 
+- **Hydraulic rim brake parts** → Hydraulische Felgenbremse Kleinteile 
+- **Hydraulische Felgenbremse Kleinteile** (**Hydraulic rim brake parts**): 
+- **Hülse für Bowdenzughülle** → Bremsbowdenzughüllenendkappe 
+- **Hülse für Bowdenzughülle Schaltung** → Schaltbowdenzughüllenendhülse 
+- **Hülse mit Loch** → Bremsbowdenzughüllenendkappe 
+- **Hülse mit Loch Plastik** → Schaltbowdenzughüllenendhülse 
+- **Inbus M3-Schraube** → M3-Schraube, Mutter, Unterlegscheibe 
+- **Inbus M4-Schraube** → M4-Schraube, Mutter, Unterlegscheibe 
+- **Inbus M5-Schraube** → M5-Schraube, Mutter, Unterlegscheibe 
+- **Inbus M6-Schraube** → M6-Schraube, Mutter, Unterlegscheibe 
+- **Inbus M7-Schraube** → M7-Schraube, Mutter, Unterlegscheibe 
+- **Inbusschraube (M10)** → Ständerschraube 
+- **Inbusschraube für Sattelklemme** → Sattelschienenklemmung 
+- **Inbusschraube M10** → M10-Schraube, Mutter, Unterlegscheibe 
+- **Inbusschraube M3** → M3-Schraube, Mutter, Unterlegscheibe 
+- **Inbusschraube M4** → M4-Schraube, Mutter, Unterlegscheibe 
+- **Inbusschraube M5** → M5-Schraube, Mutter, Unterlegscheibe 
+- **Inbusschraube M6** → M6-Schraube, Mutter, Unterlegscheibe 
+- **Inbusschraube M7** → M7-Schraube, Mutter, Unterlegscheibe 
+- **Inbusschraube M8** → M8-Schraube, Mutter, Unterlegscheibe 
+- **indexfree shifter** → Friktionsschaltgriff R.L.B.3
+- **Indexschalthebel** → Schalthebel Nabenschaltung 
+- **Indexschalthebel** → Schalthebel Kettenschaltung 
+- **Industrielager** → Tretlager 
+- **Inline Adjusters** → Schaltzugeinsteller mit Feder, Schraube, Griff 
+- **Innengang** → Nabenschaltung 
+- **Innengewindeschneider** → Gewindeschneider 
+- **Innenlager** → Tretlager 
+- **Innenschaltung** → Nabenschaltung 
+- **Innensechskant M3-Schraube** → M3-Schraube, Mutter, Unterlegscheibe 
+- **Innensechskant M4-Schraube** → M4-Schraube, Mutter, Unterlegscheibe 
+- **Innensechskant M5-Schraube** → M5-Schraube, Mutter, Unterlegscheibe 
+- **Innensechskant M6-Schraube** → M6-Schraube, Mutter, Unterlegscheibe 
+- **Innensechskant M7-Schraube** → M7-Schraube, Mutter, Unterlegscheibe 
+- **inner tube 26 inch** → Schlauch 26' 
+- **inner tube 28 inch** → Schlauch 28' 
+- **inner tube 559mm** → Schlauch 26' 
+- **inner tube 622mm** → Schlauch 28' 
+- **internal-gear hub** → Nabenschaltung 
+- **IS2000-Postmount Adapter** → Scheibenbremsenadapter R.L.L.4.1
+- **Jagwire cable for Cantilever brakes** → Querzugträger 
+- **Jockey pulley** → Schaltungsrädchen 
+- **Justierschrauben** → Begrenzungsschraube Schaltung 
+- **Kabel** → Bremszug 
+- **Kabel** → Schaltzug 
+- **Kabel** (**Cable**): 
+- **Kabel für Tacho** → Tachometerteile 
+- **Kabelbinder** (**Cable ties**): 
+- **Kabelclip für im Schutzblech** → ? R.L
+- **Kabelhalterung für 1 Schraube** → R-Typ Kabelhalter R.L.W.S.A.6.2
+- **Kabelschelle Metall** → Kabelschelle zweilaschig R.L.W.S.A.1.4
+- **Kabelschelle zweilaschig** (**Arched cable clamp**): R.L.W.S.A.1.4
+- **Kabelschlauch zum erhitzen** → Schrumpfschlauch 
+- **Kabelschloss** → Schloss 
+- **Kabelschuh** (**Cable shoe**): 
+- **Kabelschuh männlich** → Kabelzunge 
+- **Kabelschuh weiblich** → Kabelschuh 
+- **Kabelverbinder männlich** → Kabelzunge 
+- **Kabelverbinder weiblich** → Kabelschuh 
+- **Kabelzunge** (**Cable shoe male**): 
+- **Kappe mit Loch Metall** → Bremsbowdenzughüllenendkappe 
+- **Kappe mit Loch Plastik** → Schaltbowdenzughüllenendhülse 
+- **Kassette** (**Cassette**): R.L.W.1.1
+- **Kassettennabe** (**Freehub**): 
+- **Kassettenspacer** → Spacer Kassette 
+- **Katzenauge** → Speichenreflektor 
+- **Kettchen mit Stab** → Schaltkettchen 
+- **Kettchen Nabenschaltung** → Schaltkettchen 
+- **Kette für Kettenschaltung** → Kette Kettenschaltung 
+- **Kette für ohne Kettenschaltung** → Kette Singlespeed 
+- **Kette Kettenschaltung** (**Chain for derailleurs**): 
+- **Kette mit Hülsen** → Kette Singlespeed 
+- **Kette Singlespeed** (**Singlespeed chain**): 
+- **Kette zum Anschließen** → Schloss 
+- **Kettenblatt** (**Chain ring**): 
+- **Kettenblatthalter** → Kettenschutzring 
+- **Kettenblatttretarm** → Kurbelgarnitur 
+- **Kettenfett** (**Chain lubricant**): 
+- **Kettenkasten** → Kettenschutz 
+- **Kettenlängungsmessgerät** → Kettenverschleißlehre 
+- **Kettennietdrücker** (**Riveting tool**): 
+- **Kettennieter** → Kettennietdrücker 
+- **Kettennietstift** (**Chain pin pusher pin**): 
+- **Kettenpeitsche** (**Chain whip**): 
+- **Kettenrad** → Kassette R.L.W.1.1
+- **Kettenschaltung** → Schaltwerk R.L.B.2
+- **Kettenschaltungskette** → Kette Kettenschaltung 
+- **Kettenschloss** (**Safety Link**): 
+- **Kettenschloss alle Größen** → Kettenschloss 
+- **Kettenschlosszange** (**Chain lock plyer**): 
+- **Kettenschutz** (**Gear case**): 
+- **Kettenschutzhalterung** → Kettenschutz 
+- **Kettenschutzring** (**Chain ring**): 
+- **Kettenschutzscheibe** → Kettenschutzring 
+- **Kettenspanner für horizontale Ausfallenden** (**Chain tensioner**): 
+- **Kettenspanner Kettenschaltung** → Schaltwerk R.L.B.2
+- **Kettenspannerrädchen** → Schaltungsrädchen 
+- **Kettenverbinder** → Kettenschloss 
+- **Kettenverschleißlehre** (**Chain gauge**): 
+- **Kettenöl** → Kettenfett 
+- **Kick stand skrew** → Ständerschraube 
+- **Kickstand** → Fahrradständer 
+- **Klappbares Pedal** → Faltradpedal 
+- **Klassischer Vorbau** → Vorbau mit Innenklemmung 
+- **kleine Schräubchen** → Begrenzungsschraube Schaltung 
+- **Kleiner Bremsbelag** → Seitenzugbremse Bremsbelag 
+- **Kleines Ritzel** → Single speed Ritzel 
+- **kleines Ritzel** → Schaltungsrädchen 
+- **Kleines Ritzel einer Kettenschaltung** → Ritzel (einzeln) R.L.W.2.3
+- **Kleinteil Cantileverbremse** → Cantileverbremse Kleinteil 
+- **Kleinteil Scheibenbremse** → Scheibenbremsen Kleinteil 
+- **Kleinteil V-Brake** → Zugführungsrohr 
+- **Kleinteil V-Brake Bremsschuh** → Bremsschuhteil V-Brake 
+- **Kleinteile mechanischer Scheibenbremssattel** (**Mechanik disk brake caliper parts**): R.L.L.11.1
+- **Kleinteile Pumpe** → Pumpe Kleinteile 
+- **Klemmbolzen** → Sattelklemmenschraube 
+- **Klemme für Bowdenzug** → Bowdenzugbefestigung versch. 
+- **Klemme für Sattelstütze** → Sattelklemme 
+- **Klemme Metall** → Schelle Metall 
+- **Klemmhülse für Bowdenzug** → Schaltbowdenzughüllenendhülse 
+- **Klemmhülse für Bremsbowdenzugende** → Bremsbowdenzugendkappe 
+- **Klemmhülse für Schaltbowdenzugende** → Schaltbowdenzugendkappe 
+- **Klemmschraube für Schutzblechstrebe** → Schutzblechstrebenbolzen R.L.W.S.A.4.2
+- **Klingel** (**Bell**): 
+- **Klotzbremse** → Stempelbremse 
+- **Kontermutter für Achskonus** (**Counter nut for conus**): 
+- **Kontermutter Steuersatz 1 Zoll** → Steuersatzkontermutter 1 Zoll 
+- **Konus** (**Conus**): 
+- **Korb** (**Basket**): 
+- **Korbbefestigung** → Befestigung für Lenkerkorb 
+- **Kraftmesser** → Drehmomentschlüssel R.W.M
+- **Kramkiste** → zu sortieren 
+- **Kugel, alle Größen** (**Ball, all sizes**): 
+- **Kugelhalterung** → Kugelkäfig Steuersatz 1-Zoll 
+- **Kugelkäfig** → Kugelring, alle Größen 
+- **Kugelkäfig 1 Zoll, 4mm Kugeln** → Kugelkäfig Steuersatz 1-Zoll 
+- **Kugelkäfig 25,4 mm, 4mm-Kugeln** → Kugelkäfig Steuersatz 1-Zoll 
+- **Kugelkäfig Steuersatz 1-Zoll**: 
+- **Kugellager** → Kugelring, alle Größen 
+- **Kugellager Steuerung** → Steuersatzteile 
+- **Kugellagerabdeckung** → Lagerabdeckung 
+- **Kugellagerfett** (**Bearing grease**): 
+- **Kugellagerkugeln** → Kugel, alle Größen 
+- **Kugellagerkäfig 1 Zoll** → Kugelkäfig Steuersatz 1-Zoll 
+- **Kugellagermutter** → Konus 
+- **Kugelring, alle Größen** (**Ball cage, all sizes**): 
+- **Kupplung** → Anhängerkupplung 
+- **Kurbel links** → Tretkurbel links 
+- **Kurbel mit gezackter Aufnahme** → Hollowtech Kurbel R.L.Ö.1
+- **Kurbel mit integrierter Achse** → Hollowtech Kurbel R.L.Ö.1
+- **Kurbel mit ISIS Aufnahme** → Hollowtech Kurbel R.L.Ö.1
+- **Kurbel mit mehreren Kettenblättern** → Kurbelgarnitur 
+- **Kurbel mit mehreren Ritzeln** → Kurbelgarnitur 
+- **Kurbel mit mehreren Zahnrädern** → Kurbelgarnitur 
+- **Kurbel mit Riffelaufnahme** → Hollowtech Kurbel R.L.Ö.1
+- **Kurbel mit Zylinder dran** → Hollowtech Kurbel R.L.Ö.1
+- **Kurbel rechts** → Kurbelgarnitur 
+- **Kurbelabdeckung** → Staubkappe für Kurbel 
+- **Kurbelgarnitur** (**Crankset**): 
+- **Kurbelkeil** (**Crank cotter**): 
+- **Kurbelsatz** → Kurbelgarnitur 
+- **Kurbelschraube** (**Crank bolt**): 
+- **kurze dicke Schraube** → Bremsscheibenschraube 
+- **kurzer Achsschnellspanner** → Schnellspanner für Vorderrad 
+- **Lager** → Kugelring, alle Größen 
+- **Lager Radmitte** → Tretlager 
+- **Lagerabdeckung** (**Cap for bearing**): 
+- **Lagerkugeln** → Kugel, alle Größen 
+- **Lagerschale mit kaum Zylinder** → Semi-integrierter Steuersatz AHEAD Teile 
+- **Lagerschale mit Zylinder dran** → Standard Steuersatz AHEAD Teile 
+- **Lagerschale Tretlager** (**Bearing shell bottom bracket**): 
+- **Lagerschale Tretlager** → Tretlager 
+- **Lamp at front** → Frontscheinwerfer 
+- **Lamp at front** → Kette Kettenschaltung 
+- **Lampe für vorne** → Frontscheinwerfer 
+- **Lampenhalter** (**Mount for front lighting**): 
+- **lange Inbusschraube (sehr lang)** → Vorbauklemmschraube 
+- **langer Schnellspanner** → Schnellspanner für Hinterrad 
+- **Laprade** → Sattelschienenklemmung 
+- **Laufrad 28 Zoll hinten** → Hinterrad 28 Zoll R.L.R.O
+- **Laufrad hinten für 622mm** → Hinterrad 28 Zoll R.L.R.O
+- **Leather wrap** → Lenkergriff 
+- **Left crank arm** → Tretkurbel links 
+- **Left pedal** → Pedal links 
+- **Lenker** (**Handlebar**): 
+- **Lenkerband** → Lenkergriff 
+- **Lenkergriff** (**Grip**): 
+- **Lenkerkorbbefestigung** → Befestigung für Lenkerkorb 
+- **Lenkerschraube** → Vorbauklemmschraube 
+- **Lenklagerteile** → Steuersatzteile 
+- **Licht für vorne** → Frontscheinwerfer 
+- **Lichtkabel** → Kabel 
+- **Lichtmaschine** → Seitenläuferdynamo 
+- **Light** → Lämpchen 
+- **Light at front** → Frontscheinwerfer 
+- **Light cable** → Kabel 
+- **Light Machine cap** → Dynamokappe 
+- **Limit screws for gears** → Begrenzungsschraube Schaltung 
+- **Limit stops** → Begrenzungsschraube Schaltung 
+- **Liner pull brake brakeshoe part** → Bremsschuhteil V-Brake 
+- **Link wire** → Querzugträger 
+- **Linkes Pedal** → Pedal links 
+- **Little part for disk brake** → Scheibenbremsen Kleinteil 
+- **Little part for mechanical disk brake** → Kleinteile mechanischer Scheibenbremssattel R.L.L.11.1
+- **Lochstanzer** → Lochzange 
+- **Lochzange** (**punch pliers**): 
+- **Lock** → Schloss 
+- **Lock freehub for cassette** → Sicherungsmutter für Kassette 
+- **Lock mount** → Schlosszubehör 
+- **Lock nut** → Kontermutter für Achskonus 
+- **Lock nut head set 1 inch** → Steuersatzkontermutter 1 Zoll 
+- **Lock part** → Schlosszubehör 
+- **Locking nut** → Bowdenzugbefestigung versch. 
+- **long Axis with lever** → Schnellspanner für Hinterrad 
+- **long Axle with lever** → Schnellspanner für Hinterrad 
+- **long Rod with lever** → Schnellspanner für Hinterrad 
+- **long screw** → Vorbauklemmschraube 
+- **Luftpumpe** (**Pump**): 
+- **Lämpchen** (**Bulb**): 
+- **längliches Metallteil mit 4 Gewinden** → Scheibenbremsenadapter R.L.L.4.1
+- **Löffelbremse** → Stempelbremse 
+- **Lötkolben** (**Soldering iron**): 
+- **M10 Mutter** → M10-Schraube, Mutter, Unterlegscheibe 
+- **M10 Nut** → M10-Schraube, Mutter, Unterlegscheibe 
+- **M10 Screw** → M10-Schraube, Mutter, Unterlegscheibe 
+- **M10 screw, nut, washer** → M10-Schraube, Mutter, Unterlegscheibe 
+- **M10 Unterlegscheibe** → M10-Schraube, Mutter, Unterlegscheibe 
+- **M10 Washer** → M10-Schraube, Mutter, Unterlegscheibe 
+- **M10-Schraube** → Ständerschraube 
+- **M10-Schraube, Mutter, Unterlegscheibe** (**M10 screw, nut, washer**): 
+- **M3 Mutter** → M3-Schraube, Mutter, Unterlegscheibe 
+- **M3 screw, nut, washer** → M3-Schraube, Mutter, Unterlegscheibe 
+- **M3 Unterlegscheibe** → M3-Schraube, Mutter, Unterlegscheibe 
+- **M3-Schraube, Mutter, Unterlegscheibe** (**M3 screw, nut, washer**): 
+- **M4 Mutter** → M4-Schraube, Mutter, Unterlegscheibe 
+- **M4 screw, nut, washer** → M4-Schraube, Mutter, Unterlegscheibe 
+- **M4 Unterlegscheibe** → M4-Schraube, Mutter, Unterlegscheibe 
+- **M4-Schraube, Mutter, Unterlegscheibe** (**M4 screw, nut, washer**): 
+- **M5 8mm Torx Schraube** → Bremsscheibenschraube 
+- **M5 8mm Torx screw** → Bremsscheibenschraube 
+- **M5 Mutter** → M5-Schraube, Mutter, Unterlegscheibe 
+- **M5 screw, nut, washer** → M5-Schraube, Mutter, Unterlegscheibe 
+- **M5 Unterlegscheibe** → M5-Schraube, Mutter, Unterlegscheibe 
+- **M5-Schraube, Mutter, Unterlegscheibe** (**M5 screw, nut, washer**): 
+- **M6 Mutter** → M6-Schraube, Mutter, Unterlegscheibe 
+- **M6 Schraube für V-Brake** → V-Brake Befestigungsschraube 
+- **M6 screw, nut, washer** → M6-Schraube, Mutter, Unterlegscheibe 
+- **M6 Unterlegscheibe** → M6-Schraube, Mutter, Unterlegscheibe 
+- **M6-Schraube, Mutter, Unterlegscheibe** (**M6 screw, nut, washer**): 
+- **M7 Mutter** → M7-Schraube, Mutter, Unterlegscheibe 
+- **M7 screw, nut, washer** → M7-Schraube, Mutter, Unterlegscheibe 
+- **M7 Unterlegscheibe** → M7-Schraube, Mutter, Unterlegscheibe 
+- **M7-Schraube, Mutter, Unterlegscheibe** (**M7 screw, nut, washer**): 
+- **M8 Mutter** → M8-Schraube, Mutter, Unterlegscheibe 
+- **M8 Nut** → M8-Schraube, Mutter, Unterlegscheibe 
+- **M8 Screw** → M8-Schraube, Mutter, Unterlegscheibe 
+- **M8 screw, nut, washer** → M8-Schraube, Mutter, Unterlegscheibe 
+- **M8 Unterlegscheibe** → M8-Schraube, Mutter, Unterlegscheibe 
+- **M8 Washer** → M8-Schraube, Mutter, Unterlegscheibe 
+- **M8-Schraube** → Kurbelschraube 
+- **M8-Schraube, Mutter, Unterlegscheibe** (**M8 screw, nut, washer**): 
+- **Magnet** → Tachometerteile 
+- **magnetischer Kolben** → Kleinteile mechanischer Scheibenbremssattel R.L.L.11.1
+- **Magura break pad** → Magura Bremsschuh Felgenbremse 
+- **Magura break parts** → Hydraulische Felgenbremse Kleinteile 
+- **Magura Bremse Teile** → Hydraulische Felgenbremse Kleinteile 
+- **Magura Bremsschuh Felgenbremse** (**Magura break pad**): 
+- **Mantelheber** → Reifenheber 
+- **mech hanger** → Schaltauge 
+- **Mechanik disk brake caliper parts** → Kleinteile mechanischer Scheibenbremssattel R.L.L.11.1
+- **Messlehre** → Messschieber 
+- **Messschieber** (**Caliper**): 
+- **Messwerkzeug für Kettenverschleiß** → Kettenverschleißlehre 
+- **Metal ball** → Kugel, alle Größen 
+- **Metal block with gap** → Sägeführung für Gabelschaft 
+- **Metal cap with hole** → Bremsbowdenzughüllenendkappe 
+- **Metal clamp** → Schelle Metall 
+- **Metal ring** → Lagerabdeckung 
+- **metal thing with 4 threads** → Scheibenbremsenadapter R.L.L.4.1
+- **Metall Klemme** → Schelle Metall 
+- **Metallblock mit Schlitz** → Sägeführung für Gabelschaft 
+- **Metalldraht** → Bremszug 
+- **Metalldraht** → Schaltzug 
+- **Metallkappe mit Loch** → Bremsbowdenzughüllenendkappe 
+- **Metallkugeln** → Kugel, alle Größen 
+- **Metallring** → Schelle Metall 
+- **Metallring** → Lagerabdeckung 
+- **Metallschelle** → Schelle Metall 
+- **Metallseil mit länglichem Knubbel** → Rennradbremsbowdenzug 
+- **Metallstift zum Umbiegen** → Sicherungssplint für Scheibenbremsbeläge  R.L.L.12.1
+- **Metallstück mit Hügel** → Kabelschelle zweilaschig R.L.W.S.A.1.4
+- **metrische Schraube 5 mm** → M3-Schraube, Mutter, Unterlegscheibe 
+- **metrische Schraube 5 mm** → M5-Schraube, Mutter, Unterlegscheibe 
+- **metrische Schraube 5 mm** → M6-Schraube, Mutter, Unterlegscheibe 
+- **metrische Schraube 5 mm** → M7-Schraube, Mutter, Unterlegscheibe 
+- **metrische Schraube 5 mm** → M4-Schraube, Mutter, Unterlegscheibe 
+- **metrisches Gewinde 10mm** → M10-Schraube, Mutter, Unterlegscheibe 
+- **metrisches Gewinde 5mm** → M3-Schraube, Mutter, Unterlegscheibe 
+- **metrisches Gewinde 5mm** → M5-Schraube, Mutter, Unterlegscheibe 
+- **metrisches Gewinde 5mm** → M6-Schraube, Mutter, Unterlegscheibe 
+- **metrisches Gewinde 5mm** → M7-Schraube, Mutter, Unterlegscheibe 
+- **metrisches Gewinde 5mm** → M4-Schraube, Mutter, Unterlegscheibe 
+- **metrisches Gewinde 8mm** → M8-Schraube, Mutter, Unterlegscheibe 
+- **middle long Axis with lever** → Schnellspanner für Vorderrad 
+- **middle long Axle with lever** → Schnellspanner für Vorderrad 
+- **middle long Rod with lever** → Schnellspanner für Vorderrad 
+- **Mitte vom Hinterrad** → Kassettennabe 
+- **Mitte vom Hinterrad mit Gewinde** → Schraubkranznabe 
+- **moderne Sattelbefestigung** → Sattelschienenklemmung 
+- **Moderner Vorbau** → Aheadset-Vorbau 
+- **Mount for front lighting** → Lampenhalter 
+- **Mount for handlebar basket** → Befestigung für Lenkerkorb 
+- **Mount for mudguard** → Schutzblech Streben 
+- **Mounting parts for mud guards** → Schutzblechhalterung 
+- **MTB-Ventil** → Autoventilteile 
+- **Mud guard** → Schutzblech 
+- **Mud guard mount** → Schutzblechhalterung 
+- **Mudguard attachment bolt** → Strebenkloben R.L.W.S.A.4.3
+- **Mudguard bolt** → Strebenkloben R.L.W.S.A.4.3
+- **mudguard hole puncher** → Lochzange 
+- **Mudguard screw** → Strebenkloben R.L.W.S.A.4.3
+- **Mudguard stay** → Schutzblech Streben 
+- **Mudguard stay clip minimal** → Schutzblechstrebenbefestigungsclips minimal R.L.W.S.A.1.2
+- **Mudguard strut attachment clip** → Schutzblechstrebenbefestigungsclips minimal R.L.W.S.A.1.2
+- **Multimeter** (**Multimeter**): 
+- **Multimeter** → Multimeter 
+- **Mutter** → Felgenmutter 
+- **Mutter Bremsbelag V-Brake** → Bremsschuhteil V-Brake 
+- **Mutter für Speiche** → Speichenmutter 
+- **Mutter M10** → M10-Schraube, Mutter, Unterlegscheibe 
+- **Mutter M3** → M3-Schraube, Mutter, Unterlegscheibe 
+- **Mutter M4** → M4-Schraube, Mutter, Unterlegscheibe 
+- **Mutter M5** → M5-Schraube, Mutter, Unterlegscheibe 
+- **Mutter M6** → M6-Schraube, Mutter, Unterlegscheibe 
+- **Mutter M7** → M7-Schraube, Mutter, Unterlegscheibe 
+- **Mutter M8** → M8-Schraube, Mutter, Unterlegscheibe 
+- **Mutter mit Abrundung** → Konus 
+- **Mutter mit Haken (oft M5)** → Bowdenzugklemmung 
+- **Mutter mit Zähnen** → Kontermutter für Achskonus 
+- **Mutter zum Befestigen der Kassette** → Sicherungsmutter für Kassette 
+- **Mutter zum Festklemmen der Achse** → Achsmutter 
+- **Nabe für Steckritzel** → Kassettennabe 
+- **Nabe für Zahnkranzpaket** → Kassettennabe 
+- **Nabe mit Gewinde** → Schraubkranznabe 
+- **Nabe mit Schraubkranzaufnahme** → Schraubkranznabe 
+- **Nabenbremse** → Trommelbremse 
+- **Nabenschaltung** (**Hub gear**): 
+- **Nabenschaltungkettchen** → Schaltkettchen 
+- **Nabenschaltungshebel** → Schalthebel Nabenschaltung 
+- **Nabenschaltungskette** → Kette Singlespeed 
+- **Nabenschaltungsritzel** → Single speed Ritzel 
+- **Nachschneider** → Gewindeschneider 
+- **Naphta** → Vulkanisierflüssigkeit 
+- **Nasenscheibe** → Sicherungsscheibe für Achse 
+- **Nasenschraube** → Sattelklemmenschraube 
+- **Nippel** → Speichenmutter 
+- **Nippeldreher** → Nippelspanner 
+- **Nippelspanner** (**Spoke wrench**): 
+- **Non-turn washer** → Sicherungsscheibe für Achse 
+- **Noodle** → Zugführungsrohr 
+- **Nose nut** → Sicherungsscheibe für Achse 
+- **Nussschlüssel mit Kraftbegrenzung** → Drehmomentschlüssel R.W.M
+- **Nut** → Felgenmutter 
+- **nut bent** → Bremsschuhteil V-Brake 
+- **Nut M3** → M3-Schraube, Mutter, Unterlegscheibe 
+- **Nut M4** → M4-Schraube, Mutter, Unterlegscheibe 
+- **Nut M5** → M5-Schraube, Mutter, Unterlegscheibe 
+- **Nut M6** → M6-Schraube, Mutter, Unterlegscheibe 
+- **Nut M7** → M7-Schraube, Mutter, Unterlegscheibe 
+- **Nut on the axle** → Achsmutter 
+- **Nut with round part** → Konus 
+- **Nylon-Kabelhalterung** → R-Typ Kabelhalter R.L.W.S.A.6.2
+- **Nässeschutz** → Schutzblech 
+- **Octalink** → Tretlager 
+- **Oil for the chain** → Kettenfett 
+- **old Shimano shifter** → Friktionsschaltgriff R.L.B.3
+- **Ortlieb Haken Einsatz** → Haken Einsatz Fahrradtasche 
+- **Ortlieb hook inserts** → Haken Einsatz Fahrradtasche 
+- **Oszilloskop** → Multimeter 
+- **Outer tube lever** → Reifenheber 
+- **Pants protection** → Kettenschutzring 
+- **Parkstütze** → Fahrradständer 
+- **Part for disk brake** → Scheibenbremsen Kleinteil 
+- **Part for disk brake** → Cantileverbremse Kleinteil 
+- **Part for mechanical disk brake** → Kleinteile mechanischer Scheibenbremssattel R.L.L.11.1
+- **Parts for pumps** → Pumpe Kleinteile 
+- **parts head set AHEAD ZS** → Semi-integrierter Steuersatz AHEAD Teile 
+- **Paste zum Anlösen von Gummi** → Vulkanisierflüssigkeit 
+- **Patch** → Flicken 
+- **Patch glue** → Vulkanisierflüssigkeit 
+- **Patch set** → Flickset 
+- **Patentsattelstütze** → Sattelstütze 
+- **Patentsattelstützenteile** → Sattelschienenklemmung 
+- **Patronenlager** → Tretlager 
+- **Pedal** → Pedal Paar 
+- **Pedal for folding bike** → Faltradpedal 
+- **Pedal für Faltrad** → Faltradpedal 
+- **Pedal left** → Pedal links 
+- **Pedal links** (**Pedal left**): 
+- **Pedal Paar** (**Pedal pair**): 
+- **Pedal pair** → Pedal Paar 
+- **Pedal rechts** (**Pedal right**): 
+- **Pedal right** → Pedal rechts 
+- **Pedalhülse** → Gewindeschneider 
+- **Pipe cutter** → Rohrschneider 
+- **Planetengetriebe** → Nabenschaltung 
+- **Plasitkkappe mit Loch** → Schaltbowdenzughüllenendhülse 
+- **Plastic cap with hole** → Schaltbowdenzughüllenendhülse 
+- **Plastic clamp** → Schelle Plastik R.L.W.2.1
+- **Plastic clamp with 2 holes vertical to each other** → Schutzblechstrebenbefestigungsclips minimal R.L.W.S.A.1.2
+- **Plastic cog** → Schaltungsrädchen 
+- **Plastic curve** → Haken Einsatz Fahrradtasche 
+- **Plastic handle for gear cable adjusting** → Schaltzugeinsteller mit Feder, Schraube, Griff 
+- **Plastic rectangle with slight hook** → Reifenheber 
+- **Plastic ring** → Kettenschutzring 
+- **Plastik aufbiegbar mit 2 Löchern um 90° verdreht** → Schutzblechstrebenbefestigungsclips minimal R.L.W.S.A.1.2
+- **Plastikband** → Felgenband 
+- **Plastikbogen** → Haken Einsatz Fahrradtasche 
+- **Plastikbox mit Metallclip** → Schaltkettchen 
+- **Plastikgriff für Schaltzugeinstellung** → Schaltzugeinsteller mit Feder, Schraube, Griff 
+- **Plastikkappe** → Staubkappe für Kurbel 
+- **Plastikrechteck mit flachem Haken** → Reifenheber 
+- **Plastikring** → Kettenschutzring 
+- **Plastikring** → Spacer Kassette 
+- **Plastikritzel klein** → Schaltungsrädchen 
+- **Plastikschelle** → Schelle Plastik R.L.W.2.1
+- **Plastikzahnrad** → Schaltungsrädchen 
+- **Plastikzylinder mit Außengewinde** → Lagerschale Tretlager 
+- **pliers with round cut thing** → Lochzange 
+- **plunger brake** → Stempelbremse 
+- **Plyer for opening chain lock** → Kettenschlosszange 
+- **Pressfitlager** → Tretlager 
+- **Presta valve** → französisches Ventil 
+- **Presta-Ventil** → französisches Ventil 
+- **Protection rubber tube** → Faltenbalg für V-Bremse 
+- **Protective Glasses** → Schutzbrille 
+- **Pull lever** → Bremshebel V-Bremse 
+- **Pull lever** → Bremshebel Cantilever 
+- **Pull lever** → Bremshebel 
+- **Pulley** → Schaltungsrädchen 
+- **Pulley for bowden cable** → Umlenkrolle 
+- **Pump** → Luftpumpe 
+- **Pump parts** → Pumpe Kleinteile 
+- **Pumpe** → Luftpumpe 
+- **Pumpe Kleinteile** (**Pump parts**): 
+- **Pumpenaufsätze** → Pumpe Kleinteile 
+- **punch forceps** → Lochzange 
+- **punch pliers** → Lochzange 
+- **Push-in tool for ahead set star nuts** → Einschlaghilfe Ahead-Kralle R.W
+- **quadratische Mutter (oft M5)** → Bowdenzugklemmung 
+- **Querzugträger** (**Link wire**): 
+- **Quick release for saddle clamp** → Schnellspanner Sattelklemme 
+- **Quick release skewer** → Schnellspanner für Achse R.L.W.7.2
+- **Quick release skewer at seatpost** → Schnellspanner am Sattelrohr 
+- **Quick release skewer back wheel** → Schnellspanner für Hinterrad 
+- **Quick release skewer front wheel** → Schnellspanner für Vorderrad 
+- **Quill stem** → Vorbau mit Innenklemmung 
+- **Quill stem screw** → Vorbauklemmschraube 
+- **R-Typ Kabelhalter** (**R-type cable clamp**): R.L.W.S.A.6.2
+- **R-Typ Kabelschelle** → R-Typ Kabelhalter R.L.W.S.A.6.2
+- **R-type cable clamp** → R-Typ Kabelhalter R.L.W.S.A.6.2
+- **Racing bike brake** → Seitenzugbremse 
+- **Racing bike brake cable** → Rennradbremsbowdenzug 
+- **Racing bike brake lever** → Rennradbremshebel R.L.B.4
+- **Racing bike brake pad** → Seitenzugbremse Bremsbelag 
+- **Radbefestigung vorne** → Fahrradgabel 
+- **Rahmenschloss** (**Frame lock**): 
+- **Rain cover for seat** → Sattelüberzug 
+- **Random stuff** → zu sortieren 
+- **Ratchet strap** → Gepäckbefestigung 
+- **Reaction arm** → Drehmomentstütze 
+- **reaction member** → Drehmomentstütze 
+- **reactor** → Drehmomentstütze 
+- **Rear derailleur** → Schaltwerk R.L.B.2
+- **Rear derailleur guard** → Schaltwerkschutzbügel 
+- **Rear lamp** → Rückleuchte 
+- **Rear light battery based** → Batterierückleuchte 
+- **Rear lights** → Rückleuchte 
+- **Rear reflector** → Reflektor 
+- **Rear stand** → Fahrradständer 
+- **rechteckige Mutter (oft M5)** → Bowdenzugklemmung 
+- **Rechtes Pedal** → Pedal rechts 
+- **Red lamp** → Rückleuchte 
+- **red tool with round blade** → Rohrschneider 
+- **Reflector** → Reflektor 
+- **Reflector for spokes** → Speichenreflektor 
+- **Reflektor** (**Reflector**): 
+- **Reflektor Speiche** → Speichenreflektor 
+- **Regenüberzug** → Sattelüberzug 
+- **Reibungsschaltgriff** → Friktionsschaltgriff R.L.B.3
+- **Reifenheber** (**Tire lever**): 
+- **Reiniger zum Entfetten** → Bremsenreiniger 
+- **Reisereparatur** → Flickset 
+- **Rennradbremsbelag** → Seitenzugbremse Bremsbelag 
+- **Rennradbremsbowdenzug** (**Racing bike brake cable**): 
+- **Rennradbremse** → Seitenzugbremse 
+- **Rennradbremshebel** (**Racing bike brake lever**): R.L.B.4
+- **Rennradbremszug** → Rennradbremsbowdenzug 
+- **Rennradventil** → französisches Ventil 
+- **Riffelmutter** → Kontermutter für Achskonus 
+- **Riffelscheibe für Achse** (**Corrugated washer**): 
+- **Riffelunterlegscheibe M5** → Zahnscheibe M5 
+- **Right pedal** → Pedal rechts 
+- **Rillenschneider** → Gewindeschneider 
+- **Rim nut** → Felgenmutter 
+- **Rim tape** → Felgenband 
+- **Ring** → Lagerabdeckung 
+- **Ring mit Außengewinde und Riffeln** → Sicherungsmutter für Kassette 
+- **Ring mit kurzem Gewinde** → Centerlock ring R.L.L.11.5
+- **Ring mit Riffel innen** → Centerlock-6-Loch-Adapter R.L.L.11.4
+- **Ring mit Welle** → Cantileverbremse Kleinteil 
+- **Ring mit Zähnen** → Spacer Kassette 
+- **Ring with screw** → Schelle Metall 
+- **Ring with short thread** → Centerlock ring R.L.L.11.5
+- **Ritzel (einzeln)** (**Sprocket**): R.L.W.2.3
+- **Ritzel für vorne** → Kettenblatt 
+- **Ritzel ohne Kettenschaltung** → Single speed Ritzel 
+- **Ritzeldreher** → Kettenpeitsche 
+- **Ritzelpaket** → Kassette R.L.W.1.1
+- **Ritzelpaket mit eingebautem Freilauf** → Schraubkranz R.L.W.2.2
+- **Riveting tool** → Kettennietdrücker 
+- **Rod with lever** → Schnellspanner für Achse R.L.W.7.2
+- **Rohloff-Öl** → Kettenfett 
+- **Rohrdurchmesserausgleicher** → Haken Einsatz Fahrradtasche 
+- **Rohrschneider** (**Pipe cutter**): 
+- **rote Lampe** → Rückleuchte 
+- **roter Griff mit kreisförmiger Klinge** → Rohrschneider 
+- **Rotor** → BMX Bremszugverdreher 
+- **Rubber cover hub gears** → Staubkappe für Nabenschaltung 
+- **Rubber diverse** → Gummi divers 
+- **Rubber ring** → Staubkappe für Nabenschaltung 
+- **Rubber tube for V-Brake** → Faltenbalg für V-Bremse 
+- **runde Plastikkappe mit Riffeln** → Dynamokappe 
+- **Röhrchen** → Distanzring klein 
+- **Rücklampe batteriebetrieben** → Batterierückleuchte 
+- **Rückleuchte** (**Rear lights**): 
+- **Rücklicht** → Rückleuchte 
+- **Rücklicht batteriebetrieben** → Batterierückleuchte 
+- **Rücktrittbremshebel** → Drehmomentstütze 
+- **Saddle** → Sattel 
+- **Saddle clamp (modern)** → Sattelschienenklemmung 
+- **Saddle clamp (old)** → Sattelkloben 
+- **Saddle clamp quick release** → Schnellspanner Sattelklemme 
+- **Saddle clamp screw** → Sattelklemmenschraube 
+- **Saddle cover** → Sattelüberzug 
+- **Saddle pillar** → Sattelstütze 
+- **Saddle pin** → Sattelstütze 
+- **Saddle pole** → Sattelstütze 
+- **Safety cotter pin for disk brake pads** → Sicherungssplint für Scheibenbremsbeläge  R.L.L.12.1
+- **Safety Link** → Kettenschloss 
+- **Safety nut M3** → M3-Schraube, Mutter, Unterlegscheibe 
+- **Safety nut M4** → M4-Schraube, Mutter, Unterlegscheibe 
+- **Safety nut M5** → M5-Schraube, Mutter, Unterlegscheibe 
+- **Safety nut M6** → M6-Schraube, Mutter, Unterlegscheibe 
+- **Safety nut M7** → M7-Schraube, Mutter, Unterlegscheibe 
+- **Sattel** (**Seat**): 
+- **Sattelbefestigung** → Sattelschienenklemmung 
+- **Sattelbefestigung alt** → Sattelkloben 
+- **Sattelhalter** → Sattelkloben 
+- **Sattelhülle** → Sattelüberzug 
+- **Sattelkerze** → Sattelstütze 
+- **Sattelkerze Teile** → Sattelkloben 
+- **Sattelklemme** (**Seat clamp**): 
+- **Sattelklemme** → Sattelschienenklemmung 
+- **Sattelklemmenschnellspanner** → Schnellspanner Sattelklemme 
+- **Sattelklemmenschraube** (**Saddle clamp screw**): 
+- **Sattelkloben** (**Saddle clamp (old)**): 
+- **Sattelklobenalternative** → Sattelschienenklemmung 
+- **Sattelmuffe** → Sattelklemme 
+- **Sattelrohr** → Sattelstütze 
+- **Sattelrohrschnellspanner** → Schnellspanner am Sattelrohr 
+- **Sattelschienenklemmung** (**Saddle clamp (modern)**): 
+- **Sattelschnellspanner** → Schnellspanner Sattelklemme 
+- **Sattelstütze** (**Seat post**): 
+- **Sattelüberzug** (**Seat cover**): 
+- **Saw guide** → Sägeführung für Gabelschaft 
+- **Schachtel** (**Box**): 
+- **Schaltauge** (**derailleur hanger**): 
+- **Schaltaugenhülse** → Gewindeschneider 
+- **Schaltbowdenzugendkappe** (**Crimp for shifte cable**): 
+- **Schaltbowdenzughülle** (**Gear cable housing**): 
+- **Schaltbowdenzughüllenendhülse** (**Gear cable end cap**): 
+- **Schaltgriff** → Schalthebel Nabenschaltung 
+- **Schaltgriff** → Schalthebel Kettenschaltung 
+- **Schalthebel Kettenschaltung** (**Chain shifter**): 
+- **Schalthebel Nabenschaltung** (**hub Shifter**): 
+- **Schalthebelbremshebelkombi** → Bremsschalthebel R.L.B.4
+- **Schaltkettchen** (**Gear chain**): 
+- **Schaltung vorne** → Umwerfer R.L.B.2
+- **Schaltungskette** → Kette Kettenschaltung 
+- **Schaltungsnabe** → Nabenschaltung 
+- **Schaltungsrädchen** (**Pulley**): 
+- **Schaltungsschutz** → Schaltwerkschutzbügel 
+- **Schaltwerk** (**Rear derailleur**): R.L.B.2
+- **Schaltwerk** → Schaltwerk R.L.B.2
+- **Schaltwerkschutzbügel** (**Derailleur guard**): 
+- **Schaltzug** (**Gear cable**): 
+- **Schaltzug** → Schaltzug 
+- **Schaltzug MTB über Sattelstütze Kleinteiletüte** (**Gear cable MTB parts bag**): 
+- **Schaltzugbefestigung** → Bowdenzugbefestigung versch. 
+- **Schaltzugeinsteller mit Feder, Schraube, Griff** (**Inline Adjusters**): 
+- **Schaltzugendkappe** → Schaltbowdenzugendkappe 
+- **Schaltzughülle** → Schaltbowdenzughülle 
+- **Schaltzughülle MTB** → Bowdenzughülle für MTB 
+- **Schaltzughüllenendkappe** → Schaltbowdenzughüllenendhülse 
+- **Schaltzugklemmung** → Bowdenzugklemmung 
+- **Scheibe mit drei verbundenen Löchern** → Gewindeschneider 
+- **Scheibe mit M3 Loch** → M3-Schraube, Mutter, Unterlegscheibe 
+- **Scheibe mit M4 Loch** → M4-Schraube, Mutter, Unterlegscheibe 
+- **Scheibe mit M5 Loch** → M5-Schraube, Mutter, Unterlegscheibe 
+- **Scheibe mit M6 Loch** → M6-Schraube, Mutter, Unterlegscheibe 
+- **Scheibe mit M7 Loch** → M7-Schraube, Mutter, Unterlegscheibe 
+- **Scheibenbremsbelag** (**Disk brake pad**): R.L.L.12.2
+- **Scheibenbremsen Kleinteil** (**Disk brake parts**): 
+- **Scheibenbremsenadapter** (**Disk brake adapter**): R.L.L.4.1
+- **Scheibenbremsenrad hinten** → Hinterrad 28 Zoll R.L.R.O
+- **Schelle Metall** (**Clamp metal**): 
+- **Schelle mit Hügel** → Kabelschelle zweilaschig R.L.W.S.A.1.4
+- **Schelle Plastik** (**Clamp plastic**): R.L.W.2.1
+- **Schelle Plastik klein mit 2 Löchern** → Schutzblechstrebenbefestigungsclips minimal R.L.W.S.A.1.2
+- **Schiebebrücke** → Schutzblechhalterung 
+- **Schieblehre** → Messschieber 
+- **Schlammschutz** → Schutzblech 
+- **Schlauch 26'** (**tube 26'**): 
+- **Schlauch 28'** (**tube**): 
+- **Schlauch 559mm Durchmesser** → Schlauch 26' 
+- **Schlauch 622mm Durchmesser** → Schlauch 28' 
+- **Schlauchflicken** → Flicken 
+- **Schlauchflickset** → Flickset 
+- **Schloss** (**Lock**): 
+- **Schlossbefestingung** → Schlosszubehör 
+- **Schlosszubehör** (**Lock part**): 
+- **schmale Kette** → Kette Kettenschaltung 
+- **Schmiere für Kette** → Kettenfett 
+- **Schnellspanner am Sattelrohr** (**Quick release skewer at seatpost**): 
+- **Schnellspanner für Achse** (**Quick release skewer**): R.L.W.7.2
+- **Schnellspanner für Hinterrad** (**Quick release skewer back wheel**): 
+- **Schnellspanner für Hinterradachse** → Schnellspanner für Hinterrad 
+- **Schnellspanner für Laufradachse** → Schnellspanner für Achse R.L.W.7.2
+- **Schnellspanner für Sattelklemme** → Sattelklemme 
+- **Schnellspanner für Vorderrad** (**Quick release skewer front wheel**): 
+- **Schnellspanner für Vorderradachse** → Schnellspanner für Vorderrad 
+- **Schnellspanner Sattelklemme** (**Quick release for saddle clamp**): 
+- **Schnellspannermutter** → Schnellspanner für Achse R.L.W.7.2
+- **Schnellspannermutter** → Schnellspanner für Hinterrad 
+- **Schnellspannermutter** → Schnellspanner für Vorderrad 
+- **Schrader valve parts** → Autoventilteile 
+- **Schrader Ventilteile** → Autoventilteile 
+- **Schraderventil** → Autoventilteile 
+- **Schraube für Bremsenbefestigung** → V-Brake Befestigungsschraube 
+- **Schraube für Bremsscheibenbefestigung** → Bremsscheibenschraube 
+- **Schraube für Fahrradständer an der Tretkurbel** → Ständerschraube 
+- **Schraube für Kurbel** → Kurbelschraube 
+- **Schraube M10** → M10-Schraube, Mutter, Unterlegscheibe 
+- **Schraube M3** → M3-Schraube, Mutter, Unterlegscheibe 
+- **Schraube M4** → M4-Schraube, Mutter, Unterlegscheibe 
+- **Schraube M5** → M5-Schraube, Mutter, Unterlegscheibe 
+- **Schraube M6** → M6-Schraube, Mutter, Unterlegscheibe 
+- **Schraube M7** → M7-Schraube, Mutter, Unterlegscheibe 
+- **Schraube M8** → M8-Schraube, Mutter, Unterlegscheibe 
+- **Schraube mit 3.2mm Loch, M6** → Schutzblechstrebenbolzen R.L.W.S.A.4.2
+- **Schraube mit Hebel** → Schnellspanner Sattelklemme 
+- **Schraube mit Loch** → Schaltzugeinsteller mit Feder, Schraube, Griff 
+- **Schraube mit Loch** → Strebenkloben R.L.W.S.A.4.3
+- **Schraube mit Loch im Kopf** → Cantileverbremse Kleinteil 
+- **Schraube mit Lücke und Ring** → Zugeinsteller Bremse 
+- **Schraube mit Mutter und Flügel** → Kettenspanner für horizontale Ausfallenden 
+- **Schraube mit Nase ohne Schraubenkopfantrieb** → Sattelklemmenschraube 
+- **Schraube mit Ritze und Ring** → Zugeinsteller Bremse 
+- **Schraube zum Bowdenzugklemmen** → Bowdenzugbefestigung versch. 
+- **Schraubkranz** (**Freewheel**): R.L.W.2.2
+- **Schraubkranznabe** (**Freewheel hub**): 
+- **Schrumpfschlauch** (**Heat shrink tubes**): 
+- **Schublehre** → Messschieber 
+- **Schutzblech** (**Fender**): 
+- **Schutzblech Streben** (**Mudguard stay**): 
+- **Schutzblechbefestigung** → Schutzblech Streben 
+- **Schutzblechbefestigungsschraube** → Strebenkloben R.L.W.S.A.4.3
+- **Schutzblechhalterung** (**Fender mount**): 
+- **Schutzblechkabelclip** → ? R.L
+- **Schutzblechlochstanzer** → Lochzange 
+- **Schutzblechstrebenbefestigungsclips minimal** (**Mudguard stay clip minimal**): R.L.W.S.A.1.2
+- **Schutzblechstrebenbolzen** (**Fender stay bolt**): R.L.W.S.A.4.2
+- **Schutzbrille** (**Protective Glasses**): 
+- **Schutzbügel** → Schaltwerkschutzbügel 
+- **Sclaverand valve** → französisches Ventil 
+- **Sclaverand-Ventil** → französisches Ventil 
+- **Scrap bikes** → Ausschlacht-Fahrräder 
+- **Screw for crank** → Kurbelschraube 
+- **screw for disk brake disk** → Bremsscheibenschraube 
+- **Screw for tightening ring for seat post** → Sattelklemmenschraube 
+- **Screw M10** → M10-Schraube, Mutter, Unterlegscheibe 
+- **Screw M8** → M8-Schraube, Mutter, Unterlegscheibe 
+- **Screw with hole** → Strebenkloben R.L.W.S.A.4.3
+- **Screw with lever** → Schnellspanner Sattelklemme 
+- **Screw with nose without skrew drive** → Sattelklemmenschraube 
+- **Seat** → Sattel 
+- **Seat cap** → Sattelüberzug 
+- **Seat clamp** → Sattelklemme 
+- **Seat cover** → Sattelüberzug 
+- **Seat pin** → Sattelstütze 
+- **Seat post** → Sattelstütze 
+- **Seat post clamp** → Sattelklemme 
+- **Sehr dicke kurze Schraube** → Ständerschraube 
+- **Seitenläuferdynamo** (**Bottle dynamo**): 
+- **Seitenständerschraube** → Ständerschraube 
+- **Seitenzugbremse** (**Caliper brake**): 
+- **Seitenzugbremse Bremsbelag** (**Caliper brake pad**): 
+- **Semi-Integrated AHEAD set parts** → Semi-integrierter Steuersatz AHEAD Teile 
+- **Semi-integrierter Steuersatz AHEAD Teile** (**Semi-Integrated AHEAD set parts**): 
+- **Serrated washer** → Riffelscheibe für Achse 
+- **Serrated washer M5** → Zahnscheibe M5 
+- **Shell for bowden cable housing end** → Bremsbowdenzughüllenendkappe 
+- **Shell for gear bowden cable end** → Schaltbowdenzughüllenendhülse 
+- **Shifter with brake lever** → Bremsschalthebel R.L.B.4
+- **Shimano index shifter** → SIS Schalthebel R.L.B.3
+- **Short small chain with metal stick** → Schaltkettchen 
+- **short thick screw** → Bremsscheibenschraube 
+- **Sicherheitsmutter M3** → M3-Schraube, Mutter, Unterlegscheibe 
+- **Sicherheitsmutter M4** → M4-Schraube, Mutter, Unterlegscheibe 
+- **Sicherheitsmutter M5** → M5-Schraube, Mutter, Unterlegscheibe 
+- **Sicherheitsmutter M6** → M6-Schraube, Mutter, Unterlegscheibe 
+- **Sicherheitsmutter M7** → M7-Schraube, Mutter, Unterlegscheibe 
+- **Sicherheitsstrebe** → Schutzblech Streben 
+- **Sicherung** → Gepäckbefestigung 
+- **Sicherungsblech** → Sicherungsmutter für Kassette 
+- **Sicherungsmutter für Kassette** (**Lock freehub for cassette**): 
+- **Sicherungsring Kassette** → Sicherungsmutter für Kassette 
+- **Sicherungsscheibe für Achse** (**Anti-rotation washer**): 
+- **Sicherungssplint für Scheibenbremsbeläge ** (**Safety cotter pin for disk brake pads**): R.L.L.12.1
+- **Sicherungsstift für Bremsbeläge** → Sicherungssplint für Scheibenbremsbeläge  R.L.L.12.1
+- **Sicherungsunterlegscheibe M5** → Zahnscheibe M5 
+- **Side stand** → Fahrradständer 
+- **Side-pull caliper brake** → Seitenzugbremse 
+- **Sidewall dynamo** → Seitenläuferdynamo 
+- **Silicon spray** → Silikonspray 
+- **Silikonspray** (**Silicon spray**): 
+- **Single gear** → Single speed Ritzel 
+- **Single pivot side-pull caliper brake** → Seitenzugbremse 
+- **Single speed Ritzel** (**Single speed sprocket**): 
+- **Single speed sprocket** → Single speed Ritzel 
+- **Single-wire** → Kabel 
+- **Singlespeed chain** → Kette Singlespeed 
+- **Singlespeedkette** → Kette Singlespeed 
+- **SIS Schalthebel** (**SIS shifter**): R.L.B.3
+- **SIS shifter** → SIS Schalthebel R.L.B.3
+- **Sitz** → Sattel 
+- **Skrew for kick stand** → Ständerschraube 
+- **Skrew for locking bowden cable** → Bowdenzugbefestigung versch. 
+- **Skrew for side stand** → Ständerschraube 
+- **Skrew with gap and lock nut** → Zugeinsteller Bremse 
+- **Skrew with hole** → Schaltzugeinsteller mit Feder, Schraube, Griff 
+- **skrew with hole in head** → Cantileverbremse Kleinteil 
+- **Slidebridge** → Schutzblechhalterung 
+- **Small brake pad** → Seitenzugbremse Bremsbelag 
+- **Small part of Cantilever brake** → Cantileverbremse Kleinteil 
+- **Small parts for the pump** → Pumpe Kleinteile 
+- **Soldering iron** → Lötkolben 
+- **Spacer Kassette**: 
+- **Spacer small** → Distanzring klein 
+- **Spanngurt** → Gepäckbefestigung 
+- **Spannriemen** → Gepäckbefestigung 
+- **Spannungsmessgerät** → Multimeter 
+- **Speedometer** → Tachometerteile 
+- **Speiche** (**Spoke**): 
+- **Speichenmutter** (**Spoke nut**): 
+- **Speichennippel** → Speichenmutter 
+- **Speichenreflektor** (**Spoke reflector**): 
+- **Speichenschlüssel** → Nippelspanner 
+- **Speichenspanner** → Nippelspanner 
+- **Sphere** → Kugel, alle Größen 
+- **Splint** → Kurbelkeil 
+- **Spoke** → Speiche 
+- **Spoke key** → Nippelspanner 
+- **Spoke nipple** → Speichenmutter 
+- **Spoke nut** → Speichenmutter 
+- **Spoke reflector** → Speichenreflektor 
+- **Spoke wrench** → Nippelspanner 
+- **Spray für festsitzende Bowdenzüge** → Silikonspray 
+- **Spray zum gängig machen** → Silikonspray 
+- **Spring for gear cable adjusting** → Schaltzugeinsteller mit Feder, Schraube, Griff 
+- **Spring V-Brake** → V-Brake Feder & Abdeckung 
+- **Sprocket** → Kurbelgarnitur 
+- **Sprocket** → Kettenblatt 
+- **Sprocket** → Ritzel (einzeln) R.L.W.2.3
+- **Sprocket for gear hub** → Single speed Ritzel 
+- **SRAM Staubkappe** → Staubkappe für Nabenschaltung 
+- **Stab mit Hebel** → Schnellspanner für Achse R.L.W.7.2
+- **Stab mit Hebel** → Schnellspanner für Hinterrad 
+- **Stab mit Hebel** → Schnellspanner für Vorderrad 
+- **Stab mit Rillen** → Gewindeschneider 
+- **Stahlseil** → Bremszug 
+- **Stahlseil** → Schaltzug 
+- **Stahlseit mit Birnennippel** → Rennradbremsbowdenzug 
+- **Stand** → Fahrradständer 
+- **Standard Steuersatz AHEAD Teile** (**External cup AHEAD set parts**): 
+- **Star washer** → Riffelscheibe für Achse 
+- **Star washer M5** → Zahnscheibe M5 
+- **starker Entfetter** → Bremsenreiniger 
+- **Starrgabel** → Fahrradgabel 
+- **stator** → Drehmomentstütze 
+- **Staubkappe für Kurbel** (**Cap for bottom bracket**): 
+- **Staubkappe für Nabenschaltung** (**Dust cap hub gears**): 
+- **Stay for fender** → Schutzblech Streben 
+- **Stem (quill)** → Vorbau mit Innenklemmung 
+- **Stem hreadless** → Aheadset-Vorbau 
+- **Stempelbremse**: 
+- **Stempelbremsenteile** → Stempelbremse 
+- **stepfree shifter** → Friktionsschaltgriff R.L.B.3
+- **Steuersatz AHEAD außenliegend** → Semi-integrierter Steuersatz AHEAD Teile 
+- **Steuersatzkontermutter 1 Zoll** (**Lock nut head set 1 inch**): 
+- **Steuersatzteile** (**Head set parts**): 
+- **Straddle cable wire bridge** → Querzugträger 
+- **Streben für Schutzbleche** → Schutzblech Streben 
+- **Strebenbefestigungsschraube** → Strebenkloben R.L.W.S.A.4.3
+- **Strebenklemme Metall M5** → Strebenkloben R.L.W.S.A.4.3
+- **Strebenkloben** (**Mudguard bolt**): R.L.W.S.A.4.3
+- **Strommessgerät** → Multimeter 
+- **stufenloser Schalthebel** → Friktionsschaltgriff R.L.B.3
+- **Sturzschutz** → Schaltwerkschutzbügel 
+- **Ständer** → Fahrradständer 
+- **Ständerschraube** (**Kick stand skrew**): 
+- **suspension fork** → Fahrradgabel 
+- **Sägeführung für Gabelschaft** (**Saw guide**): 
+- **Tachometerteile** (**Cyclocomputer**): 
+- **tap and die** → Gewindeschneider 
+- **Tape** → Lenkergriff 
+- **Teil von Cantileverbremse** → Cantileverbremse Kleinteil 
+- **Teile außenliegender Steuersatz AHEAD** → Standard Steuersatz AHEAD Teile 
+- **Teilkettenschutz** → Kettenschutz 
+- **Tension nut** → Felgenmutter 
+- **Tension pulley** → Schaltungsrädchen 
+- **Tension washer** → Felgenmutter 
+- **thick chain** → Kette Singlespeed 
+- **Thick short skrew** → Ständerschraube 
+- **thin chain** → Kette Kettenschaltung 
+- **Thompson bracket** → Tretlager 
+- **thread cutter** → Gewindeschneider 
+- **Threadless stem** → Aheadset-Vorbau 
+- **Thumb shifter** → Schalthebel Nabenschaltung 
+- **Thumb shifter** → Schalthebel Kettenschaltung 
+- **Tie down strap** → Gepäckbefestigung 
+- **Tightening ring** → Sattelklemme 
+- **Tightening ring screw** → Sattelklemmenschraube 
+- **Tiny cog** → Schaltungsrädchen 
+- **Tiny skrew** → Begrenzungsschraube Schaltung 
+- **Tip top set** → Flickset 
+- **Tire iron** → Reifenheber 
+- **Tire lever** → Reifenheber 
+- **Tire spoon** → Reifenheber 
+- **to sort** → zu sortieren 
+- **TODO: Einzelteilnamen von Cantiteilen** → Cantileverbremse Kleinteil 
+- **Tool for exact length measuring** → Messschieber 
+- **Toothed lock washer** → Riffelscheibe für Achse 
+- **Toothed lock washer M5** → Zahnscheibe M5 
+- **Torque handle** → Drehmomentschlüssel R.W.M
+- **torque multiplier** → Drehmomentstütze 
+- **torque spanner** → Drehmomentschlüssel R.W.M
+- **torque support** → Drehmomentstütze 
+- **torque tool** → Drehmomentschlüssel R.W.M
+- **torque wrench** → Drehmomentschlüssel R.W.M
+- **torque-controlled spanner** → Drehmomentschlüssel R.W.M
+- **torque-limiting wrench** → Drehmomentschlüssel R.W.M
+- **Tow bar** → Anhängerkupplung 
+- **Tow hitch** → Anhängerkupplung 
+- **Trailer** → Anhängerkupplung 
+- **Travel repair set** → Flickset 
+- **Tretarm** → Tretkurbel links 
+- **Tretarm Kettenschaltung** → Kurbelgarnitur 
+- **Tretkurbel 2 & 3-Gang** → Kurbelgarnitur 
+- **Tretkurbel links** (**Left crank arm**): 
+- **Tretkurbel rechts** → Kurbelgarnitur 
+- **Tretlager** (**Bottom bracket**): 
+- **Tretlagerabdeckung** → Staubkappe für Kurbel 
+- **Tretlagerschale** → Lagerschale Tretlager 
+- **Trinkflaschenrahmen** → Flaschenhalter 
+- **Trommelbremse** (**Drum brake**): 
+- **Trousers protection** → Kettenschutzring 
+- **tube** → Schlauch 28' 
+- **tube 26'** → Schlauch 26' 
+- **Tube diameter compensation** → Haken Einsatz Fahrradtasche 
+- **Tube patch** → Flicken 
+- **Tube patching set** → Flickset 
+- **two-core cable** → Kabel 
+- **U-brakes** → Seitenzugbremse 
+- **U-lock** → Schloss 
+- **Umfallschaltwerkschutz** → Schaltwerkschutzbügel 
+- **Umlenkrolle** (**Pulley for bowden cable**): 
+- **Umwerfer** (**Derailleur**): R.L.B.2
+- **Umwerfer** → Schaltwerk R.L.B.2
+- **Universalmessgerät Elektro** → Multimeter 
+- **Universalschaltauge** → Schaltauge 
+- **Unterlegcheibe Achssicherung ohne Nase** → Riffelscheibe für Achse 
+- **Unterlegscheibe gebogen** → Bremsschuhteil V-Brake 
+- **Unterlegscheibe M10** → M10-Schraube, Mutter, Unterlegscheibe 
+- **Unterlegscheibe M3** → M3-Schraube, Mutter, Unterlegscheibe 
+- **Unterlegscheibe M4** → M4-Schraube, Mutter, Unterlegscheibe 
+- **Unterlegscheibe M5** → M5-Schraube, Mutter, Unterlegscheibe 
+- **Unterlegscheibe M6** → M6-Schraube, Mutter, Unterlegscheibe 
+- **Unterlegscheibe M7** → M7-Schraube, Mutter, Unterlegscheibe 
+- **Unterlegscheibe M8** → M8-Schraube, Mutter, Unterlegscheibe 
+- **Unterlegscheibe mit Zähnen** → Riffelscheibe für Achse 
+- **Unterlegscheibe mit Zähnen M5** → Zahnscheibe M5 
+- **Unterlegscheibe mit Zähnen und Nase** → Sicherungsscheibe für Achse 
+- **Unterlegscheibe, die sich in Rahmen eingräbt** → Riffelscheibe für Achse 
+- **V-Brake Arm** (**V-Brake arm**): R.L.B.4
+- **V-Brake arm** → V-Brake Arm R.L.B.4
+- **V-Brake Befestigungsschraube** (**V-Brake screw**): 
+- **V-Brake brake pad part** → Bremsschuhteil V-Brake 
+- **V-Brake brakeshoe part** → Bremsschuhteil V-Brake 
+- **V-Brake Bremsarm** → V-Brake Arm R.L.B.4
+- **V-Brake Bremsklotzteil** → Bremsschuhteil V-Brake 
+- **V-Brake Bremsschuteil** → Bremsschuhteil V-Brake 
+- **V-Brake Feder & Abdeckung** (**V-Brake spring & cap**): 
+- **V-Brake rubber boot** → Faltenbalg für V-Bremse 
+- **V-Brake Schutzgummi** → Faltenbalg für V-Bremse 
+- **V-Brake screw** → V-Brake Befestigungsschraube 
+- **V-Brake spring & cap** → V-Brake Feder & Abdeckung 
+- **V-Brake-Bremsklotz links** → Bremsschuh V-Bremse links 
+- **V-Brake-Bremsklotz rechts** → Bremsschuh V-Bremse rechts 
+- **V-Brake-Bremsschuh links** → Bremsschuh V-Bremse links 
+- **V-Brake-Bremsschuh rechts** → Bremsschuh V-Bremse rechts 
+- **V-Brakearm** → V-Brake Arm R.L.B.4
+- **V-Brakebremshebel** → Bremshebel V-Bremse 
+- **V-Brakebremshebel** → Bremshebel 
+- **V-Bremse Arm** → V-Brake Arm R.L.B.4
+- **Valve cap** → Autoventilteile 
+- **Valve stem cap** → Fahrradventil 
+- **Valve without disattachable part** → Autoventilteile 
+- **Velocomputer** → Tachometerteile 
+- **Ventilhaltemutter** → Felgenmutter 
+- **Ventilkappe** → französisches Ventil 
+- **Ventilkappe** → Fahrradventil 
+- **Ventilkappe** → Autoventilteile 
+- **Verbindungszug** → Querzugträger 
+- **Verhüterli für Sattel** → Sattelüberzug 
+- **verschiebbarer Metallstab** → Messschieber 
+- **vierarmige Feder** → Bremsbelagfeder Hydraulikscheibenbremse R.L.L.11.2
+- **Vierkant-Hülsenmutter** → Speichenmutter 
+- **Vollachse** → Achse 
+- **Vollkettenschutz** → Kettenschutz 
+- **Voltmeter** → Multimeter 
+- **Vorbau mit Innenklemmung** (**Quill stem**): 
+- **Vorbau modern** → Aheadset-Vorbau 
+- **Vorbauklemmschraube** (**Quill stem screw**): 
+- **Vordere Lampe batteriebetrieben** → Batteriefrontleuchte 
+- **Vordere Schaltung** → Umwerfer R.L.B.2
+- **Vorderlampe batteriebetrieben** → Batteriefrontleuchte 
+- **Vorderleuchtenhalter** → Lampenhalter 
+- **Vorderlicht** → Frontscheinwerfer 
+- **Vulcanisation liquid** → Vulkanisierflüssigkeit 
+- **Vulkanisierflüssigkeit** (**Vulcanisation liquid**): 
+- **Vulkanisierpaste** → Vulkanisierflüssigkeit 
+- **Washer for axle** → Riffelscheibe für Achse 
+- **Washer for axle M5** → Zahnscheibe M5 
+- **Washer M10** → M10-Schraube, Mutter, Unterlegscheibe 
+- **Washer M3** → M3-Schraube, Mutter, Unterlegscheibe 
+- **Washer M4** → M4-Schraube, Mutter, Unterlegscheibe 
+- **Washer M5** → M5-Schraube, Mutter, Unterlegscheibe 
+- **Washer M6** → M6-Schraube, Mutter, Unterlegscheibe 
+- **Washer M7** → M7-Schraube, Mutter, Unterlegscheibe 
+- **Washer M8** → M8-Schraube, Mutter, Unterlegscheibe 
+- **Wax for chain** → Kettenfett 
+- **Wegfahrsperre** → Rahmenschloss 
+- **wellenförmiger Ring** → Cantileverbremse Kleinteil 
+- **Werkzeug mit Kette** → Kettenpeitsche 
+- **Wire** → Kabel 
+- **Woods valve** → Fahrradventil 
+- **Y-Link** → Querzugträger 
+- **Zahnkranz** → Kassette R.L.W.1.1
+- **Zahnrad** → Single speed Ritzel 
+- **Zahnrad** → Kassette R.L.W.1.1
+- **Zahnrad klein** → Schaltungsrädchen 
+- **Zahnrad klein** → Ritzel (einzeln) R.L.W.2.3
+- **Zahnradpaket mit Freilauf** → Schraubkranz R.L.W.2.2
+- **Zahnscheibe Achse** → Riffelscheibe für Achse 
+- **Zahnscheibe M5** (**Toothed lock washer M5**): 
+- **Zange mit Haken** → Kettenschlosszange 
+- **Zange mit rundem Stempel** → Lochzange 
+- **Zange zum Öffnen und Schließen von Kettenschlössern** → Kettenschlosszange 
+- **Zentrierschlüssel** → Nippelspanner 
+- **Ziehharmonikagummiröhrchen** → Faltenbalg für V-Bremse 
+- **zu sortieren** (**to sort**): 
+- **Zugeinsteller Bremse** (**Barrel adjuster**): 
+- **Zugführungsrohr** (**Cable lead unit**): 
+- **Zugkette** → Schaltkettchen 
+- **Zugklemmschraube** → Bowdenzugbefestigung versch. 
+- **Zurrgurt** → Gepäckbefestigung 
+- **zweiadriges Kabel** → Kabel 
+- **zweiarmige Feder** → Bremsbelagfeder Hydraulikscheibenbremse R.L.L.11.2
+- **Zwischenklemmgummi** → Gummi divers 
+- **Zylinder mit Außengewinde** → Lagerschale Tretlager 
+- **Zylinder mit Stift und Platte** → Einschlaghilfe Ahead-Kralle R.W
+- **öffnenbares Kettenglied** → Kettenschloss 
+- **Öl für die Kette** → Kettenfett 
+- **Überwurfmutter für Fahrradventil** → Fahrradventil 
