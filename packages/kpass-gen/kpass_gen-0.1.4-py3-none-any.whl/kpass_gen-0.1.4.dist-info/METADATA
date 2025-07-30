@@ -1,0 +1,103 @@
+Metadata-Version: 2.4
+Name: kpass-gen
+Version: 0.1.4
+Summary: kpass is a simple password generator based on full name, age, and birthdate.
+Author-email: "Lucas Paulino Da Silva (KsxDynamic)" <lucas.workps@gmail.com>
+License: MIT License
+        
+        Copyright (c) [year] [fullname]
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+Project-URL: Homepage, https://github.com/lucaspy-stack/kpass
+Project-URL: Repository, https://github.com/lucaspy-stack/kpass
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: rich
+Dynamic: license-file
+
+# kpass 
+
+**kpass** is a Python library that generates hundreds (or thousands) of password combinations based on a person's full name, age, and date of birth.
+
+It also includes `leet`-style substitutions (e.g., A → 4, S → $, E → 3), and automatically saves the generated passwords to a `.txt` file with progress bars using the `rich` library.
+
+---
+
+## 📦 Installation
+
+```bash
+pip install kpass-gen
+```
+---
+
+🚀 Example usage
+
+
+```python
+from kpass import generator
+
+# Generate passwords based on personal data
+generator(
+    name="Jhonny Silverhand",
+    age="34",
+    birth_date="16/11/1988"
+)
+```
+
+This will create a folder called passwords_generator containing a file named pass_generated.txt with valid password combinations between 6 and 18 characters.
+
+
+---
+
+🔧 Available functions
+
+generator(name: str, age: str, birth_date: str) -> bool
+
+Generates and saves passwords automatically.
+
+aplly_ciphers(text: str) -> str
+
+Applies leet-style substitutions to the given text (e.g., A → 4, S → $, etc.).
+
+save_to_txt(passwords: list[str], file_name: str = "pass_generated.txt")
+
+Saves a list of passwords to a .txt file with a progress bar.
+
+
+---
+
+✅ Requirements
+
+Python 3.6 or higher
+
+rich
+
+
+---
+
+📄 License
+
+This project is licensed under the MIT License.
+
+
+
