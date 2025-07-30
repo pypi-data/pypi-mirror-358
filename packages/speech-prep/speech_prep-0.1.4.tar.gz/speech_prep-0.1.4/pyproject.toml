@@ -1,0 +1,116 @@
+[project]
+name = "speech-prep"
+dynamic = ["version"]  # Tell build tools that version is determined dynamically
+description = "Audio preprocessing toolkit for speech-to-text applications using ffmpeg"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+    { name = "Dim Kharitonov", email = "dimds@fastmail.com" }
+]
+license = { text = "MIT" }
+keywords = ["speech-to-text", "audio", "ffmpeg", "preprocessing", "silence-detection"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Sound/Audio",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+]
+
+[project.urls]
+Homepage = "https://github.com/dimdasci/speech-prep"
+Repository = "https://github.com/dimdasci/speech-prep"
+Issues = "https://github.com/dimdasci/speech-prep/issues"
+
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+source = "vcs"
+raw-options = { local_scheme = "no-local-version" }
+
+[tool.ruff]
+target-version = "py39"
+line-length = 88
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+    "D",   # pydocstyle
+    "N",   # pep8-naming
+]
+ignore = [
+    "D203",    # 1 blank line required before class docstring
+    "D212",    # Multi-line docstring summary should start at the first line
+]
+exclude = [
+    ".git",
+    ".venv",
+    "venv",
+    "__pycache__",
+    "build",
+    "dist",
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["speech_prep"]
+force-single-line = false
+force-sort-within-sections = true
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.mypy]
+python_version = "3.9"
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+strict_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_return_any = true
+warn_unreachable = true
+disallow_any_generics = false
+disallow_subclassing_any = false
+exclude = [
+    "venv/",
+    ".venv/",
+    "build/",
+    "dist/",
+]
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+disallow_untyped_decorators = false
+
+[dependency-groups]
+dev = [
+    "ruff>=0.3.0",
+    "mypy>=1.8.0",
+    "pytest>=7.4.0",
+    "pytest-mock>=3.11.1",
+    "pydub>=0.25.1",
+    "pre-commit>=4.2.0",
+    "hatch-vcs>=0.5.0",
+    "twine>=6.1.0",
+]
