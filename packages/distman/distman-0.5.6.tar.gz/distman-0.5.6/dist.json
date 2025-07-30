@@ -1,0 +1,26 @@
+{
+    "version": "1",
+    "author": "ryan@rsg.io",
+    "targets": {
+        "bin": {
+            "source": "bin/distman",
+            "destination": "{DEPLOY_ROOT}/bin/distman"
+        },
+        "build": {
+            "source": "build/*",
+            "destination": "{DEPLOY_ROOT}/lib/python/%1"
+        },
+        "bat": {
+            "source": "bin/distman.bat",
+            "destination": "{DEPLOY_ROOT}/bin/distman.bat"
+        },
+        "env": {
+            "source": "distman.env",
+            "destination": "{DEPLOY_ROOT}/env/distman.env"
+        },
+        "lib": {
+            "source": "lib/distman",
+            "destination": "{DEPLOY_ROOT}/lib/python/distman"
+        }
+    }
+}
