@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: Peter Pentchev <roam@ringlet.net>
+# SPDX-License-Identifier: BSD-2-Clause
+
+ARG DISTRO=debian
+ARG DISTRO_VERSION=bookworm
+FROM ${DISTRO}:${DISTRO_VERSION}
+LABEL maintainer=roam@ringlet.net
+
+RUN apt-get update
+RUN env DEBIAN_FRONTEND=noninteractive apt-get install -y git python3 python3-venv unzip xz-utils

@@ -1,0 +1,278 @@
+# SPDX-FileCopyrightText: Peter Pentchev <roam@ringlet.net>
+# SPDX-License-Identifier: BSD-2-Clause
+
+[build-system]
+requires = [
+  "hatchling >= 1.26, < 2",
+]
+build-backend = "hatchling.build"
+
+[project]
+name = "grab-bin-dist"
+description = "Parse an expression for selecting stages and tags"
+readme = "README.md"
+license = "BSD-2-Clause"
+license-files = ["LICENSES/BSD-2-Clause.txt"]
+requires-python = ">= 3.11"
+dynamic = ["version"]
+dependencies = [
+  "click >= 8, < 9",
+  "packaging >= 23, < 25",
+  "pshlex >= 0.1, < 0.2",
+  "requests >= 2.28.1, < 3",
+  "run-isolated >= 0.1, < 0.2",
+  "tomli-w >= 1, < 2",
+]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Software Development :: Libraries",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Topic :: Software Development :: Testing",
+  "Topic :: Software Development :: Testing :: Unit",
+  "Typing :: Typed",
+]
+
+[[project.authors]]
+name = "Peter Pentchev"
+email = "roam@ringlet.net"
+
+[project.scripts]
+"grab-bin-dist" = "grab_bin_dist.__main__:main"
+
+[project.urls]
+Homepage = "https://devel.ringlet.net/sysutils/grab-bin-dist/"
+Changes = "https://devel.ringlet.net/sysutils/grab-bin-dist/changes/"
+"Issue Tracker" = "https://gitlab.com/ppentchev/grab-bin-dist/-/issues"
+"Source Code" = "https://gitlab.com/ppentchev/grab-bin-dist"
+
+[dependency-groups]
+docs = [
+  "mkdocs >= 1.4.2, < 2",
+  "mkdocs-material >= 9.1.2, < 10",
+  "mkdocstrings >= 0.27, < 0.30",
+  "mkdocstrings-python >= 1, < 2",
+]
+testenv-mypy = [
+  {include-group = "testenv-unit-tests"},
+  "mypy >= 1, < 2",
+  "types-requests >= 2.28.1, < 3",
+]
+testenv-pyupgrade = [
+  "pyupgrade >= 3, < 4",
+]
+testenv-reuse = [
+  "reuse >= 5, < 6",
+]
+testenv-ruff = [
+  "ruff == 0.12.1",
+]
+testenv-unit-tests = [
+  "pygments >= 2.7, < 3",
+  "pytest >= 8, < 9",
+]
+testenv-uvoxen = [
+  "uvoxen >= 0.2, < 0.3",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/grab_bin_dist"]
+
+[tool.hatch.version]
+path = "src/grab_bin_dist/defs.py"
+pattern = '(?x) ^ VERSION \s* (?: : \s* Final \s* )? = \s* " (?P<version> [^\s"]+ ) " \s* $'
+
+[tool.mypy]
+strict = true
+
+[tool.publync]
+mediaType = "vnd.ringlet.misc.publync.config/publync.v0.1+toml"
+
+[tool.publync.build.tox]
+
+[tool.publync.sync.rsync]
+remote = "marla.ludost.net:vhosts/devel.ringlet.net/public_html/sysutils/grab-bin-dist"
+
+[tool.ruff]
+extend = "ruff-base.toml"
+output-format = "concise"
+preview = true
+
+[tool.ruff.lint]
+select = ["ALL"]
+
+[tool.test-stages]
+stages = [
+  "(@check or @docs) and @quick and not @manual",
+  "(@check or @docs) and not @manual",
+  "@tests and not @manual",
+]
+
+[tool.uvoxen]
+mediaType = "vnd.ringlet.devel.uvoxen.config/uvoxen.v0.3+toml"
+envlist = [
+  "ruff",
+  "format",
+  "reuse",
+  "mypy",
+  "unit-tests",
+  "uvoxen-sync-check",
+]
+
+[tool.uvoxen.defs]
+pyfiles = [
+  "src/grab_bin_dist",
+  "tests/unit",
+]
+
+[tool.uvoxen.req]
+header = """
+# SPDX-FileCopyrightText: Peter Pentchev <roam@ringlet.net>
+# SPDX-License-Identifier: BSD-2-Clause
+
+"""
+
+[tool.uvoxen.tox]
+env-order = [
+  "ruff",
+  "format",
+  "reformat",
+  "mypy",
+  "pyupgrade",
+  "unit-tests",
+  "docs",
+  "reuse",
+]
+
+header = """
+# SPDX-FileCopyrightText: Peter Pentchev <roam@ringlet.net>
+# SPDX-License-Identifier: BSD-2-Clause
+
+"""
+
+[tool.uvoxen.env.ruff]
+tags = [
+  "check",
+  "ruff",
+  "quick",
+]
+dependency-groups = [
+  "testenv-ruff",
+]
+commands = [
+  "ruff check -- {[defs]pyfiles}",
+]
+
+[tool.uvoxen.env.format]
+tags = [
+  "check",
+  "quick",
+]
+dependency-groups = [
+  "testenv-ruff",
+]
+commands = [
+  "ruff check --config ruff-base.toml --select=D,I --diff -- {[defs]pyfiles}",
+  "ruff format --config ruff-base.toml --check --diff -- {[defs]pyfiles}",
+]
+
+[tool.uvoxen.env.reformat]
+tags = [
+  "format",
+  "manual",
+]
+dependency-groups = [
+  "testenv-ruff",
+]
+commands = [
+  "ruff check --config ruff-base.toml --select=D,I --fix -- {[defs]pyfiles}",
+  "ruff format --config ruff-base.toml -- {[defs]pyfiles}",
+]
+
+[tool.uvoxen.env.reuse]
+tags = [
+  "check",
+  "quick",
+]
+dependency-groups = [
+  "testenv-reuse",
+]
+commands = [
+  "reuse lint",
+]
+
+[tool.uvoxen.env.mypy]
+tags = [
+  "check",
+]
+dependency-groups = [
+  "testenv-mypy",
+]
+install-dependencies = true
+commands = [
+  "mypy {[defs]pyfiles}",
+]
+
+[tool.uvoxen.env.pyupgrade]
+tags = [
+  "check",
+  "manual",
+]
+dependency-groups = [
+  "testenv-pyupgrade",
+]
+allowlist-externals = [
+  "sh",
+]
+commands = [
+  "sh -c 'pyupgrade --py311-plus src/grab_bin_dist/*.py tests/unit/*.py'",
+]
+
+[tool.uvoxen.env.docs]
+tags = [
+  "docs",
+]
+dependency-groups = [
+  "docs",
+]
+commands = [
+  "mkdocs build",
+]
+
+[tool.uvoxen.env.unit-tests]
+tags = [
+  "tests",
+]
+dependency-groups = [
+  "testenv-unit-tests",
+]
+install-project = true
+passenv = [
+  "TEST_CONTAINER",
+  "TEST_PYTHON3",
+  "TEST_SAVE_DIR",
+]
+commands = [
+  "pytest {posargs} tests/unit",
+]
+
+[tool.uvoxen.env.uvoxen-sync-check]
+tags = [
+  "check",
+  "quick",
+]
+dependency-groups = [
+  "testenv-uvoxen",
+]
+commands = [
+  "uvoxen req generate --check -g docs",
+  "uvoxen tox generate --check",
+]
