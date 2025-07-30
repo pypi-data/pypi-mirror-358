@@ -1,0 +1,135 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wrd"
+version = "0.1.6"  # Fallback version if setuptools-scm is not available
+description = "WRD (WRonai Development) - A powerful workflow automation tool for developers"
+readme = "README.md"
+requires-python = ">=3.8"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [
+    {name = "Tom Sapletta", email = "info@softreck.dev"}
+]
+maintainers = [
+    {name = "Tom Sapletta", email = "info@softreck.dev"}
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development",
+    "Topic :: Software Development :: Code Generators",
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "typer[all]>=0.12.3,<1.0.0",
+    "rich>=13.7.0,<14.0.0",
+    "pyyaml>=6.0.1,<7.0.0",
+    "jinja2>=3.1.2,<4.0.0",
+    "python-dotenv>=1.0.0,<2.0.0",
+    "click>=8.1.7,<9.0.0",
+    "pydantic>=2.5.2,<3.0.0",
+    "shellingham>=1.5.0,<2.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0,<8.0.0",
+    "pytest-cov>=4.1.0,<5.0.0",
+    "black>=23.7.0,<24.0.0",
+    "isort>=5.12.0,<6.0.0",
+    "flake8>=6.1.0,<7.0.0",
+    "mypy>=1.5.1,<2.0.0",
+    "sphinx>=7.0.0,<8.0.0",
+    "sphinx-rtd-theme>=1.2.0,<2.0.0",
+    "twine>=4.0.0,<5.0.0",
+    "build>=0.10.0,<1.0.0",
+]
+data = [
+    "pandas>=1.5.0,<2.0.0",
+    "numpy>=1.24.0,<2.0.0",
+    "matplotlib>=3.6.0,<4.0.0",
+]
+web = [
+    "fastapi>=0.95.0,<1.0.0",
+    "uvicorn>=0.20.0,<1.0.0",
+]
+
+[project.scripts]
+wrd = "wrd.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/wronai/wrd"
+Documentation = "https://wronai.github.io/wrd"
+Repository = "https://github.com/wronai/wrd"
+Changelog = "https://github.com/wronai/wrd/blob/main/CHANGELOG.md"
+Issues = "https://github.com/wronai/wrd/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["wrd"]
+namespaces = false
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.setuptools.package-data]
+"wrd" = ["py.typed", "templates/**/*"]
+
+[tool.black]
+line-length = 88
+target-version = ["py38"]
+include = '\.pyi?$'
+skip-string-normalization = true
+
+[tool.isort]
+profile = "black"
+line_length = 88
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+addopts = "-v --cov=wrd --cov-report=term-missing"
+
+[tool.coverage.run]
+source = ["wrd"]
+omit = ["tests/*", "*/__main__.py"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "pass",
+    "raise ImportError",
+]
