@@ -1,0 +1,127 @@
+SHARED PREFERENCES:
+
+
+activity.xml file
+================================
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="30sp"
+        tools:text="Here will be our text" />
+    <EditText
+        android:id="@+id/edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/apply_text_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="apply text" />
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal" />
+    <Button
+        android:id="@+id/save_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="save data" />
+
+</LinearLayout>
+
+==========================================
+kt file
+==========================================
+package com.example.sharedpreferences
+
+import android.content.SharedPreferences
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import android.widget.*
+
+
+class MainActivity : AppCompatActivity() {
+    private var textView: TextView? = null
+    private var editText: EditText? = null
+    private var applyTextButton: Button? = null
+    private var saveButton: Button? = null
+    private var switch1: Switch? = null
+    val SHARED_PREFS = "sharedPrefs"
+    val TEXT = "text"
+    val SWITCH1 = "switch1"
+    private var text: String? = null
+    private var switchOnOff = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        textView = findViewById<TextView>(R.id.textview)
+        editText = findViewById<EditText>(R.id.edittext)
+        applyTextButton = findViewById<Button>(R.id.apply_text_button)
+        saveButton = findViewById<Button>(R.id.save_button)
+        switch1 = findViewById<Switch>(R.id.switch1)
+
+        applyTextButton?.setOnClickListener {
+            textView?.text = editText?.text.toString()
+        }
+        saveButton?.setOnClickListener {
+            saveData()
+        }
+        loadData()
+        updateViews()
+    }
+        fun saveData() {
+        val sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString(TEXT, textView?.getText().toString())
+        switch1?.let { editor.putBoolean(SWITCH1, it.isChecked()) }
+        editor.apply()
+        Toast.makeText(this, "Data saved", Toast.LENGTH_SHORT).show()
+    }
+    fun loadData() {
+        val sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)
+        text = sharedPreferences.getString(TEXT, "")
+        switchOnOff = sharedPreferences.getBoolean(SWITCH1, false)
+    }
+
+    fun updateViews() {
+        textView?.text = text
+        switch1?.isChecked = switchOnOff
+    }
+
+}
+======================================
+modification-to remove and clear preferences:
+=====================================
+fun removePreference() {
+    val sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)
+    val editor = sharedPreferences.edit()
+    editor.remove(TEXT) // Removes only the saved text preference
+    editor.apply()
+}
+
+=========================
+
+fun clearAllPreferences() {
+    val sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)
+    val editor = sharedPreferences.edit()
+    editor.clear() // Clears all stored preferences
+    editor.apply()
+}
+paste whateever func you want after the updateviews function 
+=======================================
+call these funcs in create method

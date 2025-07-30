@@ -1,0 +1,103 @@
++ --------------------------------------------------------------+         
+|   this code is for image email.png                            |
+|                                                               |
++ --------------------------------------------------------------+ 
+
+
+--------------------------------------------
+activity_main.xml
+---------------------------------------------
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:orientation="vertical" >
+
+    <EditText
+        android:id="@+id/editTextTo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="To"
+        android:text="@string/to" />
+
+    <EditText
+        android:id="@+id/editTextSubject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Subject"
+        android:text="@string/subject" />
+
+    <EditText
+        android:id="@+id/editTextMessage"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="top"
+        android:hint="Message"
+        android:text="@string/message" />
+
+    <Button
+        android:id="@+id/buttonSend"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="@string/send" />
+</LinearLayout>
+
+
+--------------------------------------------
+MainActivity.kt
+---------------------------------------------
+
+import android.app.Activity
+import android.os.Bundle
+import android.view.View
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+
+class MainActivity : Activity() {
+
+    private lateinit var toEditText: EditText
+    private lateinit var subjectEditText: EditText
+    private lateinit var messageEditText: EditText
+    private lateinit var sendButton: Button
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        toEditText = findViewById(R.id.editTextTo)
+        subjectEditText = findViewById(R.id.editTextSubject)
+        messageEditText = findViewById(R.id.editTextMessage)
+        sendButton = findViewById(R.id.buttonSend)
+
+        sendButton.setOnClickListener {
+            val to = toEditText.text.toString()
+            val subject = subjectEditText.text.toString()
+            val message = messageEditText.text.toString()
+
+            Toast.makeText(this, "Sending to: $to\nSubject: $subject\nMessage: $message", Toast.LENGTH_LONG).show()
+
+            // Simulate sending...
+        }
+    }
+}
+
+
+--------------------------------------------
+Strings.xml
+---------------------------------------------
+
+<resources>
+    <string name="app_name">EmailApp</string>
+    <string name="to">example@example.com</string>
+    <string name="subject">Hello</string>
+    <string name="message">This is a sample message</string>
+    <string name="send">Send</string>
+</resources>
+
+

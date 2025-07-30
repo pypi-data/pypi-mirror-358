@@ -1,0 +1,121 @@
+
++ --------------------------------------------------------------+         
+|           this code is for image q3.png                       |
+|                                                               |
++ --------------------------------------------------------------+ 
+right click on com.example.ExplicitIntents (inside java folder (1st folder)) -> new ->activity -> empty activity (name as SecondActivity.kt)
+  
+
+
+=================================================
+activity_main.xml
+=================================================
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="This is First Activity"
+        android:textSize="24sp"
+        android:layout_marginBottom="32dp"/>
+
+    <Button
+        android:id="@+id/button_to_second"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="G0 TO OTHER ACTIVITY"/>
+
+</LinearLayout>
+
+
+=================================================
+MainActivity.kt
+=================================================
+
+package com.example.cie3_q3
+
+import android.app.Activity
+import android.content.Intent
+import android.os.Bundle
+import android.view.View
+import android.widget.Button
+
+class MainActivity : Activity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)  // This must come FIRST
+
+        // Now safe to find views
+        val button = findViewById<Button>(R.id.button_to_second)
+        button?.setOnClickListener {  // Safe call with ?. operator
+            val intent = Intent(this, SecondActivity::class.java)
+            startActivity(intent)
+        }
+    }
+}
+
+
+=================================================
+activity_second.xml
+=================================================
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="This is Second Activity"
+        android:textSize="24sp"
+        android:layout_marginBottom="32dp"/>
+
+    <Button
+        android:id="@+id/button_to_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="G0 TO HOME ACTIVITY"/>
+
+</LinearLayout>
+
+
+=================================================
+SecondActivity.kt
+=================================================
+package com.example.cie3_q3
+
+import android.app.Activity
+import android.content.Intent
+import android.os.Bundle
+import android.view.View
+import android.widget.Button
+
+class SecondActivity : Activity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_second)  // This must come FIRST
+
+        // Now safe to find views
+        val button = findViewById<Button>(R.id.button_to_home)
+        button?.setOnClickListener {  // Safe call with ?. operator
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+    }
+}

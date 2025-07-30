@@ -1,0 +1,88 @@
+Radio Button:
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RadioGroup in Kotlin"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/radioButtonOption1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Option 1" />
+
+        <RadioButton
+            android:id="@+id/radioButtonOption2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Option 2" />
+
+        <RadioButton
+            android:id="@+id/radioButtonOption3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Option 3" />
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SUBMIT"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>
+
+
+package com.example.test1
+
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import android.widget.Button
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+
+    lateinit var radioGroup: RadioGroup
+    lateinit var submitButton: Button
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        title = "RadioGroup in Kotlin" // Setting the title from the Kotlin code
+
+        radioGroup = findViewById(R.id.radioGroup)
+        submitButton = findViewById(R.id.submitButton)
+
+        submitButton.setOnClickListener {
+            val selectedOptionId = radioGroup.checkedRadioButtonId
+            if (selectedOptionId != -1) {
+                val selectedRadioButton = findViewById<RadioButton>(selectedOptionId)
+                Toast.makeText(this, "Selected: ${selectedRadioButton.text}", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Please select an option", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+}

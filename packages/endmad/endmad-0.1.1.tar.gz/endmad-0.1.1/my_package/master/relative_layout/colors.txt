@@ -1,0 +1,133 @@
++ --------------------------------------------------------------+         
+|   this code is for image colors.png                           |
+|                                                               |
++ --------------------------------------------------------------+ 
+
+--------------------------------------------
+activity_main.xml
+---------------------------------------------
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#070707"
+    android:backgroundTint="#0B0A0A"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RED"
+        android:background="#d90429"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="-2dp" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="orange"
+        android:background="#ff5400"
+        tools:layout_editor_absoluteX="162dp"
+        tools:layout_editor_absoluteY="-3dp" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/button"
+        android:layout_marginEnd="-325dp"
+        android:layout_marginRight="-47dp"
+        android:text="yellow"
+        android:background="#ffd500"
+        tools:layout_editor_absoluteX="323dp"
+        tools:layout_editor_absoluteY="-2dp" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="61dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginVertical="100dp"
+        android:layout_marginTop="3000dp"
+        android:text="blue"
+        android:background="#00b4d8"
+        tools:layout_editor_absoluteX="74dp"
+        tools:layout_editor_absoluteY="97dp" />
+
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="60dp"
+        android:layout_marginVertical="100dp"
+        android:layout_marginTop="3000dp"
+        android:layout_marginRight="450dp"
+        android:text="Green"
+        android:background="#ccff33"
+        tools:layout_editor_absoluteX="171dp"
+        tools:layout_editor_absoluteY="97dp" />
+
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="100dp"
+        android:layout_marginLeft="270dp"
+        android:text="indigo"
+        android:background="#7b2cbf"
+        tools:layout_editor_absoluteX="276dp"
+        tools:layout_editor_absoluteY="97dp" />
+
+    <Button
+        android:id="@+id/button7"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/button5"
+        android:background="#ff0a54"
+        android:layout_alignParentBottom="true"
+        android:text="pink" />
+
+
+</RelativeLayout>
+
+
+--------------------------------------------
+MainActivity.kt
+---------------------------------------------
+
+import android.app.Activity
+import android.os.Bundle
+import android.view.View
+import android.widget.Button
+import android.widget.Toast
+
+class MainActivity : Activity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val buttons = listOf(
+            R.id.button to "RED",
+            R.id.button2 to "ORANGE",
+            R.id.button3 to "YELLOW",
+            R.id.button4 to "BLUE",
+            R.id.button5 to "GREEN",
+            R.id.button6 to "INDIGO",
+            R.id.button7 to "PINK"
+        )
+
+        for ((id, colorName) in buttons) {
+            findViewById<Button>(id).setOnClickListener {
+                Toast.makeText(this, "You clicked: $colorName", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+}

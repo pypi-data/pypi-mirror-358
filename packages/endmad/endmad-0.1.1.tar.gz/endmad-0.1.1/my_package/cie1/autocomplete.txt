@@ -1,0 +1,68 @@
+Autocomplete
+
+XML
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Type a fruit" />
+
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTextView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Type a colour"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+
+
+package com.example.myapplication
+
+import android.annotation.SuppressLint
+import android.os.Bundle
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import androidx.appcompat.app.AppCompatActivity
+
+class MainActivity : AppCompatActivity() {
+
+    private val fruits = arrayOf("Apple", "Banana")
+    private val colours = arrayOf("Blue", "Purple")
+
+    @SuppressLint("MissingInflatedId")
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val autoTextView: AutoCompleteTextView = findViewById(R.id.autoCompleteTextView)
+        val autoTextView2: AutoCompleteTextView = findViewById(R.id.autoCompleteTextView2)
+
+        val adapter1: ArrayAdapter<String> = ArrayAdapter(
+            this,
+            android.R.layout.select_dialog_item,
+            fruits
+        )
+
+        val adapter2: ArrayAdapter<String> = ArrayAdapter(
+            this,
+            android.R.layout.select_dialog_item,
+            colours
+        )
+
+        autoTextView.threshold = 1
+        autoTextView.setAdapter(adapter1)
+
+        autoTextView2.threshold = 1
+        autoTextView2.setAdapter(adapter2)
+    }
+}

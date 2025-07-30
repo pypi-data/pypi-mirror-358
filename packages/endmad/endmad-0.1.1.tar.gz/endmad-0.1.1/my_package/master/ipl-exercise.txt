@@ -1,0 +1,110 @@
+right click on com.example.ipl (inside java folder (1st folder)) -> new ->activity -> empty activity (name as SecondActivity.kt)
+
+=============================================
+activity_main.xml
+=============================================
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Spinner
+        android:id="@+id/teamSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>
+
+
+=============================================
+activity_second.xml
+=============================================
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/teamNameText"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>
+
+
+=============================================
+MainActivity.kt
+=============================================
+
+package com.example.cie3_ipl_exercise
+
+import android.app.Activity
+import android.content.Intent
+import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+
+class MainActivity : Activity() {
+    val teams = arrayOf(
+        "Select a Team",
+        "Royal Challengers Bangalore",
+        "Chennai Super Kings",
+        "Mumbai Indians",
+
+    )
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val spinner = findViewById<Spinner>(R.id.teamSpinner)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, teams)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = adapter
+
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?, view: View?, position: Int, id: Long
+            ) {
+                if (position != 0) {
+                    val intent = Intent(this@MainActivity, SecondActivity::class.java)
+                    intent.putExtra("TEAM_NAME", teams[position])
+                    startActivity(intent)
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+    }
+}
+
+=============================================
+SecondActivity.kt
+=============================================
+
+package com.example.cie3_ipl_exercise
+
+import android.app.Activity
+import android.os.Bundle
+import android.widget.TextView
+
+class SecondActivity : Activity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_second)
+
+        val teamName = intent.getStringExtra("TEAM_NAME")
+        val textView = findViewById<TextView>(R.id.teamNameText)
+        textView.text = "Selected Team: $teamName"
+    }
+}

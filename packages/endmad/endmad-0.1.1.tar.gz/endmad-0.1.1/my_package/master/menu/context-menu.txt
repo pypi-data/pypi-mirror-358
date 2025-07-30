@@ -1,0 +1,89 @@
+CONTEXT MENU:
+res-rightclick->new->android resource directory->directory name:menu next feild also menu(menu folder will be created).
+menu(folder)->rightclick->new->menu resource file->filename:context_menu
+
+
+activity_main.XML
+======================================================================
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+    android:id="@+id/B1"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Context Menu"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+
+</android.support.constraint.ConstraintLayout>
+===========================================================================
+context_menu.XML
+============================================================================
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/open"
+        android:title="Open"
+        app:showAsAction="never"
+        />
+    <item android:id="@+id/search"
+        android:title="Search"
+        app:showAsAction="never"
+        />
+    <item android:id="@+id/exit"
+        android:title="Exit"
+        app:showAsAction="never"
+        />
+
+
+</menu>
+=======================================================================
+MainActivity.kt
+====================================================================
+package com.example.contextmen
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.view.ContextMenu
+import android.view.MenuItem
+import android.view.View
+import android.widget.Button
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        val button = findViewById<Button>(R.id.B1)
+        registerForContextMenu(button)
+        button.setOnClickListener { v -> openContextMenu(v) }
+    }
+        override fun onCreateContextMenu(
+            menu: ContextMenu?,
+            v: View?,
+            menuInfo: ContextMenu.ContextMenuInfo?
+        ) {
+            super.onCreateContextMenu(menu, v, menuInfo)
+            menuInflater.inflate(R.menu.context_menu,menu)
+        }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.open -> Toast.makeText(this,"open selected",Toast.LENGTH_SHORT).show()
+            R.id.search -> Toast.makeText(this,"search selected",Toast.LENGTH_SHORT).show()
+            R.id.exit -> Toast.makeText(this,"exit selected",Toast.LENGTH_SHORT).show()
+        }
+        return super.onContextItemSelected(item)
+    }
+
+}

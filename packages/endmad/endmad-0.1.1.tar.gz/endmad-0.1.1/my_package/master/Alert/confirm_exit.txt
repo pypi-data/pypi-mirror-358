@@ -1,0 +1,103 @@
+
++ --------------------------------------------------------------+         
+|   this code is for image confirm_exit.png                     |
+|                                                               |
++ --------------------------------------------------------------+ 
+
+
+============================================================================================================
+MainActivity.kt
+=========================================================================================================
+res->drawable->new->image asset->clipArt->double click on click art->change icon to clo0ck(as ur wish)->next->finish
+
+                                            |
+                                            |
+                                           \ /
+
+import android.app.AlertDialog
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import android.view.View
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+    }
+
+    fun exit(view: View) {
+        val alert = AlertDialog.Builder(this)
+        alert.setTitle("Confirm Exit")
+        alert.setIcon(R.drawable.ic_baseline_access_time_filled_24) // your custom icon (clipart or imported)
+        alert.setMessage("Are you sure you want to exit?")
+        alert.setCancelable(false)
+
+        alert.setPositiveButton("Yes") { _, _ ->
+            finish()
+        }
+
+        alert.setNegativeButton("No") { _, _ ->
+            Toast.makeText(this, "You clicked on No", Toast.LENGTH_LONG).show()
+        }
+
+        alert.setNeutralButton("Cancel") { _, _ ->
+            Toast.makeText(this, "You clicked on Cancel", Toast.LENGTH_LONG).show()
+        }
+
+        alert.create().show()
+    }
+}
+
+
+===============================================================================================
+dimens.xml
+===================================================================================================
+click in activitymain.xml it will automatically create dimens file keep( Resouce value: 40dp)
+==================================================================================
+activity_main.xml
+===================================================================================================
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="exit"
+        android:textStyle="normal|bold"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="131dp"
+        android:text="@string/exit" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="68dp"
+        android:layout_above="@id/button"
+        android:layout_centerHorizontal="true"
+        android:textSize="18sp"
+        android:textStyle="normal|bold"
+        android:gravity="center"
+        android:text="@string/click_over_button_to_exit" />
+</RelativeLayout>
+
+===================================================================================================
+strings.xml
+===================================================================================================
+<resources>
+    <string name="app_name">madlab6</string>
+    <string name="exit">Exit</string>
+    <string name="click_over_button_to_exit">Click the button below to exit</string>
+</resources>
