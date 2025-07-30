@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stbz_lib"
+version = "0.2.1"
+requires-python = ">=3.12"
+dependencies = ["numpy==2.3.0"]
+
+[tool.black]
+line-length = 120
+target-version = ["py312"]
+skip-string-normalization = true
+
+[tool.isort]
+profile = "black"
+line_length = 120
+known_first_party = ["stbz_lib"]
+src_paths = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+addopts = "-ra -q"
+testpaths = ["tests"]
