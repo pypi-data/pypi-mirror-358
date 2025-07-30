@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=67.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "web2json"
+version = "0.0.13"
+description = "Convert web content into JSON using local Ollama LLM"
+readme = "README.md"
+authors = [
+  { name = "NOAA Global Systems Laboratory", email = "eric.j.hackathorn@noaa.gov" }
+]
+license = { text = "MIT" }
+requires-python = ">=3.10"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent"
+]
+dependencies = [
+  "pandas>=1.3.0",
+  "pydantic>=1.10.0",
+  "python-dotenv>=0.21.0",
+  "beautifulsoup4>=4.9.0",
+  "requests>=2.25.0",
+  "json_repair>=0.46.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/NOAA-GSL/web2json"
+Issues = "https://github.com/NOAA-GSL/web2json/issues"
+
+[project.scripts]
+web2json = "web2json.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+
+[tool.bump2version]
+current_version = "0.0.13"
+commit = true
+tag = true
+message = "Bump version: {current_version} -> {new_version} [skip ci]"
+
+[[tool.bump2version.files]]
+filename = "pyproject.toml"
+search = 'version = "{current_version}"'
+replace = 'version = "{new_version}"'
