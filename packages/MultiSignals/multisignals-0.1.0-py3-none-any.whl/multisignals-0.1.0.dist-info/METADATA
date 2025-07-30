@@ -1,0 +1,130 @@
+Metadata-Version: 2.4
+Name: MultiSignals
+Version: 0.1.0
+Summary: Esta libreria permite crear y gestionar variables y eventos en multiples scripts a la vez
+Author-email: Facundo Efimenco Chiappe <facu22251@gmail.com>
+Project-URL: Homepage, https://github.com/facu-programer/MultiSignals/
+Project-URL: Bug Tracker, https://github.com/facu-programer/MultiSignals/issues
+Keywords: vars,event,signals,python,global,shared,variables
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Classifier: License :: Other/Proprietary License
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests
+Requires-Dist: flask
+Dynamic: license-file
+
+# MultiSignals
+
+## Instalación
+
+Instala el paquete con:
+
+```bash
+pip install MultiSignals
+```
+
+## Importación
+
+Importa el módulo con:
+
+```python
+import MultiSignals
+```
+
+---
+
+## Inicialización
+
+Para crear una instancia de servidor:
+
+```python
+signals = MultiSignals.MultiSignals(
+    daemon=True,
+    url="http://127.0.0.1:5000/vars",
+    host="127.0.0.1",
+    port=5000
+)
+```
+
+- `daemon`: define si el servidor se cierra al terminar el script.
+- `url`: dirección interna usada por el servidor para comunicación.
+- `host`: parte entre `http://` y `:port`.
+- `port`: número de puerto que se usa para alojar el servidor.
+
+> ⚠️ La URL `http://host:port` es compatible con navegadores para visualización básica.  
+> La URL `http://host:port/vars` es la usada internamente por el sistema y **no** es compatible con navegadores.
+
+---
+
+## Uso
+
+### 1. Clases
+
+#### `Signals`
+Clase devuelta por varias funciones, con los siguientes atributos:
+
+- `operation`: tipo de operación realizada (`"view"`, `"send"`, etc.)
+- `returncode`: código HTTP de respuesta
+- `value`: valor resultante de la operación
+- `data`: diccionario completo de la respuesta. Formato mínimo:
+
+```json
+{
+  "head": {
+    "operation": "view",
+    "returncode": 200
+  },
+  "body": {
+    "value": ...
+  }
+}
+```
+
+#### `infoDict(key, permanent)`
+Clase usada como índice al definir variables:
+
+- `key`: nombre de la variable
+- `permanent`: `True` si es una variable permanente
+
+---
+
+### 2. Funciones
+
+- `send(name, value, permanent=False) -> Signals`: define una variable. Si `permanent=True`, persiste entre ejecuciones.
+- `view() -> Signals`: devuelve todas las variables registradas. Formato: `Dict[nombre_variable, [valor, permanent]]`.
+- `get_value(variable) -> Optional[Any]`: obtiene el valor de una variable.
+- `get_mode(variable) -> bool`: `True` si es permanente, `False` si es temporal.
+- `event(variable, funcion, valor=True, espera=0.1, tiempos=1, alIniciar=False)`: ejecuta `funcion` cuando `variable == valor`.
+
+  - `espera`: tiempo en segundos entre cada verificación.
+  - `tiempos`: **cantidad de veces que puede ejecutarse el evento** si se cumple la condición. Una vez alcanzado este límite, deja de monitorear.
+  - `alIniciar`: si es `True`, ejecuta `funcion` inmediatamente si la condición ya se cumple al comenzar. Si es `False`, no la ejecuta a menos que la variable cambie a ese valor.
+
+  > **Nota:** No se cuentan como ejecuciones las veces en que el valor no cambia (especialmente si es permanente) y `alIniciar=False`.
+
+- `restore_permanent_vars()`: elimina todas las variables permanentes.
+
+---
+
+### 3. Operadores Especiales
+
+#### Atributo (`.`)
+
+Permite acceder y modificar atributos internos, o crear variables si no existen como atributo:
+
+```python
+signals.url = "http://127.0.0.1:80/vars"  # Cambia el atributo url
+signals.mi_variable = 5                  # Crea la variable "mi_variable"
+```
+
+#### Índice (`[]`)
+
+Solo se usa para definir variables:
+
+```python
+signals["temporal"] = 42  # Variable temporal
+signals[MultiSignals.infoDict("persistente", True)] = 99  # Variable permanente
+```
