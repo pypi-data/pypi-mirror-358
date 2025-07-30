@@ -1,0 +1,55 @@
+Metadata-Version: 2.4
+Name: chronolap
+Version: 1.0.1
+Summary: Advanced stopwatch with lap tracking for Python developers
+Home-page: https://github.com/ertugrulkara/ChronolapPy
+Author: Ertugrul Kara
+Author-email: Ertugrul Kara <your-email@example.com>
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: author
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-python
+
+# Chronolap
+
+Advanced stopwatch with lap tracking for Python developers.
+
+## Installation
+
+```bash
+pip install chronolap
+```
+
+
+```python
+
+from chronolap import ChronolapTimer
+
+timer = ChronolapTimer()
+timer.start()
+# your code
+timer.lap("First section")
+timer.stop()
+
+for lap in timer.laps:
+    print(lap)
+
+```
+
+
+## Support
+
+If you find this project useful, consider supporting me:
+
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-%23FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/ertugrulkara)
+
+## License
+
+MIT © Ertugrul Kara
