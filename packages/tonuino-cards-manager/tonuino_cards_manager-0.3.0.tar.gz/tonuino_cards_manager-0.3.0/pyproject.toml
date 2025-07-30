@@ -1,0 +1,74 @@
+# SPDX-FileCopyrightText: 2024 Max Mehl <https://mehl.mx>
+#
+# SPDX-License-Identifier: GPL-3.0-only
+
+[tool.poetry]
+name = "tonuino-cards-manager"
+version = "0.3.0"
+description = "Manage Tonuino RFID and SD cards by one configuration file. Easy, lightweight and feature-rich"
+readme = "README.md"
+authors = ["Max Mehl <mail@mehl.mx>"]
+repository = "https://github.com/mxmehl/tonuino-cards-manager"
+keywords = ["tonuino", "management", "automation"]
+license = "GPL-3.0-only"
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Console",
+  "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+  "Intended Audience :: End Users/Desktop",
+  "Topic :: Multimedia :: Sound/Audio",
+  "Topic :: Utilities",
+]
+packages = [{ include = "tonuino_cards_manager" }]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+mutagen = "^1.47.0"
+pyyaml = "^6.0.1"
+qrcode = "^8.1"
+wand = "^0.6.13"
+num2words = "^0.5.13"
+
+[tool.poetry.scripts]
+tonuino-cards-manager = 'tonuino_cards_manager.main:main'
+tonuino-cover-converter = 'tonuino_cards_manager.cover:main'
+
+[tool.poetry.group.dev.dependencies]
+types-qrcode = "^7.4.0.20240408"
+pylint = "^3.2.3"
+mypy = "^1.10.0"
+black = "^25.0.0"
+pytest = "^8.2.2"
+pytest-cov = "^6.0.0"
+bump-my-version = "^1.1.2"
+h11 = "^0.16.0"
+reuse = "^5.0.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+# FORMATTING settings
+[tool.isort]
+profile = "black"
+
+[tool.black]
+line-length = 100
+
+# MYPY settings
+[tool.mypy]
+files = ["tonuino_cards_manager/*.py"]
+disable_error_code = ["import-untyped"]
+
+# Bump-My-Version
+[tool.bumpversion]
+commit = true
+tag = true
+allow_dirty = false
+tag_name = "v{new_version}"
+
+[[tool.bumpversion.files]]
+filename = "pyproject.toml"
+regex = true
+search = "^version = \"{current_version}\""
+replace = "version = \"{new_version}\""
