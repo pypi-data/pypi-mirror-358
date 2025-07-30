@@ -1,0 +1,56 @@
+Metadata-Version: 2.4
+Name: gensay
+Version: 0.0.2
+Project-URL: Documentation, https://github.com/Anthony Wu/gensay#readme
+Project-URL: Issues, https://github.com/Anthony Wu/gensay/issues
+Project-URL: Source, https://github.com/Anthony Wu/gensay
+Author-email: Anthony Wu <pls-file-gh-issue@users.noreply.github.com>
+License-Expression: MIT
+License-File: LICENSE.txt
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: 3.14
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Requires-Python: >=3.11
+Requires-Dist: chatterbox-tts<1.0,>=0.1
+Requires-Dist: torch<2.7,>=2.6
+Requires-Dist: torchaudio<2.7,>=2.6
+Description-Content-Type: text/markdown
+
+A replacement for the macOS `say` command, with plans for multiple backends.
+
+This project is a stub and a placeholder under heavy development, and is not intended for usage yet. Stay tuned.
+
+# gensay
+
+[![PyPI - Version](https://img.shields.io/pypi/v/gensay.svg)](https://pypi.org/project/gensay)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/gensay.svg)](https://pypi.org/project/gensay)
+
+-----
+
+## Table of Contents
+
+- [Installation](#installation)
+- [License](#license)
+
+## Installation
+
+It's 2025, use [uv](https://github.com/astral-sh/uv)
+
+`gensay` is intended to be used as a CLI tool that is a drop-in replacement to the macOS `say` CLI.
+
+```console
+uv pip tool install gensay
+```
+
+Wherever you used `say` in your prior projects, just globally replace the command mention with `gensay`.
+
+You can also use it from your Python apps by `uv add gensay` to your project.
+
+## License
+
+`gensay` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
