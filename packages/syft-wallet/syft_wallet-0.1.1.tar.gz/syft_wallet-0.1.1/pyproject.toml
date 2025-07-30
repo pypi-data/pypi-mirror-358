@@ -1,0 +1,77 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "syft-wallet"
+dynamic = ["version"]
+description = "Secure key and secret management for SyftBox using 1Password integration"
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.10"
+authors = [
+    {name = "OpenMined", email = "info@openmined.org"},
+]
+maintainers = [
+    {name = "OpenMined", email = "info@openmined.org"},
+]
+keywords = ["syft", "privacy", "security", "1password", "secrets", "wallet", "keyring"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security",
+    "Topic :: Security :: Cryptography",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Systems Administration",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "click>=8.0.0",
+    "pydantic>=2.0.0",
+    "python-dotenv>=1.0.0",
+    "cryptography>=41.0.0",
+    "keyring>=24.0.0",
+    "rich>=13.0.0",
+]
+
+[project.optional-dependencies]
+jupyter = [
+    "ipython>=8.0.0",
+    "ipywidgets>=8.0.0",
+]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "isort>=5.0.0",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/OpenMined/SyftWallet"
+Documentation = "https://github.com/OpenMined/SyftWallet#readme"
+Repository = "https://github.com/OpenMined/SyftWallet.git"
+Issues = "https://github.com/OpenMined/SyftWallet/issues"
+Changelog = "https://github.com/OpenMined/SyftWallet/releases"
+
+[project.scripts]
+syft-wallet = "syft_wallet.cli:main"
+
+[tool.hatch.version]
+path = "syft_wallet/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["syft_wallet"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/syft_wallet",
+    "/README.md",
+    "/LICENSE",
+]
