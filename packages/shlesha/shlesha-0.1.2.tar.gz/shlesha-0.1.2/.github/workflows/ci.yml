@@ -1,0 +1,152 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  # Linting and formatting
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Check formatting
+        run: cargo fmt -- --check
+      
+      - name: Run clippy
+        run: cargo clippy --all-features -- -D warnings
+
+  # Test suite across multiple OS and Rust versions
+  test:
+    name: Test Suite
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        rust: [stable, beta]
+        exclude:
+          # Reduce matrix for faster CI
+          - os: windows-latest
+            rust: beta
+          - os: macos-latest
+            rust: beta
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.rust }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Set up Python for PyO3 (Ubuntu)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          echo "PYO3_PYTHON=$(which python3)" >> $GITHUB_ENV
+      
+      - name: Cache cargo registry
+        uses: actions/cache@v4
+        with:
+          path: ~/.cargo/registry
+          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+      
+      - name: Cache cargo index
+        uses: actions/cache@v4
+        with:
+          path: ~/.cargo/git
+          key: ${{ runner.os }}-cargo-index-${{ hashFiles('**/Cargo.lock') }}
+      
+      - name: Cache cargo build
+        uses: actions/cache@v4
+        with:
+          path: target
+          key: ${{ runner.os }}-cargo-build-target-${{ hashFiles('**/Cargo.lock') }}
+      
+      - name: Run tests (Ubuntu)
+        if: matrix.os == 'ubuntu-latest'
+        run: cargo test --features cli,wasm,native-examples --verbose
+      
+      - name: Run tests (non-Ubuntu)
+        if: matrix.os != 'ubuntu-latest'
+        run: cargo test --features cli,wasm,native-examples --verbose
+      
+      - name: Run doc tests
+        run: cargo test --doc
+
+  # Test minimal dependency versions
+  minimal-versions:
+    name: Minimal Versions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@nightly
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Set up Python for PyO3
+        run: |
+          echo "PYO3_PYTHON=$(which python3)" >> $GITHUB_ENV
+      
+      - run: cargo -Z minimal-versions test --no-default-features --features cli
+
+  # Security audit
+  security:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: rustsec/audit-check@v2.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  # Code coverage
+  coverage:
+    name: Code Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Set up Python for PyO3
+        run: |
+          echo "PYO3_PYTHON=$(which python3)" >> $GITHUB_ENV
+      
+      - name: Install tarpaulin
+        run: cargo install cargo-tarpaulin
+      
+      - name: Generate coverage
+        run: cargo tarpaulin --features cli,wasm,native-examples --workspace --timeout 120 --out xml
+      
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
+
+  # Benchmarks (informational only)
+  bench:
+    name: Benchmarks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      
+      - name: Run benchmarks
+        run: cargo bench --no-run
