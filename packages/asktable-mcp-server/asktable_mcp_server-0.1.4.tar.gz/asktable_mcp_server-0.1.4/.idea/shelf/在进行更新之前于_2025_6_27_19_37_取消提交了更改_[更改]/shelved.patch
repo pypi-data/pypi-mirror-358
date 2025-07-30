@@ -1,0 +1,362 @@
+Index: src/asktable_mcp_server/server.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from fastmcp import FastMCP, Image,Context\r\nimport io\r\nfrom asktable import Asktable\r\nfrom asktable_mcp_server.tools import get_asktable_data, get_asktable_sql\r\nfrom fastmcp.server.auth import BearerAuthProvider\r\nfrom fastmcp.server.auth.providers.bearer import RSAKeyPair\r\nimport os\r\nimport argparse\r\nimport asyncio\r\n\r\nmcp = FastMCP(name=\"Asktable mcp server running...\")\r\n\r\n@mcp.tool()\r\nasync def get_sql(query: str) -> str:\r\n    \"\"\"\r\n    根据用户查询生成对应的SQL语句\r\n    不需要指定数据源ID，该函数已在内部指定了数据源ID，直接发起请求即可\r\n    该函数将用户的查询转换为SQL语句，仅返回SQL文本，不执行查询。\r\n    \r\n    :param query: 用户的查询内容\r\n                  示例：\r\n                  - \"我需要查询昨天的订单总金额的sql\"\r\n                  - \"我要找出销售额前10的产品的sql\"\r\n                  - \"统计每个部门的员工数量的sql\"\r\n    :return: 生成的SQL语句字符串\r\n    \r\n    使用场景：\r\n        - 需要查看生成的SQL语句\r\n        - 需要将自然语言转化为SQL查询\r\n        - 仅需要SQL文本而不需要执行结果\r\n    \"\"\"\r\n    # 构建参数字典\r\n    params = {\r\n        'api_key': os.getenv('api_key'),\r\n        'datasource_id': os.getenv('datasource_id'),\r\n        'question': query\r\n    }\r\n    \r\n    # 如果环境变量中有base_url，添加到参数中\r\n    base_url = os.getenv('base_url')\r\n    if base_url:\r\n        params['base_url'] = base_url\r\n    \r\n    message = await get_asktable_sql(**params)\r\n    return message\r\n\r\n\r\n@mcp.tool()\r\nasync def get_datasouce_data(query: str) -> str:\r\n    \"\"\"\r\n    根据用户的问题，直接返回数据结果\r\n    不需要指定数据源ID，该函数已在内部指定了数据源ID，直接发起请求即可\r\n    该函数执行用户的查询并返回实际的数据结果或答案，而不是SQL语句。\r\n    \r\n    :param query: 用户的查询内容\r\n                  示例：\r\n                  - \"昨天的订单总金额是多少\"\r\n                  - \"列出销售额前10的产品\"\r\n                  - \"每个部门有多少员工\"\r\n    :return: 查询的实际结果\r\n    \r\n    使用场景：\r\n        - 需要直接获取查询答案\r\n        - 搜索数据库数据\r\n        - 需要查看实际数据结果\r\n        - 不关心SQL细节，只要最终答案与结论\r\n    \"\"\"\r\n    # 构建参数字典\r\n    params = {\r\n        'api_key': os.getenv('api_key'),\r\n        'datasource_id': os.getenv('datasource_id'),\r\n        'question': query\r\n    }\r\n    \r\n    # 如果环境变量中有base_url，添加到参数中\r\n    base_url = os.getenv('base_url')\r\n    if base_url:\r\n        params['base_url'] = base_url\r\n\r\n\r\n    message = await get_asktable_data(**params)\r\n    return message\r\n\r\ndef main():\r\n    # 创建参数解析器\r\n    parser = argparse.ArgumentParser(description='Asktable MCP Server')\r\n    parser.add_argument('--transport', \r\n                        choices=['stdio', 'sse'], \r\n                        default='stdio',\r\n                        help='选择通信协议: stdio或sse')\r\n    parser.add_argument('--port', type=int, default=8000,\r\n                        help='SSE模式使用的端口号')\r\n    args = parser.parse_args()\r\n\r\n    # 根据参数启动不同协议\r\n    if args.transport == 'stdio':\r\n        mcp.run()  # 保持原有stdio模式\r\n    else:\r\n        # SSE模式需要额外配置\r\n        mcp.run(\r\n            transport=\"sse\",\r\n            port=args.port,\r\n            sse_path=\"/asktable-sse\",  # 自定义SSE路径\r\n            log_level=\"info\"\r\n        )\r\n\r\nif __name__ == \"__main__\":\r\n    main()\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/asktable_mcp_server/server.py b/src/asktable_mcp_server/server.py
+--- a/src/asktable_mcp_server/server.py	(revision 83c2350f76c1708dbde501efa0e1fd940e13d995)
++++ b/src/asktable_mcp_server/server.py	(date 1750864047034)
+@@ -8,7 +8,7 @@
+ import argparse
+ import asyncio
+ 
+-mcp = FastMCP(name="Asktable mcp server running...")
++mcp = FastMCP(name="Asktable stdio mcp server running...")
+ 
+ @mcp.tool()
+ async def get_sql(query: str) -> str:
+@@ -94,7 +94,7 @@
+ 
+     # 根据参数启动不同协议
+     if args.transport == 'stdio':
+-        mcp.run()  # 保持原有stdio模式
++        mcp.run(transport='sse')  # 保持原有stdio模式
+     else:
+         # SSE模式需要额外配置
+         mcp.run(
+Index: README.md
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># asktable-mcp-server\r\n\r\n[![Python Version](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/)\r\n[![PyPI Version](https://img.shields.io/pypi/v/asktable-mcp-server.svg)](https://pypi.org/project/asktable-mcp-server/)\r\n\r\n`asktable-mcp-server` 是为 [AskTable](https://www.asktable.com/) 提供的 MCP 服务，支持通过 Stdio 或 SSE 协议与 AskTable SaaS 或本地部署服务交互。\r\n\r\n## 快速开始\r\n\r\n### 安装与配置\r\n本地先安装uv配置工具。\r\n```bash\r\n# On macOS and Linux\r\ncurl -LsSf https://astral.sh/uv/install.sh | sh\r\n```\r\n\r\n---\r\n\r\n## 2×2 配置方式总览\r\n\r\n| 模式          | `--transport` | `--port`（仅SSE） | `base_url` 环境变量         |\r\n|---------------|--------------|------------------|-----------------------------|\r\n| Stdio + SaaS  | stdio        | 无               | 不填                        |\r\n| Stdio + 本地  | stdio        | 无               | 填写本地地址                 |\r\n| SSE + SaaS    | sse          | 必填             | 不填                        |\r\n| SSE + 本地    | sse          | 必填             | 填写本地地址                 |\r\n\r\n- **Stdio/SSE** 由 `--transport` 决定\r\n- **SaaS/本地** 由 `base_url` 是否填写决定\r\n- SSE 必须加 `--port`，Stdio 不需要\r\n\r\n---\r\n\r\n## 参数说明\r\n\r\n- `api_key`：AskTable API 密钥（必需，环境变量）\r\n- `datasource_id`：数据源ID（必需，环境变量）\r\n- `base_url`：本地IP服务地址（可选，填写则走本地部署）\r\n- `--transport`：通信协议，`stdio` 或 `sse`\r\n- `--port`：SSE模式端口（仅SSE时必填）\r\n\r\n---\r\n\r\n## 配置示例\r\n\r\n> 以下为 `mcpServers` 配置片段，只需根据实际情况选择一种模式即可。\r\n\r\n<details>\r\n<summary>Stdio + SaaS</summary>\r\n\r\n```json\r\n{\r\n  \"mcpServers\": {\r\n    \"asktable-mcp-server\": {\r\n      \"command\": \"uvx\",\r\n      \"args\": [\"asktable-mcp-server@latest\", \"--transport\", \"stdio\"],\r\n      \"env\": {\r\n        \"api_key\": \"your_api_key\",\r\n        \"datasource_id\": \"your_datasource_id\"\r\n      }\r\n    }\r\n  }\r\n}\r\n```\r\n</details>\r\n\r\n<details>\r\n<summary>Stdio + 本地部署</summary>\r\n\r\n```json\r\n{\r\n  \"mcpServers\": {\r\n    \"asktable-mcp-server\": {\r\n      \"command\": \"uvx\",\r\n      \"args\": [\"asktable-mcp-server@latest\", \"--transport\", \"stdio\"],\r\n      \"env\": {\r\n        \"api_key\": \"your_api_key\",\r\n        \"datasource_id\": \"your_datasource_id\",\r\n        \"base_url\": \"http://192.168.1.3:8030/api\"\r\n      }\r\n    }\r\n  }\r\n}\r\n```\r\n</details>\r\n\r\n<details>\r\n<summary>SSE + SaaS</summary>\r\n\r\n```json\r\n{\r\n  \"mcpServers\": {\r\n    \"asktable-mcp-server\": {\r\n      \"command\": \"uvx\",\r\n      \"args\": [\"asktable-mcp-server@latest\", \"--transport\", \"sse\", \"--port\", \"9000\"],\r\n      \"env\": {\r\n        \"api_key\": \"your_api_key\",\r\n        \"datasource_id\": \"your_datasource_id\"\r\n      }\r\n    }\r\n  }\r\n}\r\n```\r\n</details>\r\n\r\n<details>\r\n<summary>SSE + 本地部署</summary>\r\n\r\n```json\r\n{\r\n  \"mcpServers\": {\r\n    \"asktable-mcp-server\": {\r\n      \"command\": \"uvx\",\r\n      \"args\": [\"asktable-mcp-server@latest\", \"--transport\", \"sse\", \"--port\", \"9000\"],\r\n      \"env\": {\r\n        \"api_key\": \"your_api_key\",\r\n        \"datasource_id\": \"your_datasource_id\",\r\n        \"base_url\": \"http://192.168.1.3:8030/api\"\r\n      }\r\n    }\r\n  }\r\n}\r\n```\r\n</details>\r\n\r\n---\r\n\r\n## 启动命令示例\r\n\r\n- Stdio 模式（本地或SaaS）：\r\n  ```bash\r\n  uvx asktable-mcp-server@latest --transport stdio\r\n  ```\r\n\r\n- SSE 模式（本地或SaaS）：\r\n  ```bash\r\n  uvx asktable-mcp-server@latest --transport sse --port 9000\r\n  ```\r\n\r\n---\r\n\r\n如需进一步帮助，请查阅官方文档或联系我们。
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/README.md b/README.md
+--- a/README.md	(revision 83c2350f76c1708dbde501efa0e1fd940e13d995)
++++ b/README.md	(date 1750914819614)
+@@ -18,16 +18,14 @@
+ 
+ ## 2×2 配置方式总览
+ 
+-| 模式          | `--transport` | `--port`（仅SSE） | `base_url` 环境变量         |
+-|---------------|--------------|------------------|-----------------------------|
+-| Stdio + SaaS  | stdio        | 无               | 不填                        |
+-| Stdio + 本地  | stdio        | 无               | 填写本地地址                 |
+-| SSE + SaaS    | sse          | 必填             | 不填                        |
+-| SSE + 本地    | sse          | 必填             | 填写本地地址                 |
++| 模式          | `transport`  | `base_url` 环境变量         |
++|---------------|--------------|-----------------------------|
++| Stdio + SaaS  | stdio                      | 不填                        |
++| Stdio + 本地  | stdio                      | 填写本地地址                 |
++| SSE + SaaS    | sse                       | 不填                        |
++| SSE + 本地    | sse                      | 填写本地地址                 |
+ 
+-- **Stdio/SSE** 由 `--transport` 决定
+ - **SaaS/本地** 由 `base_url` 是否填写决定
+-- SSE 必须加 `--port`，Stdio 不需要
+ 
+ ---
+ 
+@@ -35,11 +33,28 @@
+ 
+ - `api_key`：AskTable API 密钥（必需，环境变量）
+ - `datasource_id`：数据源ID（必需，环境变量）
+-- `base_url`：本地IP服务地址（可选，填写则走本地部署）
+-- `--transport`：通信协议，`stdio` 或 `sse`
+-- `--port`：SSE模式端口（仅SSE时必填）
++- `base_url`：本地IP服务地址（可选，填写则走本地部署，不填则走SaaS）
+ 
+ ---
++
++## 启动命令示例
++
++- Stdio 模式（本地或SaaS）：
++  ```bash
++  uvx asktable-mcp-server@latest --transport stdio
++  ```
++
++- SSE 模式（本地或SaaS）：
++  ```bash
++  #sass版
++  uvx --from asktable-mcp-server@latest python -m asktable_mcp_server.sse_server
++  ```
++  ```bash
++  #本地版
++  uvx --from asktable-mcp-server@latest python -m asktable_mcp_server.sse_server --base_url http://your_ip:port/api
++  ```
++  
++
+ 
+ ## 配置示例
+ 
+@@ -85,57 +100,24 @@
+ </details>
+ 
+ <details>
+-<summary>SSE + SaaS</summary>
++<summary>SSE</summary>
+ 
+ ```json
+ {
+-  "mcpServers": {
++  "mcpServers": {    
+     "asktable-mcp-server": {
+-      "command": "uvx",
+-      "args": ["asktable-mcp-server@latest", "--transport", "sse", "--port", "9000"],
+-      "env": {
+-        "api_key": "your_api_key",
+-        "datasource_id": "your_datasource_id"
+-      }
++      "url": "http://localhost:8095/sse/?apikey=your_apikey&datasouce_id=your_datasouce_id",
++      "headers": {},
++      "timeout": 300,
++      "sse_read_timeout": 300
+     }
+   }
+ }
+ ```
+ </details>
+ 
+-<details>
+-<summary>SSE + 本地部署</summary>
+-
+-```json
+-{
+-  "mcpServers": {
+-    "asktable-mcp-server": {
+-      "command": "uvx",
+-      "args": ["asktable-mcp-server@latest", "--transport", "sse", "--port", "9000"],
+-      "env": {
+-        "api_key": "your_api_key",
+-        "datasource_id": "your_datasource_id",
+-        "base_url": "http://192.168.1.3:8030/api"
+-      }
+-    }
+-  }
+-}
+-```
+-</details>
+ 
+----
+ 
+-## 启动命令示例
+-
+-- Stdio 模式（本地或SaaS）：
+-  ```bash
+-  uvx asktable-mcp-server@latest --transport stdio
+-  ```
+-
+-- SSE 模式（本地或SaaS）：
+-  ```bash
+-  uvx asktable-mcp-server@latest --transport sse --port 9000
+-  ```
+ 
+ ---
+ 
+Index: pyproject.toml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>[project]\r\nname = \"asktable-mcp-server\"\r\nversion = \"0.1.3\"\r\ndescription = \"asktable_mcp_server project\"\r\nreadme = \"README.md\"\r\nauthors = [\r\n    { name = \"chenchengfeng\", email = \"carlos12014@gmail.com\" }\r\n]\r\nrequires-python = \">=3.10\"\r\ndependencies = [\r\n    \"asktable>=5.4.0\",\r\n    \"fastmcp>=2.8.0\"\r\n]\r\n\r\n[project.scripts]\r\nasktable-mcp-server = \"asktable_mcp_server.server:main\"\r\n\r\n[build-system]\r\nrequires = [\"hatchling\"]\r\nbuild-backend = \"hatchling.build\"\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pyproject.toml b/pyproject.toml
+--- a/pyproject.toml	(revision 83c2350f76c1708dbde501efa0e1fd940e13d995)
++++ b/pyproject.toml	(date 1750850708732)
+@@ -9,7 +9,8 @@
+ requires-python = ">=3.10"
+ dependencies = [
+     "asktable>=5.4.0",
+-    "fastmcp>=2.8.0"
++    "fastmcp>=2.8.0",
++    "aiohttp>=3.9.0"
+ ]
+ 
+ [project.scripts]
+Index: src/asktable_mcp_server/sse_server.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/asktable_mcp_server/sse_server.py b/src/asktable_mcp_server/sse_server.py
+new file mode 100644
+--- /dev/null	(date 1751023070190)
++++ b/src/asktable_mcp_server/sse_server.py	(date 1751023070190)
+@@ -0,0 +1,174 @@
++# from mcp.server.fastmcp import FastMCP
++# from contextvars import ContextVar
++# from starlette.middleware.base import BaseHTTPMiddleware
++# from asktable_mcp_server.tools import get_asktable_data, get_asktable_sql
++#
++# # 用于存储每个请求的 query 参数
++# request_query_params = ContextVar('request_query_params', default=None)
++#
++# # 全局变量存储启动时的 base_url
++# GLOBAL_BASE_URL = None
++#
++# class QueryParamMiddleware(BaseHTTPMiddleware):
++#     async def dispatch(self, request, call_next):
++#         # 保存 query 参数到 contextvar
++#         request_query_params.set(request.query_params)
++#         return await call_next(request)
++#
++# # 初始化 MCP，添加中间件
++# mcp = FastMCP(
++#     "Asktable sse mcp server running...",
++#     "Asktable sse mcp serverr",
++#     port=8095,
++#     middleware=[QueryParamMiddleware],
++# )
++#
++#
++# @mcp.tool()
++# async def get_sql(query: str) -> str:
++#     """
++#     根据用户查询生成对应的SQL语句
++#     不需要指定数据源ID，该函数已在内部指定了数据源ID，直接发起请求即可
++#     该函数将用户的查询转换为SQL语句，仅返回SQL文本，不执行查询。
++#
++#     :param query: 用户的查询内容
++#                   示例：
++#                   - "我需要查询昨天的订单总金额的sql"
++#                   - "我要找出销售额前10的产品的sql"
++#                   - "统计每个部门的员工数量的sql"
++#     :return: 生成的SQL语句字符串
++#
++#     使用场景：
++#         - 需要查看生成的SQL语句
++#         - 需要将自然语言转化为SQL查询
++#         - 仅需要SQL文本而不需要执行结果
++#     """
++#     # 构建参数字典
++#     query_params = request_query_params.get()
++#     apikey = query_params.get("apikey", "NOT_FOUND")
++#     user_id = query_params.get("id", "NOT_FOUND")
++#
++#     params = {
++#         'api_key': apikey,
++#         'datasource_id': user_id,
++#         'question': query
++#     }
++#     # 使用全局的 base_url
++#     if GLOBAL_BASE_URL:
++#         params['base_url'] = GLOBAL_BASE_URL
++#
++#     message = await get_asktable_sql(**params)
++#     return message
++#
++#
++# @mcp.tool()
++# async def get_datasouce_data(query: str) -> str:
++#     """
++#     根据用户的问题，直接返回数据结果
++#     不需要指定数据源ID，该函数已在内部指定了数据源ID，直接发起请求即可
++#     该函数执行用户的查询并返回实际的数据结果或答案，而不是SQL语句。
++#
++#     :param query: 用户的查询内容
++#                   示例：
++#                   - "昨天的订单总金额是多少"
++#                   - "列出销售额前10的产品"
++#                   - "每个部门有多少员工"
++#     :return: 查询的实际结果
++#
++#     使用场景：
++#         - 需要直接获取查询答案
++#         - 搜索数据库数据
++#         - 需要查看实际数据结果
++#         - 不关心SQL细节，只要最终答案与结论
++#     """
++#     # 构建参数字典
++#     query_params = request_query_params.get()
++#     apikey = query_params.get("apikey", "NOT_FOUND")
++#     user_id = query_params.get("id", "NOT_FOUND")
++#
++#
++#     params = {
++#         'api_key': apikey,
++#         'datasource_id': user_id,
++#         'question': query
++#     }
++#     # 使用全局的 base_url
++#     if GLOBAL_BASE_URL:
++#         params['base_url'] = GLOBAL_BASE_URL
++#
++#     message = await get_asktable_data(**params)
++#     return message
++#
++# if __name__ == '__main__':
++#     mcp.run(transport="sse")
++
++from fastmcp import FastMCP
++from fastmcp.server.dependencies import get_http_request
++from starlette.requests import Request
++
++API_KEY = None
++DATASOURCE_ID = None
++BASE_URL = None
++
++mcp = FastMCP(name="AskTable MCP Server")
++
++
++@mcp.custom_route("/sse/", methods=["GET"])
++async def sse_endpoint(request: Request):
++    """自定义SSE端点，可以在这里处理初始连接"""
++    global API_KEY, DATASOURCE_ID, BASE_URL
++
++    # 从URL参数获取配置
++    API_KEY = request.query_params.get('apikey')
++    DATASOURCE_ID = request.query_params.get('datasource_id')  # 注意这里修正了拼写
++    # BASE_URL = request.query_params.get('baseurl')
++
++    if not API_KEY or not DATASOURCE_ID:
++        return {"error": "Missing required parameters: apikey and datasource_id"}
++
++    # 返回成功响应或继续SSE连接逻辑
++    return {"status": "configured", "has_baseurl": bool(BASE_URL)}
++
++@mcp.tool
++async def query_data(sql: str) -> dict:
++    """执行数据查询"""
++    global API_KEY, DATASOURCE_ID, BASE_URL
++
++    # 如果全局变量为空，尝试从当前请求获取
++    if not API_KEY or not DATASOURCE_ID:
++        try:
++            request = get_http_request()
++            api_key = request.query_params.get('apikey', API_KEY)
++            datasource_id = request.query_params.get('datasource_id', DATASOURCE_ID)
++            base_url = request.query_params.get('baseurl', BASE_URL)
++        except RuntimeError:
++            # 如果不在HTTP请求上下文中，使用全局变量
++            api_key = API_KEY
++            datasource_id = DATASOURCE_ID
++            base_url = BASE_URL
++    else:
++        api_key = API_KEY
++        datasource_id = DATASOURCE_ID
++        base_url = BASE_URL
++
++    # 根据是否有baseurl来决定使用哪个API
++    if base_url:
++        # 使用自定义的baseurl
++        api_endpoint = f"{base_url}/api/query"
++    else:
++        # 使用默认的API端点
++        api_endpoint = "https://default-api.example.com/query"
++
++    # 执行实际的数据查询逻辑
++    return {
++        "query": sql,
++        "api_key": api_key[:8] + "..." if api_key else None,
++        "datasource_id": datasource_id,
++        "base_url": base_url,
++        "api_endpoint": api_endpoint,
++        "result": "查询结果..."
++    }
++
++
++if __name__ == "__main__":
++    mcp.run(transport="sse", port=8095, path="/sse/")
+\ No newline at end of file
