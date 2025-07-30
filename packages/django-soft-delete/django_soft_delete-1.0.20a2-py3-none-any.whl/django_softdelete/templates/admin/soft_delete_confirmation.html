@@ -1,0 +1,64 @@
+{% extends "admin/base.html" %}
+{% load i18n admin_urls static %}
+
+{% block title %}{% trans "Soft delete confirmation" %}{% endblock %}
+
+{% block content_title %}
+    <h1>{% trans "Soft delete confirmation" %}</h1>
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            {% if perms_lacking %}
+                <div class="alert alert-warning">
+                    <p>{% blocktranslate %}Deleting the selected {{ objects_name }} would result in deleting related objects, but your account doesn't have permission to delete the following types of objects:{% endblocktranslate %}</p>
+                    <ul>{{ perms_lacking|unordered_list }}</ul>
+                </div>
+            {% elif protected %}
+                <div class="alert alert-danger">
+                    <p>{% blocktranslate %}Deleting the selected {{ objects_name }} would require deleting the following protected related objects:{% endblocktranslate %}</p>
+                    <ul>{{ protected|unordered_list }}</ul>
+                </div>
+            {% else %}
+                <div class="alert alert-info">
+                    <p>{% blocktrans with objects_name=objects_name %}Are you sure you want to soft delete the selected {{ objects_name }}? This action can be undone by restoring the objects.{% endblocktranslate %}</p>
+                </div>
+
+                {% if deletable_objects %}
+                    <div class="mb-3">
+                        <h4>{% trans "Objects to be soft deleted:" %}</h4>
+                        <ul class="list-group">
+                            {% for obj in deletable_objects %}
+                                <li class="list-group-item">{{ obj }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+                <form method="post">
+                    {% csrf_token %}
+                    {% for obj in queryset %}
+                        <input type="hidden" name="{{ action_checkbox_name }}" value="{{ obj.pk }}" />
+                    {% endfor %}
+                    <input type="hidden" name="action" value="{{ action_name }}" />
+                    <input type="hidden" name="post" value="yes" />
+                    {% if preserved %}
+                        {% for obj in preserved %}
+                            <input type="hidden" name="{{ action_checkbox_name }}" value="{{ obj.pk }}" />
+                        {% endfor %}
+                    {% endif %}
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash"></i> {% trans "Yes, I'm sure" %}
+                        </button>
+                        <a href="{% url opts|admin_urlname:'changelist' %}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> {% trans "No, take me back" %}
+                        </a>
+                    </div>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
