@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+env:
+  PY_COLORS: 1
+  UV_VERSION: 0.7.16
+  CARGO_TERM_COLOR: always
+
+jobs:
+  rust-ci:
+    runs-on: "${{ matrix.platform }}-latest"
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: ["ubuntu", "macos", "windows"]
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup Rust
+      uses: dtolnay/rust-toolchain@stable
+    - name: Run Clippy
+      run: cargo clippy --verbose
+    - name: Run Rust tests (parsing)
+      run: cargo test --verbose
+  python-ci:
+    runs-on: "${{ matrix.platform }}-latest"
+    strategy:
+      fail-fast: false
+      # https://blog.jaraco.com/efficient-use-of-ci-resources/
+      matrix:
+        python: ["3.9", "3.13"]
+        platform: ["ubuntu", "macos", "windows"]
+        include:
+        - python: "3.10"
+          platform: "ubuntu"
+        - python: "3.11"
+          platform: "ubuntu"
+        - python: "3.12"
+          platform: "ubuntu"
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup uv
+      uses: astral-sh/setup-uv@v5
+      with:
+        version: ${{ env.UV_VERSION }}
+    - name: Install project
+      run: uv sync -p ${{ matrix.python }} --extra cli
+    - name: Run Python tests (parsing + highlighting + styling)
+      run: uv run -p ${{ matrix.python }} pytest
+    - name: Lint code
+      if: always()
+      run: |
+        uv run -p ${{ matrix.python }} ruff check
+        uv run -p ${{ matrix.python }} ruff format --check
+    - name: Run mypy
+      if: always()
+      run: uv run -p ${{ matrix.python }} mypy --strict src tests
