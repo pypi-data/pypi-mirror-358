@@ -1,0 +1,674 @@
+# Tamar Model Client
+
+**Tamar Model Client** 是一款高性能的 Python SDK，通过 gRPC 协议连接 Model Manager 服务，为多个 AI 模型服务商提供统一的调用接口。无论您使用 OpenAI、Google、Azure 还是其他 AI 服务，都可以通过一套 API 轻松切换和管理。
+
+## 🎯 为什么选择 Tamar Model Client？
+
+### 您遇到过这些问题吗？
+
+❌ 需要同时集成 OpenAI、Google、Azure 等多个 AI 服务，每个都有不同的 API？  
+❌ 难以统计和控制不同服务商的使用成本？  
+❌ 在不同 AI 提供商之间切换需要修改大量代码？  
+❌ 每个服务商都有自己的错误处理和重试逻辑？  
+
+### ✅ Tamar Model Client 一站式解决！
+
+🎉 **一个 SDK，访问所有 AI 服务**  
+📊 **统一的使用量和成本统计**  
+🔄 **无缝切换，一行代码搞定**  
+🛡️ **生产级的错误处理和重试机制**
+
+## ✨ 核心特性
+
+### 🔌 多服务商支持
+- **OpenAI** (GPT-3.5/4, DALL-E)
+- **Google** (Gemini - AI Studio & Vertex AI)
+- **Azure OpenAI** (企业级部署)
+- **Anthropic** (Claude)
+- **DeepSeek** (深度求索)
+- **Perplexity** (搜索增强生成)
+
+### ⚡ 灵活的调用方式
+- 🧩 **同步/异步** 双模式客户端
+- 📡 **流式/非流式** 响应支持
+- 📦 **批量请求** 并行处理
+- 🔄 **自动重试** 指数退避策略
+
+### 🛡️ 生产级特性
+- 🔐 **JWT 认证** 安全可靠
+- 📊 **使用量追踪** Token 统计与成本计算
+- 🆔 **请求追踪** 唯一 request_id
+- ⚠️ **完善错误处理** 详细错误信息
+- ✅ **类型安全** Pydantic v2 验证
+
+### 🚀 高性能设计
+- 🔗 **gRPC 通信** HTTP/2 长连接
+- ♻️ **连接复用** 减少握手开销
+- 🎯 **智能路由** 自动选择最优通道
+- 📈 **性能监控** 延迟与吞吐量指标
+
+## 📋 安装
+
+```bash
+pip install tamar-model-client
+```
+
+### 系统要求
+
+- Python ≥ 3.8
+- 支持 Windows / Linux / macOS
+- 依赖项会自动安装（grpcio, pydantic, python-dotenv 等）
+
+## 🏗️ 项目架构
+
+```
+tamar_model_client/
+├── 📁 generated/              # gRPC 生成的代码
+│   ├── model_service.proto    # Protocol Buffer 定义
+│   └── *_pb2*.py             # 生成的 Python 代码
+├── 📁 schemas/                # Pydantic 数据模型
+│   ├── inputs.py             # 请求模型（ModelRequest, UserContext）
+│   └── outputs.py            # 响应模型（ModelResponse, Usage）
+├── 📁 enums/                  # 枚举定义
+│   ├── providers.py          # AI 服务商（OpenAI, Google, Azure...）
+│   ├── invoke.py             # 调用类型（generation, images...）
+│   └── channel.py            # 服务通道（openai, vertexai...）
+├── 📄 sync_client.py          # 同步客户端 TamarModelClient
+├── 📄 async_client.py         # 异步客户端 AsyncTamarModelClient
+├── 📄 exceptions.py           # 异常层级定义
+├── 📄 auth.py                 # JWT 认证管理
+└── 📄 utils.py                # 工具函数
+```
+
+## 🚀 快速开始
+
+### 1️⃣ 客户端初始化
+
+```python
+from tamar_model_client import TamarModelClient, AsyncTamarModelClient
+
+# 方式一：使用环境变量（推荐）
+client = TamarModelClient()  # 自动读取环境变量配置
+
+# 方式二：代码配置
+client = TamarModelClient(
+    server_address="localhost:50051",
+    jwt_token="your-jwt-token"
+)
+
+# 异步客户端
+async_client = AsyncTamarModelClient(
+    server_address="localhost:50051",
+    jwt_secret_key="your-jwt-secret-key"  # 使用密钥自动生成 JWT
+)
+```
+
+### 2️⃣ 基础示例 - 与 AI 对话
+
+```python
+from tamar_model_client import TamarModelClient
+from tamar_model_client.schemas import ModelRequest, UserContext
+from tamar_model_client.enums import ProviderType
+
+# 创建客户端
+client = TamarModelClient()
+
+# 构建请求
+request = ModelRequest(
+    provider=ProviderType.OPENAI,
+    model="gpt-3.5-turbo",
+    messages=[
+        {"role": "user", "content": "你好，请介绍一下你自己。"}
+    ],
+    user_context=UserContext(
+        user_id="test_user",
+        org_id="test_org",
+        client_type="python-sdk"
+    )
+)
+
+# 发送请求
+response = client.invoke(request)
+print(f"AI 回复: {response.content}")
+```
+
+
+## 📚 详细使用示例
+
+### OpenAI 调用示例
+
+```python
+from tamar_model_client import TamarModelClient
+from tamar_model_client.schemas import ModelRequest, UserContext
+from tamar_model_client.enums import ProviderType, InvokeType, Channel
+
+# 创建同步客户端
+client = TamarModelClient()
+
+# OpenAI 调用示例
+request_data = ModelRequest(
+    provider=ProviderType.OPENAI,  # 选择 OpenAI 作为提供商
+    channel=Channel.OPENAI,  # 使用 OpenAI 渠道
+    invoke_type=InvokeType.CHAT_COMPLETIONS,  # 使用 chat completions 调用类型
+    model="gpt-4",  # 指定具体模型
+    messages=[
+        {"role": "user", "content": "你好，请介绍一下你自己。"}
+    ],
+    user_context=UserContext(
+        user_id="test_user",
+        org_id="test_org",
+        client_type="python-sdk"
+    ),
+    stream=False,  # 非流式调用
+    temperature=0.7,  # 可选参数
+    max_tokens=1000,  # 可选参数
+)
+
+# 发送请求并获取响应
+response = client.invoke(request_data)
+if response.error:
+    print(f"错误: {response.error}")
+else:
+    print(f"响应: {response.content}")
+    if response.usage:
+        print(f"Token 使用情况: {response.usage}")
+```
+
+### Google 调用示例 （AI Studio / Vertex AI）
+
+```python
+from tamar_model_client import TamarModelClient
+from tamar_model_client.schemas import ModelRequest, UserContext
+from tamar_model_client.enums import ProviderType, InvokeType, Channel
+
+# 创建同步客户端
+client = TamarModelClient()
+
+# Google AI Studio 调用示例
+request_data = ModelRequest(
+    provider=ProviderType.GOOGLE,  # 选择 Google 作为提供商
+    channel=Channel.AI_STUDIO,  # 使用 AI Studio 渠道
+    invoke_type=InvokeType.GENERATION,  # 使用生成调用类型
+    model="gemini-pro",  # 指定具体模型
+    contents=[
+        {"role": "user", "parts": [{"text": "你好，请介绍一下你自己。"}]}
+    ],
+    user_context=UserContext(
+        user_id="test_user",
+        org_id="test_org",
+        client_type="python-sdk"
+    ),
+    temperature=0.7,  # 可选参数
+)
+
+# 发送请求并获取响应
+response = client.invoke(request_data)
+if response.error:
+    print(f"错误: {response.error}")
+else:
+    print(f"响应: {response.content}")
+    if response.usage:
+        print(f"Token 使用情况: {response.usage}")
+
+# Google Vertex AI 调用示例
+vertex_request = ModelRequest(
+    provider=ProviderType.GOOGLE,  # 选择 Google 作为提供商
+    channel=Channel.VERTEXAI,  # 使用 Vertex AI 渠道
+    invoke_type=InvokeType.GENERATION,  # 使用生成调用类型
+    model="gemini-pro",  # 指定具体模型
+    contents=[
+        {"role": "user", "parts": [{"text": "你好，请介绍一下你自己。"}]}
+    ],
+    user_context=UserContext(
+        user_id="test_user",
+        org_id="test_org",
+        client_type="python-sdk"
+    ),
+    temperature=0.7,  # 可选参数
+)
+
+# 发送请求并获取响应
+vertex_response = client.invoke(vertex_request)
+if vertex_response.error:
+    print(f"错误: {vertex_response.error}")
+else:
+    print(f"响应: {vertex_response.content}")
+    if vertex_response.usage:
+        print(f"Token 使用情况: {vertex_response.usage}")
+```
+
+### Azure OpenAI 调用示例
+
+```python
+from tamar_model_client import TamarModelClient
+from tamar_model_client.schemas import ModelRequest, UserContext
+from tamar_model_client.enums import ProviderType, InvokeType, Channel
+
+# 创建同步客户端
+client = TamarModelClient()
+
+# Azure OpenAI 调用示例
+request_data = ModelRequest(
+    provider=ProviderType.AZURE,  # 选择 Azure 作为提供商
+    channel=Channel.OPENAI,  # 使用 OpenAI 渠道
+    invoke_type=InvokeType.CHAT_COMPLETIONS,  # 使用 chat completions 调用类型
+    model="gpt-4o-mini",  # 指定具体模型
+    messages=[
+        {"role": "user", "content": "你好，请介绍一下你自己。"}
+    ],
+    user_context=UserContext(
+        user_id="test_user",
+        org_id="test_org",
+        client_type="python-sdk"
+    ),
+    stream=False,  # 非流式调用
+    temperature=0.7,  # 可选参数
+    max_tokens=1000,  # 可选参数
+)
+
+# 发送请求并获取响应
+response = client.invoke(request_data)
+if response.error:
+    print(f"错误: {response.error}")
+else:
+    print(f"响应: {response.content}")
+    if response.usage:
+        print(f"Token 使用情况: {response.usage}")
+```
+
+### 异步调用示例
+
+```python
+import asyncio
+from tamar_model_client import AsyncTamarModelClient
+from tamar_model_client.schemas import ModelRequest, UserContext
+from tamar_model_client.enums import ProviderType, InvokeType, Channel
+
+
+async def main():
+    # 创建异步客户端
+    client = AsyncTamarModelClient()
+
+    # 组装请求参数
+    request_data = ModelRequest(
+        provider=ProviderType.OPENAI,
+        channel=Channel.OPENAI,
+        invoke_type=InvokeType.CHAT_COMPLETIONS,
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "user", "content": "你好，请介绍一下你自己。"}
+        ],
+        user_context=UserContext(
+            user_id="test_user",
+            org_id="test_org",
+            client_type="python-sdk"
+        ),
+        stream=False,
+        temperature=0.7,
+        max_tokens=1000,
+    )
+
+    # 发送请求并获取响应
+    async for r in await client.invoke(model_request):
+        if r.error:
+            print(f"错误: {r.error}")
+        else:
+            print(f"响应: {r.content}")
+            if r.usage:
+                print(f"Token 使用情况: {r.usage}")
+
+
+# 运行异步示例
+asyncio.run(main())
+```
+
+### 流式调用示例
+
+```python
+import asyncio
+from tamar_model_client import AsyncTamarModelClient
+from tamar_model_client.schemas import ModelRequest, UserContext
+from tamar_model_client.enums import ProviderType, InvokeType, Channel
+
+
+async def stream_example():
+    # 创建异步客户端
+    client = AsyncTamarModelClient()
+
+    # 组装请求参数
+    request_data = ModelRequest(
+        provider=ProviderType.OPENAI,
+        channel=Channel.OPENAI,
+        invoke_type=InvokeType.CHAT_COMPLETIONS,
+        model="gpt-4",
+        messages=[
+            {"role": "user", "content": "你好，请介绍一下你自己。"}
+        ],
+        user_context=UserContext(
+            user_id="test_user",
+            org_id="test_org",
+            client_type="python-sdk"
+        ),
+        stream=True,  # 启用流式输出
+        temperature=0.7,
+    )
+
+    # 发送请求并获取流式响应
+    async for response in client.invoke(request_data):
+        if response.error:
+            print(f"错误: {response.error}")
+        else:
+            print(f"响应片段: {response.content}", end="", flush=True)
+            if response.usage:
+                print(f"\nToken 使用情况: {response.usage}")
+
+
+# 运行流式示例
+asyncio.run(stream_example())
+```
+
+### 批量调用示例
+
+支持批量处理多个模型请求：
+
+```python
+import asyncio
+from tamar_model_client import AsyncTamarModelClient
+from tamar_model_client.schemas import (
+    BatchModelRequest, BatchModelRequestItem,
+    UserContext
+)
+from tamar_model_client.enums import ProviderType, InvokeType, Channel
+
+
+async def batch_example():
+    # 创建异步客户端
+    client = AsyncTamarModelClient()
+
+    # 组装批量请求参数
+    batch_request = BatchModelRequest(
+        user_context=UserContext(
+            user_id="test_user",
+            org_id="test_org",
+            client_type="python-sdk"
+        ),
+        items=[
+            BatchModelRequestItem(
+                provider=ProviderType.OPENAI,
+                channel=Channel.OPENAI,
+                invoke_type=InvokeType.CHAT_COMPLETIONS,
+                model="gpt-4",
+                messages=[
+                    {"role": "user", "content": "第一个问题：什么是人工智能？"}
+                ],
+                priority=1,
+                custom_id="q1"
+            ),
+            BatchModelRequestItem(
+                provider=ProviderType.GOOGLE,
+                channel=Channel.AI_STUDIO,
+                invoke_type=InvokeType.GENERATION,
+                model="gemini-pro",
+                contents=[
+                    {"role": "user", "parts": [{"text": "第二个问题：什么是机器学习？"}]}
+                ],
+                priority=2,
+                custom_id="q2"
+            )
+        ]
+    )
+
+    # 发送批量请求并获取响应
+    response = await client.invoke_batch(batch_request)
+    if response.responses:
+        for resp in response.responses:
+            print(f"\n问题 {resp.custom_id} 的响应:")
+            if resp.error:
+                print(f"错误: {resp.error}")
+            else:
+                print(f"内容: {resp.content}")
+                if resp.usage:
+                    print(f"Token 使用情况: {resp.usage}")
+
+
+# 运行批量调用示例
+asyncio.run(batch_example())
+```
+
+### 文件输入示例
+
+支持处理图像等文件输入（需使用支持多模态的模型，如 gemini-2.0-flash）：
+
+```python
+from tamar_model_client import TamarModelClient
+from tamar_model_client.schemas import ModelRequest, UserContext
+from tamar_model_client.enums import ProviderType
+from google.genai.types import Part
+model_request = ModelRequest(
+    provider=ProviderType.GOOGLE,  # 选择 Google作为提供商
+    model="gemini-2.0-flash",
+    contents=[
+        "What is shown in this image?",
+        Part.from_uri( # 这个是Google那边的参数支持
+            file_uri="https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg",
+            mime_type="image/jpeg",
+        ),
+    ],
+    user_context=UserContext(
+        org_id="testllm",
+        user_id="testllm",
+        client_type="conversation-service"
+    ),
+)
+client = TamarModelClient("localhost:50051")
+response = client.invoke(
+    model_request=model_request
+)
+```
+
+## 🛠️ 高级功能
+
+### 🔥 使用场景和最佳实践
+
+#### 使用场景
+1. **多模型比较**：同时调用多个服务商的模型，比较输出质量
+2. **成本优化**：根据任务类型自动选择性价比最高的模型
+3. **高可用架构**：主备模型自动切换，确保服务稳定
+4. **统一监控**：集中管理所有 AI 服务的使用量和成本
+
+#### 最佳实践
+1. **客户端管理**
+   ```python
+   # ✅ 推荐：单例模式使用
+   client = TamarModelClient()
+   # 整个应用生命周期使用同一个客户端
+   
+   # ❌ 避免：频繁创建客户端
+   for i in range(100):
+       client = TamarModelClient()  # 不推荐！
+   ```
+
+2. **错误处理**
+   ```python
+   try:
+       response = client.invoke(request)
+   except TamarModelException as e:
+       logger.error(f"Model error: {e.message}, request_id: {e.request_id}")
+       # 实施降级策略或重试
+   ```
+
+3. **性能优化**
+   - 使用批量 API 处理大量请求
+   - 启用流式响应减少首字延迟
+   - 合理设置 max_tokens 避免浪费
+
+### ⚠️ 注意事项
+
+1. **参数说明**
+   - **必填参数**：`provider`, `model`, `user_context`
+   - **可选参数**：`channel`, `invoke_type`（系统可自动推断）
+   - **流式控制**：通过 `stream=True/False` 参数控制
+
+2. **连接管理**
+   - gRPC 使用 HTTP/2 长连接，客户端应作为单例使用
+   - 如需多实例，务必调用 `client.close()` 释放资源
+
+3. **错误处理**
+   - 所有错误包含 `request_id` 用于问题追踪
+   - 网络错误会自动重试（指数退避）
+   - 提供商错误保留原始错误信息
+
+## ⚙️ 环境变量配置（推荐）
+
+可以通过 .env 文件或系统环境变量，自动配置连接信息
+
+```bash
+export MODEL_MANAGER_SERVER_ADDRESS="localhost:50051"
+export MODEL_MANAGER_SERVER_JWT_TOKEN="your-jwt-secret"
+export MODEL_MANAGER_SERVER_GRPC_USE_TLS="false"
+export MODEL_MANAGER_SERVER_GRPC_DEFAULT_AUTHORITY="localhost"
+export MODEL_MANAGER_SERVER_GRPC_MAX_RETRIES="5"
+export MODEL_MANAGER_SERVER_GRPC_RETRY_DELAY="1.5"
+```
+
+或者本地 `.env` 文件
+
+```
+# ========================
+# 🔌 gRPC 通信配置
+# ========================
+
+# gRPC 服务端地址（必填）
+MODEL_MANAGER_SERVER_ADDRESS=localhost:50051
+
+# 是否启用 TLS 加密通道（true/false，默认 true）
+MODEL_MANAGER_SERVER_GRPC_USE_TLS=true
+
+# 当使用 TLS 时指定 authority（域名必须和证书匹配才需要）
+MODEL_MANAGER_SERVER_GRPC_DEFAULT_AUTHORITY=localhost
+
+
+# ========================
+# 🔐 鉴权配置（JWT）
+# ========================
+
+# JWT 签名密钥（用于生成 Token）
+MODEL_MANAGER_SERVER_JWT_SECRET_KEY=your_jwt_secret_key
+
+
+# ========================
+# 🔁 重试配置（可选）
+# ========================
+
+# 最大重试次数（默认 3）
+MODEL_MANAGER_SERVER_GRPC_MAX_RETRIES=3
+
+# 初始重试延迟（秒，默认 1.0），指数退避
+MODEL_MANAGER_SERVER_GRPC_RETRY_DELAY=1.0
+```
+
+加载后，初始化时无需传参：
+
+```python
+from tamar_model_client import TamarModelClient
+
+client = TamarModelClient()  # 将使用环境变量中的配置
+```
+
+## 🔧 开发指南
+
+### 环境设置
+
+1. **克隆仓库**
+```bash
+git clone https://github.com/your-org/tamar-model-client.git
+cd tamar-model-client
+```
+
+2. **创建虚拟环境**
+```bash
+python -m venv .venv
+source .venv/bin/activate  # Linux/macOS
+# 或
+.venv\Scripts\activate  # Windows
+```
+
+3. **安装开发依赖**
+```bash
+pip install -e .
+pip install -r requirements-dev.txt  # 如果有开发依赖
+```
+
+### 代码生成
+
+如果需要更新 gRPC 定义：
+```bash
+# 生成 gRPC 代码
+python make_grpc.py
+
+# 验证生成的代码
+python -m pytest tests/
+```
+
+### 发布流程
+
+```bash
+# 1. 更新版本号 (setup.py)
+# 2. 构建包
+python setup.py sdist bdist_wheel
+
+# 3. 检查构建
+twine check dist/*
+
+# 4. 上传到 PyPI
+twine upload dist/*
+```
+
+### 贡献指南
+
+1. Fork 项目
+2. 创建功能分支 (`git checkout -b feature/amazing-feature`)
+3. 提交更改 (`git commit -m 'Add amazing feature'`)
+4. 推送到分支 (`git push origin feature/amazing-feature`)
+5. 创建 Pull Request
+
+## 📊 性能指标
+
+- **响应延迟**: 平均 < 10ms（gRPC 开销）
+- **并发支持**: 1000+ 并发请求
+- **连接复用**: HTTP/2 多路复用
+- **自动重试**: 指数退避，最多 5 次
+
+## 🤝 支持与贡献
+
+### 获取帮助
+
+- 📖 [API 文档](https://docs.tamar-model-client.com)
+- 🐛 [提交 Issue](https://github.com/your-org/tamar-model-client/issues)
+- 💬 [讨论区](https://github.com/your-org/tamar-model-client/discussions)
+- 📝 [更新日志](CHANGELOG.md)
+
+### 相关项目
+
+- [Model Manager Server](https://github.com/your-org/model-manager) - 后端 gRPC 服务
+- [Model Manager Dashboard](https://github.com/your-org/model-manager-dashboard) - 管理控制台
+
+## 📜 许可证
+
+本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件
+
+## 👥 团队
+
+- **Oscar Ou** - 项目负责人 - [oscar.ou@tamaredge.ai](mailto:oscar.ou@tamaredge.ai)
+- [贡献者列表](https://github.com/your-org/tamar-model-client/graphs/contributors)
+
+---
+
+<div align="center">
+  <p>
+    <b>⭐ 如果这个项目对您有帮助，请给个 Star 支持我们！⭐</b>
+  </p>
+  <p>
+    Made with ❤️ by Tamar Edge Team
+  </p>
+</div> 
