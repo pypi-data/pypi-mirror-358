@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gleaner"
+license = "MIT"
+description = "Web scraper that finds all pages on a domain"
+dependencies = [
+    "requests",
+    "beautifulsoup4",
+]
+dynamic = ["version"]
+
+[project.scripts]
+glean = "gleaner.cli:main"
+
+[tool.setuptools.dynamic]
+version = {attr = "gleaner.__version__"}
