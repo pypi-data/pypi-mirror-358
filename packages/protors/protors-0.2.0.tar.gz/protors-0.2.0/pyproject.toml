@@ -1,0 +1,22 @@
+[project]
+name = "protors"
+description = "Protobuff for Python"
+authors = [{ name = "pkozhem", email = "pkozhem@gmail.com" }]
+readme = { file = "README.md", content-type = "text/markdown" }
+requires-python = ">=3.13"
+license = { text = "MIT OR Apache-2.0" }
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+
+dynamic = ["version"]
+
+[tool.maturin]
+features = ["pyo3/extension-module", "pyo3/generate-import-lib"]
+sdist = { include = ["README.md", "LICENSE"] }
+
+[build-system]
+requires = ["maturin>=1.9,<2.0"]
+build-backend = "maturin"
