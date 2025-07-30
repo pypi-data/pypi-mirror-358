@@ -1,0 +1,38 @@
+Metadata-Version: 2.3
+Name: kisumu
+Version: 0.1.0
+Summary: A command line interface for jinja-rdf
+License: EUPL-1.2
+Author: Natanael Arndt
+Author-email: arndtn@gmail.com
+Requires-Python: >=3.12,<4.0
+Classifier: License :: OSI Approved :: European Union Public Licence 1.2 (EUPL 1.2)
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: click (>=8.1.8,<9.0.0)
+Requires-Dist: jinja-rdf (>=0.1.0,<0.2.0)
+Requires-Dist: loguru (>=0.7.2,<0.8.0)
+Requires-Dist: rdflib (>=7.1.1,<8.0.0)
+Description-Content-Type: text/markdown
+
+# Kisumu
+
+> [!WARNING]
+>
+> This project is still under development, the interface are unstable and might break in future versions.
+
+A simple cli in front of [Jinja RDF](https://github.com/AKSW/jinja-rdf) to render a template + an RDF graph -> a static document.
+
+> [!NOTE]
+>
+> ## TODO
+> - namespace prefixes should be supported in the templates
+> - namespace prefixes should be supported when specifying a resource in the cli
+
+## Related Projects
+
+- [Jinja RDF](https://github.com/AKSW/jinja-rdf)
+- [MkRdf](https://github.com/AKSW/mkrdf)
+- [Jekyll RDF](https://github.com/AKSW/jekyll-rdf) ([read about the relation](https://github.com/AKSW/mkrdf/blob/main/README.md#jekyll-rdf))
+
