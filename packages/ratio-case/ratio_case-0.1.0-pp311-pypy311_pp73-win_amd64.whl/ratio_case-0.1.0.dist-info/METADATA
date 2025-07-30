@@ -1,0 +1,36 @@
+Metadata-Version: 2.4
+Name: ratio-case
+Version: 0.1.0
+Classifier: Programming Language :: Rust
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Classifier: License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)
+Classifier: Topic :: Scientific/Engineering :: Mathematics
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Development Status :: 3 - Alpha
+Summary: Python bindings for Ratio's CASE crate collection.
+Keywords: case,systems engineering,graph,algorithms,genetic,mathematics,sga,clustering,sequencing,rust
+Home-Page: https://gitlab.com/ratio-case-os/rust/ratio-case/-/tree/main/python
+Author-email: "Ratio Innovations B.V." <info@ratio-case.nl>
+License: MPL-2.0
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown; charset=UTF-8; variant=GFM
+Project-URL: Source Code, https://gitlab.com/ratio-case-os/rust/ratio-case.git
+
+# Ratio's CASE crate collection Python bindings
+
+**The bindings crate is currently just in a _proof of concept_ state.**
+
+This package contains a thin wrapper around the Ratio Genetic crate written in Rust. It is built with Maturin utilizing PyO3 bindings for convenience.
+
+To develop and test the package, you can use the `just install-py` and `just test-py` commands in the main project directory, or a plain `just` to list all available commands. It uses [`uv`](https://docs.astral.sh/uv/) under the hood to install and run project dependencies and tools.
+
+## Relation to ratio-genetic and other crates
+
+The `ratio-genetic` crate is written in a **very** generic way, such that users can bring their own datatypes wherever possible. At first glance, it might seem that this crate duplicates a lot of the effort. However, apart from some options and flags (enums), most of the types offer concrete implementations of the generic functionality in `ratio-genetic`.
+
+Hence:
+
+- Pure Rust crates are often kept generic.
+- The bindings offer a concrete implementation that works from Python.
+
