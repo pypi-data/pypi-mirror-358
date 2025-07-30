@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1110</width>
+    <height>773</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string notr="true">jdDBusDebugger</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QTabWidget" name="tab_widget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <property name="tabsClosable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string notr="true">Tab 1</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="title">
+        <string notr="true">Tab 2</string>
+       </attribute>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1110</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <widget class="QMenu" name="menuConnect_2">
+     <property name="title">
+      <string>Connect</string>
+     </property>
+     <addaction name="connect_address_action"/>
+     <addaction name="connect_flatpak_action"/>
+     <addaction name="connect_server_action"/>
+    </widget>
+    <addaction name="menuConnect_2"/>
+    <addaction name="separator"/>
+    <addaction name="exit_action"/>
+   </widget>
+   <widget class="QMenu" name="menuSettings">
+    <property name="title">
+     <string>Settings</string>
+    </property>
+    <addaction name="settings_action"/>
+   </widget>
+   <widget class="QMenu" name="menuMacros">
+    <property name="title">
+     <string>Macros</string>
+    </property>
+    <widget class="QMenu" name="run_saved_macro_menu">
+     <property name="title">
+      <string>Run saved</string>
+     </property>
+     <addaction name="actionPlaceholder"/>
+    </widget>
+    <addaction name="run_saved_macro_menu"/>
+    <addaction name="separator"/>
+    <addaction name="start_recording_macro_action"/>
+    <addaction name="stop_recording_macro_action"/>
+    <addaction name="run_macro_action"/>
+    <addaction name="save_macro_action"/>
+    <addaction name="generate_script_macro_action"/>
+    <addaction name="separator"/>
+    <addaction name="manage_macros_action"/>
+   </widget>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string notr="true">?</string>
+    </property>
+    <addaction name="show_welcome_dialog_action"/>
+    <addaction name="separator"/>
+    <addaction name="view_source_action"/>
+    <addaction name="report_bug_action"/>
+    <addaction name="translate_action"/>
+    <addaction name="donate_action"/>
+    <addaction name="separator"/>
+    <addaction name="about_action"/>
+    <addaction name="about_qt_action"/>
+   </widget>
+   <widget class="QMenu" name="tools_menu">
+    <property name="title">
+     <string>Tools</string>
+    </property>
+    <addaction name="emit_signal_action"/>
+    <addaction name="monitor_action"/>
+    <addaction name="connection_info_action"/>
+    <addaction name="start_server_action"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuSettings"/>
+   <addaction name="menuMacros"/>
+   <addaction name="tools_menu"/>
+   <addaction name="menu"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="start_recording_macro_action">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::MediaRecord"/>
+   </property>
+   <property name="text">
+    <string>Start Recording</string>
+   </property>
+  </action>
+  <action name="stop_recording_macro_action">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::MediaPlaybackStop"/>
+   </property>
+   <property name="text">
+    <string>Stop Recording</string>
+   </property>
+  </action>
+  <action name="run_macro_action">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::MediaPlaybackStart"/>
+   </property>
+   <property name="text">
+    <string>Run</string>
+   </property>
+  </action>
+  <action name="save_macro_action">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::DocumentSave"/>
+   </property>
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </action>
+  <action name="manage_macros_action">
+   <property name="text">
+    <string>Manage</string>
+   </property>
+  </action>
+  <action name="exit_action">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::ApplicationExit"/>
+   </property>
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="generate_script_macro_action">
+   <property name="text">
+    <string>Generate Script</string>
+   </property>
+  </action>
+  <action name="actionPlaceholder">
+   <property name="text">
+    <string notr="true">Placeholder</string>
+   </property>
+  </action>
+  <action name="settings_action">
+   <property name="text">
+    <string>Settings</string>
+   </property>
+  </action>
+  <action name="view_source_action">
+   <property name="text">
+    <string notr="true">View source</string>
+   </property>
+  </action>
+  <action name="report_bug_action">
+   <property name="text">
+    <string>Report Bug</string>
+   </property>
+  </action>
+  <action name="translate_action">
+   <property name="text">
+    <string>Translate</string>
+   </property>
+  </action>
+  <action name="donate_action">
+   <property name="text">
+    <string>Donate</string>
+   </property>
+  </action>
+  <action name="about_action">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::HelpAbout"/>
+   </property>
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
+  <action name="about_qt_action">
+   <property name="text">
+    <string>About Qt</string>
+   </property>
+  </action>
+  <action name="show_welcome_dialog_action">
+   <property name="text">
+    <string>Show welcome dialog</string>
+   </property>
+  </action>
+  <action name="emit_signal_action">
+   <property name="text">
+    <string>Emit Signal</string>
+   </property>
+  </action>
+  <action name="monitor_action">
+   <property name="text">
+    <string>Monitor</string>
+   </property>
+  </action>
+  <action name="actionAddress">
+   <property name="text">
+    <string>Address</string>
+   </property>
+  </action>
+  <action name="connect_address_action">
+   <property name="text">
+    <string>Address</string>
+   </property>
+  </action>
+  <action name="connect_flatpak_action">
+   <property name="text">
+    <string>Flatpak</string>
+   </property>
+  </action>
+  <action name="actionProcess">
+   <property name="text">
+    <string>Process</string>
+   </property>
+  </action>
+  <action name="connection_info_action">
+   <property name="text">
+    <string>Connection Info</string>
+   </property>
+  </action>
+  <action name="start_server_action">
+   <property name="text">
+    <string>Start Server</string>
+   </property>
+  </action>
+  <action name="connect_server_action">
+   <property name="text">
+    <string>Server</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
