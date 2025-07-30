@@ -1,0 +1,43 @@
+Metadata-Version: 2.3
+Name: PylangGetter
+Version: 0.4.0
+Summary: Tiny utility to help you download Dofus Retro Lang files
+Keywords: dofus retro,dofus,retro,bot,emulateur
+Author: Dysta
+Requires-Python: >=3.8
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: loguru (>=0.6.0,<0.7.0)
+Project-URL: Repository, https://github.com/Dysta/PylangGetter
+Description-Content-Type: text/markdown
+
+# PyLangGetter
+Tiny utility to help you download Dofus Retro Lang files.
+
+# Installation
+`pip install pylanggetter`
+
+## Usage
+`python -m pylanggetter` to get all lang files in **all language** and **all build** \
+`python -m pylanggetter fr` to get lang files in **fr** language and **all build** \
+`python -m pylanggetter it de` to get lang files in **it** and **de** langage and **all build** \
+`python -m pylanggetter --prod` to get all lang files in **all language** and only **prod** build \
+`python -m pylanggetter fr --temporis` to get lang files in **fr** language and **temporis** build \
+`python -m pylanggetter it de --betaenv` to get lang files in **it** and **de** langage and **betaenv** build \
+`python -m pylanggetter es pt --prod --temporis` to get lang files in **es** and **pt** langage and **prod** and **temporis** build
+
+Available language option : `fr, de, en, it, es, pt, nl` \
+Available build option : `--prod, --betaenv, --temporis, --ephemeris2releasebucket, --t3mporis-release`
+
+#### Build description:
+- **prod**: official lang used on regular servers
+- **betaenv**: beta lang used on beta servers
+- **temporis**: temporis lang used on temporis servers
+- **ephemeris2releasebucket**: special temporis lang used on temporis servers
+- **t3mporis-release**: temporis lang used on temporis 3 servers
+
