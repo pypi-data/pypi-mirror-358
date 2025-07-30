@@ -1,0 +1,146 @@
+Metadata-Version: 2.1
+Name: ticklog
+Version: 0.1.0
+Summary: A super-simple tool for logging function execution time
+Home-page: https://github.co.jp/
+Author: bib_inf
+Author-email: contact.bibinf@gmail.com
+License: CC0 v1.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Software Development :: Libraries
+Classifier: License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication
+Description-Content-Type: text/markdown
+Requires-Dist: ezpip
+Requires-Dist: llog (>=1.4.0)
+
+English description follows Japanese.
+
+---
+
+## 概要
+
+**`ticklog`** は、関数の実行時間を簡単にロギングできる Python ライブラリです。関数にデコレータをつけるだけで、その実行時間を自動的に記録します。
+
+* 軽量でシンプルな使い心地
+* `llog` ライブラリを使用して `jsonl` 形式でログ出力
+* デフォルトではカレントディレクトリに `ticklog.llog` を自動生成
+* `ticklog.setpath()` を使えば出力先のファイルパス変更も可能
+
+主に、関数単位のパフォーマンス測定や簡易プロファイリングに適しています。
+
+---
+
+## インストール
+
+```bash
+pip install ticklog
+```
+
+---
+
+## 基本的な使い方
+
+```python
+import time
+import ticklog
+
+@ticklog
+def some_proc():
+	time.sleep(0.5)
+
+@ticklog
+def other_proc():
+	time.sleep(0.1)
+
+some_proc()
+other_proc()
+some_proc()
+```
+
+このコードを実行すると、関数の実行時間が `ticklog.llog` というファイルに `jsonl` 形式で記録されます。関数が呼び出されるたびに、1行ずつログが追記されます。
+
+---
+
+## ログの確認
+
+最新のログを確認するには、以下のようにします：
+
+```python
+ticklog.llog.tail(n = 3)
+```
+
+---
+
+## ログファイルの出力先を変更する
+
+```python
+ticklog.setpath("other_path.llog")
+```
+
+以降のログ出力が `other_path.llog` に切り替わります。
+
+---
+
+## Overview
+
+**`ticklog`** is a minimalistic Python library for logging the execution time of functions. With just a simple decorator, you can measure and persist function runtimes in a structured format.
+
+* Super-lightweight and clean
+* Uses the [llog](https://pypi.org/project/llog/) library to write logs in `jsonl` format
+* By default, logs are saved to `ticklog.llog` in the current directory
+* You can also set a custom path for log output using `ticklog.setpath()`
+
+This tool is especially suited for profiling and monitoring the performance of key functions during development or testing.
+
+---
+
+## Installation
+
+```bash
+pip install ticklog
+```
+
+---
+
+## Basic Usage
+
+```python
+import time
+import ticklog
+
+@ticklog
+def some_proc():
+	time.sleep(0.5)
+
+@ticklog
+def other_proc():
+	time.sleep(0.1)
+
+some_proc()
+other_proc()
+some_proc()
+```
+
+The above code will output the execution times of the decorated functions into a file named `ticklog.llog` (in JSONL format), using the `llog` logger.
+
+Each time a decorated function is called, a log entry is appended.
+
+---
+
+## Viewing Logs
+
+To inspect the most recent log entries:
+
+```python
+ticklog.llog.tail(n = 3)
+```
+
+---
+
+## Setting a Custom Log File Path
+
+```python
+ticklog.setpath("other_path.llog")
+```
+
+This will redirect all future logs to the specified path.
