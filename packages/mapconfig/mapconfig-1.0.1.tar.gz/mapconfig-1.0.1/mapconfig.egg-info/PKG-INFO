@@ -1,0 +1,56 @@
+Metadata-Version: 2.4
+Name: mapconfig
+Version: 1.0.1
+Summary: A simple Python library for creating interactive maps with markers, circles, and custom icons
+Author: cyrus-spc-tech
+Author-email: tanishgupta12389@gmail.com
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENCE
+Requires-Dist: folium>=0.19.0
+Requires-Dist: requests>=2.25.0
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# MapConfig
+
+MapConfig is a simple, lightweight Python library for creating beautiful interactive maps using only place names (for example, "New Delhi", "Paris", "Tokyo") without needing to know coordinates.
+
+It uses OpenStreetMap's Nominatim API to fetch coordinates and Folium to render maps.
+
+---
+
+## ⭐ Features
+
+- 🔥 Add simple markers with just a place name
+- 📍 Add circles to highlight areas
+- 🖼️ Add custom icon markers
+- 💨 Automatically center and display in the browser (no saving needed)
+- 🌐 Show directly in a popup browser tab or export as HTML
+- add paths between two places
+- 
+more coming soon .. 
+
+---
+
+## 🚀 Example
+
+```python
+from mapconfig import GeoMap
+
+m = GeoMap()
+m.add_marker("New Delhi", popup="Capital City")
+m.add_circle("Hyderabad", radius=10000, color="green", popup="Cyber Hub")
+m.add_custom_icon_marker("Chennai", icon_url="https://cdn-icons-png.flaticon.com/512/684/684908.png", popup="Beach City")
+
+m.show()
