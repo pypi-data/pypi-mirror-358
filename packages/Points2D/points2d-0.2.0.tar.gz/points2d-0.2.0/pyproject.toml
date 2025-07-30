@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=80.5.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Points2D"
+version = "0.2.0"
+authors = [{ name = "luomeng007", email = "1502506285@qq.com" }]
+description = "A class for two-dimensional points"
+readme = { file = "README.md", content-type = "text/markdown" }
+license = "GPL-3.0"  # 使用 SPDX 标识符
+requires-python = ">=3.7"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python :: 3.7",
+    "Operating System :: OS Independent",
+]
+dependencies = []
+
+[tool.setuptools.packages.find]
+include = ["Points2D"]
+
+[project.urls]
+Homepage = "https://gitee.com/camarolm/Points2D"
+"Bug Tracker" = "https://gitee.com/camarolm/Points2D/issues"
