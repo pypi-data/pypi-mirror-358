@@ -1,0 +1,90 @@
+Metadata-Version: 2.4
+Name: django_recent_objects
+Version: 0.1.1
+Summary: Recent objects fetching utilities
+Home-page: https://github.com/matthiask/django-recent-objects/
+Author: Matthias Kestenholz
+Author-email: mk@feinheit.ch
+License: BSD-3-Clause
+Platform: OS Independent
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Django
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content
+Classifier: Topic :: Software Development
+Classifier: Topic :: Software Development :: Libraries :: Application Frameworks
+Requires-Python: >=3.9
+Description-Content-Type: text/x-rst
+License-File: LICENSE
+Requires-Dist: Django>=3.2
+Provides-Extra: tests
+Requires-Dist: coverage; extra == "tests"
+Dynamic: license-file
+
+=====================
+django-recent-objects
+=====================
+
+Recent objects fetching utilities
+
+Usage:
+
+.. code-block:: python
+
+    from testapp.models import Article, Comment, Payment
+
+    from recent_objects.recent_objects import RecentObjects
+
+    ro = RecentObjects(
+        [
+            {
+                "queryset": Article.objects.all(),
+                "date_field": "created_at",
+                # "type": "testapp.article",
+            },
+            {
+                "queryset": Comment.objects.all(),
+                "date_field": "created_at",
+                # "type": "testapp.comment",
+            },
+            {
+                "queryset": Payment.objects.all(),
+                "date_field": "created_at",
+                # "type": "testapp.payment",
+            },
+        ]
+    )
+
+    recent_10_objects = ro.page(paginate_by=10, page=1)
+
+``recent_10_objects`` will now be a list of up to 10 dictionaries of the form:
+
+.. code-block:: python
+
+    [
+      {
+          "type": "testapp.article",
+          "date": datetime(...),
+          "pk": 24,
+          "object": Article(),
+      },
+      {
+          "type": "testapp.comment",
+          "date": datetime(...),
+          "pk": 42,
+          "object": Comment(),
+      },
+      ...
+    ]
+
+You can optionally specify the ``type`` yourself in the recent objects spec
+above. This may be useful when you want more control over the value or if
+you're assembling several querysets using the same underlying model.
