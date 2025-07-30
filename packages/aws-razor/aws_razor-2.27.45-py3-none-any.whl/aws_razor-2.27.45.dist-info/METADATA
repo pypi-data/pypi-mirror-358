@@ -1,0 +1,53 @@
+Metadata-Version: 2.4
+Name: aws-razor
+Version: 2.27.45
+Summary: Alternative CLI frontend for aws-cli completions
+Project-URL: homepage, https://github.com/dead10ck/aws-razor
+Author-email: Skyler Hawthorne <skyler@dead10ck.dev>
+License-Expression: MPL-2.0
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: System Administrators
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.9
+Requires-Dist: awscli>=2.25.4
+Description-Content-Type: text/markdown
+
+# `aws-razor`
+
+*At last, my arm is complete again!*
+
+This tool is an alternative to awscli's built-in completion prompt. It uses
+the same auto completion machinery from the CLI's code, but simply writes the
+completion results as plain JSON objects, one per line. It is primarily intended
+for completion frontends that accept more context than just the completion text,
+such as descriptions, e.g. nushell; although, it can be used for any completion
+frontend.
+
+## Usage
+
+For Nushell,
+
+```nushell
+def "nu-complete aws" [context: string, pos: int] {
+  aws-razor --command-line $context --position $pos
+  | from json --objects
+  | each {|completion|
+    {
+      value: $completion.text,
+      description: $completion.display_meta,
+    }
+  }
+}
+
+export extern "aws" [
+  ...command: string@"nu-complete aws"
+]
+```
