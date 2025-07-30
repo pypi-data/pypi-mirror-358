@@ -1,0 +1,13 @@
+#############Codejail service
+codejailservice:
+  image: {{ CODEJAIL_DOCKER_IMAGE }}
+  environment:
+    FLASK_APP_SETTINGS: codejailservice.tutor.ProductionConfig
+  {% if CODEJAIL_ENFORCE_APPARMOR %}
+  security_opt:
+    - apparmor:docker-edx-sandbox
+  {% endif %}
+  volumes:
+    - ../plugins/codejail/apps/config/tutor.py:/openedx/codejailservice/codejailservice/tutor.py:ro
+    - ../../data/codejail:/openedx/data
+  restart: unless-stopped
