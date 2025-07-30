@@ -1,0 +1,22 @@
+[build-system]
+        requires = ["hatchling>=1.18"]
+        build-backend = "hatchling.build"
+
+        [project]
+        name = "pyw-musicparser"
+        version = "0.0.0"
+        description = "Parse MIDI/Lilypond into music21 (placeholder)"
+        authors = [{name = "pythonWoods"}]
+        license = {text = "MIT"}
+        requires-python = ">=3.9"
+        dependencies = [
+  "pyw-core>=0.0.0",
+  "music21>=9",
+  "pretty_midi>=0.2"
+]
+
+[project.urls]
+Source = "https://github.com/pythonWoods/pyw-musicparser"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pyw"]
