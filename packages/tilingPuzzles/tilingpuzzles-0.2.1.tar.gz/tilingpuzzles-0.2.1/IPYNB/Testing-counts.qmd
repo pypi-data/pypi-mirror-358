@@ -1,0 +1,43 @@
+
+```{python}
+! which python
+```
+
+```{python}
+from tilingpuzzles.solvers.komino import KominoSolverUnlimted
+from tilingpuzzles.examples.rectangularPentomino import rectangularPentomino
+from tilingpuzzles.games.stone import Stone
+from tilingpuzzles.games.komino import Komino
+
+
+T="""
+########################
+##   ##   ##   ##   #  #
+##   ##   ##   ##   #  #
+########################
+########################
+# ##               
+"""
+T=Stone.from_string(T)
+k =Komino(T,k=5)
+
+solver = KominoSolverUnlimted(k)
+
+res=solver.solve(2,3)
+print(res)
+len(solver.DP)
+```
+
+```{python}
+res/len(solver.DP)
+```
+
+```{python}
+k=rectangularPentomino.P5x12()
+
+solver=KominoSolverUnlimted(k)
+
+res=solver.solve()
+print(res)
+len(solver.DP)
+```

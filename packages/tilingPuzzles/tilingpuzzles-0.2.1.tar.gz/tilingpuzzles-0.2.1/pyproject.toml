@@ -1,0 +1,28 @@
+[project]
+name = "tilingPuzzles"
+version = "0.2.1"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "jonathan graf", email = "jonathangraf@outlook.de" }
+]
+requires-python = ">=3.10"
+dependencies = [
+    "graphviz>=0.20.3",
+    "jupyter>=1.1.1",
+    "matplotlib>=3.10.3",
+    "numpy>=2.2.6",
+    "pandas>=2.2.3",
+    "py-cpuinfo>=9.0.0",
+    "pytest>=8.3.5",
+    "scipy>=1.15.3",
+    "timeout-decorator>=0.5.0",
+    "tqdm>=4.67.1",
+]
+
+[project.scripts]
+tilingpuzzles = "tilingpuzzles:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
