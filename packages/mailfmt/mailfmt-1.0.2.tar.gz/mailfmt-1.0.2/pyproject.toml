@@ -1,0 +1,23 @@
+[project]
+name = "mailfmt"
+version = "1.0.2"
+description = "Heuristic plain text email formatter."
+readme = "README.md"
+authors = [
+    { name = "Daniel Fichtinger", email = "daniel@ficd.ca" }
+]
+requires-python = ">=3.11"
+dependencies = []
+license = "ISC"
+license-files = ["LICENSE"]
+keywords = ["email", "formatter", "cli"]
+
+[project.urls]
+Repository = "https://git.sr.ht/~ficd/mailfmt"
+
+[project.scripts]
+mailfmt = "mailfmt:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
