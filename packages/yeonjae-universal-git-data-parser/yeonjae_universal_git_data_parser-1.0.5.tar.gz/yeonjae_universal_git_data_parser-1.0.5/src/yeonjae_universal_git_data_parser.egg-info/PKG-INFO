@@ -1,0 +1,181 @@
+Metadata-Version: 2.4
+Name: yeonjae-universal-git-data-parser
+Version: 1.0.5
+Summary: Universal Git webhook data parser supporting GitHub, GitLab, and other SCM platforms
+Author-email: "CodePing.AI Team" <contact@codeping.ai>
+License: MIT
+Project-URL: Homepage, https://github.com/yeonjae-work/universal-modules
+Project-URL: Repository, https://github.com/yeonjae-work/universal-modules
+Project-URL: Issues, https://github.com/yeonjae-work/universal-modules/issues
+Project-URL: Changelog, https://github.com/yeonjae-work/universal-modules/blob/main/packages/yeonjae-universal-git-data-parser/CHANGELOG.md
+Keywords: git,github,gitlab,webhook,parser,scm,data-parsing,validation
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Software Development :: Version Control :: Git
+Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content
+Classifier: Topic :: System :: Software Distribution
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: typing-extensions>=4.0.0; python_version < "3.10"
+Requires-Dist: requests>=2.28.0
+Provides-Extra: github
+Requires-Dist: pygithub>=1.58.0; extra == "github"
+Provides-Extra: gitlab
+Requires-Dist: python-gitlab>=3.15.0; extra == "gitlab"
+Provides-Extra: validation
+Requires-Dist: jsonschema>=4.17.0; extra == "validation"
+Provides-Extra: all
+Requires-Dist: pygithub>=1.58.0; extra == "all"
+Requires-Dist: python-gitlab>=3.15.0; extra == "all"
+Requires-Dist: jsonschema>=4.17.0; extra == "all"
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.21.0; extra == "dev"
+Requires-Dist: pytest-mock>=3.10.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: isort>=5.12.0; extra == "dev"
+Requires-Dist: flake8>=6.0.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Requires-Dist: responses>=0.23.0; extra == "dev"
+
+# Universal Git Data Parser
+
+Universal Git webhook data parser supporting GitHub, GitLab, and other SCM platforms.
+
+## Features
+
+- **Multi-Platform Support**: GitHub, GitLab, Bitbucket webhook parsing
+- **Data Validation**: Comprehensive validation of webhook payloads
+- **Structured Output**: Convert raw webhooks to structured data models
+- **Error Handling**: Robust error handling for malformed data
+- **Type Safety**: Complete type annotations with Pydantic models
+- **Extensible**: Easy to add support for new SCM platforms
+- **Performance**: Optimized parsing for high-throughput scenarios
+
+## Installation
+
+```bash
+# Basic installation
+pip install yeonjae-universal-git-data-parser
+
+# With GitHub support
+pip install yeonjae-universal-git-data-parser[github]
+
+# With GitLab support  
+pip install yeonjae-universal-git-data-parser[gitlab]
+
+# With validation features
+pip install yeonjae-universal-git-data-parser[validation]
+
+# With all features
+pip install yeonjae-universal-git-data-parser[all]
+```
+
+## Quick Start
+
+### GitHub Webhook Parsing
+
+```python
+from yeonjae_universal_git_data_parser import GitDataParserService
+
+# Initialize parser
+parser = GitDataParserService()
+
+# Parse GitHub push webhook
+headers = {"X-GitHub-Event": "push"}
+payload = {
+    "repository": {"name": "my-repo", "full_name": "user/my-repo"},
+    "ref": "refs/heads/main",
+    "commits": [
+        {
+            "id": "abc123",
+            "message": "Fix bug in parser",
+            "author": {"name": "Developer", "email": "dev@example.com"},
+            "timestamp": "2024-01-01T12:00:00Z",
+            "added": ["file1.py"],
+            "modified": ["file2.py"],
+            "removed": []
+        }
+    ]
+}
+
+# Parse and validate
+validated_event = parser.parse_github_push(headers, payload)
+
+print(f"Repository: {validated_event.repository}")
+print(f"Branch: {validated_event.ref}")
+print(f"Commits: {len(validated_event.commits)}")
+```
+
+### Advanced Usage
+
+```python
+from yeonjae_universal_git_data_parser import (
+    GitDataParserService, ValidatedEvent, CommitInfo
+)
+
+parser = GitDataParserService()
+
+# Custom validation options
+try:
+    event = parser.parse_github_push(
+        headers=headers,
+        payload=payload,
+        validate_signatures=True,
+        strict_mode=True
+    )
+    
+    # Access structured data
+    for commit in event.commits:
+        print(f"Commit: {commit.id}")
+        print(f"Author: {commit.author}")
+        print(f"Message: {commit.message}")
+        print(f"Files changed: {len(commit.added + commit.modified + commit.removed)}")
+        
+except InvalidPayloadError as e:
+    print(f"Invalid payload: {e}")
+except UnsupportedPlatformError as e:
+    print(f"Platform not supported: {e}")
+```
+
+## Supported Platforms
+
+| Platform | Push Events | Pull Request | Issues | Tags |
+|----------|-------------|--------------|--------|------|
+| GitHub   | ✅ Full     | ✅ Full      | ⏳ Planned | ⏳ Planned |
+| GitLab   | ✅ Basic    | ⏳ Planned   | ⏳ Planned | ⏳ Planned |
+| Bitbucket| ⏳ Planned  | ⏳ Planned   | ⏳ Planned | ⏳ Planned |
+
+## Data Models
+
+The parser outputs structured Pydantic models:
+
+- `ValidatedEvent`: Main event container
+- `CommitInfo`: Individual commit information
+- `DiffData`: File change details
+- `Author`: Commit author information
+- `FileChange`: File modification details
+
+## Error Handling
+
+Comprehensive exception hierarchy:
+
+- `GitDataParserError`: Base exception
+- `InvalidPayloadError`: Malformed webhook data
+- `UnsupportedPlatformError`: Platform not supported
+- `DiffParsingError`: Error parsing file changes
+- `TimestampParsingError`: Invalid timestamp format
+
+## License
+
+MIT License
