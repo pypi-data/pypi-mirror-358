@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools", "wheel", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jaxpm"
+dynamic = ["version"]
+description = "A simple Particle-Mesh implementation in JAX"
+authors = [{ name = "JaxPM developers" }]
+readme = "README.md"
+requires-python = ">=3.9"
+license = { file = "LICENSE" }
+urls = { "Homepage" = "https://github.com/DifferentiableUniverseInitiative/JaxPM" }
+dependencies = ["jax_cosmo", "jax>=0.4.35", "jaxdecomp>=0.2.3"]
+
+[tool.setuptools]
+packages = ["jaxpm"]
+
+[tool.setuptools_scm]
+version_file = "jaxpm/_version.py"
