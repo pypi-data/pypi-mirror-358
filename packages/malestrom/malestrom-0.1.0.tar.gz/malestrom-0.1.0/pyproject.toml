@@ -1,0 +1,22 @@
+[project]
+name = "malestrom"
+version = "0.1.0"
+description = "interstellar object tidal stream simulator and tooling"
+readme = "README.md"
+authors = [
+    { name = "angusforrest", email = "contact@angusforrest.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "annotated-types>=0.7.0",
+    "astropy>=7.1.0",
+    "galpy>=1.10.2",
+    "numpy>=2.3.1",
+    "pandas>=2.3.0",
+    "pandas-stubs>=2.2.3.250527",
+    "scipy>=1.16.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
