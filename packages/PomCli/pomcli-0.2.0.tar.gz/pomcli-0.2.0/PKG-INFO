@@ -1,0 +1,57 @@
+Metadata-Version: 2.4
+Name: PomCli
+Version: 0.2.0
+Summary: A simple Pomodoro timer CLI tool.
+Project-URL: Documentation, https://github.com/YanivGrosskopf/PomCli#readme
+Project-URL: Issues, https://github.com/YanivGrosskopf/PomCli/issues
+Project-URL: Source, https://github.com/YanivGrosskopf/PomCli
+Author-email: Yaniv Grosskopf <qywoec@gmail.com>
+License-Expression: MIT
+License-File: LICENSE.txt
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Requires-Python: >=3.8
+Requires-Dist: tqdm>=4.0.0
+Description-Content-Type: text/markdown
+
+# PomCli
+
+[![PyPI - Version](https://img.shields.io/pypi/v/pomcli.svg)](https://pypi.org/project/pomcli)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pomcli.svg)](https://pypi.org/project/pomcli)
+
+-----
+
+## Table of Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [License](#license)
+
+## Installation
+
+```console
+pip install pomcli
+```
+
+## Usage
+
+Run the Pomodoro timer from the command line:
+
+```console
+pomcli --work 25 --break_time 5
+```
+
+- `--work`: Work duration in minutes (default: 25)
+- `--break_time`: Break duration in minutes (default: 5)
+- `--repetitions`: Number of repetitions (default: 1)
+
+## License
+
+`PomCli` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
