@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=67", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kpass-gen"
+version = "0.1.1"
+description = "kpass is a simple password generator based on full name, age, and birthdate."
+readme = "README.md"
+requires-python = ">=3.6"
+
+authors = [
+    { name = "Lucas Paulino Da Silva (KsxDynamic)", email = "lucas.workps@gmail.com" }
+]
+
+license = "MIT"
+license-files = ["LICENSE.txt"]
+
+dependencies = [
+    "rich"
+]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent"
+]
+
+[project.urls]
+Homepage = "https://github.com/lucaspy-stack/kpass"
+Repository = "https://github.com/lucaspy-stack/kpass"
+
+[tool.setuptools]
+packages = ["kpass"]
