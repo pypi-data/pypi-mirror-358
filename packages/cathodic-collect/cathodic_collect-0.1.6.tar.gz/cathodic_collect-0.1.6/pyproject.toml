@@ -1,0 +1,57 @@
+[project]
+name = "cathodic-collect"
+dynamic = []
+description = "Default template for PDM package"
+authors = [
+    { name = "svtter", email = "svtter@qq.com" },
+]
+dependencies = [
+    "cathodic-report>=0.1.6",
+    "pandas>=2.2.3",
+    "pyyaml>=6.0.2",
+]
+requires-python = "==3.11.*"
+readme = "README.md"
+version = "0.1.6"
+
+[project.license]
+text = "MIT"
+
+[tool.pdm]
+distribution = true
+
+[tool.pdm.version]
+source = "file"
+path = "./src/cathodic_collect/__init__.py"
+
+[tool.mypy]
+exclude = [
+    ".venv",
+]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q -n auto"
+
+[tool.ruff]
+indent-width = 2
+
+[build-system]
+requires = [
+    "pdm-backend",
+]
+build-backend = "pdm.backend"
+
+[dependency-groups]
+dev = [
+    "mkdocs>=1.6.1",
+    "mkdocs-material>=9.6.14",
+    "mkdocs-section-index>=0.3.10",
+    "mkdocstrings[python]>=0.29.1",
+    "mypy>=1.16.1",
+    "pip>=24.3.1",
+    "pytest>=8.4.1",
+    "pytest-dotenv>=0.5.2",
+    "pytest-xdist>=3.7.0",
+    "ruff>=0.12.1",
+]
