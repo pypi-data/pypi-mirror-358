@@ -1,0 +1,74 @@
+Metadata-Version: 2.1
+Name: dq-summary-llm
+Version: 0.1
+Author: Sivananda Panda
+Author-email: pandasivananda@gmail.com
+Description-Content-Type: text/markdown
+
+# Data Quality Summary using LLM
+
+This Python package generates a **data quality report** for a dataset using a **Large Language Model (LLM)** such as OpenAI's GPT. It takes a Pandas DataFrame as input and returns a human-readable report about potential data issues. The package also includes full LLM responses and logs for transparency.
+
+## Features
+
+- Accepts any Pandas DataFrame as input.
+- Connects to an LLM using OpenAI API credentials.
+- Generates intelligent data quality reports.
+- Optionally allows custom prompts to guide the LLM.
+- Includes raw model responses and logs for traceability.
+
+## Class: `DataQualitySummery`
+
+### `__init__(api_key: str, base_url: str, model: str, temprature: float, max_token: int)`
+
+Initializes the LLM connection.
+
+#### Parameters:
+
+- `api_key`: OpenAI or compatible API key.
+- `base_url`: Base URL of the LLM API.
+- `model`: The model name, e.g., "gpt-4".
+- `temprature`: Float to control randomness.
+- `max_token`: Maximum tokens allowed in the LLM response.
+
+---
+
+### `data_quality_details(data: pd.DataFrame, response: str = None) -> str`
+
+Generates a data quality report using the provided DataFrame.
+
+#### Parameters:
+
+- `data`: A pandas DataFrame.
+- `response`: Optional custom instruction for the LLM.
+
+#### Returns:
+
+- A string containing the data quality report, including raw LLM responses.
+
+---
+
+## Example Usage
+
+```python
+from your_module import DataQualitySummery
+import pandas as pd
+
+# Create a sample DataFrame
+df = pd.DataFrame({
+    'Name': ['Alice', None, 'Charlie'],
+    'Age': [25, 30, None]
+})
+
+# Initialize the class
+dq = DataQualitySummery(
+    api_key='your-api-key',
+    base_url='https://api.openai.com/v1',
+    model='gpt-4',
+    temprature=0.7,
+    max_token=500
+)
+
+# Generate the report
+report = dq.data_quality_details(df)
+print(report)
