@@ -1,0 +1,42 @@
+name: Build and publish docs
+
+permissions:
+  contents: write
+
+on:
+  workflow_run:
+    workflows: [Python Tests]
+    types:
+    - completed
+    branches:
+    - main
+
+jobs:
+  build-and-publish-docs:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup venv
+      uses: ./.github/actions/setup-venv
+      with:
+        install-lsl: 'true'
+        python-version: '3.12'
+    - name: Setup Qt environment
+      uses: ./.github/actions/setup-qt-env
+      with:
+        os: ubuntu-latest
+    - name: Fetch LFS files
+      run: git lfs pull
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    - name: Install docs dependencies
+      run: uv sync --group docs
+    - name: Build docs
+      run: |
+        uv run pdoc src/MoBI_View -o docs_build -t docs/pdoc-theme --docformat google
+        touch docs_build/.nojekyll
+    - uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: docs_build

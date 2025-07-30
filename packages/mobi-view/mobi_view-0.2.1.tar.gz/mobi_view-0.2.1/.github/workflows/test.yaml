@@ -1,0 +1,111 @@
+name: Python Tests
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+
+jobs:
+  unit:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ['3.10', '3.11', '3.12']
+        resolution: [lowest-direct, highest]
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup venv
+      uses: ./.github/actions/setup-venv
+      with:
+        install-lsl: 'true'
+        resolution: ${{ matrix.resolution }}
+        python-version: ${{ matrix.python-version }}
+      
+    - name: Setup Qt environment
+      uses: ./.github/actions/setup-qt-env
+      with:
+        os: ${{ matrix.os }}
+
+    - name: Run tests (Linux)
+      if: matrix.os == 'ubuntu-latest'
+      id: run-tests-linux
+      run: >
+        xvfb-run -a -s "-screen 0 1280x1024x24" uv run pytest \
+          --junitxml=pytest.xml \
+          --cov-report=term-missing:skip-covered \
+          --cov-report=xml:coverage.xml \
+          --cov=src tests \
+          --log-level=DEBUG \
+          --verbose
+      shell: bash
+
+    - name: Run tests (macOS)
+      if: matrix.os == 'macos-latest'
+      id: run-tests-macos
+      run: |
+        uv run pytest \
+          --junitxml=pytest.xml \
+          --cov-report=term-missing:skip-covered \
+          --cov-report=xml:coverage.xml \
+          --cov=src tests \
+          --log-level=DEBUG \
+          --verbose
+      shell: bash
+
+    - name: Run tests (Windows)
+      if: matrix.os == 'windows-latest'
+      id: run-tests-windows
+      run: |
+        uv run pytest `
+        --junitxml=pytest.xml `
+        --cov-report=term-missing:skip-covered `
+        --cov-report=xml:coverage.xml `
+        --cov=src tests `
+        --log-level=DEBUG `
+        --verbose
+      shell: pwsh
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v5
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        verbose: true
+
+  ruff:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup venv
+      uses: ./.github/actions/setup-venv
+      with:
+        only-dev: true
+    - name: Ruff format
+      run: uv run ruff format --check
+    - name: Ruff check
+      run: uv run ruff check
+
+  mypy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup venv
+      uses: ./.github/actions/setup-venv
+    - run: |
+        uv run mypy .
+
+  deptry:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup venv
+      uses: ./.github/actions/setup-venv
+      with:
+        only-dev: true
+    - run: |-
+        uv run deptry ./src
