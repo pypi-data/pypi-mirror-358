@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jbridgedf"
+version = "0.1.4"
+description = "A robust Python library to parse API JSON responses into DataFrames with date handling."
+readme = {file = "README.md", content-type = "text/markdown"}
+authors = [
+  {name = "Luis Felipe De Moraes", email = "luismoraes.datascience@gmail.com"},
+]
+license = {text = "MIT"}
+requires-python = ">=3.7"
+dependencies = [
+  "pandas",
+  "requests"
+]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Topic :: Software Development :: Libraries",
+  "Intended Audience :: Developers"
+]
