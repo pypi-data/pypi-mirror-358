@@ -1,0 +1,50 @@
+[project]
+authors = ["Matt Richards <mrichards7@outlook.com.au>"]
+channels = ["conda-forge"]
+description = "Modelling Static folder structures for python applications"
+name = "static_folders"
+platforms = ["win-64", "linux-64"]
+version = "0.1.0"
+
+[tasks]
+format = "uvx ruff format"
+lint = "uvx ruff check"
+type_check = "uvx --with . --with attrs --with pytest mypy ."
+# SyntaxError: Non-UTF-8 code starting with '\xe8' in Scripts\mypy.exe
+#type_check_min = "uvx --python 3.7 --with . --with attrs mypy python -m mypy ."
+# TODO do with depends-on
+ci_all_checks = {cmd = "pixi run format; pixi run lint; pixi run type_check"}
+#ci_tests = {cmd = "pixi run format; pixi run lint; pixi run type_check"}
+
+
+
+[dependencies]
+attrs = ">=24.2.0,<26"
+
+[pypi-dependencies]
+static_folders = { path = ".", editable = true}
+
+[feature.py37.dependencies]
+python = "3.7.*"
+typing-extensions = "==4.7.1"
+
+[feature.py37.tasks]
+test = "pytest -rP ."
+type_check_min = "mypy ."
+
+[feature.py313.dependencies]
+python = "3.13.*"
+
+[feature.py313.tasks]
+test = "pytest -rP ."
+
+[feature.dev.dependencies]
+pytest = "*"
+mypy = "*"
+
+
+
+
+[environments]
+min = {features=["py37", "dev"]}
+latest = {features=["py313", "dev"]}
