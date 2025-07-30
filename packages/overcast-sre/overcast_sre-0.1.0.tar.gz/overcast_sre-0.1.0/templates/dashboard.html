@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overcast - Your SRE copilot</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1a1a1a;
+            color: #e0e0e0;
+        }
+        
+        .header {
+            background: #1e1e1e;
+            color: white;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid #333;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .header-logo {
+            width: 40px;
+            height: 40px;
+            background: #667eea;
+            border-radius: 50%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-segments {
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+        
+        /* Top curved segment */
+        .logo-segments::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 6px;
+            width: 20px;
+            height: 4px;
+            background: #1e1e1e;
+            border-radius: 2px;
+        }
+        
+        /* Bottom curved segment */
+        .logo-segments::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 6px;
+            width: 20px;
+            height: 4px;
+            background: #1e1e1e;
+            border-radius: 2px;
+        }
+        
+        /* Middle horizontal bars */
+        .logo-bar-1 {
+            position: absolute;
+            top: 8px;
+            left: 2px;
+            width: 12px;
+            height: 3px;
+            background: #1e1e1e;
+            border-radius: 1px;
+        }
+        
+        .logo-bar-2 {
+            position: absolute;
+            top: 8px;
+            right: 2px;
+            width: 12px;
+            height: 3px;
+            background: #1e1e1e;
+            border-radius: 1px;
+        }
+        
+        .logo-bar-3 {
+            position: absolute;
+            top: 14px;
+            left: 4px;
+            width: 24px;
+            height: 3px;
+            background: #1e1e1e;
+            border-radius: 1px;
+        }
+        
+        .logo-bar-4 {
+            position: absolute;
+            top: 20px;
+            left: 2px;
+            width: 12px;
+            height: 3px;
+            background: #1e1e1e;
+            border-radius: 1px;
+        }
+        
+        .logo-bar-5 {
+            position: absolute;
+            top: 20px;
+            right: 2px;
+            width: 12px;
+            height: 3px;
+            background: #1e1e1e;
+            border-radius: 1px;
+        }
+        
+        /* Center dots */
+        .logo-dot-1 {
+            position: absolute;
+            top: 10px;
+            left: 14px;
+            width: 4px;
+            height: 4px;
+            background: #1e1e1e;
+            border-radius: 50%;
+        }
+        
+        .logo-dot-2 {
+            position: absolute;
+            top: 18px;
+            left: 14px;
+            width: 4px;
+            height: 4px;
+            background: #1e1e1e;
+            border-radius: 50%;
+        }
+        
+        .header-title {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header h1 {
+            font-size: 1.8rem;
+            margin: 0;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+        
+        .header p {
+            margin: 0;
+            color: #999;
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+        
+        .header-center {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .customer-selector {
+            background: #2d2d2d;
+            border: 1px solid #444;
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            color: #e0e0e0;
+            font-size: 0.9rem;
+            min-width: 200px;
+        }
+        
+        .customer-selector:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .customer-label {
+            color: #bbb;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .header-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #27ae60;
+            font-size: 0.9rem;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #27ae60;
+            border-radius: 50%;
+        }
+        
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr 550px;
+            gap: 1rem;
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 2rem;
+            height: calc(100vh - 90px);
+        }
+        
+        .dashboard-section {
+            overflow-y: auto;
+        }
+        
+        .cli-section {
+            background: #2d2d2d;
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            resize: both;
+            overflow: auto;
+            min-width: 300px;
+            min-height: 400px;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .metric-card {
+            background: #2d2d2d;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-label {
+            color: #bbb;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .incidents-section, .charts-section {
+            background: #2d2d2d;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #e0e0e0;
+        }
+        
+        .incidents-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .incidents-table th,
+        .incidents-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #444;
+        }
+        
+        .incidents-table th {
+            background: #3a3a3a;
+            font-weight: 600;
+            color: #e0e0e0;
+        }
+        
+        .incidents-table tbody tr:hover {
+            background: #3a3a3a;
+        }
+        
+        .score-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .score-critical { background: #e74c3c; }
+        .score-high { background: #f39c12; }
+        .score-medium { background: #f1c40f; color: #333; }
+        .score-low { background: #27ae60; }
+        
+        .close-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+        
+        .close-btn:hover {
+            background: #c0392b;
+        }
+        
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 250px;
+        }
+        
+        .no-data {
+            text-align: center;
+            color: #bbb;
+            font-style: italic;
+            padding: 2rem;
+        }
+        
+        .refresh-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
+        
+        .refresh-btn:hover {
+            background: #5a6fd8;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        
+        .status-open { background: #e74c3c; }
+        .status-resolved { background: #27ae60; }
+        .status-investigating { background: #f39c12; }
+        
+        /* AI Analysis Styles */
+        .incident-row {
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .incident-row:hover {
+            background: #3a3a3a !important;
+        }
+        
+        .incident-row.expanded {
+            background: #404040 !important;
+        }
+        
+        .expand-icon {
+            display: inline-block;
+            margin-right: 0.5rem;
+            transition: transform 0.2s;
+            font-size: 0.8rem;
+            color: #bbb;
+        }
+        
+        .expand-icon.expanded {
+            transform: rotate(90deg);
+        }
+        
+        .ai-analysis-row {
+            display: none;
+            background: #3a3a3a;
+        }
+        
+        .ai-analysis-row.show {
+            display: table-row;
+        }
+        
+        .ai-analysis-content {
+            padding: 1.5rem;
+            background: #404040;
+            border-radius: 8px;
+            margin: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .ai-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .ai-section-title {
+            font-weight: 600;
+            color: #e0e0e0;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .ai-section-title:before {
+            content: "";
+            width: 4px;
+            height: 1.2rem;
+            background: #667eea;
+            margin-right: 0.5rem;
+            border-radius: 2px;
+        }
+        
+        .ai-section-content {
+            color: #ccc;
+            line-height: 1.6;
+        }
+        
+        .ai-list {
+            margin: 0;
+            padding-left: 1.2rem;
+        }
+        
+        .ai-list li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .no-analysis {
+            color: #999;
+            font-style: italic;
+            text-align: center;
+            padding: 1rem;
+        }
+        
+        /* CLI Styles */
+        .cli-header {
+            background: #3a3a3a;
+            color: #e0e0e0;
+            padding: 1rem;
+            border-radius: 8px 8px 0 0;
+            margin: -1rem -1rem 1rem -1rem;
+            font-weight: bold;
+        }
+        
+        .cli-output {
+            background: #1a1a1a;
+            border: 1px solid #444;
+            border-radius: 6px;
+            padding: 1rem;
+            height: 300px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #e0e0e0;
+            margin-bottom: 1rem;
+        }
+        
+        .cli-input-container {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .cli-input {
+            flex: 1;
+            background: #1a1a1a;
+            border: 1px solid #444;
+            border-radius: 4px;
+            padding: 0.75rem;
+            color: #e0e0e0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .cli-send-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .cli-send-btn:hover {
+            background: #5a6fd8;
+        }
+        
+        .cli-line {
+            margin-bottom: 0.5rem;
+        }
+        
+        .cli-prompt {
+            color: #667eea;
+        }
+        
+        .cli-output-text {
+            color: #ccc;
+        }
+        
+        .cli-error {
+            color: #e74c3c;
+        }
+        
+        .cli-success {
+            color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <div class="header-logo">
+                <div class="logo-segments">
+                    <div class="logo-bar-1"></div>
+                    <div class="logo-bar-2"></div>
+                    <div class="logo-bar-3"></div>
+                    <div class="logo-bar-4"></div>
+                    <div class="logo-bar-5"></div>
+                    <div class="logo-dot-1"></div>
+                    <div class="logo-dot-2"></div>
+                </div>
+            </div>
+            <div class="header-title">
+                <h1>Overcast</h1>
+                <p>Your SRE copilot</p>
+            </div>
+        </div>
+        
+
+        
+        <div class="header-right">
+            <div class="header-status">
+                <div class="status-dot"></div>
+                <span>System Operational</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden data for JavaScript -->
+    <div id="customerData" style="display: none;" data-customer-id="{% if selected_customer %}{{ selected_customer.id }}{% endif %}"></div>
+
+    <div class="main-container">
+        <!-- Dashboard Section -->
+        <div class="dashboard-section">
+            <!-- Metrics Cards -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value" style="color: #667eea;">{{ stats.total_incidents }}</div>
+                    <div class="metric-label">Total Incidents</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" style="color: #f39c12;">{{ stats.avg_score }}</div>
+                    <div class="metric-label">Avg Severity</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" style="color: #27ae60;">{{ stats.sla_upkeep }}%</div>
+                    <div class="metric-label">SLA Upkeep</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" style="color: #e74c3c;">{{ stats.mtte_hours }}h</div>
+                    <div class="metric-label">MTTE</div>
+                </div>
+            </div>
+
+            <!-- Recent Incidents -->
+            <div class="incidents-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h2 class="section-title" style="margin-bottom: 0;">Recent Incidents</h2>
+                    <button class="refresh-btn" onclick="refreshData()">Refresh</button>
+                </div>
+                
+                {% if stats.recent_incidents %}
+                <table class="incidents-table">
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>Summary</th>
+                            <th>Score</th>
+                            <th>Status</th>
+                            <th>Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for incident in stats.recent_incidents %}
+                        <tr class="incident-row" onclick="toggleAnalysis('{{ loop.index0 }}')">
+                            <td>
+                                <span class="expand-icon" id="icon-{{ loop.index0 }}">▶</span>
+                                {{ incident.service_name or 'unknown' }}
+                            </td>
+                            <td>{{ incident.summary[:60] }}{% if incident.summary|length > 60 %}...{% endif %}</td>
+                            <td>
+                                {% set score = incident.score or 0 %}
+                                {% if score >= 8 %}
+                                    <span class="score-badge score-critical">{{ "%.1f"|format(score) }}</span>
+                                {% elif score >= 6 %}
+                                    <span class="score-badge score-high">{{ "%.1f"|format(score) }}</span>
+                                {% elif score >= 4 %}
+                                    <span class="score-badge score-medium">{{ "%.1f"|format(score) }}</span>
+                                {% else %}
+                                    <span class="score-badge score-low">{{ "%.1f"|format(score) }}</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span class="status-indicator status-{{ incident.status or 'open' }}"></span>
+                                {{ incident.status or 'open' }}
+                            </td>
+                            <td>{{ incident.created_at[:16] if incident.created_at else 'unknown' }}</td>
+                            <td>
+                                {% if incident.status != 'resolved' %}
+                                <button class="close-btn" onclick="closeIncident('{{ incident.id }}', event)">Close</button>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr class="ai-analysis-row" id="analysis-{{ loop.index0 }}">
+                            <td colspan="6">
+                                <div class="ai-analysis-content">
+                                    {% if incident.ai_analysis %}
+                                        {% set analysis = incident.ai_analysis %}
+                                        
+                                        {% if analysis.root_cause %}
+                                        <div class="ai-section">
+                                            <div class="ai-section-title">🎯 Root Cause Analysis</div>
+                                            <div class="ai-section-content">{{ analysis.root_cause }}</div>
+                                        </div>
+                                        {% endif %}
+                                        
+                                        {% if analysis.impact_assessment %}
+                                        <div class="ai-section">
+                                            <div class="ai-section-title">💥 Impact Assessment</div>
+                                            <div class="ai-section-content">{{ analysis.impact_assessment }}</div>
+                                        </div>
+                                        {% endif %}
+                                        
+                                        {% if analysis.resolution_steps %}
+                                        <div class="ai-section">
+                                            <div class="ai-section-title">🛠️ Resolution Steps</div>
+                                            <div class="ai-section-content">
+                                                <ul class="ai-list">
+                                                    {% for step in analysis.resolution_steps %}
+                                                    <li>{{ step }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        
+                                        {% if analysis.preventive_measures %}
+                                        <div class="ai-section">
+                                            <div class="ai-section-title">🛡️ Preventive Measures</div>
+                                            <div class="ai-section-content">
+                                                <ul class="ai-list">
+                                                    {% for measure in analysis.preventive_measures %}
+                                                    <li>{{ measure }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        
+                                        {% if analysis.timeline %}
+                                        <div class="ai-section">
+                                            <div class="ai-section-title">📅 Timeline</div>
+                                            <div class="ai-section-content">
+                                                <ul class="ai-list">
+                                                    {% for event in analysis.timeline %}
+                                                    <li>{{ event }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        
+                                    {% else %}
+                                        <div class="no-analysis">
+                                            🤖 AI analysis is being generated... Refresh in a few moments.
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <div class="no-data">
+                    <p>No incidents found. Your system is running smoothly! 🎉</p>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Charts -->
+            <div class="charts-section">
+                <h2 class="section-title">Analytics</h2>
+                <div class="charts-grid">
+                    <div class="chart-container">
+                        <canvas id="serviceChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="severityChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CLI Section -->
+        <div class="cli-section">
+            <div class="cli-header">
+                💻 CLI
+            </div>
+            
+            <div class="cli-output" id="cliOutput">
+                <div class="cli-line">
+                    <span class="cli-prompt">overcast> </span>
+                    <span class="cli-output-text">Welcome to Overcast CLI!</span>
+                </div>
+                <div class="cli-line">
+                    <span class="cli-prompt">overcast> </span>
+                    <span class="cli-output-text">Type 'help' to see available commands</span>
+                </div>
+            </div>
+            
+            <div class="cli-input-container">
+                <input type="text" class="cli-input" id="cliInput" placeholder="Enter command..." onkeypress="handleCliEnter(event)">
+                <button class="cli-send-btn" onclick="sendCliCommand()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global customer ID for multi-tenant support
+        const currentCustomerId = document.getElementById('customerData').getAttribute('data-customer-id');
+        
+
+        
+        // Chart.js setup
+        Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+        Chart.defaults.color = '#e0e0e0';
+        
+        // Service breakdown chart
+        const serviceCtx = document.getElementById('serviceChart').getContext('2d');
+        const serviceData = {{ stats.service_breakdown | tojson }};
+        
+        new Chart(serviceCtx, {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(serviceData),
+                datasets: [{
+                    data: Object.values(serviceData),
+                    backgroundColor: [
+                        '#667eea', '#764ba2', '#f093fb', '#f5576c',
+                        '#4facfe', '#00f2fe', '#43e97b', '#38f9d7'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Incidents by Service',
+                        font: { size: 14, weight: 'bold' },
+                        color: '#e0e0e0'
+                    },
+                    legend: {
+                        position: 'bottom',
+                        labels: { 
+                            padding: 15,
+                            color: '#e0e0e0'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Severity distribution chart
+        const severityCtx = document.getElementById('severityChart').getContext('2d');
+        const severityData = {{ stats.score_distribution | tojson }};
+        
+        new Chart(severityCtx, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(severityData),
+                datasets: [{
+                    label: 'Number of Incidents',
+                    data: Object.values(severityData),
+                    backgroundColor: ['#27ae60', '#f1c40f', '#f39c12', '#e74c3c'],
+                    borderWidth: 0,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Incidents by Severity',
+                        font: { size: 14, weight: 'bold' },
+                        color: '#e0e0e0'
+                    },
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { 
+                            stepSize: 1,
+                            color: '#e0e0e0'
+                        },
+                        grid: {
+                            color: '#444'
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: '#e0e0e0'
+                        },
+                        grid: {
+                            color: '#444'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Auto-refresh functionality
+        function refreshData() {
+            if (currentCustomerId) {
+                window.location.href = '/?customer_id=' + currentCustomerId;
+            } else {
+                location.reload();
+            }
+        }
+
+        // Toggle AI analysis visibility
+        function toggleAnalysis(index) {
+            const analysisRow = document.getElementById('analysis-' + index);
+            const incidentRow = document.querySelector('.incident-row[onclick="toggleAnalysis(\'' + index + '\')"]');
+            const icon = document.getElementById('icon-' + index);
+            
+            if (analysisRow.classList.contains('show')) {
+                analysisRow.classList.remove('show');
+                incidentRow.classList.remove('expanded');
+                icon.classList.remove('expanded');
+                icon.textContent = '▶';
+            } else {
+                analysisRow.classList.add('show');
+                incidentRow.classList.add('expanded');
+                icon.classList.add('expanded');
+                icon.textContent = '▼';
+            }
+        }
+
+        // Close incident functionality
+        function closeIncident(incidentId, event) {
+            event.stopPropagation(); // Prevent row click
+            
+            if (confirm('Mark this incident as resolved?')) {
+                const url = '/api/incident/' + incidentId + '/close' + (currentCustomerId ? '?customer_id=' + currentCustomerId : '');
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        addCliLine('Incident ' + incidentId.substring(0, 8) + ' marked as resolved', 'success');
+                        refreshData();
+                    } else {
+                        addCliLine('Error closing incident: ' + data.error, 'error');
+                    }
+                })
+                .catch(error => {
+                    addCliLine('Error: ' + error, 'error');
+                });
+            }
+        }
+
+        // CLI functionality
+        function addCliLine(text, type = 'output') {
+            const output = document.getElementById('cliOutput');
+            const line = document.createElement('div');
+            line.className = 'cli-line';
+            
+            if (type === 'command') {
+                line.innerHTML = '<span class="cli-prompt">overcast> </span><span class="cli-output-text">' + text + '</span>';
+            } else if (type === 'error') {
+                line.innerHTML = '<span class="cli-error">' + text + '</span>';
+            } else if (type === 'success') {
+                line.innerHTML = '<span class="cli-success">' + text + '</span>';
+            } else {
+                line.innerHTML = '<span class="cli-output-text">' + text + '</span>';
+            }
+            
+            output.appendChild(line);
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function sendCliCommand() {
+            const input = document.getElementById('cliInput');
+            const command = input.value.trim();
+            
+            if (!command) return;
+            
+            addCliLine(command, 'command');
+            input.value = '';
+            
+            // Process CLI commands
+            processCliCommand(command);
+        }
+
+        function handleCliEnter(event) {
+            if (event.key === 'Enter') {
+                sendCliCommand();
+            }
+        }
+
+        function processCliCommand(command) {
+            const parts = command.toLowerCase().split(' ');
+            const cmd = parts[0];
+            
+            switch(cmd) {
+                case 'help':
+                    addCliLine('Available commands:');
+                    addCliLine('  list - Show recent incidents');
+                    addCliLine('  triage - Auto-triage incidents');
+                    addCliLine('  status - Show system status');
+                    addCliLine('  clear - Clear CLI output');
+                    break;
+                case 'list':
+                    const listUrl = '/api/cli/list' + (currentCustomerId ? '?customer_id=' + currentCustomerId : '');
+                    fetch(listUrl)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.incidents && data.incidents.length > 0) {
+                                addCliLine('Recent Incidents:');
+                                data.incidents.forEach(incident => {
+                                    addCliLine(`  ${incident.id} | ${incident.service} | ${incident.alert} | Score: ${incident.score}`);
+                                });
+                            } else {
+                                addCliLine('No incidents found');
+                            }
+                        })
+                        .catch(error => addCliLine('Error: ' + error, 'error'));
+                    break;
+                case 'triage':
+                    const triageUrl = '/api/cli/triage' + (currentCustomerId ? '?customer_id=' + currentCustomerId : '');
+                    fetch(triageUrl)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.results && data.results.length > 0) {
+                                addCliLine('Incident Triage Results:');
+                                data.results.forEach(result => {
+                                    addCliLine(`  ${result.id} | ${result.service} | Score: ${result.score} | ${result.reasoning}`);
+                                });
+                            } else {
+                                addCliLine('No incidents to triage');
+                            }
+                        })
+                        .catch(error => addCliLine('Error: ' + error, 'error'));
+                    break;
+                case 'status':
+                    addCliLine('System Status: Operational');
+                    addCliLine('Dashboard: Running on http://localhost:5000');
+                    addCliLine('Database: Connected');
+                    addCliLine('AI Agent: Active');
+                    if (currentCustomerId) {
+                        addCliLine('Current Customer: ' + currentCustomerId.substring(0, 8));
+                    }
+                    break;
+                case 'clear':
+                    document.getElementById('cliOutput').innerHTML = '';
+                    addCliLine('Welcome to Overcast CLI!');
+                    addCliLine("Type 'help' to see available commands");
+                    break;
+                default:
+                    addCliLine(`Unknown command: ${command}`, 'error');
+                    addCliLine("Type 'help' to see available commands");
+            }
+        }
+
+        // Auto-refresh every 30 seconds
+        setInterval(refreshData, 30000);
+        
+        // Initialize CLI
+        document.addEventListener('DOMContentLoaded', function() {
+            // Focus CLI input
+            document.getElementById('cliInput').focus();
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,34 @@
+# Include documentation
+include README.md
+include QUICK_START.md
+include PRODUCT_README.md
+include DEMO_GUIDE.md
+include MULTI_TENANT_SETUP.md
+include requirements.txt
+
+# Include templates and static files
+recursive-include templates *.html
+recursive-include static *
+
+# Include core modules
+recursive-include core *.py
+
+# Include examples (but not databases)
+include example_usage.py
+include example_customer_app.py
+include demo_app.py
+include simple_demo.py
+
+# Exclude compiled files and databases
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude *.db
+global-exclude __pycache__
+global-exclude .DS_Store
+global-exclude .git*
+
+# Exclude test databases and cache
+exclude overcast_data.db
+exclude overcast_central.db
+exclude *.sqlite
+exclude *.sqlite3 

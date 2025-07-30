@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "overcast-sre"
+version = "0.1.0"
+description = "AI-powered monitoring and incident management for startups - 3-line integration"
+readme = "README.md"
+authors = [
+    {name = "Overcast", email = "raghavb5120@gmail.com"}
+]
+license = {text = "MIT"}
+requires-python = ">=3.8"
+keywords = ["monitoring", "observability", "incidents", "alerting", "ai", "analytics", "dashboard", "startup", "sre"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: System :: Monitoring",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+dependencies = [
+    "flask>=2.0.0",
+    "rich>=10.0.0", 
+    "requests>=2.25.0",
+    "openai>=1.0.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/overcast-ai/overcast-sre"
+"Bug Reports" = "https://github.com/overcast-ai/overcast-sre/issues"
+Source = "https://github.com/overcast-ai/overcast-sre"
+Documentation = "https://github.com/overcast-ai/overcast-sre#readme"
+Dashboard = "https://overcast.up.railway.app"
+
+[project.scripts]
+overcast = "overcast:main"
+overcast-cli = "cli:main"
+
+[tool.setuptools]
+packages = ["core"]
+py-modules = ["overcast"]
+
+[tool.setuptools.package-data]
+"*" = ["templates/*.html", "*.md"] 
