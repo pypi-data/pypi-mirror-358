@@ -1,0 +1,43 @@
+name: Build and publish to PyPI
+
+on:
+  workflow_run:
+    workflows: [Generate Tag]
+    types: [completed]
+
+jobs:
+  build-and-publish-package:
+    runs-on: [self-hosted]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-tags: true    
+        
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.10' 
+
+    - name: Install build & twine
+      run: python -m pip install build twine
+    - name: Build lib
+      
+      run: python -m build
+    - name: Build a binary wheel
+      
+      env: 
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{secrets.PYPI_TOKEN}}
+      run: python -m twine upload dist/*
+    - name: Workspace Notification
+      uses: DTherHtun/google-chat-action@v0.9
+      if: always()
+      with:
+        project: ${{ github.repository }}
+        commit: "${{ github.workflow }}"
+        branch: ${{ github.ref }}
+        status: ${{ job.status }}
+        actionid: ${{ github.repository }}/runs/${{ github.run_id }}
+        webhook: "${{ secrets.GOOGLE_NOTIFICATION_WEBHOOK }}"
+

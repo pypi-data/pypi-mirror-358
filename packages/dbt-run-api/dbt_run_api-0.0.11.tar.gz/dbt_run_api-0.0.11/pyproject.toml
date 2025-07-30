@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools", "setuptools_scm"]
+
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "dbt-run-api"
+dynamic = ["version"]
+authors = [
+  { name="Matthias Leinweber", email="m.leinweber@datatactics.de" },
+]
+description = "A small package"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [    
+    "dbt-core",
+    "uvicorn",
+    "fastapi",
+    "dbt-postgres",
+    "pytest",
+]
+
+[tool.setuptools_scm]
+root = "."
