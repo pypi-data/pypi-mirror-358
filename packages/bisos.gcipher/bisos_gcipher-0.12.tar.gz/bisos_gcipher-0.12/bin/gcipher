@@ -1,0 +1,20 @@
+#!/usr/bin/env python
+
+"""This is the main executable script."""
+
+# Edit the path below if you need to port GCipher.
+import sys
+# sys.path.append("/usr/share/gcipher/lib")
+
+from os import environ 
+from os.path import join
+
+from bisos.gcipher import Const
+
+def getPluginsPath(moduleType):
+    """Given a moduleType, return a path to the associated plugins dir."""
+    return join(environ["HOME"], ".%s" % Const.NAME, "plugins", moduleType)
+
+
+from bisos.gcipher.MainCLI import MainCLI
+MainCLI()
