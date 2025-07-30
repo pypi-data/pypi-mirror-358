@@ -1,0 +1,146 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rules4"
+version = "1.2.2"
+authors = [
+  { name="Dimitri Tholen", email="scriptdude@gmail.com" },
+]
+description = "A universal CLI utility to configure AI rules files for any project."
+readme = "README.md"
+requires-python = ">=3.7"
+license = "MIT"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "pytest",
+    "pytest-cov",
+    "requests",
+    "openai",
+    "anthropic",
+    "typer[all]",
+    "rich",
+    "trio",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/dimitritholen/airules"
+"Bug Tracker" = "https://github.com/dimitritholen/airules/issues"
+
+[project.scripts]
+rules4 = "airules.cli:app"
+
+# Linting and formatting configuration
+[tool.black]
+line-length = 88
+target-version = ['py37']
+include = '\.pyi?$'
+extend-exclude = '''
+# A regex preceded by ^/ will apply only to files and directories
+# in the root of the project.
+^/setup.py
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 88
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+check_untyped_defs = true
+disallow_untyped_decorators = false
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+show_error_codes = true
+namespace_packages = true
+explicit_package_bases = true
+
+# Allow dynamic typing for some complex cases
+[[tool.mypy.overrides]]
+module = [
+    "openai.*",
+    "anthropic.*",
+    "typer.*",
+    "rich.*",
+]
+ignore_missing_imports = true
+
+# Pytest configuration
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--cov=airules",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-report=xml",
+    "--cov-fail-under=19",
+    "--maxfail=1",
+    "--disable-warnings",
+]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "integration: marks tests as integration tests",
+    "performance: marks tests as performance tests",
+    "error_handling: marks tests as error handling tests",
+    "slow: marks tests as slow running tests",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
+]
+
+# Coverage configuration
+[tool.coverage.run]
+source = ["airules"]
+omit = [
+    "*/tests/*",
+    "*/test_*.py",
+    "*/__init__.py",
+    "*/cli_old.py",  # Legacy file
+]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+show_missing = true
+skip_covered = false
+sort = "Cover"
+
+[tool.coverage.html]
+directory = "htmlcov"
+
+[tool.coverage.xml]
+output = "coverage.xml"
