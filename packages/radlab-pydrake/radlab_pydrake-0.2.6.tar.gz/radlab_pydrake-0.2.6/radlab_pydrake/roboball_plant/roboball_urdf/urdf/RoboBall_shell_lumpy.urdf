@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot  name="roboball_urdf" xml:drake="https://drake.mit.edu">
+  <link    name="pipe_assembly">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="16.53649" />
+      <inertia
+        ixx="1.04"
+        iyy="0.64074"
+        izz="1.04" 
+        ixy = "0.0"
+        iyz = "0.0"
+        izy = "0.0"/>
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="-1.57 0 0" />
+      <geometry>
+        <mesh
+          filename="package://roboball_urdf/meshes/pipe_assembly.obj" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 0.647058823529412 0.125490196078431 1" />
+      </material>
+    </visual>
+    <!-- <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="-1.57 0 0" />
+      <geometry>
+        <mesh
+          filename="package://roboball_urdf/meshes/pipe_assembly.obj" />
+      </geometry>
+    </collision> -->
+  </link>
+  <link  name="logo_hubs">
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="-1.57 0 0" />
+      <geometry>
+        <mesh
+          filename="package://roboball_urdf/meshes/logo_hubs.obj" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <!-- <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="-1.57 0 0" />
+      <geometry>
+        <mesh
+          filename="package://roboball_urdf/meshes/logo_hubs.obj" />
+      </geometry>
+    </collision> -->
+  </link>
+  <joint  name="fixed_logo_hubs"
+    type="fixed">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="pipe_assembly" />
+    <child
+      link="logo_hubs" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link  name="tamu_logo">
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="-1.57 0 0" />
+      <geometry>
+        <mesh
+          filename="package://roboball_urdf/meshes/tamu_logo.obj" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.31373 0 0 1" />
+      </material>
+    </visual>
+    <!-- <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="-1.57 0 0" />
+      <geometry>
+        <mesh
+          filename="package://roboball_urdf/meshes/tamu_logo.obj" />
+      </geometry>
+    </collision> -->
+  </link>
+  <joint  name="logo_fixed"
+    type="fixed">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="logo_hubs" />
+    <child
+      link="tamu_logo" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link  name="bedliner">
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="-1.57 0 0" />
+      <geometry>
+        <mesh
+          filename="package://roboball_urdf/meshes/bedliner.obj" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 0.24" />
+      </material>
+    </visual>
+    <collision name="bed_collision">
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://roboball_urdf/meshes/bedliner_lumpy.obj" />
+      </geometry>
+      <drake:proximity_properties>
+      <drake:compliant_hydroelastic/>
+      <drake:mesh_resolution_hint value="0.1"/>
+      <drake:hydroelastic_modulus value="8.4e6"/> <!--estimate from excel sheet-->
+      <drake:hunt_crossley_dissipation value="0.5"/>
+    </drake:proximity_properties> 
+    </collision>
+  </link>
+  <joint   name="beadlocked"
+    type="fixed">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="pipe_assembly" />
+    <child
+      link="bedliner" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  
+</robot>
