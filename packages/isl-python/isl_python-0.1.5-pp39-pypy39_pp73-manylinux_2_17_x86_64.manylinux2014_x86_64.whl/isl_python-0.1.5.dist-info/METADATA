@@ -1,0 +1,60 @@
+Metadata-Version: 2.4
+Name: isl-python
+Version: 0.1.5
+Summary: Python binding for ISL library
+Author: ZhengQiHang
+Author-email: 597323109@qq.com
+Maintainer: ZhengQiHang
+Maintainer-email: 597323109@qq.com
+License: MIT License (MIT)
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy of
+        this software and associated documentation files (the "Software"), to deal in
+        the Software without restriction, including without limitation the rights to
+        use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+        of the Software, and to permit persons to whom the Software is furnished to do
+        so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: homepage, https://github.com/zhen8838/isl
+Keywords: Polyhedral,Integer Set Library
+Classifier: Programming Language :: C
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+License-File: AUTHORS
+Dynamic: license-file
+
+# ISL packaging repository
+
+this repository only for packaging ISL. For simplify the build process, the interface need to generate localy. 
+
+# Todo List
+
+- [] python wheels on windows AMD64
+- [x] python wheels on linux x86_64
+- [x] python wheels on mac arm64
+- [] python wheels on mac x86_64
+- [] make isl_*_list iterable in python interface
+- [x] export remove_map_if in python interface
+- [] export isl_pw_qpolynomial in python interface
+- [] fix export isl_printer_to_str in python interface
+- [] fix codegen test segment fault
+- [] optimize get_xx method as property in python interface
+- [] ⚠️ fix multi_pw_aff and pw_multi_aff confuse in python
