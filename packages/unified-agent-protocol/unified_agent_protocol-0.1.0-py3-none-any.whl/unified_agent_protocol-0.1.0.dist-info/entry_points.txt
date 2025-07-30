@@ -1,0 +1,13 @@
+[console_scripts]
+uap = unifiedagentprotocol.cli.__main__:app
+
+[uap.exporters]
+a2a = unifiedagentprotocol.export.to_a2a:agent_to_a2a
+mcp = unifiedagentprotocol.export.to_mcp:agent_to_mcp
+openapi = unifiedagentprotocol.export.to_openapi:agent_to_openapi
+
+[uap.parsers]
+langchain = unifiedagentprotocol.parser.langchain:parse_langchain_tool
+openapi = unifiedagentprotocol.parser.openapi:parse_openapi_spec
+openwebui = unifiedagentprotocol.parser.openwebui:parse_openwebui_tool
+swagger = unifiedagentprotocol.parser.swagger:parse_swagger_spec
