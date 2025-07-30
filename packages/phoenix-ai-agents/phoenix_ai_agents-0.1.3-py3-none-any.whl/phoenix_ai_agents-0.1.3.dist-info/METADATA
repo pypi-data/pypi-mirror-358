@@ -1,0 +1,51 @@
+Metadata-Version: 2.3
+Name: phoenix-ai-agents
+Version: 0.1.3
+Summary: Generic, extensible agent framework (OpenAI Agent SDK first-class) with tooling, memory, orchestration & audit integration
+License: MIT
+Author: Phoenix AI CoE
+Author-email: phoenix@example.com
+Requires-Python: >=3.11,<3.13
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Provides-Extra: audit
+Provides-Extra: services
+Requires-Dist: fastapi (>=0.111,<0.112) ; extra == "services" or extra == "audit"
+Requires-Dist: httpx (>=0.27,<0.28)
+Requires-Dist: openai (>=1.30,<2.0)
+Requires-Dist: psycopg2-binary (>=2.9,<3.0) ; extra == "services" or extra == "audit"
+Requires-Dist: pydantic (>=2.7,<3.0)
+Requires-Dist: uvicorn[standard] (>=0.30,<0.31) ; extra == "services"
+Description-Content-Type: text/markdown
+
+
+# Phoenix‑AI‑Agents
+
+A **batteries‑included** agentic‑AI framework with:
+
+* **OpenAI Agent SDK** first‑class support  
+* Plug‑ins for CrewAI, LangGraph, AutoGen (planned)  
+* Tool, memory & orchestration abstractions  
+* Built‑in audit hooks that post to *phoenix‑ai‑audit*  
+
+---
+
+## Quickstart
+
+```bash
+# ❶ Unzip & install
+poetry install
+
+# ❷ Run a demo agent
+phoenix-agent --config examples/research.yaml --message "Latest GPT‑4o news?"
+```
+
+See `examples/` for full notebooks.
+
+
+
+
+
+   
