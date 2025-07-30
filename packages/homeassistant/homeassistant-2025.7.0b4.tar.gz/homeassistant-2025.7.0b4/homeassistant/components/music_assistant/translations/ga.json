@@ -1,0 +1,124 @@
+{
+    "selector": {
+        "album_type": {
+            "options": {
+                "album": "Albam",
+                "compilation": "Tioms\u00fa",
+                "ep": "EP",
+                "single": "Singil",
+                "unknown": "Anaithnid"
+            }
+        },
+        "media_type": {
+            "options": {
+                "audiobook": "Leabhar fuaime",
+                "folder": "Fillte\u00e1n",
+                "podcast": "Podchraoladh"
+            }
+        },
+        "order_by": {
+            "options": {
+                "artist_name": "Ainm an eala\u00edont\u00f3ra",
+                "artist_name_desc": "Ainm an eala\u00edont\u00f3ra (tuairisc)",
+                "last_played": "Imr\u00edodh an uair dheireanach",
+                "last_played_desc": "Imr\u00edodh an uair dheireanach (tuairisc)",
+                "name": "Ainm",
+                "name_desc": "Ainm (tuairisc)",
+                "play_count": "L\u00edon na s\u00fagartha",
+                "play_count_desc": "L\u00edon na s\u00fagartha (tuairisc)",
+                "position": "Seasamh",
+                "position_desc": "Seasamh (tuairisc)",
+                "random": "Randamach",
+                "random_play_count": "Randamach + is l\u00fa a imr\u00edodh",
+                "sort_name": "Ainm s\u00f3rt\u00e1la",
+                "sort_name_desc": "Ainm s\u00f3rt\u00e1la (tuairisc)",
+                "timestamp_added": "Cuireadh leis",
+                "timestamp_added_desc": "Curtha leis (tuairisc)",
+                "year": "Bliain",
+                "year_desc": "Bliain (tuairisc)"
+            }
+        }
+    },
+    "services": {
+        "get_library": {
+            "description": "Aisghabhann s\u00e9 m\u00edreanna \u00f3 leabharlann C\u00fant\u00f3ir Ceoil.",
+            "fields": {
+                "album_artists_only": {
+                    "description": "N\u00e1 cuir ach eala\u00edont\u00f3ir\u00ed albam ar ais nuair a bh\u00edonn m\u00edreanna leabharlainne na n-eala\u00edont\u00f3ir\u00ed \u00e1 liost\u00e1il.",
+                    "name": "Cumasaigh scagaire eala\u00edont\u00f3ir\u00ed albam (don leabharlann eala\u00edont\u00f3ir\u00ed amh\u00e1in)"
+                },
+                "album_type": {
+                    "description": "Scag albaim de r\u00e9ir cine\u00e1il.",
+                    "name": "Scagaire cine\u00e1l albaim (leabharlann albam amh\u00e1in)"
+                },
+                "config_entry_id": {
+                    "description": "Roghnaigh an c\u00e1s C\u00fant\u00f3ir Ceoil chun an cuardach a dh\u00e9anamh air.",
+                    "name": "C\u00e1s C\u00fant\u00f3ir Ceoil"
+                },
+                "favorite": {
+                    "description": "Scag m\u00edreanna ionas nach bhfaighfear ach na m\u00edreanna is fearr leat.",
+                    "name": "Rogha amh\u00e1in"
+                },
+                "limit": {
+                    "description": "Uasmh\u00e9id earra\u00ed le tabhairt ar ais.",
+                    "name": "Teorainn"
+                },
+                "media_type": {
+                    "description": "An cine\u00e1l me\u00e1n a n-iarrfar sonra\u00ed ina leith.",
+                    "name": "Cine\u00e1l me\u00e1n"
+                },
+                "offset": {
+                    "description": "Frith\u00e1ireamh chun an liosta a thos\u00fa.",
+                    "name": "Frith\u00e1ireamh"
+                },
+                "order_by": {
+                    "description": "S\u00f3rt\u00e1il an liosta de r\u00e9ir an r\u00e9imse seo.",
+                    "name": "Ord\u00fa de r\u00e9ir"
+                },
+                "search": {
+                    "description": "Teaghr\u00e1n cuardaigh roghnach chun cuardach a dh\u00e9anamh tr\u00edd an leabharlann seo.",
+                    "name": "Cuardaigh"
+                }
+            },
+            "name": "Faigh m\u00edreanna leabharlainne"
+        },
+        "get_queue": {
+            "description": "Aisghabhann s\u00e9 sonra\u00ed na scuaine at\u00e1 gn\u00edomhach faoi l\u00e1thair de sheinnteoir C\u00fant\u00f3ir Ceoil.",
+            "name": "Faigh sonra\u00ed playerQueue (ardleibh\u00e9il)"
+        },
+        "search": {
+            "description": "D\u00e9anann s\u00e9 cuardach domhanda ar leabharlann an Ch\u00fant\u00f3ra Ceoil agus ar gach sol\u00e1thra\u00ed.",
+            "fields": {
+                "album": {
+                    "description": "Agus ainm riain \u00e1 shonr\u00fa agat sa r\u00e9imse ainm, is f\u00e9idir leat na tortha\u00ed a shrianadh de r\u00e9ir ainm an albaim seo go roghnach.",
+                    "name": "Ainm an albaim"
+                },
+                "artist": {
+                    "description": "Agus ainm riain n\u00f3 albaim \u00e1 shonr\u00fa agat sa r\u00e9imse ainm, is f\u00e9idir leat na tortha\u00ed a shrianadh de r\u00e9ir ainm an eala\u00edont\u00f3ra seo m\u00e1s mian leat.",
+                    "name": "Ainm an eala\u00edont\u00f3ra"
+                },
+                "config_entry_id": {
+                    "description": "Roghnaigh an c\u00e1s C\u00fant\u00f3ir Ceoil chun an cuardach a dh\u00e9anamh air.",
+                    "name": "C\u00e1s C\u00fant\u00f3ir Ceoil"
+                },
+                "library_only": {
+                    "description": "N\u00e1 cuir san \u00e1ireamh ach tortha\u00ed at\u00e1 sa leabharlann.",
+                    "name": "M\u00edreanna leabharlainne amh\u00e1in"
+                },
+                "limit": {
+                    "description": "Uasmh\u00e9id m\u00edreanna le tabhairt ar ais (in aghaidh an chine\u00e1il me\u00e1n).",
+                    "name": "Teorainn"
+                },
+                "media_type": {
+                    "description": "An cine\u00e1l \u00e1bhair at\u00e1 le cuardach. Mar shampla eala\u00edont\u00f3ir, albam, rian, raidi\u00f3, n\u00f3 seinmliosta. Gach cine\u00e1l mura bhfuil s\u00e9 sin le feice\u00e1il.",
+                    "name": "Cine\u00e1l(acha) me\u00e1n"
+                },
+                "name": {
+                    "description": "An t-ainm/teideal le cuardach.",
+                    "name": "Ainm cuardaigh"
+                }
+            },
+            "name": "Cuardaigh C\u00fant\u00f3ir Ceoil"
+        }
+    }
+}
