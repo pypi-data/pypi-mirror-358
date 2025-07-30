@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tensorflowtools"
+version = "2.0.1"
+authors = [
+  { name="Rihaan Meher", email="meherrihaan@gmail.com" },
+]
+
+dependencies = [
+  "requests",
+  "huggingface_hub",
+  "textfmt"
+]
+
+description = "A small package with various tensorflow uitlities independent of Tensorflow Addons"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license-files = ["LICENSE"]
+
+[project.urls]
+Homepage = "https://github.com/sharktide/tftools"
+Issues = "https://github.com/sharktide/tftools/issues"
