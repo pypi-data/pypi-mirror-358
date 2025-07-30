@@ -1,0 +1,111 @@
+[project]
+name = "pre-commit-update"
+version = "0.8.0"
+description = "Simple CLI tool and a pre-commit hook to check and update pre-commit hooks."
+authors = [
+    {name = "Vojko Pribudić", email = "dmanthing@gmail.com"}
+]
+maintainers = [
+    {name = "Vojko Pribudić", email = "dmanthing@gmail.com"}
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = "MIT"
+classifiers = [
+        "Development Status :: 5 - Production/Stable",
+        "Environment :: Web Environment",
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: MIT License",
+        "Natural Language :: English",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
+        "Programming Language :: Python :: 3 :: Only",
+        "Topic :: Software Development :: Libraries",
+]
+include = ["README.md", "LICENSE"]
+exclude = [
+    ".gitignore",
+    ".gitlab-ci.yml",
+]
+dependencies = [
+    "click>=8.1",
+    "GitPython>=3.1",
+    "packaging>=24.0",
+    "ruamel.yaml>=0.18",
+    "tomli>=2.0.1",
+]
+
+[project.urls]
+source = "https://gitlab.com/vojko.pribudic.foss/pre-commit-update"
+changelog = "https://gitlab.com/vojko.pribudic.foss/pre-commit-update/-/releases"
+issues = "https://gitlab.com/vojko.pribudic.foss/pre-commit-update/-/issues"
+
+[project.scripts]
+pre-commit-update = "pre_commit_update.cli:cli"
+
+[tool.poetry]
+requires-poetry = ">=2.0"
+
+[tool.poetry.group.test.dependencies]
+pytest = ">=8.3.3"
+pytest-cov = ">=5.0.0"
+pytest-env = ">=1.1.5"
+tox = ">=4.19.0"
+
+[tool.coverage.paths]
+source = ["src"]
+
+[tool.coverage.run]
+branch = true
+source = ["src"]
+omit = [
+    "__init__.py",
+    "tests/*",
+    "*/tests/*",
+    ".venv/*",
+    "cli.py"
+]
+
+[tool.coverage.report]
+show_missing = true
+skip_empty = true
+exclude_lines=[
+    "def __repr__",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "pass",
+    "pragma: no cover"
+  ]
+sort = "cover"
+precision = 3
+
+[tool.pytest.ini_options]
+addopts = "--cov --cov-fail-under=100 --strict-markers"
+filterwarnings = "ignore::DeprecationWarning"
+
+[tool.pytest_env]
+GIT_PYTHON_REFRESH = "quiet"
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+isolated_build = True
+envlist = py39, py310, py311, py312, py313
+
+[testenv]
+commands =
+  pytest
+deps =
+  pytest-cov
+  pytest-env
+"""
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
