@@ -1,0 +1,248 @@
+{% extends "allianceauth/base-bs5.html" %}
+{% load i18n %}
+{% load static %}
+{% block page_title %}{% trans "Подключение чатов" %}{% endblock %}
+{% block header_nav_brand %}
+    <a class="nav-link text-white link-light link-underline link-underline-opacity-0" href="{% url 'scst_proxy:main' %}">Прокси-сервер альянса</a>
+{% endblock header_nav_brand %}
+
+
+{% block content %}
+<div class="aa-plugin-container proxyreg">
+    <div class="panel panel-default pb-4 pt-4 mb-4 container border border-4 border-dark">
+        <div class="panel-heading">
+            <h4 class="panel-title">{% trans "Вход на прокси-сервер" %}</h3>
+        </div>
+        <div class="panel-body container">
+            <p class="pt-4 pb-2">
+                Ваш логин: <input type="text" id="loginInput" disabled value="{{ request.user.profile.main_character.character_name  }}" /> <button class="btn bnt-sm btn-secondary" id="loginClipboard"><i class="fa-regular fa-clipboard"></i></button>
+            </p>
+            <p class="pb-4">
+                <button id="apiButton" class="btn btn-primary p-2">{% trans "Получить пароль" %}</button>
+                <br />
+                <small class="text-warning">
+                    Пароль не хранится на сервере. Для получения нового пароля нажмите "Получить пароль"
+                </small>
+            </p>
+            <div class="pb-3">
+                
+                <div id="resultMessage" class="alert" style="display: none; margin-top: 15px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default pb-4 pt-4 mb-4 container border border-4 border-dark">
+        <div class="panel-body container">
+            <div class="row">
+                <div class="col">
+                    <a href="https://docs.google.com/document/d/1UIOhdmiSoY2HsmS5bJ_H8H4MbUVT6aC521kmO0pKEiI/edit?usp=sharing" target="_blank">Инструкция по настройке</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="panel panel-default pt-4 container">
+        <div class="panel-heading">
+                <h4 class="pb-3">Настройки</h2>
+        </div>
+        <div class="panel-body">
+           
+                <div class="row">
+                    <div class="col">
+                        <p>
+                            Чтобы починить чаты в Eve Online необходимо прописать прокси сервер в настройках системы.
+                        </p>
+                        <p class="pb-4">
+                            1. Для этого вам необходимо открыть приложение "Блокнот" от имени администратора. Нажмите на меню пуск в левом нижнем углу (в Windows 11 может располагаться посередине).<br/><br/>
+                            <img src="{% static 'scst_proxy/images/start_icon.png' %}" alt="start_icon" />
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <p class="pb-4">
+                            2. В поисковой строке введите слово "Блокнот" (notepad на некоторых версиях Windows) . Когда приложение будет найдено, нажмите на него правой кнопкой мыши для вызова контекстного окна. В котором нужно выбрать "Запустить от имени Администратора" <br/>
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col">
+                                        <img src="{% static 'scst_proxy/images/notepad_1.png' %}" alt="start_icon" />
+                                    </div>
+                                    <div class="col">
+                                        <img src="{% static 'scst_proxy/images/notepad_7.jpg' %}" alt="start_icon" />
+                                    </div>
+                                </div>
+                        </div>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <p class="pb-4">
+                            3. В открывшемся окне блокнота нажмите на меню "Файл" и кликните по пункту "Открыть". <br/><br/>
+                            <img src="{% static 'scst_proxy/images/notepad_2.png' %}" />
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <p class="pb-4">
+                            4. В диалоговом окне выбора файла введите <b>C:\Windows\System32\drivers\etc\hosts</b> в поле "Имя файла" и нажмите кнопку "Открыть".<br/><br/>
+                            <img src="{% static 'scst_proxy/images/notepad_3.png' %}" />
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <p class="pb-4">
+                            5. В открывшемся файле необходимо добавить новую строчку. Установите курсор в самый конец и два раза нажмите на Enter. На новой строке вставьте текст: 
+                            <blockquote class="blockquote border border-2 border-dark p-4">
+                                <b>89.223.122.157 live.chat.eveonline.com</b>
+                            </blockquote>
+                            <br/>
+                            <br/>
+                            <img src="{% static 'scst_proxy/images/notepad_4.png' %}" />
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <p class="pb-4">
+                            6. Для сохраниния изменений нажмите на "Файл" в строке меню блокнота и нажмите на "Сохранить". Если вас попросять подтвердить сохранение, подтвердите. <br /><br/>
+                            <img src="{% static 'scst_proxy/images/notepad_5.png' %}" />
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <p class="pb-4">
+                            7. Закройте блокнот (в Windows 11 перед закрытием блокнота нужно закрыть вкладку с редактируемым файлом) и снова откройте блокнот. Откройте файл как описано в пункте 4 и убедитесь, что введенная строка сохранена.
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <p class="pb-4">
+                            8. Нажмите на кнопку "Регистрация" внизу страницы, чтобы получить доступ к прокси серверу.
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <p class="pb-4">
+                            9. Закройте блокнот и <b class="text-warning">перезапустите EveOnline!</b> (без перезапуска eve online изменения не будут работать). <b class="text-warning">Перезагружать компьютер не обязательно.</b>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <p class="pb-4">
+                            10. Наслаждайтесь игрой с работающими чатами.
+                        </P>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <p class="pb-4">
+                            В любой момент вы можете вернуть настройки удалив строчку из файла hosts.
+                        </p>
+                        <p class="pt-4 pb-4 text-warning">
+                            Так как у большинства игроков домашний интернет имеет динамический IP-адрес, после его обновления доступ к прокси сервера может пропасть. Если у вас пропал доступ к чатам, снова нажмите кнопку "Регистрация" и перезапустите клиент Eve online. Ваш новый IP адрес будет добавлен, а чаты будут работать.
+                        </p>
+                    </div>
+                </div>
+        </div>
+    </div> -->
+</div>
+
+<div
+      class="modal fade"
+      id="confirm-dialog"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="confirmDialog"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="confirmDialog">Пароль обновлен</h5>
+          </div>
+          <div class="modal-body">
+            ...
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+              data-bs-dismiss="modal"
+            >
+              Закрыть
+            </button>
+            <button id="clipboardBtn" type="button" class="btn btn-primary" onclick=""><i class="fa-regular fa-clipboard mr-2"></i>  В Буфер</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+<script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
+        type="text/javascript"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script>
+$(document).ready(function() {
+    $('#apiButton').click(function() {
+        $.ajax({
+            url: "{% url 'scst_proxy:call_api' %}",
+            method: "POST",
+            dataType: "json",
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                $('#apiButton').prop('disabled', true);
+                $('#resultMessage').hide();
+            },
+            success: function(data) {
+                var message = "Ваш новый пароль: <b class='text-danger'>" + data.password + "</b><br/><br/>Запомните или запишите свой пароль. Мы не храним ваши пароли.";
+
+                $('.modal-body').html(message);
+                var successModal = new bootstrap.Modal(document.getElementById('confirm-dialog'),{});
+                
+                successModal.show();
+
+                var btn = document.getElementById('clipboardBtn');
+                btn.removeEventListener('click',(e)=>{
+                    e.preventDefault();
+                    copyToClipboard(data.password);
+                });
+                btn.addEventListener('click', (e)=>{
+                    e.preventDefault();
+                    copyToClipboard(data.password);
+                });
+            },
+            error: function(xhr) {
+                var message = "Произошла ошибка. Попробуйте еще раз. Если ошибка сохранится, обратитесь к администратору.\r\n" + xhr.message;
+                $('#resultMessage').removeClass('alert-success').addClass('alert-danger').text(message).show();
+            },
+            complete: function() {
+                $('#apiButton').prop('disabled', false);
+            }
+        });
+    });
+    $('#loginClipboard').click(function(){
+        copyToClipboard($('#loginInput').val());
+    });
+});
+async function copyToClipboard(textToCopy) {
+  try {
+    await navigator.clipboard.writeText(textToCopy);
+    console.log('Text copied to clipboard successfully!');
+  } catch (err) {
+    console.error('Failed to copy text: ', err);
+  }
+}
+
+</script>
+<style>
+    .proxyreg img {
+        max-height:  400px;
+    }
+</style>
+{% endblock %}
