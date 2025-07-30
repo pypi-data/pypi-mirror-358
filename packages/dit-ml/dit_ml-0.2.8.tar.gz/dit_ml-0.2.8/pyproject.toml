@@ -1,0 +1,28 @@
+[project]
+name = "dit-ml"
+version = "0.2.8"
+description = "DiT (Diffusion Transformer)"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "einops>=0.8.1",
+    "timm>=1.0.15",
+    "torch>=2.4.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pylint>=3.2.5",
+    "pytest-cov>=5.0.0",
+    "pytest>=8.2.2", # Add pytest itself
+]
+
+[tool.setuptools]
+packages = ["dit_ml"]
+
+[dependency-groups]
+dev = [
+    "pylint>=3.3.7",
+    "pytest>=8.3.5",
+    "pytest-cov>=6.1.1",
+]
