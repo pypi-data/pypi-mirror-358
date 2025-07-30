@@ -1,0 +1,73 @@
+[project]
+name = "aio-kong"
+version = "3.7.0"
+description = "Asynchronous Kong Client"
+authors = [{ name = "Luca Sbardella", email = "luca@quantmind.com" }]
+license = "BSD-3-Clause"
+readme = "readme.md"
+requires-python = ">=3.10,<4.0"
+dependencies = [
+    "aiohttp>=3.9.5"
+]
+
+[project.optional-dependencies]
+cli = [
+    "PyYAML>=6.0",
+    "click>=8.1.3",
+    "rich (>=14.0.0,<15.0.0)"
+]
+
+[project.scripts]
+kongfig = "kong.cli:kong"
+
+
+[project.urls]
+Repository = "https://github.com/quantmind/aio-kong"
+Issues = "https://github.com/quantmind/aio-kong/issues"
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+packages = [
+    {include = "kong"}
+]
+
+[tool.poetry.group.dev.dependencies]
+black = "^25.1.0"
+isort = "^6.0.1"
+mypy = "^1.16.1"
+pytest = "^8.2.2"
+pytest-cov = "^6.2.1"
+python-dotenv = "^1.0.0"
+pytest-asyncio = "^1.0.0"
+types-PyYAML = "^6.0.12.20250516"
+ruff = "^0.12.0"
+
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = [
+    "tests"
+]
+
+
+[tool.isort]
+profile = "black"
+
+[tool.ruff]
+lint.select = ["A", "E", "W", "F", "I", "B", "N"]
+line-length = 88
+
+[tool.mypy]
+disallow_untyped_calls = true
+warn_return_any = false
+disallow_untyped_defs = true
+warn_no_return = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
+disable_error_code = ["return"]
