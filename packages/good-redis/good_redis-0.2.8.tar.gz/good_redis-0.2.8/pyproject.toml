@@ -1,0 +1,47 @@
+[project]
+name = "good-redis"
+version = "0.2.8"
+description = "Good Kiwi Redis Library"
+authors = [
+    { name = "Chris Goddard", email = "chris@goodkiwi.llc" }
+]
+dependencies = [
+    "redis>=6.2.0",
+    "good-common",
+]
+readme = "README.md"
+requires-python = ">= 3.12"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+managed = true
+dev-dependencies = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "fakeredis>=2.20.0",
+    "pytest-mock>=3.12.0",
+    "pytest-cov>=4.1.0",
+    "pydantic>=2.0.0",
+    "docker>=6.0.0",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/good_redis"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+asyncio_mode = "auto"
+markers = [
+    "redis: marks tests that require a real Redis instance",
+    "fakeredis: marks tests that can use fakeredis",
+]
+addopts = "-v --strict-markers"
