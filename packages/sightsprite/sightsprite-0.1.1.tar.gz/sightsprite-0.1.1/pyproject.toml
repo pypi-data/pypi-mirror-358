@@ -1,0 +1,35 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sightsprite"
+description = "Machine vision with voice alerts"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "Apache-2.0"}
+authors = [{ name = "Eric Thomson", email = "thomson.eric@gmail.com" }]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "opencv-python",
+    "matplotlib",
+]
+
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://github.com/EricThomson/sightsprite"
+
+[tool.hatch.build]
+packages = ["src/sightsprite"]
+
+[tool.hatch.build.targets.wheel]
+include = ["sightsprite/data/**/*"]
+
+[tool.hatch.version]
+path = "src/sightsprite/__init__.py"
