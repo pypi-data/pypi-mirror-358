@@ -1,0 +1,1 @@
+The `simaticai` namespace combines the AI SDK components. The `simaticai` python package provides the core modules listed below. Other `simaticai_*` python packages extend this namespace with their own submodules.

@@ -1,0 +1,356 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "#/properties/runtime_configuration",
+    "type": "object",
+    "title": "Runtime Configuration",
+    "description": "Deployment information provided by the AI Deployer.",
+    "default": {},
+    "examples": [
+        {
+            "fileFormatVersion": 1,
+            "runtimeInfo": {
+              "projectName": "Weather Forcast Example",
+              "runtimeConfigurationVersion": "1.0.0",
+              "createdOn": "2021-03-16T09:57:16.692Z"
+            },
+            "runtimeConfiguration": {
+              "devices": [
+                {
+                  "name": "IED1",
+                  "id": "c9875e587e18470b9a1gbbt8aca5cc0fa",
+                  "address": "localhost",
+                  "targetProcessor": "CPU",
+                  "arch": "x86_64"
+                }
+              ],
+              "components": [
+                {
+                  "name": "normalizer",
+                  "targetRuntime": "Python",
+                  "device": "IED1"
+                },
+                {
+                  "name": "multivariate-multi-step-model",
+                  "targetRuntime": "ONNX",
+                  "device": "IED1"
+                },
+                {
+                  "name": "temeratureForecastModel",
+                  "targetRuntime": "Python",
+                  "device": "IED1"
+                },
+                {
+                  "name": "aggregator",
+                  "targetRuntime": "Python",
+                  "device": "IED1"
+                }
+              ]
+            }
+          }
+    ],
+    "required": [
+        "fileFormatVersion",
+        "runtimeInfo",
+        "runtimeConfiguration"
+    ],
+    "properties": {
+        "fileFormatVersion": {
+            "$id": "#/properties/fileFormatVersion",
+            "type": "string",
+            "title": "fileFormatVersion",
+            "description": "Configuration file format version",
+            "examples": [
+                1
+            ]
+        },
+        "runtimeInfo": {
+            "$id": "#/properties/runtimeInfo",
+            "type": "object",
+            "title": "Runtime info",
+            "description": "AI Deployer project information",
+            "default": {},
+            "examples": [
+                {
+                    "projectName": "Weather Forcast Example",
+                    "runtimeConfigurationVersion": "1.0.0",
+                    "createdOn": "2021-03-16T09:57:16.692Z"
+                }
+            ],
+            "required": [
+                "projectName",
+                "runtimeConfigurationVersion",
+                "createdOn"
+            ],
+            "properties": {
+                "projectName": {
+                    "$id": "#/properties/runtimeInfo/properties/projectName",
+                    "type": "string",
+                    "title": "projectName",
+                    "description": "AI Deployer project name",
+                    "default": "",
+                    "examples": [
+                        "Weather Forcast Example"
+                    ]
+                },
+                "runtimeConfigurationVersion": {
+                    "$id": "#/properties/runtimeInfo/properties/runtimeConfigurationVersion",
+                    "type": "string",
+                    "title": "runtimeConfigurationVersion",
+                    "description": "Version of the AI Deployer project",
+                    "default": "",
+                    "examples": [
+                        "1.0.0"
+                    ]
+                },
+                "createdOn": {
+                    "$id": "#/properties/runtimeInfo/properties/createdOn",
+                    "type": "string",
+                    "title": "createdOn",
+                    "description": "Project creation ISO Datetime",
+                    "default": "",
+                    "examples": [
+                        "2021-03-16T09:57:16.692Z"
+                    ]
+                }
+            },
+            "additionalProperties": false
+        },
+        "runtimeConfiguration": {
+            "$id": "#/properties/runtimeConfiguration",
+            "type": "object",
+            "title": "Runtime configuration object",
+            "description": "This object contains the device list and component list, associating the device and the component to deploy.",
+            "default": {},
+            "examples": [
+                {
+                    "devices": [
+                      {
+                        "name": "IED1",
+                        "id": "c9875e587e18470b9a1gbbt8aca5cc0fa",
+                        "address": "localhost",
+                        "targetProcessor": "CPU",
+                        "arch": "x86_64"
+                      }
+                    ],
+                    "components": [
+                      {
+                        "name": "normalizer",
+                        "targetRuntime": "Python",
+                        "device": "IED1"
+                      },
+                      {
+                        "name": "multivariate-multi-step-model",
+                        "targetRuntime": "ONNX",
+                        "device": "IED1"
+                      },
+                      {
+                        "name": "temeratureForecastModel",
+                        "targetRuntime": "Python",
+                        "device": "IED1"
+                      },
+                      {
+                        "name": "aggregator",
+                        "targetRuntime": "Python",
+                        "device": "IED1"
+                      }
+                    ]
+                }
+            ],
+            "required": [
+                "devices",
+                "components"
+            ],
+            "properties": {
+                "devices": {
+                    "$id": "#/properties/runtimeConfiguration/properties/devices",
+                    "type": "array",
+                    "title": "Device list registry",
+                    "description": "Detail of each device related with the deployment.",
+                    "default": [],
+                    "examples": [
+                        [
+                            {
+                                "name": "IED1",
+                                "id": "c9875e587e18470b9a1gbbt8aca5cc0fa",
+                                "address": "localhost",
+                                "targetProcessor": "CPU",
+                                "arch": "x86_64"
+                            }
+                        ]
+                    ],
+                    "additionalItems": false,
+                    "items": {
+                        "$id": "#/properties/runtimeConfiguration/properties/devices/items",
+                        "anyOf": [
+                            {
+                                "$id": "#/properties/runtimeConfiguration/properties/devices/items/anyOf/0",
+                                "type": "object",
+                                "title": "Device info",
+                                "description": "Target device details",
+                                "default": {},
+                                "examples": [
+                                    {
+                                        "name": "IED1",
+                                        "id": "c9875e587e18470b9a1gbbt8aca5cc0fa",
+                                        "address": "localhost",
+                                        "targetProcessor": "CPU",
+                                        "arch": "x86_64"
+                                    }
+                                ],
+                                "required": [
+                                    "name",
+                                    "address",
+                                    "arch"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "$id": "#/properties/runtimeConfiguration/properties/devices/items/anyOf/0/properties/name",
+                                        "type": "string",
+                                        "title": "Device name",
+                                        "description": "Name of the device registered on the Industrial Edge Management",
+                                        "default": "",
+                                        "examples": [
+                                            "IED1"
+                                        ]
+                                    },
+                                    "id": {
+                                        "$id": "#/properties/runtimeConfiguration/properties/devices/items/anyOf/0/properties/id",
+                                        "type": "string",
+                                        "title": "Device identificator",
+                                        "description": "Identification of the device registered on the Industrial Edge Management",
+                                        "default": "",
+                                        "examples": [
+                                            "c9875e587e18470b9a1gbbt8aca5cc0fa"
+                                        ]
+                                    },
+                                    "address": {
+                                        "$id": "#/properties/runtimeConfiguration/properties/devices/items/anyOf/0/properties/address",
+                                        "type": "string",
+                                        "title": "Address of the device",
+                                        "description": "Network device adddress",
+                                        "default": "",
+                                        "examples": [
+                                            "localhost", "192.168.0.20"
+                                        ]
+                                    },
+                                    "targetProcessor": {
+                                        "$id": "#/properties/runtimeConfiguration/properties/devices/items/anyOf/0/properties/targetProcessor",
+                                        "type": "string",
+                                        "title": "Processor Unit",
+                                        "description": "The target processor unit that can be used.",
+                                        "default": "",
+                                        "examples": [
+                                            "CPU", "GPU", "TPU"
+                                        ]
+                                    },
+                                    "arch": {
+                                        "$id": "#/properties/runtimeConfiguration/properties/devices/items/anyOf/0/properties/arch",
+                                        "type": "string",
+                                        "title": "Processor unit architecture",
+                                        "description": "The target processor unit architecture.",
+                                        "default": "",
+                                        "examples": [
+                                            "x86_64", "arm", "RISC"
+                                        ]
+                                    }
+                                },
+                                "additionalProperties": false
+                            }
+                        ]
+                    }
+                },
+                "components": {
+                    "$id": "#/properties/runtimeConfiguration/properties/components",
+                    "type": "array",
+                    "title": "Pipeline components",
+                    "description": "List containing details and device association for each component.",
+                    "default": [],
+                    "examples": [
+                        [
+                            {
+                                "name": "normalizer",
+                                "targetRuntime": "Python",
+                                "device": "IED1"
+                              },
+                              {
+                                "name": "multivariate-multi-step-model",
+                                "targetRuntime": "ONNX",
+                                "device": "IED1"
+                              },
+                              {
+                                "name": "temeratureForecastModel",
+                                "targetRuntime": "Python",
+                                "device": "IED1"
+                              },
+                              {
+                                "name": "aggregator",
+                                "targetRuntime": "Python",
+                                "device": "IED1"
+                              }
+                        ]
+                    ],
+                    "additionalItems": false,
+                    "items": {
+                        "$id": "#/properties/runtimeConfiguration/properties/components/items",
+                        "anyOf": [
+                            {
+                                "$id": "#/properties/runtimeConfiguration/properties/components/items/anyOf/0",
+                                "type": "object",
+                                "title": "Pipeline component detais",
+                                "description": "Details and target device",
+                                "default": {},
+                                "examples": [
+                                    {
+                                        "name": "normalizer",
+                                        "targetRuntime": "Python",
+                                        "device": "IED1"
+                                    }
+                                ],
+                                "required": [
+                                    "name",
+                                    "targetRuntime",
+                                    "device"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "$id": "#/properties/runtimeConfiguration/properties/components/items/anyOf/0/properties/name",
+                                        "type": "string",
+                                        "title": "Name of the pipeline component",
+                                        "description": "Name of the pipeline component described on the Pipeline Configuration file (name is the link).",
+                                        "default": "",
+                                        "examples": [
+                                            "normalizer"
+                                        ]
+                                    },
+                                    "targetRuntime": {
+                                        "$id": "#/properties/runtimeConfiguration/properties/components/items/anyOf/0/properties/targetRuntime",
+                                        "type": "string",
+                                        "title": "Selected device runtime",
+                                        "description": "Runtime that will be used to run the pipeline model.",
+                                        "default": "",
+                                        "examples": [
+                                            "Python", "ONNX"
+                                        ]
+                                    },
+                                    "device": {
+                                        "$id": "#/properties/runtimeConfiguration/properties/components/items/anyOf/0/properties/device",
+                                        "type": "string",
+                                        "title": "Device to run the model",
+                                        "description": "The device that will be responsoble for running the model.",
+                                        "default": "",
+                                        "examples": [
+                                            "IED1"
+                                        ]
+                                    }
+                                },
+                                "additionalProperties": false
+                            }
+                        ]
+                    }
+                }
+            },
+            "additionalProperties": false
+        }
+    },
+    "additionalProperties": false
+}
