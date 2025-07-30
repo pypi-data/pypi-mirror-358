@@ -1,0 +1,39 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "jadio-package-creator"
+dynamic = ["version"]
+description = "Package creator module for Jadio framework"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12"
+]
+dependencies = [
+    "jadio>=0.0.2",
+]
+keywords = ["jadio", "package-creator", "jpc", "framework"]
+
+[project.urls]
+Homepage = "https://pypi.org/project/jadio-package-creator/0.0.1/"
+Repository = "https://github.com/JaxxyJadio/jadio-package-creator"
+
+[tool.hatch.version]
+path = "src/jadio_package_creator/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/jadio_package_creator"]
+
+[project.scripts]
+jpc = "jadio_package_creator.cli.main:main"
