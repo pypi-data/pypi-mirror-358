@@ -1,0 +1,102 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "napari-nifti-viewer"
+version = "0.1.2"
+description = "A comprehensive napari plugin for NIfTI file analysis and visualization"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Yohanchiu", email = "qyhohh@163.com"}
+]
+maintainers = [
+    {name = "Yohanchiu", email = "qyhohh@163.com"}
+]
+keywords = ["napari", "nifti", "neuroimaging", "medical imaging", "visualization", "plugin"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Framework :: napari",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Healthcare Industry",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Medical Science Apps.",
+    "Topic :: Scientific/Engineering :: Image Processing",
+    "Topic :: Scientific/Engineering :: Visualization",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "napari>=0.4.18",
+    "numpy>=1.21.0",
+    "nibabel>=5.2.1",
+    "qtpy>=2.0.0",
+    "magicgui>=0.7.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov",
+    "black",
+    "isort",
+    "flake8",
+    "pre-commit",
+]
+test = [
+    "pytest>=7.0",
+    "pytest-cov",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/yohanchiu/napari-nifti-viewer"
+"Bug Tracker" = "https://github.com/yohanchiu/napari-nifti-viewer/issues"
+"Documentation" = "https://github.com/yohanchiu/napari-nifti-viewer/wiki"
+"Source Code" = "https://github.com/yohanchiu/napari-nifti-viewer"
+"Changelog" = "https://github.com/yohanchiu/napari-nifti-viewer/blob/main/CHANGELOG.md"
+
+[project.entry-points."napari.manifest"]
+napari-nifti-viewer = "napari_nifti_viewer:napari.yaml"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["napari_nifti_viewer*"]
+
+[tool.setuptools.package-data]
+"napari_nifti_viewer" = ["napari.yaml"]
+
+[tool.black]
+target-version = ["py38"]
+line-length = 88
+skip-string-normalization = true
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203", "W503"]
+exclude = [
+    ".git",
+    "__pycache__",
+    "build",
+    "dist",
+    ".eggs",
+    "*.egg-info",
+]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"] 

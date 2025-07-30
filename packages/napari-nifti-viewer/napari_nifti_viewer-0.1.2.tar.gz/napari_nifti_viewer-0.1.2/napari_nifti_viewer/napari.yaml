@@ -1,0 +1,10 @@
+name: napari-nifti-viewer
+display_name: NIfTI Viewer
+contributions:
+  commands:
+    - id: napari-nifti-viewer.make_widget
+      python_name: napari_nifti_viewer._widget:NiftiViewerWidget
+      title: Open NIfTI Viewer
+  widgets:
+    - command: napari-nifti-viewer.make_widget
+      display_name: NIfTI Viewer 
