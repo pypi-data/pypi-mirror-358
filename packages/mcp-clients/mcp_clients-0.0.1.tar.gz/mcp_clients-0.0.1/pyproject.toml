@@ -1,0 +1,46 @@
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mcp-clients"
+version = "0.0.1"
+description = "A powerful Python library for creating Model Context Protocol (MCP) clients with seamless AI model integration"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.12"
+authors = [
+    { name = "Muhammad Faiz Raza", email = "faiz.raza.dec@gmail.com" }
+]
+maintainers = [
+    { name = "Muhammad Faiz Raza", email = "faiz.raza.dec@gmail.com" }
+]
+keywords = [
+    "mcp",
+    "model-context-protocol",
+    "ai",
+    "gemini",
+    "llm",
+    "chatbot",
+    "async",
+    "tools",
+    "mcp_clients"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Communications :: Chat",
+    "Framework :: AsyncIO",
+    "Typing :: Typed"
+]
+dependencies = [
+    "google-genai>=1.23.0",
+    "mcp>=1.10.1",
+]
