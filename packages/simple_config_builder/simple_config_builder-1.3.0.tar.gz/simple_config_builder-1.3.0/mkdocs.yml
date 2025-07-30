@@ -1,0 +1,46 @@
+site_name: Simple Config Builder
+
+nav:
+    - Home: index.md
+    - License: license.md
+    - API:
+        - Config: apis/config.md
+        - Configparser: apis/configparser.md
+        - Config Types: apis/config_types.md
+        - Config IO: apis/config_io.md
+        - Utils: apis/utils.md
+
+
+theme:
+    name: material
+    features:
+        - content.code.copy
+plugins:
+    - search
+    - autorefs
+    - mkdocstrings:
+        handlers:
+            python:
+                options:
+                    paths: ["src"]
+                    docstring_style: google
+                    docstring_section_style: spacy
+                    show_type_annotations: true
+                    show_signature: false
+                import:
+                - https://docs.pydantic.dev/latest/objects.inv
+    - include-markdown
+    - mike
+markdown_extensions:
+    - pymdownx.highlight:
+        anchor_linenums: true
+        line_spans: __span
+        pygments_lang_class: true
+    - pymdownx.inlinehilite
+    - pymdownx.snippets
+    - pymdownx.superfences
+
+extra:
+    version:
+        provider: mike
+    log_level: ERROR
