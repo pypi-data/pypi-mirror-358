@@ -1,0 +1,32 @@
+Metadata-Version: 2.4
+Name: magic-moonshine
+Version: 1.2.8
+Summary: A powerful text-based video editing tool
+Author-email: Moonshine <python@usemoonshine.com>
+License: MIT
+Description-Content-Type: text/markdown
+Requires-Dist: setuptools>=61.0
+Requires-Dist: wheel
+
+# Moonshine API Client
+
+A Python client for interacting with the Moonshine Edge Compute API.
+
+## Installation
+
+```bash
+pip install magic-moonshine
+```
+
+## Usage
+
+```python
+import moonshine
+
+# Configure your API token
+moonshine.config(API="your-api-token")
+
+# Search in a bucket
+results = moonshine.search(bucket="your-bucket-id", query="your search query")
+print(results)
+```
