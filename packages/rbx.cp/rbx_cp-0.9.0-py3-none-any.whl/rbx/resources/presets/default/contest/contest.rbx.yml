@@ -1,0 +1,29 @@
+---
+# yaml-language-server: $schema=https://rsalesc.github.io/rbx/schemas/Contest.json
+# Add problems by running `rbx contest add <problem-name> <short-name>`
+name: "new-contest"
+statements:
+  - name: "statement-en"
+    title: "New contest"
+    language: "en"
+    path: "statement/contest.rbx.tex"
+    type: "jinja-tex"
+    assets:
+      - "statement/icpc.sty"
+      - "statement/*.png"
+      - "statement/instructions.tex"
+    joiner: {type: "tex2pdf"}
+    override:
+      configure:
+        - type: "rbx-tex" # Convert rbxTeX to TeX
+          template: "statement/template.rbx.tex"
+  - name: "editorial-en"
+    extends: "statement-en"
+    vars:
+      editorial: true
+      watermark: true
+      # Whether to show the problem statement in the editorial.
+      show_problem: false
+vars:
+  year: 2025
+  date: "2025-06-21"
