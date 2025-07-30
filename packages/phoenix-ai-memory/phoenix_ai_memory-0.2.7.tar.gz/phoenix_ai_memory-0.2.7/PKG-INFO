@@ -1,0 +1,32 @@
+Metadata-Version: 2.3
+Name: phoenix-ai-memory
+Version: 0.2.7
+Summary: Pluggable memory layer for Agentic AI frameworks
+License: Apache-2.0
+Author: Singtel AI CoE
+Author-email: ai.coe@singtel.com
+Requires-Python: >=3.11,<3.13
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Provides-Extra: all
+Provides-Extra: langmem
+Requires-Dist: langmem (>=0.0,<0.1) ; extra == "langmem" or extra == "all"
+Description-Content-Type: text/markdown
+
+# Phoenix‑AI Memory
+
+A **pluggable memory layer** for Agentic AI frameworks. It ships with adapters
+for **in‑process**, **LangMem**, **Zep** and **Mem0** back‑ends, discovered
+automatically via [Poetry entry points](https://python-poetry.org/docs/pyproject/).
+
+```python
+from phoenix_ai_memory import Memory
+
+# picks backend from $PHOENIX_BACKEND (default: in_memory)
+memory = Memory.from_env()
+
+memory.remember("user", "I like classical music 🎵")
+print(memory.recall("music")[0])
+```
