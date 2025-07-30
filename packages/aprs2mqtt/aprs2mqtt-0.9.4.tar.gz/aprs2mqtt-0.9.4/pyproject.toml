@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aprs2mqtt"
+version = "0.9.4"
+authors = [
+  { name="Jason McCormick", email="jason@mfamily.org" },
+]
+description = "Collection of utilities to interface APRS and MQTT"
+readme = "README.md"
+requires-python = ">=3.6"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent"
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+
+[project.urls]
+Homepage = "https://github.com/jxmx/aprs2mqtt"
+Issues = "https://github.com/jxmx/aprs2mqtt/issues"
+
+[project.scripts]
+aprs2mqttmsg = "aprs2mqtt.aprs2mqttmsg:main"
+mqtt2aprsmsg = "aprs2mqtt.mqtt2aprsmsg:main"
