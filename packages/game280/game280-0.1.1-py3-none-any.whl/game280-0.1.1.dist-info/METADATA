@@ -1,0 +1,23 @@
+Metadata-Version: 2.4
+Name: game280
+Version: 0.1.1
+Summary: Yet another 2D game engine
+Author-email: Roman Weiss <rowm314box@gmail.com>
+License-File: LICENSE
+Requires-Python: >=3.11
+Requires-Dist: classproperties>=0.2.0
+Requires-Dist: insipid-sphinx-theme>=0.4.2
+Requires-Dist: pillow>=11.2.1
+Requires-Dist: python-vectors>=1.2.3
+Provides-Extra: box2d
+Requires-Dist: box2d>=2.3.10; extra == 'box2d'
+Provides-Extra: physics
+Requires-Dist: pymunk>=7.0.1; extra == 'physics'
+Provides-Extra: pygame
+Requires-Dist: aiohttp[speedups]>=3.12.13; extra == 'pygame'
+Requires-Dist: pygame>=2.6.1; extra == 'pygame'
+Description-Content-Type: text/markdown
+
+# game280
+
+Yet another 2D game engine.
