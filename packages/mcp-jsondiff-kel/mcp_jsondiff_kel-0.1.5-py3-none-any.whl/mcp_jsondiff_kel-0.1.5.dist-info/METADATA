@@ -1,0 +1,35 @@
+Metadata-Version: 2.4
+Name: mcp-jsondiff-kel
+Version: 0.1.5
+Summary: Gives you the ability to compare the two json strings.
+Author-email: 'yohan' <2220041897@qq.com>
+Requires-Python: >=3.13
+Requires-Dist: build>=1.2.2.post1
+Requires-Dist: deepdiff>=8.5.0
+Requires-Dist: fastmcp>=2.9.0
+Requires-Dist: mcp[cli]>=1.9.4
+Requires-Dist: twine>=6.1.0
+Description-Content-Type: text/markdown
+
+## jsondiff MCP
+基于 Model Context Protocol (MCP) 的json对比工具
+
+
+## inspector
+```
+npx @modelcontextprotocol/inspector uvx mcp-jsondiff-kel
+```
+
+## MCP 服务器配置
+```
+{
+  "mcpServers": {
+    "mcp_jsondiff": {
+        "command": "uvx",
+        "args": [
+          "mcp-jsondiff-kel@latest"
+        ]
+      }
+  }
+}
+```
