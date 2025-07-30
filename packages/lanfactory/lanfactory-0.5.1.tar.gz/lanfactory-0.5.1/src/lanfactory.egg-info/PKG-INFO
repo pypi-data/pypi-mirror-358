@@ -1,0 +1,119 @@
+Metadata-Version: 2.4
+Name: lanfactory
+Version: 0.5.1
+Summary: Package with convenience functions to train LANs
+Author-email: Alexander Fengler <alexander_fengler@brown.edu>, Carlos Paniagua <carlos_paniagua@brown.edu>
+License: MIT License
+        
+        Copyright (c) 2021 Alexander Fengler
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Homepage, https://github.com/lnccbrown/LANFactory
+Project-URL: Bug Tracker, https://github.com/lnccbrown/LANFactory/issues
+Keywords: LANs,generative models,cognitive science,neuroscience,sbi
+Classifier: Development Status :: 1 - Planning
+Classifier: Environment :: Console
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python
+Classifier: Topic :: Scientific/Engineering
+Requires-Python: <3.13,>3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: ssm-simulators==0.10.0
+Requires-Dist: scipy>=1.15.2
+Requires-Dist: pandas>=2.2.3
+Requires-Dist: torch>=2.7.0
+Requires-Dist: flax>=0.10.6
+Requires-Dist: tqdm>=4.67.1
+Requires-Dist: frozendict>=2.4.6
+Requires-Dist: onnx>=1.17.0
+Requires-Dist: matplotlib>=3.10.1
+Provides-Extra: viz
+Requires-Dist: wandb>=0.19.11; extra == "viz"
+Dynamic: license-file
+
+# LANfactory
+
+![PyPI](https://img.shields.io/pypi/v/lanfactory)
+![PyPI_dl](https://img.shields.io/pypi/dm/lanfactory)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+
+Lightweight python package to help with training [LANs](https://elifesciences.org/articles/65074) (Likelihood approximation networks). 
+
+Please find the original [documentation here](https://alexanderfengler.github.io/LANfactory/).
+
+### Quick Start
+
+The `LANfactory` package is a light-weight convenience package for training `likelihood approximation networks` (LANs) in torch (or keras), 
+starting from supplied training data.
+
+[LANs](https://elifesciences.org/articles/65074), although more general in potential scope of applications, were conceived in the context of sequential sampling modeling
+to account for cognitive processes giving rise to *choice* and *reaction time* data in *n-alternative forced choice experiments* commonly encountered in the cognitive sciences.
+
+For a basic tutorial on how to use the `LANfactory` package, please refer to the [basic tutorial notebook](docs/basic_tutorial/basic_tutorial.ipynb).
+
+In this quick tutorial we will use the [`ssms`](https://github.com/AlexanderFengler/ssm_simulators) package to generate our training data using such a sequential sampling model (SSM). The use is in no way bound to utilize the `ssms` package.
+
+#### Install
+
+To install the `ssms` package type,
+
+`pip install ssm-simulators`
+
+To install the `LANfactory` package type,
+
+`pip install lanfactory`
+
+Necessary dependency should be installed automatically in the process.
+
+### Basic Tutorial
+
+Check the basic tutorial [here](docs/basic_tutorial/basic_tutorial.ipynb).
+    
+### TorchMLP to ONNX Converter
+
+Once you have trained your model, you can convert it to the ONNX format using the `transform_onnx.py` script.
+
+The `transform_onnx.py` script converts a TorchMLP model to the ONNX format. It takes a network configuration file (in pickle format), a state dictionary file (Torch model weights), the size of the input tensor, and the desired output ONNX file path.
+
+### Usage
+
+```python onnx/transform_onnx.py <network_config_file> <state_dict_file> <input_shape> <output_onnx_file>```
+
+Replace the placeholders with the appropriate values:
+
+- <network_config_file>: Path to the pickle file containing the network configuration.
+- <state_dict_file>: Path to the file containing the state dictionary of the model.
+- <input_shape>: The size of the input tensor for the model (integer).
+- <output_onnx_file>: Path to the output ONNX file.
+
+For example:
+
+```
+python onnx/transform_onnx.py '0d9f0e94175b11eca9e93cecef057438_lca_no_bias_4_torch__network_config.pickle' '0d9f0e94175b11eca9e93cecef057438_lca_no_bias_4_torch_state_dict.pt' 11 'lca_no_bias_4_torch.onnx'
+```
+This onnx file can be used directly with the [`HSSM`](https://github.com/lnccbrown/HSSM) package. 
+
+We hope this package may be helpful in case you attempt to train [LANs](https://elifesciences.org/articles/65074) for your own research.
+
+#### END
+

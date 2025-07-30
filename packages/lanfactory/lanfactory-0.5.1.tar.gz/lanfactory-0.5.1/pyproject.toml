@@ -1,0 +1,101 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+
+[project.urls]
+"Homepage" = "https://github.com/lnccbrown/LANFactory"
+"Bug Tracker" = "https://github.com/lnccbrown/LANFactory/issues"
+
+[project]
+name = "lanfactory"
+version = "0.5.1"
+authors = [
+    { name = "Alexander Fengler", email = "alexander_fengler@brown.edu" },
+    { name = "Carlos Paniagua", email = "carlos_paniagua@brown.edu" },
+]
+description = "Package with convenience functions to train LANs"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">3.10, <3.13"
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Environment :: Console",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Topic :: Scientific/Engineering",
+]
+
+dependencies = [
+    "ssm-simulators==0.10.0",
+    "scipy>=1.15.2",
+    "pandas>=2.2.3",
+    "torch>=2.7.0",
+    "flax>=0.10.6",
+    "tqdm>=4.67.1",
+    "frozendict>=2.4.6",
+    "onnx>=1.17.0",
+    "matplotlib>=3.10.1",
+]
+
+keywords = [
+    "LANs",
+    "generative models",
+    "cognitive science",
+    "neuroscience",
+    "sbi",
+]
+
+[project.optional-dependencies]
+viz = ["wandb>=0.19.11"]
+
+[dependency-groups]
+dev = [
+    "coverage>=7.6.4",
+    "ipykernel>=6.29.5",
+    "ipython>=8.31.0",
+    "ipywidgets>=8.1.2",
+    "jupyterlab>=4.2.4",
+    "mypy>=1.11.1",
+    "nbconvert>=7.16.5",
+    "pre-commit>=2.20.0",
+    "ptpython>=3.0.29",
+    "pytest-cov>=6.1.1",
+    "pytest-rerunfailures>=15.1",
+    "pytest-timer>=1.0.0",
+    "pytest-xdist>=3.6.1",
+    "pytest>=8.3.1",
+    "ruff>=0.11.8",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["lanfactory", "lanfactory.*"]
+
+
+[tool.pytest.ini_options]
+log_cli = true
+log_cli_level = "INFO" # set minimum log level for console output
+testpaths = ["tests"]
+addopts = [
+    "--cov=src",
+    "--cov-report=term-missing",
+    "--cov-report=xml",
+    "--exitfirst",
+    "--timer-top-n=25",
+]
+
+[tool.ruff]
+# Specify the directories to check
+src = ["src/lanfactory", "tests"]
+exclude = [
+    "notebooks/*",
+    "docs/*",                                   # Exclude the entire docs folder
+    "docs/basic_tutorial/basic_tutorial.ipynb",
+]
+
+# Add any additional configuration options for ruff
+line-length = 120
+
+
+[project.scripts]
+jaxtrain = "lanfactory.cli.jax_train:app"
+torchtrain = "lanfactory.cli.torch_train:app"
