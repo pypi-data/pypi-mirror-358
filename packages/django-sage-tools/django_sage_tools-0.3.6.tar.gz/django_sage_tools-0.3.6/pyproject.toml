@@ -1,0 +1,294 @@
+[tool.poetry]
+name = "django-sage-tools"
+version = "0.3.6"
+description = "Comprehensive Django utility package providing mixins, validators, decorators, and tools for enhanced Django development"
+authors = ["Sepehr Akbarzadeh <sepehr@sageteam.org>"]
+maintainers = ["Sepehr Akbarzadeh <sepehr@sageteam.org>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/sageteamorg/django-sage-tools"
+repository = "https://github.com/sageteamorg/django-sage-tools"
+documentation = "https://django-sage-tools.readthedocs.io/"
+keywords = [
+    "django",
+    "utilities",
+    "mixins",
+    "validators",
+    "tools",
+    "web-development",
+    "python",
+    "django-package"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.0",
+    "Framework :: Django :: 5.1",
+    "Framework :: Django :: 5.2",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+
+packages = [
+    { include = "sage_tools" }
+]
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/sageteamorg/django-sage-tools/issues"
+"Changelog" = "https://github.com/sageteamorg/django-sage-tools/blob/main/CHANGELOG.md"
+"Discussions" = "https://github.com/sageteamorg/django-sage-tools/discussions"
+
+[tool.poetry.dependencies]
+python = ">=3.8,!=3.9.0,!=3.9.1,<4.0"
+django = [
+    { version = ">=4.2,<5.0", python = ">=3.8,<3.10"}, 
+    { version = ">=4.2,<5.3", python = ">=3.10" }
+]
+mimesis = "^11.1.0"
+pillow = "^10.4.0"
+cryptography = "^45.0.4"
+
+[tool.poetry.group.dev.dependencies]
+# Code formatting and linting
+black = "^24.4.2"
+isort = "^5.13.2"
+ruff = "^0.5.7"
+pylint = "^3.2.6"
+pylint-django = "^2.5.5"
+docformatter = "^1.7.5"
+
+# Testing
+tox = "^4.16.0"
+pytest = "^8.3.2"
+pytest-cov = "^5.0.0"
+pytest-django = "^4.8.0"
+coverage = "^7.6.0"
+codecov = "^2.1.13"
+
+# Type checking
+django-stubs = "^5.0.2"
+mypy = "^1.10.0"
+types-requests = "^2.32.0"
+
+# Documentation
+sphinx = "^7.1.2"
+sphinx-rtd-theme = "^2.0.0"
+sphinx-autodoc-typehints = { version = "^2.2.0", python = ">=3.9" }
+
+# Version management and releases
+commitizen = "^3.28.0"
+pre-commit = "^3.5.0"
+twine = "^5.1.0"
+
+[tool.poetry.group.docs]
+optional = true
+
+[tool.poetry.group.docs.dependencies]
+sphinx = "^7.1.2"
+sphinx-rtd-theme = "^2.0.0"
+sphinx-autodoc-typehints = { version = "^2.2.0", python = ">=3.9" }
+myst-parser = "^3.0.0"
+
+[tool.pytest.ini_options]
+addopts = [
+    "--cov=sage_tools",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-report=xml",
+    "--cov-fail-under=90",
+    "--strict-markers",
+    "--strict-config",
+    "--disable-warnings"
+]
+DJANGO_SETTINGS_MODULE = "tests.settings"
+python_files = ["tests.py", "test_*.py"]
+testpaths = ["sage_tools/tests"]
+norecursedirs = [
+    "migrations",
+    "static",
+    "media",
+    "node_modules",
+    "env",
+    "venv",
+    ".venv",
+    "dist",
+    "build",
+    "kernel"
+]
+
+[tool.coverage.run]
+omit = [
+    "*/migrations/*",
+    "kernel/*",
+    "*/apps.py",
+    "manage.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self\\.debug",
+    "raise AssertionError",
+    "if 0:",
+    "if __name__ == .__main__.:"
+]
+
+[tool.ruff]
+line-length = 88
+exclude = [
+    "venv/*",
+    ".venv/*",
+    "build/*",
+    "dist/*",
+    ".git/*",
+    "__pycache__/*",
+    "*.egg-info/*",
+    ".mypy_cache/*",
+    ".pytest_cache/*",
+    "migrations/*"
+]
+
+[tool.ruff.lint]
+ignore = [
+    "E203",  # Ignore whitespace before ':', ';', or '#'
+    "E501"   # Ignore line length issues (lines longer than 88 characters)
+]
+select = [
+    "E",     # Select all PEP8 error codes
+    "W",     # Select all warnings
+    "F",     # Select all potential runtime errors
+    "C90"    # Select custom or extended error code C90
+]
+
+[tool.black]
+line-length = 88
+exclude = '''
+/(
+    \.git
+  | \.venv
+  | build
+  | dist
+  | migrations
+  | venv
+  | env
+  | __pycache__
+  | static
+  | media
+  | node_modules
+  | env
+  | kernel
+  | \.mypy_cache
+  | \.pytest_cache
+  | .*\.egg-info
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 88
+skip = [
+    "venv",
+    ".venv",
+    "build",
+    "dist",
+    ".git",
+    "__pycache__",
+    "*.egg-info",
+    ".mypy_cache",
+    ".pytest_cache",
+    "migrations",
+    "static",
+    "media",
+    "node_modules",
+    "env",
+    "kernel"
+]
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "0.3.6"
+version_files = [
+    "pyproject.toml:version",
+    "sage_tools/__init__.py:__version__"
+]
+tag_format = "v$version"
+
+[tool.commitizen.settings]
+increment_types = ["feat", "fix", "perf"]
+
+[tool.pylint]
+disable = [
+    "C0114",  # Missing module docstring
+    "C0115",  # Missing class docstring
+    "C0116",  # Missing function or method docstring
+    "E1101",  # Instance of 'Foo' has no 'bar' member (Django dynamic attributes)
+    "W0212",  # Access to a protected member _foo of a client class
+    "C0330",  # Wrong hanging indentation before block (conflicts with Black)
+]
+max-line-length = 88
+ignore = [
+    "migrations/*",
+    "venv/*",
+    "build/*",
+    "dist/*",
+    ".git/*",
+    "__pycache__/*",
+    "*.egg-info/*",
+    ".mypy_cache/*",
+    ".pytest_cache/*"
+]
+load-plugins = [
+    "pylint_django",
+    "pylint.extensions.docparams",
+]
+django-settings-module = "myproject.settings"
+good-names = [
+    "qs",  # QuerySet abbreviation
+    "pk",  # Primary key abbreviation
+    "id",  # Identifier
+]
+suggestion-mode = true
+const-rgx = "([A-Z_][A-Z0-9_]*)|(__.*__)"
+attr-rgx = "[a-z_][a-z0-9_]{2,30}$"
+variable-rgx = "[a-z_][a-z0-9_]{2,30}$"
+argument-rgx = "[a-z_][a-z0-9_]{2,30}$"
+argument-name-hint = [
+    "cls",  # class method first argument
+    "self",  # instance method first argument
+]
+method-rgx = "[a-z_][a-z0-9_]{2,30}$"
+function-rgx = "[a-z_][a-z0-9_]{2,30}$"
+class-rgx = "[A-Z_][a-zA-Z0-9]+$"
+module-rgx = "(([a-z_][a-z0-9_]*)|(__.*__))$"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+python_version = "3.8"
+check_untyped_defs = true
+ignore_missing_imports = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_unused_configs = true
+plugins = ["mypy_django_plugin.main"]
+
+[tool.mypy-django_plugin]
+django_settings_module = "tests.settings"
