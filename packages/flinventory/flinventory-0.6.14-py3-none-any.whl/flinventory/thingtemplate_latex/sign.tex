@@ -1,0 +1,26 @@
+\fbox{{%
+  % need sizes:
+  % width (reduce by 0.24 cm)
+  % height
+  % text primary language
+  % text secondary language
+  % image path
+  % location shortcut
+  % optional: text size (default: \relscale{{1}} or something guessed based on existing algorithm)
+  % optional: image height (otherwise half of entire size)
+  \begin{{minipage}}[t][{height}cm][t]{{{widthAdjusted}cm}}
+    \vspace{{1mm}}
+    \setlength{{\parskip}}{{0pt}}
+    \centering
+    {{\relscale{{{textscalePrimary}}}
+      {PrimaryName}
+    }}
+
+    {{\relscale{{{textscaleSecondary}}} {SecondaryName}}}
+
+    \vspace*{{{vspace}}}
+    \includegraphics[height={imageheight}cm,keepaspectratio,width={widthAdjusted}cm]{{{imagepath}}}
+    \vspace*{{{locationShiftDown}}}
+    \flushright {{\tiny {location}}}
+  \end{{minipage}}
+}}

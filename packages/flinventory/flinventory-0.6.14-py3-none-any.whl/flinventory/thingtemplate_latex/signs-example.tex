@@ -1,0 +1,95 @@
+\documentclass{article}
+\usepackage[margin=0.5cm]{geometry}
+\usepackage{xcolor}
+\usepackage[grid, gridunit=mm, gridcolor=blue!20, subgridcolor=blue!10, gridBG]{eso-pic}
+\usepackage{graphicx}
+\usepackage{adjustbox}
+\usepackage{relsize}
+\usepackage{setspace}
+\linespread{0.6}
+\setlength\parindent{0pt}
+\begin{document}
+\setlength{\fboxsep}{0pt}
+% sort signs, first by height, then by width
+% put several one a line until sum of widths is >= 80% of page width (21cm)
+% then an empty line
+
+% all need to be adjusted manually or text size can be guessed as a first suggestion
+\fbox{%
+  % brauche Größen:
+  % Breite (0.24cm abziehen)
+  % Höhe
+  % Text deutsch
+  % Text englisch
+  % optional: Textgröße (default: \relscale{1} or something guessed based on existing algorithm)
+  % optional Bildhöhe (sonst halbe Gesamthöhe)
+  % optional Textvariante (mit -)
+  \begin{minipage}[t][5cm][t]{3.86cm}
+    \setlength{\parskip}{0pt}
+    \centering
+    \relscale{1.8}
+    Genial\-ko\-höllischer Wunschpunsch
+
+    {\smaller[2] Titel in Englisch}
+
+    \includegraphics[height=2.5cm,keepaspectratio,width=5cm]{/home/felix/Documents/Hobby/fahrrad/werkstatt-harzgerode/fahrradteile-harzgerode/images_landscape/flicken.jpeg}
+    \vspace*{-.8\baselineskip}
+    \flushright {\tiny G.F.M.9.12}
+  \end{minipage}
+}
+\fbox{%
+  \begin{minipage}[t][1.5cm][t]{5.9cm}
+    \centering
+    \relscale{1.2}
+    Titel in Deutsch und noch mehr Text und noch ganz viel mehr Text
+
+    {\smaller[2] Titel in Englisch}
+
+    \includegraphics[height=0cm,keepaspectratio,width=5cm]{/home/felix/Documents/Hobby/fahrrad/werkstatt-harzgerode/fahrradteile-harzgerode/images_landscape/flicken.jpeg}
+    \vspace*{-.8\baselineskip}
+    \flushright {\tiny G.F.M.9.12}
+  \end{minipage}
+}
+
+\fbox{%
+  \begin{minipage}[t][1.5cm][t]{5.9cm}
+    \centering
+    \relscale{1.2}
+    Titel in Deutsch und noch mehr Text und noch ganz viel mehr Text
+
+    {\smaller[2] Titel in Englisch}
+
+    \includegraphics[height=0cm,keepaspectratio,width=5cm]{/home/felix/Documents/Hobby/fahrrad/werkstatt-harzgerode/fahrradteile-harzgerode/images_landscape/flicken.jpeg}
+    \vspace*{-.8\baselineskip}
+    \flushright {\tiny G.F.M.9.12}
+  \end{minipage}
+}
+
+\fbox{%
+  \begin{minipage}[t][1.5cm][t]{5.9cm}
+    \centering
+    \relscale{1.2}
+    Titel in Deutsch und noch mehr Text und noch ganz viel mehr Text
+
+    {\smaller[2] Titel in Englisch}
+
+    \includegraphics[height=0cm,keepaspectratio,width=5cm]{/home/felix/Documents/Hobby/fahrrad/werkstatt-harzgerode/fahrradteile-harzgerode/images_landscape/flicken.jpeg}
+    \vspace*{-.8\baselineskip}
+    \flushright {\tiny G.F.M.9.12}
+  \end{minipage}
+}
+\fbox{%
+  \begin{minipage}[t][1.5cm][t]{5.9cm}
+    \centering
+    \relscale{1.2}
+    Titel in Deutsch und noch mehr Text und noch ganz viel mehr Text
+
+    {\smaller[2] Titel in Englisch}
+
+    \includegraphics[height=0cm,keepaspectratio,width=5cm]{/home/felix/Documents/Hobby/fahrrad/werkstatt-harzgerode/fahrradteile-harzgerode/images_landscape/flicken.jpeg}
+    \vspace*{-.8\baselineskip}
+    \flushright {\tiny G.F.M.9.12}
+  \end{minipage}
+}
+
+\end{document}
