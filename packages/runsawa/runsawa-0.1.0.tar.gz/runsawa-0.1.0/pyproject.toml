@@ -1,0 +1,93 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "runsawa"
+version = "0.1.0"
+authors = [
+  { name="Oras Al-Kubaisi", email="code@oras.me" },
+]
+description = "A simple library for running loops concurrently with progress."
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.8"
+dependencies = [
+    "tqdm",
+    "requests",
+]
+keywords = ["concurrent", "parallel", "threading", "progress", "async", "performance"]
+classifiers = [
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Systems Administration",
+    "Topic :: Internet :: WWW/HTTP",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "coverage",
+    "black",
+    "flake8",
+    "mypy",
+    "build",
+    "twine",
+]
+test = [
+    "pytest",
+    "coverage",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/orasik/runsawa"
+"Bug Tracker" = "https://github.com/orasik/runsawa/issues"
+"Documentation" = "https://github.com/orasik/runsawa#readme"
+"Source Code" = "https://github.com/orasik/runsawa"
+
+[tool.hatchling.build.targets.wheel]
+packages = ["runsawa"]
+
+[tool.hatchling.build.targets.sdist]
+include = [
+    "runsawa/",
+    "tests/",
+    "README.md",
+    "LICENSE",
+    "pyproject.toml",
+    "example.py",
+    "api_example.py"
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+
+[tool.coverage.run]
+source = ["runsawa"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
