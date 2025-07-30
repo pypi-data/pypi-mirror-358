@@ -1,0 +1,167 @@
+Metadata-Version: 2.1
+Name: linkmailLensApi
+Version: 0.8
+Summary: Api no oficial de Google lens creada por mi.
+Home-page: https://github.com/Linkmail16/linkmailLensApi
+Download-URL: https://github.com/Linkmail16/linkmailLensApi/archive/refs/tags/v0.3.tar.gz
+Author: Linkmail
+Author-email: 
+Keywords: api,google,google lens
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests
+Requires-Dist: beautifulsoup4
+Requires-Dist: pillow
+
+# linkmailLensApi (MEJORADA)
+
+Una API simple para buscar imágenes usando Google Lens. Esta biblioteca te permite encontrar imágenes similares o la fuente original de una imagen proporcionando una URL o un archivo local.
+
+## Instalación
+
+```bash
+pip install linkmailLensApi
+```
+
+## Características
+
+- Búsqueda por URL de imagen
+- Búsqueda por archivo local de imagen
+- Resultados simplificados y completos
+- Extracción automática de URLs, títulos, fechas y resoluciones
+- Guardado automático de resultados en formato JSON
+
+## Uso
+
+### Buscar por URL de imagen
+
+```python
+from linkmailLensApi import lenSearchUrl
+
+# Buscar por URL
+image_url = "https://ejemplo.com/imagen.jpg"
+matches = lenSearchUrl(image_url)
+
+# Ver un resumen de los resultados
+print(matches)  # Muestra información básica como número de resultados
+
+# Obtener la lista de URLs encontradas
+urls = matches.pages
+for url in urls:
+    print(url)
+
+# Los resultados se guardan automáticamente en:
+# - googleLensResults.json (versión simplificada)
+# - googleLensRealResponse.json (respuesta completa)
+```
+
+### Buscar por imagen local
+
+```python
+from linkmailLensApi import lenSearchImg
+
+# Buscar por archivo local
+image_path = "ruta/a/tu/imagen.jpg"
+matches = lenSearchImg(image_path)
+
+# Obtener resultados detallados
+results = matches.response  # También guarda los resultados en googleLensResults.json
+
+# Acceder a información específica
+for result in results:
+    print(f"Título: {result['title']}")
+    print(f"URL: {result['url']}")
+    print(f"Resolución: {result['resolution']}")
+    print(f"Fecha: {result['date']}")
+    print("---")
+```
+
+## Propiedades disponibles
+
+Cada objeto de resultados proporciona las siguientes propiedades:
+
+- `matches.response` - Devuelve los resultados simplificados y guarda en "googleLensResults.json"
+- `matches.realResponse` - Devuelve los resultados completos y guarda en "googleLensRealResponse.json"
+- `matches.pages` - Devuelve solo las URLs de todos los resultados encontrados
+
+## Formato de los resultados
+
+### Resultados simplificados (response)
+
+```json
+[
+  {
+    "title": "Título de la página",
+    "url": "https://ejemplo.com/imagen-original",
+    "ping": "/url?sa=t&source=web&rct=j&...",
+    "resolution": "1024 x 768",
+    "date": "hace 2 años",
+    "source_icon": "data:image/png;base64,..."
+  },
+  {
+    "title": "Otra página con imagen similar",
+    "url": "https://otro-sitio.com/imagen",
+    "ping": "/url?sa=t&source=web&rct=j&...",
+    "resolution": "800 x 600",
+    "date": null,
+    "source_icon": "data:image/png;base64,..."
+  }
+]
+```
+
+## Ejemplos de uso
+
+### Búsqueda y comparación de fuentes de imágenes
+
+```python
+from linkmailLensApi import lenSearchUrl
+
+# Verificar la fuente original de una imagen
+image_url = "https://ejemplo.com/imagen-sospechosa.jpg"
+matches = lenSearchUrl(image_url)
+
+# Obtener solo las URLs para verificar fuentes
+sources = matches.pages
+if sources:
+    print(f"Posibles fuentes originales encontradas: {len(sources)}")
+    for i, source in enumerate(sources, 1):
+        print(f"{i}. {source}")
+else:
+    print("No se encontraron coincidencias para esta imagen")
+```
+
+### Búsqueda local con información detallada
+
+```python
+from linkmailLensApi import lenSearchImg
+import json
+
+# Buscar coincidencias para una imagen local
+image_path = "C:/Users/usuario/descargas/imagen.jpg"
+matches = lenSearchImg(image_path)
+
+# Acceder a los resultados completos
+results = matches.response
+
+# Filtrar resultados por fecha (solo los que tienen fecha)
+dated_results = [r for r in results if r["date"]]
+print(f"Resultados con fecha: {len(dated_results)}")
+
+# Guardar solo los resultados con fecha en un archivo separado
+with open('resultados_con_fecha.json', 'w', encoding='utf-8') as f:
+    json.dump(dated_results, f, ensure_ascii=False, indent=2)
+```
+
+## Notas
+
+- Esta API no es oficial y podría dejar de funcionar si Google cambia su interfaz
+- Para resultados óptimos, usa imágenes claras y con buena resolución
+
+## Requisitos
+
+- Python 3.6 o superior
+- Bibliotecas: requests, beautifulsoup4, pillow
