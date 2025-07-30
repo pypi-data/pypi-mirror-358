@@ -1,0 +1,17 @@
+[build-system]
+requires = ['setuptools>=61.0']
+build-backend = 'setuptools.build_meta'
+
+[project]
+name = 'secretrandom'
+version = 'v1.1rc1'
+description = 'Unpredictable random number generation for cryptography (random + secrets module combined.)'
+readme = 'README.md'
+requires-python = '>=3.11'
+authors = [
+  {name = 'Annoying-mous', email = 'albeback01@gmail.com'}
+]
+
+
+[tool.setuptools.packages.find]
+where = ['src']
