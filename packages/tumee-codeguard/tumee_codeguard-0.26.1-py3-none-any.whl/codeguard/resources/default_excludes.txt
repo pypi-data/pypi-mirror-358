@@ -1,0 +1,44 @@
+# CodeGuard Default Exclude Patterns
+# These patterns are automatically excluded unless --no-default-excludes is specified
+# Uses Git-style glob patterns (pathspec library)
+
+# VS Code Git files (the original issue that prompted this filtering system)
+**/vscode.git.Git
+
+# macOS filesystem metadata
+**/.DS_Store
+
+# Windows filesystem metadata
+**/Thumbs.db
+**/desktop.ini
+
+# Common build artifacts and cache directories
+**/node_modules
+**/__pycache__
+**/.pytest_cache
+**/.coverage
+**/coverage.xml
+**/htmlcov
+
+# Python virtual environments
+**/venv
+**/env
+**/.venv
+**/.env
+**/virtualenv
+
+# IDE and editor files
+**/.vscode/settings.json
+**/.idea
+**/*.swp
+**/*.swo
+**/*~
+
+# Log files
+**/*.log
+**/logs
+
+# Temporary files
+**/tmp
+**/temp
+**/.tmp

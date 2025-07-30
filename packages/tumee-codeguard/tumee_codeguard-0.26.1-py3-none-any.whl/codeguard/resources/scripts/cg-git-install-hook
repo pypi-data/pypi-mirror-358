@@ -1,0 +1,112 @@
+#!/bin/bash
+# HELP: Install CodeGuard pre-commit hook in the current git repository
+# OPT: repo_path - Path to git repository (optional, defaults to current directory)
+
+set -euo pipefail
+
+# Default to current directory if no repo path provided
+REPO_PATH="${1:-$(pwd)}"
+
+# Ensure we have an absolute path
+REPO_PATH=$(realpath "$REPO_PATH")
+
+# Check if this is a git repository
+if [ ! -d "$REPO_PATH/.git" ]; then
+    echo "❌ Error: Not a git repository: $REPO_PATH"
+    echo "ℹ️  Please run this command from within a git repository"
+    exit 1
+fi
+
+HOOK_PATH="$REPO_PATH/.git/hooks/pre-commit"
+
+# Check if hook already exists
+if [ -f "$HOOK_PATH" ]; then
+    # Check if it's already a CodeGuard hook
+    if grep -q "CodeGuard pre-commit hook" "$HOOK_PATH" 2>/dev/null; then
+        echo "ℹ️  CodeGuard pre-commit hook already installed: $HOOK_PATH"
+        echo "✅ Updating existing hook..."
+    else
+        echo "⚠️  Pre-commit hook already exists: $HOOK_PATH"
+        echo "📝 Creating backup: $HOOK_PATH.backup"
+        cp "$HOOK_PATH" "$HOOK_PATH.backup"
+    fi
+fi
+
+# Find the codeguard executable
+CODEGUARD_PATH=$(which codeguard 2>/dev/null || echo "")
+if [ -z "$CODEGUARD_PATH" ]; then
+    echo "⚠️  Warning: codeguard not found in PATH"
+    echo "ℹ️  Hook will be installed but may not work until codeguard is available"
+fi
+
+# Create hook content
+cat > "$HOOK_PATH" << 'EOF'
+#!/bin/sh
+# CodeGuard pre-commit hook
+
+# Find the codeguard executable
+CODEGUARD=$(which codeguard 2>/dev/null)
+
+if [ -z "$CODEGUARD" ]; then
+    echo "CodeGuard not found in PATH. Skipping validation."
+    exit 0
+fi
+
+# Get list of staged files
+FILES=$(git diff --cached --name-only --diff-filter=ACMR)
+
+if [ -z "$FILES" ]; then
+    echo "No files to validate. Skipping CodeGuard validation."
+    exit 0
+fi
+
+# Run CodeGuard on each staged file
+echo "Running CodeGuard validation on staged files..."
+FAILED=0
+
+for FILE in $FILES; do
+    # Skip files that don't exist
+    if [ ! -f "$FILE" ]; then
+        continue
+    fi
+
+    echo "  Checking $FILE"
+    $CODEGUARD verify "$FILE" --git-revision HEAD --format json > /dev/null
+    RESULT=$?
+
+    if [ $RESULT -ne 0 ]; then
+        echo "⛔ CodeGuard validation failed for $FILE"
+        echo "ℹ️ Run 'codeguard verify \"$FILE\" --git-revision HEAD' for more details."
+        FAILED=1
+    fi
+done
+
+if [ $FAILED -eq 1 ]; then
+    echo "❌ CodeGuard validation failed. Commit aborted."
+    echo "ℹ️ You can bypass this check with: git commit --no-verify"
+    exit 1
+else
+    echo "✅ CodeGuard validation passed for all staged files."
+fi
+
+exit 0
+EOF
+
+# Make hook executable
+chmod +x "$HOOK_PATH"
+
+echo "✅ CodeGuard pre-commit hook installed successfully!"
+echo "📍 Hook location: $HOOK_PATH"
+echo "ℹ️  The hook will run automatically on 'git commit'"
+echo "ℹ️  You can bypass the hook with 'git commit --no-verify'"
+
+# Test if hook is working
+if [ -n "$CODEGUARD_PATH" ]; then
+    echo ""
+    echo "🔍 Testing hook installation..."
+    if "$HOOK_PATH" > /dev/null 2>&1; then
+        echo "✅ Hook test passed - ready to use!"
+    else
+        echo "⚠️  Hook test failed - please check your codeguard installation"
+    fi
+fi

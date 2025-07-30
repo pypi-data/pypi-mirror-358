@@ -1,0 +1,1 @@
+🔍 CODEGUARD: Validate changes against a git revision.

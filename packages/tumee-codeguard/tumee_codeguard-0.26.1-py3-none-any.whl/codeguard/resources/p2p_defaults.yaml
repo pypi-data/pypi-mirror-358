@@ -1,0 +1,42 @@
+# Default P2P configuration for CodeGuard CLI
+# This file contains the built-in default values for P2P network settings
+
+# Network settings
+discovery_port: 10998
+discovery_host: "127.0.0.1"
+broadcast_interval: 1
+health_check_interval: 10
+node_timeout: 10
+command_timeout: 300
+
+# Worker settings
+worker_linger_time: 300
+worker_max_total: 50
+worker_startup_timeout: 30
+
+# Server settings  
+bind_host: "0.0.0.0"
+port_range_start: 11000
+port_range_end: 13999
+
+# Behavior settings
+force_registration: false
+delegate_file_name: ".codeguard-delegate"
+
+# Paths
+managed_paths: []
+
+# Boundary discovery settings
+boundary_cache_enabled: true
+boundary_cache_dir: "~/.codeguard/cache/boundaries"
+boundary_watch_enabled: true
+boundary_debounce_interval: 30
+boundary_watch_patterns:
+  - "**/ai-owner"
+  - "**/.ai-owner" 
+  - "**/.git"
+  - "**/.hg"
+  - "**/.svn"
+quick_root_scan_interval: 30
+full_background_scan_interval: 300  
+boundary_cache_max_age: 3600

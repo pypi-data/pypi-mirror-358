@@ -1,0 +1,95 @@
+#!/bin/bash
+# HELP: Validate currently staged files against HEAD revision
+# OPT: repo_path - Path to git repository (optional, defaults to current directory)
+
+set -euo pipefail
+
+# Default to current directory if no repo path provided
+REPO_PATH="${1:-$(pwd)}"
+
+# Ensure we have an absolute path
+REPO_PATH=$(realpath "$REPO_PATH")
+
+# Check if this is a git repository
+if [ ! -d "$REPO_PATH/.git" ]; then
+    echo "❌ Error: Not a git repository: $REPO_PATH"
+    exit 1
+fi
+
+cd "$REPO_PATH"
+
+echo "🔍 Validating Staged Files"
+echo "========================="
+echo ""
+
+# Check if codeguard is available
+CODEGUARD=$(which codeguard 2>/dev/null || echo "")
+if [ -z "$CODEGUARD" ]; then
+    echo "❌ Error: CodeGuard not found in PATH"
+    echo "ℹ️  Please install CodeGuard or add it to your PATH"
+    exit 1
+fi
+
+# Get list of staged files
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACMR)
+
+if [ -z "$STAGED_FILES" ]; then
+    echo "ℹ️  No files currently staged for commit"
+    echo "✅ Nothing to validate!"
+    exit 0
+fi
+
+echo "📁 Found $(echo "$STAGED_FILES" | wc -l) staged files:"
+echo "$STAGED_FILES" | sed 's/^/  • /'
+echo ""
+
+# Validate each staged file
+FAILED=0
+CHECKED=0
+SKIPPED=0
+
+echo "🚀 Running CodeGuard validation..."
+echo ""
+
+for FILE in $STAGED_FILES; do
+    # Skip files that don't exist (deleted files)
+    if [ ! -f "$FILE" ]; then
+        echo "⏭️  Skipping $FILE (deleted)"
+        SKIPPED=$((SKIPPED + 1))
+        continue
+    fi
+
+    echo "🔍 Checking $FILE..."
+    
+    # Run codeguard verify with git revision
+    if $CODEGUARD verify "$FILE" --git-revision HEAD --quiet > /dev/null 2>&1; then
+        echo "  ✅ Passed"
+        CHECKED=$((CHECKED + 1))
+    else
+        echo "  ❌ Failed"
+        echo "  ℹ️  Run 'codeguard verify \"$FILE\" --git-revision HEAD' for details"
+        FAILED=1
+        CHECKED=$((CHECKED + 1))
+    fi
+done
+
+echo ""
+echo "📊 Validation Summary"
+echo "===================="
+echo "Files checked: $CHECKED"
+echo "Files skipped: $SKIPPED"
+
+if [ $FAILED -eq 1 ]; then
+    echo "Status: ❌ FAILED"
+    echo ""
+    echo "🚨 Some files failed CodeGuard validation!"
+    echo "ℹ️  Fix the violations before committing"
+    echo "ℹ️  Or use 'git commit --no-verify' to bypass validation"
+    exit 1
+else
+    echo "Status: ✅ PASSED"
+    echo ""
+    echo "🎉 All staged files passed CodeGuard validation!"
+    echo "ℹ️  Ready to commit with 'git commit'"
+    exit 0
+fi

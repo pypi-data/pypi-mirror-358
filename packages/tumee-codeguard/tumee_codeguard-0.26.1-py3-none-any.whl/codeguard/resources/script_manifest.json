@@ -1,0 +1,194 @@
+{
+  "categories": {
+    "git": {
+      "install-hook": {
+        "metadata": {
+          "args": [
+            {
+              "help": "Path to git repository (optional, defaults to current directory)",
+              "name": "repo_path",
+              "required": false
+            }
+          ],
+          "help": "Install CodeGuard pre-commit hook in the current git repository",
+          "opts": []
+        },
+        "script_name": "cg-git-install-hook"
+      },
+      "status": {
+        "metadata": {
+          "args": [
+            {
+              "help": "Path to git repository (optional, defaults to current directory)",
+              "name": "repo_path",
+              "required": false
+            }
+          ],
+          "help": "Show git repository status and CodeGuard hook information",
+          "opts": []
+        },
+        "script_name": "cg-git-status"
+      },
+      "uninstall-hook": {
+        "metadata": {
+          "args": [
+            {
+              "help": "Path to git repository (optional, defaults to current directory)",
+              "name": "repo_path",
+              "required": false
+            }
+          ],
+          "help": "Uninstall CodeGuard pre-commit hook from the current git repository",
+          "opts": []
+        },
+        "script_name": "cg-git-uninstall-hook"
+      },
+      "validate-staged": {
+        "metadata": {
+          "args": [
+            {
+              "help": "Path to git repository (optional, defaults to current directory)",
+              "name": "repo_path",
+              "required": false
+            }
+          ],
+          "help": "Validate currently staged files against HEAD revision",
+          "opts": []
+        },
+        "script_name": "cg-git-validate-staged"
+      }
+    },
+    "vscode": {
+      "install": {
+        "metadata": {
+          "args": [
+            {
+              "help": "Specific version to install (optional, defaults to latest)",
+              "name": "version",
+              "required": false
+            }
+          ],
+          "help": "Download and install the latest CodeGuard VSCode plugin",
+          "opts": [
+            {
+              "flags": [
+                "--keep"
+              ],
+              "help": "Keep the downloaded .vsix file instead of deleting after installation",
+              "required": false
+            }
+          ]
+        },
+        "script_name": "cg-vscode-install"
+      }
+    },
+    "worktree": {
+      "clean": {
+        "metadata": {
+          "args": [],
+          "help": "Delete all worktrees that have no uncommitted changes",
+          "opts": []
+        },
+        "script_name": "cg-worktree-clean"
+      },
+      "delete": {
+        "metadata": {
+          "args": [
+            {
+              "help": "Name of the worktree to delete",
+              "name": "name",
+              "required": true
+            }
+          ],
+          "help": "Delete a worktree if it has no uncommitted changes",
+          "opts": [
+            {
+              "flags": [
+                "--force"
+              ],
+              "help": "Force deletion even if worktree has uncommitted changes",
+              "required": false
+            }
+          ]
+        },
+        "script_name": "cg-worktree-delete"
+      },
+      "edit": {
+        "metadata": {
+          "args": [
+            {
+              "help": "Name of the worktree to enter",
+              "name": "name",
+              "required": true
+            }
+          ],
+          "help": "Enter an existing worktree and launch Claude Code",
+          "opts": []
+        },
+        "script_name": "cg-worktree-edit"
+      },
+      "list": {
+        "metadata": {
+          "args": [],
+          "help": "List all available worktrees for this project",
+          "opts": []
+        },
+        "script_name": "cg-worktree-list"
+      },
+      "merge": {
+        "metadata": {
+          "args": [
+            {
+              "help": "Name of the worktree to merge",
+              "name": "name",
+              "required": true
+            }
+          ],
+          "help": "Merge worktree changes to main branch with conflict preflight check",
+          "opts": []
+        },
+        "script_name": "cg-worktree-merge"
+      },
+      "setup": {
+        "metadata": {
+          "args": [
+            {
+              "help": "Name for the worktree (e.g., 'feature-auth')",
+              "name": "name",
+              "required": true
+            }
+          ],
+          "help": "Create a new git worktree and launch Claude Code in it",
+          "opts": []
+        },
+        "script_name": "cg-worktree-setup"
+      },
+      "status": {
+        "metadata": {
+          "args": [],
+          "help": "Check status of all worktrees to monitor worker progress",
+          "opts": []
+        },
+        "script_name": "cg-worktree-status"
+      },
+      "sync": {
+        "metadata": {
+          "args": [],
+          "help": "Update worktree with latest changes from main branch",
+          "opts": [
+            {
+              "flags": [
+                "--force"
+              ],
+              "help": "Force sync even if local changes exist",
+              "required": false
+            }
+          ]
+        },
+        "script_name": "cg-worktree-sync"
+      }
+    }
+  },
+  "generated_by": "build_script_manifest.py",
+  "version": "1.0"
+}
