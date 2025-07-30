@@ -1,0 +1,131 @@
+English description follows Japanese.
+
+---
+
+## 概要
+
+**`/`** は、関数の実行時間を簡単にロギングできる Python ライブラリです。関数にデコレータをつけるだけで、その実行時間を自動的に記録します。
+
+* 軽量でシンプルな使い心地
+* `llog` ライブラリを使用して `jsonl` 形式でログ出力
+* デフォルトではカレントディレクトリに `timelog.llog` を自動生成
+* `log_time.setpath()` を使えば出力先のファイルパス変更も可能
+
+主に、関数単位のパフォーマンス測定や簡易プロファイリングに適しています。
+
+---
+
+## インストール
+
+```bash
+pip install log_time
+```
+
+---
+
+## 基本的な使い方
+
+```python
+import time
+import log_time
+
+@log_time
+def some_proc():
+	time.sleep(0.5)
+
+@log_time
+def other_proc():
+	time.sleep(0.1)
+
+some_proc()
+other_proc()
+some_proc()
+```
+
+このコードを実行すると、関数の実行時間が `timelog.llog` というファイルに `jsonl` 形式で記録されます。関数が呼び出されるたびに、1行ずつログが追記されます。
+
+---
+
+## ログの確認
+
+最新のログを確認するには、以下のようにします：
+
+```python
+log_time.llog.tail(n = 3)
+```
+
+---
+
+## ログファイルの出力先を変更する
+
+```python
+log_time.setpath("other_path.llog")
+```
+
+以降のログ出力が `other_path.llog` に切り替わります。
+
+---
+
+## Overview
+
+**`log_time`** is a minimalistic Python library for logging the execution time of functions. With just a simple decorator, you can measure and persist function runtimes in a structured format.
+
+* Super-lightweight and clean
+* Uses the [llog](https://pypi.org/project/llog/) library to write logs in `jsonl` format
+* By default, logs are saved to `timelog.llog` in the current directory
+* You can also set a custom path for log output using `log_time.setpath()`
+
+This tool is especially suited for profiling and monitoring the performance of key functions during development or testing.
+
+---
+
+## Installation
+
+```bash
+pip install log_time
+```
+
+---
+
+## Basic Usage
+
+```python
+import time
+import log_time
+
+@log_time
+def some_proc():
+	time.sleep(0.5)
+
+@log_time
+def other_proc():
+	time.sleep(0.1)
+
+some_proc()
+other_proc()
+some_proc()
+```
+
+The above code will output the execution times of the decorated functions into a file named `timelog.llog` (in JSONL format), using the `llog` logger.
+
+Each time a decorated function is called, a log entry is appended.
+
+---
+
+## Viewing Logs
+
+To inspect the most recent log entries:
+
+```python
+log_time.llog.tail(n = 3)
+```
+
+---
+
+## Setting a Custom Log File Path
+
+```python
+log_time.setpath("other_path.llog")
+```
+
+This will redirect all future logs to the specified path.
