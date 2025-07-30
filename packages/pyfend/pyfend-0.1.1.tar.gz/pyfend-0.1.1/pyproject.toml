@@ -1,0 +1,17 @@
+[project]
+name = 'pyfend'
+dynamic = ['version']
+requires-python = '>=3.7'
+dependencies = [
+	'maturin',
+]
+description = 'python bindings for fend-core'
+readme = 'readme.md'
+classifiers = ['Programming Language :: Rust']
+
+[build-system]
+requires = ['maturin>=1.0']
+build-backend = 'maturin'
+
+[tool.maturin]
+features = ['pyo3/extension-module']
