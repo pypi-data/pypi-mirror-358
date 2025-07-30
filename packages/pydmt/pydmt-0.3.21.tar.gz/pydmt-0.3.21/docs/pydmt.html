@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>pydmt package &#8212; pydmt Documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=965e52d1"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pydmt.api package" href="pydmt.api.html" />
+    <link rel="prev" title="src" href="modules.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="pydmt-package">
+<h1>pydmt package<a class="headerlink" href="#pydmt-package" title="Link to this heading">¶</a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pydmt.api.html">pydmt.api package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.api.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.api.html#module-pydmt.api.builder">pydmt.api.builder module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.api.html#pydmt.api.builder.Builder"><code class="docutils literal notranslate"><span class="pre">Builder</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.api.html#pydmt.api.builder.Builder.build"><code class="docutils literal notranslate"><span class="pre">Builder.build()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.api.html#pydmt.api.builder.Builder.get_name"><code class="docutils literal notranslate"><span class="pre">Builder.get_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.api.html#pydmt.api.builder.Builder.get_signature"><code class="docutils literal notranslate"><span class="pre">Builder.get_signature()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.api.html#pydmt.api.builder.Builder.get_sources"><code class="docutils literal notranslate"><span class="pre">Builder.get_sources()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.api.html#pydmt.api.builder.Builder.get_targets"><code class="docutils literal notranslate"><span class="pre">Builder.get_targets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.api.html#pydmt.api.builder.Builder.get_targets_as_string"><code class="docutils literal notranslate"><span class="pre">Builder.get_targets_as_string()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.api.html#pydmt.api.builder.Builder.yield_results"><code class="docutils literal notranslate"><span class="pre">Builder.yield_results()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.api.html#pydmt.api.builder.File"><code class="docutils literal notranslate"><span class="pre">File</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.api.html#pydmt.api.builder.File.add_to_digester"><code class="docutils literal notranslate"><span class="pre">File.add_to_digester()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.api.html#pydmt.api.builder.File.get_name"><code class="docutils literal notranslate"><span class="pre">File.get_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.api.html#pydmt.api.builder.File.remove"><code class="docutils literal notranslate"><span class="pre">File.remove()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.api.html#pydmt.api.builder.Folder"><code class="docutils literal notranslate"><span class="pre">Folder</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.api.html#pydmt.api.builder.Folder.add_to_digester"><code class="docutils literal notranslate"><span class="pre">Folder.add_to_digester()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.api.html#pydmt.api.builder.Folder.get_name"><code class="docutils literal notranslate"><span class="pre">Folder.get_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.api.html#pydmt.api.builder.Folder.remove"><code class="docutils literal notranslate"><span class="pre">Folder.remove()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.api.html#pydmt.api.builder.Node"><code class="docutils literal notranslate"><span class="pre">Node</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.api.html#pydmt.api.builder.Node.add_to_digester"><code class="docutils literal notranslate"><span class="pre">Node.add_to_digester()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.api.html#pydmt.api.builder.Node.get_name"><code class="docutils literal notranslate"><span class="pre">Node.get_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.api.html#pydmt.api.builder.Node.remove"><code class="docutils literal notranslate"><span class="pre">Node.remove()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.api.html#pydmt.api.builder.SourceFile"><code class="docutils literal notranslate"><span class="pre">SourceFile</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.api.html#pydmt.api.builder.SourceFiles"><code class="docutils literal notranslate"><span class="pre">SourceFiles</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.api.html#pydmt.api.builder.SourceFiles.add_to_digester"><code class="docutils literal notranslate"><span class="pre">SourceFiles.add_to_digester()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.api.html#pydmt.api.builder.SourceFiles.get_name"><code class="docutils literal notranslate"><span class="pre">SourceFiles.get_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.api.html#pydmt.api.builder.SourceFiles.remove"><code class="docutils literal notranslate"><span class="pre">SourceFiles.remove()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.api.html#pydmt.api.builder.SourceFolder"><code class="docutils literal notranslate"><span class="pre">SourceFolder</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.api.html#pydmt.api.builder.TargetFile"><code class="docutils literal notranslate"><span class="pre">TargetFile</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.api.html#pydmt.api.builder.TargetFolder"><code class="docutils literal notranslate"><span class="pre">TargetFolder</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.api.html#module-pydmt.api.copy">pydmt.api.copy module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.api.html#pydmt.api.copy.Copy"><code class="docutils literal notranslate"><span class="pre">Copy</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.api.html#pydmt.api.copy.Copy.build"><code class="docutils literal notranslate"><span class="pre">Copy.build()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.api.html#module-pydmt.api.fail">pydmt.api.fail module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.api.html#pydmt.api.fail.Fail"><code class="docutils literal notranslate"><span class="pre">Fail</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.api.html#pydmt.api.fail.Fail.build"><code class="docutils literal notranslate"><span class="pre">Fail.build()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.api.html#module-pydmt.api.feature">pydmt.api.feature module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.api.html#pydmt.api.feature.Feature"><code class="docutils literal notranslate"><span class="pre">Feature</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.api.html#pydmt.api.feature.Feature.setup"><code class="docutils literal notranslate"><span class="pre">Feature.setup()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.api.html#module-pydmt.api.one_source_one_target">pydmt.api.one_source_one_target module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.api.html#pydmt.api.one_source_one_target.OneSourceOneTarget"><code class="docutils literal notranslate"><span class="pre">OneSourceOneTarget</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.api.html#pydmt.api.one_source_one_target.OneSourceOneTarget.get_sources"><code class="docutils literal notranslate"><span class="pre">OneSourceOneTarget.get_sources()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.api.html#pydmt.api.one_source_one_target.OneSourceOneTarget.get_targets"><code class="docutils literal notranslate"><span class="pre">OneSourceOneTarget.get_targets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.api.html#pydmt.api.one_source_one_target.OneSourceOneTarget.yield_results"><code class="docutils literal notranslate"><span class="pre">OneSourceOneTarget.yield_results()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.api.html#module-pydmt.api">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pydmt.builders.html">pydmt.builders package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.builders.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.builders.html#module-pydmt.builders.apt">pydmt.builders.apt module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.builders.html#pydmt.builders.apt.BuilderApt"><code class="docutils literal notranslate"><span class="pre">BuilderApt</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.builders.html#pydmt.builders.apt.BuilderApt.build"><code class="docutils literal notranslate"><span class="pre">BuilderApt.build()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.builders.html#module-pydmt.builders.gem">pydmt.builders.gem module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.builders.html#pydmt.builders.gem.Installer"><code class="docutils literal notranslate"><span class="pre">Installer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.builders.html#pydmt.builders.gem.Installer.build"><code class="docutils literal notranslate"><span class="pre">Installer.build()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.builders.html#module-pydmt.builders.make">pydmt.builders.make module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.builders.html#pydmt.builders.make.BuilderMake"><code class="docutils literal notranslate"><span class="pre">BuilderMake</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.builders.html#pydmt.builders.make.BuilderMake.build"><code class="docutils literal notranslate"><span class="pre">BuilderMake.build()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.builders.html#module-pydmt.builders.mako">pydmt.builders.mako module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.builders.html#pydmt.builders.mako.BuilderMako"><code class="docutils literal notranslate"><span class="pre">BuilderMako</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.builders.html#pydmt.builders.mako.BuilderMako.build"><code class="docutils literal notranslate"><span class="pre">BuilderMako.build()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.builders.html#pydmt.builders.mako.BuilderMako.get_sources"><code class="docutils literal notranslate"><span class="pre">BuilderMako.get_sources()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.builders.html#pydmt.builders.mako.BuilderMako.get_targets"><code class="docutils literal notranslate"><span class="pre">BuilderMako.get_targets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.builders.html#pydmt.builders.mako.BuilderMako.yield_results"><code class="docutils literal notranslate"><span class="pre">BuilderMako.yield_results()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.builders.html#pydmt.builders.mako.print_exception"><code class="docutils literal notranslate"><span class="pre">print_exception()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.builders.html#pydmt.builders.mako.print_full_exception"><code class="docutils literal notranslate"><span class="pre">print_full_exception()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.builders.html#module-pydmt.builders.npm">pydmt.builders.npm module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.builders.html#pydmt.builders.npm.Installer"><code class="docutils literal notranslate"><span class="pre">Installer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.builders.html#pydmt.builders.npm.Installer.build"><code class="docutils literal notranslate"><span class="pre">Installer.build()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.builders.html#module-pydmt.builders.reqs">pydmt.builders.reqs module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.builders.html#pydmt.builders.reqs.BuilderReqs"><code class="docutils literal notranslate"><span class="pre">BuilderReqs</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.builders.html#pydmt.builders.reqs.BuilderReqs.build"><code class="docutils literal notranslate"><span class="pre">BuilderReqs.build()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.builders.html#module-pydmt.builders.sphinx">pydmt.builders.sphinx module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.builders.html#pydmt.builders.sphinx.BuilderSphinx"><code class="docutils literal notranslate"><span class="pre">BuilderSphinx</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.builders.html#pydmt.builders.sphinx.BuilderSphinx.build"><code class="docutils literal notranslate"><span class="pre">BuilderSphinx.build()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.builders.html#pydmt.builders.sphinx.BuilderSphinx.get_sources"><code class="docutils literal notranslate"><span class="pre">BuilderSphinx.get_sources()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.builders.html#pydmt.builders.sphinx.BuilderSphinx.get_targets"><code class="docutils literal notranslate"><span class="pre">BuilderSphinx.get_targets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.builders.html#pydmt.builders.sphinx.BuilderSphinx.yield_results"><code class="docutils literal notranslate"><span class="pre">BuilderSphinx.yield_results()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.builders.html#module-pydmt.builders.venv">pydmt.builders.venv module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.builders.html#pydmt.builders.venv.BuilderVenv"><code class="docutils literal notranslate"><span class="pre">BuilderVenv</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.builders.html#pydmt.builders.venv.BuilderVenv.build"><code class="docutils literal notranslate"><span class="pre">BuilderVenv.build()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.builders.html#module-pydmt.builders.yaml">pydmt.builders.yaml module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.builders.html#pydmt.builders.yaml.BuilderYaml"><code class="docutils literal notranslate"><span class="pre">BuilderYaml</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.builders.html#pydmt.builders.yaml.BuilderYaml.build"><code class="docutils literal notranslate"><span class="pre">BuilderYaml.build()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.builders.html#module-pydmt.builders">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pydmt.core.html">pydmt.core package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.core.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.core.html#module-pydmt.core.cache">pydmt.core.cache module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.core.html#pydmt.core.cache.Cache"><code class="docutils literal notranslate"><span class="pre">Cache</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.core.html#pydmt.core.cache.Cache.get_list_filename"><code class="docutils literal notranslate"><span class="pre">Cache.get_list_filename()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.core.html#pydmt.core.cache.Cache.get_object_filename"><code class="docutils literal notranslate"><span class="pre">Cache.get_object_filename()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.core.html#pydmt.core.cache.Cache.iterate_objects"><code class="docutils literal notranslate"><span class="pre">Cache.iterate_objects()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.core.html#pydmt.core.cache.Cache.list_sig_ok"><code class="docutils literal notranslate"><span class="pre">Cache.list_sig_ok()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.core.html#pydmt.core.cache.Cache.save_list_by_signature"><code class="docutils literal notranslate"><span class="pre">Cache.save_list_by_signature()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.core.html#pydmt.core.cache.Cache.save_object_by_signature"><code class="docutils literal notranslate"><span class="pre">Cache.save_object_by_signature()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.core.html#module-pydmt.core.graph">pydmt.core.graph module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.core.html#pydmt.core.graph.Graph"><code class="docutils literal notranslate"><span class="pre">Graph</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.core.html#module-pydmt.core.pydmt">pydmt.core.pydmt module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.core.html#pydmt.core.pydmt.BuildProcessStats"><code class="docutils literal notranslate"><span class="pre">BuildProcessStats</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.core.html#pydmt.core.pydmt.BuildProcessStats.add_builder_fail"><code class="docutils literal notranslate"><span class="pre">BuildProcessStats.add_builder_fail()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.core.html#pydmt.core.pydmt.BuildProcessStats.add_builder_ok"><code class="docutils literal notranslate"><span class="pre">BuildProcessStats.add_builder_ok()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.core.html#pydmt.core.pydmt.BuildProcessStats.add_copy_missing"><code class="docutils literal notranslate"><span class="pre">BuildProcessStats.add_copy_missing()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.core.html#pydmt.core.pydmt.BuildProcessStats.add_copy_sha1"><code class="docutils literal notranslate"><span class="pre">BuildProcessStats.add_copy_sha1()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.core.html#pydmt.core.pydmt.BuildProcessStats.add_nop"><code class="docutils literal notranslate"><span class="pre">BuildProcessStats.add_nop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.core.html#pydmt.core.pydmt.BuildProcessStats.get_builder_fail"><code class="docutils literal notranslate"><span class="pre">BuildProcessStats.get_builder_fail()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.core.html#pydmt.core.pydmt.BuildProcessStats.get_builder_ok"><code class="docutils literal notranslate"><span class="pre">BuildProcessStats.get_builder_ok()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.core.html#pydmt.core.pydmt.BuildProcessStats.get_copy_missing"><code class="docutils literal notranslate"><span class="pre">BuildProcessStats.get_copy_missing()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.core.html#pydmt.core.pydmt.BuildProcessStats.get_nop"><code class="docutils literal notranslate"><span class="pre">BuildProcessStats.get_nop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.core.html#pydmt.core.pydmt.BuildProcessStats.get_os_error_code"><code class="docutils literal notranslate"><span class="pre">BuildProcessStats.get_os_error_code()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.core.html#pydmt.core.pydmt.PyDMT"><code class="docutils literal notranslate"><span class="pre">PyDMT</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.core.html#pydmt.core.pydmt.PyDMT.add_builder"><code class="docutils literal notranslate"><span class="pre">PyDMT.add_builder()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.core.html#pydmt.core.pydmt.PyDMT.build_all"><code class="docutils literal notranslate"><span class="pre">PyDMT.build_all()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.core.html#pydmt.core.pydmt.PyDMT.build_by_builder"><code class="docutils literal notranslate"><span class="pre">PyDMT.build_by_builder()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.core.html#pydmt.core.pydmt.PyDMT.build_by_target"><code class="docutils literal notranslate"><span class="pre">PyDMT.build_by_target()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.core.html#pydmt.core.pydmt.PyDMT.build_by_targets"><code class="docutils literal notranslate"><span class="pre">PyDMT.build_by_targets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.core.html#pydmt.core.pydmt.PyDMT.clean_all"><code class="docutils literal notranslate"><span class="pre">PyDMT.clean_all()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.core.html#module-pydmt.core.tempdir">pydmt.core.tempdir module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.core.html#pydmt.core.tempdir.cd"><code class="docutils literal notranslate"><span class="pre">cd()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.core.html#pydmt.core.tempdir.tempdir"><code class="docutils literal notranslate"><span class="pre">tempdir()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.core.html#module-pydmt.core">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pydmt.features.html">pydmt.features package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.features.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.features.html#module-pydmt.features.apt">pydmt.features.apt module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.features.html#pydmt.features.apt.FeatureApt"><code class="docutils literal notranslate"><span class="pre">FeatureApt</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.features.html#pydmt.features.apt.FeatureApt.setup"><code class="docutils literal notranslate"><span class="pre">FeatureApt.setup()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.features.html#module-pydmt.features.gem">pydmt.features.gem module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.features.html#pydmt.features.gem.FeatureGem"><code class="docutils literal notranslate"><span class="pre">FeatureGem</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.features.html#pydmt.features.gem.FeatureGem.setup"><code class="docutils literal notranslate"><span class="pre">FeatureGem.setup()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.features.html#module-pydmt.features.make">pydmt.features.make module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.features.html#pydmt.features.make.FeatureMake"><code class="docutils literal notranslate"><span class="pre">FeatureMake</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.features.html#pydmt.features.make.FeatureMake.setup"><code class="docutils literal notranslate"><span class="pre">FeatureMake.setup()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.features.html#module-pydmt.features.mako">pydmt.features.mako module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.features.html#pydmt.features.mako.FeatureMako"><code class="docutils literal notranslate"><span class="pre">FeatureMako</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.features.html#pydmt.features.mako.FeatureMako.setup"><code class="docutils literal notranslate"><span class="pre">FeatureMako.setup()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.features.html#module-pydmt.features.npm">pydmt.features.npm module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.features.html#pydmt.features.npm.FeatureNpm"><code class="docutils literal notranslate"><span class="pre">FeatureNpm</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.features.html#pydmt.features.npm.FeatureNpm.setup"><code class="docutils literal notranslate"><span class="pre">FeatureNpm.setup()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.features.html#module-pydmt.features.reqs">pydmt.features.reqs module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.features.html#pydmt.features.reqs.FeatureReqs"><code class="docutils literal notranslate"><span class="pre">FeatureReqs</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.features.html#pydmt.features.reqs.FeatureReqs.setup"><code class="docutils literal notranslate"><span class="pre">FeatureReqs.setup()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.features.html#module-pydmt.features.sphinx">pydmt.features.sphinx module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.features.html#pydmt.features.sphinx.FeatureSphinx"><code class="docutils literal notranslate"><span class="pre">FeatureSphinx</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.features.html#pydmt.features.sphinx.FeatureSphinx.setup"><code class="docutils literal notranslate"><span class="pre">FeatureSphinx.setup()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.features.html#module-pydmt.features.venv">pydmt.features.venv module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.features.html#pydmt.features.venv.FeatureVenv"><code class="docutils literal notranslate"><span class="pre">FeatureVenv</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.features.html#pydmt.features.venv.FeatureVenv.setup"><code class="docutils literal notranslate"><span class="pre">FeatureVenv.setup()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.features.html#module-pydmt.features.yaml">pydmt.features.yaml module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.features.html#pydmt.features.yaml.FeatureYaml"><code class="docutils literal notranslate"><span class="pre">FeatureYaml</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.features.html#pydmt.features.yaml.FeatureYaml.setup"><code class="docutils literal notranslate"><span class="pre">FeatureYaml.setup()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.features.html#module-pydmt.features">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pydmt.helpers.html">pydmt.helpers package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.helpers.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.helpers.html#module-pydmt.helpers.apt">pydmt.helpers.apt module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.helpers.html#module-pydmt.helpers.attrs">pydmt.helpers.attrs module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.attrs.get_github_username"><code class="docutils literal notranslate"><span class="pre">get_github_username()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.attrs.get_launchpad_username"><code class="docutils literal notranslate"><span class="pre">get_launchpad_username()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.attrs.get_packages"><code class="docutils literal notranslate"><span class="pre">get_packages()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.attrs.get_packages_remove"><code class="docutils literal notranslate"><span class="pre">get_packages_remove()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.helpers.html#module-pydmt.helpers.composites">pydmt.helpers.composites module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.composites.get_deb_version"><code class="docutils literal notranslate"><span class="pre">get_deb_version()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.helpers.html#module-pydmt.helpers.deb">pydmt.helpers.deb module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.deb.old"><code class="docutils literal notranslate"><span class="pre">old()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.helpers.html#module-pydmt.helpers.deb_python_package">pydmt.helpers.deb_python_package module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.helpers.html#module-pydmt.helpers.files">pydmt.helpers.files module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.files.count_files"><code class="docutils literal notranslate"><span class="pre">count_files()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.helpers.html#module-pydmt.helpers.general">pydmt.helpers.general module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.helpers.html#module-pydmt.helpers.git">pydmt.helpers.git module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.git.count_files"><code class="docutils literal notranslate"><span class="pre">count_files()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.git.get_git_describe"><code class="docutils literal notranslate"><span class="pre">get_git_describe()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.git.get_git_last_tag"><code class="docutils literal notranslate"><span class="pre">get_git_last_tag()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.git.get_git_version"><code class="docutils literal notranslate"><span class="pre">get_git_version()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.helpers.html#module-pydmt.helpers.github">pydmt.helpers.github module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.github.get_workflows_platforms"><code class="docutils literal notranslate"><span class="pre">get_workflows_platforms()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.helpers.html#module-pydmt.helpers.messages">pydmt.helpers.messages module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.helpers.html#module-pydmt.helpers.misc">pydmt.helpers.misc module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.misc.get_version_str"><code class="docutils literal notranslate"><span class="pre">get_version_str()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.helpers.html#module-pydmt.helpers.pkgs">pydmt.helpers.pkgs module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.pkgs.get_package_description"><code class="docutils literal notranslate"><span class="pre">get_package_description()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.helpers.html#module-pydmt.helpers.project">pydmt.helpers.project module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.project.get_name"><code class="docutils literal notranslate"><span class="pre">get_name()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.helpers.html#module-pydmt.helpers.python">pydmt.helpers.python module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.python.array_indented"><code class="docutils literal notranslate"><span class="pre">array_indented()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.python.dict_indented"><code class="docutils literal notranslate"><span class="pre">dict_indented()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.python.find_packages"><code class="docutils literal notranslate"><span class="pre">find_packages()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.python.get_attr"><code class="docutils literal notranslate"><span class="pre">get_attr()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.python.get_classifiers"><code class="docutils literal notranslate"><span class="pre">get_classifiers()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.python.get_license_type"><code class="docutils literal notranslate"><span class="pre">get_license_type()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.python.get_list_quoted"><code class="docutils literal notranslate"><span class="pre">get_list_quoted()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.python.get_list_unquoted"><code class="docutils literal notranslate"><span class="pre">get_list_unquoted()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.python.get_package_name"><code class="docutils literal notranslate"><span class="pre">get_package_name()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.python.get_platforms"><code class="docutils literal notranslate"><span class="pre">get_platforms()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.python.hlp_files_under"><code class="docutils literal notranslate"><span class="pre">hlp_files_under()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.python.hlp_source_under"><code class="docutils literal notranslate"><span class="pre">hlp_source_under()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.python.make_console_script"><code class="docutils literal notranslate"><span class="pre">make_console_script()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.python.make_hlp_project_classifiers"><code class="docutils literal notranslate"><span class="pre">make_hlp_project_classifiers()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.python.make_hlp_project_keywords"><code class="docutils literal notranslate"><span class="pre">make_hlp_project_keywords()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.python.make_hlp_project_platforms"><code class="docutils literal notranslate"><span class="pre">make_hlp_project_platforms()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.python.make_hlp_wrap"><code class="docutils literal notranslate"><span class="pre">make_hlp_wrap()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.helpers.html#module-pydmt.helpers.signature">pydmt.helpers.signature module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.signature.get_copyright_years_long"><code class="docutils literal notranslate"><span class="pre">get_copyright_years_long()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.signature.get_copyright_years_short"><code class="docutils literal notranslate"><span class="pre">get_copyright_years_short()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.signature.get_project_year_started"><code class="docutils literal notranslate"><span class="pre">get_project_year_started()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.helpers.html#module-pydmt.helpers.snipplets">pydmt.helpers.snipplets module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.snipplets.get_google_analytics"><code class="docutils literal notranslate"><span class="pre">get_google_analytics()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.snipplets.get_paypal"><code class="docutils literal notranslate"><span class="pre">get_paypal()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.helpers.html#module-pydmt.helpers.urls">pydmt.helpers.urls module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.urls.get_website"><code class="docutils literal notranslate"><span class="pre">get_website()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.urls.get_website_git"><code class="docutils literal notranslate"><span class="pre">get_website_git()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.urls.get_website_ppa"><code class="docutils literal notranslate"><span class="pre">get_website_ppa()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.helpers.html#pydmt.helpers.urls.get_website_source"><code class="docutils literal notranslate"><span class="pre">get_website_source()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.helpers.html#module-pydmt.helpers">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pydmt.utils.html">pydmt.utils package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.utils.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.utils.html#module-pydmt.utils.digest">pydmt.utils.digest module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.digest.hex_digest_file"><code class="docutils literal notranslate"><span class="pre">hex_digest_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.digest.hex_digest_files"><code class="docutils literal notranslate"><span class="pre">hex_digest_files()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.digest.sha1_file"><code class="docutils literal notranslate"><span class="pre">sha1_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.digest.sha1_files"><code class="docutils literal notranslate"><span class="pre">sha1_files()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.digest.sha1_files_folders"><code class="docutils literal notranslate"><span class="pre">sha1_files_folders()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.digest.sha1_folders"><code class="docutils literal notranslate"><span class="pre">sha1_folders()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.utils.html#module-pydmt.utils.digester">pydmt.utils.digester module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.digester.Digester"><code class="docutils literal notranslate"><span class="pre">Digester</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.digester.Digester.add_file"><code class="docutils literal notranslate"><span class="pre">Digester.add_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.digester.Digester.add_files"><code class="docutils literal notranslate"><span class="pre">Digester.add_files()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.digester.Digester.add_files_folders"><code class="docutils literal notranslate"><span class="pre">Digester.add_files_folders()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.digester.Digester.add_folders"><code class="docutils literal notranslate"><span class="pre">Digester.add_folders()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.digester.Digester.get_hexdigest"><code class="docutils literal notranslate"><span class="pre">Digester.get_hexdigest()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.utils.html#module-pydmt.utils.filesystem">pydmt.utils.filesystem module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.filesystem.copy_mkdir"><code class="docutils literal notranslate"><span class="pre">copy_mkdir()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.filesystem.files_under_folder"><code class="docutils literal notranslate"><span class="pre">files_under_folder()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.filesystem.files_under_folders"><code class="docutils literal notranslate"><span class="pre">files_under_folders()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.filesystem.makedirs_for_file"><code class="docutils literal notranslate"><span class="pre">makedirs_for_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.filesystem.mkdir_touch"><code class="docutils literal notranslate"><span class="pre">mkdir_touch()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.filesystem.touch"><code class="docutils literal notranslate"><span class="pre">touch()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.filesystem.unlink_files"><code class="docutils literal notranslate"><span class="pre">unlink_files()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.utils.html#module-pydmt.utils.importlib">pydmt.utils.importlib module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.importlib.module_exists"><code class="docutils literal notranslate"><span class="pre">module_exists()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.utils.html#module-pydmt.utils.logging">pydmt.utils.logging module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.logging.get_logger"><code class="docutils literal notranslate"><span class="pre">get_logger()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.utils.html#module-pydmt.utils.php">pydmt.utils.php module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.php.to_php"><code class="docutils literal notranslate"><span class="pre">to_php()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.utils.html#module-pydmt.utils.python">pydmt.utils.python module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.python.collect_bootstrap_reqs"><code class="docutils literal notranslate"><span class="pre">collect_bootstrap_reqs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.python.collect_reqs"><code class="docutils literal notranslate"><span class="pre">collect_reqs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.python.get_install_args"><code class="docutils literal notranslate"><span class="pre">get_install_args()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.python.hlp_files_under"><code class="docutils literal notranslate"><span class="pre">hlp_files_under()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.python.hlp_source_under"><code class="docutils literal notranslate"><span class="pre">hlp_source_under()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.python.make_hlp_project_classifiers"><code class="docutils literal notranslate"><span class="pre">make_hlp_project_classifiers()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.python.make_hlp_project_keywords"><code class="docutils literal notranslate"><span class="pre">make_hlp_project_keywords()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.python.make_hlp_project_platforms"><code class="docutils literal notranslate"><span class="pre">make_hlp_project_platforms()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.python.make_hlp_wrap"><code class="docutils literal notranslate"><span class="pre">make_hlp_wrap()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.utils.html#module-pydmt.utils.subprocess">pydmt.utils.subprocess module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.subprocess.check_call"><code class="docutils literal notranslate"><span class="pre">check_call()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.subprocess.check_call_ve"><code class="docutils literal notranslate"><span class="pre">check_call_ve()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.subprocess.check_call_ve_env"><code class="docutils literal notranslate"><span class="pre">check_call_ve_env()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pydmt.utils.html#module-pydmt.utils">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+</section>
+<section id="module-pydmt.configs">
+<span id="pydmt-configs-module"></span><h2>pydmt.configs module<a class="headerlink" href="#module-pydmt.configs" title="Link to this heading">¶</a></h2>
+<p>configurations for this project</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pydmt.configs.ConfigApt">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydmt.configs.</span></span><span class="sig-name descname"><span class="pre">ConfigApt</span></span><a class="reference internal" href="_modules/pydmt/configs.html#ConfigApt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.configs.ConfigApt" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Config</span></code></p>
+<p>Parameters to configure how we run apt</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pydmt.configs.ConfigApt.apt_quiet">
+<span class="sig-name descname"><span class="pre">apt_quiet</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#pydmt.configs.ConfigApt.apt_quiet" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pydmt.configs.ConfigFlow">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydmt.configs.</span></span><span class="sig-name descname"><span class="pre">ConfigFlow</span></span><a class="reference internal" href="_modules/pydmt/configs.html#ConfigFlow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.configs.ConfigFlow" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Config</span></code></p>
+<p>Parameters to configure the flow of pydmt</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pydmt.configs.ConfigFlow.stop_after_error">
+<span class="sig-name descname"><span class="pre">stop_after_error</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#pydmt.configs.ConfigFlow.stop_after_error" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pydmt.configs.ConfigImport">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydmt.configs.</span></span><span class="sig-name descname"><span class="pre">ConfigImport</span></span><a class="reference internal" href="_modules/pydmt/configs.html#ConfigImport"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.configs.ConfigImport" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Config</span></code></p>
+<p>Configure how to set PYTHONPATH</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pydmt.configs.ConfigImport.import_cwd">
+<span class="sig-name descname"><span class="pre">import_cwd</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#pydmt.configs.ConfigImport.import_cwd" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pydmt.configs.ConfigImport.import_home">
+<span class="sig-name descname"><span class="pre">import_home</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#pydmt.configs.ConfigImport.import_home" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pydmt.configs.ConfigImport.import_system">
+<span class="sig-name descname"><span class="pre">import_system</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#pydmt.configs.ConfigImport.import_system" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pydmt.configs.ConfigLogging">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydmt.configs.</span></span><span class="sig-name descname"><span class="pre">ConfigLogging</span></span><a class="reference internal" href="_modules/pydmt/configs.html#ConfigLogging"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.configs.ConfigLogging" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Config</span></code></p>
+<p>Parameters to control logging</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pydmt.configs.ConfigLogging.loglevel">
+<span class="sig-name descname"><span class="pre">loglevel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'INFO'</span></em><a class="headerlink" href="#pydmt.configs.ConfigLogging.loglevel" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pydmt.configs.ConfigOutput">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydmt.configs.</span></span><span class="sig-name descname"><span class="pre">ConfigOutput</span></span><a class="reference internal" href="_modules/pydmt/configs.html#ConfigOutput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.configs.ConfigOutput" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Config</span></code></p>
+<p>Parameters to configure the output of pydmt</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pydmt.configs.ConfigOutput.print_not">
+<span class="sig-name descname"><span class="pre">print_not</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#pydmt.configs.ConfigOutput.print_not" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pydmt.configs.ConfigOutput.verbose">
+<span class="sig-name descname"><span class="pre">verbose</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#pydmt.configs.ConfigOutput.verbose" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pydmt.configs.ConfigReqs">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydmt.configs.</span></span><span class="sig-name descname"><span class="pre">ConfigReqs</span></span><a class="reference internal" href="_modules/pydmt/configs.html#ConfigReqs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.configs.ConfigReqs" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Config</span></code></p>
+<p>Parameters to configure addgin requirements</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pydmt.configs.ConfigReqs.reqs_add_dev">
+<span class="sig-name descname"><span class="pre">reqs_add_dev</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#pydmt.configs.ConfigReqs.reqs_add_dev" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pydmt.configs.ConfigSubprocess">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydmt.configs.</span></span><span class="sig-name descname"><span class="pre">ConfigSubprocess</span></span><a class="reference internal" href="_modules/pydmt/configs.html#ConfigSubprocess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.configs.ConfigSubprocess" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Config</span></code></p>
+<p>Parameters to configure how we run subprocess</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pydmt.configs.ConfigSubprocess.print_command">
+<span class="sig-name descname"><span class="pre">print_command</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#pydmt.configs.ConfigSubprocess.print_command" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pydmt.configs.ConfigSubprocess.quiet">
+<span class="sig-name descname"><span class="pre">quiet</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#pydmt.configs.ConfigSubprocess.quiet" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pydmt.configs.ConfigSudo">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydmt.configs.</span></span><span class="sig-name descname"><span class="pre">ConfigSudo</span></span><a class="reference internal" href="_modules/pydmt/configs.html#ConfigSudo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.configs.ConfigSudo" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Config</span></code></p>
+<p>Parameters to control whether we use ‘sudo’ or not</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pydmt.configs.ConfigSudo.sudo">
+<span class="sig-name descname"><span class="pre">sudo</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#pydmt.configs.ConfigSudo.sudo" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pydmt.configs.ConfigVenv">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydmt.configs.</span></span><span class="sig-name descname"><span class="pre">ConfigVenv</span></span><a class="reference internal" href="_modules/pydmt/configs.html#ConfigVenv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.configs.ConfigVenv" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Config</span></code></p>
+<p>Parameters to configure how to create virtual environments</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pydmt.configs.ConfigVenv.add_dev">
+<span class="sig-name descname"><span class="pre">add_dev</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#pydmt.configs.ConfigVenv.add_dev" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pydmt.configs.ConfigVenv.incremental">
+<span class="sig-name descname"><span class="pre">incremental</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#pydmt.configs.ConfigVenv.incremental" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pydmt.configs.ConfigVenv.system_site_packages">
+<span class="sig-name descname"><span class="pre">system_site_packages</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#pydmt.configs.ConfigVenv.system_site_packages" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pydmt.configs.ConfigVenv.upgrade_pip">
+<span class="sig-name descname"><span class="pre">upgrade_pip</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#pydmt.configs.ConfigVenv.upgrade_pip" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pydmt.main">
+<span id="pydmt-main-module"></span><h2>pydmt.main module<a class="headerlink" href="#module-pydmt.main" title="Link to this heading">¶</a></h2>
+<p>main.py</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="pydmt.main.add_all_features">
+<span class="sig-prename descclassname"><span class="pre">pydmt.main.</span></span><span class="sig-name descname"><span class="pre">add_all_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/main.html#add_all_features"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.main.add_all_features" title="Link to this definition">¶</a></dt>
+<dd><p>This method should be automatic, order matters here which is not good, order should be derived and not set in stone</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydmt.main.add_to_path">
+<span class="sig-prename descclassname"><span class="pre">pydmt.main.</span></span><span class="sig-name descname"><span class="pre">add_to_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/main.html#add_to_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.main.add_to_path" title="Link to this definition">¶</a></dt>
+<dd><p>This adds to PYTHONPATH various paths we need
+If you disable this then templates would not be able to find things like ‘config/python.py’</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydmt.main.build">
+<span class="sig-prename descclassname"><span class="pre">pydmt.main.</span></span><span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/main.html#build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.main.build" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydmt.main.build_reqs">
+<span class="sig-prename descclassname"><span class="pre">pydmt.main.</span></span><span class="sig-name descname"><span class="pre">build_reqs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/main.html#build_reqs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.main.build_reqs" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydmt.main.build_tools">
+<span class="sig-prename descclassname"><span class="pre">pydmt.main.</span></span><span class="sig-name descname"><span class="pre">build_tools</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/main.html#build_tools"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.main.build_tools" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydmt.main.build_venv">
+<span class="sig-prename descclassname"><span class="pre">pydmt.main.</span></span><span class="sig-name descname"><span class="pre">build_venv</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/main.html#build_venv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.main.build_venv" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydmt.main.check_config_and_load">
+<span class="sig-prename descclassname"><span class="pre">pydmt.main.</span></span><span class="sig-name descname"><span class="pre">check_config_and_load</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/main.html#check_config_and_load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.main.check_config_and_load" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydmt.main.clean">
+<span class="sig-prename descclassname"><span class="pre">pydmt.main.</span></span><span class="sig-name descname"><span class="pre">clean</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/pydmt/main.html#clean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.main.clean" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydmt.main.clean_hard">
+<span class="sig-prename descclassname"><span class="pre">pydmt.main.</span></span><span class="sig-name descname"><span class="pre">clean_hard</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/pydmt/main.html#clean_hard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.main.clean_hard" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydmt.main.main">
+<span class="sig-prename descclassname"><span class="pre">pydmt.main.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/main.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.main.main" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-pydmt.static">
+<span id="pydmt-static-module"></span><h2>pydmt.static module<a class="headerlink" href="#module-pydmt.static" title="Link to this heading">¶</a></h2>
+<p>version which can be consumed from within the module</p>
+</section>
+<section id="module-pydmt">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pydmt" title="Link to this heading">¶</a></h2>
+<p>Initialize the module</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">pydmt</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">src</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">pydmt package</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">src</a><ul>
+      <li>Previous: <a href="modules.html" title="previous chapter">src</a></li>
+      <li>Next: <a href="pydmt.api.html" title="next chapter">pydmt.api package</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Mark Veltzer.
+      
+      |
+      <a href="_sources/pydmt.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
