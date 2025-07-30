@@ -1,0 +1,103 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pgjinja"
+version = "2.1.0"
+description = "A Python package that seamlessly integrates PostgreSQL, Jinja templating, and Pydantic for type-safe database queries"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [
+    { name = "Shawn", email = "shawn.dev.vn@gmail.com" },
+]
+keywords = ["postgresql", "jinja", "pydantic", "sql", "database", "async", "templates"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Database",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+dependencies = [
+    "jinjasql2>=0.1.11",
+    "psycopg[binary,pool]>=3.2.6",
+    "pydantic>=2.10.6",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/tungph/pgjinja"
+"Bug Tracker" = "https://github.com/tungph/pgjinja/issues"
+"Documentation" = "https://github.com/tungph/pgjinja#readme"
+"Source Code" = "https://github.com/tungph/pgjinja"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build]
+packages = ["src"]
+exclude = [
+    "tests",
+    "examples",
+    "docs",
+    ".github",
+    ".git",
+    ".venv",
+    "dist",
+    "build",
+    "*.egg-info",
+]
+only-packages = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pgjinja"]
+
+[dependency-groups]
+dev = [
+    "build>=0.10.0",
+    "twine>=4.0.2",
+    "ruff>=0.0.292",
+    "pytest>=8.2",
+    "pytest-asyncio>=0.23",
+    "pytest-mock>=3.14",
+    "pytest-cov>=5",
+    "asyncpg", # or "pytest-postgresql" for live DB tests
+]
+
+[tool.ruff]
+# Enable pycodestyle (E), Pyflakes (F), and isort (I)
+lint.select = ["E", "F", "I", "B", "W", "C90"]
+# Allow unused variables when underscore-prefixed
+lint.ignore = ["E501", "B905", "W505"]
+# Same as Black
+line-length = 88
+# Avoid touching files with errors
+fix = true
+# Avoid error when there are no files to check
+exclude = [
+    ".git",
+    ".venv",
+    "__pycache__",
+    "build",
+    "dist",
+]
+
+# Configure isort rules for Ruff
+[tool.ruff.lint.isort]
+known-first-party = ["pgjinja"]
+
+# Configure flake8 compatibility settings
+[tool.ruff.lint.pycodestyle]
+max-doc-length = 88
+
+# Configure formatter
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
