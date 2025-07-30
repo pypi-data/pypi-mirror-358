@@ -1,0 +1,168 @@
+Metadata-Version: 2.4
+Name: fhir4ds
+Version: 0.4.1
+Summary: Production-ready healthcare analytics platform providing 100% SQL-on-FHIR v2.0 compliance with dual database support (DuckDB + PostgreSQL)
+Project-URL: Documentation, https://github.com/joelmontavon/fhir4ds/blob/main/docs/README.md
+Project-URL: Repository, https://github.com/joelmontavon/fhir4ds
+Project-URL: Bug Tracker, https://github.com/joelmontavon/fhir4ds/issues
+Project-URL: Homepage, https://github.com/joelmontavon/fhir4ds
+Author-email: Joel Montavon <joelmontavon@gmail.com>
+License: GNU General Public License v3 (GPLv3)
+License-File: LICENSE
+Keywords: analytics,data-science,duckdb,fhir,fhirpath,healthcare,postgresql,sql,viewdefinition
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Healthcare Industry
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Database
+Classifier: Topic :: Scientific/Engineering :: Medical Science Apps.
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.8
+Requires-Dist: duckdb>=0.8.0
+Requires-Dist: numpy>=1.24.4
+Requires-Dist: pandas>=1.5.0
+Requires-Dist: psycopg2-binary>=2.9.10
+Requires-Dist: pytest>=8.3.5
+Requires-Dist: typing-extensions>=4.0.0
+Requires-Dist: wheel>=0.45.1
+Provides-Extra: all
+Requires-Dist: black>=22.0.0; extra == 'all'
+Requires-Dist: fastapi>=0.100.0; extra == 'all'
+Requires-Dist: flake8>=5.0.0; extra == 'all'
+Requires-Dist: isort>=5.0.0; extra == 'all'
+Requires-Dist: jupyter>=1.0.0; extra == 'all'
+Requires-Dist: mypy>=1.0.0; extra == 'all'
+Requires-Dist: notebook>=6.0.0; extra == 'all'
+Requires-Dist: openpyxl>=3.0.0; extra == 'all'
+Requires-Dist: psycopg2-binary>=2.9.0; extra == 'all'
+Requires-Dist: pyarrow>=10.0.0; extra == 'all'
+Requires-Dist: pydantic>=2.0.0; extra == 'all'
+Requires-Dist: pytest-cov>=4.0.0; extra == 'all'
+Requires-Dist: pytest>=7.0.0; extra == 'all'
+Requires-Dist: uvicorn>=0.23.0; extra == 'all'
+Provides-Extra: dev
+Requires-Dist: black>=22.0.0; extra == 'dev'
+Requires-Dist: flake8>=5.0.0; extra == 'dev'
+Requires-Dist: isort>=5.0.0; extra == 'dev'
+Requires-Dist: jupyter>=1.0.0; extra == 'dev'
+Requires-Dist: mypy>=1.0.0; extra == 'dev'
+Requires-Dist: notebook>=6.0.0; extra == 'dev'
+Requires-Dist: pytest-cov>=4.0.0; extra == 'dev'
+Requires-Dist: pytest>=7.0.0; extra == 'dev'
+Provides-Extra: helpers
+Requires-Dist: openpyxl>=3.0.0; extra == 'helpers'
+Requires-Dist: pyarrow>=10.0.0; extra == 'helpers'
+Provides-Extra: postgresql
+Requires-Dist: psycopg2-binary>=2.9.0; extra == 'postgresql'
+Provides-Extra: server
+Requires-Dist: fastapi>=0.100.0; extra == 'server'
+Requires-Dist: pydantic>=2.0.0; extra == 'server'
+Requires-Dist: uvicorn>=0.23.0; extra == 'server'
+Description-Content-Type: text/markdown
+
+# FHIR for Data Science (FHIR4DS)
+
+Production-ready healthcare analytics platform providing 100% SQL-on-FHIR v2.0 compliance with dual database support (DuckDB + PostgreSQL).
+
+**Current Version**: 0.4.1 (Advanced Architecture & Performance Optimizations)  
+**Test Compliance**: 100% (117/117 tests passing) ✅ Complete Dual Dialect Compliance  
+**Database Support**: DuckDB 100% + PostgreSQL 100% ✅ Production Ready  
+**User Experience**: ✅ One-line setup, multi-format export, batch processing
+
+## Key Features
+
+- **100% SQL-on-FHIR v2.0 compliance** - All 117 official tests passing
+- **Dual database support** - DuckDB and PostgreSQL with identical functionality
+- **Advanced FHIRPath parsing** - Complete parser with 187 choice type mappings
+- **CTE-based SQL generation** - 95% reduction in SQL complexity
+- **Parallel processing** - High-performance data loading and query execution
+- **Multi-format export** - Pandas, JSON, CSV, Excel, Parquet
+- **Database object creation** - Views, tables, schemas from ViewDefinitions
+
+## Quick Start
+
+### Installation
+```bash
+pip install fhir4ds
+```
+
+### Database Setup
+```python
+from fhir4ds.datastore import QuickConnect
+
+# DuckDB (recommended for analytics)
+db = QuickConnect.duckdb("./healthcare_data.db")
+
+# PostgreSQL (enterprise-grade)
+db = QuickConnect.postgresql("postgresql://user:pass@host:5432/db")
+
+# Auto-detect from connection string
+db = QuickConnect.auto("./local.db")  # → DuckDB
+```
+
+### Load Data
+```python
+# Load FHIR resources with parallel processing
+db.load_resources(fhir_resources, parallel=True)
+
+# Load from JSON files (optimized for large files)
+db.load_from_json_file("fhir_bundle.json", use_native_json=True)
+```
+
+### Execute Queries and Export
+```python
+# Execute ViewDefinitions with immediate export
+df = db.execute_to_dataframe(view_definition)
+db.execute_to_excel([query1, query2], "report.xlsx", parallel=True)
+db.execute_to_parquet(analytics_query, "dataset.parquet")
+
+# Batch processing with progress monitoring
+results = db.execute_batch(queries, parallel=True, show_progress=True)
+```
+
+### Create Database Objects
+```python
+# Create analytics infrastructure
+db.create_schema("clinical_analytics")
+db.create_view(patient_view, "patient_demographics")
+db.create_table(observation_view, "vital_signs_table")
+
+# List created objects
+tables = db.list_tables()
+views = db.list_views()
+```
+
+For more details, please see the [documentation](./docs/README.md).
+
+## Testing
+
+Run the comprehensive test suite:
+
+```bash
+# Test both DuckDB and PostgreSQL dialects
+python tests/run_tests.py --dialect all
+
+# Test specific dialect
+python tests/run_tests.py --dialect duckdb
+python tests/run_tests.py --dialect postgresql
+```
+
+Test results: 117/117 tests passing on both DuckDB and PostgreSQL.
+
+## License
+
+GNU General Public License v3 (GPLv3)
+
+## Related Projects
+
+- [SQL-on-FHIR Specification](https://github.com/FHIR/sql-on-fhir-v2) - Official specification
+- [FHIR R4 Specification](https://hl7.org/fhir/R4/) - FHIR standard
+- [DuckDB](https://duckdb.org/) - High-performance analytics database
+- [PostgreSQL](https://www.postgresql.org/) - Enterprise-grade relational database
