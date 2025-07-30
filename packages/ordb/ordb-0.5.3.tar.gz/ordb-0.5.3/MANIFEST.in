@@ -1,0 +1,38 @@
+# Include the README and other documentation files
+include README.md
+include LICENSE
+include CHANGELOG.md
+
+# Include configuration files
+include pyproject.toml
+
+# Include the compressed database file for distribution
+include db/articles.db.gz
+recursive-include db *.gz *.json *.py
+
+# Include all source files
+recursive-include src *.py
+
+# Include tests
+recursive-include tests *.py
+include tests/README.md
+
+# Include database scripts
+recursive-include db *.py
+
+# Exclude unnecessary files
+exclude .gitignore
+exclude *.pyc
+recursive-exclude . __pycache__
+recursive-exclude . *.py[co]
+recursive-exclude . .DS_Store
+recursive-exclude . .venv
+exclude uv.lock
+exclude coverage.svg
+exclude install.sh
+exclude ordb.rb.template
+exclude ordb
+exclude README-DEV.md
+recursive-exclude tests run_*.sh
+recursive-exclude tests stein_original.html
+exclude tests/test_performance_report.md
