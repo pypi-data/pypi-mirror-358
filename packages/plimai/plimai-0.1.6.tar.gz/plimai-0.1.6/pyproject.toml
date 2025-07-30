@@ -1,0 +1,44 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "plimai"
+version = "0.1.6"
+authors = [
+    { name = "Plim", email = "priteshraj41@gmail.com" },
+]
+description = "Vision LLMs with LoRA fine-tuning."
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "torch",
+    "torchvision"
+]
+
+[project.urls]
+Documentation = "https://github.com/plimai/plim/tree/main/docs"
+Download = "https://pypi.org/project/plimai/#files"
+Homepage = "https://github.com/plimai/plim"
+"Release Notes" = "https://github.com/plimai/plim/releases"
+Source = "https://github.com/plimai/plim"
+Tracker = "https://github.com/plimai/plim/issues"
+Funding = "https://github.com/sponsors/plimai"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/plimai"]
+
+[tool.semantic_release]
+version_variable = ["pyproject.toml:version"]
+commit_message = "{version}"
+branch = "main"
+upload_to_pypi = true
+upload_to_release = true
+changelog_sections = ["feature", "fix", "breaking"]
+commit_parser = "conventional" 
