@@ -1,0 +1,45 @@
+Metadata-Version: 2.4
+Name: swanplot
+Version: 0.1.5
+Summary: Add your description here
+Project-URL: Documentation, https://swanplot.readthedocs.io
+Project-URL: Issues, https://github.com/angusforrest/swanplot/issues
+Project-URL: Source, https://github.com/angusforrest/swanplot
+Author-email: angusforrest <contact@angusforrest.com>
+License-Expression: MIT
+Requires-Python: >=3.10
+Requires-Dist: numpy>=1.26
+Requires-Dist: pillow>=11.2.1
+Requires-Dist: pydantic>=2.11.7
+Provides-Extra: docs
+Requires-Dist: autodoc-pydantic; extra == 'docs'
+Requires-Dist: autodocsumm; extra == 'docs'
+Requires-Dist: ipython; extra == 'docs'
+Requires-Dist: myst-nb; extra == 'docs'
+Requires-Dist: pandoc; extra == 'docs'
+Requires-Dist: pydata-sphinx-theme; extra == 'docs'
+Requires-Dist: sphinx-autodoc-typehints; extra == 'docs'
+Requires-Dist: sphinx-book-theme; extra == 'docs'
+Requires-Dist: sphinx>=7.2.6; extra == 'docs'
+Description-Content-Type: text/markdown
+
+# Swanplot
+
+Python plotting tool for datacubes
+
+Utilises numpy, pillow, and pydantic
+
+to use the package pip install and import swanplot and then upload to the (animate web endpoint)["https://animate.deno.dev"].
+The data will be rendered client side (no scrapping of data) inside your browser.
+
+```python
+import swanplot as splt
+
+
+ax = splt.axes()
+
+ax.hist(data)
+
+ax.savefig("animation.json")
+  
+```
