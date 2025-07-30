@@ -1,0 +1,71 @@
+[tool.poetry]
+name = "llmomics"
+version = "0.1.0"
+description = "LLM-powered bioinformatics pipeline generation from natural language"
+authors = ["Allan Paulo <allanpaulo2@hotmail.com>"]
+readme = "README.md"
+license = "MIT"
+homepage = "https://github.com/allanps/llmomics"
+repository = "https://github.com/allanps/llmomics"
+documentation = "https://github.com/allanps/llmomics"
+keywords = ["bioinformatics", "llm", "pipeline", "genomics", "ai"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+packages = [{include = "llmomics", from = "src"}]
+
+[tool.poetry.dependencies]
+python = ">=3.8"
+click = ">=8.0"
+openai = ">=1.0"
+requests = ">=2.28"
+pyyaml = ">=6.0"
+biopython = ">=1.80"
+pandas = ">=1.5"
+jinja2 = ">=3.0"
+rich = ">=13.0"
+python-dotenv = ">=1.0"
+pydantic = ">=2.0"
+pydantic-settings = ">=2.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = ">=7.0"
+pytest-cov = ">=4.0"
+black = ">=23.0"
+flake8 = ">=6.0"
+mypy = ">=1.0"
+pre-commit = ">=3.0"
+
+[tool.poetry.group.docs.dependencies]
+sphinx = ">=6.0"
+sphinx-rtd-theme = ">=1.2"
+myst-parser = ">=1.0"
+
+[tool.poetry.scripts]
+llmomics = "llmomics.cli:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
+target-version = ['py38', 'py39', 'py310', 'py311']
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"] 
