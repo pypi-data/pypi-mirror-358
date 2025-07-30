@@ -1,0 +1,35 @@
+[build-system]
+requires = ["hatchling>=1.18"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pyw-cv"
+version = "0.0.0.post1"
+description = "Computer vision bundle (vision + motion)"
+dependencies = [
+    "pyw-core>=0.0.0", 
+    "pyw-vision>=0.0.0",
+    "pyw-motion>=0.0.0"
+]
+authors = [{name = "pythonWoods"}]
+license = {text = "MIT"}
+requires-python = ">=3.9"
+readme = "README.md"
+
+
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Typing :: Typed",
+]
+
+[project.urls]
+Homepage      = "https://github.com/pythonWoods/pyw-cv"
+Documentation = "https://pythonwoods.dev/docs/pyw-cv/latest/"
+Issues        = "https://github.com/pythonWoods/pyw-cv/issues"
+Changelog     = "https://github.com/pythonWoods/pyw-cv/releases"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pyw"]

@@ -1,0 +1,65 @@
+# pyw-cv 👁️
+[![PyPI](https://img.shields.io/pypi/v/pyw-cv.svg)](https://pypi.org/project/pyw-cv/)
+[![CI](https://github.com/pythonWoods/pyw-cv/actions/workflows/ci.yml/badge.svg)](https://github.com/pythonWoods/pyw-cv/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+> Computer vision bundle for the **pythonWoods** ecosystem.
+
+## Components
+
+| Package | Description | Status |
+|---------|-------------|--------|
+| **pyw-vision** | Vision utilities & helpers | placeholder `0.0.0` |
+| **pyw-motion** | Motion detection & tracking | placeholder `0.0.0` |
+| **pyw-cv** | Meta-package: computer vision toolkit | `0.0.1` |
+
+## Philosophy
+
+* **Lightweight CV** – OpenCV wrapper con API moderne e type-safe.
+* **Real-time ready** – motion detection, object tracking, streaming.
+* **Modular design** – usa solo i moduli vision che ti servono.
+* **No heavy deps by default** – OpenCV, PyTorch, TensorFlow sono extra/optional.
+
+### Installation (nothing to use yet)
+
+```bash
+pip install pyw-cv
+```
+
+Questo installerà automaticamente:
+- `pyw-core` (namespace comune)
+- `pyw-vision` (utilities per image processing)
+- `pyw-motion` (motion detection algorithms)
+
+### Extras per deep learning:
+
+```bash
+pip install pyw-cv[torch]    # + PyTorch per neural networks
+pip install pyw-cv[tf]       # + TensorFlow/Keras
+pip install pyw-cv[full]     # tutto incluso
+```
+
+## Roadmap
+
+- 👀 **pyw-vision**: Image processing, filters, transformations
+- 🏃 **pyw-motion**: Motion detection, optical flow, tracking
+- 🧠 Integration con modelli pre-trained (YOLO, MediaPipe)
+- 📹 Real-time video processing pipeline
+- 🎯 Object detection & segmentation helpers
+
+## Contributing
+
+1. Fork il repo del modulo che ti interessa (`pyw-vision`, `pyw-motion`).
+2. Crea virtual-env via Poetry: `poetry install && poetry shell`.
+3. Lancia linter e mypy: `ruff check . && mypy`.
+4. Apri la PR: CI esegue lint, type-check, build.
+
+Felice visione nella foresta di **pythonWoods**! 🌲👁️
+
+## Links utili
+Documentazione dev (work-in-progress) → https://pythonwoods.dev/docs/pyw-cv/latest/
+
+Issue tracker → https://github.com/pythonWoods/pyw-cv/issues
+
+Changelog → https://github.com/pythonWoods/pyw-cv/releases
+
+© pythonWoods — MIT License
