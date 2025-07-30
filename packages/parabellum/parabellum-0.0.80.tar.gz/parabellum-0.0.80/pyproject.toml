@@ -1,0 +1,58 @@
+[project]
+name = "parabellum"
+version = "0.0.80"
+description = "Parabellum environment for parallel warfare simulation"
+authors = [{ name = "Noah Syrkis", email = "desk@syrkis.com" }]
+requires-python = ">=3.11,<3.12"
+readme = "README.md"
+dependencies = [
+    "tqdm>=4.66.4,<5",
+    "geopy>=2.4.1,<3",
+    "pandas>=2.2.2,<3",
+    "contextily>=1.6.0,<2",
+    "einops>=0.8.0,<0.9",
+    "jaxtyping>=0.2.33,<0.3",
+    "cartopy>=0.23.0,<0.24",
+    "cachier>=3.1.2,<4",
+    "optax>=0.2.4,<0.3",
+    "flax>=0.10.4,<0.11",
+    "wandb>=0.19.7,<0.20",
+    "flashbax>=0.1.2,<0.2",
+    "navix>=0.7.0,<0.8",
+    "omegaconf>=2.3.0,<3",
+    "jax-tqdm>=0.3.1,<0.4",
+    "equinox>=0.12.2",
+    "jaxkd>=0.1.0",
+    "chex>=0.1.89",
+    "osmnx>=2.0.4",
+    "jax>=0.6.0",
+]
+
+[dependency-groups]
+dev = ["esch"]
+
+[tool.uv.sources]
+esch = { path = "../../esch" }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+
+[tool.uv]
+environments = [
+    "sys_platform == 'darwin'",
+    "sys_platform == 'linux'",
+]
+
+# Override dependencies to prevent CUDA plugin resolution on non-Linux platforms
+override-dependencies = [
+    # Prevent jax-cuda12-plugin from being resolved on macOS
+    "jax-cuda12-plugin ; sys_platform == 'linux'",
+]
+
+[tool.ruff]
+line-length = 120
