@@ -1,0 +1,146 @@
+Metadata-Version: 2.4
+Name: yeonjae-universal-notification-service
+Version: 1.0.1
+Summary: Universal notification service supporting Slack, Email, Discord, and webhooks for automated reporting
+Author-email: "CodePing.AI Team" <contact@codeping.ai>
+License: MIT
+Project-URL: Homepage, https://github.com/yeonjae-work/universal-modules
+Project-URL: Repository, https://github.com/yeonjae-work/universal-modules
+Project-URL: Issues, https://github.com/yeonjae-work/universal-modules/issues
+Project-URL: Changelog, https://github.com/yeonjae-work/universal-modules/blob/main/packages/yeonjae-universal-notification-service/CHANGELOG.md
+Keywords: notification,slack,email,discord,webhook,alerts,messaging,automation
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Communications :: Email
+Classifier: Topic :: Communications :: Chat
+Classifier: Topic :: System :: Monitoring
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: typing-extensions>=4.0.0; python_version < "3.10"
+Requires-Dist: requests>=2.28.0
+Provides-Extra: slack
+Requires-Dist: slack-sdk>=3.20.0; extra == "slack"
+Provides-Extra: email
+Requires-Dist: aiosmtplib>=2.0.0; extra == "email"
+Requires-Dist: email-validator>=2.0.0; extra == "email"
+Provides-Extra: discord
+Requires-Dist: discord.py>=2.0.0; extra == "discord"
+Provides-Extra: all
+Requires-Dist: slack-sdk>=3.20.0; extra == "all"
+Requires-Dist: aiosmtplib>=2.0.0; extra == "all"
+Requires-Dist: email-validator>=2.0.0; extra == "all"
+Requires-Dist: discord.py>=2.0.0; extra == "all"
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.21.0; extra == "dev"
+Requires-Dist: pytest-mock>=3.10.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: isort>=5.12.0; extra == "dev"
+Requires-Dist: flake8>=6.0.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Requires-Dist: responses>=0.23.0; extra == "dev"
+
+# Universal Notification Service
+
+Universal notification service supporting Slack, Email, Discord, and webhooks for automated reporting.
+
+## Features
+
+- **Multi-Channel Support**: Slack, Email, Discord, Webhooks, SMS
+- **Async Operations**: Full async/await support for all notification operations  
+- **Rich Formatting**: Support for emoji, markdown, and channel-specific formatting
+- **Batch Processing**: Send notifications to multiple recipients efficiently
+- **Retry Logic**: Intelligent retry mechanisms with exponential backoff
+- **Template System**: Customizable message templates with variable substitution
+- **Rate Limiting**: Built-in rate limiting for API compliance
+- **Type Safety**: Complete type annotations with mypy support
+
+## Installation
+
+```bash
+# Basic installation
+pip install universal-notification-service
+
+# With Slack support
+pip install universal-notification-service[slack]
+
+# With Email support  
+pip install universal-notification-service[email]
+
+# With Discord support
+pip install universal-notification-service[discord]
+
+# With all providers
+pip install universal-notification-service[all]
+```
+
+## Quick Start
+
+```python
+import asyncio
+from universal_notification_service import (
+    NotificationService, NotificationInput, NotificationChannel,
+    NotificationConfig, RecipientInfo
+)
+
+async def main():
+    # Initialize service
+    service = NotificationService()
+    
+    # Configure notification
+    config = NotificationConfig(
+        channel=NotificationChannel.SLACK,
+        channel_id="#dev-reports"
+    )
+    
+    recipient = RecipientInfo(
+        developer="John Doe",
+        developer_email="john@example.com",
+        slack_id="U1234567890"
+    )
+    
+    # Create notification
+    notification = NotificationInput(
+        summary_report="🎉 Daily development summary ready!",
+        notification_config=config,
+        recipient_info=recipient
+    )
+    
+    # Send notification
+    result = await service.send_notification(notification)
+    print(f"Status: {result.send_status}")
+    print(f"Message ID: {result.message_id}")
+
+asyncio.run(main())
+```
+
+## Configuration
+
+Set your API keys as environment variables:
+
+```bash
+export SLACK_BOT_TOKEN="xoxb-your-slack-bot-token"
+export DISCORD_BOT_TOKEN="your-discord-bot-token"
+export SMTP_PASSWORD="your-email-password"
+```
+
+## Supported Channels
+
+- **Slack**: Rich formatting, mentions, threads, file uploads
+- **Email**: HTML/Plain text, attachments, templates
+- **Discord**: Embeds, mentions, webhooks
+- **Webhooks**: Custom HTTP endpoints with retry logic
+- **SMS**: Text messages via various providers
+
+## License
+
+MIT License
