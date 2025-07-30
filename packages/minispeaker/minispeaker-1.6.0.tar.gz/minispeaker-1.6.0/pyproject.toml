@@ -1,0 +1,61 @@
+[project]
+name = "minispeaker"
+version = "1.6.0"
+description = "Pythonic miniaudio speaker abstraction library"
+readme = "README.md"
+requires-python = ">=3.8,<3.13"
+license = "MIT"
+dependencies = [
+    "miniaudio>=1.61",
+    "numpy>=1.22.0",
+    "typing-extensions>=4.7.0"
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Typing :: Typed",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Sound/Audio",
+    "Topic :: Multimedia :: Sound/Audio :: Players",
+]
+keywords = ["sound", "audio", "playback", "async"]
+
+[tool.uv]
+constraint-dependencies = [
+    "cffi>=1.12.2; python_version=='3.8' and implementation_name=='cpython'" # NOTE: Cannot compile CFFI for python 3.8 unless CFFI >= 1.21.2 https://cffi.readthedocs.io/en/latest/whatsnew.html#v1-12-2 # NOTE: Line AI-generated and verified for correctness
+]
+
+[project.scripts]
+minispeaker = "minispeaker:main"
+
+
+[project.urls]
+Homepage = "https://github.com/agape-1/pyminispeaker/"
+Repository = "https://github.com/agape-1/pyminispeaker/"
+
+[build-system]
+requires = ["uv_build>=0.7.9,<0.8"]
+build-backend = "uv_build"
+
+[dependency-groups]
+docs = [
+    "pydoc-markdown>=4.8.2",
+]
+lint = [
+    "pydoclint>=0.5.11",
+    "ruff>=0.12.1",
+]
+
+[tool.ruff.lint]
+select = ["D"]
+
+ignore = ["D100", "D107"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
