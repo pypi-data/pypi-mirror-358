@@ -1,0 +1,67 @@
+name: test
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Build and Test with Multiple Python Versions
+    strategy:
+      matrix:
+        python-version: [3.8, 3.9, "3.10", "3.11", "3.12", "3.13"]
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install setuptools wheel build
+    - name: Run tests with coverage
+      run: make develop coverage_result
+    - name: Upload coverage data
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-data-${{ runner.os }}-py${{ matrix.python-version }}
+        path: .coverage.*
+        include-hidden-files: true
+
+  upload-coverage:
+    name: Upload coverage to Codecov
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download coverage data
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          pattern: 'coverage-data-*'
+          merge-multiple: true
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install coverage build
+      - name: Combine coverage data
+        run: |
+          python -m build
+          coverage combine artifacts
+          coverage xml
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: ${{ github.repository }}

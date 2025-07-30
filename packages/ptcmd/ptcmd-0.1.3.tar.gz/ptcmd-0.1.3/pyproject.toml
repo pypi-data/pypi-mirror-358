@@ -1,0 +1,128 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ptcmd"
+description = "A modern cmd library based on prompt_toolkit"
+license = {text = "Apache 2.0"}
+readme = "README.md"
+authors = [
+    { name="Visecy", email="Visecy@visecy.org" }
+]
+maintainers = [
+    { name="Ovizro", email="ovizro@visecy.org" }
+]
+dependencies = [
+    "prompt_toolkit>=3.0.0",
+    "rich>=13.0.0",
+    "pygments>=2.15.0",
+    "typing_extensions>=4.5.0",
+    "rich-argparse>=1.6.0"
+]
+requires-python = ">=3.8"
+keywords = ["cmd", "interactive", "prompt", "Python"]
+dynamic = ["version", "urls"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[project.optional-dependencies]
+lint = ["ruff>=0.9.0"]
+dev = ["ptcmd[lint]", "pytest>=6.0.0", "pytest-asyncio>=0.20.0", "coverage>=7.2.0"]
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/ptcmd/version.py"
+
+[tool.hatch.metadata.hooks.vcs.urls]
+Homepage = "https://github.com/Visecy/ptcmd"
+source_archive = "https://github.com/org/repo/archive/{commit_hash}.zip"
+
+[tool.ruff]
+line-length = 127
+
+# Assume Python 3.8
+target-version = "py38"
+
+[tool.ruff.lint]
+# Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
+# Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
+# McCabe complexity (`C901`) by default.
+select = ["E", "W", "F", "B", "N", "C4", "ASYNC", "ANN0", "ANN2"]
+ignore = ["E402"]
+
+# Allow fix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.format]
+# Like Black, use double quotes for strings.
+quote-style = "double"
+
+# Like Black, indent with spaces, rather than tabs.
+indent-style = "space"
+
+# Like Black, respect magic trailing commas.
+skip-magic-trailing-comma = false
+
+# Like Black, automatically detect the appropriate line ending.
+line-ending = "auto"
+
+# Enable auto-formatting of code examples in docstrings. Markdown,
+# reStructuredText code/literal blocks and doctests are all supported.
+#
+# This is currently disabled by default, but it is planned for this
+# to be opt-out in the future.
+docstring-code-format = false
+
+# Set the line length limit used when formatting code snippets in
+# docstrings.
+#
+# This only has an effect when the `docstring-code-format` setting is
+# enabled.
+docstring-code-line-length = "dynamic"
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F4"]
+
+[tool.coverage.run]
+branch = true
+
+[tool.coverage.report]
+# Regexes for lines to exclude from consideration
+exclude_also = [
+    # Don't complain about missing debug-only code:
+    "def __repr__",
+
+    # Don't complain if tests don't hit defensive assertion code:
+    "raise AssertionError",
+    "raise NotImplementedError",
+
+    # Don't complain if non-runnable code isn't run:
+    "if 0:",
+    "if __name__ == .__main__.:",
+
+    # Don't complain about abstract methods, they aren't run:
+    "@(abc\\.)?abstractmethod",
+
+    # Don't complain aboud typing hint
+    "class (\\w+)\\(Protocol\\):",
+    "if TYPE_CHECKING:",
+    "@(typing\\.)?overload",
+]
+
+ignore_errors = true
