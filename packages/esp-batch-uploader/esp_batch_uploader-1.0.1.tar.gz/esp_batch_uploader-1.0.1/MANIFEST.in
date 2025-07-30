@@ -1,0 +1,16 @@
+# MANIFEST.in
+
+# Include the README and requirements
+include README.md
+include requirements.txt
+
+# Include the entire package source code
+recursive-include esp_batch_uploader *
+
+# Exclude unnecessary files (safety)
+exclude *.log
+exclude *.zip
+exclude *.pyc
+exclude __pycache__/
+exclude logs/
+exclude uploads/
