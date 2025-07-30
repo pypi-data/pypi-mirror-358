@@ -1,0 +1,280 @@
+package com.example.samplequestion1
+
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import android.widget.Button
+import android.widget.CheckBox
+import android.widget.TextView
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+
+   override fun onCreate(savedInstanceState: Bundle?) {
+       super.onCreate(savedInstanceState)
+       setContentView(R.layout.activity_main)
+
+       // Binding views
+       val book1 = findViewById<CheckBox>(R.id.book1)
+       val book2 = findViewById<CheckBox>(R.id.book2)
+       val book3 = findViewById<CheckBox>(R.id.book3)
+       val book4 = findViewById<CheckBox>(R.id.book4)
+       val calculateButton = findViewById<Button>(R.id.calculateButton)
+       val resultText = findViewById<TextView>(R.id.resultText)
+
+       // Calculate total cost on button click
+       calculateButton.setOnClickListener {
+           var total = 0
+           if (book1.isChecked) total += 100
+           if (book2.isChecked) total += 150
+           if (book3.isChecked) total += 200
+           if (book4.isChecked) total += 250
+
+           if (total > 300) {
+               total -= (total * 0.1).toInt()
+               Toast.makeText(this, "10% discount applied!", Toast.LENGTH_SHORT).show()
+           }
+
+           resultText.text = "Total Cost: ₹$total"
+       }
+   }
+}
+
+
+
+
+
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+   xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
+   android:orientation="vertical"
+   android:padding="20dp">
+
+   <CheckBox
+       android:id="@+id/book1"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Book 1 - ₹100" />
+
+   <CheckBox
+       android:id="@+id/book2"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Book 2 - ₹150" />
+
+   <CheckBox
+       android:id="@+id/book3"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Book 3 - ₹200" />
+
+   <CheckBox
+       android:id="@+id/book4"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Book 4 - ₹250" />
+
+   <Button
+       android:id="@+id/calculateButton"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:text="Calculate Total"
+       android:layout_marginTop="20dp" />
+
+   <TextView
+       android:id="@+id/resultText"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Total Cost: ₹0"
+       android:textSize="18sp"
+       android:layout_marginTop="20dp" />
+</LinearLayout>
+
+package com.example.sampleques2
+
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import android.widget.*
+
+class MainActivity : AppCompatActivity() {
+
+   override fun onCreate(savedInstanceState: Bundle?) {
+       super.onCreate(savedInstanceState)
+       setContentView(R.layout.activity_main)
+
+       val num1 = findViewById<EditText>(R.id.etNumber1)
+       val num2 = findViewById<EditText>(R.id.etNumber2)
+       val group = findViewById<RadioGroup>(R.id.operationGroup)
+       val button = findViewById<Button>(R.id.btnCalculate)
+       val result = findViewById<TextView>(R.id.tvResult)
+
+       button.setOnClickListener {
+           val n1 = num1.text.toString().toDoubleOrNull()
+           val n2 = num2.text.toString().toDoubleOrNull()
+
+           if (n1 == null || n2 == null) {
+               Toast.makeText(this, "Enter valid numbers", Toast.LENGTH_SHORT).show()
+               return@setOnClickListener
+           }
+
+           val res = when (group.checkedRadioButtonId) {
+               R.id.rbAdd -> n1 + n2
+               R.id.rbSubtract -> n1 - n2
+               R.id.rbMultiply -> n1 * n2
+               R.id.rbDivide -> if (n2 != 0.0) n1 / n2 else {
+                   Toast.makeText(this, "Cannot divide by zero", Toast.LENGTH_SHORT).show()
+                   return@setOnClickListener
+               }
+               else -> {
+                   Toast.makeText(this, "Select an operation", Toast.LENGTH_SHORT).show()
+                   return@setOnClickListener
+               }
+           }
+
+           result.text = "Result: $res"
+       }
+   }
+}
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:orientation="vertical"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
+   android:padding="20dp">
+
+   <EditText
+       android:id="@+id/etNumber1"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:hint="Enter first number"
+       android:inputType="numberDecimal" />
+
+   <EditText
+       android:id="@+id/etNumber2"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:hint="Enter second number"
+       android:inputType="numberDecimal"
+       android:layout_marginTop="12dp" />
+
+   <RadioGroup
+       android:id="@+id/operationGroup"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal"
+       android:layout_marginTop="16dp">
+
+       <RadioButton
+           android:id="@+id/rbAdd"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Add" />
+
+       <RadioButton
+           android:id="@+id/rbSubtract"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Subtract" />
+
+       <RadioButton
+           android:id="@+id/rbMultiply"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Multiply" />
+
+       <RadioButton
+           android:id="@+id/rbDivide"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Divide" />
+   </RadioGroup>
+
+   <Button
+       android:id="@+id/btnCalculate"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Calculate"
+       android:layout_marginTop="16dp" />
+
+   <TextView
+       android:id="@+id/tvResult"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Result: "
+       android:textSize="18sp"
+       android:textColor="#008000"
+       android:layout_marginTop="20dp" />
+</LinearLayout>
+
+
+
+
+package com.example.sampleques3
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.*
+
+class MainActivity : AppCompatActivity() {
+   private var counter = 0
+   override fun onCreate(savedInstanceState: Bundle?) {
+       super.onCreate(savedInstanceState)
+       setContentView(R.layout.activity_main)
+
+       val counterTextView = findViewById<TextView>(R.id.counterTextView)
+       val incrementButton = findViewById<Button>(R.id.incrementButton)
+       val toastButton = findViewById<Button>(R.id.toastButton)
+
+       incrementButton.setOnClickListener {
+           counter++
+           counterTextView.text = "Count: $counter"
+       }
+
+       toastButton.setOnClickListener {
+           Toast.makeText(this, "Count is $counter", Toast.LENGTH_SHORT).show()
+       }
+   }
+}
+
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:orientation="horizontal"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
+   android:gravity="center"
+   android:padding="16dp">
+
+   <TextView
+       android:id="@+id/counterTextView"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Count: 0"
+       android:textSize="20sp"
+       android:layout_marginEnd="16dp" />
+
+   <Button
+       android:id="@+id/incrementButton"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Increment"
+       android:layout_marginEnd="16dp" />
+
+   <Button
+       android:id="@+id/toastButton"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Show Toast" />
+
+</LinearLayout>
+
+
