@@ -1,0 +1,38 @@
+Metadata-Version: 2.4
+Name: walacor-data-tracker
+Version: 0.0.1
+Summary: SDK and CLI for capturing data-science lineage and persisting DAG snapshots to Walacor.
+Author-email: Garo Kechichian <garo.keshish@gmail.com>
+License: Apache-2.0
+Project-URL: Documentation, https://apidoc.walacor.com
+Project-URL: Homepage, https://github.com/walacor/walacor-data-tracker
+Project-URL: Source, https://github.com/walacor/walacor-data-tracker
+Project-URL: Issues, https://github.com/walacor/walacor-data-tracker/issues
+Keywords: data-transformations,data-lineage,provenance,walacor,dag,snapshot
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests>=2.32.3
+Requires-Dist: pydantic>=2.10
+Requires-Dist: pandas>=2.0
+Requires-Dist: pyarrow>=14
+Requires-Dist: fastparquet>=2024.2
+Requires-Dist: numpy>=1.26
+Requires-Dist: scikit-learn>=1.4
+Requires-Dist: walacor-python-sdk>=0.1.5
+Provides-Extra: test
+Requires-Dist: pytest>=6; extra == "test"
+Provides-Extra: dev
+Requires-Dist: pre-commit; extra == "dev"
+Requires-Dist: tox; extra == "dev"
+Dynamic: license-file
+
+# python-data
+Python based data science tools
