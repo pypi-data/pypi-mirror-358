@@ -1,0 +1,74 @@
+# Superset MCP Server
+
+A Model Control Protocol (MCP) server for Apache Superset integration with AI assistants. This server enables AI assistants to interact with and control a Superset instance programmatically.
+
+## Features
+
+- **Automatic Authentication**: Handles Superset authentication with token management and auto-refresh
+- **Comprehensive API Coverage**: Supports dashboards, charts, databases, datasets, and SQL Lab operations
+- **Error Handling**: Robust error handling with automatic retry mechanisms
+- **Token Persistence**: Stores and reuses authentication tokens across sessions
+- **Type Safety**: Full type annotations with Pydantic models for request/response validation
+
+## Project Structure
+
+```
+superset-mcp-py/
+├── main.py                 # Main MCP server entry point with FastMCP
+├── utils.py               # Authentication, token management, and API utilities
+├── pyproject.toml         # Project configuration and dependencies
+├── superset.spec.json     # Superset OpenAPI specification
+├── rebuild.ps1           # PowerShell build script
+├── uv.lock               # UV package manager lock file
+└── tools/                # MCP tools organized by category
+    ├── __init__.py       # Tools package initialization
+    ├── chart_tools.py    # Chart/slice operations
+    ├── dashboard_tools.py # Dashboard management
+    ├── database_tools.py # Database connection tools
+    ├── dataset_tools.py  # Dataset/table operations
+    └── sqllab_tools.py   # SQL Lab query execution
+```
+
+## Available Tools
+
+### Dashboard Tools
+- **superset_dashboard_list**: Get a list of dashboards with filtering, sorting, and pagination support
+- **superset_dashboard_get_by_id**: Get detailed information for a specific dashboard including metadata and position
+- **superset_dashboard_update**: Update existing dashboard properties, metadata, and layout
+
+### Chart Tools
+- **superset_chart_list**: Get a list of charts/slices with comprehensive filtering and sorting options
+- **superset_chart_get_by_id**: Get detailed chart information including visualization parameters
+- **superset_chart_update**: Update chart properties, visualization settings, and parameters
+- **superset_chart_delete**: Delete a chart (permanent operation with confirmation)
+
+### Database Tools
+- **superset_database_list**: Get a list of all database connections with connection details
+- **superset_database_get_by_id**: Get detailed database connection information and capabilities
+- **superset_database_validate_sql**: Validate SQL syntax against a specific database engine
+
+### Dataset Tools
+- **superset_dataset_list**: Get a list of datasets with filtering, sorting, and pagination
+- **superset_dataset_get_by_id**: Get detailed dataset information including columns, metrics, and configuration
+- **superset_dataset_create**: Create a new dataset from an existing database table
+- **superset_dataset_update**: Update dataset properties, columns, and configuration
+
+### SQL Lab Tools
+- **superset_sqllab_execute_query**: Execute SQL queries against databases through SQL Lab with result limits
+
+## Dependencies
+
+- **httpx** (>=0.28.0): Modern HTTP client for Superset API communication
+- **mcp[cli]** (>=1.4.0): Model Control Protocol framework with CLI support
+- **uvicorn** (>=0.34.0): ASGI server for serving the MCP server
+- **python-dotenv** (>=1.0.0): Environment variable management
+- **pydantic** (>=2.11.7): Data validation and settings management with type safety
+- **prison** (>=0.2.1): Data serialization and validation utilities
+
+## Configuration
+
+Set the following environment variables:
+- `SUPERSET_BASE_URL`: Base URL of your Superset instance (default: http://localhost:8088)
+- `SUPERSET_USERNAME`: Username for authentication (default: admin)
+- `SUPERSET_PASSWORD`: Password for authentication (default: admin)
+- `SUPERSET_AUTH_PROVIDER`: Authentication provider (default: db)
