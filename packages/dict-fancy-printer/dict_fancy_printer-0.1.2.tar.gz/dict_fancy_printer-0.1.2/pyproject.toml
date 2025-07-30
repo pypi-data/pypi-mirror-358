@@ -1,0 +1,29 @@
+[tool.poetry]
+name         = "dict-fancy-printer"
+version      = "0.1.2"
+description  = "A simple library used to print python dictionaries in a fancier and more understandable way"
+authors      = ["Matteo Gabburo <matteogabburo@gmail.com>"]
+license      = "Apache-2.0"
+readme       = "README.md"
+homepage     = "https://github.com/matteogabburo/dict-fancy-printer"
+repository   = "https://github.com/matteogabburo/dict-fancy-printer"
+keywords     = ["dict", "printer", "formatting"]
+classifiers  = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: Apache Software License",
+  "Operating System :: OS Independent"
+]
+packages     = [{ include = "dict_fancy_printer" }]
+
+[tool.poetry.dependencies]
+python    = "^3.8"
+termcolor = "^2.2.0"
+
+[tool.poetry.dev-dependencies]
+pytest    = "^7.0"
+black     = "^23.1"
+isort     = "^5.12"
+
+[build-system]
+requires    = ["poetry-core>=1.5.0"]
+build-backend= "poetry.core.masonry.api"
