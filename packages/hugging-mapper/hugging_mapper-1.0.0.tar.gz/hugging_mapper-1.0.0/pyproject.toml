@@ -1,0 +1,65 @@
+# ref: https://setuptools.pypa.io/en/stable/userguide/pyproject_config.html
+[project]
+authors = [
+  { name = "Angel L. P.", email = "59593766+angelphanth@users.noreply.github.com" },
+]
+description = "A lightweight python tool for effortless text similarity scoring using Hugging Face models"
+name = "hugging-mapper"
+# This means: Load the version from the package itself.
+# See the section below: [tools.setuptools.dynamic]
+dynamic = ["version"]
+readme = "README.md"
+requires-python = ">=3.9"
+# These are keywords
+classifiers = [
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+
+[tool.setuptools.packages.find]
+include = ["hugger*"]
+
+# # add dependencies here: (use one of the two)
+# dependencies = ["numpy", "pandas", "scipy", "matplotlib", "seaborn"]
+# use requirements.txt instead of pyproject.toml for dependencies
+# https://stackoverflow.com/a/73600610/9684872
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+
+[project.urls]
+"Bug Tracker" = "https://github.com/angelphanth/hugger/issues"
+"Homepage" = "https://github.com/angelphanth/hugger"
+
+[project.optional-dependencies]
+# Optional dependencies to locally build the documentation, also used for 
+# readthedocs.
+docs = [
+  "sphinx",
+  "sphinx-book-theme",
+  "myst-nb",
+  "ipywidgets",
+  "sphinx-new-tab-link!=0.2.2",
+  "jupytext",
+]
+# local development options
+dev = ["black", "ruff", "pytest", "ipykernel", "openpyxl"]
+
+# Configure the Ruff linter: Ignore error number 501
+[tool.ruff]
+lint.ignore = ["E501"]
+
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools>=64", "setuptools_scm>=8"]
+
+[tool.setuptools_scm]
+# https://setuptools-scm.readthedocs.io/ 
+# used to pick up the version from the git tags or the latest commit.
+
+[tool.isort]
+profile = "black"
