@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=67.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vaultseal"
+version = "0.1.1"
+description = "Encrypted local secret storage utility with a command-line interface"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.7"
+authors = [
+  { name = "Noah", email = "allaj0412@gmail.com" }
+]
+keywords = ["encryption", "secrets", "cli", "vault", "password manager"]
+dependencies = [
+  "cryptography>=3.4",
+  "pyperclip"
+]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Environment :: Console",
+  "Topic :: Security :: Cryptography",
+  "Intended Audience :: Developers"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/Nipfswd/vaultseal"
+"Bug Tracker" = "https://github.com/Nipfswd/vaultseal/issues"
+
+[project.scripts]
+vaultseal = "vaultseal.cli:main"
