@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "pa-api-sdk"
+version = "0.1.11"
+description = ""
+authors = ["David Gallay <david.gallay.96@gmail.com>"]
+readme = "README.md"
+packages = [{include = "pa_api", from="."}]
+
+[tool.poetry.scripts]
+# pa-api = "pa_api.__main__:cli"
+# panorama-api = "pa_api.__main__:cli"
+
+[tool.poetry.dependencies]
+# https://stackoverflow.com/questions/65945929/poetry-how-to-publish-project-packages-targeting-multiple-python-versions
+python = ">=3.7.0,<4.0.0"
+# pan-os-python = "^1.11.0"
+lxml = "^4.9.3"
+xmltodict = "^0.13.0"
+requests = "^2.31.0"
+# defusedxml = "^0.7.1"
+pan-os-python = "^1.11.0"
+pydantic = "^2.5.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
