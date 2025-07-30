@@ -1,0 +1,53 @@
+[build-system]
+requires = ["flit_core >=3.11,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "ics_to_sms"
+authors = [{name = "Julien Palard", email = "julien@palard.fr"}]
+license = "MIT"
+license-files = ["LICENSE"]
+readme = "README.md"
+dynamic = ["version", "description"]
+dependencies = ["requests", "ics"]
+
+[project.optional-dependencies]
+dev = [
+    "tox",
+    "pylint",
+    "mypy",
+    "isort",
+    "black",
+    "types-requests",
+]
+
+[project.urls]
+Home = "https://git.afpy.org/mdk/ics_to_sms"
+
+[project.scripts]
+ics-to-sms = "ics_to_sms:main"
+
+[tool.black]
+
+[tool.mypy]
+ignore_missing_imports = true
+
+[tool.tox]
+envlist = ["mypy", "black", "pylint", "isort"]
+skip_missing_interpreters = true
+
+[tool.tox.env.mypy]
+deps = ["mypy"]
+commands = [["mypy", "ics-to-sms.py"]]
+
+[tool.tox.env.black]
+deps = ["black"]
+commands = [["black", "--check", "--diff", "ics-to-sms.py"]]
+
+[tool.tox.env.pylint]
+deps = [".[dev]"]
+commands = [["pylint", "ics-to-sms.py"]]
+
+[tool.tox.env.isort]
+deps = ["isort"]
+commands = [["isort", "--check", "--profile=black", "ics-to-sms.py"]]
