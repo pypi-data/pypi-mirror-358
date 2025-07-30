@@ -1,0 +1,49 @@
+Metadata-Version: 2.4
+Name: electrum-fp
+Version: 0.1.1
+Summary: Metal-aware molecular fingerprinting tools
+Author: Markus Orsi
+Author-email: markus.orsi@unibe.ch
+Keywords: cheminformatics,fingerprint,electrum,coordination
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: rdkit
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: keywords
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# electrum-fp
+
+**Metal-aware molecular fingerprinting tools for transition metal complexes.**  
+`electrum-fp` provides vector representations that combine ligand topology with metal identity, enabling downstream tasks like classification, regression, and visualization.
+
+## Installation
+
+```bash
+pip install electrum-fp
+```
+
+## Usage
+
+```python
+from electrum_fp.electrum import calculate_fingerprint
+
+ligands = "Cc1c(C)c(C)c(c2cccc3cccnc32)c1C.Cl.Cl"        # Ligand SMILES
+metal = "Rh"                                             # Corresponding metal
+
+fps = calculate_fingerprint(ligands, metal, radius=2, n_bits=512)
+print(fps) 
+``` 
