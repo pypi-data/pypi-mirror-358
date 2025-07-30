@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "coolbot-framework"  # IMPORTANT: CHOOSE A UNIQUE NAME!
+version = "0.1.0"
+authors = [
+  { name="xPRINCE >> LK-TEAM", email="unknown@gmail.com" },
+]
+description = "A cool and easy wrapper for Disnake to build Discord bots faster."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+# THIS IS THE MOST IMPORTANT PART!
+# It tells pip to automatically install disnake when someone installs your package.
+dependencies = [
+    "disnake>=2.8.0",
+]
+
+[project.urls]
+"Homepage" = "https://unknownbroohahahah" # Optional
