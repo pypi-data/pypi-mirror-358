@@ -1,0 +1,15 @@
+[package]
+name = 'pyfend'
+version = '0.1.2'
+edition = '2024'
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+name = 'pyfend'
+crate-type = ['cdylib']
+
+[dependencies]
+fend-core = '1'
+minreq = { version = "2.14.0", features = ["https"] }
+nanorand = '0'
+pyo3 = '0'
