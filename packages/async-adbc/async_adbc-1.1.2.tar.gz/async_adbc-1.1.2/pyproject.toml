@@ -1,0 +1,41 @@
+[tool.poetry]
+name = "async-adbc"
+version = "1.1.2"
+description = ""
+authors = ["kaluluosi <kaluluosi@gmail.com>"]
+repository = "https://github.com/kaluluosi/async-adbc"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+pydantic = "^2.5.1"
+async-lru = "^2.0.4"
+
+
+[tool.ruff.lint]
+fixable = ["ALL"]
+
+[tool.ruff.format]
+# Like Black, use double quotes for strings.
+quote-style = "double"
+
+# Like Black, indent with spaces, rather than tabs.
+indent-style = "space"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.1.5"
+coverage = "^7.3.2"
+
+
+[tool.poetry.group.docs.dependencies]
+mkdocs = "^1.5.3"
+mkdocs-material = "^9.4.10"
+
+[[tool.poetry.source]]
+name = "tsinghua"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
+priority = "primary"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
