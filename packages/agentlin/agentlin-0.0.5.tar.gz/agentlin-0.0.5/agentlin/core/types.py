@@ -1,0 +1,4 @@
+from openai.types.chat import ChatCompletionMessageParam, ChatCompletionContentPartParam
+
+ContentData = ChatCompletionContentPartParam
+DialogData = ChatCompletionMessageParam
