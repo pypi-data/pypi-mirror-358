@@ -1,0 +1,64 @@
+Metadata-Version: 2.4
+Name: sample-env
+Version: 1.0.0
+Summary: A command line tool for generating sample env files from pydantic BaseSettings.
+Author-email: sandbox <sandbox@sandbox.com.np>
+Project-URL: Homepage, https://github.com/sandbox-pokhara/sample-env
+Project-URL: Issues, https://github.com/sandbox-pokhara/sample-env/issues
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pydantic
+Requires-Dist: pydantic-settings
+Requires-Dist: pydantic-core
+Provides-Extra: pre-commit
+Requires-Dist: pre-commit; extra == "pre-commit"
+Provides-Extra: build
+Requires-Dist: build; extra == "build"
+Requires-Dist: wheel; extra == "build"
+Requires-Dist: setuptools; extra == "build"
+Dynamic: license-file
+
+<h1 align="center" style="border-bottom: none;">sample-env</h1>
+<h3 align="center">A CLI tool for generating sample env files from <a href="">pydantic_settings.BaseSettings</a>.</h3>
+
+# Installation
+
+```
+pip install sample-env
+```
+
+# Command-line usage
+
+Let's assume the following [`BaseSettings`](https://docs.pydantic.dev/latest/usage/pydantic_settings/).
+
+```python
+from pydantic_settings import BaseSettings
+
+
+class Environment(BaseSettings):
+    DEBUG: bool = True
+    POSTGRES_HOST: str = "localhost"
+    POSTGRES_USER: str = "postgres"
+    POSTGRES_DB: str = "db"
+    POSTGRES_PASSWORD: str = "postgres"
+    POSTGRES_PORT: str = "5432"
+```
+
+You can generate a `.env.sample` file with this command:
+
+```shell script
+sample-env example.Environment
+```
+
+Output
+
+```dotenv
+DEBUG=True
+POSTGRES_HOST=localhost
+POSTGRES_USER=postgres
+POSTGRES_DB=db
+POSTGRES_PASSWORD=postgres
+POSTGRES_PORT=5432
+```
