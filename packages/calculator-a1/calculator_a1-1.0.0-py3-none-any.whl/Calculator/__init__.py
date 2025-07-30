@@ -1,0 +1,1 @@
+from .simple_calculator import add, subs, multiply, divide, power
