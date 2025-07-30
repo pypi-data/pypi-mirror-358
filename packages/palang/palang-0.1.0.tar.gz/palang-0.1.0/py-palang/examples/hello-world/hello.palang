@@ -1,0 +1,18 @@
+module hello
+
+prompt greet() -> std::Text {
+    Say "Hello World!", nothing else.
+}
+
+prompt to_french(text: std::Text) -> std::Text {
+    Translate ${text} into French.
+}
+
+function greet_in_french() -> std::Text {
+    greeting = greet()
+    return to_french(greeting)
+}
+
+prompt tell_joke() -> std::Text {
+    Tell me a joke.
+}
