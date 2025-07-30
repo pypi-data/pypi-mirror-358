@@ -1,0 +1,54 @@
+rbobjecttracking is based on an algorithm I invented called RBOT. it stands for ROI Based Object Tracking.
+
+using rbobjecttracking, you can get around 50-70 FPS on a CPU
+To use rbobjecttracking, first create your custom dataset using ```rbot.dataCollector```.
+
+``` python
+from rbot.dataCollector import DataCollector # Import the DataCollector class
+
+data_collector = DataCollector() # Create the DataCollector object
+data_collector.collectData() # This will open a GUI window using customtkinter and opencv.
+```
+After filling in the text fields and collecting the image samples, train a small model using ```rbot.trainer```.
+
+``` python
+from rbot.trainer import Trainer # Import the Trainer class
+
+trainer = Trainer(dataset_path="<dataset name that you created>", img_size=(128, 128), model_path="<path you want to save your model>") # Create the Trainer object
+                  
+trainer.train() # This will train and save the model to your specified model path
+```
+
+Training should usually take around 10seconds to a minute on your GPU depending on your dataset size, and image size.
+
+After training, you can need to get the color mask of the object with ```rbot.colorExtractor```.
+
+``` python
+from rbot.colorExtractor import ColorRangeSelector # import the ColorRangeSelector class
+
+rangeSelector = ColorRangeSelector() # Create the class object
+rangeSelector.select_color_range() # call the function to select your object's color range
+```
+
+This will open a GUI with the masked webcam, and some sliders. You need to adjust the sliders so that everything but your object turns black in the webcam view.
+
+After selecting your object's color range, you can then start the object detection with ```rbot.rbot```
+``` python
+from rbot.rbot import RBOT # Import the RBOT class
+import cv2 # Import opencv for accessing the webcam
+
+rbot = RBOT(hsvValues="<Your object's color range>", image_size=(128, 128), minimum_confidence=0.9) # Create the RBOT object
+cap = cv2.VideoCapture(0) # Access the webcam
+
+while True:
+    ret, frame = cap.read() # Get a frame from the webcam
+
+    processed_frame = rbot.track_object(frame=frame, color=(0, 255, 0), width=2) # Process the frame
+
+    cv2.imshow("processed frame", processed_frame) # Display the proccesed frame
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
+```
