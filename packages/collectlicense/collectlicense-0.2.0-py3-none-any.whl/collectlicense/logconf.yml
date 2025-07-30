@@ -1,0 +1,23 @@
+# logconf.yml
+version: 1
+ 
+formatters:
+    fmt:
+        format: '[%(asctime)s] [%(levelname)s] %(message)s'
+        class: logging.Formatter
+handlers:
+    main:
+        class: logging.StreamHandler
+        level: DEBUG
+        formatter: fmt
+        stream: ext://sys.stdout
+
+loggers:
+    main:
+        handlers: [main]
+        level: DEBUG
+        qualname: main
+ 
+root:
+    handlers: [main]
+    level: DEBUG
