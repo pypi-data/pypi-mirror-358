@@ -1,0 +1,43 @@
+Metadata-Version: 2.4
+Name: livealert
+Version: 0.1.2
+Summary: A CLI tool to fetch real-time weather and news alerts. 
+Author-email: cyrus-spc-tech <tanishgupta12389@gmail.com>
+License: MIT
+Description-Content-Type: text/markdown
+License-File: LICENCE
+Requires-Dist: click>=8.0.0
+Requires-Dist: requests>=2.25.1
+Requires-Dist: python-dotenv>=0.19.0
+Requires-Dist: rich>=12.0.0
+Requires-Dist: pyfiglet>=0.8.post1
+Dynamic: license-file
+
+# LiveAlert 
+### It is a command-line tool that delivers instant weather forecasts and breaking news headlines directly to your terminal. Designed for developers, journalists, and weather enthusiasts who need quick updates without leaving their workflow.
+
+## Key Features
+### 🌦️ Instant Weather Reports
+Get current conditions (temperature, humidity, wind) for any city worldwide.
+```
+weather "Chandigarh"
+```
+### 📰 Breaking News Alerts
+Fetch the latest headlines from top news sources.
+```
+news 3
+```
+📦 Easy Installation
+Install via pip and run anywhere.
+```
+pip install livealert
+```
+### Tech Stack
+Python 3.7+ (CLI with click)
+APIs: OpenWeatherMap (weather), NewsAPI (headlines)
+Libraries: rich, requests, python-dotenv
+
+## Use Cases
+Quick weather checks before traveling 🧳
+Monitoring headlines during emergencies 🚨
+Dashboard integrations for developers 🖥️
