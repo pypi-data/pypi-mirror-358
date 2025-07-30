@@ -1,0 +1,38 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "agentauth-mcp"
+version = "0.0.1-dev0"
+description = "Reserved project name for future AgentAuth MCP."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { file = "LICENSE" }
+authors = [{ name = "AgentAuth", email = "developers@agentauth.co" }]
+keywords = [
+    "agentauth",
+    "authentication",
+    "identity",
+    "mcp",
+    "mcp-clients",
+    "mcp-servers",
+    "proxy",
+    "cli",
+    "command-line",
+    "terminal",
+    "connector",
+    "ai-agents",
+    "model-context-protocol"
+]
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Programming Language :: Python :: 3",
+    "License :: Other/Proprietary License"
+]
+
+[tool.hatch.build]
+include = ["agentauth_mcp", "README.md", "LICENSE", "pyproject.toml"]
+
+[project.urls]
+"Homepage" = "https://agentauth.co"
