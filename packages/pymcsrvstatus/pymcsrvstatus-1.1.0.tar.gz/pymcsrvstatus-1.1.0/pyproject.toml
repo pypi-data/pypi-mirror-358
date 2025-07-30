@@ -1,0 +1,98 @@
+[project]
+name = "pymcsrvstatus"
+description = "An async API wrapper for the mcsrvstat.us API."
+authors = [{ name = "cswimr", email = "seaswimmertehfsh@gmail.com" }]
+requires-python = ">=3.9"
+license = "MPL-2.0"
+license-files = ["LICEN[CS]E*"]
+classifiers = [
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+dependencies = ["aiohttp>=3.12.13", "pydantic>=2.11.7"]
+dynamic = ["readme", "version", "urls"]
+
+[dependency-groups]
+dev = ["basedpyright>=1.29.4", "ruff>=0.12.1", "typos>=1.33.1"]
+
+[tool.hatch.build]
+include = ["/pymcsrvstatus"]
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "pymcsrvstatus/version.py"
+
+[tool.hatch.metadata.hooks.vcs.urls]
+Homepage = "https://c.csw.im/cswimr/pymcsrvstatus"
+Issues = "https://c.csw.im/cswimr/pymcsrvstatus/issues"
+"Source Archive" = "https://c.csw.im/cswimr/pymcsrvstatus/archive/{commit_hash}.tar.gz"
+
+[tool.hatch.metadata.hooks.fancy-pypi-readme]
+content-type = "text/markdown"
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+path = "README.md"
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
+pattern = '\[(.+?)\]\(((?!https?://)\S+?)\)'
+replacement = '[\1](https://c.csw.im/cswimr/pymcsrvstatus/src/tag/v$HFPR_VERSION/\g<2>)'
+
+[build-system]
+requires = ["hatchling", "hatch-vcs", "hatch-fancy-pypi-readme"]
+build-backend = "hatchling.build"
+
+[tool.basedpyright]
+typeCheckingMode = "standard"
+reportImplicitOverride = "warning"
+
+[tool.ruff]
+line-length = 150
+indent-width = 4
+target-version = "py38"
+
+[tool.ruff.lint]
+select = [
+    "I",
+    "N",
+    "F",
+    "W",
+    "E",
+    "G",
+    "A",
+    "COM",
+    "INP",
+    "T20",
+    "PLC",
+    "PLE",
+    "PLW",
+    "PLR",
+    "LOG",
+    "SLF",
+    "ERA",
+    "FIX",
+    "PERF",
+    "C4",
+    "EM",
+    "RET",
+    "RSE",
+]
+ignore = ["PLR0911", "PLR0912", "PLR0915", "PLR2004", "PLR0913", "EM101"]
+fixable = ["ALL"]
+unfixable = []
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+docstring-code-format = true
+docstring-code-line-length = "dynamic"
+
+
+[tool.typos]
+files.extend-exclude = [".direnv/**", ".venv/**"]
