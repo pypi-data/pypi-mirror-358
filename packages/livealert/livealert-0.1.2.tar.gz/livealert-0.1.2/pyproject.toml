@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "livealert"
+version = "0.1.2"
+description = """
+A CLI tool to fetch real-time weather and news alerts. 
+Get instant forecasts for any city or breaking headlines with simple commands.
+"""
+authors = [{name = "cyrus-spc-tech", email = "tanishgupta12389@gmail.com"}]
+license = {text = "MIT"}
+readme = "README.md"
+
+dependencies = [
+    "click>=8.0.0",
+    "requests>=2.25.1",
+    "python-dotenv>=0.19.0",
+    "rich>=12.0.0",
+    "pyfiglet>=0.8.post1"  # For banner text
+]
+
+[project.scripts]
+weather = "livealert.cli:weather"
+news = "livealert.cli:news"
