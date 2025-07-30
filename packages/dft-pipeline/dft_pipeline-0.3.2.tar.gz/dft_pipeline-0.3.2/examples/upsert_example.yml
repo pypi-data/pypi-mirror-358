@@ -1,0 +1,85 @@
+name: "upsert_example"
+description: "Example pipeline demonstrating upsert functionality with named connections"
+
+# Named database connections
+connections:
+  mysql_main:
+    type: mysql
+    host: localhost
+    database: test_db
+    user: user
+    password: "${MYSQL_PASSWORD}"
+  
+  postgres_analytics:
+    type: postgresql
+    host: localhost
+    database: analytics_db
+    user: analyst
+    password: "${POSTGRES_PASSWORD}"
+  
+  clickhouse_events:
+    type: clickhouse
+    host: localhost
+    database: events_db
+
+steps:
+  # Data source
+  - id: load_sample_data
+    type: source
+    source_type: csv
+    config:
+      file_path: "./sample_data.csv"
+
+  # MySQL upsert endpoint
+  - id: save_to_mysql
+    type: endpoint
+    endpoint_type: mysql
+    connection: mysql_main
+    depends_on: [load_sample_data]
+    config:
+      table: users
+      mode: upsert
+      upsert_keys: [id]  # Primary key for conflict resolution
+      auto_create: true
+      schema:
+        id: "INT PRIMARY KEY"
+        name: "VARCHAR(100)"
+        email: "VARCHAR(100)"
+        updated_at: "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
+
+  # PostgreSQL upsert endpoint with composite key
+  - id: save_to_postgres
+    type: endpoint
+    endpoint_type: postgresql
+    connection: postgres_analytics
+    depends_on: [load_sample_data]
+    config:
+      table: user_sessions
+      mode: upsert
+      upsert_keys: [user_id, session_date]  # Composite unique key
+      auto_create: true
+      schema:
+        user_id: "INTEGER"
+        session_date: "DATE"
+        session_count: "INTEGER"
+        last_activity: "TIMESTAMP"
+
+  # ClickHouse upsert endpoint
+  - id: save_to_clickhouse
+    type: endpoint
+    endpoint_type: clickhouse
+    connection: clickhouse_events
+    depends_on: [load_sample_data]
+    config:
+      table: events
+      mode: upsert
+      upsert_keys: [event_id]  # Unique event identifier
+      auto_create: true
+      engine: "MergeTree()"
+      order_by: "event_id"
+      schema:
+        event_id: "String"
+        user_id: "UInt64"
+        event_type: "String"
+        timestamp: "DateTime"
+        properties: "String"
