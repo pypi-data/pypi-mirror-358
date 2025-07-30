@@ -1,0 +1,8 @@
+[message_streams]
+ZMQBasicReaderWriterMessageStream = pydhara.zmq.message_stream:ZMQBasicReaderWriterMessageStream
+
+[operators]
+DataPrintOperator = pydhara.catalog.operators.basic:DataPrintOperator
+IncrementingTickGenerator = pydhara.catalog.operators.basic:IncrementingTickGenerator
+JsonSink = pydhara.catalog.operators.benchmark:JsonSink
+JsonStreamer = pydhara.catalog.operators.benchmark:JsonStreamer
