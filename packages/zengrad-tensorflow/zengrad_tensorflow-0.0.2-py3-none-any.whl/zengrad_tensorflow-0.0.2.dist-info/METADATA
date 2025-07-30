@@ -1,0 +1,49 @@
+Metadata-Version: 2.1
+Name: zengrad-tensorflow
+Version: 0.0.2
+Summary: ZenGrad Optimizer - TensorFlow
+Home-page: https://github.com/XenReZ/ZenGrad-TensorFlow
+Author: Murumuri Naga Poorni
+Author-email: poorni.m0405@gmail.com
+License: Apache-2.0
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Requires-Dist: tensorflow>=2.10.0
+Requires-Dist: keras>=2.10.0
+
+
+## Installation
+
+To install ZenGrad, run the following command:
+
+```bash
+pip install zengrad-tensorflow
+```
+
+## Implementation
+
+```python
+from zengrad_tensorflow import ZenGrad  # Import the ZenGrad optimizer
+
+# Define your preferred model architecture here (e.g., CNN, ResNet, LSTM, Transformer, etc.)
+# Example:
+# model = ...
+
+# Compile your model using ZenGrad
+
+model.compile(
+    optimizer=ZenGrad(learning_rate=0.01, weight_decay=1e-4),  # <---- In This Way
+    .......                 
+)
+
+```
+
+## License
+
+ZenGrad_TensorFlow is released under the [Apache License 2.0](https://github.com/XenReZ/ZenGrad-TensorFlow/blob/main/LICENSE).
