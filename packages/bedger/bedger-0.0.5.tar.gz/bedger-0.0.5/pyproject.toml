@@ -1,0 +1,51 @@
+[tool.poetry]
+name = "bedger"
+version = "0.0.5"
+description = "Edge monitoring software for secure and efficient device management."
+authors = ["Henk van den Brink <henk.vandenbrink@bedger.io>"]
+readme = "README.md"
+packages = [{include = "bedger", from = "src"}]
+
+[tool.poetry.urls]
+homepage = "https://github.com/bedger-io/BEDGER-edgeservices-securitymonitoring-sdk"
+issues = "https://github.com/bedger-io/BEDGER-edgeservices-securitymonitoring-sdk/issues"
+
+[tool.poetry.dependencies]
+python = "^3.8.1,<=4.0.0"
+typing-extensions = "^4.12.2"
+pydantic = "^2.9.2"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.4.0"
+isort = "^5.13.2"
+flake8-pyproject = "^1.2.3"
+
+[build-system]
+requires = ["poetry>=1.6"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = "black"
+line_length = 130
+
+[tool.flake8]
+max-line-length = 130
+exclude = [".git", "__pycache__", ".venv"]
+
+[tool.black]
+line-length = 130
+target-version = ["py310", "py311"]
+exclude = '''
+/(
+  \.git
+  | \.venv
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | _build
+  | buck-out
+  | build
+  | dist
+  | node_modules
+)/
+'''
