@@ -1,0 +1,39 @@
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+
+[project]
+name = "semivalues"
+version = "0.0.16"
+authors = [
+  { name="Simon Glomb", email="simon.andreas.glomb@gmail.com" },
+]
+description = "A package for computing semivalues."
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+dependencies = [
+  "numpy",
+    "tqdm",
+    "scipy"
+]
+
+[project.urls]
+Homepage = "https://github.com/pypa/sampleproject"
+Issues = "https://github.com/pypa/sampleproject/issues"
+
+[tool.hatch.envs.test]
+dependencies = [
+  "pytest",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# Add this line to tell pytest to look for packages inside the 'src' folder
+pythonpath = ["src"]
