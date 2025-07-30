@@ -1,0 +1,27 @@
+name: $(Date:yyyyMMdd)$(Rev:.r)
+
+trigger:
+  batch: true
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - docs
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+
+jobs:
+  - job: publishDocs
+    displayName: 'Publish Job'
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    steps:
+      - task: PublishPipelineArtifact@1
+        displayName: Publish artifacts
+        inputs:
+          targetPath: '$(Build.Repository.LocalPath)/docs/'
+          artifactName: 'docs-md'

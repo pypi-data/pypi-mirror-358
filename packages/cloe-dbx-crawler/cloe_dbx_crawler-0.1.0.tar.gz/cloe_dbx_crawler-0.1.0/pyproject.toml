@@ -1,0 +1,72 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cloe-dbx-crawler"
+version = "0.1.0"
+description = "This package contains the Databricks Crawler. It can scan Databricks catalogs and return the information to python functions or write to disk using the CLOE metadata format."
+authors = [
+    { name = "initions", email = "ICSMC_EXT_PYPIORG@accenture.com" }
+]
+readme = "README.md"
+license = { text = "MIT" }
+
+keywords = []
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+]
+
+requires-python = ">=3.13,<3.14"
+dependencies = [
+    "cloe-dbx-connector>=0.1.0",
+    "cloe-logging>=0.3.7",
+    "cloe-metadata>=2.2.4",
+    "databricks-sdk~=0.41",
+    "pydantic~=2.10",
+    "typer~=0.15",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.8.0",
+    "mypy>=1.13.0",
+    "pytest>=8.3.3",
+    "pytest-cov>=6.0.0",
+]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+indent-width = 4
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "F",    # pyflakes
+    "I",    # isort
+    "UP",   # pyupgrade
+    "N",    # pep8-naming
+    "B",    # flake8-bugbear
+    "C4",   # flake8-comprehensions
+    "RET",  # flake8-return
+    "SIM",  # flake8-simplify
+    "ARG",  # flake8-unused-arguments
+    "PTH",  # flake8-use-pathlib
+    "ERA",  # eradicate
+]
+ignore = ["E203"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-ra -q"

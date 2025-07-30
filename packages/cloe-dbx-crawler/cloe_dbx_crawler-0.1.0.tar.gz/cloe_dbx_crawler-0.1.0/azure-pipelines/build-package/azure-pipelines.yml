@@ -1,0 +1,105 @@
+name: $(Date:yyyyMMdd)$(Rev:.r)
+
+trigger:
+  batch: true
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - src
+      - pyproject.toml
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+- stage: buildStage
+  displayName: Build Stage
+  jobs:
+    - job: buildPackage
+      displayName: 'Build Job'
+      pool:
+        vmImage: 'ubuntu-latest'
+
+      steps:
+        - task: UsePythonVersion@0
+          displayName: 'Use Python 3.11'
+          inputs:
+            versionSpec: 3.11
+            addToPath: true
+            architecture: 'x64'
+
+        - task: Bash@3
+          displayName: 'Install build tools'
+          inputs:
+            targetType: 'inline'
+            script: |
+              pip install --user uv
+
+        - task: Bash@3
+          displayName: 'Set release candidate if not on main branch'
+          condition: ne(variables['Build.SourceBranchName'], 'main')
+          inputs:
+            targetType: 'inline'
+            script: |
+              VERSION=$(uv version --short)
+              uv version $VERSION-rc
+
+        - task: Bash@3
+          displayName: 'Build package'
+          inputs:
+            targetType: 'inline'
+            script: |
+              uv build
+          
+        - task: PublishPipelineArtifact@1
+          displayName: Publish artifacts
+          inputs:
+            targetPath: 'dist'
+            artifactName: 'python-package'
+
+- stage: publishStage
+  displayName: Publish Stage
+  dependsOn: buildStage
+  variables:
+  - group: 'cloe-dbx-crawler-py'
+  jobs:
+    - deployment: publishToPrdPypi
+      displayName: 'Publish to release Stream'
+      environment: 'cloe-dbx-crawler'
+      pool:
+        vmImage: 'ubuntu-latest'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - task: DownloadPipelineArtifact@2
+                displayName: Download Wheel artifact
+                inputs:
+                  source: 'current'
+                  artifactName: 'python-package'
+                  path: '$(Pipeline.Workspace)'
+
+              - task: UsePythonVersion@0
+                displayName: 'Use Python 3.11'
+                inputs:
+                  versionSpec: 3.11
+                  addToPath: true
+                  architecture: 'x64'
+
+              - task: Bash@3
+                displayName: 'Install publish tools'
+                inputs:
+                  targetType: 'inline'
+                  script: |
+                    pip install --user uv
+
+              - task: Bash@3
+                displayName: 'Upload package to PyPI feed'
+                inputs:
+                  targetType: 'inline'
+                  script: |
+                    uv publish \
+                    --token $(PyPI) \
+                    $(Pipeline.Workspace)/*.whl

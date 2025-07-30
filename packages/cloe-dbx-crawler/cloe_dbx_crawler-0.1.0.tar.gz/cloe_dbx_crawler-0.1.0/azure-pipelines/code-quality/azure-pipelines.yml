@@ -1,0 +1,55 @@
+trigger:
+  batch: true
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - src
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+
+  - task: UsePythonVersion@0
+    displayName: 'Use Python 3.11'
+    inputs:
+      versionSpec: 3.11
+      addToPath: true
+      architecture: 'x64'
+
+  - task: Bash@3
+    displayName: Creating virtual env and installing checkers
+    inputs:
+      targetType: 'inline'
+      script: |
+        pip install --user uv && uv sync --all-extras --dev
+
+  - task: Bash@3
+    displayName: Checking ruff compliant code
+    inputs:
+      targetType: 'inline'
+      script: |
+        uv run ruff check . || exit 1
+      workingDirectory: $(Build.Repository.LocalPath)/src
+
+  - task: Bash@3
+    displayName: Checking mypy compliant code
+    inputs:
+      targetType: 'inline'
+      script: |
+        uv run mypy --pretty .
+      workingDirectory: $(Build.Repository.LocalPath)/src
+
+  - task: SonarCloudPrepare@2
+    inputs:
+      SonarCloud: 'Sonarcloud'
+      organization: 'initions-consulting'
+      scannerMode: 'CLI'
+
+  - task: SonarCloudAnalyze@2
+
+  - task: SonarCloudPublish@2
+    inputs:
+      pollingTimeoutSec: '300'
