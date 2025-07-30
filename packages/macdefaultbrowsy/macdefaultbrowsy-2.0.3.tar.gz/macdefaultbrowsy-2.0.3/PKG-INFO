@@ -1,0 +1,141 @@
+Metadata-Version: 2.4
+Name: macdefaultbrowsy
+Version: 2.0.3
+Project-URL: Documentation, https://github.com/twardoch/macdefaultbrowsy#readme
+Project-URL: Issues, https://github.com/twardoch/macdefaultbrowsy/issues
+Project-URL: Source, https://github.com/twardoch/macdefaultbrowsy
+Author-email: Adam Twardoch <adam+github@twardoch.com>
+License: MIT
+License-File: LICENSE
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Requires-Python: >=3.10
+Provides-Extra: all
+Provides-Extra: dev
+Requires-Dist: absolufy-imports>=0.3.1; extra == 'dev'
+Requires-Dist: isort>=6.0.1; extra == 'dev'
+Requires-Dist: mypy>=1.15.0; extra == 'dev'
+Requires-Dist: pre-commit>=4.1.0; extra == 'dev'
+Requires-Dist: pyupgrade>=3.19.1; extra == 'dev'
+Requires-Dist: ruff>=0.9.7; extra == 'dev'
+Provides-Extra: docs
+Requires-Dist: myst-parser>=3.0.0; extra == 'docs'
+Requires-Dist: sphinx-autodoc-typehints>=2.0.0; extra == 'docs'
+Requires-Dist: sphinx-rtd-theme>=2.0.0; extra == 'docs'
+Requires-Dist: sphinx>=7.2.6; extra == 'docs'
+Provides-Extra: test
+Requires-Dist: coverage[toml]>=7.6.12; extra == 'test'
+Requires-Dist: pytest-asyncio>=0.25.3; extra == 'test'
+Requires-Dist: pytest-benchmark[histogram]>=5.1.0; extra == 'test'
+Requires-Dist: pytest-cov>=6.0.0; extra == 'test'
+Requires-Dist: pytest-xdist>=3.6.1; extra == 'test'
+Requires-Dist: pytest>=8.3.4; extra == 'test'
+Description-Content-Type: text/markdown
+
+
+# macdefaultbrowsy
+
+A command-line tool and package (written in Python) for macOS that allows you to view installed browsers and set the default web browser, with automatic dialog confirmation.
+
+## Features
+
+- List all installed web browsers with the current default marked with `*`
+- Set any browser as the default with a simple command
+- Automatically confirms the system dialog (no manual clicking required)
+- Built as a universal binary (Intel + Apple Silicon)
+- Simple installation via Homebrew or manual install
+
+## Installation
+
+```bash
+uv pip install --system macdefaultbrowsy
+```
+
+or
+
+```bash
+pip install git+https://github.com/twardoch/macdefaultbrowsy
+```
+
+## Usage
+
+### Command Line
+
+#### List all browsers
+
+```bash
+macdefaultbrowsy
+```
+
+Output example:
+```
+  chrome
+  firefox
+* safari
+  edge
+```
+
+#### Set default browser
+
+```bash
+macdefaultbrowsy chrome
+```
+
+The tool will automatically set Chrome as your default browser and confirm the system dialog.
+
+### Python API
+
+```python
+from macdefaultbrowsy import macdefaultbrowsy
+
+# Get the current default browser
+current = macdefaultbrowsy.read_default_browser()
+print(f"Current default browser: {current}")
+
+# List all available browsers
+browsers = macdefaultbrowsy._get_available_browsers()
+print("Available browsers:")
+for name in sorted(browsers.keys()):
+    print(f"  {name}")
+
+# Set a new default browser
+success = macdefaultbrowsy.set_default_browser("chrome")
+if success:
+    print("Successfully set Chrome as default browser")
+else:
+    print("Failed to set default browser")
+```
+
+
+## How it Works
+
+The tool uses the macOS Launch Services API to:
+1. Query all installed applications that can handle HTTP/HTTPS URLs
+2. Get the current default browser
+3. Set a new default browser for both HTTP and HTTPS schemes
+
+When setting a new default browser, the tool also uses AppleScript automation to automatically click the confirmation button in the system dialog, providing a seamless experience.
+
+## Development
+
+To capture a snapshot of the codebase:
+
+```bash
+npx repomix -i ".giga,.cursorrules,.cursor,*.md" -o llms.txt .
+```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## References
+
+- Check [macdefaultbrowser](https://github.com/twardoch/macdefaultbrowser) for a similar tool written in Swift.
