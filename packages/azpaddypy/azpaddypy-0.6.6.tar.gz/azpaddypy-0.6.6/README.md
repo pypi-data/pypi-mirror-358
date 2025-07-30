@@ -1,0 +1,620 @@
+# AzPaddyPy
+
+A comprehensive Python package for Azure cloud services integration with standardized configuration management, OpenTelemetry tracing, and builder patterns.
+
+## 🚀 Features
+
+- **Azure Identity Management** - Comprehensive authentication with token caching and multiple credential options
+- **Azure Key Vault Integration** - Seamless secrets, keys, and certificate management
+- **Azure Storage Operations** - Support for blob storage, file shares, and queues
+- **Advanced Logging** - OpenTelemetry integration with Application Insights
+- **Builder Patterns** - Flexible service composition and configuration
+- **Environment Detection** - Automatic Docker vs. local machine configuration
+- **Distributed Tracing** - Correlation ID automation and span management
+- **Production Ready** - Comprehensive error handling and validation
+
+## 📦 Installation
+
+```bash
+pip install azpaddypy
+```
+
+Or using uv:
+
+```bash
+uv add azpaddypy
+```
+
+## 🔧 Requirements
+
+- Python 3.11+
+- Azure subscription (for cloud resources)
+- Azure CLI (recommended for local development)
+
+## 🚀 Quick Start
+
+### Direct Import (Simplified Usage)
+
+```python
+from azpaddypy import logger, identity, keyvault, storage_account
+
+# Use the services directly with default configuration
+logger.info("Application started")
+token = identity.get_token("https://management.azure.com/.default")
+secret = keyvault.get_secret("my-secret")
+storage_account.upload_blob("container", "blob.txt", "Hello World")
+```
+
+### Builder Pattern (Recommended for Complex Scenarios)
+
+```python
+from azpaddypy.builder import AzureManagementBuilder, AzureResourceBuilder
+from azpaddypy.builder.directors import ConfigurationSetupDirector
+
+# 1. Setup environment configuration
+env_config = ConfigurationSetupDirector.build_default_setup()
+
+# 2. Build management services (identity, logging, keyvault)
+mgmt_config = (AzureManagementBuilder(env_config)
+               .with_logger()
+               .with_identity()
+               .with_keyvault()
+               .build())
+
+# 3. Build resource services (storage, etc.)
+resource_config = (AzureResourceBuilder(mgmt_config, env_config)
+                   .with_storage()
+                   .build())
+
+# 4. Use the services
+mgmt_config.logger.info("Services initialized")
+secret = mgmt_config.keyvault.get_secret("database-password")
+resource_config.storage_account.upload_blob("data", "file.json", data)
+```
+
+## 🔐 Authentication
+
+AzPaddyPy supports multiple Azure authentication methods:
+
+### 1. Environment Variables (Recommended for CI/CD)
+
+```bash
+export AZURE_CLIENT_ID="your-client-id"
+export AZURE_TENANT_ID="your-tenant-id"  
+export AZURE_CLIENT_SECRET="your-client-secret"
+```
+
+### 2. Azure CLI (Recommended for Local Development)
+
+```bash
+az login
+```
+
+### 3. Managed Identity (Automatic in Azure)
+
+When running in Azure (App Service, Functions, VMs), Managed Identity is used automatically.
+
+### 4. Visual Studio Code / Azure Developer CLI
+
+Authentication is handled automatically when these tools are configured.
+
+## 📝 Configuration
+
+### Environment Variables
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `REFLECTION_NAME` | Service name | `__name__` |
+| `REFLECTION_KIND` | Service type (app, functionapp) | "" |
+| `LOGGER_LOG_LEVEL` | Log level | INFO |
+| `APPLICATIONINSIGHTS_CONNECTION_STRING` | App Insights connection | None |
+| `key_vault_uri` | Primary Key Vault URL (read by with_keyvault) | None |
+| `KEYVAULT_ENABLE_SECRETS` | Enable secrets access | true |
+| `KEYVAULT_ENABLE_KEYS` | Enable keys access | false |
+| `KEYVAULT_ENABLE_CERTIFICATES` | Enable certificates access | false |
+| `STORAGE_ACCOUNT_URL` | Storage Account URL (read by with_storage) | None |
+| `STORAGE_ENABLE_BLOB` | Enable blob storage | true |
+| `STORAGE_ENABLE_FILE` | Enable file storage | true |
+| `STORAGE_ENABLE_QUEUE` | Enable queue storage | true |
+
+### Custom Configuration
+
+```python
+from azpaddypy.builder import ConfigurationSetupBuilder
+
+config = (ConfigurationSetupBuilder()
+          .with_environment_detection()
+          .with_environment_variables({
+              "CUSTOM_VAR": "custom-value"
+          }, in_docker=True, in_machine=False)  # Only in Docker
+          .with_service_configuration(
+              service_name="my-service",
+              service_version="2.0.0"
+          )
+          .with_logging_configuration(
+              log_level="DEBUG",
+              enable_console=True
+          )
+          .with_identity_configuration(
+              enable_token_cache=True
+          )
+          .build())  # keyvault/storage configs simplified - handled in service creation
+
+# Then configure services directly with their specific options
+mgmt = (AzureManagementBuilder(config)
+        .with_logger()
+        .with_identity()
+        .with_keyvault(vault_url="https://my-vault.vault.azure.net/",
+                      enable_secrets=True, enable_keys=False)
+        .build())
+
+resources = (AzureResourceBuilder(mgmt, config)
+             .with_storage(account_url="https://mystorage.blob.core.windows.net/",
+                          enable_blob=True, enable_queue=True)
+             .build())
+```
+
+## 📊 Logging and Tracing
+
+### Automatic Correlation ID Generation
+
+```python
+from azpaddypy import logger
+
+@logger.trace_function(log_execution=True, log_args=True)
+def process_data(user_id: str, data: dict):
+    """Automatically generates correlation ID and traces execution."""
+    logger.info(f"Processing data for user {user_id}")
+    # Correlation ID is automatically available in all logs
+    return {"status": "processed"}
+
+# Usage
+result = process_data("user123", {"key": "value"})
+```
+
+### Manual Correlation ID Management
+
+```python
+from azpaddypy import logger
+import uuid
+
+# Set correlation ID manually
+correlation_id = str(uuid.uuid4())
+logger.set_correlation_id(correlation_id)
+
+logger.info("Processing request", extra={
+    "user_id": "12345",
+    "operation": "data_upload"
+})
+```
+
+### Application Insights Integration
+
+```python
+# Set connection string via environment variable
+import os
+os.environ["APPLICATIONINSIGHTS_CONNECTION_STRING"] = "InstrumentationKey=..."
+
+# Or pass during initialization
+from azpaddypy.mgmt.logging import create_app_logger
+
+logger = create_app_logger(
+    service_name="my-app",
+    connection_string="InstrumentationKey=...",
+    log_level="INFO"
+)
+```
+
+## 🔑 Key Vault Operations
+
+### Basic Secret Operations
+
+```python
+from azpaddypy import keyvault
+
+# Get secret
+database_password = keyvault.get_secret("database-password")
+
+# Set secret  
+keyvault.set_secret("api-key", "secret-value", tags={"env": "prod"})
+
+# Delete secret
+keyvault.delete_secret("old-secret")
+
+# List all secrets
+secrets = keyvault.list_secrets()
+```
+
+### Multiple Key Vaults
+
+```python
+from azpaddypy.builder import AzureManagementBuilder
+from azpaddypy.builder.directors import ConfigurationSetupDirector
+
+env_config = ConfigurationSetupDirector.build_default_setup()
+
+mgmt_config = (AzureManagementBuilder(env_config)
+               .with_logger()
+               .with_identity()
+               .with_keyvault("prod", "https://prod-vault.vault.azure.net/")
+               .with_keyvault("dev", "https://dev-vault.vault.azure.net/")
+               .build())
+
+# Access specific vaults
+prod_secret = mgmt_config.get_keyvault("prod").get_secret("prod-secret")
+dev_secret = mgmt_config.get_keyvault("dev").get_secret("dev-secret")
+```
+
+## 💾 Storage Operations
+
+### Blob Storage
+
+```python
+from azpaddypy import storage_account
+
+# Upload blob
+storage_account.upload_blob(
+    container_name="documents",
+    blob_name="report.pdf", 
+    data=pdf_data,
+    metadata={"author": "John Doe"}
+)
+
+# Download blob
+content = storage_account.download_blob("documents", "report.pdf")
+
+# List blobs
+blobs = storage_account.list_blobs("documents", name_starts_with="report")
+
+# Delete blob
+storage_account.delete_blob("documents", "old-report.pdf")
+```
+
+### Queue Operations
+
+```python
+# Send message
+storage_account.send_message(
+    queue_name="processing-queue",
+    content="Process user data: user123"
+)
+
+# Receive messages
+messages = storage_account.receive_messages("processing-queue", messages_per_page=10)
+
+# Delete message after processing
+for message in messages:
+    # Process message
+    storage_account.delete_message(
+        queue_name="processing-queue",
+        message_id=message["id"],
+        pop_receipt=message["pop_receipt"]
+    )
+```
+
+### Multiple Storage Accounts
+
+```python
+from azpaddypy.builder import AzureResourceBuilder
+
+resource_config = (AzureResourceBuilder(mgmt_config, env_config)
+                   .with_storage("primary", "https://primary.blob.core.windows.net/")
+                   .with_storage("backup", "https://backup.blob.core.windows.net/")
+                   .build())
+
+# Use specific storage accounts
+resource_config.get_storage("primary").upload_blob("data", "file.txt", data)
+resource_config.get_storage("backup").upload_blob("backups", "backup.txt", backup_data)
+```
+
+## 🏗️ Architecture Patterns
+
+### Azure Functions
+
+```python
+import azure.functions as func
+from azpaddypy.builder.directors import ConfigurationSetupDirector, AzureManagementDirector
+
+# Initialize at module level
+env_config = ConfigurationSetupDirector.build_default_setup()
+mgmt_config = AzureManagementDirector.build_default_management()
+
+def main(req: func.HttpRequest) -> func.HttpResponse:
+    # Correlation ID automatically generated
+    @mgmt_config.logger.trace_function()
+    def process_request(user_id: str):
+        mgmt_config.logger.info(f"Processing request for user {user_id}")
+        
+        # Get secrets
+        api_key = mgmt_config.keyvault.get_secret("external-api-key")
+        
+        # Process and return
+        return {"status": "success", "user_id": user_id}
+    
+    user_id = req.params.get('user_id')
+    result = process_request(user_id)
+    
+    return func.HttpResponse(
+        json.dumps(result),
+        mimetype="application/json"
+    )
+```
+
+### Web Applications
+
+```python
+from flask import Flask
+from azpaddypy import logger, keyvault
+
+app = Flask(__name__)
+
+@app.route('/api/data')
+@logger.trace_function(log_execution=True)
+def get_data():
+    try:
+        # Database connection string from Key Vault
+        db_connection = keyvault.get_secret("database-connection-string")
+        
+        # Your business logic here
+        data = fetch_data_from_database(db_connection)
+        
+        logger.info("Data retrieved successfully", extra={"record_count": len(data)})
+        return {"data": data, "status": "success"}
+        
+    except Exception as e:
+        logger.error("Failed to retrieve data", exc_info=True)
+        return {"error": "Internal server error"}, 500
+```
+
+### Batch Processing
+
+```python
+from azpaddypy.builder.directors import ConfigurationSetupDirector, AzureManagementDirector, AzureConfigurationDirector
+
+def main():
+    # Initialize services
+    config = AzureConfigurationDirector.build_default_config()
+    
+    try:
+        # Set correlation ID for the entire batch
+        import uuid
+        batch_id = str(uuid.uuid4())
+        config.management.logger.set_correlation_id(batch_id)
+        
+        config.management.logger.info("Starting batch processing", extra={"batch_id": batch_id})
+        
+        # Get processing parameters
+        batch_size = int(config.management.keyvault.get_secret("batch-size"))
+        
+        # Process data
+        process_batch_data(config, batch_size)
+        
+        config.management.logger.info("Batch processing completed successfully")
+        
+    except Exception as e:
+        config.management.logger.error("Batch processing failed", exc_info=True)
+        raise
+
+@config.management.logger.trace_function()
+def process_batch_data(config, batch_size: int):
+    # Your batch processing logic
+    pass
+```
+
+## 🔧 Testing
+
+### Unit Testing with Mocks
+
+```python
+import pytest
+from unittest.mock import Mock, patch
+from azpaddypy.builder import AzureManagementBuilder
+
+@pytest.fixture
+def mock_env_config():
+    return Mock()
+
+@pytest.fixture  
+def mock_mgmt_config(mock_env_config):
+    with patch('azpaddypy.mgmt.logging.create_app_logger'), \
+         patch('azpaddypy.mgmt.identity.create_azure_identity'), \
+         patch('azpaddypy.resources.keyvault.create_azure_keyvault'):
+        
+        builder = AzureManagementBuilder(mock_env_config)
+        return builder.with_logger().with_identity().with_keyvault().build()
+
+def test_my_function(mock_mgmt_config):
+    # Test your function with mocked Azure services
+    result = my_function_using_azure_services(mock_mgmt_config)
+    assert result["status"] == "success"
+```
+
+### Integration Testing
+
+```python
+import pytest
+import os
+
+@pytest.mark.integration
+def test_keyvault_integration():
+    """Integration test requiring actual Azure resources."""
+    if not os.getenv("AZURE_CLIENT_ID"):
+        pytest.skip("Azure credentials not configured")
+    
+    from azpaddypy import keyvault
+    
+    # Test with real Key Vault
+    test_secret = "integration-test-secret"
+    test_value = "test-value-123"
+    
+    # Set secret
+    keyvault.set_secret(test_secret, test_value)
+    
+    # Get secret
+    retrieved_value = keyvault.get_secret(test_secret)
+    assert retrieved_value == test_value
+    
+    # Clean up
+    keyvault.delete_secret(test_secret)
+```
+
+## 🐳 Docker Usage
+
+### Dockerfile
+
+```dockerfile
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install dependencies
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+# Copy application
+COPY . .
+
+# Set environment for production
+ENV PYTHONPATH=/app
+ENV REFLECTION_KIND=app
+
+CMD ["python", "main.py"]
+```
+
+### docker-compose.yml
+
+```yaml
+version: '3.8'
+services:
+  app:
+    build: .
+    environment:
+      - AZURE_CLIENT_ID=${AZURE_CLIENT_ID}
+      - AZURE_TENANT_ID=${AZURE_TENANT_ID}  
+      - AZURE_CLIENT_SECRET=${AZURE_CLIENT_SECRET}
+      - APPLICATIONINSIGHTS_CONNECTION_STRING=${APPLICATIONINSIGHTS_CONNECTION_STRING}
+      - key_vault_uri=${KEY_VAULT_URI}
+      - STORAGE_ACCOUNT_URL=${STORAGE_ACCOUNT_URL}
+      - REFLECTION_NAME=my-docker-app
+      - LOGGER_LOG_LEVEL=INFO
+```
+
+## 🚨 Error Handling
+
+### Common Patterns
+
+```python
+from azpaddypy import logger, keyvault
+from azure.core.exceptions import ResourceNotFoundError, ClientAuthenticationError
+
+@logger.trace_function()
+def safe_get_secret(secret_name: str, default_value: str = None):
+    """Safely retrieve a secret with fallback."""
+    try:
+        return keyvault.get_secret(secret_name)
+    except ResourceNotFoundError:
+        logger.warning(f"Secret '{secret_name}' not found, using default")
+        return default_value
+    except ClientAuthenticationError:
+        logger.error("Authentication failed for Key Vault access")
+        raise
+    except Exception as e:
+        logger.error(f"Unexpected error retrieving secret '{secret_name}': {e}")
+        raise
+
+# Usage
+api_key = safe_get_secret("external-api-key", "development-key")
+```
+
+## 🔒 Security Best Practices
+
+1. **Never hardcode credentials** - Use environment variables, Key Vault, or Managed Identity
+2. **Use least privilege** - Grant minimal required permissions
+3. **Rotate secrets regularly** - Implement secret rotation policies
+4. **Monitor access** - Use Application Insights for security monitoring
+5. **Validate inputs** - Always validate data before processing
+
+## 📈 Performance Optimization
+
+### Connection Pooling
+
+```python
+# Services are cached by default - reuse instances
+from azpaddypy import logger, keyvault, storage_account
+
+# This reuses the same underlying clients
+for i in range(1000):
+    data = keyvault.get_secret("config-data")
+    storage_account.upload_blob("cache", f"item-{i}.json", data)
+```
+
+### Async Operations (Future Enhancement)
+
+```python
+# Note: Async support is planned for future versions
+import asyncio
+from azpaddypy.async import AsyncAzureStorage  # Future
+
+async def upload_multiple_files(files):
+    storage = AsyncAzureStorage()
+    tasks = [storage.upload_blob("container", name, data) for name, data in files]
+    await asyncio.gather(*tasks)
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Make your changes
+4. Run tests: `uv run pytest`
+5. Commit changes: `git commit -m 'Add amazing feature'`
+6. Push to branch: `git push origin feature/amazing-feature`
+7. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🆘 Support
+
+- 📖 [Documentation](https://github.com/your-org/azpaddypy/wiki)
+- 🐛 [Issue Tracker](https://github.com/your-org/azpaddypy/issues)
+- 💬 [Discussions](https://github.com/your-org/azpaddypy/discussions)
+
+## 🗺️ Roadmap
+
+- [ ] Async/await support for all operations
+- [ ] Additional Azure services (Service Bus, Event Hub)
+- [ ] Enhanced configuration validation
+- [ ] Performance metrics and monitoring
+- [ ] GraphQL API integration
+- [ ] Terraform/ARM template generation
+
+## 📝 Recent Updates
+
+### v0.6.5+ - Local Environment Manager as First Step ✨
+
+**Major Architecture Improvement**: The local environment manager is now the **first step** in the configuration process, ensuring `.env` files and environment variables are loaded before any other configuration steps depend on them.
+
+**New Optimal Configuration Flow:**
+```python
+# Local env management is now FIRST (optimal flow)
+env_config = (ConfigurationSetupBuilder()
+              .with_local_env_management()      # 1. FIRST: Load .env files and environment variables  
+              .with_environment_detection()     # 2. Detect Docker vs local environment
+              .with_environment_variables(...)  # 3. Set conditional environment variables
+              .with_service_configuration()     # 4. Parse service settings
+              .with_logging_configuration()     # 5. Complex logging configuration  
+              .with_identity_configuration()    # 6. Complex identity configuration
+              .build())
+```
+
+**Benefits:**
+- ✅ **Logical Order**: Environment variables loaded before they're needed
+- ✅ **Better Reliability**: No dependency on environment variables that aren't loaded yet
+- ✅ **Cleaner Architecture**: Environment management separated from service creation
+- ✅ **Improved Developer Experience**: More intuitive configuration flow
+
+### v0.6.5 - Simplified API with Hybrid Approach ✨
+
+**Made with ❤️ for the Azure community** 
