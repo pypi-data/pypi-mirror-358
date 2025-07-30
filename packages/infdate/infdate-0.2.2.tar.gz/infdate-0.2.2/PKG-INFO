@@ -1,0 +1,165 @@
+Metadata-Version: 2.4
+Name: infdate
+Version: 0.2.2
+Summary: Date object wrapper supporting infinity
+Project-URL: Homepage, https://gitlab.com/blackstream-x/infdate
+Project-URL: CI, https://gitlab.com/blackstream-x/infdate/-/pipelines
+Project-URL: Bug Tracker, https://gitlab.com/blackstream-x/infdate/-/issues
+Project-URL: Repository, https://gitlab.com/blackstream-x/infdate.git
+Author-email: Rainer Schwarzbach <rainer@blackstream.de>
+License-File: LICENSE
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: 3.14
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+
+# infdate
+
+_Python module for date calculations implementing a concept of infinity_
+
+## Module description
+
+### Classes overview
+
+    └── GenericDate
+        ├── InfinityDate
+        └── RealDate
+
+
+The base class **GenericDate** should not be instantiated
+but can be used as a type annotation. In fact, it should be preferred
+over the other classes in typing annotations.
+
+**InfinityDate** can represent either positive or negative infinity.
+The module-level constants **MIN** and **MAX** contain the two possible
+**InfinityDate** instance variations.
+
+**RealDate** instances represent real dates like the standard library’s
+**[datetime.date]** class, with mostly equal or similar semantics.
+The module -level constants **REAL_MIN** and **REAL_MAX** are the eqivalents
+of **datetime.date.min** and **datetime.date.max** as **RealDate** instances.
+
+For any valid **RealDate** instance, the following is **True**:
+
+``` python
+infdate.MIN < infdate.REAL_MIN <= real_date_instance <= infdate.REAL_MAX < infdate.MAX
+```
+
+### Module-level constants
+
+*   **MIN** = **InfinityDate(**_past_bound_=`True`**)** → the beginning of time
+*   **MAX** = **InfinityDate(**_past_bound_=`False`**)** → the end of time
+*   **MIN_ORDINAL** = `1` → same as **datetime.date.min.toordinal()**
+*   **MAX_ORDINAL** = `3652059` → same as **datetime.date.max.toordinal()**
+*   **REAL_MIN** = **fromordinal(MIN_ORDINAL)**
+    → represents _0001-01-01_, the same date as **datetime.date.min**
+*   **REAL_MAX** = **fromordinal(MAX_ORDINAL)**
+    → represents _9999-12-31_, the same date as **datetime.date.max**
+*   **RESOLUTION** = `1` → represents the lowest possible date difference: _one day_
+
+
+### Module-level factory functions
+
+The following factory methods from the **datetime.date** class
+are provided as module-level functions:
+
+*   **fromtimestamp()** (also accepting **-math.inf** or **math.inf**)
+*   **fromordinal()** (also accepting **-math.inf** or **math.inf**)
+*   **fromisoformat()**
+*   **fromisocalendar()**
+*   **today()**
+
+Two additional factory functions are provided:
+
+*   **from_datetime_object()** to create a **RealDate** instance from a
+    **datetime.date** or **datetime.datetime** instance
+
+*   **from_native_type()** to create an **InfinityDate** or **RealDate**
+    instance from a string, from **None**, **-math.inf** or **math.inf**.
+
+    This can come handy when dealing with API representations of dates,
+    eg. in GitLab’s [Personal Access Tokens API].
+
+
+### Differences between infdate classes and datetime.date
+
+Some notable difference from the **datetime.date** class, mainly due to the design decision to express date differences in pure numbers (ie. **float** because **math.inf** also is a float):
+
+*   infdate classes have no **max**, **min** or **resolution** attributes,
+    but there are [module-level constants] serving the same purpose.
+
+*   The **.toordinal()** method returns **int**, **math.inf**, or **-math.inf**.
+
+*   Subtracting a date from an **InfinityDate** or **RealDate** always returns
+    an **int**, **math.inf**, or **-math.inf** instead of a **datetime.timedelta** instance.
+
+*   Likewise, you cannot add or subtract **datetime.timedelta** instances
+    from an **InfinityDate** or **RealDate**, only **float** or **int**
+    (support for adding and subtracting datetime.timedelta instances might be added in the future, [see the feature request]).
+
+
+## Example usage
+
+``` pycon
+>>> import infdate
+>>> today = infdate.today()
+>>> today
+RealDate(2025, 6, 27)
+>>> print(f"US date notation: {today:%m/%d/%y}")
+US date notation: 06/27/25
+>>> today.ctime()
+'Fri Jun 27 00:00:00 2025'
+>>> today.isocalendar()
+datetime.IsoCalendarDate(year=2025, week=26, weekday=5)
+>>>
+>>> yesterday = today - 1
+>>> yesterday.ctime()
+'Thu Jun 26 00:00:00 2025'
+>>>
+>>> today - yesterday
+1
+>>> infdate.MIN
+InfinityDate(past_bound=True)
+>>> infdate.MAX
+InfinityDate(past_bound=False)
+>>> infdate.MAX - today
+inf
+>>> infdate.MAX - infdate.MIN
+inf
+```
+
+**InfinityDate** and **RealDate** instances can be compared with each other, and also with **datetime.date** instances.
+
+Subtracting **InfinityDate** or **RealDate** and **datetime.date** instances from each other also works:
+
+``` pycon
+>>> from datetime import date
+>>> stdlib_today = date.today()
+>>> today == stdlib_today
+True
+>>> yesterday < stdlib_today
+True
+>>> yesterday - stdlib_today
+-1
+>>> stdlib_today - yesterday
+1
+>>> stdlib_today - infdate.MIN
+inf
+```
+
+
+* * *
+[datetime.date]: https://docs.python.org/3/library/datetime.html#date-objects
+[Personal Access Tokens API]: https://docs.gitlab.com/api/personal_access_tokens/
+[module-level constants]: #module-level-constants
+[see the feature request]: https://gitlab.com/blackstream-x/infdate/-/issues/6
