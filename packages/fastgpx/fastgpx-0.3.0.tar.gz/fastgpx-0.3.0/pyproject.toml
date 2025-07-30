@@ -1,0 +1,65 @@
+[build-system]
+requires = ["scikit-build-core", "pybind11"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "fastgpx"
+version = "0.3.0"
+requires-python = ">=3.11"
+
+description = "An experimental Python library for parsing GPX files fast."
+readme = "README.md"
+keywords = ["gpx", "parser", "fast"]
+authors = [{ name = "Thomas Thomassen" }]
+license = "MIT"
+
+classifiers = [
+  # How mature is this project? Common values are
+  #   3 - Alpha
+  #   4 - Beta
+  #   5 - Production/Stable
+  "Development Status :: 3 - Alpha",
+
+  "Intended Audience :: Developers",
+  "Topic :: File Formats",
+
+  # "Operating System :: MacOS :: MacOS X",
+  "Operating System :: Microsoft :: Windows",
+  "Operating System :: POSIX :: Linux",
+
+  "Programming Language :: Python :: 3.11",
+]
+
+dependencies = []
+
+[dependency-groups]
+dev = [
+  "colorama",
+  "gpxpy",
+  "lxml",
+  "lxml-stubs",
+  "polyline",
+  "pytest",
+  "pybind11-stubgen",
+  "snakeviz",
+  "types-colorama",
+  "sphinx>=8.2.3",
+  "sphinx-rtd-theme>=3.0.2",
+]
+
+[project.urls]
+Documentation = "https://thomthom.github.io/fastgpx/"
+
+[tool.scikit-build]
+# https://scikit-build-core.readthedocs.io/en/latest/configuration/index.html#customizing-the-built-wheel
+wheel.packages = ["src/fastgpx"]
+sdist.exclude = [".github", ".vscode", "gpx"]
+
+# https://scikit-build-core.readthedocs.io/en/latest/configuration/index.html#configuring-cmake-arguments-and-defines
+# cmake.build-type = "Debug"
+# cmake.build-type = "Release"
+cmake.build-type = "RelWithDebInfo"
+
+[tool.scikit-build.cmake.define]
+# No need to build the tests in the wheel.
+BUILD_TESTING = false
