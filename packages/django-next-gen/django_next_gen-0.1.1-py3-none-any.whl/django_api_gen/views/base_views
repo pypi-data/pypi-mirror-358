@@ -1,0 +1,13 @@
+class {model_name}ListCreateView(generics.ListCreateAPIView):
+    permission_classes = [AllowGetOrCustomPermission]
+    serializer_class = {model_name}Serializer
+    queryset = {model_name}.objects.all()
+    filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
+    search_fields = {search_fields}
+    ordering_fields = '__all__'
+    filterset_fields = fields_lookups({model_name})
+
+class {model_name}DetailView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [AllowGetOrCustomPermission]
+    queryset = {model_name}.objects.all()
+    serializer_class = {model_name}Serializer

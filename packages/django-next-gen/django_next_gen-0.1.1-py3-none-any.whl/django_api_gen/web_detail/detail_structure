@@ -1,0 +1,84 @@
+"use client";
+import React, {{ useEffect, useState }} from "react";
+import {{ Badge, Button, Descriptions, Popconfirm }} from "antd";
+import type {{ DescriptionsProps }} from "antd";
+import use{model_name}Service from "../{model_file}.service";
+import {{ {model_name} }} from "../{model_file}.model";
+import "@ant-design/v5-patch-for-react-19";
+import {{ toDateAndTime }} from "@/utils/timeUtils";
+import {{ getEnumName }} from "@/utils/object";
+import {{ FaEdit, FaTimes }} from "react-icons/fa";
+import {{ FaCheck }} from "react-icons/fa";
+import {{ FaTrash }} from "react-icons/fa6";
+import {{ useRouter }} from "next/navigation";
+
+const {model_name}Detail: React.FC<{{ id: string }}> = ({{ id }}) => {{
+  const [{model_name_lower}, set{model_name}] = useState<{model_name}>();
+  const {model_name_lower}Service = use{model_name}Service();
+  const router = useRouter();
+  const [loading, setLoading] = useState<boolean>();
+
+  useEffect(() => {{
+    fetchData();
+  }}, []);
+
+  const fetchData = () => {{
+    setLoading(true);
+    {model_name_lower}Service
+      .get{model_name}(id)
+      .then((res) => {{
+        set{model_name}(res?.data);
+      }})
+      .catch(() => {{}})
+      .finally(() => setLoading(false));
+  }};
+
+  const handleDelete = () => {{
+    setLoading(true);
+    {model_name_lower}Service
+      .delete{model_name}(id)
+      .then(() => {{
+        router.push("/admin/{app_file_name}/{model_file_name}s");
+      }})
+      .catch(() => {{}})
+      .finally(() => setLoading(false));
+  }};
+
+  const items: DescriptionsProps["items"] = [
+    {fields}
+  ];
+
+  return (
+    <>
+      <Descriptions
+        size="small"
+        title="{model_name} Information"
+        bordered
+        extra={{
+          <div className="gap-2 flex">
+            <Button
+              href={{`/admin/{app_file_name}/{model_file_name}s/${{id}}/edit`}}
+              type="primary"
+              icon={{<FaEdit />}}
+            >
+              Edit
+            </Button>
+            <Popconfirm
+              title="Are you sure you want to delete this {model_name_lower}?"
+              onConfirm={{handleDelete}}
+              okText="Yes"
+              cancelText="No"
+            >
+              <Button danger type="primary" color="red" icon={{<FaTrash />}}>
+                Delete
+              </Button>
+            </Popconfirm>
+          </div>
+        }}
+        items={{items}}
+      />
+    </>
+  );
+}};
+
+export default {model_name}Detail;

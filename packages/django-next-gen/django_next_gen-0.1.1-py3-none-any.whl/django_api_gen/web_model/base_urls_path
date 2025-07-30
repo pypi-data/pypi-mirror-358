@@ -1,0 +1,2 @@
+    path('{endpoint}',{model_name}ListCreateView.as_view(), name = '{kebab_name}'),
+    path('{endpoint}/<uuid:pk>', {model_name}DetailView.as_view(), name = '{kebab_name}-detail'),

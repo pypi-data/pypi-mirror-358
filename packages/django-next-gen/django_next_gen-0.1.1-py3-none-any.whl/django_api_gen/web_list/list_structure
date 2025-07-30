@@ -1,0 +1,117 @@
+"use client";
+import React, {{ useCallback, useEffect, useMemo, useState }} from "react";
+import type {{ MenuProps, TableProps }} from "antd";
+import {{ Button, Dropdown, Input, Popconfirm, Table }} from "antd";
+import "@ant-design/v5-patch-for-react-19";
+import {{ {model_name} }} from "../{model_file_name}.model";
+import use{model_name}Service from "../{model_file_name}.service";
+import {{ enumToTextValueArray, getEnumName }} from "@/utils/object";
+import {{ toDateAndTime }} from "@/utils/timeUtils";
+import Link from "next/link";
+import {{ FaEdit, FaPlus, FaTrash }} from "react-icons/fa";
+import {{ ColumnsType, TableParams }} from "@/utils/table/table.model";
+import {{ getRequestParams }} from "@/utils/table/table.utils";
+import {{ IoMdMore }} from "react-icons/io";
+import {{ Navigations }} from "@/utils/common_models/commons.model";
+
+interface {model_name}ListProps extends Partial<{model_name}>, Navigations {{
+
+}}
+
+const {model_name}List: React.FC<{model_name}ListProps> = (props) => {{
+  const [data, setData] = useState<{model_name}[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [tableParams, setTableParams] = useState<TableParams>({{
+    pagination: {{
+      current: 1,
+      pageSize: 10,
+    }},
+    sorter: [],
+  }});
+
+  const service = use{model_name}Service();
+  const requestParams = useMemo(() => getRequestParams({{ ...tableParams, searchText, ...props }}), [tableParams, searchText]);
+
+  const fetchData = useCallback(() => {{
+    setLoading(true);
+    service.get{model_name}s(requestParams)
+      .then((res) => {{
+        setData(res?.data?.results);
+        const newTotal = res?.data?.count;
+        setTableParams((prev) => {{
+          if (prev.pagination?.total === newTotal) return prev;
+          return {{ ...prev, pagination: {{ ...prev.pagination, total: newTotal }} }};
+        }});
+      }})
+      .finally(() => setLoading(false));
+  }}, [requestParams]);
+
+  useEffect(() => {{
+    fetchData();
+  }}, [fetchData]);
+
+  const handleDelete = useCallback((id: string) => {{
+    service.delete{model_name}(id).then(() => fetchData());
+  }}, []);
+
+  const getMenuItems = useCallback((item: {model_name}): MenuProps["items"] => [
+    {{
+      label: <Link className="flex gap-0.5 items-baseline" href={{`${{props.list_navigation || "/admin/{app_file_name}/{model_file_name}s"}}/${{item.id}}/edit`}}><FaEdit />Edit</Link>,
+      key: "edit",
+    }},
+    {{
+      label: (
+        <Popconfirm title="Are you sure to delete?" onConfirm={{() => handleDelete(item.id)}}>
+          <div className="flex gap-0.5 items-baseline cursor-pointer"><FaTrash style={{{{ color: "red" }}}} />Delete</div>
+        </Popconfirm>
+      ),
+      key: "delete",
+    }},
+  ], [handleDelete]);
+
+  const columns: ColumnsType<{model_name}> = useMemo(() => [
+{fields}
+    {{
+      title: "Actions",
+      key: "actions",
+      render: (_, record) => (
+        <Dropdown menu={{{{ items: getMenuItems(record) }}}} trigger={{["click"]}}>
+          <Button icon={{<IoMdMore />}} />
+        </Dropdown>
+      ),
+    }},
+  ], [getMenuItems]);
+
+  const handleTableChange: TableProps<{model_name}>["onChange"] = (pagination, filters, sorter) => {{
+    setTableParams({{ pagination, filters, sorter }});
+  }};
+
+  const handleSearch = useCallback((value: string) => {{
+    setSearchText(value);
+    setTableParams((prev) => ({{
+      ...prev,
+      pagination: {{ ...prev.pagination, current: 1 }},
+    }}));
+  }}, []);
+
+  return (
+    <div className="flex flex-col gap-4">
+      <div className="w-full flex justify-between">
+        <Input.Search placeholder="Search..." enterButton className="max-w-sm" onSearch={{handleSearch}} />
+        <Button href={{props.add_navigation || `/admin/{app_file_name}/{model_file_name}s/create`}} type="primary" icon={{<FaPlus />}}>Add</Button>
+      </div>
+      <Table
+        scroll={{{{x: 'max-content'}}}}
+        columns={{columns}}
+        rowKey={{record => record.id}}
+        dataSource={{data}}
+        pagination={{tableParams.pagination}}
+        loading={{loading}}
+        onChange={{handleTableChange}}
+      />
+    </div>
+  );
+}};
+
+export default {model_name}List;
