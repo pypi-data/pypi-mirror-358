@@ -1,0 +1,101 @@
+Metadata-Version: 2.4
+Name: ycpm
+Version: 0.1.0
+Summary: Your Clyp package manager
+Home-page: https://github.com/clyplang/ycpm
+Author: CodeSoft
+License: MIT
+Project-URL: Source, https://github.com/clyplang/ycpm
+Description-Content-Type: text/markdown
+Dynamic: author
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license
+Dynamic: project-url
+Dynamic: summary
+
+# ycpm: Your Clyp Package Manager
+
+Your Clyp Package Manager (ycpm) is a command-line tool designed to simplify the management of Clyp packages. It allows you to install, update, and manage packages from various sources, including GitHub. You can also create, build, and publish your own packages with ease.
+
+## Features
+
+- Install packages from GitHub and other sources (GitHub is currently supported)
+- Uninstall and list installed packages
+- Create new Clyp packages with a single command
+- Build packages into distributable `.cpak` files
+- Simple, user-friendly CLI
+
+## Installation
+
+To install ycpm, use pip:
+
+```bash
+pip install ycpm
+```
+
+> **Note:** Clyp 0.3.0+ should install ycpm automatically. To check if ycpm is already installed, run:
+>
+> ```bash
+> ycpm --version
+> ```
+
+To upgrade to the latest version:
+
+```bash
+pip install --upgrade ycpm
+```
+
+## Usage
+
+### Install a Package
+
+Install a package from GitHub (the default and currently only supported source):
+
+```bash
+ycpm install gh <author>/<repository>
+```
+
+### Uninstall a Package
+
+```bash
+ycpm uninstall <package_name>
+```
+
+### Create a New Package
+
+```bash
+ycpm new <package_name>
+```
+
+This creates a new package structure in the current directory, including a `ycpm.json` file for package configuration.
+
+### Build a Package
+
+```bash
+ycpm build
+```
+
+This creates a `.cpak` file for distribution. The filename **must** match your package name for publishing (e.g., on your GitHub releases page).
+
+### List Installed Packages
+
+```bash
+ycpm list
+```
+
+## Troubleshooting & Help
+
+- For help on any command, run:
+
+  ```bash
+  ycpm --help
+  ```
+
+- If you encounter issues, ensure you are using the latest version of ycpm and Clyp.
+- For bug reports or feature requests, please open an issue on the [GitHub repository](https://github.com/clyplang/ycpm).
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
