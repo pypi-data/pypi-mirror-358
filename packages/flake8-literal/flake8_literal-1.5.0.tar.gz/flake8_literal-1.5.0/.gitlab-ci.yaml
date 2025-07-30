@@ -1,0 +1,17 @@
+---
+include:
+  - project: 'open-source/python/ci-common'
+    ref: main
+    file: 'gitlab-ci.yaml'
+
+
+variables:
+  LINT_PYTHON_VERSION: '3.12'
+
+
+test:
+  parallel:
+      matrix:
+        - TEST_PYTHON_VERSION:
+          - '3.12'
+          - '3.13'
