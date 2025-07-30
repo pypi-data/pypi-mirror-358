@@ -1,0 +1,18 @@
+#!/usr/bin/env python3
+
+import click
+from emphub_cli.commands import run, pull, push, tags, packages
+
+
+@click.group()
+def main():
+    pass
+
+
+if __name__ == '__main__':
+    main.add_command(run)
+    main.add_command(pull)
+    main.add_command(push)
+    main.add_command(tags)
+    main.add_command(packages)
+    main()

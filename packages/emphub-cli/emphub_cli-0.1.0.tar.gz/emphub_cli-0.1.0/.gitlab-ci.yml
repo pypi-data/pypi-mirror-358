@@ -1,0 +1,41 @@
+stages:
+    - Build
+    - Staging
+    - Deploy
+
+
+Build Wheel:
+    stage: Build
+    image: registry.cern.ch/docker.io/python
+    before_script:
+        - python3 -m pip install --upgrade build
+    script:
+        - python3 -m build
+    artifacts:
+        paths:
+            - dist
+
+# Deploy to TestPyPi:
+#     stage: Staging
+#     only:
+#         changes:
+#             - setup.cfg
+#     except:
+#         - tags
+#     image: python
+#     dependencies:
+#         - Build Wheel
+#     before_script:
+#         - python3 -m pip install twine
+#     script:
+#         - python3 -m twine upload --repository testpypi -u $TESTPYPI_USERNAME -p $TESTPYPI_PASSWORD dist/*
+
+Deploy to PyPi:
+    stage: Deploy
+    image: registry.cern.ch/docker.io/python
+    dependencies:
+        - Build Wheel
+    before_script:
+        - python3 -m pip install twine
+    script:
+        - python3 -m twine upload -u __token__ -p $PYPI_TOKEN dist/*

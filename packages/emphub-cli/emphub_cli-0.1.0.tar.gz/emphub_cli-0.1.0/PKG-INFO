@@ -1,0 +1,60 @@
+Metadata-Version: 2.4
+Name: emphub-cli
+Version: 0.1.0
+Summary: CLI tools to interface with EMPHub
+Project-URL: Homepage, https://gitlab.cern.ch/dmonk/emphub-cli
+Project-URL: Issues, https://gitlab.cern.ch/dmonk/emphub-cli/issues
+Author-email: David Monk <dmonk@cern.ch>
+License-Expression: MIT
+License-File: LICENSE
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.6
+Requires-Dist: click
+Requires-Dist: minio
+Requires-Dist: pyyaml
+Requires-Dist: tabulate
+Description-Content-Type: text/markdown
+
+# emphub-cli
+
+CLI tools to interface with EMPHub.
+
+## Installation
+
+First, install the package:
+```sh
+python3 -m pip install emphub-cli
+```
+then add a configuration file to connect to the EMPHub instance at `~/.emp/config.yaml`
+
+The configuration file has the following format:
+```yaml
+---
+registry:
+    host: <S3 HOST>
+    access_key: <S3 ACCESS KEY>
+    secret_key: <S3 SECRET KEY>
+    secure: false  # set to true if using HTTPS
+    bucket: emp-packages
+
+local-storage:
+    path: ~/.emp/packages
+    connections_file: ~/.emp/connections.xml
+```
+
+## Usage
+
+To view all packages available on EMPHub, use the following command:
+```sh
+emp packages
+```
+To see the tags for a given package, use the `tags` command:
+```sh
+emp tags <PACKAGE>
+```
+Then to pull a specific tag use the following command:
+```sh
+emp pull <PACKAGE>:<TAG>
+```
+The bitfile will then be available at `~/.emp/packages/<PACKAGE>/<TAG>/package/top.bit`, along with the address table and a pre-made `connections.xml` for the Serenity card.
