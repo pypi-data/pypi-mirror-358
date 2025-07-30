@@ -1,0 +1,83 @@
+Metadata-Version: 2.4
+Name: amset
+Version: 0.5.1
+Summary: AMSET is a tool to calculate carrier transport properties from ab initio calculation data
+Home-page: https://github.com/hackingmaterials/amset
+Author: Alex Ganose
+Author-email: a.ganose@imperial.ac.uk
+License: modified BSD
+Keywords: mobility conductivity seebeck scattering lifetime rates dft vasp
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Science/Research
+Classifier: Intended Audience :: System Administrators
+Classifier: Intended Audience :: Information Technology
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Other/Nonlisted Topic
+Classifier: Topic :: Scientific/Engineering
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pymatgen>=2022.0.16
+Requires-Dist: scipy
+Requires-Dist: monty
+Requires-Dist: matplotlib
+Requires-Dist: BoltzTraP2
+Requires-Dist: tqdm
+Requires-Dist: tabulate
+Requires-Dist: memory_profiler
+Requires-Dist: spglib
+Requires-Dist: click
+Requires-Dist: sumo
+Requires-Dist: h5py
+Requires-Dist: pyFFTW
+Requires-Dist: interpolation
+Requires-Dist: numba
+Provides-Extra: docs
+Requires-Dist: mkdocs==1.6.1; extra == "docs"
+Requires-Dist: mkdocs-material==9.6.14; extra == "docs"
+Requires-Dist: mkdocs-minify-plugin==0.8.0; extra == "docs"
+Requires-Dist: mkdocs-macros-plugin==1.3.7; extra == "docs"
+Requires-Dist: markdown-include==0.8.1; extra == "docs"
+Requires-Dist: markdown-katex==202406.1035; extra == "docs"
+Provides-Extra: tests
+Requires-Dist: pytest==8.3.4; extra == "tests"
+Requires-Dist: pytest-cov==6.1.1; extra == "tests"
+Provides-Extra: all-electron
+Requires-Dist: pawpyseed==0.7.1; extra == "all-electron"
+Provides-Extra: dev
+Requires-Dist: pre-commit==4.1.0; extra == "dev"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: license-file
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# <img alt="amset" src="https://raw.githubusercontent.com/hackingmaterials/amset/main/docs/src/amset_logo.png" width="250">
+
+AMSET is a package for calculating electronic transport properties from
+first-principles calculations.
+
+- **Website (including documentation):** https://hackingmaterials.lbl.gov/amset/
+- **Help/Support:** https://discuss.matsci.org/c/amset
+- **Source:** https://github.com/hackingmaterials/amset
+
+If you find AMSET useful, please consider citing [our paper](https://www.nature.com/articles/s41467-021-22440-5):
+
+```
+Ganose, A. M., Park, J., Faghaninia, A., Woods-Robinson, R., Persson, K. A., Jain, A.
+Efficient calculation of carrier scattering rates from first principles.
+Nat. Commun. 12, 2222 (2021)
+```
+
+Interested in contributing? See our [contribution guidelines](https://github.com/hackingmaterials/amset/blob/main/CONTRIBUTING.md)
