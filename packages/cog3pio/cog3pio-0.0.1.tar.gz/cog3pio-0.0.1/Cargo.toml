@@ -1,0 +1,31 @@
+[package]
+name = "cog3pio"
+version = "0.0.1"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+rust-version = "1.85.0"
+authors = ["Wei Ji <23487320+weiji14@users.noreply.github.com>"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+name = "cog3pio"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+bytes = "1.5.0"
+dlpark = { version = "0.6.0", features = ["half", "ndarray", "pyo3"] }
+geo = "0.29.0"
+ndarray = "0.16.1"
+numpy = "0.25.0"
+object_store = { version = "0.9.0", features = ["http"] }
+pyo3 = { version = "0.25.0", features = ["abi3-py312", "extension-module"] }
+tiff = { version = "0.10.0", features = ["zstd"] }
+tokio = { version = "1.36.0", features = ["rt-multi-thread"] }
+url = "2.5.0"
+
+[dev-dependencies]
+half = { version = "2.6.0", features = ["num-traits"] }
+tempfile = "3.10.1"
+
+[lints.clippy]
+pedantic = "warn"

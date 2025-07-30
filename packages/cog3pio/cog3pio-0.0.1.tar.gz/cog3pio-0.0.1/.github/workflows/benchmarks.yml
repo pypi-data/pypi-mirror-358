@@ -1,0 +1,61 @@
+# Run performance benchmarks
+#
+# Continuous benchmarking using pytest-codspeed. Measures the execution speed
+# of tests marked with @pytest.mark.benchmark decorator.
+
+name: Benchmarks
+
+on:
+  # Run on pushes to the main branch
+  push:
+    branches: [main]
+  # Run on pull requests
+  pull_request:
+    types: [opened, reopened, synchronize]
+  # `workflow_dispatch` allows CodSpeed to trigger backtest
+  # performance analysis in order to generate initial data.
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  benchmarks:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        shell: bash -l {0}
+
+    steps:
+      # Checkout current git repository
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          persist-credentials: false
+
+      # Setup Python interpreter
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: "3.12"
+
+      # Build binary distribution wheel
+      - name: Build wheels
+        uses: PyO3/maturin-action@60d11847b29f81ca5375519a8eb33cc336ba4bfa # v1.41.0
+        with:
+          target: x86_64
+          args: --release --out dist --find-interpreter
+          sccache: "true"
+          manylinux: auto
+
+      # Install the package that we want to test
+      - name: Install the package
+        run: |
+          set -e
+          python -m pip install cog3pio[benchmark,tests] --find-links dist --force-reinstall
+          python -m pip list
+
+      # Run the benchmark tests
+      - name: Run benchmarks
+        uses: CodSpeedHQ/action@0010eb0ca6e89b80c88e8edaaa07cfe5f3e6664d # v3.5.0
+        with:
+          run: |
+            python -m pytest --verbose --codspeed

@@ -1,0 +1,51 @@
+[build-system]
+requires = ["maturin>=1.4,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "cog3pio"
+requires-python = ">=3.12"
+license = "MIT OR Apache-2.0"
+license-files = ["LICENSE-MIT", "LICENSE-APACHE"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Libraries",
+    "Operating System :: MacOS",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX",
+    "Operating System :: Unix",
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Free Threading",
+    "Programming Language :: Python :: Implementation :: CPython",
+]
+dependencies = [
+    "numpy>=2.0",
+    "xarray>=2023.12.0",
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+benchmark = [
+    "pytest-codspeed",
+    "rioxarray",
+]
+docs = [
+    "jupyter-book>=2.0.0a0",
+    "myst_parser",
+    "sphinx",
+    # https://github.com/jupyter-book/sphinx-ext-mystmd/pull/2
+    # "sphinx-ext-mystmd @ git+https://github.com/weiji14/sphinx-ext-mystmd@e995908b3a898b9c9d5d3fec4ff1478f1f4c1ccd",
+    "sphinx-ext-mystmd",
+]
+tests = [
+    "pytest",
+]
+
+[project.entry-points."xarray.backends"]
+cog3pio = "cog3pio.xarray_backend:Cog3pioBackendEntrypoint"
+
+[tool.maturin]
+python-source = "python"
+features = ["pyo3/extension-module"]
