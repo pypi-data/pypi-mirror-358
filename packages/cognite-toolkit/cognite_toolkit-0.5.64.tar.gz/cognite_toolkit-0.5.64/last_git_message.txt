@@ -1,0 +1,31 @@
+[CDF-25010] 🪨Datapoint subscription with timeSeriesIds or InstanceIds (#1659)
+
+# Description
+
+In Toolkit we assume that datapoint subscription resources defined with
+timeseries IDs, returns these timeseries IDs when retrieving. This is
+not the case and thus is causing the current bug.
+
+In addition, this means that if a datapoint subscription is defined with
+timeseries IDs or instance IDs, we will not be able to detect that the
+changes between the local and CDF version of the timeseries. To account
+for this, I add a hash to the description and can be used to detect
+changes.
+
+## Changelog
+
+- [x] Patch
+- [ ] Minor
+- [ ] Skip
+
+## cdf
+
+### Fixed
+
+- Running `cdf deploy` with a `DatapointSubscription` defined with
+timeseries IDs no longer raise a `ValueError` when the
+`DatapointSubscription` has already been deployed.
+
+## templates
+
+No changes.
