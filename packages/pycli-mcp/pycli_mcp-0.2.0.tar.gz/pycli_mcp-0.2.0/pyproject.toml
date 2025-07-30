@@ -1,0 +1,68 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pycli-mcp"
+dynamic = ["version"]
+description = "MCP server for any Python command line application"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+keywords = [
+  "ai",
+  "cli",
+  "click",
+  "mcp",
+]
+authors = [
+  { name = "Ofek Lev", email = "oss@ofek.dev" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+  "click",
+  "mcp",
+]
+
+[project.urls]
+Homepage = "https://ofek.dev/pycli-mcp/"
+Sponsor = "https://github.com/sponsors/ofek"
+Changelog = "https://ofek.dev/pycli-mcp/changelog/"
+Tracker = "https://github.com/ofek/pycli-mcp/issues"
+Source = "https://github.com/ofek/pycli-mcp"
+
+[project.scripts]
+pycli-mcp = "pycli_mcp.cli:main"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.coverage.run]
+source_pkgs = ["pycli_mcp", "tests"]
+branch = true
+parallel = true
+omit = [
+  "src/pycli_mcp/__about__.py",
+]
+
+[tool.coverage.paths]
+pycli_mcp = ["src/pycli_mcp", "*/pycli-mcp/src/pycli_mcp"]
+tests = ["tests", "*/pycli-mcp/tests"]
+
+[tool.coverage.report]
+show_missing = true
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
