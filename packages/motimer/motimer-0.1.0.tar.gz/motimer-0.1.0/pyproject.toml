@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "motimer"
+version = "0.1.0"
+description = "A timer and stopwatch widget for marimo notebooks"
+readme = "README.md"
+license = "MIT"
+authors = [
+    {name = "Sam Parmar"}
+]
+requires-python = ">=3.8"
+dependencies = [
+    "anywidget",
+    "traitlets",
+]
+classifiers = [
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+
+[project.urls]
+Homepage = "https://github.com/parmsam/motimer"
+Repository = "https://github.com/parmsam/motimer"
+Issues = "https://github.com/parmsam/motimer/issues"
+
+[tool.setuptools.packages.find]
+include = ["motimer*"]
