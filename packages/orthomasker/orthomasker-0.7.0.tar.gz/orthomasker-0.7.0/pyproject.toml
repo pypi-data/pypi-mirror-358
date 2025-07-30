@@ -1,0 +1,82 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "orthomasker"
+version = "0.7.0"
+description = "A CLI tool and Python library for extracting vector features from geospatial raster (TIF) files using the Segment Anything Model (SAM), and exporting them as GeoJSON."
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Nicholas McCarty", email = "nick@upskilled.consulting"}
+]
+keywords = ["gis", "geojson", "tif", "mask", "cli"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "click>=8.0.0",
+    "GDAL>=3.8.0",
+    "geopandas>=1.0.0",
+    "matplotlib>=3.10.0",
+    "numpy>=2.0.0",
+    "opencv-contrib-python>=4.11.0",
+    "opencv-python>=4.11.0",
+    "opencv-python-headless>=4.11.0",
+    "pandas>=2.2.0",
+    "pillow>=11.2.0",
+    "rasterio>=1.4.0",
+    "shapely>=2.1.0",
+    "geojson>=3.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=22.0.0",
+    "flake8>=5.0.0",
+    "mypy>=1.0.0",
+    "openpyxl>=3.1.0",
+]
+ml = [
+    "torch",
+    "segment-anything-py",
+]
+
+[project.scripts]
+orthomasker = "orthomasker.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/nickmccarty/orthomasker"
+Repository = "https://github.com/nickmccarty/orthomasker"
+Issues = "https://github.com/nickmccarty/orthomasker/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = "--cov=src/orthomasker --cov-report=html --cov-report=term-missing"
