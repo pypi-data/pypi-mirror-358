@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "PrintTolTest"
+version = "0.1.0"
+description = "A CLI tool to calculate 3D print dimensional tolerance."
+readme = "README.md"
+license = { text = "OQL-1.2" }
+requires-python = ">=3.10"
+
+authors = [
+    { name = "NanashiTheNameless" },
+    { name = "NanashiTheNameless", email = "NanashiTheNameless@NamelessNanashi.dev" }
+]
+
+maintainers = [
+    { name = "NanashiTheNameless" },
+    { name = "NanashiTheNameless", email = "NanashiTheNameless@NamelessNanashi.dev" }
+]
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Natural Language :: English",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14"
+]
+
+[project.scripts]
+PrintTolTest = "PrintTolTest.cli:main"
+
+[tool.setuptools]
+license-files = ["LICENSE.md"]
+
+[project.urls]
+Download = "https://github.com/NanashiTheNameless/PrintTolTest/releases/latest"
+Homepage = "https://github.com/NanashiTheNameless/PrintTolTest"
+GitHub-Sponsor = "https://github.com/sponsors/NanashiTheNameless"
+BuyMeACoffee = "https://buymeacoffee.com/NamelessNanashi"
