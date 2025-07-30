@@ -1,0 +1,14 @@
+search sourcetype=changting:waf
+| rex field=_raw "(?P<THREAT_TIME>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+\d{2}:\d{2})"
+| rex field=_raw "\"dest_ip\":\"(?<DIP>[^\"]+)\""
+| rex field=_raw "\"src_ip\":\"(?<SIP>[^\"]+)\""
+| rex field=_raw "\"src_port\":(?<S_PORT>\d+)"
+| rex field=_raw "\"dest_port\":(?<D_PORT>\d+)"
+| rex field=_raw "\"protocol\":\"(?<PROTOCOL>[^\"]+)\""
+| rex field=_raw "\"x_forwarded_for\":\"(?<XFF_IP>[^\"]+)\""
+| rex field=_raw "\"action\":\"(?<DENY_METHOD>[^\"]+)\""
+| search DENY_METHOD!=allow
+| rex field=_raw "\"reason\":\"(?<THREAT_SUMMARY>[^\"]+)\""
+| rex field=_raw "\"risk_level\":\"(?<SEVERITY>[^\"]+)\""
+| eval THREAT_TIME=strftime(strptime(THREAT_TIME, "%Y-%m-%dT%H:%M:%S%z"), "%Y-%m-%d %H:%M:%S")
+| table THREAT_TIME,SIP,S_PORT,DIP,D_PORT,XFF_IP,PROTOCOL,DENY_METHOD,THREAT_SUMMARY,SEVERITY

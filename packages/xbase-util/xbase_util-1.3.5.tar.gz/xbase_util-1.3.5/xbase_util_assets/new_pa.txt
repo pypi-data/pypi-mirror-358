@@ -1,0 +1,9 @@
+search host="10.99.99.140" AND reset-both NOT TRAFFIC
+| rex field=_raw "(?<THREAT_TIME>\d{4}/\d{2}/\d{2} \d{2}:\d{2}:\d{2})"
+| rex field=_raw "(?<SIP>(?:\d{1,3}\.){3}\d{1,3}),(?<DIP>(?:\d{1,3}\.){3}\d{1,3})"
+| rex field=_raw "(?<PROTOCOL>tcp|udp|icmp),\s*(?<DENY_METHOD>reset-both|reset-server|reset-client)"
+| rex field=_raw "(?<THREAT_SUMMARY>\"[^\"]+\"|\b[^,]+)(?:,|\s)[^,]+,(?<SEVERITY>critical|high|medium|low)"
+| rex field=_raw "(?<S_PORT>\d{2,5}),(?<D_PORT>\d{2,5}),"
+| rex field=_raw "\d+\.\d+\.\d+\.\d+,\d+\.\d+\.\d+\.\d+,(?<XFF_IP>(?:\d{1,3}\.){3}\d{1,3})"
+| eval XFF_IP = coalesce(XFF_IP, "N/A")
+| table THREAT_TIME, SIP, S_PORT, DIP, D_PORT, XFF_IP, PROTOCOL, DENY_METHOD, THREAT_SUMMARY, SEVERITY
