@@ -1,0 +1,156 @@
+Metadata-Version: 2.3
+Name: versioned
+Version: 1.0.1
+Summary: The version and alias best practice for immutable artifacts and deployment.
+License: MIT
+Author: Sanhe Hu
+Author-email: husanhe@email.com
+Maintainer: Sanhe Hu
+Maintainer-email: husanhe@email.com
+Requires-Python: >=3.9,<4.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Provides-Extra: auto
+Provides-Extra: dev
+Provides-Extra: doc
+Provides-Extra: test
+Requires-Dist: Sphinx (>=7.4.7,<8.0.0) ; extra == "doc"
+Requires-Dist: boto3 (>=1.37.0,<2.0.0)
+Requires-Dist: boto3_stubs[s3] (>=1.37.0,<2.0.0) ; extra == "dev"
+Requires-Dist: boto_session_manager (>=1.8.1,<2.0.0)
+Requires-Dist: build (>=1.2.1,<2.0.0) ; extra == "dev"
+Requires-Dist: docfly (==3.0.0) ; extra == "doc"
+Requires-Dist: func_args (>=1.0.1,<2.0.0)
+Requires-Dist: furo (==2024.8.6) ; extra == "doc"
+Requires-Dist: ipython (>=8.18.1,<8.19.0) ; extra == "doc"
+Requires-Dist: jupyterlab (>=4.4.0,<5.0.0) ; extra == "doc"
+Requires-Dist: moto (>=5.0.0,<6.0.0) ; extra == "test"
+Requires-Dist: nbsphinx (>=0.8.12,<1.0.0) ; extra == "doc"
+Requires-Dist: pygments (>=2.18.0,<3.0.0) ; extra == "doc"
+Requires-Dist: pynamodb (>=6.0.0,<7.0.0)
+Requires-Dist: pynamodb_session_manager (>=0.1.2,<1.0.0)
+Requires-Dist: pytest (>=8.2.2,<9.0.0) ; extra == "test"
+Requires-Dist: pytest-cov (>=6.0.0,<7.0.0) ; extra == "test"
+Requires-Dist: rich (>=13.8.1,<14.0.0) ; extra == "dev"
+Requires-Dist: rich (>=13.8.1,<14.0.0) ; extra == "test"
+Requires-Dist: rstobj (==1.2.1) ; extra == "doc"
+Requires-Dist: s3pathlib (>=2.3.3,<3.0.0)
+Requires-Dist: sphinx-copybutton (>=0.5.2,<1.0.0) ; extra == "doc"
+Requires-Dist: sphinx-design (>=0.6.1,<1.0.0) ; extra == "doc"
+Requires-Dist: sphinx-jinja (>=2.0.2,<3.0.0) ; extra == "doc"
+Requires-Dist: twine (>=6.0.0,<7.0.0) ; extra == "dev"
+Requires-Dist: wheel (>=0.45.0,<1.0.0) ; extra == "dev"
+Project-URL: Changelog, https://github.com/MacHu-GWU/versioned-project/blob/main/release-history.rst
+Project-URL: Documentation, https://versioned.readthedocs.io/en/latest/
+Project-URL: Download, https://pypi.org/pypi/versioned#files
+Project-URL: Homepage, https://github.com/MacHu-GWU/versioned-project
+Project-URL: Issues, https://github.com/MacHu-GWU/versioned-project/issues
+Project-URL: Repository, https://github.com/MacHu-GWU/versioned-project
+Description-Content-Type: text/x-rst
+
+
+.. image:: https://readthedocs.org/projects/versioned/badge/?version=latest
+    :target: https://versioned.readthedocs.io/en/latest/
+    :alt: Documentation Status
+
+.. image:: https://github.com/MacHu-GWU/versioned-project/actions/workflows/main.yml/badge.svg
+    :target: https://github.com/MacHu-GWU/versioned-project/actions?query=workflow:CI
+
+.. image:: https://codecov.io/gh/MacHu-GWU/versioned-project/branch/main/graph/badge.svg
+    :target: https://codecov.io/gh/MacHu-GWU/versioned-project
+
+.. image:: https://img.shields.io/pypi/v/versioned.svg
+    :target: https://pypi.python.org/pypi/versioned
+
+.. image:: https://img.shields.io/pypi/l/versioned.svg
+    :target: https://pypi.python.org/pypi/versioned
+
+.. image:: https://img.shields.io/pypi/pyversions/versioned.svg
+    :target: https://pypi.python.org/pypi/versioned
+
+.. image:: https://img.shields.io/badge/✍️_Release_History!--None.svg?style=social&logo=github
+    :target: https://github.com/MacHu-GWU/versioned-project/blob/main/release-history.rst
+
+.. image:: https://img.shields.io/badge/⭐_Star_me_on_GitHub!--None.svg?style=social&logo=github
+    :target: https://github.com/MacHu-GWU/versioned-project
+
+------
+
+.. image:: https://img.shields.io/badge/Link-API-blue.svg
+    :target: https://versioned.readthedocs.io/en/latest/py-modindex.html
+
+.. image:: https://img.shields.io/badge/Link-Install-blue.svg
+    :target: `install`_
+
+.. image:: https://img.shields.io/badge/Link-GitHub-blue.svg
+    :target: https://github.com/MacHu-GWU/versioned-project
+
+.. image:: https://img.shields.io/badge/Link-Submit_Issue-blue.svg
+    :target: https://github.com/MacHu-GWU/versioned-project/issues
+
+.. image:: https://img.shields.io/badge/Link-Request_Feature-blue.svg
+    :target: https://github.com/MacHu-GWU/versioned-project/issues
+
+.. image:: https://img.shields.io/badge/Link-Download-blue.svg
+    :target: https://pypi.org/pypi/versioned#files
+
+
+Welcome to ``versioned`` Documentation
+==============================================================================
+.. image:: https://versioned.readthedocs.io/en/latest/_static/versioned-logo.png
+    :target: https://versioned.readthedocs.io/en/latest/
+
+**Versioned** provides enterprise-grade artifact version management and deployment patterns for AWS environments. It combines the performance of DynamoDB metadata storage with cost-effective S3 binary storage to enable sophisticated deployment strategies including blue/green deployments, canary releases, and instant rollbacks.
+
+**Key Features**
+
+🚀 **Advanced Deployment Patterns**
+   - Blue/Green deployments with instant switching
+   - Canary releases with weighted traffic splitting
+   - One-click rollbacks to any previous version
+
+⚡ **High Performance Architecture**
+   - DynamoDB for sub-millisecond metadata queries
+   - S3 for cost-effective binary artifact storage
+   - Automatic content deduplication with SHA256 hashing
+
+🔒 **Enterprise Ready**
+   - Immutable version snapshots
+   - Soft deletion with recovery capabilities
+   - Comprehensive audit trails and metadata tracking
+
+🎯 **Simple API**
+   - Intuitive Python interface
+   - Safe public API that prevents data corruption
+   - Flexible session management for multi-account scenarios
+
+.. image:: https://github.com/MacHu-GWU/versioned-project/assets/6800411/57f7970e-3821-45a0-9deb-64890e04c129
+
+
+Related Projects
+------------------------------------------------------------------------------
+- `aws_glue_artifact <https://github.com/MacHu-GWU/aws_glue_artifact-project>`_ - Versioned deployment for AWS Glue ETL jobs
+- `airflow_dag_artifact <https://github.com/MacHu-GWU/airflow_dag_artifact-project>`_ - Versioned deployment for Airflow DAGs
+
+
+.. _install:
+
+Installation
+------------------------------------------------------------------------------
+
+Install from PyPI:
+
+.. code-block:: console
+
+    $ pip install versioned
+
+Upgrade to latest version:
+
+.. code-block:: console
+
+    $ pip install --upgrade versioned
