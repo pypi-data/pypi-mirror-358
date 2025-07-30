@@ -1,0 +1,43 @@
+name: Publish Python Package to PyPI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-publish:
+    name: Build and publish Python distribution to PyPI
+    runs-on: ubuntu-latest
+    environment: release # Optional: if you have a GitHub environment for releases
+    permissions:
+      id-token: write # Required for trusted publishing, if you choose that route later
+      contents: read # Needed to check out the repository
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.9" # Or another version like "3.x" or based on pyproject.toml
+
+    - name: Install build dependencies
+      run: python -m pip install --upgrade pip build
+
+    - name: Build package
+      run: python -m build
+
+    # Test with TestPyPI first using Trusted Publishing
+    # - name: Publish package to TestPyPI
+    #   uses: pypa/gh-action-pypi-publish@release/v1
+    #   with:
+    #     repository-url: https://test.pypi.org/legacy/
+
+    - name: Publish package to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        user: __token__
+        password: ${{ secrets.PYPI_API_TOKEN }}
+        # skip_existing: true # To skip publishing if the version already exists
