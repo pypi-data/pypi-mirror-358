@@ -1,0 +1,109 @@
+# litebase
+
+Litebase Python SDK provides a modern, lightweight client for accessing Litebase's Storage and Stream APIs. It is designed for developers who require scalable, versioned key-value storage, high-throughput event streams, and real-time subscription capabilities, all with a clean Python experience.
+
+## Installation
+
+**IMPORTANT**: The package name is `litebaseio`, not `litebase`.
+Litebase officially supports Python 3.8 and above.
+
+### In a project
+
+`uv` is the recommended package manager, but you can also use others (`poetry`, `pdm`, `pip`...)
+```bash
+uv add litebaseio
+```
+
+### In a Python shell
+
+Using `uvx`, you can also quickly try it out in a Python shell, without installation, after setting the env var `LITE_API_KEY`:
+```bash
+uvx --with litebaseio ipython
+```
+
+## Quickstart
+
+Obtain an API key and set the env var:
+```shell
+export LITE_API_KEY="your-litebase-api-key"
+```
+
+Litebase is designed for simplicity. A few lines of code are enough to get started.
+
+### Storage API
+
+```python
+from litebaseio import storage
+
+# Initialize a storage namespace
+store = storage("my-storage")
+
+# Set a single key using a Python dict
+set_response = store.set("user:1", {"name": "Alice", "email": "alice@example.com"})
+print(f"Set operation transaction ID: {set_response.tx}")
+
+# Retrieve raw bytes and decode as JSON
+user_raw = store.get("user:1")
+user_data = store.as_json(user_raw)
+print("Retrieved user data:", user_data)
+
+# Batch write multiple records
+batch_response = store.write([
+    {"key": "user:2", "value": {"name": "Bob", "email": "bob@example.com"}},
+    {"key": "user:3", "value": {"name": "Charlie", "email": "charlie@example.com"}},
+])
+print(f"Batch write transaction ID: {batch_response.tx}")
+
+# Batch read multiple records
+read_response = store.read(["user:2", "user:3"])
+for record in read_response.data:
+    print(f"Key: {record.key}, Value: {record.value}")
+
+# Check if a key exists
+exists = store.head("user:1")
+print("Key user:1 exists:", exists)
+
+# Delete a key
+delete_response = store.delete("user:1")
+print(f"Deleted key user:1, transaction ID: {delete_response.tx}")
+```
+
+### Stream API
+
+```python
+import time
+from litebaseio import stream
+
+# Push multiple events into a stream
+push_response = stream.push([
+    {"stream": "sensor.temperature", "data": {"value": 22.5}},
+    {"stream": "sensor.temperature", "data": {"value": 23.1}},
+])
+print(f"Pushed {push_response.count} events to stream")
+
+# List the most recent events from a stream
+events = stream.list_events("sensor.temperature", limit=10)
+for event in events:
+    print(f"Transaction ID: {event.tx}, Data: {event.data}, Time: {event.time}")
+
+# Retrieve a specific event by transaction ID
+if events:
+    tx_id = events[0].tx
+    event = stream.get_event("sensor.temperature", tx=tx_id)
+    print("Specific event data:", event.data)
+
+# Subscribe to real-time events
+print("Subscribing to real-time sensor.temperature updates:")
+@stream.on("sensor.temperature")
+def handle(event):
+    print("Received event:", event.data)
+
+stream.subscribe("sensor.temperature", start_tx=0)
+time.sleep(1)
+```
+
+## License
+
+This project is licensed under the [MIT License](./LICENSE).
+
+Litebase provides a reliable platform for structured and real-time data management, whether for analytics, IoT applications, mobile telemetry, or large-scale distributed systems. This SDK is intended to offer a minimal, efficient, and production-ready integration path for developers building modern applications.
