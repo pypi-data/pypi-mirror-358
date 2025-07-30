@@ -1,0 +1,5 @@
+# CORS handling
+"""
+cors.py
+"""
+
