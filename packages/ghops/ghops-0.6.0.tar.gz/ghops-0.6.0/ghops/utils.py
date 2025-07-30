@@ -1,0 +1,148 @@
+"""
+Shared utility functions for ghops.
+"""
+import subprocess
+import os
+from pathlib import Path
+from .config import logger
+
+def run_command(command, cwd=".", dry_run=False, capture_output=False, check=True, log_stderr=True):
+    """
+    Runs a shell command and logs the output.
+
+    Args:
+        command (str): The command to run.
+        cwd (str): The working directory.
+        dry_run (bool): If True, log the command without executing.
+        capture_output (bool): If True, return stdout.
+        check (bool): If True, raise CalledProcessError on non-zero exit codes.
+        log_stderr (bool): If False, do not log stderr as an error.
+
+    Returns:
+        str: The command's stdout if capture_output is True, otherwise None.
+    """
+    if dry_run:
+        logger.info(f"[Dry Run] Would run command in '{cwd}': {command}")
+        return "Dry run output" if capture_output else None
+
+    try:
+        logger.debug(f"Running command in '{cwd}': {command}")
+        result = subprocess.run(
+            command,
+            shell=True,
+            capture_output=True,
+            text=True,
+            cwd=cwd,
+            check=check,
+            encoding='utf-8'
+        )
+        if result.stdout.strip():
+            logger.debug(result.stdout.strip())
+        if result.stderr.strip() and log_stderr:
+            logger.error(result.stderr.strip())
+        return result.stdout.strip() if capture_output else None
+    except subprocess.CalledProcessError as e:
+        if log_stderr:
+            logger.error(f"Command failed with exit code {e.returncode}: {command}")
+            logger.error(f"Stderr: {e.stderr.strip()}")
+            logger.error(f"Stdout: {e.stdout.strip()}")
+        if check:
+            raise
+        return e.stdout.strip() if capture_output else None
+    except Exception as e:
+        logger.error(f"An unexpected error occurred while running command '{command}': {e}")
+        if check:
+            raise
+        return None
+
+def find_git_repos(base_dir, recursive):
+    """
+    Finds all git repositories in the given directory.
+
+    Args:
+        base_dir (str): Base directory to search.
+        recursive (bool): If True, search recursively.
+
+    Returns:
+        list: List of paths to Git repositories.
+    """
+    git_repos = []
+    if recursive:
+        for root, dirs, files in os.walk(base_dir):
+            if ".git" in dirs:
+                git_repos.append(root)
+                # Prevent descending into subdirectories of a git repo
+                dirs[:] = [d for d in dirs if d != ".git"]
+    else:
+        for entry in os.scandir(base_dir):
+            if entry.is_dir() and is_git_repo(entry.path):
+                git_repos.append(entry.path)
+    return git_repos
+
+def get_git_status(repo_path):
+    """
+    Gets the git status for a given repository.
+
+    Args:
+        repo_path (str): Path to the Git repository.
+
+    Returns:
+        dict: A dictionary containing 'status' and 'branch' information, or None if an error occurs.
+    """
+    try:
+        # Get current branch
+        branch_output = run_command("git rev-parse --abbrev-ref HEAD", repo_path, capture_output=True)
+        branch = branch_output.strip() if branch_output else "unknown"
+        
+        # Get status (porcelain format for clean parsing)
+        status_output = run_command("git status --porcelain", repo_path, capture_output=True)
+        
+        if status_output is None:
+            return None
+            
+        # Parse status
+        if not status_output.strip():
+            status = "clean"
+        else:
+            # Count different types of changes
+            lines = status_output.strip().split('\n')
+            modified = sum(1 for line in lines if line.startswith(' M') or line.startswith('M'))
+            added = sum(1 for line in lines if line.startswith('A'))
+            deleted = sum(1 for line in lines if line.startswith(' D') or line.startswith('D'))
+            untracked = sum(1 for line in lines if line.startswith('??'))
+            
+            status_parts = []
+            if modified > 0:
+                status_parts.append(f"{modified} modified")
+            if added > 0:
+                status_parts.append(f"{added} added")
+            if deleted > 0:
+                status_parts.append(f"{deleted} deleted")
+            if untracked > 0:
+                status_parts.append(f"{untracked} untracked")
+            
+            status = ", ".join(status_parts) if status_parts else "changes"
+        
+        return {
+            'status': status,
+            'branch': branch
+        }
+        
+    except Exception as e:
+        # Return a safe default if there's any error
+        return {
+            'status': 'error',
+            'branch': 'unknown'
+        }
+
+def is_git_repo(repo_path):
+    """
+    Checks if a directory is a Git repository.
+
+    Args:
+        repo_path (str): The directory path to check.
+
+    Returns:
+        bool: True if the directory is a Git repository, False otherwise.
+    """
+    return (Path(repo_path) / ".git").is_dir()
