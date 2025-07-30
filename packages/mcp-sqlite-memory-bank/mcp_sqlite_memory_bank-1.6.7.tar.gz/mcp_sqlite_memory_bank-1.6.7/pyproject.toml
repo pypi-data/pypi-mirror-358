@@ -1,0 +1,69 @@
+[build-system]
+requires = [
+    "sentence-transformers>=2.2.0",
+    "torch>=1.9.0",
+    "numpy>=1.21.0,<1.27.0",
+    "setuptools>=61.0"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mcp_sqlite_memory_bank"
+version = "1.6.7"
+description = "A dynamic, agent/LLM-friendly SQLite memory bank for MCP servers with semantic search capabilities."
+authors = [
+    { name="Robert Meisner", email="robert@catchit.pl" }
+]
+license = "MIT"
+license-files = ["LICENSE"]
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "fastapi>=0.100.0",
+    "uvicorn>=0.22.0",
+    "pydantic>=1.10.0",
+    "fastmcp>=2.9.0",
+    "sqlalchemy>=2.0.0",
+    "sentence-transformers>=2.2.0",
+    "torch>=1.9.0",
+    "numpy>=1.21.0,<1.27.0"
+]
+
+[project.scripts]
+mcp-sqlite-memory-bank = "mcp_sqlite_memory_bank.server:mcp_server"
+mcp_sqlite_memory_bank = "mcp_sqlite_memory_bank.server:mcp_server"
+
+[project.urls]
+Homepage = "https://github.com/robertmeisner/mcp_sqlite_memory_bank"
+Source = "https://github.com/robertmeisner/mcp_sqlite_memory_bank"
+Issues = "https://github.com/robertmeisner/mcp_sqlite_memory_bank/issues"
+  
+[project.optional-dependencies]
+test = ["pytest"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+exclude = ["*__pycache__*", "*.pyc", "*.pyo"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+# Temporarily exclude files with type issues until separate type safety PR
+[[tool.mypy.overrides]]
+module = [
+    "mcp_sqlite_memory_bank.tools.discovery",
+    "mcp_sqlite_memory_bank.tools.analytics"
+]
+ignore_errors = true
+
+[tool.black]
+line-length = 150
+target-version = ['py310']
