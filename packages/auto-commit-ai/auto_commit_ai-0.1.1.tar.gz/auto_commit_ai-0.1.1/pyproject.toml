@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "auto-commit-ai"
+version = "0.1.1"
+description = "Generate automatic commit messages using AI"
+authors = [{ name = "Toni Miquel Llull", email = "tonimiquel.llull@gmail.com" }]
+license = { text = "GNU AGPL v3" }
+readme = "README.md"
+requires-python = ">=3.10"
+
+# Dynamic dependencies (loaded from requirements.txt)
+dynamic = ["dependencies"]
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+[project.urls]
+Homepage = "https://gitlab.com/tmllull/auto-commit-ai"
+Repository = "https://gitlab.com/tmllull/auto-commit-ai"
+Issues = "https://gitlab.com/tmllull/auto-commit-ai/issues"
+
+[project.scripts]
+auto-commit-ai = "auto_commit_ai.cli:main"
+acai = "auto_commit_ai.cli:main"
+
+[tool.setuptools.dynamic]
+dependencies = { file = ["requirements.txt"] }
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["auto_commit_ai*"]
+
+[tool.setuptools.package-data]
+auto_commit_ai = ["*.txt", "*.md"]
