@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "principia"
+version = "0.1.2"
+authors = [
+  { name="Keenan Finkelstein", email="keenanfinkelstein@gmail.com" },
+]
+description = "A lightweight, powerful Python framework for building self-verifying, robust, and elegant software by making all implicit assumptions explicit and verifiable at runtime."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "pandas",
+    "statsmodels",
+    "requests",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/krflol/principia"
+
+[tool.setuptools.packages.find]
+where = ["src"]

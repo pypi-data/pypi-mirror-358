@@ -1,0 +1,268 @@
+# Principia: The Art of Building Self-Verifying Software
+
+[](https://gemini.google.com)
+[](https://www.google.com/search?q=https://pypi.org/project/principia/)
+[](https://opensource.org/licenses/MIT)
+
+A lightweight, powerful Python framework for building self-verifying, robust, and elegant software by making all implicit assumptions explicit and verifiable at runtime.
+
+**Principia is a paradigm shift in writing reliable code.** It moves validation from cluttered `if/else` blocks and `try/except` statements into clean, declarative, and reusable "Assumption Contracts" that are applied directly to your functions.
+
+This library is designed to be a perfect co-pilot for both **human developers** and **AI code generators (LLMs)**, providing a semantic vocabulary that enforces correctness by construction.
+
+This project was born from a detailed whitepaper on formalizing software assumptions. The library, documentation, and showcase examples were then collaboratively built and refined with Google's Gemini, demonstrating a powerful new model for human-AI partnership in creating robust and elegant software.
+
+-----
+
+## The Philosophy
+
+  - **The Problem:** Runtime errors are rarely caused by faulty logic. They are caused by faulty *assumptions*—about input data, external APIs, network state, or statistical properties. These assumptions are usually implicit, scattered throughout the code, and unchecked. This leads to brittle code, wasted computation, and countless hours of debugging.
+  - **The Principia Solution:** We posit that every function operates on a contract of assumptions. This library makes that contract an explicit, executable part of your code. It separates the *what* (the validation intent) from the *how* (the business logic), leading to code that is not just safer, but dramatically cleaner and more readable.
+
+## Key Features
+
+  * **Declarative Contracts:** Use the elegant `@principia.contract` decorator to apply validation rules to functions, cleanly separating validation from business logic.
+  * **Rich Semantic Vocabulary:** A library of readable, pre-built checks like `be_a(int)`, `be_in_range(...)`, `be_online()`, and `be_stationary()` that allow you to describe your intent in plain English.
+  * **Extensible by Design:** Easily write your own custom semantic checks and contracts for your specific domain.
+  * **LLM-Ready:** Provides a structured, semantic framework that guides Large Language Models to generate more reliable and verifiable code by default.
+  * **Multi-Layered:** Offers a full suite of tools, from high-level contracts to low-level imperative `ensure()` calls for any situation.
+
+## Installation
+
+```bash
+pip install principia
+```
+
+## Quick Start in 60 Seconds
+
+See how Principia transforms a simple `create_user` function from a typical script into a self-verifying, robust operation.
+
+```python
+# your_app.py
+from principia import (
+    AssumptionContract, AssuranceMatcher, contract, PreconditionError,
+    InvalidArgumentError, be_a, be_in_range, not_be_empty
+)
+
+# 1. Define the "contract" for what a valid user is.
+USER_CONTRACT = AssumptionContract(
+    preconditions={
+        'username': AssuranceMatcher(None, name="Username")
+            .must(be_a(str), PreconditionError, "{name} must be a string.")
+            .must(not_be_empty(), InvalidArgumentError, "{name} cannot be empty."),
+
+        'age': AssuranceMatcher(None, name="Age")
+            .must(be_a(int), PreconditionError, "{name} must be an integer.")
+            .must(be_in_range(18, 120), InvalidArgumentError, "{name} must be between 18 and 120.")
+    },
+    on_success="[Principia] ✅ User contract validated."
+)
+
+# 2. Apply the contract to your function.
+@contract(USER_CONTRACT)
+def create_user(username: str, age: int):
+    """
+    This function's logic is now protected. It will only execute if the
+    username and age are valid according to the contract.
+    """
+    print(f"--> Core Logic: Creating user '{username}' (age {age}).")
+
+# 3. Run it and observe!
+if __name__ == "__main__":
+    # --- The Happy Path ---
+    print("--- Testing with valid data ---")
+    create_user(username="Alice", age=30)
+
+    # --- The Failure Path ---
+    print("\n--- Testing with invalid data ---")
+    try:
+        create_user(username="Bob", age=17)
+    except InvalidArgumentError as e:
+        print(f"Caught expected error: {e}")
+```
+
+**Output:**
+
+```
+--- Testing with valid data ---
+[Principia] ✅ User contract validated.
+--> Core Logic: Creating user 'Alice' (age 30).
+
+--- Testing with invalid data ---
+Caught expected error: Age must be between 18 and 120.
+```
+
+Notice how the function `create_user` contains **zero validation code**. It's clean. The contracts handle everything.
+
+-----
+
+## Showcase 1: The Resilient API Client
+
+Interacting with external networks is chaotic. Principia brings order by letting you define a contract for a successful API interaction, validating the environment, the request, *and* the response.
+
+<details>
+<summary><strong>Click to see the Networking Contracts and Custom Checks</strong></summary>
+
+```python
+# network_contracts.py
+import socket
+import json
+import requests
+from typing import Callable, Any
+from principia import (
+    AssumptionContract, AssuranceMatcher, ConfigurationError, PreconditionError,
+    IllegalStateError, be_a
+)
+
+# --- Custom Semantic Checks for Networking ---
+def be_online(check_host: str = "1.1.1.1", port: int = 53) -> Callable[[Any], bool]:
+    """A coarse check for internet connectivity."""
+    return lambda _: _is_online(check_host, port)
+
+def be_a_resolvable_hostname() -> Callable[[str], bool]:
+    """Ensures a hostname can be resolved by DNS."""
+    return lambda hostname: _is_resolvable(hostname)
+
+# --- The Contracts ---
+NETWORK_ENVIRONMENT_CONTRACT = AssumptionContract(
+    environment=AssuranceMatcher(None).must(be_online(), ConfigurationError, "No internet connectivity."),
+    on_success="[Principia] ✅ Network connectivity verified."
+)
+
+API_POSTCONDITION_CONTRACT = AssumptionContract(
+    postcondition=AssuranceMatcher(None, name="API Response")
+        .must(lambda r: r.status_code == 200, IllegalStateError, "API did not return a 200 OK (got {value.status_code}).")
+        .must(lambda r: "application/json" in r.headers.get('Content-Type', ''), IllegalStateError, "API response is not JSON.")
+        .must(lambda r: "bitcoin" in r.json(), IllegalStateError, "API response JSON is missing required data."),
+    on_success="[Principia] ✅ API response validated successfully."
+)
+
+# Helper functions for checks
+def _is_online(host, port):
+    try:
+        socket.create_connection((host, port), timeout=1)
+        return True
+    except (socket.timeout, OSError):
+        return False
+
+def _is_resolvable(hostname):
+    try:
+        socket.gethostbyname(hostname)
+        return True
+    except socket.gaierror:
+        return False
+```
+
+</details>
+
+**The Elegant Logic:**
+
+```python
+# get_price.py
+import requests
+from principia import contract
+from network_contracts import NETWORK_ENVIRONMENT_CONTRACT, API_POSTCONDITION_CONTRACT
+
+@contract(NETWORK_ENVIRONMENT_CONTRACT, API_POSTCONDITION_CONTRACT)
+def fetch_bitcoin_price() -> requests.Response:
+    """
+    Performs an API call sandboxed by Principia contracts. The rest of your
+    application can trust the Response object this function returns.
+    """
+    print("--> Core Logic: All contracts satisfied. Making API call...")
+    url = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
+    return requests.get(url, timeout=5)
+
+# --- Run it ---
+try:
+    response = fetch_bitcoin_price()
+    price = response.json()["bitcoin"]["usd"]
+    print(f"\n--> SUCCESS! Bitcoin price: ${price:,.2f}")
+except Exception as e:
+    print(f"\n--> FAILED AS EXPECTED! Reason: {e}")
+```
+
+This function will now gracefully fail with a clear, semantic error if you are offline, DNS is down, or the CoinGecko API returns an unexpected payload—all without a single `try/except` block in your business logic.
+
+-----
+
+## Showcase 2: The Bulletproof Machine Learning Pipeline
+
+Stop wasting days on training runs that were doomed from the start. Principia allows you to create **Data Contracts** that guarantee the statistical and structural integrity of your datasets *before* any expensive computation happens.
+
+<details>
+<summary><strong>Click to see the Data Science Contracts and Custom Checks</strong></summary>
+
+```python
+# data_science_contracts.py
+import pandas as pd
+from statsmodels.tsa.stattools import adfuller
+from typing import Callable, List
+from principia import AssumptionContract, AssuranceMatcher, InvalidArgumentError, be_a
+
+# --- Custom Semantic Checks for Data Science ---
+def be_stationary(p_value_thresh: float = 0.05) -> Callable[[pd.Series], bool]:
+    """Ensures a time-series is stationary via ADF test."""
+    return lambda series: adfuller(series)[1] < p_value_thresh
+
+def have_columns(cols: List[str]) -> Callable[[pd.DataFrame], bool]:
+    """Ensures a DataFrame contains required columns."""
+    return lambda df: all(c in df.columns for c in cols)
+
+# --- The Contract ---
+STATISTICAL_PROPERTIES_CONTRACT = AssumptionContract(
+    preconditions={
+        'raw_data': AssuranceMatcher(None, name="Time-Series Data")
+            .must(be_a(pd.DataFrame), InvalidArgumentError, "{name} must be a pandas DataFrame.")
+            .must(have_columns(['timestamp', 'sales']), InvalidArgumentError, "{name} is missing required columns.")
+            .must(lambda df: be_stationary()(df['sales']), InvalidArgumentError, "Target variable 'sales' is not stationary.")
+    },
+    on_success="[Principia] ✅ Data statistical properties validated."
+)
+```
+
+</details>
+
+**The Serene ML Logic:**
+
+```python
+# train.py
+import pandas as pd
+from principia import contract
+from data_science_contracts import STATISTICAL_PROPERTIES_CONTRACT
+
+@contract(STATISTICAL_PROPERTIES_CONTRACT)
+def train_forecasting_model(raw_data: pd.DataFrame):
+    """
+    This expensive training function is protected by a Data Contract.
+    It will refuse to run on data that isn't statistically sound.
+    """
+    print("--> Core Logic: Data contract satisfied. Starting 340 billion epoch training run...")
+    # ... your expensive model.fit() logic would go here ...
+    print("--> Core Logic: Training complete.")
+
+# --- Run it ---
+# Create a "good" stationary dataset and a "bad" trending one.
+good_data = pd.DataFrame({'timestamp': pd.to_datetime(['1/1/25', '1/2/25']), 'sales': [100, 101]})
+bad_data = pd.DataFrame({'timestamp': pd.to_datetime(['1/1/25', '1/2/25']), 'sales': [100, 150]})
+
+try:
+    print("--- Testing with valid, stationary data ---")
+    train_forecasting_model(good_data)
+
+    print("\n--- Testing with invalid, non-stationary data ---")
+    train_forecasting_model(bad_data)
+except Exception as e:
+    print(f"\n--> FAILED AS EXPECTED! The contract prevented a wasted training run.")
+    print(f"    Reason: {e}")
+```
+
+This contract saves countless hours of wasted computation by ensuring your assumptions about the data are met *before* the first training epoch begins.
+
+## Contributing
+
+Contributions are welcome! This project was born from a collaborative process, and we encourage you to be a part of its evolution. Please feel free to open an issue to discuss a new feature or submit a pull request.
+
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.
