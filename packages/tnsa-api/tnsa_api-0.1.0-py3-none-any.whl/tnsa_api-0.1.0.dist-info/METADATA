@@ -1,0 +1,51 @@
+Metadata-Version: 2.4
+Name: tnsa-api
+Version: 0.1.0
+Summary: Python SDK for TNSA AI API (model inference and management)
+Home-page: https://github.com/tnsaai/platform.tnsaai.com
+Author: TNSA AI Team
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Requires-Dist: requests
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# TNSA API SDK
+
+This SDK provides a convenient way to interact with the TNSA API.
+
+## Installation
+
+```bash
+pip install -e .
+```
+
+## Usage
+
+```python
+from tnsa_api import TNSAClient
+
+client = TNSAClient(api_key="YOUR_API_KEY")
+
+# List available models
+models = client.list_models()
+print(models)
+
+# Get an inference from a model
+inference = client.infer(
+    model="NGen3.9-Lite-2006-Preview",
+    prompt="Hello, world!"
+)
+print(inference)
+```
