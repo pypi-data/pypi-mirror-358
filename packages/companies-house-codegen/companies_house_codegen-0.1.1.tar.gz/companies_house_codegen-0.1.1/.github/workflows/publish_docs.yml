@@ -1,0 +1,30 @@
+name: mkdocs
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - src/**
+      - tests/**
+      - "*.md"
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+  
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.13"
+
+    - name: Install dependencies
+      run: pip install .[docs]
+
+    - name: Deploy Site
+      run: mkdocs gh-deploy --force

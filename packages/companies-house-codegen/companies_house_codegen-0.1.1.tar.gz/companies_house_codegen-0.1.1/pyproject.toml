@@ -1,0 +1,120 @@
+[build-system]
+requires = [
+    "hatchling",
+    "hatch-fancy-pypi-readme"
+]
+build-backend = "hatchling.build"
+
+[project]
+name = "companies-house-codegen"
+version = "0.1.1"
+description = "A simple but powerful toolkit for Companies House OpenAPI (Swagger 2.0) specifications."
+authors = [
+    {name = "Munyaradzi Murape"},
+]
+license = {text = "file = LICENSE"}
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "pyyaml", # produce yaml files
+    "typing_extensions", # use typing.Annotated
+]
+keywords = [
+    "automation",
+    "Companies House",
+    "API",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: File Formats :: JSON :: JSON Schema",
+]
+
+[project.urls]
+Homepage = "https://github.com/MMurape"
+#Documentation = "https:/"
+Repository = "https://github.com/MMurape/companies-house-codegen"
+Issues = "https://github.com/MMurape/companies-house-codegen/issues"
+
+
+[project.scripts]
+companies-house-codegen = "companies_house_codegen:main"
+
+[project.optional-dependencies]
+pydantic = ["pydantic>=2.0.0"] # optional run time type safety with pydantic
+docs = [
+    "mkdocs",
+    "mkdocs-material>=8.0.0",
+    "mkdocstrings[python]",
+    "pymdown-extensions",
+    "mkdocs-github-admonitions-plugin", # [gh-admonitions](https://pgijsbers.github.io/admonitions)
+]
+dev = [
+    # linting
+    "ruff",
+
+    # type safety
+    "mypy",
+    "pydantic>=2.0.0",
+
+    # docs
+    "mkdocs",
+    "mkdocs-material>=8.0.0",
+    "mkdocstrings[python]",
+    "pymdown-extensions",
+    "mkdocs-github-admonitions-plugin", # [gh-admonitions](https://pgijsbers.github.io/admonitions)
+]
+
+[tool.mypy]
+strict = true
+python_version = "3.8"
+
+[[tool.mypy.overrides]]
+module = ["yaml", "yaml.representer", "yaml.cyaml"] # ignore missing stubs 
+ignore_missing_imports = true
+
+[tool.ruff]
+line-length = 88 # I prefer verticle code over horizontal
+output-format = "grouped"
+target-version = "py38"
+
+[tool.ruff.lint]
+select = [
+  # isort
+  "I",
+  # bugbear rules
+  "B",
+  # remove unused imports
+  "F401",
+  # bare except statements
+  "E722",
+  # unused arguments
+  "ARG",
+  # print statements
+  "T201",
+  "T203",
+  # misuse of typing.TYPE_CHECKING
+  "TC004",
+  # import rules
+  "TID251",
+]
+
+[tool.ruff.lint.isort]
+length-sort = true
+length-sort-straight = true
+combine-as-imports = true
+extra-standard-library = ["typing_extensions"]
+known-first-party = ["companies_house_codegen", "tests"]

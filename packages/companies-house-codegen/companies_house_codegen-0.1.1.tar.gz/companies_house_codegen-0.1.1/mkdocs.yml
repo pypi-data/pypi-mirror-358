@@ -1,0 +1,129 @@
+site_name: "companies-house-codegen"
+site_url: "https://MMurape.github.io/companies-house-codegen"
+repo_url: "https://github.com/MMurape/companies-house-codegen"
+repo_name: "MMurape/companies-house-codegen"
+watch: [mkdocs.yml,
+        #README.md, copy mannually
+        #CONTRIBUTING.md, copy manually & edit markdown links
+        CODE_OF_CONDUCT.md,
+        src/companies_house_codegen,
+        tests/typings_suite]
+site_dir: "site"
+site_author: "Munyaradzi Murape"
+site_description: >-
+  A simple but powerful toolkit for Companies House OpenAPI (Swagger 2.0) specifications.
+copyright: Copyright &copy; 2025 Munyaradzi Murape
+
+
+theme:
+  name: "material"
+  features:
+  - announce.dismiss
+  - content.action.edit
+  - content.action.view
+  - content.code.annotate
+  - content.code.copy
+  - content.tooltips
+  - navigation.footer
+  - navigation.instant.preview
+  - navigation.path
+  - navigation.sections
+  - navigation.tabs
+  - navigation.tabs.sticky
+  - navigation.top
+  - search.highlight
+  - search.suggest
+  - toc.follow
+  palette:
+  - media: "(prefers-color-scheme)"
+    toggle:
+      icon: material/brightness-auto
+      name: Switch to light mode
+  - media: "(prefers-color-scheme: light)"
+    scheme: default
+    primary: black
+    accent: blue
+    toggle:
+      icon: material/weather-sunny
+      name: Switch to dark mode
+  - media: "(prefers-color-scheme: dark)"
+    scheme: slate
+    primary: black
+    accent: blue
+    toggle:
+      icon: material/weather-night
+      name: Switch to system preference
+
+nav:
+  - Home:
+    - Overview: index.md
+    - License: license.md
+  - Developement:
+    - Contributing: developement/index.md
+    - Code of Conduct: developement/code-of-conduct.md
+    - Coding Standards: developement/coding-standards.md
+    - Install Python: developement/install-python.md
+    - Virtual Environments: developement/virtual-environments.md
+    - Typings Suite: developement/typings_suite.md
+  - API Reference:
+    - Overview: api-reference/index.md
+    - argument: api-reference/argument.md
+    - codegen: api-reference/codegen.md
+    - constants: api-reference/constants.md
+    - types: api-reference/types.md
+    - utils: api-reference/utils.md
+  - CLI Reference: command-line-interface.md
+
+
+plugins:
+- gh-admonitions
+- autorefs
+- search
+- mkdocstrings:
+    handlers:
+      python:
+        paths: ["src", "tests"]
+        options:
+          docstring_style: numpy
+          
+          # copied from https://github.com/mkdocstrings/python/blob/main/mkdocs.yml#L158
+          backlinks: tree
+          docstring_options:
+            ignore_init_summary: true
+          docstring_section_style: table
+          filters: public
+          heading_level: 1
+          inherited_members: true
+          line_length: 88
+          merge_init_into_class: true
+          parameter_headings: true
+          relative_crossrefs: true
+          scoped_crossrefs: true
+          separate_signature: true
+          show_bases: false
+          show_inheritance_diagram: true
+          show_root_heading: true
+          show_root_full_path: false
+          show_signature_annotations: true
+          show_source: false
+          show_symbol_type_heading: true
+          show_symbol_type_toc: true
+          signature_crossrefs: true
+          summary: true
+          unwrap_annotated: true
+
+markdown_extensions:
+  - admonition
+  - pymdownx.blocks.tab:
+      alternate_style: true # https://squidfunk.github.io/mkdocs-material/upgrade/#pymdownxtabbed 
+
+  # code blocks
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - toc:
+      permalink: "#"

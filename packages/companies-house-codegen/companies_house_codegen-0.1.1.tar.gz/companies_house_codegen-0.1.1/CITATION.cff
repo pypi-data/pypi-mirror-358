@@ -1,0 +1,66 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: companies-house-codegen
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Munyaradzi Mdudzi Liam
+    family-names: Murape
+repository-code: >-
+  https://github.com/MMurape/companies-house-codegen/tree/main
+url: 'https://mmurape.github.io/companies-house-codegen/'
+abstract: >-
+  Companies House is an executive agency of the Department
+  for Business and Trade, a department of the British
+  Government. This official UK agency is responsible for
+  incorperating and dissolving companies, and maintaining a
+  register of information of limited companies (and some
+  other companies) under the Companies Act and related
+  legislation to be made available for public access.
+
+
+  Companies House hosts a JSON REST API called the Companies
+  House API, which makes it possible for software developers
+  to create application to retrieve information from
+  Companies House's database (e.g. searching and retrieving
+  public company data), as well as, interact with Companies
+  House's database (e.g. manipulating company information,
+  givem you have authority to do so). The full documentation
+  for Companies House API can be found at the Companies
+  House Developer Hub.
+
+
+  Unfortunately, the Companies House API does not come with
+  an official SDK. Fortunately, the API is documented fully
+  defined in OpenAPI (specifically Swagger 2.0)
+  specifications - an open source standard for defining
+  APIs. Since OpenAPI is industry standard there are many
+  tools that exist that produce high quality SDKs from
+  OpenAPI definitions. For example, Cloudflare, OpenAI,
+  Anthropic and many define their SDKs in OpenAPI3 and
+  generate them using Stainless. Unfortunately, these
+  definitions are distributed amongst many files (i.e. the
+  API is broken down into several smaller API products, with
+  the Companies House Public Data API product by itself
+  being distributed over 22 files!). Moreover, these
+  definitions contain various errors that make them
+  unusable.
+
+
+  This small, configurable and simple tool fetches the
+  OpenAPI for Companies House API, formats them to fix
+  errors found in them.
+keywords:
+  - companies-house
+  - swagger
+  - swagger2
+  - oas2
+  - openapi
+  - oas3
+  - apis
+  - 'webapis '
+license: MIT
