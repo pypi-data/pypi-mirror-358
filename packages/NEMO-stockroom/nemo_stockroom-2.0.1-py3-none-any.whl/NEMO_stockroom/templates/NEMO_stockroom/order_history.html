@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_tags_and_filters %}
+{% block title %}Order History{% endblock %}
+{% block content %}
+    <h1>Order History</h1>
+    <h3>Pending Requests</h3>
+    <p>{{ user.first_name }}'s requests that haven't been fulfilled yet.</p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th style="width: 85px">Qty</th>
+                <th>Project</th>
+                <th>Date of Request</th>
+                <th class="button-column-minimum">Cancel Request?</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in pending_orders %}
+                {% if not p.deleted %}
+                    <tr class="pending_request_row_{{ p.id }}">
+                        <td>
+                            <label class="form-control-static" for="{{ p.id }}_qty_input">{{ p.consumable }}</label>
+                        </td>
+                        <td>
+                            <input required
+                                   pattern="[0-9]*"
+                                   class="form-control"
+                                   type="number"
+                                   id="{{ p.id }}_qty_input"
+                                   value="{{ p.quantity }}"
+                                   onchange="update_qty_in_pending_order('{{ p.id }}_qty_input', '{{ p.id }}')">
+                        </td>
+                        <td>
+                            <div class="form-control-static">{{ p.project }}</div>
+                        </td>
+                        <td>
+                            <div class="form-control-static">{{ p.date }}</div>
+                        </td>
+                        <td class="text-right">
+                            <a href="{% url 'cancel_order' p.id %}" class="btn btn-danger" type="delete">Cancel</a>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% empty %}
+                <tr>
+                    <td colspan="7">
+                        {% if start_date or end_date %}
+                            There are no pending requests for {{ user.first_name }} {{ user.last_name }}.
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <h3>Fulfilled Requests</h3>
+    <p>{{ user.first_name }}'s requests that have been fulfilled.</p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Qty</th>
+                <th>Project</th>
+                <th>Date Fulfilled</th>
+                <th>Date of Request</th>
+                <th>Order Fulfilled By</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for f in fulfilled_orders %}
+                {% if not f.deleted %}
+                    <tr class="fulfilled_request_row_{{ f.id }}">
+                        <td>{{ f.consumable }}</td>
+                        <td>{{ f.quantity }}</td>
+                        <td>{{ f.project }}</td>
+                        <td>{{ f.withdraw.date }}</td>
+                        <td>{{ f.date }}</td>
+                        <td>{{ f.withdraw.merchant.first_name }} {{ f.withdraw.merchant.last_name }}</td>
+                    </tr>
+                {% endif %}
+            {% empty %}
+                <tr>
+                    <td colspan="7">
+                        {% if start_date or end_date %}
+                            There are no fulfilled requests for {{ user.first_name }} {{ user.last_name }}.
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <h3>Deleted Requests</h3>
+    <p>{{ user.first_name }}'s requests that have been deleted.</p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Qty</th>
+                <th>Project</th>
+                <th>Date Deleted</th>
+                <th>Date of Request</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in deleted_orders %}
+                <tr class="fulfilled_request_row_{{ f.id }}">
+                    <td>{{ d.consumable }}</td>
+                    <td>{{ d.quantity }}</td>
+                    <td>{{ d.project }}</td>
+                    <td>{{ d.date_deleted }}</td>
+                    <td>{{ d.date }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="7">
+                        {% if start_date or end_date %}
+                            There are no deleted requests for {{ user.first_name }} {{ user.last_name }}.
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <script type="text/javascript">
+        function update_qty_in_pending_order(input_box_id, pending_request_id)
+        {
+            let input_field = document.getElementById(input_box_id);
+            if (input_field.reportValidity())
+            {
+				let new_qty = input_field.value;
+				pending_request_id *= 1  // convert pending_request_id argument from a string to a number
+				let data = {
+					'update_pending_request_id': pending_request_id,
+					'update_quantity': new_qty
+				};
+				ajax_post('{% url 'update_qty_in_pending_order' %}', data);
+            }
+        }
+    </script>
+{% endblock %}

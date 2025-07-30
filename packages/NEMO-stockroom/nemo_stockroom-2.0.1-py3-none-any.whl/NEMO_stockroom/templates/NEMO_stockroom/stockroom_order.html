@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+{% load custom_tags_and_filters %}
+{% load stockroom_custom_tags_and_filters %}
+{% load static %}
+{% if request.session.withdrawals %}
+    <p>Current order:</p>
+    <form action="{% url 'order_consumables' %}" class="form-horizontal pull-right" method="post">
+        <table class="table table-condensed table-striped thead-light">
+            <thead>
+                <tr>
+                    <th>Project</th>
+                    <th>Consumable</th>
+                    <th style="width: 85px">Quantity</th>
+                    <th></th>
+                </tr>
+            </thead>
+            {% for withdraw in request.session.withdrawals %}
+                <tr>
+                    <td>{{ withdraw.project }}</td>
+                    <td>
+                        <label for="{{ withdraw.withdrawal_id }}_qty_input">{{ withdraw.consumable }}</label>
+                    </td>
+                    <td>
+                        <input required
+                               class="form-control sidebar-item"
+                               type="number"
+                               pattern="[0-9]*"
+                               id="{{ withdraw.withdrawal_id }}_qty_input"
+                               value="{{ withdraw.quantity }}"
+                               onchange="update_qty_in_session('{{ withdraw.withdrawal_id }}_qty_input', '{{ withdraw.withdrawal_id }}')">
+                    </td>
+                    <td style="vertical-align: middle">
+                        <span class="glyphicon glyphicon-remove pull-right"
+                              style="cursor:pointer"
+                              onclick="$('#consumables_order').load('{% url 'remove_order' forloop.counter0 %}')"
+                              title="Remove this withdrawal"></span>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <div class="pull-left">
+            {% url 'clear_orders' as clear_withdrawals_url %}
+            {% button type="delete" size="small" value="Clear All" title="Remove all items in current order" onclick="$('#consumables_order').load('"|concat:clear_withdrawals_url|concat:"')" %}
+        </div>
+        <div class="pull-right">
+            {% csrf_token %}
+            {% button type="save" size="small" value="Order" %}
+        </div>
+    </form>
+    <script type="text/javascript">
+        function update_qty_in_session(input_box_id, withdrawal_id)
+        {
+            let input_field = document.getElementById(input_box_id);
+            if (input_field.reportValidity())
+            {
+				let new_qty = input_field.value;
+                console.log(new_qty);
+				withdrawal_id *= 1  // convert withdrawal_id argument from a string to a number
+				let data = {
+					'update_withdrawal_id': withdrawal_id,
+					'update_quantity': new_qty
+				};
+				ajax_post('{% url 'update_qty_in_session' %}', data);
+            }
+        }
+    </script>
+{% endif %}

@@ -1,0 +1,13 @@
+<div class="panel-body">
+    <h3 class="customization-section-title" id="stockroom_order_confirmation_email_id">
+        Stockroom order confirmation email
+    </h3>
+    <p>This email is sent to the user when the order has been fulfilled by a staff member</p>
+    <p>The following context variables are provided when the email is rendered:</p>
+    <ul>
+        <li>
+            <b>withdrawal</b> - the stockroom withdrawal
+        </li>
+    </ul>
+    {% include 'customizations/customizations_upload.html' with element=stockroom_order_confirmation_email name='stockroom order confirmation email' key='stockroom' %}
+</div>

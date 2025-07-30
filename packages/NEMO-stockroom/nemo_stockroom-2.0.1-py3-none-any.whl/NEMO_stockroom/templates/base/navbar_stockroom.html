@@ -1,0 +1,13 @@
+{% load custom_tags_and_filters %}
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Stockroom <b class="caret"></b></a>
+    <ul id="stockroom-nav" class="dropdown-menu">
+        {% navigation_url 'stockroom' 'Place Order' %}
+        {% navigation_url 'order_history' 'Order Status & History' %}
+        {% if user.is_any_part_of_staff %}
+            {% navigation_url 'stockroom_requests' 'Fulfill Orders' %}
+            {% navigation_url 'items_page' 'Edit Quantities' %}
+            {% navigation_url 'display_withdraws' 'View Withdraws' %}
+        {% endif %}
+    </ul>
+</li>

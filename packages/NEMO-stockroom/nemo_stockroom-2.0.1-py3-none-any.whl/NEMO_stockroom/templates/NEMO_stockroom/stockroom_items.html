@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load custom_tags_and_filters %}
+{% block title %}Stockroom Items{% endblock %}
+{% block content %}
+    <h1>Stockroom Items</h1>
+    <p>This page allows you to edit the quantities and prices of stockroom items.</p>
+    <div class="form-group">
+        <form id="item_filter_form" action="{% url 'items_page' %}" class="form-horizontal" method="post">
+            {% csrf_token %}
+            <label class="control-label col-md-1">Search:</label>
+            <div class="col-md-3">
+                <input type="text"
+                       id="search_stockroom_items"
+                       name="search_stockroom_items"
+                       aria-label="Search for a stockroom item"
+                       placeholder="Search for a stockroom item"
+                       class="form-control sidebar-item"
+                       autocomplete="off">
+            </div>
+            <div class="col-md-1" style="margin-top: 5px; margin-bottom: 5px">
+                <span id="search_stockroom_items_id" class="consumable_trigger" data-item-id="">
+                    <button id="add_to_order_from_search" type="submit" class="btn btn-md btn-success">Search</button>
+                </span>
+            </div>
+        </form>
+        <div class="col-md-1" style="margin-top: 5px; margin-bottom: 5px">
+            <form action="{% url 'items_page' %}" method="get">
+                <button id="clear_filter_button" type="submit" class="btn btn-primary">Reset</button>
+                <br>
+            </form>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <form onsubmit="{% url 'items_page' %}" id="item_qty_update_form" method="post">
+        {% csrf_token %}
+        {% button id="update_qtys" type="save" value="Save changes" onclick="" %}
+        <input id="clicked_submit" name="clicked_submit" value="true" type="hidden">
+        <h2>Items</h2>
+        <table class="table">
+            <tr>
+                <th style="width: 300px">Item</th>
+                <th style="width: 120px"># in stock</th>
+                <th>Price</th>
+            </tr>
+            {% if consumables|length == 0 %}
+                <tr>
+                    <td>"{{ search_item }}" doesn't exist in the database.  Please click the "Reset" button above, and try again.</td>
+                </tr>
+            {% endif %}
+            {% regroup consumables by category as categories %}
+            {% for category in categories %}
+                {% if categories|length > 1 or category.grouper %}
+                    <tr>
+                        <td id="chevron_{{ category.grouper }}"
+                            data-toggle="collapse"
+                            data-target=".consumables_{{ category.grouper }}"
+                            onclick="toggle_details($('#chevron_{{ category.grouper }}'))"
+                            style="font-weight: bold">
+                            {{ category.grouper|default_if_none:"Uncategorized" }}
+                            <span class="glyphicon glyphicon-chevron-{% if consumable_list_collapse %}right{% else %}down{% endif %} pull-left chevron"></span>
+                        </td>
+                    </tr>
+                {% endif %}
+                {% for item in category.list %}
+                    <tr class="collapse {% if not consumable_list_collapse %}in{% endif %} consumables_{{ category.grouper }}">
+                        <td {% if categories|length > 1 or category.grouper %}style="padding-left: 15px;"{% endif %}>
+                            <label for="stockroom_qty_input__{{ item.id }}">{{ item.name }}</label>
+                        </td>
+                        <td {% if categories|length > 1 or category.grouper %}style="padding-left: 15px;"{% endif %}>
+                            <input type="number"
+                                   pattern="[0-9]*"
+                                   id="stockroom_qty_input__{{ item.id }}"
+                                   name="stockroom_qty_input__{{ item.id }}"
+                                   value="{{ item.quantity }}"
+                                   class="form-control sidebar-item"
+                                   required>
+                        </td>
+                        <td {% if categories|length > 1 or category.grouper %}style="padding-left: 15px;"{% endif %}>
+                            {% if rates and rates|get_item:item.name %}{{ rates|get_item:item.name|safe }}{% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </table>
+    </form>
+    <script type="text/javascript">
+        $('#search_stockroom_items').autocomplete('consumables_set', blank_function, {% json_search_base_with_extra_fields consumables_set %}).focus();
+
+        function blank_function(jquery_event, search_selection) {}
+
+        function on_submit()
+		{
+			let failure_dialog = ajax_failure_callback("Could not update quantities of stockroom items.");
+			$('#clicked_submit').val("true");
+			// ajax_post("{% url 'items_page' %}", serialize("#item_qty_update_form"), ajax_success_callback, failure_dialog);
+			ajax_post("{% url 'items_page' %}", failure_dialog);
+
+			return false;
+		}
+
+	
+    </script>
+{% endblock %}
