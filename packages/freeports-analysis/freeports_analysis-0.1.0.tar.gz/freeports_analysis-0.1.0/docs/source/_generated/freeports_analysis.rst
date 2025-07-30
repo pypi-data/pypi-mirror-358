@@ -1,0 +1,19 @@
+﻿freeports\_analysis
+===================
+
+.. automodule:: freeports_analysis
+   :members:
+   
+   
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   cmd
+   conf_parse
+   consts
+   download
+   formats
+   main
