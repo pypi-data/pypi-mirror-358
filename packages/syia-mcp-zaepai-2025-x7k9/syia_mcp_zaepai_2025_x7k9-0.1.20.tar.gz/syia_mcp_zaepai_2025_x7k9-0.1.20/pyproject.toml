@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "syia-mcp-zaepai-2025-x7k9"
+version = "0.1.20"
+description = "MCP ZepAi Module"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "asyncio>=3.4.3",
+    "mcp>=1.10.1",
+    "zep-cloud>=2.17.0",
+]
+
+[project.urls]
+Repository = "https://github.com/syia-ai/mcp-data-science"
+Homepage = "https://github.com/syia-ai/mcp-data-science"
+
+[tool.setuptools.packages.find]
+include = ["mcp_zepai*"]
+exclude = ["tests*", "logs*", "k8s*", "Agent*", "scheduler*"]
+
+[tool.setuptools.package-data]
+"*" = ["config/*"]
+
+[dependency-groups]
+dev = [
+    "build>=1.2.2.post1",
+    "twine>=6.1.0",
+]
