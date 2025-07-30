@@ -1,0 +1,51 @@
+Metadata-Version: 2.4
+Name: gfab
+Version: 0.1.0
+Summary: Gemini Flask App Builder – AI-powered Flask app generator
+Home-page: https://github.com/swarupbaral/gfab
+Author: Swarup Baral
+Author-email: swarupbaral102@gmail.com
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Code Generators
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: flask
+Requires-Dist: questionary
+Requires-Dist: google-generativeai
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# GFAB â€“ Gemini Flask App Builder
+
+**GFAB** is an AI-powered code generator built for Flask developers. It interactively gathers user preferences and uses Google Gemini to scaffold a real-world Flask application, including routes, configuration files, templates, and advanced features like JWT authentication, Docker, testing setup, and more.
+
+## Features
+
+- Interactive CLI setup wizard
+- Gemini-powered dynamic Flask module generation
+- Optional features: REST API, Auth, Admin panel, Jinja2 templates, Role-based access, WebSocket, i18n
+- Presets for common app setups
+- AI-generated stub code
+- Test and config utilities
+- Docker and .env support
+- Blueprint auto-wiring
+- One-command project bootstrap
+
+## Getting Started
+
+```bash
+pip install gfab
+gfab
