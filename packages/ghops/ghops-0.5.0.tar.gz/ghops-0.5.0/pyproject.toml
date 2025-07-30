@@ -1,0 +1,24 @@
+[build-system]
+requires = [ "setuptools>=61.0", "wheel",]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ghops"
+version = "0.5.0"
+description = "A CLI tool for managing GitHub repos"
+readme = "README.md"
+requires-python = ">=3.7"
+keywords = [ "git", "github", "automation", "cli", "devops",]
+classifiers = [ "Development Status :: 3 - Alpha", "Intended Audience :: Developers", "Topic :: Software Development :: Version Control :: Git", "Operating System :: OS Independent", "Programming Language :: Python :: 3"]
+dependencies = [ "rich>=13.0.0", "pathlib", "toml",]
+[[project.authors]]
+name = "Alex Towell"
+email = "lex@metafunctor.com"
+
+[project.scripts]
+ghops = "ghops.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/queelius/ghops"
+Source = "https://github.com/queelius/ghops"
+Issues = "https://github.com/queelius/ghops/issues"
