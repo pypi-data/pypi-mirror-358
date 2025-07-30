@@ -1,0 +1,55 @@
+Metadata-Version: 2.4
+Name: mcp-renderlytic
+Version: 0.1.5
+Summary: Renderlytic is a headless CMS that empowers users to create and manage their blog content, which can then be seamlessly integrated into various AI-powered clients and web applications, rendering as static HTML.
+Project-URL: Homepage, https://wistify.app
+Requires-Python: >=3.11
+Requires-Dist: mcp[cli]>=1.5.0
+Requires-Dist: requests>=2.32.3
+Description-Content-Type: text/markdown
+
+# Renderlytic
+
+Renderlytic is a headless CMS that empowers users to create and manage their blog content, which can be seamlessly integrated into various AI-powered clients and web applications, rendering as static HTML. It provides a flexible, decoupled content platform designed for developers and content creators.
+
+## 🔧 Installation
+
+Install the package via pip:
+
+```bash
+pip install mcp-renderlytic
+```
+
+> **Note:** Please goto Renderlytic Website to obtain your `RENDERLYTIC_API_KEY` values.
+
+## 💬 Example Usage
+
+Once the server is running, you can create and manage blog content through the user-friendly editor, and fetch your content via the API for use in your web applications or AI clients.
+
+```json
+"renderlytic": {
+  "command": "uvx",
+  "args": ["mcp-renderlytic"],
+  "env": {
+    "RENDERLYTIC_API_KEY": "<YOUR_API_TOKEN>",
+  }
+}
+```
+
+The system will output your content as static HTML, ready for integration.
+
+## 📚 References
+
+Renderlytic is designed to be flexible and integrate with AI-powered services and static site generators.
+
+## 📩 Contact
+
+For access credentials or collaboration inquiries, please contact the Renderlytic team.
+
+## 🏢 About Renderlytic
+
+Renderlytic is focused on building modern content infrastructure for developers and creators. Our goal is to make content management flexible, performant, and ready for the AI-powered web.
+
+## 🏷️ Tags
+
+`headless-cms` • `content-management` • `ai-integration` • `static-site` • `javascript` • `web-development`
