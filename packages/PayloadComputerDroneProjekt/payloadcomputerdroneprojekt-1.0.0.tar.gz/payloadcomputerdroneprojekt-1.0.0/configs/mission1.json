@@ -1,0 +1,68 @@
+{
+    "$schema": "https://raw.githubusercontent.com/KonstantinDege/schemas/refs/heads/main/mission_schema.json",
+    "parameter": {
+        "flight_height": 10
+    },
+    "action": "list",
+    "commands": [
+        {
+            "action": "takeoff",
+            "commands": {
+                "altitude": 10
+            }
+        },
+        {
+            "action": "start_camera",
+            "commands": {
+                "ips": 5
+            }
+        },
+        {
+            "action": "scan_area",
+            "commands": {
+                "delay": 0,
+                "height": 12,
+                "overlap_ratio": 0.45,
+                "polygon": [
+                    [
+                    48.768507937,
+                    11.335972589
+                    ],
+                    [
+                    48.768264215,
+                    11.335724609
+                    ],
+                    [
+                    48.767507641,
+                    11.337241328
+                    ],
+                    [
+                    48.767967946,
+                    11.337684988
+                    ],
+                    [
+                    48.768289057,
+                    11.336764446
+                    ],
+                    [
+                    48.768198401,
+                    11.336264879
+                    ],
+                    [
+                    48.768358661,
+                    11.336291073
+                    ]
+                ]
+            }
+        },
+        {
+            "action": "stop_camera"
+        },
+        {
+            "action": "land_at",
+            "commands": {
+                    "color": "orange"
+                }
+        }
+    ]
+}

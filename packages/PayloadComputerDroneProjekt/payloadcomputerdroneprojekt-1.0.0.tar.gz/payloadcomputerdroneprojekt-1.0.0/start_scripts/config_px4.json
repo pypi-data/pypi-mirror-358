@@ -1,0 +1,120 @@
+{
+    "$schema": "https://raw.githubusercontent.com/KonstantinDege/schemas/refs/heads/main/config_schema.json",
+    "mission_storage": "/media/aviator/SAVE/mission_storage",
+    "camera": {
+        "control": {
+            "ExposureTime": 125,
+            "AeEnable": false,
+            "AnalogueGain": 1.0
+        },
+        "main": {
+            "format": "RGB888",
+            "size": [
+                1920,
+                1080
+            ]
+        }
+    },
+    "image": {
+        "path": "data/images",
+        "length_box_short_side": 0.4,
+        "length_box_long_side": 0.6,
+        "length_code_side": 0.36,
+        "colors": [
+            {
+                "name": "orange",
+                "lower": [
+                    43,
+                    13,
+                    32
+                ],
+                "upper": [
+                    64,
+                    30,
+                    53
+                ]
+            },
+            {
+                "name": "blue",
+                "lower": [
+                    12,
+                    23,
+                    -52
+                ],
+                "upper": [
+                    23,
+                    30,
+                    -45
+                ]
+            },
+            {
+                "name": "red",
+                "lower": [
+                    33,
+                    40,
+                    20
+                ],
+                "upper": [
+                    40,
+                    60,
+                    33
+                ]
+            },
+            {
+                "name": "yellow",
+                "lower": [
+                    60,
+                    -30,
+                    30
+                ],
+                "upper": [
+                    80,
+                    -20,
+                    50
+                ]
+            }
+        ],
+        "shape_color": {
+            "lower": [
+                0,
+                -15,
+                -15
+            ],
+            "upper": [
+                20,
+                15,
+                15
+            ]
+        },
+        "min_diagonal": 500,
+        "threashold": -1,
+        "camera_offset": [
+            0.068,
+            0,
+            0
+        ],
+        "distance_objs": 5,
+        "min_diagonal_code_element": 10,
+        "min_diagonal_shape": 100,
+        "rotation_offset": [
+            0,
+            0,
+            0
+        ],
+        "bounding_box_shrink_percentage": 0.22,
+        "strong_bounding_check": false,
+        "approx_poly_epsilon": 0.055,
+        "min_shape_area": 400
+    },
+    "communications": {
+        "allowed_arm": true,
+        "allowed_disarm": true,
+        "allowed_mode_switch": true,
+        "pos_error": 0.75,
+        "vel_error": 0.5
+    },
+    "mission_computer": {
+        "land_speed": 1,
+        "recouver_time": 10
+    }
+}

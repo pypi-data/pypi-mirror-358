@@ -1,0 +1,344 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "blau.config",
+    "title": "DroneConfig",
+    "description": "A config description of team Blau for the drone project",
+    "type": "object",
+    "properties": {
+        "$schema": {
+            "type": "string"
+        },
+        "image": {
+            "description": "Parameters for image analysis",
+            "type": "object",
+            "properties": {
+                "fov": {
+                    "type": "array",
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "description": "Field of view in degree [horizontal, vertical]",
+                    "items": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 180,
+                        "default": 90
+                    }
+                },
+                "path": {
+                    "type": "string",
+                    "default": "data/images"
+                },
+                "colors": {
+                    "type": "array",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "upper": {
+                                        "$ref": "#/definitions/color_val"
+                                    },
+                                    "lower": {
+                                        "$ref": "#/definitions/color_val"
+                                    },
+                                    "upper_1": {
+                                        "$ref": "#/definitions/color_val"
+                                    },
+                                    "lower_1": {
+                                        "$ref": "#/definitions/color_val"
+                                    },
+                                    "upper_0": {
+                                        "$ref": "#/definitions/color_val"
+                                    },
+                                    "lower_0": {
+                                        "$ref": "#/definitions/color_val"
+                                    }
+                                },
+                                "anyOf": [
+                                    {
+                                        "required": [
+                                            "name",
+                                            "upper",
+                                            "lower"
+                                        ]
+                                    },
+                                    {
+                                        "required": [
+                                            "name",
+                                            "upper_0",
+                                            "lower_0",
+                                            "upper_1",
+                                            "lower_1"
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "minLength": 1
+                },
+                "shape_color": {
+                    "upper": {
+                        "$ref": "#/definitions/color_val"
+                    },
+                    "lower": {
+                        "$ref": "#/definitions/color_val"
+                    }
+                },
+                "threashold": {
+                    "type": "number",
+                    "minimum": -1,
+                    "default": -1
+                },
+                "min_diagonal_code_element": {
+                    "type": "number",
+                    "minimum": -1,
+                    "default": 1
+                },
+                "min_diagonal_shape": {
+                    "type": "number",
+                    "minimum": -1,
+                    "default": 1
+                },
+                "min_diagonal": {
+                    "type": "number",
+                    "minimum": -1,
+                    "default": 10
+                },
+                "camera_offset": {
+                    "type": "array",
+                    "maxItems": 3,
+                    "minItems": 3,
+                    "description": "offset of the camera [m]",
+                    "items": {
+                        "type": "number",
+                        "default": 0
+                    }
+                },
+                "rotation_offset": {
+                    "type": "array",
+                    "maxItems": 3,
+                    "minItems": 3,
+                    "description": "offset of the camera int rotation [degree]",
+                    "items": {
+                        "type": "number",
+                        "minimum": -360,
+                        "maximum": 360,
+                        "default": 0
+                    }
+                },
+                "distance_objs": {
+                    "type": "number",
+                    "minimum": 0,
+                    "default": 5,
+                    "description": "The distance [m] in which a object is considered the same"
+                },
+                "length_code_side": {
+                    "type": "number",
+                    "default": 0.5
+                },
+                "length_box_short_side": {
+                    "type": "number",
+                    "default": 0.4
+                },
+                "length_box_long_side": {
+                    "type": "number",
+                    "default": 0.6
+                },
+                "strong_bounding_check": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "If true, the bounding box of the object is checked to be a square."
+                },
+                "bounding_box_shrink_percentage": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "default": 0,
+                    "description": "The percentage of the bounding box that is shrunk to get the actual object size"
+                },
+                "approx_poly_epsilon": {
+                    "type": "number",
+                    "minimum": 0,
+                    "default": 0.04,
+                    "description": "The approximation accuracy for the polygon of the object"
+                },
+                "min_shape_area": {
+                    "type": "number",
+                    "minimum": 0,
+                    "default": 10000,
+                    "description": "The minimum area of the shape in pixel"
+                }
+            },
+            "additionalProperties": false,
+            "required": [
+                "colors",
+                "shape_color",
+                "min_diagonal",
+                "threashold"
+            ]
+        },
+        "camera": {
+            "description": "Parameters for camera analysis",
+            "type": "object",
+            "properties": {
+                "main": {
+                    "type": "object",
+                    "properties": {
+                        "format": {
+                            "type": "string",
+                            "examples": [
+                                "XRGB8888"
+                            ]
+                        },
+                        "size": {
+                            "type": "array",
+                            "items": {
+                                "anyOf": [
+                                    {
+                                        "type": "integer",
+                                        "minimum": 0
+                                    }
+                                ]
+                            },
+                            "minLength": 2,
+                            "maxLength": 2,
+                            "examples": [
+                                [
+                                    640,
+                                    480
+                                ]
+                            ]
+                        }
+                    }
+                },
+                "control": {
+                    "type": "object",
+                    "properties": {
+                        "ExposureTime": {
+                            "type": "integer",
+                            "minimum": 30,
+                            "examples": [
+                                50
+                            ]
+                        }
+                    }
+                }
+            },
+            "additionalProperties": false,
+            "required": [
+                "main",
+                "control"
+            ]
+        },
+        "mission_computer": {
+            "type": "object",
+            "properties": {
+                "recouver_time": {
+                    "type": "number",
+                    "minimum": 0,
+                    "default": 10,
+                    "description": "The amount of time the mission computers has to try to recover from a crash until the mission is aborted"
+                },
+                "land_speed": {
+                    "type": "number",
+                    "minimum": 0.1,
+                    "description": "The speed the drones land with",
+                    "default": 2
+                },
+                "indoor": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "If true, the mission computer assumes the drone is flying indoors"
+                }
+            },
+            "additionalProperties": false
+        },
+        "communications": {
+            "type": "object",
+            "properties": {
+                "allowed_arm": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "allowed_disarm": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "allowed_mode_switch": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "pos_error": {
+                    "type": "number",
+                    "default": 0.75
+                },
+                "vel_error": {
+                    "type": "number",
+                    "default": 0.5
+                },
+                "degree_error": {
+                    "type": "number",
+                    "default": 0.5
+                }
+            },
+            "additionalProperties": false
+        },
+        "mission_storage": {
+            "type": "string",
+            "description": "working directory of the mission computer",
+            "examples": [
+                "mission_storage"
+            ],
+            "default": "mission_storage"
+        }
+    },
+    "definitions": {
+        "color_val": {
+            "type": "array",
+            "minItems": 3,
+            "maxItems": 3,
+            "examples": [
+                [
+                    0,
+                    0,
+                    0
+                ],
+                [
+                    100,
+                    128,
+                    128
+                ]
+            ],
+            "description": "A color value in HSV format",
+            "items": [
+                {
+                    "type": "integer",
+                    "minimum": -5,
+                    "maximum": 100
+                },
+                {
+                    "type": "integer",
+                    "minimum": -128,
+                    "maximum": 128
+                },
+                {
+                    "type": "integer",
+                    "minimum": -128,
+                    "maximum": 128
+                }
+            ]
+        }
+    },
+    "required": [
+        "image",
+        "camera",
+        "mission_computer",
+        "mission_storage",
+        "communications"
+    ],
+    "additionalProperties": false
+}
