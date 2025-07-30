@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "python3-cyberfusion-rabbitmq-consumer-log-server"
+version = "1.1.5"
+description = "Log server for RabbitMQ consumer."
+readme = "README.md"
+authors = [
+    { name = "Cyberfusion", email = "support@cyberfusion.io" },
+]
+dependencies = [
+    "fastapi==0.92.0",
+    "pydantic==1.10.4",
+    "alembic==1.8.1",
+    "SQLAlchemy==1.4.46",
+    "jinja2==3.1.2",
+]
+
+[project.urls]
+"Source" = "https://github.com/CyberfusionIO/python3-cyberfusion-rabbitmq-consumer-log-server"
+
+[project.scripts]
+rabbitmq-consumer-log-server-purge-logs = "cyberfusion.RabbitMQConsumerLogServer.utilities:purge_logs"
