@@ -1,0 +1,79 @@
+Metadata-Version: 2.1
+Name: producteca
+Version: 1.0.10
+Summary: 
+Author: Chroma Agency, Matias Rivera
+Author-email: mrivera@chroma.agency
+Requires-Python: >=3.8,<4.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: coverage (>=7.2.0,<8.0.0)
+Requires-Dist: pydantic (>=2.10.0,<3.0.0)
+Requires-Dist: requests (>=2.32.4,<3.0.0)
+Description-Content-Type: text/markdown
+
+[![Maintainability](https://qlty.sh/badges/950972cf-31e6-47cb-ab37-0ad0565c3a59/maintainability.svg)](https://qlty.sh/gh/ChromaAgency/projects/producteca_python)
+[![Code Coverage](https://qlty.sh/badges/950972cf-31e6-47cb-ab37-0ad0565c3a59/test_coverage.svg)](https://qlty.sh/gh/ChromaAgency/projects/producteca_python)
+[![Test](https://github.com/ChromaAgency/producteca_python/actions/workflows/ci-cd.yml/badge.svg?branch=main)](https://github.com/ChromaAgency/producteca_python/actions/workflows/ci-cd.yml)
+
+# Producteca
+
+This is a small module, to make requests to Producteca API. 
+
+## Install for development
+
+First of all, you need to install [Poetry, follow the instructions here](https://python-poetry.org/docs/#installation).
+
+Once installed, run `poetry install` to install the dependencies.
+
+## Usage
+
+To use the Producteca client, first instantiate `ProductecaClient` with your credentials or add it directly to your env with PRODUCTECA_TOKEN and PRODUCTECA_API_KEY:
+
+```python
+from producteca.client import ProductecaClient
+
+client = ProductecaClient(token='your_token', api_key='your_api_key')
+```
+
+then with the client you should use every other module, like SalesOrder, Products, Payments, Shipments and Search
+
+## Contributing
+
+We welcome contributions to improve this project! Here's how you can help:
+
+### Development Setup
+
+1. Fork the repository
+2. Clone your fork locally
+3. Create a new branch for your feature/fix
+4. Make your changes
+5. Run tests to ensure everything works
+6. Submit a pull request
+
+### Code Style
+
+- Follow PEP 8 guidelines
+- Write meaningful commit messages
+- Add tests for new features
+- Update documentation as needed
+
+### Reporting Issues
+
+If you find a bug or have a feature request:
+
+1. Check existing issues first
+2. Create a new issue with:
+   - Clear description
+   - Steps to reproduce (for bugs)
+   - Expected vs actual behavior
+   - Version information
+
+### Questions?
+
+Feel free to open an issue for any questions about contributing.
+
