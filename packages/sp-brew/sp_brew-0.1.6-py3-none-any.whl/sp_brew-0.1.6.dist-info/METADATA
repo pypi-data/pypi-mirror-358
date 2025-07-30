@@ -1,0 +1,384 @@
+Metadata-Version: 2.4
+Name: sp-brew
+Version: 0.1.6
+Summary: Module to visualize and extract information from raw data
+Author-email: DMassella <damiano.massella@smartphotonics.nl>, CMattia <matta.conti@smartphotonics.nl>
+Requires-Python: >=3.11
+Requires-Dist: matplotlib>=3.9.4
+Requires-Dist: numpy>=2.0.2
+Requires-Dist: pandas>=2.2.3
+Requires-Dist: scipy>=1.13.1
+Description-Content-Type: text/markdown
+
+# sp_brew
+
+![Build Status](https://img.shields.io/badge/status-WIP-orange.svg) ![Python Version](https://img.shields.io/badge/python-3.11+-blue.svg)
+
+`sp_brew` is a package for analyzing and handling experimental data. In comes with a set of predefined analysis for each Building Block of smart photonics.
+
+---
+
+## Table of Contents
+
+- [sp_brew](#sp_brew)
+  - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
+  - [Features](#features)
+  - [Installation (for Users)](#installation-for-users)
+  - [Example Usage](#example-usage)
+  - [For Developers](#for-developers)
+    - [Prerequisites](#prerequisites)
+    - [Getting Started](#getting-started)
+      - [1. Clone the Repository](#1-clone-the-repository)
+      - [2. Install `uv` (Our Project Manager)](#2-install-uv-our-project-manager)
+      - [3. Set up the Development Environment](#3-set-up-the-development-environment)
+      - [4. Set up Pre-commit Hooks](#4-set-up-pre-commit-hooks)
+    - [Working with the Project](#working-with-the-project)
+      - [Running Tests](#running-tests)
+      - [Adding Dependencies](#adding-dependencies)
+      - [Running Scripts/Commands](#running-scriptscommands)
+      - [Managing the Virtual Environment](#managing-the-virtual-environment)
+    - [Git Workflow](#git-workflow)
+      - [Initial Setup for Collaboration](#initial-setup-for-collaboration)
+      - [Keeping Your Local Branch Updated](#keeping-your-local-branch-updated)
+      - [Pushing Your Changes](#pushing-your-changes)
+  - [Contributing](#contributing)
+  - [License](#license)
+  - [Contact](#contact)
+
+---
+
+## Overview
+
+This section provides a slightly longer explanation of the package.
+
+- What problem does it solve?
+- Who is it for?
+- What are its core functionalities?
+
+Example:
+`sp_brew` provides a suite of utility functions for data processing, including data cleaning, transformation, and analysis tools. It aims to simplify common data manipulation tasks for Python developers working with structured datasets.
+
+---
+
+## Features
+
+- Feature 1: Briefly describe a key feature.
+- Feature 2: Another key feature.
+- Feature 3: And so on...
+
+---
+
+## Installation (for Users)
+
+If your package is intended to be used by others, explain how they can install it via pip.
+
+```bash
+pip install sp_brew
+```
+
+---
+
+## Example Usage
+
+```python
+from sp_brew import greet  # Replace with actual imports
+
+# Assuming you have a function like 'greet' from a previous example
+message = greet("Team!")
+print(message)
+```
+
+---
+
+## For Developers
+
+This section is specifically for team members who will be contributing to the package.
+
+### Prerequisites
+
+Before you start, make sure you have:
+
+- **Git**: For version control. You can download it from [git-scm.com](https://git-scm.com/).
+- **Python 3.11 or higher**: Our project specifically uses Python 3.11. Ensure you have it installed on your system. You can download it from [python.org](https://python.org/).
+- If you manage multiple Python versions (e.g., with pyenv or asdf), ensure Python 3.11 is active in your shell.
+
+---
+
+### Getting Started
+
+Follow these steps to set up your development environment.
+
+#### 1. Clone the Repository
+
+First, get a copy of the project code onto your local machine:
+
+```bash
+git clone https://git-main.smartphotonics.io/DMassella/sp_brew.git
+cd sp_brew
+```
+
+#### 2. Install `uv` (Our Project Manager)
+
+We use [uv](https://astral.sh/uv/) as our primary tool for managing Python packages and virtual environments. It's designed to be extremely fast and efficient.
+
+If you don't have `uv` installed globally, please install it using one of the following methods:
+
+**macOS and Linux:**
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+**Windows (PowerShell - Run as Administrator):**
+
+```powershell
+irm https://astral.sh/uv/install.ps1 | iex
+```
+
+After installation, ensure `uv` is in your system's PATH. You might need to restart your terminal or add the `uv` binary directory to your PATH environment variable (the installer usually tells you where it places the binary).
+
+You can verify `uv` is installed by running:
+
+```bash
+uv --version
+```
+
+#### 3. Set up the Development Environment
+
+`uv` will automatically create and manage a dedicated virtual environment for our project. This keeps project dependencies isolated from your system Python.
+
+From the project's root directory:
+
+```bash
+uv sync
+```
+
+**What `uv sync` does:**
+
+- Reads our project's `pyproject.toml` file to identify all required dependencies (both runtime and development dependencies).
+- Creates a virtual environment named `.venv` in the project root (if one doesn't exist) using Python 3.11 (as specified in our `.python-version` file).
+- Installs all necessary packages into this virtual environment.
+- Generates/updates `uv.lock`, which pins exact versions of all dependencies for reproducible builds across different machines.
+
+You are now ready to start development!
+
+#### 4. Set up Pre-commit Hooks
+
+We use [pre-commit](https://pre-commit.com/) to automatically check code formatting and quality before each commit.
+
+After installing dependencies with `uv sync`, install the pre-commit hooks:
+
+```bash
+uv run pre-commit install
+```
+
+This will ensure that every time you make a commit, formatting and linting checks are run automatically.
+
+To manually run all pre-commit checks on all files (recommended before pushing):
+
+```bash
+uv run pre-commit run --all-files
+```
+
+If any checks fail, follow the instructions in the terminal to fix the issues and re-commit.
+
+---
+
+### Working with the Project
+
+#### Running Tests
+
+We use `pytest` for writing and running our tests. `pytest` is installed as a development dependency.
+
+To run all tests:
+
+```bash
+uv run pytest
+```
+
+To see more detailed test output (e.g., which tests were collected):
+
+```bash
+uv run pytest -v
+```
+
+To run tests and generate a coverage report (showing which lines of code are covered by tests):
+
+```bash
+uv run pytest --cov=sp_brew --cov-report=term-missing
+```
+
+For a detailed HTML coverage report (which you can open in your browser):
+
+```bash
+uv run pytest --cov=sp_brew --cov-report=html
+```
+
+This will create an `htmlcov/` folder. Open `htmlcov/index.html` in your web browser.
+
+---
+
+#### Adding Dependencies
+
+If your feature requires a new Python package, add it using `uv`:
+
+- **Runtime Dependency** (required by the package itself):
+
+  ```bash
+  uv add <package-name>
+  # Example:
+  uv add requests
+  ```
+
+- **Development Dependency** (e.g., for testing, linting, or building tools):
+
+  ```bash
+  uv add <package-name> --dev
+  # Example:
+  uv add black --dev  # for code formatting
+  ```
+
+`uv` will automatically update `pyproject.toml`, install the package into your `.venv`, and update `uv.lock`.
+
+---
+
+#### Running Scripts/Commands
+
+You can execute any Python script or command within the project's virtual environment using `uv run` without needing to manually activate the environment:
+
+```bash
+uv run python examples/simple.py  # Example for running a specific script
+```
+
+---
+
+#### Managing the Virtual Environment
+
+Normally, `uv` handles the virtual environment for you. However, if you ever need to manually activate it (e.g., to use pip directly, though `uv` is preferred), you can:
+
+**macOS / Linux:**
+
+```bash
+source .venv/bin/activate
+```
+
+**Windows (Command Prompt):**
+
+```dos
+.venv\Scripts\activate.bat
+```
+
+**Windows (PowerShell):**
+
+```powershell
+.venv\Scripts\Activate.ps1
+```
+
+Once activated, your terminal prompt will typically show `(.venv)` to indicate the environment is active. To deactivate:
+
+```bash
+deactivate
+```
+
+---
+
+### Git Workflow
+
+This project uses Git for version control. Here's a basic workflow for collaboration:
+
+#### Initial Setup for Collaboration
+
+If you cloned the repository, you already have the `origin` remote configured. You can verify it:
+
+```bash
+git remote -v
+```
+
+You should see output similar to:
+
+```
+origin  https://git-main.smartphotonics.io/DMassella/sp_brew.git (fetch)
+origin  https://git-main.smartphotonics.io/DMassella/sp_brew.git (push)
+```
+
+#### Keeping Your Local Branch Updated
+
+Before starting new work or pushing changes, always pull the latest changes from the remote:
+
+```bash
+git pull origin main  # Or 'master', depending on your main branch name
+```
+
+#### Pushing Your Changes
+
+Once your changes are committed locally, push them to the remote repository:
+
+```bash
+git push origin main  # Or 'master'
+```
+
+If it's your first time pushing a new local branch, you might need to set the upstream:
+
+```bash
+git push -u origin <your-new-branch-name>
+```
+
+---
+
+## Documentation
+
+We use [Sphinx](https://www.sphinx-doc.org/) to automatically generate project documentation from docstrings and source files.
+
+### Building and Updating the Documentation
+
+1. **Make sure all dependencies are installed:**
+
+   ```bash
+   uv sync
+   ```
+
+2. **(Optional) Regenerate API documentation stubs if you added/removed modules:**
+
+   From the `docs/source` directory, run:
+   ```bash
+   uv run sphinx-apidoc -o . ../../src/sp_brew
+   ```
+
+3. **Build the HTML documentation:**
+
+   From the `docs/source` directory, run:
+   ```bash
+   uv run sphinx-build -b html . ../build
+   ```
+
+   The generated HTML files will be in `docs/build`. Open `docs/build/index.html` in your browser to view the documentation.
+
+---
+
+## Contributing
+
+We welcome contributions! Please follow these steps:
+
+1. Clone the repository.
+2. Create a new branch (`git checkout -b feature/your-feature-name`).
+3. Make your changes.
+4. Write or update tests for your changes.
+5. Ensure all tests pass (`uv run pytest`).
+6. Ensure your code adheres to our style guidelines (run `uv run pre-commit`).
+7. Commit your changes (`git commit -m 'feat: Add new awesome feature'`).
+8. Push to your fork (`git push origin feature/your-feature-name`).
+9. Open a Pull Request to the main branch of this repository.
+
+---
+
+## License
+
+This project is an internal SMART photonics project, all content must be considered confidentials and should not be shared externally.
+If you are not the intended recipient of this package, please return contact the administrator and delete and destroy all copies.
+
+---
+
+## Contact
+
+If you have any questions or issues, please open an issue on the Gitea repository or contact damiano.massella@smartphotonics.nl or the DE team.
