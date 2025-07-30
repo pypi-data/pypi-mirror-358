@@ -1,0 +1,29 @@
+onetsa("=== Chi Boolean Test ===")
+
+ika truth = zoona
+ika falsehood = zabodza
+
+onetsa("Truth value:", truth)
+onetsa("Falsehood value:", falsehood)
+
+ika x = 5
+ika y = 10
+
+onetsa("5 == 5:", x == 5)
+onetsa("5 == 10:", x == y)
+onetsa("5 != 10:", x != y)
+
+ngati truth:
+    onetsa("Truth is true!")
+    onetsa("duncan")
+
+ngati falsehood:
+    onetsa("This should not print")
+ika condition = zoona
+ika numbers = ndandanda(1,2,3,4,5)
+ngati condition chita        # If with chita
+    onetsa("Hello!")
+
+bwereza i mu numbers:       # For with colon  
+    ngati i == 2 chita      # Mixed usage!
+        onetsa("Found two!")

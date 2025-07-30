@@ -1,0 +1,42 @@
+# Advanced tests for palibe (null/None) functionality
+
+# Test null in conditional expressions
+ika null_value = palibe
+ika non_null_value = "data"
+
+onetsa("Testing null in conditions:")
+ngati null_value:
+    onetsa("This should not print - null should be falsy")
+sizoona:
+    onetsa("Null is falsy (correct)")
+
+ngati non_null_value:
+    onetsa("Non-null is truthy (correct)")
+
+# Test null with logical operators
+onetsa("Testing null with logical operators:")
+ika result1 = palibe komanso zoona
+ika result2 = palibe kapena zoona
+onetsa("palibe AND zoona =", result1)
+onetsa("palibe OR zoona =", result2)
+
+# Test null in function calls
+onetsa("Testing null in function calls:")
+ika length_result = kukula(null_value)
+onetsa("Length of null should cause error, but let's see...")
+
+# Test null with method calls on lists
+ika test_list = ndandanda(1, 2, 3)
+onetsa("Original list:", test_list)
+test_list.onjezera(palibe)
+onetsa("List after adding null:", test_list)
+
+# Test null comparison with different types
+onetsa("Testing null comparisons with different types:")
+ika num = 0
+ika empty_string = ""
+onetsa("null == 0:", palibe == num)
+onetsa("null == empty string:", palibe == empty_string)
+onetsa("null == zoona:", palibe == zoona)
+onetsa("null == zabodza:", palibe == zabodza)
+

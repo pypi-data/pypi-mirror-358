@@ -1,0 +1,118 @@
+# Chi Programming Language - Built-in Functions Demo
+# Demonstrates all Chi built-in functions from COMPLETE_FEATURES_OVERVIEW.txt
+
+onetsa("============================================")
+onetsa("       Chi Built-in Functions Demonstration")
+onetsa("============================================")
+onetsa("")
+
+# ===== 1. OUTPUT FUNCTION (onetsa) =====
+onetsa("=== 1. OUTPUT FUNCTION (onetsa) ===")
+onetsa("Simple message")
+onetsa("Multiple", "values", "at", "once")
+ika name = "Jakesh"
+ika age = 25
+onetsa("Name:", name, "Age:", age)
+onetsa("")
+
+# ===== 2. INPUT FUNCTION (funsani) =====
+onetsa("=== 2. INPUT FUNCTION (funsani) ===")
+onetsa("Note: Input function available but skipped in demo")
+# ika user_name = funsani("Enter your name: ")
+# onetsa("Hello,", user_name)
+onetsa("Usage: ika name = funsani(\"Enter name: \")")
+onetsa("")
+
+# ===== 3. TYPE CHECKING (mtundu) =====
+onetsa("=== 3. TYPE CHECKING (mtundu) ===")
+ika text = "Hello"
+ika number = 42.5
+ika integer = 100
+ika boolean = zoona
+ika null_val = palibe
+ika list_val = ndandanda(1, 2, 3)
+ika dict_val = {"key": "value"}
+
+onetsa("Text type:", mtundu(text))
+onetsa("Number type:", mtundu(number))
+onetsa("Integer type:", mtundu(integer))
+onetsa("Boolean type:", mtundu(boolean))
+onetsa("Null type:", mtundu(null_val))
+onetsa("List type:", mtundu(list_val))
+onetsa("Dictionary type:", mtundu(dict_val))
+onetsa("")
+
+# ===== 4. LENGTH/SIZE (kukula) =====
+onetsa("=== 4. LENGTH/SIZE (kukula) ===")
+ika greeting = "Moni, dziko!"
+ika colors = ndandanda("red", "green", "blue", "yellow")
+ika empty_list = ndandanda()
+
+onetsa("String length:", kukula(greeting))
+onetsa("List length:", kukula(colors))
+onetsa("Empty list length:", kukula(empty_list))
+onetsa("")
+
+# ===== 5. TYPE CONVERSION FUNCTIONS =====
+onetsa("=== 5. TYPE CONVERSION FUNCTIONS ===")
+
+# String conversion (mawu)
+ika num_to_str = mawu(123)
+ika float_to_str = mawu(45.67)
+ika bool_to_str = mawu(zoona)
+onetsa("Number to string:", num_to_str, "| Type:", mtundu(num_to_str))
+onetsa("Float to string:", float_to_str, "| Type:", mtundu(float_to_str))
+onetsa("Boolean to string:", bool_to_str, "| Type:", mtundu(bool_to_str))
+
+# Float conversion (manambala)
+ika str_to_float = manambala("98.6")
+ika int_to_float = manambala(42)
+onetsa("String to float:", str_to_float, "| Type:", mtundu(str_to_float))
+onetsa("Int to float:", int_to_float, "| Type:", mtundu(int_to_float))
+
+# Integer conversion (manambala_olekeza)
+ika str_to_int = manambala_olekeza("789")
+ika float_to_int = manambala_olekeza(123.89)
+onetsa("String to int:", str_to_int, "| Type:", mtundu(str_to_int))
+onetsa("Float to int:", float_to_int, "| Type:", mtundu(float_to_int))
+onetsa("")
+
+# ===== 6. PRACTICAL USAGE EXAMPLES =====
+onetsa("=== 6. PRACTICAL USAGE EXAMPLES ===")
+
+# Data validation
+ika data_list = ndandanda("text", 42, zoona, palibe, ndandanda(1, 2))
+onetsa("Data analysis:")
+bwereza item mu data_list:
+    ika item_type = mtundu(item)
+    ngati item_type wafanana "mawu":
+        onetsa("Found string:", item, "| Length:", kukula(item))
+    kapena_ngati item_type wafanana "manambala":
+        onetsa("Found number:", item, "| As string:", mawu(item))
+    kapena_ngati item_type wafanana "yankho":
+        onetsa("Found boolean:", item, "| As string:", mawu(item))
+    kapena_ngati item_type wafanana "ndandanda":
+        onetsa("Found list:", item, "| Length:", kukula(item))
+    sizoona:
+        onetsa("Found other type:", item, "| Type:", item_type)
+
+onetsa("")
+
+# Type conversion chain
+onetsa("Type conversion chain example:")
+ika original = "25"
+onetsa("Original:", original, "| Type:", mtundu(original))
+
+ika as_int = manambala_olekeza(original)
+onetsa("As integer:", as_int, "| Type:", mtundu(as_int))
+
+ika doubled = as_int * 2
+onetsa("Doubled:", doubled, "| Type:", mtundu(doubled))
+
+ika back_to_string = mawu(doubled)
+onetsa("Back to string:", back_to_string, "| Type:", mtundu(back_to_string))
+
+onetsa("")
+onetsa("✅ All Chi built-in functions working perfectly!")
+onetsa("✅ onetsa, funsani, mtundu, kukula, type conversions!")
+onetsa("============================================")

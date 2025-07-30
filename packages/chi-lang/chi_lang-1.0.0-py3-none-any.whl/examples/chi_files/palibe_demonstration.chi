@@ -1,0 +1,79 @@
+# Chi Programming Language - Palibe (Null/None) Feature Demonstration
+# This demonstrates the complete null value implementation
+
+onetsa("=== Chi Language: Palibe (Null/None) Feature Demo ===")
+onetsa("")
+
+# 1. Basic null assignment and display
+onetsa("1. Basic null values:")
+ika nothing = palibe
+ika something = "data"
+onetsa("   nothing =", nothing)
+onetsa("   something =", something)
+onetsa("")
+
+# 2. Null comparisons
+onetsa("2. Null comparisons:")
+onetsa("   nothing == palibe:", nothing == palibe)
+onetsa("   something == palibe:", something == palibe)
+onetsa("   nothing != palibe:", nothing != palibe)
+onetsa("")
+
+# 3. Null in conditionals (truthiness)
+onetsa("3. Null in conditionals:")
+ngati nothing:
+    onetsa("   This won't print - null is falsy")
+sizoona:
+    onetsa("   ✓ Null is falsy (behaves like Python None)")
+
+ngati something:
+    onetsa("   ✓ Non-null values are truthy")
+onetsa("")
+
+# 4. Null with logical operators
+onetsa("4. Null with logical operators:")
+ika result_and = palibe komanso zoona
+ika result_or = palibe kapena zoona
+onetsa("   palibe AND zoona =", result_and)
+onetsa("   palibe OR zoona =", result_or)
+onetsa("")
+
+# 5. Null in data structures
+onetsa("5. Null in data structures:")
+ika mixed_data = ndandanda("apple", palibe, 42, palibe, "banana")
+onetsa("   List with nulls:", mixed_data)
+onetsa("")
+
+# 6. Practical null handling pattern
+onetsa("6. Practical null handling:")
+ika user_input = palibe
+ika default_value = "Guest User"
+
+ngati user_input == palibe:
+    ika final_name = default_value
+    onetsa("   ✓ Used default value:", final_name)
+sizoona:
+    ika final_name = user_input
+    onetsa("   Used user input:", final_name)
+onetsa("")
+
+# 7. Null counting in loops
+onetsa("7. Processing lists with nulls:")
+ika data = ndandanda(1, palibe, 2, palibe, 3, palibe, 4)
+ika null_count = 0
+ika value_count = 0
+
+bwereza item mu data:
+    ngati item == palibe:
+        ika null_count = null_count + 1
+    sizoona:
+        ika value_count = value_count + 1
+
+onetsa("   Total items:", kukula(data))
+onetsa("   Null items:", null_count)
+onetsa("   Value items:", value_count)
+onetsa("")
+
+onetsa("=== Palibe Feature Working Perfectly! ===")
+onetsa("✓ Null assignment, comparison, and logic all functional")
+

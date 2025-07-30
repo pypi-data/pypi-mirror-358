@@ -1,0 +1,30 @@
+# Palibe (Null) - Proper Chichewa Display Test
+
+onetsa("=== Palibe now displays in Chichewa! ===")
+onetsa("")
+
+# Before: Would show "None" (Python style)
+# Now: Shows "palibe" (Chichewa style)
+
+ika null_value = palibe
+onetsa("Null value:", null_value)
+onetsa("This should show 'palibe' not 'None'")
+onetsa("")
+
+# Test in different contexts
+ika data = ndandanda("apple", palibe, "banana")
+onetsa("List with null:", data)
+onetsa("")
+
+# Test in conditionals
+ngati null_value == palibe:
+    onetsa("✓ Comparison works: null_value == palibe")
+    
+# Test printing multiple nulls
+ika a = palibe
+ika b = palibe
+onetsa("Multiple nulls:", a, b)
+onetsa("")
+
+onetsa("✅ Palibe now properly displays in Chichewa!")
+

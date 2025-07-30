@@ -1,0 +1,47 @@
+# Simple test for try-except-finally functionality
+
+# Test 1: Basic try-except
+onetsa("Test 1: Basic try-except")
+kuyesera:
+    ika nambala = manambala_olekeza("invalid")
+    onetsa("This won't print")
+zakanika:
+    onetsa("Caught an exception!")
+
+# Test 2: Try-except with variable capture
+onetsa("Test 2: Exception variable capture")
+kuyesera:
+    ika result = manambala_olekeza("abc123")
+    onetsa("This won't print")
+zakanika chifukwa error:
+    onetsa("Error message:", error)
+
+# Test 3: Try-except-finally
+onetsa("Test 3: Try-except-finally")
+kuyesera:
+    ika x = manambala_olekeza("999")
+    onetsa("Success! Number is:", x)
+zakanika chifukwa e:
+    onetsa("Error occurred:", e)
+pomaliza:
+    onetsa("Finally block always executes")
+
+# Test 4: Only finally (no exception)
+onetsa("Test 4: Only finally block")
+kuyesera:
+    ika valid_num = manambala_olekeza("42")
+    onetsa("Valid number:", valid_num)
+pomaliza:
+    onetsa("Cleanup code runs here")
+
+# Test 5: Multiple except blocks
+onetsa("Test 5: Multiple except blocks")
+kuyesera:
+    ika division = 10 / 0
+zakanika ValueError chifukwa ve:
+    onetsa("ValueError:", ve)
+zakanika chifukwa any_error:
+    onetsa("Any other error:", any_error)
+pomaliza:
+    onetsa("Multiple except blocks work!")
+

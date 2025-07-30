@@ -1,0 +1,95 @@
+# Test Updated Mathematical Functions with Correct Chichewa Names
+
+onetsa("============================================")
+onetsa("   UPDATED MATHEMATICAL FUNCTIONS TEST")
+onetsa("============================================")
+onetsa("")
+
+# Test updated function names
+onetsa("=== Testing Updated Function Names ===")
+
+# zungulira (updated from kuzungulira)
+onetsa("zungulira function (round):")
+onetsa("  zungulira(4.567) =", zungulira(4.567))
+onetsa("  zungulira(4.567, 1) =", zungulira(4.567, 1))
+onetsa("  zungulira(4.567, 2) =", zungulira(4.567, 2))
+onetsa("")
+
+# phatikiza (sum)
+onetsa("phatikiza function (sum):")
+onetsa("  phatikiza(1, 2, 3, 4, 5) =", phatikiza(1, 2, 3, 4, 5))
+onetsa("  phatikiza(10, 20, 30) =", phatikiza(10, 20, 30))
+onetsa("  phatikiza(1.5, 2.5, 3.0) =", phatikiza(1.5, 2.5, 3.0))
+onetsa("")
+
+# pakatikati (average)
+onetsa("pakatikati function (average):")
+onetsa("  pakatikati(10, 20, 30) =", pakatikati(10, 20, 30))
+onetsa("  pakatikati(5, 15, 25, 35) =", pakatikati(5, 15, 25, 35))
+onetsa("  pakatikati(1, 2, 3, 4, 5, 6) =", pakatikati(1, 2, 3, 4, 5, 6))
+onetsa("")
+
+# Test all mathematical functions together
+onetsa("=== Complete Mathematical Functions Summary ===")
+
+ika numbers = ndandanda(12, 8, 15, 3, 9, 21, 6)
+onetsa("Dataset:", numbers)
+
+onetsa("Basic statistics:")
+onetsa("  Sum (phatikiza):", phatikiza(12, 8, 15, 3, 9, 21, 6))
+onetsa("  Average (pakatikati):", pakatikati(12, 8, 15, 3, 9, 21, 6))
+onetsa("  Maximum (chachikulu):", chachikulu(12, 8, 15, 3, 9, 21, 6))
+onetsa("  Minimum (chachingono):", chachingono(12, 8, 15, 3, 9, 21, 6))
+onetsa("")
+
+# Advanced calculations
+onetsa("Advanced calculations:")
+ika sum_result = phatikiza(12, 8, 15, 3, 9, 21, 6)
+ika avg_result = pakatikati(12, 8, 15, 3, 9, 21, 6)
+ika rounded_avg = zungulira(avg_result, 1)
+
+onetsa("  Rounded average:", rounded_avg)
+onetsa("  Square root of sum:", muzu(sum_result))
+onetsa("  Absolute difference from 10:", chopanda(avg_result - 10))
+onetsa("")
+
+# Real-world example
+onetsa("=== Real-world Example: Student Grades ===")
+
+ika grades = ndandanda(85, 92, 78, 95, 88, 76, 90)
+onetsa("Student grades:", grades)
+
+ika total_points = phatikiza(85, 92, 78, 95, 88, 76, 90)
+ika average_grade = pakatikati(85, 92, 78, 95, 88, 76, 90)
+ika highest_grade = chachikulu(85, 92, 78, 95, 88, 76, 90)
+ika lowest_grade = chachingono(85, 92, 78, 95, 88, 76, 90)
+
+onetsa("Statistics:")
+onetsa("  Total points:", total_points)
+onetsa("  Average grade:", zungulira(average_grade, 1))
+onetsa("  Highest grade:", highest_grade)
+onetsa("  Lowest grade:", lowest_grade)
+onetsa("  Grade range:", highest_grade - lowest_grade)
+onetsa("")
+
+# Type checking
+onetsa("=== Type Checking ===")
+ika sum_val = phatikiza(1, 2, 3)
+ika avg_val = pakatikati(1, 2, 3)
+ika round_val = zungulira(3.14159, 2)
+
+onetsa("Type of phatikiza result:", mtundu(sum_val))
+onetsa("Type of pakatikati result:", mtundu(avg_val))
+onetsa("Type of zungulira result:", mtundu(round_val))
+onetsa("")
+
+onetsa("============================================")
+onetsa("         FUNCTION NAME UPDATES COMPLETE")
+onetsa("============================================")
+onetsa("✅ zungulira (round): Working")
+onetsa("✅ phatikiza (sum): Working")
+onetsa("✅ pakatikati (average): Working")
+onetsa("✅ All mathematical functions updated!")
+onetsa("✅ Proper Chichewa names maintained!")
+onetsa("============================================")
+

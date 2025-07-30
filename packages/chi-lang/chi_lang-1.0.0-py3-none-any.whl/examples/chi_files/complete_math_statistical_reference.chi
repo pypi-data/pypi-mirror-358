@@ -1,0 +1,175 @@
+# Complete Mathematical and Statistical Functions Reference
+# Chi Programming Language - Comprehensive Mathematics Guide
+
+onetsa("============================================")
+onetsa("  CHI COMPLETE MATH & STATISTICS REFERENCE")
+onetsa("============================================")
+onetsa("")
+
+onetsa("=== BASIC ARITHMETIC OPERATORS ===")
+onetsa("+ (Addition)")
+onetsa("- (Subtraction)")
+onetsa("* (Multiplication)")
+onetsa("/ (Division)")
+onetsa("** (Power)")
+onetsa("% (Modulo)")
+onetsa("")
+
+onetsa("=== MATHEMATICAL FUNCTIONS ===")
+onetsa("")
+
+# Power and modulo functions
+onetsa("1. mphamvu(base, exponent) - Power")
+onetsa("   Example:", mphamvu(2, 3), "(2³)")
+onetsa("   Meaning: 'strength/power' in Chichewa")
+onetsa("")
+
+onetsa("2. chotsalira(dividend, divisor) - Modulo")
+onetsa("   Example:", chotsalira(17, 5), "(17 mod 5)")
+onetsa("   Meaning: 'remainder' in Chichewa")
+onetsa("")
+
+# Root and absolute value
+onetsa("3. muzu(number) - Square Root")
+onetsa("   Example:", muzu(36), "(√36)")
+onetsa("   Meaning: 'root' in Chichewa")
+onetsa("")
+
+onetsa("4. chopanda(number) - Absolute Value")
+onetsa("   Example:", chopanda(-15), "(|-15|)")
+onetsa("   Meaning: 'without sign' in Chichewa")
+onetsa("")
+
+# Rounding functions
+onetsa("5. pansi(number) - Floor")
+onetsa("   Example:", pansi(4.8), "(floor 4.8)")
+onetsa("   Meaning: 'down/below' in Chichewa")
+onetsa("")
+
+onetsa("6. pamwamba(number) - Ceiling")
+onetsa("   Example:", pamwamba(4.2), "(ceiling 4.2)")
+onetsa("   Meaning: 'up/above' in Chichewa")
+onetsa("")
+
+onetsa("7. zungulira(number, digits) - Round")
+onetsa("   Example:", zungulira(3.14159, 2), "(round to 2 places)")
+onetsa("   Meaning: 'to go around' in Chichewa")
+onetsa("")
+
+onetsa("=== AGGREGATION FUNCTIONS ===")
+onetsa("")
+
+# Basic aggregations
+onetsa("8. phatikiza(...args) - Sum")
+onetsa("   Example:", phatikiza(10, 20, 30, 40), "(sum of values)")
+onetsa("   Meaning: 'to add together' in Chichewa")
+onetsa("")
+
+onetsa("9. pakatikati(...args) - Average")
+onetsa("   Example:", pakatikati(10, 20, 30, 40), "(mean of values)")
+onetsa("   Meaning: 'in the middle' in Chichewa")
+onetsa("")
+
+onetsa("10. chachikulu(...args) - Maximum")
+onetsa("    Example:", chachikulu(15, 25, 5, 35), "(largest value)")
+onetsa("    Meaning: 'the biggest' in Chichewa")
+onetsa("")
+
+onetsa("11. chachingono(...args) - Minimum")
+onetsa("    Example:", chachingono(15, 25, 5, 35), "(smallest value)")
+onetsa("    Meaning: 'the smallest' in Chichewa")
+onetsa("")
+
+onetsa("=== STATISTICAL FUNCTIONS ===")
+onetsa("")
+
+# Sorting
+onetsa("12. sanja(data, koyambila) - Sort")
+ika demo_data = ndandanda(50, 10, 30, 20, 40)
+onetsa("    Data:", demo_data)
+onetsa("    Ascending:", sanja(demo_data, "koyamba"))
+onetsa("    Descending:", sanja(demo_data, "komaliza"))
+onetsa("    Meaning: 'to arrange/organize' in Chichewa")
+onetsa("    Directions: 'koyamba' (from beginning), 'komaliza' (from end)")
+onetsa("")
+
+# Median
+onetsa("13. chapakati(data) - Median")
+ika median_data = ndandanda(1, 3, 5, 7, 9)
+onetsa("    Odd data:", median_data, "→ Median:", chapakati(median_data))
+ika even_data = ndandanda(2, 4, 6, 8)
+onetsa("    Even data:", even_data, "→ Median:", chapakati(even_data))
+onetsa("    Meaning: 'in the middle' in Chichewa")
+onetsa("")
+
+# Mode
+onetsa("14. yofala(data) - Mode")
+ika mode_data = ndandanda(1, 2, 2, 3, 2, 4)
+onetsa("    Data:", mode_data, "→ Mode:", yofala(mode_data))
+ika multi_mode = ndandanda(1, 1, 2, 2, 3)
+onetsa("    Multi-mode:", multi_mode, "→ Modes:", yofala(multi_mode))
+onetsa("    Meaning: 'most frequent' in Chichewa")
+onetsa("")
+
+onetsa("=== COMPLETE STATISTICAL ANALYSIS EXAMPLE ===")
+onetsa("")
+
+ika exam_scores = ndandanda(78, 85, 92, 78, 88, 95, 82, 90, 85, 88)
+onetsa("Exam Scores:", exam_scores)
+onetsa("")
+
+onetsa("Descriptive Statistics:")
+onetsa("  Count:", kukula(exam_scores))
+onetsa("  Sum:", phatikiza(78, 85, 92, 78, 88, 95, 82, 90, 85, 88))
+onetsa("  Average:", zungulira(pakatikati(78, 85, 92, 78, 88, 95, 82, 90, 85, 88), 1))
+onetsa("  Median:", chapakati(exam_scores))
+onetsa("  Mode:", yofala(exam_scores))
+onetsa("  Range:", chachikulu(78, 85, 92, 78, 88, 95, 82, 90, 85, 88) - chachingono(78, 85, 92, 78, 88, 95, 82, 90, 85, 88))
+onetsa("")
+
+onetsa("Sorted Data:")
+onetsa("  Low to High:", sanja(exam_scores, "koyamba"))
+onetsa("  High to Low:", sanja(exam_scores, "komaliza"))
+onetsa("")
+
+onetsa("=== OPERATOR PRECEDENCE ===")
+onetsa("1. Parentheses: ( )")
+onetsa("2. Power: **")
+onetsa("3. Multiplication, Division, Modulo: *, /, %")
+onetsa("4. Addition, Subtraction: +, -")
+onetsa("")
+
+onetsa("=== TYPE SYSTEM ===")
+ika sample_int = pansi(5.7)
+ika sample_float = muzu(16)
+ika sample_list = sanja(ndandanda(3, 1, 2))
+
+onetsa("Type Examples:")
+onetsa("  pansi(5.7) →", sample_int, "(", mtundu(sample_int), ")")
+onetsa("  muzu(16) →", sample_float, "(", mtundu(sample_float), ")")
+onetsa("  sanja([3,1,2]) →", sample_list, "(", mtundu(sample_list), ")")
+onetsa("")
+
+onetsa("Chichewa Type Names:")
+onetsa("  manambala_olekeza = integer")
+onetsa("  manambala = float")
+onetsa("  mawu = string")
+onetsa("  yankho = boolean")
+onetsa("  palibe_mtundu = null")
+onetsa("  ndandanda = list")
+onetsa("")
+
+onetsa("============================================")
+onetsa("         FUNCTION CATEGORIES SUMMARY")
+onetsa("============================================")
+onetsa("📊 Basic Math: +, -, *, /, **, %")
+onetsa("🔢 Advanced Math: mphamvu, chotsalira, muzu, chopanda")
+onetsa("📐 Rounding: pansi, pamwamba, zungulira")
+onetsa("📈 Aggregation: phatikiza, pakatikati, chachikulu, chachingono")
+onetsa("📉 Statistics: sanja, chapakati, yofala")
+onetsa("🔍 Utilities: mtundu, kukula")
+onetsa("")
+onetsa("🌍 All functions use authentic Chichewa names!")
+onetsa("🎉 Complete mathematical and statistical toolkit!")
+onetsa("============================================")
+

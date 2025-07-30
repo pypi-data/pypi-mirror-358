@@ -1,0 +1,34 @@
+# Basic dictionary test
+
+onetsa("Testing kaundula (dictionary)...")
+
+# Create dictionary with key-value pairs
+ika person = kaundula("name", "Jakesh", "age", 25)
+onetsa("Person dictionary:", person)
+onetsa("Type:", mtundu(person))
+
+# Test getting values
+ika name = person.peza("name")
+ika age = person.peza("age")
+onetsa("Name:", name)
+onetsa("Age:", age)
+
+# Test adding new value
+person.ika_pa("location", "Malawi")
+onetsa("After adding location:", person)
+
+# Test checking if key exists
+ngati person.ali_nacho("name"):
+    onetsa("Has name key: zoona")
+
+ngati person.ali_nacho("missing"):
+    onetsa("Has missing key: zoona")
+sizoona:
+    onetsa("Has missing key: zabodza")
+
+# Test get with default
+ika city = person.peza_kapena("city", "Unknown")
+onetsa("City (with default):", city)
+
+onetsa("Dictionary test complete!")
+

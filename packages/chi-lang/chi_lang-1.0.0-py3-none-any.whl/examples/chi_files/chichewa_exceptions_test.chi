@@ -1,0 +1,70 @@
+# Test file for Chichewa try-except-finally functionality
+
+# Test 1: Basic try-except
+onetsa("Test 1: Basic try-except")
+kuyesera:
+    ika nambala = manambala_olekeza("invalid")
+    onetsa("This won't print")
+zakanika:
+    onetsa("Caught an exception!")
+
+# Test 2: Try-except with exception variable capture
+onetsa("Test 2: Exception variable capture")
+kuyesera:
+    ika result = manambala_olekeza("abc123")
+    onetsa("This won't print")
+zakanika chifukwa error:
+    onetsa("Error message:", error)
+
+# Test 3: Try-except with Chichewa exception type
+onetsa("Test 3: Chichewa ValueError exception")
+kuyesera:
+    ika x = manambala_olekeza("xyz")
+    onetsa("This won't print")
+zakanika vuto_la_nambala chifukwa ve:
+    onetsa("Number problem occurred:", ve)
+
+# Test 4: Try-except-finally
+onetsa("Test 4: Try-except-finally")
+kuyesera:
+    ika x = manambala_olekeza("999")
+    onetsa("Success! Number is:", x)
+zakanika chifukwa e:
+    onetsa("Error occurred:", e)
+pomaliza:
+    onetsa("Finally block always executes")
+
+# Test 5: Division by zero with Chichewa exception type
+onetsa("Test 5: Division by zero")
+kuyesera:
+    ika result = 10 / 0
+    onetsa("This won't print")
+zakanika vuto_la_kugawa chifukwa zde:
+    onetsa("Division problem:", zde)
+pomaliza:
+    onetsa("Cleanup after division attempt")
+
+# Test 6: Multiple Chichewa except blocks
+onetsa("Test 6: Multiple Chichewa except blocks")
+kuyesera:
+    ika x = manambala_olekeza("invalid_number")
+zakanika vuto_la_nambala chifukwa ve:
+    onetsa("Number problem:", ve)
+zakanika vuto_la_mtundu chifukwa te:
+    onetsa("Type problem:", te)
+zakanika vuto_lililonse chifukwa any_error:
+    onetsa("Any other problem:", any_error)
+pomaliza:
+    onetsa("All Chichewa exception types work!")
+
+# Test 7: Index error with ndandanda (list)
+onetsa("Test 7: List index problem")
+kuyesera:
+    ika mylist = ndandanda(1, 2, 3)
+    ika item = mylist[10]  # This will cause IndexError
+    onetsa("This won't print")
+zakanika vuto_la_ndandanda chifukwa le:
+    onetsa("List problem:", le)
+pomaliza:
+    onetsa("List operations complete")
+

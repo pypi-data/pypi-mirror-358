@@ -1,0 +1,41 @@
+# Chi Programming Language - Simple Data Types Demo
+# Basic demonstration of Chi data types
+
+onetsa("============================================")
+onetsa("      Chi Data Types - Simple Demo")
+onetsa("============================================")
+onetsa("")
+
+# Strings
+ika name = "Jakesh"
+onetsa("String:", name, "| Type:", mtundu(name))
+
+# Numbers
+ika age = 25
+ika price = 29.99
+onetsa("Integer:", age, "| Type:", mtundu(age))
+onetsa("Float:", price, "| Type:", mtundu(price))
+
+# Booleans
+ika is_student = zoona
+onetsa("Boolean:", is_student, "| Type:", mtundu(is_student))
+
+# Null
+ika empty = palibe
+onetsa("Null:", empty, "| Type:", mtundu(empty))
+
+# Lists
+ika numbers = ndandanda(1, 2, 3, 4, 5)
+onetsa("List:", numbers, "| Type:", mtundu(numbers))
+
+# Type conversions
+ika number_as_text = mawu(42)
+ika text_as_number = manambala("123.45")
+ika float_as_int = manambala_olekeza(67.89)
+
+onetsa("Number to string:", number_as_text, "| Type:", mtundu(number_as_text))
+onetsa("String to float:", text_as_number, "| Type:", mtundu(text_as_number))
+onetsa("Float to int:", float_as_int, "| Type:", mtundu(float_as_int))
+
+onetsa("")
+onetsa("✅ Basic data types working!")

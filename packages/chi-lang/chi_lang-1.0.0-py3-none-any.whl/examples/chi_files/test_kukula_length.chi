@@ -1,0 +1,67 @@
+# Test kukula (length) function
+onetsa("=== Testing kukula() - Length Function ===")
+
+# Test with lists
+ika mylist = ndandanda("apple", "banana", "cherry", "date")
+ika list_size = kukula(mylist)
+onetsa("List:", mylist)
+onetsa("List length:", list_size)
+
+# Test with empty list
+ika empty_list = ndandanda()
+ika empty_size = kukula(empty_list)
+onetsa("Empty list length:", empty_size)
+
+# Test with strings
+ika name = "Jakesh"
+ika name_length = kukula(name)
+onetsa("Name:", name)
+onetsa("Name length:", name_length)
+
+# Test with empty string
+ika empty_string = ""
+ika empty_length = kukula(empty_string)
+onetsa("Empty string length:", empty_length)
+
+# Test with user input
+ika user_input = funsani("Enter some text: ")
+ika input_length = kukula(user_input)
+onetsa("You entered:", user_input)
+onetsa("Length of your input:", input_length)
+
+# Test in calculations
+ika numbers = ndandanda(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+ika count = kukula(numbers)
+onetsa("Numbers list:", numbers)
+onetsa("Total count:", count)
+
+# Calculate average
+ika total = 0
+bwereza num mu numbers:
+    ika total = total + num
+
+ika average = total / count
+onetsa("Sum:", total)
+onetsa("Average:", average)
+
+# Test with list operations
+ika fruits = ndandanda("apple", "banana")
+onetsa("Initial fruits length:", kukula(fruits))
+
+fruits.onjezera("cherry")
+onetsa("After adding cherry:", kukula(fruits))
+
+fruits.lowetsa(0, "mango")
+onetsa("After inserting mango:", kukula(fruits))
+
+fruits.chotsa("banana")
+onetsa("After removing banana:", kukula(fruits))
+
+# Test in conditionals
+ngati kukula(fruits) wafanana 3:
+    onetsa("Fruits list has exactly 3 items!")
+sizoona:
+    onetsa("Fruits list has", kukula(fruits), "items")
+
+onetsa("=== kukula() function working perfectly! ===")
+

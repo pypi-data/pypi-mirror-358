@@ -1,0 +1,61 @@
+# Working Kaundula (Dictionary) Demo
+
+onetsa("=== Complete Kaundula Demo ===")
+
+# Method 1: Function call syntax
+ika person1 = kaundula("name", "Jakesh", "age", 25)
+onetsa("Function syntax:", person1)
+
+# Method 2: Literal syntax (Python-style)
+ika person2 = {"name": "Maria", "age": 22, "city": "Blantyre"}
+onetsa("Literal syntax:", person2)
+
+# Both work exactly the same!
+onetsa("Both are kaundula type:", mtundu(person1), mtundu(person2))
+
+# All methods work on both - use ika_pa for setting values
+person1.ika_pa("job", "programmer")
+person2.ika_pa("country", "Malawi")
+
+onetsa("After modifications:")
+onetsa("Person1:", person1)
+onetsa("Person2:", person2)
+
+# Access values using both methods
+ika name1 = person1.peza("name")
+ika name2 = person2["name"]
+onetsa("Names accessed:", name1, name2)
+
+# Empty dictionaries
+ika empty1 = kaundula()
+ika empty2 = {}
+onetsa("Empty function:", empty1)
+onetsa("Empty literal:", empty2)
+
+# All Chichewa methods work
+ika keys = person2.makiyi()
+ika values = person2.mavalu()
+onetsa("Keys:", keys)
+onetsa("Values:", values)
+
+# Test nested dictionaries
+ika nested = {"outer": {"inner": "value"}}
+onetsa("Nested dict:", nested)
+ika inner_value = nested["outer"]["inner"]
+onetsa("Nested access:", inner_value)
+
+# Test with mixed data types
+ika mixed = {"string": "text", "number": 42, "boolean": zoona}
+onetsa("Mixed types:", mixed)
+
+# Check if keys exist
+ngati person1.ali_nacho("job"):
+    onetsa("Person1 has job:", person1.peza("job"))
+
+ngati person2.ali_nacho("missing"):
+    onetsa("Found missing key")
+sizoona:
+    onetsa("Missing key not found (correct!)")
+
+onetsa("=== Kaundula Complete! ===")
+

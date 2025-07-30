@@ -1,0 +1,152 @@
+# Chi Programming Language - File Operations Demo
+# Demonstrates all Chi file operations from COMPLETE_FEATURES_OVERVIEW.txt
+
+onetsa("============================================")
+onetsa("       Chi File Operations Demo")
+onetsa("============================================")
+onetsa("")
+
+# ===== 1. BASIC FILE WRITING =====
+onetsa("=== 1. BASIC FILE WRITING ===")
+
+# lemba_mu_file - Write content to file
+ika content = "Moni dziko! This is Chi programming language.\nLine 2 in Chi\nLine 3 with Chichewa text."
+lemba_mu_file("demo_output.txt", content)
+onetsa("✅ Content written to demo_output.txt")
+
+onetsa("")
+
+# ===== 2. BASIC FILE READING =====
+onetsa("=== 2. BASIC FILE READING ===")
+
+# werenga_zonse - Read entire file content
+ika read_content = werenga_zonse("demo_output.txt")
+onetsa("File content:")
+onetsa(read_content)
+
+onetsa("")
+
+# ===== 3. FILE EXISTENCE CHECK =====
+onetsa("=== 3. FILE EXISTENCE CHECK ===")
+
+# pezani_file - Check if file exists
+ika exists = pezani_file("demo_output.txt")
+ika not_exists = pezani_file("nonexistent.txt")
+onetsa("demo_output.txt exists:", exists)
+onetsa("nonexistent.txt exists:", not_exists)
+
+onetsa("")
+
+# ===== 4. ADVANCED FILE OPERATIONS =====
+onetsa("=== 4. ADVANCED FILE OPERATIONS ===")
+
+# tsegula - Open file with different modes
+onetsa("Opening file in read mode...")
+ika file = tsegula("demo_output.txt", "werenga")
+
+# file.werenga() - Read content from file object
+ika file_content = file.werenga()
+onetsa("Content read via file object:")
+onetsa(file_content)
+
+# file.tseka() - Close file
+file.tseka()
+onetsa("✅ File closed")
+
+onetsa("")
+
+# ===== 5. WRITING WITH FILE OBJECTS =====
+onetsa("=== 5. WRITING WITH FILE OBJECTS ===")
+
+# Open in write mode
+ika write_file = tsegula("new_demo.txt", "lemba")
+
+# file.lemba() - Write content to file
+write_file.lemba("Chi programming language demo\n")
+write_file.lemba("Writing multiple lines\n")
+
+# file.lemba_mzere() - Write line with newline
+write_file.lemba_mzere("This line uses lemba_mzere")
+write_file.lemba_mzere("Another line with automatic newline")
+
+write_file.tseka()
+onetsa("✅ Content written to new_demo.txt using file object")
+
+onetsa("")
+
+# ===== 6. READING LINES =====
+onetsa("=== 6. READING LINES ===")
+
+# Open file and read lines
+ika line_file = tsegula("new_demo.txt", "werenga")
+
+# file.werenga_mizere() - Read all lines as list
+ika lines = line_file.werenga_mizere()
+onetsa("Lines read from file:")
+bwereza line mu lines:
+    onetsa("- ", line)
+
+line_file.tseka()
+
+onetsa("")
+
+# ===== 7. APPEND MODE =====
+onetsa("=== 7. APPEND MODE ===")
+
+# Open in append mode
+ika append_file = tsegula("new_demo.txt", "wonjezera")
+append_file.lemba_mzere("This line was appended")
+append_file.lemba_mzere("Another appended line")
+append_file.tseka()
+
+# Read the updated content
+ika updated_content = werenga_zonse("new_demo.txt")
+onetsa("Updated file content:")
+onetsa(updated_content)
+
+onetsa("")
+
+# ===== 8. WORKING WITH CHI TEXT =====
+onetsa("=== 8. WORKING WITH CHI TEXT ===")
+
+# Write Chichewa text
+ika chi_content = "Moni! Ine ndine Chi programming language.\nTikuphunzira kulemba ma file.\nZikomo kwambiri!"
+lemba_mu_file("chichewa_demo.txt", chi_content)
+
+# Read and display
+ika chi_read = werenga_zonse("chichewa_demo.txt")
+onetsa("Chichewa content:")
+onetsa(chi_read)
+
+onetsa("")
+
+# ===== 9. FILE TYPE CHECKING =====
+onetsa("=== 9. FILE TYPE CHECKING ===")
+
+ika test_file = tsegula("demo_output.txt", "werenga")
+ika file_type = mtundu(test_file)
+onetsa("File object type:", file_type)
+test_file.tseka()
+
+onetsa("")
+
+# ===== 10. ERROR HANDLING DEMONSTRATION =====
+onetsa("=== 10. ERROR HANDLING WITH FILES ===")
+
+# This demonstrates how file operations should work
+# (Actual error handling would use kuyesera/zakanika when implemented)
+onetsa("Checking for non-existent file:")
+ika missing_file_exists = pezani_file("definitely_not_here.txt")
+onetsa("Non-existent file found:", missing_file_exists)
+
+onetsa("")
+
+# ===== 11. CLEANUP =====
+onetsa("=== 11. FILE OPERATIONS SUMMARY ===")
+onetsa("Files created during demo:")
+onetsa("- demo_output.txt")
+onetsa("- new_demo.txt") 
+onetsa("- chichewa_demo.txt")
+onetsa("")
+onetsa("✅ File operations demonstration complete!")
+onetsa("Note: Files remain for your inspection")

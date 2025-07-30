@@ -1,0 +1,58 @@
+onetsa("=== Complete Chichewa Operators Test ===")
+
+# Test basic variables
+ika x = 5
+ika y = 10
+ika truth = zoona
+ika falsehood = zabodza
+
+onetsa("\n1. Testing comparison operators:")
+onetsa("x wafanana 5:", x wafanana 5)        # equal
+onetsa("x wasiyana y:", x wasiyana y)        # not equal  
+onetsa("x wachepa y:", x wachepa y)          # less than
+onetsa("y wapambana x:", y wapambana x)      # greater than
+onetsa("x wachepetsedwa 5:", x wachepetsedwa 5)  # less than or equal
+onetsa("y wafananitsa 10:", y wafananitsa 10)    # greater than or equal
+
+onetsa("\n2. Testing logical operators:")
+onetsa("truth komanso truth:", truth komanso truth)      # and
+onetsa("truth kapena falsehood:", truth kapena falsehood) # or
+onetsa("osati falsehood:", osati falsehood)               # not
+onetsa("osati truth:", osati truth)                       # not
+
+onetsa("\n3. Testing if-elif-else with kapena_ngati:")
+ika score = 90
+
+ngati score wafananitsa 90 chita
+    onetsa("Grade: A (Excellent!)")
+kapena_ngati score wafananitsa 80:
+    onetsa("Grade: B (Good job!)")
+kapena_ngati score wafananitsa 70 chita
+    onetsa("Grade: C (Not bad)")
+sizoona chita
+    onetsa("Grade: F (Need improvement)")
+
+onetsa("\n4. Testing complex conditions:")
+ngati x wafanana 5 komanso y wapambana 8 chita
+    onetsa("Complex condition 1: Both conditions true")
+
+ngati x wasiyana 10 kapena y wafanana 10 chita
+    onetsa("Complex condition 2: At least one condition true")
+
+ngati osati falsehood komanso truth chita
+    onetsa("Complex condition 3: NOT and AND working together")
+
+onetsa("\n5. Testing all comparison operators in elif chain:")
+ika test_val = 5
+
+ngati test_val wachepa 5 chita
+    onetsa("Value is less than 5")
+kapena_ngati test_val wafanana 5 chita
+    onetsa("Value equals 5")
+kapena_ngati test_val wachepa 10 komanso test_val wapambana 5 chita
+    onetsa("Value is between 5 and 10")
+sizoona chita
+    onetsa("Value is 10 or greater")
+
+onetsa("\n✅ All Chichewa operators working correctly!")
+

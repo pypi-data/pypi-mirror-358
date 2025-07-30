@@ -1,0 +1,27 @@
+# Simple dictionary literal test
+
+onetsa("=== Dictionary Literal Test ===")
+
+# Create dictionary using literal syntax
+ika person = {"name": "Jakesh", "age": 25}
+onetsa("Person:", person)
+onetsa("Type:", mtundu(person))
+
+# Access values
+ika name = person["name"]
+onetsa("Name:", name)
+
+# Empty dictionary
+ika empty = {}
+onetsa("Empty:", empty)
+
+# Mixed types
+ika mixed = {"text": "hello", "number": 42, "bool": zoona}
+onetsa("Mixed:", mixed)
+
+# Test methods
+person.ika_pa("city", "Lilongwe")
+onetsa("After adding city:", person)
+
+onetsa("Dictionary literal test complete!")
+

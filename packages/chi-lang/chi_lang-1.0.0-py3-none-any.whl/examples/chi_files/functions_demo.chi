@@ -1,0 +1,336 @@
+# Chi Programming Language - Functions Demo
+# Demonstrates all Chi function features from COMPLETE_FEATURES_OVERVIEW.txt
+
+onetsa("============================================")
+onetsa("          Chi Functions Demo")
+onetsa("============================================")
+onetsa("")
+
+# ===== 1. BASIC FUNCTION DEFINITION =====
+onetsa("=== 1. BASIC FUNCTION DEFINITION ===")
+
+panga greet():
+    onetsa("Moni! (Hello from Chi function)")
+
+panga say_goodbye():
+    onetsa("Tiwonana! (See you later!)")
+
+# Call basic functions
+greet()
+say_goodbye()
+
+onetsa("")
+
+# ===== 2. FUNCTIONS WITH PARAMETERS =====
+onetsa("=== 2. FUNCTIONS WITH PARAMETERS ===")
+
+panga greet_person(name):
+    onetsa("Moni", name + "!")
+
+panga introduce(name, age):
+    onetsa("Moni, ine ndine", name, "ndili ndi zaka", age)
+
+panga calculate_area(length, width):
+    ika area = length * width
+    onetsa("Area of", length, "x", width, "=", area)
+
+# Call functions with parameters
+greet_person("Alice")
+greet_person("Bob")
+introduce("Carol", 25)
+calculate_area(5, 3)
+
+onetsa("")
+
+# ===== 3. FUNCTIONS WITH RETURN VALUES =====
+onetsa("=== 3. FUNCTIONS WITH RETURN VALUES ===")
+
+panga add_numbers(a, b):
+    ika result = a + b
+    bweza result
+
+panga multiply(x, y):
+    bweza x * y
+
+panga get_full_name(first, last):
+    ika full = first + " " + last
+    bweza full
+
+panga square(number):
+    bweza number * number
+
+# Use return values
+ika sum_result = add_numbers(10, 15)
+ika product = multiply(4, 7)
+ika name = get_full_name("John", "Banda")
+ika squared = square(8)
+
+onetsa("Sum:", sum_result)
+onetsa("Product:", product)
+onetsa("Full name:", name)
+onetsa("8 squared:", squared)
+
+onetsa("")
+
+# ===== 4. MATHEMATICAL FUNCTIONS =====
+onetsa("=== 4. MATHEMATICAL FUNCTIONS ===")
+
+panga circle_area(radius):
+    ika pi = 3.14159
+    bweza pi * radius * radius
+
+panga rectangle_perimeter(length, width):
+    bweza 2 * (length + width)
+
+panga compound_interest(principal, rate, time):
+    ika amount = principal * mphamvu(1 + rate, time)
+    bweza amount
+
+panga factorial(n):
+    ngati n wachepetsedwa 1:
+        bweza 1
+    sizoona:
+        bweza n * factorial(n - 1)
+
+# Test mathematical functions
+ika area = circle_area(5)
+ika perimeter = rectangle_perimeter(10, 6)
+ika investment = compound_interest(1000, 0.05, 3)
+ika fact5 = factorial(5)
+
+onetsa("Circle area (radius 5):", zungulira(area, 2))
+onetsa("Rectangle perimeter (10x6):", perimeter)
+onetsa("Compound interest:", zungulira(investment, 2))
+onetsa("5! =", fact5)
+
+onetsa("")
+
+# ===== 5. STRING PROCESSING FUNCTIONS =====
+onetsa("=== 5. STRING PROCESSING FUNCTIONS ===")
+
+panga count_vowels(text):
+    ika vowels = "aeiouAEIOU"
+    ika count = 0
+    bwereza char mu text:
+        ngati vowels.ili_nacho(char):
+            ika count = count + 1
+    bweza count
+
+panga reverse_string(text):
+    bweza text.bwezerani()
+
+panga title_case(text):
+    ika words = text.gawani(" ")
+    ika result = ""
+    bwereza word mu words:
+        ngati kukula(word) wapambana 0:
+            ika first_char = word[0].zikuluzikulu()
+            ika rest = word[1:].zingonozingono()
+            ika capitalized = first_char + rest
+            ngati result == "":
+                ika result = capitalized
+            sizoona:
+                ika result = result + " " + capitalized
+    bweza result
+
+# Test string functions
+ika text = "chichewa programming language"
+ika vowel_count = count_vowels(text)
+ika reversed_text = reverse_string(text)
+ika title_text = title_case(text)
+
+onetsa("Original text:", text)
+onetsa("Vowel count:", vowel_count)
+onetsa("Reversed:", reversed_text)
+onetsa("Title case:", title_text)
+
+onetsa("")
+
+# ===== 6. LIST PROCESSING FUNCTIONS =====
+onetsa("=== 6. LIST PROCESSING FUNCTIONS ===")
+
+panga find_maximum(numbers):
+    ngati kukula(numbers) == 0:
+        bweza palibe
+    ika max_val = numbers[0]
+    bwereza num mu numbers:
+        ngati num wapambana max_val:
+            ika max_val = num
+    bweza max_val
+
+panga filter_positive(numbers):
+    ika positive = ndandanda()
+    bwereza num mu numbers:
+        ngati num wapambana 0:
+            positive.onjezera(num)
+    bweza positive
+
+panga sum_list(numbers):
+    ika total = 0
+    bwereza num mu numbers:
+        ika total = total + num
+    bweza total
+
+panga contains_item(list, item):
+    bwereza element mu list:
+        ngati element wafanana item:
+            bweza zoona
+    bweza zabodza
+
+# Test list functions
+ika test_numbers = ndandanda(-5, 3, -2, 8, 1, -9, 4)
+ika max_number = find_maximum(test_numbers)
+ika positive_numbers = filter_positive(test_numbers)
+ika list_sum = sum_list(test_numbers)
+ika has_eight = contains_item(test_numbers, 8)
+ika has_ten = contains_item(test_numbers, 10)
+
+onetsa("Numbers:", test_numbers)
+onetsa("Maximum:", max_number)
+onetsa("Positive numbers:", positive_numbers)
+onetsa("Sum:", list_sum)
+onetsa("Contains 8:", has_eight)
+onetsa("Contains 10:", has_ten)
+
+onetsa("")
+
+# ===== 7. DICTIONARY PROCESSING FUNCTIONS =====
+onetsa("=== 7. DICTIONARY PROCESSING FUNCTIONS ===")
+
+panga count_students_by_grade(students):
+    ika grade_count = kaundula()
+    bwereza student mu students:
+        ika grade = student.peza("grade")
+        ngati grade_count.ali_nacho(grade):
+            ika current = grade_count.peza(grade)
+            grade_count.ika_pa(grade, current + 1)
+        sizoona:
+            grade_count.ika_pa(grade, 1)
+    bweza grade_count
+
+panga average_age(people):
+    ngati kukula(people) == 0:
+        bweza 0
+    ika total_age = 0
+    bwereza person mu people:
+        ika total_age = total_age + person.peza("age")
+    bweza total_age / kukula(people)
+
+# Test dictionary functions
+ika students = ndandanda({"name": "Alice", "grade": "A", "age": 20}, {"name": "Bob", "grade": "B", "age": 21}, {"name": "Carol", "grade": "A", "age": 19}, {"name": "David", "grade": "C", "age": 22}, {"name": "Eve", "grade": "B", "age": 20})
+
+ika grade_counts = count_students_by_grade(students)
+ika avg_age = average_age(students)
+
+onetsa("Grade distribution:", grade_counts)
+onetsa("Average age:", zungulira(avg_age, 1))
+
+onetsa("")
+
+# ===== 8. RECURSIVE FUNCTIONS =====
+onetsa("=== 8. RECURSIVE FUNCTIONS ===")
+
+panga fibonacci(n):
+    ngati n wachepetsedwa 2:
+        bweza n
+    sizoona:
+        bweza fibonacci(n - 1) + fibonacci(n - 2)
+
+panga power(base, exponent):
+    ngati exponent == 0:
+        bweza 1
+    kapena_ngati exponent == 1:
+        bweza base
+    sizoona:
+        bweza base * power(base, exponent - 1)
+
+panga count_down(n):
+    ngati n wapambana 0:
+        onetsa("Countdown:", n)
+        count_down(n - 1)
+    sizoona:
+        onetsa("🚀 Blast off!")
+
+# Test recursive functions
+onetsa("Fibonacci sequence (first 8 numbers):")
+ika fib_sequence = ndandanda()
+ika i = 0
+yesani i wachepetsedwa 8:
+    ika fib_num = fibonacci(i)
+    fib_sequence.onjezera(fib_num)
+    ika i = i + 1
+onetsa(fib_sequence)
+
+ika power_result = power(2, 5)
+onetsa("2^5 =", power_result)
+
+onetsa("Countdown example:")
+count_down(5)
+
+onetsa("")
+
+# ===== 9. FUNCTIONS AS DATA =====
+onetsa("=== 9. FUNCTIONS AS DATA ===")
+
+panga apply_operation(numbers, operation_name):
+    ngati operation_name == "sum":
+        bweza sum_list(numbers)
+    kapena_ngati operation_name == "max":
+        bweza find_maximum(numbers)
+    kapena_ngati operation_name == "positive":
+        bweza filter_positive(numbers)
+    sizoona:
+        bweza palibe
+
+# Test function selection
+ika data = ndandanda(5, -2, 8, -1, 3, 7)
+ika sum_result = apply_operation(data, "sum")
+ika max_result = apply_operation(data, "max")
+ika pos_result = apply_operation(data, "positive")
+
+onetsa("Data:", data)
+onetsa("Sum operation:", sum_result)
+onetsa("Max operation:", max_result)
+onetsa("Positive operation:", pos_result)
+
+onetsa("")
+
+# ===== 10. VALIDATION FUNCTIONS =====
+onetsa("=== 10. VALIDATION FUNCTIONS ===")
+
+panga is_email_valid(email):
+    bweza email.ili_nacho("@") komanso email.ili_nacho(".")
+
+panga is_password_strong(password):
+    ika has_upper = zabodza
+    ika has_lower = zabodza
+    ika has_digit = zabodza
+    
+    bwereza char mu password:
+        ngati char.zikuluzikulu() == char komanso char != char.zingonozingono():
+            ika has_upper = zoona
+        kapena_ngati char.zingonozingono() == char komanso char != char.zikuluzikulu():
+            ika has_lower = zoona
+        kapena_ngati "0123456789".ili_nacho(char):
+            ika has_digit = zoona
+    
+    bweza kukula(password) wafananitsa 8 komanso has_upper komanso has_lower komanso has_digit
+
+# Test validation functions
+ika emails = ndandanda("user@example.com", "invalid-email", "test@chi.edu")
+ika passwords = ndandanda("weak", "StrongPass123", "alllowercase", "ALLUPPERCASE")
+
+onetsa("Email validation:")
+bwereza email mu emails:
+    ika valid = is_email_valid(email)
+    onetsa("-", email, ":", valid)
+
+onetsa("")
+onetsa("Password validation:")
+bwereza password mu passwords:
+    ika strong = is_password_strong(password)
+    onetsa("-", password, ":", strong)
+
+onetsa("")
+onetsa("✅ Functions demonstration complete!")
+onetsa("All Chi function features have been demonstrated.")

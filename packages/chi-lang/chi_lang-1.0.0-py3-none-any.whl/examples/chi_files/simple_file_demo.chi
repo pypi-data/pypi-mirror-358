@@ -1,0 +1,94 @@
+# Simple File Operations Demo - Practical Example
+
+onetsa("=== Simple File Operations Demo ===")
+
+# Test 1: Creating a data file
+onetsa("Creating student records file...")
+
+ika data_file = tsegula("student_records.txt", "lemba")
+data_file.lemba_mzere("STUDENT RECORDS")
+data_file.lemba_mzere("===============")
+data_file.lemba_mzere("")
+data_file.lemba_mzere("Student: Chisomo Banda")
+data_file.lemba_mzere("Age: 20")
+data_file.lemba_mzere("Grade: 85")
+data_file.lemba_mzere("---")
+data_file.lemba_mzere("Student: Mphatso Mwale")
+data_file.lemba_mzere("Age: 19") 
+data_file.lemba_mzere("Grade: 92")
+data_file.lemba_mzere("---")
+data_file.tseka()
+
+onetsa("Student records file created!")
+
+# Test 2: Reading and displaying the file
+onetsa("\nReading student records:")
+ngati pezani_file("student_records.txt"):
+    ika records = werenga_zonse("student_records.txt")
+    onetsa(records)
+sizoona:
+    onetsa("Records file not found!")
+
+# Test 3: Adding new student (append)
+onetsa("\nAdding new student record...")
+ika append_file = tsegula("student_records.txt", "wonjezera")
+append_file.lemba_mzere("Student: Thandiwe Phiri")
+append_file.lemba_mzere("Age: 21")
+append_file.lemba_mzere("Grade: 78")
+append_file.lemba_mzere("---")
+append_file.tseka()
+
+# Test 4: Reading updated file line by line
+onetsa("\nReading updated records line by line:")
+ika read_file = tsegula("student_records.txt", "werenga")
+ika all_lines = read_file.werenga_mizere()
+read_file.tseka()
+
+onetsa("Total lines:", kukula(all_lines))
+bwereza line mu all_lines:
+    onetsa("Line:", line)
+
+# Test 5: Creating a summary report
+onetsa("\nCreating summary report...")
+ika summary_file = tsegula("grade_summary.txt", "lemba")
+summary_file.lemba_mzere("GRADE SUMMARY REPORT")
+summary_file.lemba_mzere("===================")
+summary_file.lemba_mzere("")
+
+# Calculate some statistics
+ika grades = ndandanda(85, 92, 78)
+ika average = pakatikati(grades)
+ika highest = chachikulu(grades)
+ika lowest = chachingono(grades)
+
+summary_file.lemba_mzere("Average Grade: " + mawu(zungulira(average, 1)))
+summary_file.lemba_mzere("Highest Grade: " + mawu(highest))
+summary_file.lemba_mzere("Lowest Grade: " + mawu(lowest))
+summary_file.lemba_mzere("Total Students: " + mawu(kukula(grades)))
+summary_file.tseka()
+
+# Display the summary
+onetsa("\nSummary report:")
+ika summary_content = werenga_zonse("grade_summary.txt")
+onetsa(summary_content)
+
+# Test 6: File existence and error handling
+onetsa("\nTesting file operations with error handling:")
+
+kuyesera:
+    ika missing_content = werenga_zonse("missing_file.txt")
+    onetsa("Content:", missing_content)
+zakanika vuto_lililonse chifukwa error:
+    onetsa("Could not read missing file:", error)
+
+# Test file existence before operations
+ika files_to_check = ndandanda("student_records.txt", "grade_summary.txt", "missing_file.txt")
+
+bwereza filename mu files_to_check:
+    ngati pezani_file(filename):
+        onetsa("File exists:", filename)
+    sizoona:
+        onetsa("File missing:", filename)
+
+onetsa("\n=== File Operations Demo Complete! ===")
+

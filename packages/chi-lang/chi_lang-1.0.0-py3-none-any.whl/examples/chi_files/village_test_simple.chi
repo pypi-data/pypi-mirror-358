@@ -1,0 +1,38 @@
+# Simplified village health test
+
+onetsa("=== Village Health Test ===")
+
+# Create test data instead of user input
+ika households = ndandanda()
+
+# Add some test households manually
+households.onjezera(ndandanda("Mulanje", "Father", 6, zoona))
+households.onjezera(ndandanda("Lilongwe", "Mother", 4, zoona))
+households.onjezera(ndandanda("Blantyre", "Uncle", 8, zabodza))
+
+onetsa("Test households:", households)
+
+# Extract sizes for analysis
+ika sizes = ndandanda()
+ika clean_count = 0
+
+bwereza nyumba mu households:
+    onetsa("Processing household:", nyumba)
+    sizes.onjezera(nyumba[2])  # household size
+    ngati nyumba[3] == zoona:
+        ika clean_count = clean_count + 1
+
+onetsa("Sizes list:", sizes)
+onetsa("Clean count:", clean_count)
+
+# Test mathematical functions
+ika average = pakatikati(sizes)
+ika largest = chachikulu(sizes)
+ika smallest = chachingono(sizes)
+
+onetsa("Average household size:", average)
+onetsa("Largest family:", largest)
+onetsa("Smallest family:", smallest)
+
+onetsa("Test completed!")
+

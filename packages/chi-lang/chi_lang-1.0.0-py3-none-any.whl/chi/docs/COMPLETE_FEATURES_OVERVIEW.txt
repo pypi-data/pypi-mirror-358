@@ -1,0 +1,591 @@
+===============================================================================
+                    CHICHEWA PROGRAMMING LANGUAGE (CHI)
+                           COMPLETE FEATURES OVERVIEW
+===============================================================================
+
+Chi is a modern programming language that uses Chichewa keywords and syntax,
+making programming accessible to Chichewa speakers while maintaining full
+programming capabilities. This document outlines every feature available.
+
+===============================================================================
+                              CORE DATA TYPES
+===============================================================================
+
+1. STRINGS (mawu)
+   - Text data enclosed in quotes
+   - Type conversion: mawu(value) converts any value to string
+   - Usage: ika name = "Jakesh"
+   - Type name returned by mtundu(): "mawu"
+
+2. NUMBERS
+   a) Float Numbers (manambala)
+      - Decimal numbers like 42.5, 3.14159
+      - Type conversion: manambala("42.5") converts string to float
+      - Type name: "manambala"
+   
+   b) Integer Numbers (manambala_olekeza) 
+      - Whole numbers like 42, -10, 0
+      - Type conversion: manambala_olekeza(42.7) converts to 42
+      - Type name: "manambala_olekeza"
+
+3. BOOLEANS (yankho)
+   - True: zoona
+   - False: zabodza
+   - Used in conditions and logical operations
+   - Type name: "yankho"
+
+4. NULL VALUES (palibe)
+   - Represents empty/nothing/no value
+   - Usage: ika empty = palibe
+   - Type name: "palibe_mtundu"
+
+5. LISTS (ndandanda)
+   - Collections of multiple values
+   - Can hold mixed data types
+   - Usage: ika mylist = ndandanda(1, "text", zoona, palibe)
+   - Type name: "ndandanda"
+
+6. DICTIONARIES (kaundula)
+   - Key-value pair collections
+   - Function syntax: kaundula("key1", "value1", "key2", "value2")
+   - Literal syntax: {"key1": "value1", "key2": "value2"}
+   - Type name: "kaundula"
+
+7. FILES (fayilo)
+   - File objects for reading and writing
+   - Created with tsegula() function
+   - Type name: "fayilo"
+
+===============================================================================
+                            VARIABLE DECLARATION
+===============================================================================
+
+Keyword: ika (means "put" or "place")
+Syntax: ika variable_name = value
+
+Examples:
+- ika name = "Jakesh"
+- ika age = 25
+- ika is_student = zoona
+- ika scores = ndandanda(85, 90, 78)
+
+===============================================================================
+                                OPERATORS
+===============================================================================
+
+1. ARITHMETIC OPERATORS
+   - Addition: +
+   - Subtraction: -
+   - Multiplication: *
+   - Division: /
+   - Power: ** (example: 2 ** 3 = 8)
+   - Modulo: % (remainder after division)
+
+2. CHICHEWA COMPARISON OPERATORS
+   - wafanana: == (equal to)
+   - wasiyana: != (not equal to)
+   - wapambana: > (greater than)
+   - wachepa: < (less than)
+   - wafananitsa: >= (greater than or equal)
+   - wachepetsedwa: <= (less than or equal)
+
+3. CHICHEWA LOGICAL OPERATORS
+   - komanso: AND (both conditions must be true)
+   - kapena: OR (at least one condition must be true)
+   - osati: NOT (reverses the condition)
+
+===============================================================================
+                             CONTROL STRUCTURES
+===============================================================================
+
+1. IF-ELSE STATEMENTS
+   Keywords: ngati (if), sizoona (else)
+   
+   Basic syntax:
+   ngati condition:
+       # code if true
+   sizoona:
+       # code if false
+
+2. IF-ELIF-ELSE STATEMENTS
+   Keywords: ngati (if), kapena_ngati (elif), sizoona (else)
+   
+   Syntax:
+   ngati condition1:
+       # code
+   kapena_ngati condition2:
+       # code
+   sizoona:
+       # code
+
+3. WHILE LOOPS
+   Keyword: yesani (while)
+   
+   Syntax:
+   yesani condition:
+       # code to repeat
+
+4. FOR LOOPS
+   Keywords: bwereza (for), mu (in)
+   
+   Syntax:
+   bwereza variable mu iterable:
+       # code for each item
+
+5. LOOP CONTROL
+   - leka: break (exit loop)
+   - pitilizani: continue (skip to next iteration)
+
+===============================================================================
+                               BUILT-IN FUNCTIONS
+===============================================================================
+
+1. OUTPUT FUNCTION
+   - onetsa(): Print/display values
+   - Can print multiple values: onetsa("Name:", name, "Age:", age)
+
+2. INPUT FUNCTION
+   - funsani(): Get user input
+   - With prompt: funsani("Enter your name: ")
+
+3. TYPE CHECKING
+   - mtundu(): Get the type of any value
+   - Returns Chichewa type names
+
+4. LENGTH/SIZE
+   - kukula(): Get length of strings, lists, etc.
+   - Example: kukula("hello") returns 5
+
+5. TYPE CONVERSION
+   - mawu(): Convert to string
+   - manambala(): Convert to float
+   - manambala_olekeza(): Convert to integer
+
+===============================================================================
+                        ADVANCED MATHEMATICAL FUNCTIONS
+===============================================================================
+
+1. POWER AND MODULO
+   - mphamvu(base, exponent): Calculate power (2^8 = 256)
+   - chotsalira(dividend, divisor): Get remainder (17 % 5 = 2)
+
+2. ROOTS AND ABSOLUTE VALUES
+   - muzu(number): Square root (muzu(25) = 5.0)
+   - chopanda(number): Absolute value (chopanda(-10) = 10.0)
+
+3. ROUNDING FUNCTIONS
+   - pansi(number): Floor (round down) - pansi(4.8) = 4
+   - pamwamba(number): Ceiling (round up) - pamwamba(4.2) = 5
+   - zungulira(number, digits): Round to decimal places
+
+4. AGGREGATE FUNCTIONS
+   - phatikiza(...): Sum multiple numbers
+   - pakatikati(...): Calculate average
+   - chachikulu(...): Find maximum value
+   - chachingono(...): Find minimum value
+
+5. STATISTICAL FUNCTIONS
+   - sanja(data, direction): Sort data
+     * Direction: "koyamba" (ascending) or "komaliza" (descending)
+   - chapakati(...): Find median value
+   - yofala(...): Find mode (most frequent value)
+
+===============================================================================
+                     STRING METHODS (CHICHEWA)
+===============================================================================
+1. CREATING STRINGS
+   - "text": Text data enclosed in quotes
+   - mawu(value): Convert any value to string
+   - Example: ika greeting = "Moni, dziko!"
+   - Example: ika number_str = mawu(42)  # "42"
+2. METHODS
+   - chotsani_mimpata(): Remove whitespace from both ends (strip)
+   - gawani(separator): Split string into list (split)
+   - lumikizani(list): Join list into string with separator (join)
+   - sinthani(old, new): Replace substring (replace)
+   - zikuluzikulu(): Convert to uppercase (upper)
+   - zingonozingono(): Convert to lowercase (lower)
+   - yoyamba_ndi(prefix): Check if string starts with prefix (startswith)
+   - imamaliza_ndi(suffix): Check if string ends with suffix (endswith)
+   - ili_nacho(substring): Check if string contains substring (contains)
+   - kutalika(): Get string length
+   - bwezerani(): Reverse string
+   - bwerezani(n): Repeat string n times
+   - dulaini(start, end): Slice string from start to end
+
+===============================================================================
+                              LIST OPERATIONS
+===============================================================================
+
+1. CREATING LISTS
+   - ndandanda(): Create new list
+   - Example: ika fruits = ndandanda("apple", "banana", "cherry")
+
+2. CHICHEWA LIST METHODS
+   - onjezera(item): Add item to end (append)
+   - lowetsa(index, item): Insert item at position
+   - chotsa(item): Remove first occurrence of item
+   - tulutsa(): Remove and return last item
+   - tulutsa(index): Remove and return item at index
+   - funafuna(item): Find index of item
+   - werengera(item): Count occurrences of item
+
+3. LIST INDEXING
+   - Access items: mylist[0] (first), mylist[-1] (last)
+   - Supports positive and negative indices
+
+4. LIST ITERATION
+   - Use for loops: bwereza item mu mylist:
+
+===============================================================================
+                           DICTIONARY OPERATIONS
+===============================================================================
+
+1. CREATING DICTIONARIES
+   Two methods available:
+   - Function syntax: kaundula("key1", "value1", "key2", "value2")
+   - Literal syntax: {"key1": "value1", "key2": "value2"}
+   - Empty dictionary: kaundula() or {}
+
+2. CHICHEWA DICTIONARY METHODS
+   - ika_pa(key, value): Set key-value pair ("put at")
+   - peza(key): Get value by key ("find")
+   - peza_kapena(key, default): Get value with default ("find or else")
+   - ali_nacho(key): Check if key exists ("has it")
+   - chotsa_pa(key): Remove and return value ("remove from")
+   - chotsani_zonse(): Clear all items ("remove all")
+   - makiyi(): Get all keys ("the keys")
+   - mavalu(): Get all values ("the values")
+   - zonse(): Get all key-value pairs ("everything")
+   - kopani(): Copy dictionary ("copy")
+   - sanjirani(other): Merge dictionaries ("join")
+
+3. DICTIONARY ACCESS
+   - Bracket notation: dict["key"] for reading
+   - Method access: dict.peza("key") for reading
+   - Setting values: dict.ika_pa("key", "value")
+
+4. DICTIONARY FEATURES
+   - Mixed data types as values
+   - Nested dictionaries supported
+   - Integration with all Chi language features
+   - Iteration through key-value pairs
+
+===============================================================================
+                              FILE OPERATIONS
+===============================================================================
+
+1. BASIC FILE FUNCTIONS
+   - tsegula(filename, mode): Open file with Chichewa modes
+     * "werenga": read mode ("to read")
+     * "lemba": write mode ("to write")
+     * "wonjezera": append mode ("to add")
+   - werenga_zonse(filename): Read entire file content
+   - lemba_mu_file(filename, content): Write content to file
+   - pezani_file(filename): Check if file exists
+
+2. FILE OBJECT METHODS
+   - file.werenga(): Read content from file
+   - file.werenga_mizere(): Read all lines as ChiList
+   - file.lemba(content): Write content to file
+   - file.lemba_mzere(content): Write line with newline
+   - file.tseka(): Close file
+
+3. FILE FEATURES
+   - Automatic file closing and memory management
+   - UTF-8 encoding support for Chichewa text
+   - Integration with exception handling
+   - Type recognition: mtundu(file) returns "fayilo"
+   - Line-by-line and bulk file operations
+
+4. FILE OPERATIONS EXAMPLES
+   # Reading files
+   ika content = werenga_zonse("data.txt")
+   
+   # Writing files
+   lemba_mu_file("output.txt", "Moni dziko!")
+   
+   # Advanced file operations
+   ika file = tsegula("data.txt", "werenga")
+   ika lines = file.werenga_mizere()
+   file.tseka()
+
+===============================================================================
+                              EXCEPTION HANDLING
+===============================================================================
+
+1. TRY-EXCEPT-FINALLY KEYWORDS
+   - kuyesera: try (attempt to execute code)
+   - zakanika: except (handle errors)
+   - pomaliza: finally (always execute cleanup)
+   - chifukwa: as (capture exception variable)
+
+2. CHICHEWA EXCEPTION TYPES
+   - vuto_la_nambala: ValueError (number conversion problems)
+   - vuto_la_mtundu: TypeError (type mismatch problems)
+   - vuto_la_ndandanda: IndexError (list index problems)
+   - cholakwika_kiyi: KeyError (dictionary key problems)
+   - vuto_la_dzina: NameError (undefined variable problems)
+   - vuto_la_kugawa: ZeroDivisionError (division by zero)
+   - vuto_la_kukumbukira: MemoryError (memory problems)
+   - vuto_la_fayilo: FileNotFoundError (file not found)
+   - vuto_la_chilolezo: PermissionError (permission denied)
+   - vuto_lililonse: Exception (any error)
+
+3. EXCEPTION HANDLING SYNTAX
+   Basic:
+   kuyesera:
+       # risky code
+   zakanika:
+       # handle any error
+
+   With variable capture:
+   kuyesera:
+       # risky code
+   zakanika chifukwa error:
+       # handle error, 'error' contains message
+
+   With specific types:
+   kuyesera:
+       # risky code
+   zakanika vuto_la_nambala chifukwa num_error:
+       # handle number errors
+   zakanika vuto_lililonse chifukwa any_error:
+       # handle any other errors
+   pomaliza:
+       # cleanup code
+
+===============================================================================
+                               NULL HANDLING
+===============================================================================
+
+1. NULL COMPARISONS
+   - Check if null: ngati value == palibe:
+   - Check if not null: ngati value != palibe:
+
+2. NULL IN CALCULATIONS
+   - Skip null values in loops and calculations
+   - Provide default values when null is encountered
+
+3. NULL IN DATA STRUCTURES
+   - Lists can contain null values mixed with other data
+   - Handle gracefully in iterations
+
+===============================================================================
+                               TYPE SYSTEM
+===============================================================================
+
+1. CHICHEWA TYPE NAMES
+   - mawu: String type
+   - manambala: Float number type
+   - manambala_olekeza: Integer type
+   - yankho: Boolean type
+   - palibe_mtundu: Null type
+   - ndandanda: List type
+   - kaundula: Dictionary type
+   - fayilo: File type
+   - chinthu: Generic object type
+
+2. TYPE CHECKING
+   - Use mtundu(value) to get type name
+   - Compare types: ngati mtundu(value) == "manambala":
+
+3. TYPE CONVERSION
+   - Between numbers: manambala(42) → 42.0
+   - To strings: mawu(42) → "42"
+   - To integers: manambala_olekeza(42.7) → 42
+
+===============================================================================
+                             FUNCTION DEFINITION
+===============================================================================
+
+1. FUNCTION KEYWORDS
+   - panga: define function (like Python's 'def')
+   - bweza: return value from function
+
+2. FUNCTION SYNTAX
+   panga function_name(parameter1, parameter2):
+       # function body
+       bweza result
+
+3. FUNCTION FEATURES
+   - Multiple parameters supported
+   - Return values with bweza
+   - Local variable scope
+   - Recursive functions supported
+
+===============================================================================
+                               FILE STRUCTURE
+===============================================================================
+
+1. FILE EXTENSION
+   - Chichewa programs use .chi extension
+   - Example: myprogram.chi
+
+2. RUNNING PROGRAMS
+   - Command: python chi_main.py myprogram.chi
+   - Supports both .chi and .py files
+
+3. COMMENTS
+   - Use # for single-line comments
+   - Example: # This is a comment in Chichewa
+
+===============================================================================
+                            PROGRAMMING EXAMPLES
+===============================================================================
+
+1. HELLO WORLD
+   onetsa("Moni, dziko!")
+
+2. VARIABLES AND TYPES
+   ika name = "Jakesh"
+   ika age = 25
+   ika is_programmer = zoona
+   onetsa("Name:", name, "Age:", age, "Programmer:", is_programmer)
+
+3. CONDITIONAL LOGIC
+   ngati age wafananitsa 18:
+       onetsa("Adult")
+   sizoona:
+       onetsa("Minor")
+
+4. LOOPS
+   ika numbers = ndandanda(1, 2, 3, 4, 5)
+   bwereza num mu numbers:
+       onetsa("Number:", num)
+
+5. LIST OPERATIONS
+   ika fruits = ndandanda("apple", "banana")
+   fruits.onjezera("orange")
+   ika count = fruits.werengera("apple")
+   onetsa("Fruits:", fruits, "Apple count:", count)
+
+6. EXCEPTION HANDLING
+   kuyesera:
+       ika result = manambala_olekeza("invalid")
+   zakanika vuto_la_nambala chifukwa error:
+       onetsa("Number conversion failed:", error)
+   pomaliza:
+       onetsa("Cleanup completed")
+
+7. DICTIONARY OPERATIONS
+   ika person = {"name": "Jakesh", "age": 25, "city": "Lilongwe"}
+   person.ika_pa("job", "programmer")
+   ika name = person.peza("name")
+   onetsa("Person:", person)
+
+8. FILE OPERATIONS
+   # Write to file
+   lemba_mu_file("data.txt", "Moni dziko!")
+   
+   # Read from file
+   ika content = werenga_zonse("data.txt")
+   onetsa("File content:", content)
+   
+   # Advanced file operations
+   ika file = tsegula("output.txt", "lemba")
+   file.lemba_mzere("Line 1")
+   file.lemba_mzere("Line 2")
+   file.tseka()
+
+9. MATHEMATICAL OPERATIONS
+   ika result = mphamvu(2, 8)  # 2^8 = 256
+   ika average = pakatikati(10, 20, 30)  # 20
+   ika maximum = chachikulu(5, 12, 8)  # 12
+
+===============================================================================
+                               SPECIAL FEATURES
+===============================================================================
+
+1. CULTURAL APPROPRIATENESS
+   - All keywords are meaningful Chichewa words
+   - No English method names in user code
+   - Natural programming flow for Chichewa speakers
+
+2. MODERN PROGRAMMING CONCEPTS
+   - Object-oriented features (method calls on objects)
+   - Exception handling with proper error types
+   - Type safety and conversion
+   - Flexible data structures
+
+3. EDUCATIONAL VALUE
+   - Teaches programming concepts in native language
+   - Bridges cultural gap in technology education
+   - Maintains professional programming standards
+
+4. EXTENSIBILITY
+   - Easy to add new Chichewa keywords
+   - Modular design for feature expansion
+   - Compatible with Python ecosystem
+
+===============================================================================
+                                ERROR HANDLING
+===============================================================================
+
+1. RUNTIME ERRORS
+   - Type conversion errors show descriptive messages
+   - Index out of bounds errors are caught gracefully
+   - Division by zero handled with clear error messages
+
+2. SYNTAX ERRORS
+   - Parser provides line numbers for syntax errors
+   - Clear error messages in development
+
+3. EXCEPTION SYSTEM
+   - Full try-catch-finally support
+   - Specific exception types for different error categories
+   - Exception variable capture for debugging
+
+===============================================================================
+                              TECHNICAL DETAILS
+===============================================================================
+
+1. IMPLEMENTATION
+   - Built in Python for reliability and performance
+   - Lexer-Parser-Interpreter architecture
+   - Custom AST (Abstract Syntax Tree) implementation
+
+2. COMPATIBILITY
+   - Runs on any system with Python 3.x
+   - Cross-platform support (Windows, macOS, Linux)
+   - No external dependencies required
+
+3. PERFORMANCE
+   - Interpreted language for development ease
+   - Efficient execution for educational and small-scale projects
+   - Memory management handled automatically
+
+===============================================================================
+                                 CONCLUSION
+===============================================================================
+
+The Chichewa Programming Language (Chi) represents a complete programming
+environment that makes modern programming concepts accessible through the
+Chichewa language. It includes:
+
+✓ All fundamental programming constructs
+✓ Advanced mathematical and statistical functions  
+✓ Comprehensive error handling
+✓ Modern data structures and operations
+✓ Object-oriented programming features
+✓ Cultural sensitivity and appropriateness
+✓ Educational value for Chichewa speakers
+✓ Professional programming capabilities
+
+The language successfully bridges the gap between local culture and modern
+technology, providing a pathway for Chichewa speakers to learn programming
+in their native language while maintaining compatibility with international
+programming standards.
+
+This makes Chi suitable for:
+- Educational programming courses
+- Cultural programming initiatives  
+- Community software development
+- Introduction to programming concepts
+- Professional software development in local contexts
+
+===============================================================================
+                    Total Features Implemented: 100+ 
+                    Documentation Last Updated: 2025
+===============================================================================
+

@@ -1,0 +1,24 @@
+onetsa("=== Testing 'chita' as block starter ===")
+
+ika condition = zoona
+
+# Test if statement with chita
+ngati condition chita
+    onetsa("If with chita works!")
+    ika nested = 42
+    onetsa("Nested value:", nested)
+
+# Test for loop with chita
+ika numbers = ndandanda(1, 2, 3)
+onetsa("\nFor loop with chita:")
+bwereza num mu numbers chita
+    onetsa("Number:", num)
+    ngati num == 2 chita
+        onetsa("Found two using chita!")
+
+# Mix chita and colon
+onetsa("\nMixing chita and colon:")
+bwereza num mu numbers:
+    ngati num == 1 chita
+        onetsa("One with chita, loop with colon")
+

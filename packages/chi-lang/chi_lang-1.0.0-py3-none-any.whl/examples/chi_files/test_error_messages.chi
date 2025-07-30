@@ -1,0 +1,36 @@
+# Test error messages and edge cases
+
+onetsa("=== Testing Edge Cases for English Display ===")
+onetsa("")
+
+# Test comparison operations
+ika a = 5
+ika b = 3
+ika result1 = a wapambana b
+ika result2 = a wachepa b
+ika result3 = a wafanana b
+ika result4 = a wasiyana b
+
+onetsa("5 > 3:", result1)
+onetsa("5 < 3:", result2) 
+onetsa("5 == 3:", result3)
+onetsa("5 != 3:", result4)
+onetsa("")
+
+# Test type information display
+ika bool_var = zoona
+ika null_var = palibe
+ika list_var = ndandanda(zoona, zabodza, palibe)
+
+onetsa("Boolean:", bool_var)
+onetsa("Null:", null_var)
+onetsa("List:", list_var)
+onetsa("")
+
+# Test complex expressions
+ika complex_result = zoona komanso zabodza kapena zoona
+onetsa("Complex boolean expression:", complex_result)
+onetsa("")
+
+onetsa("✓ All values display in Chichewa")
+

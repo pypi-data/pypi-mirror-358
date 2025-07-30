@@ -1,0 +1,80 @@
+# Chi Programming Language - Basic Variables
+# Demonstrates variable declarations and basic operations
+
+onetsa("============================================")
+onetsa("      Chi Variables Demonstration")
+onetsa("============================================")
+onetsa("")
+
+# ===== Variable Declarations =====
+onetsa("=== Variable Declarations with 'ika' ===")
+
+# String variables
+ika name = "Jakesh"
+ika greeting = "Moni"
+onetsa("Name:", name)
+onetsa("Greeting:", greeting)
+
+# Number variables  
+ika age = 25
+ika height = 1.75
+ika temperature = -5
+onetsa("Age:", age)
+onetsa("Height:", height, "meters")
+onetsa("Temperature:", temperature, "degrees")
+
+# Boolean variables
+ika is_student = zoona
+ika is_working = zabodza
+onetsa("Is student:", is_student)
+onetsa("Is working:", is_working)
+
+# Null variable
+ika empty_value = palibe
+onetsa("Empty value:", empty_value)
+onetsa("")
+
+# ===== Variable Operations =====
+onetsa("=== Variable Operations ===")
+
+# String concatenation
+ika full_greeting = greeting + ", " + name + "!"
+onetsa("Full greeting:", full_greeting)
+
+# Arithmetic with variables
+ika next_year_age = age + 1
+ika birth_year = 2025 - age
+onetsa("Next year age:", next_year_age)
+onetsa("Birth year:", birth_year)
+
+# Boolean operations
+ika student_status = is_student komanso osati is_working
+onetsa("Student but not working:", student_status)
+onetsa("")
+
+# ===== Variable Reassignment =====
+onetsa("=== Variable Reassignment ===")
+
+onetsa("Original age:", age)
+ika age = age + 5
+onetsa("After 5 years:", age)
+
+onetsa("Original greeting:", greeting)
+ika greeting = "Zikomo"
+onetsa("New greeting:", greeting)
+onetsa("")
+
+# ===== Mixed Operations =====
+onetsa("=== Mixed Type Operations ===")
+
+ika score = 85
+ika percentage = score / 100.0
+ika grade_message = "Your score is " + mawu(score) + "% (" + mawu(percentage) + ")"
+onetsa("Grade message:", grade_message)
+
+onetsa("")
+onetsa("============================================")
+onetsa("✅ Variable declarations working!")
+onetsa("✅ All data types supported!")  
+onetsa("✅ Operations between variables working!")
+onetsa("============================================")

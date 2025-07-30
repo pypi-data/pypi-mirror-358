@@ -1,0 +1,23 @@
+# Simple dictionary test
+
+onetsa("Testing kaundula (dictionary)...")
+
+# Create empty dictionary first
+ika empty_dict = kaundula()
+onetsa("Empty dictionary:", empty_dict)
+onetsa("Type:", mtundu(empty_dict))
+
+# Create dictionary with 2 key-value pairs
+ika person = kaundula("name", "Jakesh")
+onetsa("Simple dictionary:", person)
+
+# Add more data
+person.ika_pa("age", 25)
+onetsa("After adding age:", person)
+
+# Test getting values
+ika name = person.peza("name")
+onetsa("Name:", name)
+
+onetsa("Simple dictionary test complete!")
+

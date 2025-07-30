@@ -1,0 +1,33 @@
+# Test built-in functions and methods for English display
+
+onetsa("=== Testing Built-in Functions Display ===")
+onetsa("")
+
+# Test list methods
+ika my_list = ndandanda("apple", "banana", "cherry")
+onetsa("Original list:", my_list)
+
+# Test onjezera (append)
+my_list.onjezera("mango")
+onetsa("After onjezera:", my_list)
+
+# Test werengera (count)
+ika count = my_list.werengera("apple")
+onetsa("Count of 'apple':", count)
+
+# Test kukula (length)
+ika length = kukula(my_list)
+onetsa("Length:", length)
+
+# Test funafuna (index)
+ika position = my_list.funafuna("banana")
+onetsa("Position of 'banana':", position)
+
+# Test with booleans and nulls
+ika mixed_list = ndandanda(zoona, zabodza, palibe, "text")
+onetsa("Mixed list:", mixed_list)
+onetsa("Length of mixed list:", kukula(mixed_list))
+
+onetsa("")
+onetsa("✓ All built-in functions work correctly")
+

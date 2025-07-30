@@ -1,0 +1,129 @@
+# Chi Programming Language - String Methods Demo
+# Demonstrates all Chi string methods from COMPLETE_FEATURES_OVERVIEW.txt
+
+onetsa("============================================")
+onetsa("        Chi String Methods Demonstration")
+onetsa("============================================")
+onetsa("")
+
+# ===== 1. CREATING STRINGS =====
+onetsa("=== 1. CREATING STRINGS ===")
+ika greeting = "Moni, dziko!"
+ika number_string = mawu(42)
+onetsa("String literal:", greeting)
+onetsa("Number to string:", number_string)
+onetsa("String length:", kukula(greeting))
+onetsa("")
+
+# ===== 2. STRING MANIPULATION METHODS =====
+onetsa("=== 2. STRING MANIPULATION METHODS ===")
+
+# Test string with whitespace
+ika test_string = "  Hello Chi Programming  "
+onetsa("Original string:", "'", test_string, "'")
+
+# Remove whitespace (chotsani_mimpata)
+ika trimmed = test_string.chotsani_mimpata()
+onetsa("After chotsani_mimpata():", "'", trimmed, "'")
+
+# Split string (gawani)
+ika sentence = "Chi is amazing programming language"
+ika words = sentence.gawani(" ")
+onetsa("Original:", sentence)
+onetsa("Split by space:", words)
+
+# Join strings (lumikizani)
+ika word_list = ndandanda("Chi", "programming", "is", "fun")
+ika joined = " ".lumikizani(word_list)
+onetsa("Word list:", word_list)
+onetsa("Joined with space:", joined)
+
+# Replace text (sinthani)
+ika original_text = "I love Python programming"
+ika replaced = original_text.sinthani("Python", "Chi")
+onetsa("Original:", original_text)
+onetsa("After replace:", replaced)
+onetsa("")
+
+# ===== 3. CASE CONVERSION METHODS =====
+onetsa("=== 3. CASE CONVERSION METHODS ===")
+ika mixed_case = "Chi Programming Language"
+onetsa("Original:", mixed_case)
+onetsa("Upper case (zikuluzikulu):", mixed_case.zikuluzikulu())
+onetsa("Lower case (zingonozingono):", mixed_case.zingonozingono())
+onetsa("")
+
+# ===== 4. STRING CHECKING METHODS =====
+onetsa("=== 4. STRING CHECKING METHODS ===")
+ika test_text = "Chi Programming"
+
+# Check prefixes and suffixes
+onetsa("Text:", test_text)
+onetsa("Starts with 'Chi' (yoyamba_ndi):", test_text.yoyamba_ndi("Chi"))
+onetsa("Starts with 'Python':", test_text.yoyamba_ndi("Python"))
+onetsa("Ends with 'ing' (imamaliza_ndi):", test_text.imamaliza_ndi("ing"))
+onetsa("Ends with 'Language':", test_text.imamaliza_ndi("Language"))
+
+# Check if contains substring
+onetsa("Contains 'gram' (ili_nacho):", test_text.ili_nacho("gram"))
+onetsa("Contains 'xyz':", test_text.ili_nacho("xyz"))
+onetsa("")
+
+# ===== 5. STRING UTILITY METHODS =====
+onetsa("=== 5. STRING UTILITY METHODS ===")
+ika sample_text = "Hello"
+
+# String length (already shown, but using method)
+onetsa("Text:", sample_text)
+onetsa("Length (kutalika):", sample_text.kutalika())
+
+# Reverse string
+onetsa("Reversed (bwezerani):", sample_text.bwezerani())
+
+# Repeat string
+onetsa("Repeated 3 times (bwerezani):", sample_text.bwerezani(3))
+
+# String slicing
+ika long_text = "Chi Programming"
+onetsa("Original:", long_text)
+onetsa("Slice 0-3 (dulaini):", long_text.dulaini(0, 3))
+onetsa("Slice 4-11:", long_text.dulaini(4, 11))
+onetsa("")
+
+# ===== 6. PRACTICAL STRING PROCESSING =====
+onetsa("=== 6. PRACTICAL STRING PROCESSING ===")
+
+# Process user data
+ika user_data = ndandanda("  john doe  ", "JANE SMITH", "bob_johnson")
+onetsa("Processing user names:")
+bwereza name mu user_data:
+    ika cleaned = name.chotsani_mimpata()
+    ika formatted = cleaned.zingonozingono()
+    ika words = formatted.gawani(" ")
+    ika capitalized = ndandanda()
+    
+    bwereza word mu words:
+        ngati kukula(word) wapambana 0:
+            ika first_char = word.dulaini(0, 1).zikuluzikulu()
+            ika rest = word.dulaini(1, kukula(word))
+            ika proper_word = first_char + rest
+            capitalized.onjezera(proper_word)
+    
+    ika final_name = " ".lumikizani(capitalized)
+    onetsa("Original: '", name, "' -> Processed: '", final_name, "'")
+
+onetsa("")
+
+# Text analysis
+ika paragraph = "Chi is a programming language. Chi uses Chichewa keywords. Programming with Chi is fun."
+onetsa("Text analysis for:", paragraph)
+onetsa("Total length:", paragraph.kutalika())
+onetsa("Word count:", kukula(paragraph.gawani(" ")))
+onetsa("Contains 'Chi':", paragraph.ili_nacho("Chi"))
+onetsa("Starts with 'Chi':", paragraph.yoyamba_ndi("Chi"))
+onetsa("Ends with 'fun.':", paragraph.imamaliza_ndi("fun."))
+
+onetsa("")
+onetsa("✅ All Chi string methods working perfectly!")
+onetsa("✅ Manipulation, case conversion, checking, utilities!")
+onetsa("============================================")

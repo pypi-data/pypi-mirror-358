@@ -1,0 +1,52 @@
+# Comprehensive dictionary test
+
+onetsa("=== Complete Kaundula (Dictionary) Test ===")
+
+# Create dictionary
+ika student = kaundula("name", "Maria", "age", 20, "course", "Computer Science")
+onetsa("Student:", student)
+
+# Test all methods
+onetsa("\n=== All Dictionary Methods ===")
+
+# Get all keys
+ika keys = student.makiyi()
+onetsa("Keys:", keys)
+
+# Get all values  
+ika values = student.mavalu()
+onetsa("Values:", values)
+
+# Get all items (key-value pairs)
+ika items = student.zonse()
+onetsa("Items:", items)
+
+# Copy dictionary
+ika copy = student.kopani()
+onetsa("Copy:", copy)
+
+# Create another dictionary to merge
+ika grades = kaundula("math", 85, "science", 92)
+student.sanjirani(grades)
+onetsa("After merge:", student)
+
+# Remove item
+ika removed = student.chotsa_pa("age")
+onetsa("Removed:", removed)
+onetsa("After removal:", student)
+
+# Test iteration through items
+onetsa("\n=== Iteration Test ===")
+bwereza item mu student.zonse():
+    ika key = item[0]
+    ika value = item[1]
+    onetsa("Key:", key, "Value:", value)
+
+# Clear test
+ika temp = kaundula("a", 1, "b", 2)
+onetsa("\nBefore clear:", temp)
+temp.chotsani_zonse()
+onetsa("After clear:", temp)
+
+onetsa("\n=== Dictionary Test Complete! ===")
+

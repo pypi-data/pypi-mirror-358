@@ -1,0 +1,188 @@
+# Chi Programming Language - Exception Handling Demo
+# Demonstrates all Chi exception handling from COMPLETE_FEATURES_OVERVIEW.txt
+
+onetsa("============================================")
+onetsa("     Chi Exception Handling Demo")
+onetsa("============================================")
+onetsa("")
+
+# ===== 1. BASIC TRY-EXCEPT =====
+onetsa("=== 1. BASIC TRY-EXCEPT ===")
+
+kuyesera:
+    ika result = 10 / 2
+    onetsa("Division successful:", result)
+zakanika:
+    onetsa("An error occurred during division")
+
+onetsa("")
+
+# ===== 2. TRY-EXCEPT WITH ERROR CAPTURE =====
+onetsa("=== 2. TRY-EXCEPT WITH ERROR CAPTURE ===")
+
+kuyesera:
+    ika bad_number = manambala("not_a_number")
+    onetsa("Conversion successful:", bad_number)
+zakanika chifukwa error:
+    onetsa("Error caught:", error)
+
+onetsa("")
+
+# ===== 3. DIVISION BY ZERO HANDLING =====
+onetsa("=== 3. DIVISION BY ZERO HANDLING ===")
+
+kuyesera:
+    ika zero_result = 10 / 0
+    onetsa("This won't print:", zero_result)
+zakanika vuto_la_kugawa chifukwa div_error:
+    onetsa("Division by zero error:", div_error)
+zakanika vuto_lililonse chifukwa any_error:
+    onetsa("Some other error:", any_error)
+
+onetsa("")
+
+# ===== 4. NUMBER CONVERSION ERRORS =====
+onetsa("=== 4. NUMBER CONVERSION ERRORS ===")
+
+ika test_values = ndandanda("123", "45.67", "invalid", "89")
+
+bwereza value mu test_values:
+    kuyesera:
+        ika converted = manambala(value)
+        onetsa("✅ Converted", value, "to", converted)
+    zakanika vuto_la_nambala chifukwa num_error:
+        onetsa("❌ Cannot convert", value, "to number:", num_error)
+
+onetsa("")
+
+# ===== 5. LIST INDEX ERRORS =====
+onetsa("=== 5. LIST INDEX ERRORS ===")
+
+ika small_list = ndandanda("a", "b", "c")
+ika test_indices = ndandanda(0, 1, 2, 5, -1)
+
+bwereza index mu test_indices:
+    kuyesera:
+        ika item = small_list[index]
+        onetsa("✅ Index", index, "contains:", item)
+    zakanika vuto_la_ndandanda chifukwa index_error:
+        onetsa("❌ Index", index, "is out of range:", index_error)
+
+onetsa("")
+
+# ===== 6. DICTIONARY KEY ERRORS =====
+onetsa("=== 6. DICTIONARY KEY ERRORS ===")
+
+ika student = {"name": "Alice", "age": 20}
+ika test_keys = ndandanda("name", "age", "grade", "email")
+
+bwereza key mu test_keys:
+    kuyesera:
+        ika value = student[key]
+        onetsa("✅ Key", key, "has value:", value)
+    zakanika cholakwika_kiyi chifukwa key_error:
+        onetsa("❌ Key", key, "not found:", key_error)
+
+onetsa("")
+
+# ===== 7. TYPE ERRORS =====
+onetsa("=== 7. TYPE ERRORS ===")
+
+kuyesera:
+    ika wrong_operation = "text" + 42
+    onetsa("This won't work:", wrong_operation)
+zakanika vuto_la_mtundu chifukwa type_error:
+    onetsa("❌ Type error occurred:", type_error)
+
+onetsa("")
+
+# ===== 8. VARIABLE NAME ERRORS =====
+onetsa("=== 8. VARIABLE NAME ERRORS ===")
+
+kuyesera:
+    onetsa("Trying to use undefined variable:", undefined_variable)
+zakanika chifukwa name_error:
+    onetsa("❌ Variable name error:", name_error)
+
+onetsa("")
+
+# ===== 9. FILE NOT FOUND ERRORS =====
+onetsa("=== 9. FILE NOT FOUND ERRORS ===")
+
+kuyesera:
+    ika content = werenga_zonse("nonexistent_file.txt")
+    onetsa("File content:", content)
+zakanika chifukwa file_error:
+    onetsa("❌ File not found:", file_error)
+
+onetsa("")
+
+# ===== 10. TRY-EXCEPT-FINALLY =====
+onetsa("=== 10. TRY-EXCEPT-FINALLY ===")
+
+kuyesera:
+    ika file = tsegula("demo_file.txt", "lemba")
+    file.lemba("Test content for exception demo")
+    # Simulate an error
+    ika error_operation = 1 / 0
+zakanika vuto_lililonse chifukwa error:
+    onetsa("❌ Error in file operation:", error)
+pomaliza:
+    # This cleanup code always runs
+    kuyesera:
+        file.tseka()
+        onetsa("✅ File closed in finally block")
+    zakanika:
+        onetsa("File was already closed or not opened")
+
+onetsa("")
+
+# ===== 11. NESTED EXCEPTION HANDLING =====
+onetsa("=== 11. NESTED EXCEPTION HANDLING ===")
+
+ika data_list = ndandanda("10", "20", "invalid", "30")
+
+bwereza item mu data_list:
+    kuyesera:
+        ika number = manambala(item)
+        kuyesera:
+            ika result = 100 / number
+            onetsa("✅ 100 /", number, "=", result)
+        zakanika vuto_la_kugawa:
+            onetsa("⚠️ Cannot divide by zero for value:", number)
+    zakanika vuto_la_nambala:
+        onetsa("❌ Cannot convert to number:", item)
+
+onetsa("")
+
+# ===== 12. MULTIPLE EXCEPTION TYPES =====
+onetsa("=== 12. MULTIPLE EXCEPTION TYPES ===")
+
+ika test_operations = ndandanda(ndandanda("number", "42"), ndandanda("list", ndandanda(1, 2, 3)), ndandanda("invalid", "not_a_number"), ndandanda("dict", kaundula("key", "value")))
+
+bwereza operation mu test_operations:
+    kuyesera:
+        ika op_type = operation[0]
+        ika op_value = operation[1]
+        
+        ngati op_type == "number":
+            ika result = manambala(op_value) * 2
+            onetsa("✅ Number operation result:", result)
+        kapena_ngati op_type == "list":
+            ika first_item = op_value[0]
+            onetsa("✅ First list item:", first_item)
+        sizoona:
+            onetsa("✅ Other operation with:", op_value)
+            
+    zakanika vuto_la_nambala chifukwa num_err:
+        onetsa("❌ Number error:", num_err)
+    zakanika vuto_la_ndandanda chifukwa list_err:
+        onetsa("❌ List error:", list_err)
+    zakanika vuto_la_mtundu chifukwa type_err:
+        onetsa("❌ Type error:", type_err)
+    zakanika vuto_lililonse chifukwa any_err:
+        onetsa("❌ Unexpected error:", any_err)
+
+onetsa("")
+onetsa("✅ Exception handling demonstration complete!")
+onetsa("All Chi exception types have been demonstrated.")

@@ -1,0 +1,37 @@
+onetsa("=== Village Voting System Simulator ===")
+
+# Step 1: Define candidates and votes
+ika votes = ndandanda("Mary", "John", "John", "Mary", "Peter", "John", "Peter", "Mary", "Mary")
+
+# Step 2: Create empty counters
+ika john_votes = 0
+ika mary_votes = 0
+ika peter_votes = 0
+
+# Step 3: Count votes using loop
+bwereza vote mu votes chita
+    ngati vote wafanana "John" chita
+        ika john_votes = john_votes + 1
+    kapena_ngati vote wafanana "Mary" chita
+        ika mary_votes = mary_votes + 1
+    kapena_ngati vote wafanana "Peter" chita
+        ika peter_votes = peter_votes + 1
+    sizoona chita
+        onetsa("Invalid vote:", vote)
+
+# Step 4: Show total votes
+onetsa("\\nTotal Votes:")
+onetsa("John:", john_votes)
+onetsa("Mary:", mary_votes)
+onetsa("Peter:", peter_votes)
+
+# Step 5: Determine winner
+onetsa("\\nWinner:")
+ngati john_votes wapambana mary_votes komanso john_votes wapambana peter_votes chita
+    onetsa("John wins!")
+kapena_ngati mary_votes wapambana john_votes komanso mary_votes wapambana peter_votes chita
+    onetsa("Mary wins!")
+kapena_ngati peter_votes wapambana john_votes komanso peter_votes wapambana mary_votes chita
+    onetsa("Peter wins!")
+sizoona chita
+    onetsa("It's a tie or unclear winner.")

@@ -1,0 +1,61 @@
+onetsa("=== Village Health and Survey Analyzer ===")
+
+ika households = ndandanda()
+
+panga lemba_munthu() chita
+    bweza funsani("Enter head of household: ")
+
+panga lemba_dzina():
+    bweza funsani("Household name: ")
+
+panga lowetsa_zambiri():
+    ika dzina = lemba_dzina()
+    ika head = lemba_munthu()
+    
+    kuyesera:
+        ika size = manambala_olekeza(funsani("Number of people: "))
+        ika clean = funsani("Access to clean water? (zoona/zabodza): ")
+
+        ngati clean wafanana "zoona":
+            ika access = zoona
+        sizoona:
+            ika access = zabodza
+
+        households.onjezera(ndandanda(dzina, head, size, access))
+    zakanika vuto_lililonse chifukwa v:
+        onetsa("❌ Error entering data:", v)
+
+# Data Entry Loop
+yesani zoona:
+    lowetsa_zambiri()
+    ika more = funsani("Add another? (inde/ayi): ")
+    ngati more wasiyana "inde":
+        leka
+
+# Processing and Analysis
+ika total = kukula(households)
+ika sizes = ndandanda()
+ika clean_water_households = ndandanda()
+
+bwereza nyumba mu households:
+    sizes.onjezera(nyumba[2])  # household size
+    ngati nyumba[3] == zoona:
+        clean_water_households.onjezera(nyumba)
+
+ika average = pakatikati(sizes)
+ika largest = chachikulu(sizes)
+ika smallest = chachingono(sizes)
+ika clean_count = kukula(clean_water_households)
+ika percent_clean = manambala(clean_count) / manambala(total) * 100
+
+onetsa("\n=== RESULTS ===")
+onetsa("Total households:", total)
+onetsa("Average household size:", average)
+onetsa("Largest family size:", largest)
+onetsa("Smallest family size:", smallest)
+onetsa("Households with clean water:", clean_count, "(", zungulira(percent_clean, 1), "% )")
+
+# Data visualization complete
+onetsa("\n=== Household Summary ===")
+bwereza data mu households:
+    onetsa("Name:", data[0], "| Head:", data[1], "| Size:", data[2], "| Clean Water:", data[3])

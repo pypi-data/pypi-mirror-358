@@ -1,0 +1,62 @@
+# Test mtundu (type) function - Chichewa type checking
+
+onetsa("=== Testing mtundu (type) function ===")
+onetsa("")
+
+# Test with different data types
+onetsa("Testing with basic types:")
+
+# String type
+ika text = "moni"
+onetsa("Type of string:", mtundu(text))
+
+# Number types
+ika float_num = 42.5
+ika int_num = manambala_olekeza(42)
+onetsa("Type of float:", mtundu(float_num))
+onetsa("Type of integer:", mtundu(int_num))
+
+# Boolean types
+ika true_val = zoona
+ika false_val = zabodza
+onetsa("Type of zoona:", mtundu(true_val))
+onetsa("Type of zabodza:", mtundu(false_val))
+
+# Null type
+ika null_val = palibe
+onetsa("Type of palibe:", mtundu(null_val))
+
+# List type
+ika my_list = ndandanda(1, 2, "text", zoona)
+onetsa("Type of list:", mtundu(my_list))
+onetsa("")
+
+onetsa("Testing with expressions:")
+
+# Test with expressions
+onetsa("Type of comparison result:", mtundu(5 wapambana 3))
+onetsa("Type of logical operation:", mtundu(zoona komanso zabodza))
+onetsa("Type of arithmetic result:", mtundu(10 + 5.5))
+onetsa("")
+
+onetsa("Testing with function calls:")
+
+# Test with function results
+ika string_result = mawu(42)
+ika length_result = kukula(my_list)
+onetsa("Type of mawu(42):", mtundu(string_result))
+onetsa("Type of kukula(list):", mtundu(length_result))
+onetsa("")
+
+onetsa("Chichewa type names:")
+onetsa("- mawu = string")
+onetsa("- manambala = float number")
+onetsa("- manambala_olekeza = integer")
+onetsa("- yankho = boolean")
+onetsa("- palibe_mtundu = null type")
+onetsa("- ndandanda = list")
+onetsa("- chinthu = generic object")
+onetsa("")
+
+onetsa("✅ mtundu function working with Chichewa type names!")
+

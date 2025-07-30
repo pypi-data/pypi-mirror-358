@@ -1,0 +1,196 @@
+# Chi Programming Language - Control Structures Demo
+# Demonstrates if-else, loops, and control flow
+
+onetsa("============================================")
+onetsa("        Chi Control Structures Demo")
+onetsa("============================================")
+onetsa("")
+
+# ===== 1. IF-ELSE STATEMENTS =====
+onetsa("=== 1. IF-ELSE STATEMENTS ===")
+ika age = 20
+ika temperature = 25
+
+onetsa("Age:", age)
+ngati age wafananitsa 18:
+    onetsa("✅ You are an adult!")
+sizoona:
+    onetsa("❌ You are a minor!")
+
+onetsa("")
+
+# ===== 2. IF-ELIF-ELSE STATEMENTS =====
+onetsa("=== 2. IF-ELIF-ELSE STATEMENTS ===")
+onetsa("Temperature:", temperature, "°C")
+
+ngati temperature wapambana 30:
+    onetsa("🔥 It's hot!")
+kapena_ngati temperature wapambana 20:
+    onetsa("🌤️ It's warm!")
+kapena_ngati temperature wapambana 10:
+    onetsa("❄️ It's cool!")
+sizoona:
+    onetsa("🧊 It's cold!")
+
+onetsa("")
+
+# ===== 3. WHILE LOOPS =====
+onetsa("=== 3. WHILE LOOPS ===")
+ika count = 1
+onetsa("Counting from 1 to 5:")
+
+yesani count wachepetsedwa 6:
+    onetsa("Count:", count)
+    ika count = count + 1
+
+onetsa("")
+
+# ===== 4. FOR LOOPS =====
+onetsa("=== 4. FOR LOOPS ===")
+ika fruits = ndandanda("apple", "banana", "cherry", "date")
+onetsa("Fruits in our basket:")
+
+bwereza fruit mu fruits:
+    onetsa("- ", fruit)
+
+onetsa("")
+
+# ===== 5. LOOP CONTROL =====
+onetsa("=== 5. LOOP CONTROL ===")
+ika numbers = ndandanda(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+onetsa("Even numbers up to 10:")
+
+bwereza num mu numbers:
+    ngati num % 2 == 1:
+        sanja  # Skip odd numbers
+    ngati num wapambana 8:
+        leka        # Stop after 8
+    onetsa("Even:", num)
+
+onetsa("")
+
+# ===== 6. NESTED CONDITIONS =====
+onetsa("=== 6. NESTED CONDITIONS ===")
+ika grade = 85
+ika attendance = 90
+
+onetsa("Grade:", grade, "Attendance:", attendance, "%")
+
+ngati grade wafananitsa 60:
+    ngati attendance wafananitsa 80:
+        onetsa("🎉 Passed with good attendance!")
+    sizoona:
+        onetsa("⚠️ Passed but poor attendance!")
+sizoona:
+    onetsa("❌ Failed!")
+
+onetsa("")
+
+# ===== 7. COMPLEX CONDITIONS =====
+onetsa("=== 7. COMPLEX CONDITIONS ===")
+ika score = 75
+ika has_bonus = zoona
+
+ngati score wafananitsa 70 komanso has_bonus wafanana zoona:
+    onetsa("🏆 Excellent performance!")
+kapena_ngati score wafananitsa 60 kapena has_bonus wafanana zoona:
+    onetsa("👍 Good performance!")
+sizoona:
+    onetsa("📚 Needs improvement!")
+
+onetsa("")
+onetsa("✅ Control structures demonstration complete!")
+
+ngati score wafananitsa 90:
+    onetsa("Grade: A - Excellent!")
+kapena_ngati score wafananitsa 80:
+    onetsa("Grade: B - Good job!")
+kapena_ngati score wafananitsa 70:
+    onetsa("Grade: C - Average")
+kapena_ngati score wafananitsa 60:
+    onetsa("Grade: D - Below average")
+sizoona:
+    onetsa("Grade: F - Failed")
+onetsa("")
+
+# ===== 3. WHILE LOOPS =====
+onetsa("=== 3. WHILE LOOPS ===")
+ika count = 1
+onetsa("Counting from 1 to 5:")
+yesani count wachepetsedwa 5:
+    onetsa("Count:", count)
+    ika count = count + 1
+onetsa("")
+
+# ===== 4. FOR LOOPS =====
+onetsa("=== 4. FOR LOOPS ===")
+ika fruits = ndandanda("apple", "banana", "orange", "mango")
+onetsa("Fruits in the basket:")
+bwereza fruit mu fruits:
+    onetsa("- ", fruit)
+onetsa("")
+
+# For loop with numbers
+onetsa("Numbers 1 to 10:")
+ika numbers = ndandanda(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+bwereza num mu numbers:
+    ngati num % 2 wafanana 0:
+        onetsa(num, "is even")
+    sizoona:
+        onetsa(num, "is odd")
+onetsa("")
+
+# ===== 5. LOOP CONTROL (BREAK AND CONTINUE) =====
+onetsa("=== 5. LOOP CONTROL ===")
+onetsa("Finding first number greater than 15:")
+ika test_numbers = ndandanda(5, 10, 12, 18, 25, 30)
+bwereza number mu test_numbers:
+    ngati number wachepa 15:
+        onetsa("Checking:", number, "- too small, continue")
+        pitilizani
+    sizoona:
+        onetsa("Found:", number, "- this is greater than 15!")
+        leka
+onetsa("")
+
+# ===== 6. NESTED CONTROL STRUCTURES =====
+onetsa("=== 6. NESTED CONTROL STRUCTURES ===")
+onetsa("Student grade analysis:")
+ika students = ndandanda("Alice", "Bob", "Charlie", "Diana")
+ika grades = ndandanda(92, 78, 85, 67)
+ika i = 0
+
+bwereza student mu students:
+    ika grade = grades[i]
+    onetsa("Student:", student, "| Grade:", grade)
+    
+    ngati grade wafananitsa 90:
+        onetsa("  Status: Excellent student!")
+    kapena_ngati grade wafananitsa 80:
+        onetsa("  Status: Good student")
+    kapena_ngati grade wafananitsa 70:
+        onetsa("  Status: Average student")
+    sizoona:
+        onetsa("  Status: Needs improvement")
+    
+    ika i = i + 1
+onetsa("")
+
+# ===== 7. COMPLEX CONDITIONAL LOGIC =====
+onetsa("=== 7. COMPLEX CONDITIONAL LOGIC ===")
+ika age = 22
+ika has_license = zoona
+ika has_car = zabodza
+
+ngati (age wafananitsa 18) komanso has_license:
+    ngati has_car:
+        onetsa("Can drive own car")
+    sizoona:
+        onetsa("Can drive but needs to borrow/rent a car")
+sizoona:
+    onetsa("Cannot drive - too young or no license")
+
+onetsa("")
+onetsa("✅ All Chi control structures working perfectly!")
+onetsa("✅ If/Else, Loops, Break/Continue, Nested structures!")
+onetsa("============================================")

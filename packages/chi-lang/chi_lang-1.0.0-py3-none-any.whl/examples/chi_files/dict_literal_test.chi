@@ -1,0 +1,45 @@
+# Test dictionary literal syntax {key: value}
+
+onetsa("=== Dictionary Literal Syntax Test ===")
+
+# Create dictionary using literal syntax
+ika person = {"name": "Jakesh", "age": 25, "city": "Lilongwe"}
+onetsa("Person dictionary:", person)
+onetsa("Type:", mtundu(person))
+
+# Access values using bracket notation
+ika name = person["name"]
+ika age = person["age"]
+onetsa("Name:", name)
+onetsa("Age:", age)
+
+# Test empty dictionary
+ika empty = {}
+onetsa("Empty dictionary:", empty)
+
+# Mix of data types
+ika mixed = {"string": "text", "number": 42, "boolean": zoona, "null": palibe}
+onetsa("Mixed types:", mixed)
+
+# Test methods with literal-created dictionary
+person.ika_pa("country", "Malawi")
+onetsa("After adding country:", person)
+
+# Test getting with default
+ika job = person.peza_kapena("job", "Unknown")
+onetsa("Job (with default):", job)
+
+# Create nested structure
+ika student = {
+    "name": "Maria",
+    "grades": {"math": 85, "english": 92, "science": 78},
+    "subjects": ["math", "english", "science"]
+}
+onetsa("Student with nested data:", student)
+
+# Access nested data
+ika math_grade = student["grades"]["math"]
+onetsa("Math grade:", math_grade)
+
+onetsa("Dictionary literal test complete!")
+

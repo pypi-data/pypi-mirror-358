@@ -1,0 +1,42 @@
+# Complete Kaundula (Dictionary) Demo - Both Syntaxes
+
+onetsa("=== Complete Kaundula Demo ===")
+
+# Method 1: Function call syntax
+ika person1 = kaundula("name", "Jakesh", "age", 25)
+onetsa("Function syntax:", person1)
+
+# Method 2: Literal syntax (Python-style)
+ika person2 = {"name": "Maria", "age": 22, "city": "Blantyre"}
+onetsa("Literal syntax:", person2)
+
+# Both work exactly the same!
+onetsa("Both are kaundula type:", mtundu(person1), mtundu(person2))
+
+# All methods work on both
+person1.ika_pa("job", "programmer")
+person2["country"] = "Malawi"
+
+onetsa("After modifications:")
+onetsa("Person1:", person1)
+onetsa("Person2:", person2)
+
+# Mixed creation and access
+ika data = {"numbers": [1, 2, 3], "info": {"status": "active", "level": 5}}
+onetsa("Nested data:", data)
+onetsa("Accessing nested:", data["info"]["status"])
+
+# Empty dictionaries
+ika empty1 = kaundula()
+ika empty2 = {}
+onetsa("Empty function:", empty1)
+onetsa("Empty literal:", empty2)
+
+# All Chichewa methods work
+ika keys = person2.makiyi()
+ika values = person2.mavalu()
+onetsa("Keys:", keys)
+onetsa("Values:", values)
+
+onetsa("=== Kaundula Complete! ===")
+
