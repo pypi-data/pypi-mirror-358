@@ -1,0 +1,211 @@
+Metadata-Version: 2.1
+Name: apc-core
+Version: 0.1.12
+Summary: APC (Agent Protocol Conductor) core protocol library for decentralized agent orchestration.
+Home-page: https://github.com/deepfarkade/apc-protocol
+Author: APC Contributors
+Project-URL: Documentation, https://github.com/deepfarkade/apc-protocol/blob/main/docs/documentation.md
+Project-URL: Source, https://github.com/deepfarkade/apc-protocol
+Project-URL: Tracker, https://github.com/deepfarkade/apc-protocol/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Libraries :: Application Frameworks
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+
+# ![APC Logo](https://raw.githubusercontent.com/deepfarkade/apc-protocol/main/docs/images/apc-logo.png)
+
+# APC: Agent Protocol Conductor
+
+[![PyPI version](https://img.shields.io/pypi/v/apc-core?color=blue)](https://pypi.org/project/apc-core/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/deepfarkade/apc-protocol/ci.yml?branch=main)](https://github.com/deepfarkade/apc-protocol/actions)
+[![Docs](https://img.shields.io/badge/docs-online-blue)](docs/documentation.md)
+
+A protocol for decentralized, resilient, and auditable orchestration of heterogeneous AI agent ecosystems.
+
+[Documentation](docs/documentation.md) | [Specification](apc-proto/apc.proto) | [Discussions](https://github.com/deepfarkade/apc-protocol/discussions)
+
+---
+
+APC (Agent Protocol Conductor) is an open protocol and SDK designed to orchestrate distributed AI agents in a truly decentralized, resilient, and auditable way. With APC, you can build intelligent systems where multiple agents—each with their own roles and capabilities—work together to accomplish complex tasks, adapt to failures, and recover automatically, all without relying on a central controller.
+
+Key features include:
+- **Dynamic Leadership:** Any agent can become the conductor, coordinating workflows and handing off control as needed.
+- **Sequenced Task Execution:** Define and manage multi-step processes, with each agent performing specialized subtasks.
+- **Checkpointing & Failover:** Progress is saved at every step, so if an agent fails, another can seamlessly take over from the last checkpoint—no lost work, no manual intervention.
+- **Interoperability:** Built on Protobuf schemas, APC supports cross-language agent ecosystems (Python, TypeScript, Java, and more).
+- **Extensibility & Security:** Easily add new message types, enforce security with mTLS/JWT, and integrate custom business logic or LLMs.
+
+APC is production-ready and ideal for both classic automation and advanced AI-powered workflows. Whether you’re building ETL pipelines, LLM chatbots, or autonomous fleets, APC gives you the tools to create robust, scalable, and future-proof agent systems.
+
+---
+
+## 🚀 Getting Started
+
+
+
+- 📚 **Read the [Documentation](#getting-started-step-by-step)** for guides and tutorials
+- 🔍 **Review the [Specification](apc-proto/apc.proto)** for protocol details
+- 🧑‍💻 **Use our SDKs to start building:**
+  - [Python SDK](apc-core/)
+  - [TypeScript SDK](#) *(coming soon)*
+  - [Java SDK](#) *(coming soon)*
+
+---
+
+## 🛠️ Features
+- **Protobuf-based message schemas** for cross-language interoperability
+- **Pluggable checkpoint manager** (in-memory, Redis, S3)
+- **State machine engine** for conductor and worker agents
+- **gRPC and WebSocket transport adapters**
+- **Security stubs** (mTLS, JWT)
+- **Ready for open source and multi-language SDKs**
+
+---
+
+## ⚡ Quick Start
+
+```sh
+# 1. Install the core package (editable mode)
+python install_editable.py
+
+# 2. Generate Python code from Protobuf
+python generate_proto.py
+
+# 3. Run a sample agent (see examples/ or samples/python/)
+python examples/grpc_minimal.py
+```
+
+---
+
+## 🧑‍💻 Getting Started (Step-by-Step)
+
+1. **Clone the repository**
+   ```sh
+   git clone https://github.com/deepfarkade/apc-protocol.git
+   cd apc-protocol
+   ```
+2. **Install Python dependencies and the core package (editable mode)**
+   ```sh
+   python install_editable.py
+   ```
+3. **Generate Python code from Protobuf schemas**
+   ```sh
+   python generate_proto.py
+   ```
+4. **Run an example agent**
+   ```sh
+   python examples/grpc_minimal.py
+   ```
+
+---
+
+## 🏗️ Architecture Overview
+
+![APC Architecture](https://raw.githubusercontent.com/deepfarkade/apc-protocol/main/docs/images/apc-architecture.png)
+
+🔧 **APC Protocol – High-Level Architecture Summary**
+This diagram showcases the core runtime structure of the APC (Agent Protocol for Choreography) system.
+
+- **Conductor Agent**: The central orchestrator that assigns tasks to Worker Agents based on a known plan. It maintains execution state and error recovery logic.
+- **gRPC/WebSocket Layer**: A communication backbone that enables bidirectional, low-latency messaging between Conductor and Worker Agents.
+- **Worker Agent**: These agents perform domain-specific subtasks. They respond to commands from the Conductor and return results or status updates.
+- **Checkpoint Store**: A persistent storage layer used by the Conductor to save execution state. On system failure, it allows the Conductor to recover seamlessly without restarting the entire flow.
+
+This modular setup enables dynamic, scalable, and fault-tolerant agent workflows where control is coordinated yet loosely coupled through standardized message passing and recovery mechanisms.
+
+---
+
+## 🔥 Advanced Usage
+- Integrate LLMs or custom logic in your Worker agents (see [`examples/llm_worker.py`](examples/llm_worker.py)).
+- Use Redis or S3 for distributed checkpointing.
+- Build your own CLI or web dashboard on top of the protocol.
+
+---
+
+## 🧩 Project Structure
+- [`apc-core/`](apc-core/) — Core Python SDK
+- [`apc-proto/`](apc-proto/) — Protobuf schemas
+- [`apc-transport/`](apc-transport/) — gRPC/WebSocket adapters
+- [`examples/`](examples/) — Example agents and LLM integration
+- [`samples/`](samples/) — Additional sample agents
+- [`tests/`](tests/) — Integration tests
+
+---
+
+## 🤝 Contributing
+- Fork, branch, and submit PRs!
+- See [`apc-proto/apc.proto`](apc-proto/apc.proto) for message definitions
+- See [`apc-core/README.md`](apc-core/README.md) for architecture
+
+---
+
+## 📦 Release Information
+
+- **Current Release:** v0.1.x (Alpha)
+- See [Releases](https://github.com/deepfarkade/apc-protocol/releases) for changelogs and version history.
+- This is the first public alpha release of the APC protocol and SDK.
+
+---
+
+## 🧠 Why APC? (The Evolutionary Backdrop)
+
+**MCP (Message-Centered Protocol)** gave agents a common language for basic send/receive—everyone could talk, but only at the lowest level.
+
+**A2A (Agent-to-Agent)** enabled direct peer-to-peer links, letting Agent A push subtasks straight to Agent B. This improved speed, but made systems brittle at scale.
+
+**ACP (Agent Control Protocol)** introduced a central orchestrator to sequence tasks and enforce policies. This fixed deadlocks, but reintroduced a single point of failure and made most agents passive workers.
+
+All three advanced the field, but none provided a flexible, fault-tolerant way for agents to coordinate and think for themselves in complex, branching workflows.
+
+---
+
+## 🚀 Why APC Is the Next Leap
+
+- **Distributed “Conductors”**: Any agent can temporarily assume the conductor role for a workflow, enabling sequencing, dependency checks, and deadlock avoidance—without a heavy, central master.
+- **Plug-and-Play Orchestration**: Agents register their orchestration capabilities and load. If one goes offline, another takes over automatically.
+- **Context-Aware Scheduling**: Conductors probe agent readiness, context, and load before launching subtasks, avoiding mid-pipeline failures.
+- **Graceful Preemption & Handoffs**: When priorities shift, conductors checkpoint running subtasks and offer them to peers—no more “hung” workflows.
+
+---
+
+## 🌟 The Transformative Impact
+
+- **Elastic Workflows**: Agents can dynamically lead or follow, adapting to changing needs.
+- **No Orchestration Silos**: Get the governance of ACP without the latency or single-point-of-failure risk.
+- **Simplified Developer Experience**: Define tasks and dependencies once—APC’s conductor handshakes handle the rest.
+
+**In short:** APC doesn’t just mediate “who talks to whom”; it embeds a living, breathing conductor in every agent ecosystem—unlocking true multi-agent creativity, resilience, and scale. That’s why APC is the next flagship protocol for Gen-AI agents.
+
+---
+
+## **Example: Document Processing Workflow with APC**
+
+Imagine a real-world scenario where you need to process a batch of scanned documents:
+
+- `Agent A` (Conductor): Orchestrates the workflow.
+- `Agent B` (Worker: OCR): Extracts text from images.
+- `Agent C` (Worker: Summarizer): Summarizes the extracted text.
+
+**Workflow:**
+1. `Agent A` receives a new batch and proposes the first step to `Agent B` (OCR).
+2. `Agent B` accepts, processes the images, and sends back the extracted text.
+3. `Agent A` checkpoints the result, then proposes the next step to `Agent C` (Summarization).
+4. `Agent C` summarizes the text and returns the summary to `Agent A`.
+5. If `Agent B` fails or disconnects, APC's checkpointing and takeover logic allow another eligible OCR agent to resume from the last checkpoint—no data loss, no manual intervention.
+6. Every step, hand-off, and result is auditable and interoperable across languages and platforms.
+
+---
+
+## 📊 More Real-World Scenarios & Diagrams
+
+For advanced diagrams and multi-agent workflow scenarios, see the [full documentation](docs/documentation.md).
+
+---
+
+## 🛡️ License
+MIT
