@@ -1,0 +1,13 @@
+[package]
+name = "puantum"
+version = "1.0.0"
+edition = "2024"
+license = "Unlicense"
+
+[lib]
+crate-type = ["cdylib"]
+path = "rust/python.rs"
+
+[dependencies]
+oqs = { version = "0.11.0", features = ["sigs", "kems"], default-features = false }
+pyo3 = { version = "0.25.1", features = ["extension-module"] }
