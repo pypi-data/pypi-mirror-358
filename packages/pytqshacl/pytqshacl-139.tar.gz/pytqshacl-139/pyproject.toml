@@ -1,0 +1,40 @@
+[project]
+name = "pytqshacl"
+dynamic = [ 'version']
+description = "Python wrapper around TopQuadrant SHACL processor"
+authors = [
+    { name = "Majid alDosari", email = "majid.aldosari@pnnl.gov" },
+    { name = "Majid alDosari", email = "majidaldosari-github@yahoo.com" }
+]
+readme = "README.md"
+[project.optional-dependencies]
+cli = ['fire']
+java = ['install-jdk']
+[project.scripts]
+pytqshacl = "pytqshacl:cli"
+
+[dependency-groups]
+dev = [
+    # features
+    'pytqshacl[cli, java]',
+    'pre-commit',
+    "ipython", "ipdb",
+    "fire",
+    'requests',
+    ]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+[tool.hatch.version]
+path = "src/pytqshacl/__init__.py"
+[tool.hatch.build.targets.sdist]
+include = [
+    'src/**/*.py',
+    # tq shacl bin is ~20mb.
+    # can't decide which is better:
+    # runtime install vs packaging tq shacl (treating it like src)
+    'src/**/*.jar',
+    'src/**/*.java',
+    'src/**/*.properties',
+    ]
