@@ -1,0 +1,58 @@
+{% for parameter in resources -%}
+resource "aws_ssm_parameter" "param_{{ parameter.name_sanitized }}" {
+  name = "{{ parameter.Name }}"
+  type = "{{ parameter.Type }}"
+  
+  {%- if parameter.Type != 'SecureString' %}
+  value = "{{ parameter.Value | default('placeholder_value') }}"
+  {%- else %}
+  # SecureString value should be managed outside Terraform for security
+  value = "placeholder_secure_value"
+  {%- endif %}
+
+  {%- if parameter.get('Description') %}
+  description = "{{ parameter.Description }}"
+  {%- endif %}
+
+  {%- if parameter.get('KeyId') and parameter.is_secure %}
+  key_id = "{{ parameter.KeyId }}"
+  {%- endif %}
+
+  {%- if parameter.get('AllowedPattern') %}
+  allowed_pattern = "{{ parameter.AllowedPattern }}"
+  {%- endif %}
+
+  tier = "{{ parameter.Tier }}"
+
+  {%- if parameter.get('DataType') and parameter.DataType != 'text' %}
+  data_type = "{{ parameter.DataType }}"
+  {%- endif %}
+
+  {%- if parameter.get('policies_formatted') %}
+  # Parameter policies
+  {%- for policy in parameter.policies_formatted %}
+  # Policy: {{ policy.PolicyType }} - {{ policy.PolicyStatus }}
+  {%- endfor %}
+  {%- endif %}
+
+  tags = {
+    {%- for key, value in parameter.get('tags_formatted', {}).items() -%}
+    "{{ key }}" = "{{ value }}"
+    {%- endfor %}
+    "ParameterCategory" = "{{ parameter.category }}"
+    "ParameterTier" = "{{ parameter.Tier }}"
+  }
+
+  {%- if parameter.is_secure %}
+  lifecycle {
+    ignore_changes = [
+      value,  # Secure values should not be managed by Terraform
+    ]
+  }
+  {%- endif %}
+}
+
+{%- if not loop.last %}
+
+{% endif %}
+{%- endfor %}

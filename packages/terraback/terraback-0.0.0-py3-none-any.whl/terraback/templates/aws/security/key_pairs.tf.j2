@@ -1,0 +1,16 @@
+{% for key_pair in resources -%}
+resource "aws_key_pair" "kp_{{ key_pair.KeyName | replace('-', '_') | lower }}" {
+  key_name   = "{{ key_pair.KeyName }}"
+  
+  # Note: The public_key argument is required to create a key pair with
+  # Terraform, but it cannot be retrieved from the AWS API after creation.
+  # You must provide the public key content manually here to manage this resource.
+  public_key = "ssh-rsa AAAA... key-content-goes-here"
+
+  tags = {
+    {%- for tag in key_pair.get('Tags', []) -%}
+    "{{ tag.Key }}" = "{{ tag.Value }}"
+    {%- endfor %}
+  }
+}
+{% endfor %}

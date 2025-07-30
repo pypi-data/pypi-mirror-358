@@ -1,0 +1,22 @@
+{% for layer_version in resources -%}
+resource "aws_lambda_layer_version" "layer_{{ layer_version.LayerName | replace('-', '_') | lower }}_v{{ layer_version.Version }}" {
+  layer_name          = "{{ layer_version.LayerName }}"
+  
+  # NOTE: The layer's source code cannot be reverse-engineered by the AWS API.
+  # You must provide the path to your deployment package here.
+  filename            = "placeholder-layer.zip"
+  # source_code_hash = filebase64sha256("placeholder-layer.zip")
+
+  compatible_runtimes = [
+    {%- for runtime in layer_version.CompatibleRuntimes -%}
+    "{{ runtime }}",
+    {%- endfor %}
+  ]
+
+  {%- if layer_version.get('Description') %}
+  description         = "{{ layer_version.Description }}"
+  {%- endif %}
+  
+  license_info        = "{{ layer_version.LicenseInfo | default('') }}"
+}
+{% endfor %}

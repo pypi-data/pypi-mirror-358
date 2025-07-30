@@ -1,0 +1,18 @@
+{% for role in resources -%}
+resource "aws_iam_role" "role_{{ role.RoleName | replace('-', '_') | lower }}" {
+  name = "{{ role.RoleName }}"
+  path = "{{ role.Path }}"
+
+  assume_role_policy = jsonencode({{ role.AssumeRolePolicyDocument }})
+
+  {%- if role.get('Description') %}
+  description = "{{ role.Description }}"
+  {%- endif %}
+  
+  tags = {
+    {%- for tag in role.get('Tags', []) -%}
+    "{{ tag.Key }}" = "{{ tag.Value }}"
+    {%- endfor %}
+  }
+}
+{% endfor %}

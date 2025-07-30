@@ -1,0 +1,23 @@
+{% for db in resources -%}
+resource "aws_db_instance" "db_{{ db.DBInstanceIdentifier | replace('-', '_') | lower }}" {
+  identifier           = "{{ db.DBInstanceIdentifier }}"
+  instance_class       = "{{ db.DBInstanceClass }}"
+  engine               = "{{ db.Engine }}"
+  engine_version       = "{{ db.EngineVersion }}"
+  allocated_storage    = {{ db.AllocatedStorage }}
+  
+  # Note: Master username and password are not returned by the API for security.
+  # These must be managed separately, for example with AWS Secrets Manager.
+  username             = "{{ db.MasterUsername }}"
+  password             = "changeme" # Placeholder - manage this securely!
+
+  # This is a safe default to prevent accidental deletion of production databases.
+  skip_final_snapshot  = true
+  
+  tags = {
+    {%- for tag in db.get('TagList', []) -%}
+    "{{ tag.Key }}" = "{{ tag.Value }}"
+    {%- endfor %}
+  }
+}
+{% endfor %}

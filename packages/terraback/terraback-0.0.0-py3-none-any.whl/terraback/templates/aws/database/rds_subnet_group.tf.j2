@@ -1,0 +1,18 @@
+{% for group in resources -%}
+resource "aws_db_subnet_group" "sng_{{ group.DBSubnetGroupName | replace('-', '_') | lower }}" {
+  name        = "{{ group.DBSubnetGroupName }}"
+  description = "{{ group.DBSubnetGroupDescription }}"
+  
+  subnet_ids = [
+    {%- for subnet in group.Subnets -%}
+    "{{ subnet.SubnetIdentifier }}",
+    {%- endfor %}
+  ]
+
+  tags = {
+    {%- for tag in group.get('Tags', []) -%}
+    "{{ tag.Key }}" = "{{ tag.Value }}"
+    {%- endfor %}
+  }
+}
+{% endfor %}

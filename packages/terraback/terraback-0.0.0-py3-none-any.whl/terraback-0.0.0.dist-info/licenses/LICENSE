@@ -1,0 +1,120 @@
+# Terraback Licensing
+
+This project uses a multi-tier licensing model designed to support different use cases, from individual developers to enterprise teams.
+
+## Community Edition (MIT License)
+
+The Community Edition of Terraback is free and open source, perfect for individuals, students, and small projects.
+
+### MIT License
+
+```
+MIT License
+
+Copyright (c) 2025 Bogdan Moldovan
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+## Commercial Editions
+
+### Migration Pass ($149 - One-Time)
+
+Perfect for consultants and teams with one-time migration projects.
+- **Duration**: 60 days from activation
+- **Users**: Single user/machine
+- **Features**: Full access to all scanning and import features
+- **Support**: Community support via GitHub
+
+### Professional Edition ($49/user/month or $499/user/year)
+
+Designed for DevOps teams who need ongoing infrastructure management.
+- **Duration**: Monthly or annual subscription
+- **Users**: Per-user licensing with authentication
+- **Features**: Everything in Migration Pass, plus drift detection and monitoring
+- **Support**: Priority email support
+
+### Enterprise Edition (Custom Pricing)
+
+For large organizations with specific requirements.
+- **Duration**: Annual contracts
+- **Users**: Flexible site licensing
+- **Features**: Everything in Professional, plus SSO, on-premise deployment
+- **Support**: Premium support with SLA
+
+## Feature Comparison
+
+| Feature                                  | Community | Migration Pass | Professional | Enterprise |
+|------------------------------------------|:---------:|:--------------:|:------------:|:----------:|
+| **Core Features**                        |           |                |              |            |
+| Basic Resource Scanning (EC2, VPC, S3)   |    ✅     |       ✅       |      ✅      |     ✅   |
+| CLI with `list` & `import` helpers       |    ✅     |       ✅       |      ✅      |     ✅   |
+| Resource Limit                           | 100/scan  |   Unlimited    |  Unlimited   | Unlimited  |
+| **Advanced Scanning**                    |           |                |              |            |
+| RDS & Database Resources                 |    ❌     |       ✅       |      ✅      |     ✅   |
+| Load Balancers (ALB/NLB/CLB)             |    ❌     |       ✅       |      ✅      |     ✅   |
+| Lambda & API Gateway                     |    ❌     |       ✅       |      ✅      |     ✅   |
+| Route 53 & DNS                           |    ❌     |       ✅       |      ✅      |     ✅   |
+| IAM Roles & Policies                     |    ❌     |       ✅       |      ✅      |     ✅    |
+| Full Dependency Analysis                 |    ❌     |       ✅       |      ✅      |     ✅    |
+| Cross-Account Scanning                   |    ❌     |       ❌       |      ✅      |     ✅    |
+| **Ongoing Features**                     |            |                |              |             |
+| Infrastructure Drift Detection           |    ❌     |       ❌       |      ✅      |     ✅    |
+| Scheduled Scans & Alerts                 |    ❌     |       ❌       |      ✅      |     ✅     |
+| Web Dashboard                            |    ❌     |       ❌       |      ✅      |     ✅     |
+| Compliance Reporting                     |    ❌     |       ❌       |      ✅      |     ✅     |
+| **Enterprise Features**                  |            |                |              |              |
+| Single Sign-On (SSO)                     |    ❌     |       ❌       |      ❌      |     ✅     |
+| On-Premise Deployment                    |    ❌     |       ❌       |      ❌      |     ✅     |
+| Custom Resource Scanners                 |    ❌     |       ❌       |      ❌      |     ✅     |
+| API Access                               |    ❌     |       ❌       |      ❌      |     ✅      |
+| **Support & Updates**                    |            |                 |               |              |
+| Community Support                        |    ✅     |       ✅       |      ✅      |     ✅     |
+| Email Support                            |    ❌     |       ❌       |      ✅      |     ✅      |
+| Priority Support & SLA                   |    ❌     |       ❌       |      ❌      |     ✅      |
+| Automatic Updates                        |    ✅     |       ✅       |      ✅      |     ✅      |
+
+## License Activation
+
+### Community Edition
+No activation required. Install and use immediately:
+```bash
+pip install terraback
+```
+
+### Migration Pass & Professional
+After purchase, activate your license:
+```bash
+terraback activate --license-key=XXXX-XXXX-XXXX-XXXX
+```
+
+### Enterprise Edition
+Custom deployment and activation process. Contact sales for details.
+
+## Purchasing
+
+- **Migration Pass**: Purchase at [terraback.io/purchase](https://terraback.io/purchase)
+- **Professional**: Subscribe at [terraback.io/subscribe](https://terraback.io/subscribe)
+- **Enterprise**: Contact sales@terraback.io
+
+## Questions?
+
+- **Sales**: sales@terraback.io
+- **Support**: support@terraback.io
+- **Community**: [GitHub Discussions](https://github.com/terraback/terraback/discussions)

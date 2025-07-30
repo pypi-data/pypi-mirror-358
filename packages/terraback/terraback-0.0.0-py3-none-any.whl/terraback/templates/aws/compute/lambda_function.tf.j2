@@ -1,0 +1,42 @@
+{% for func in resources -%}
+resource "aws_lambda_function" "lambda_{{ func.FunctionName | replace('-', '_') | lower }}" {
+  function_name = "{{ func.FunctionName }}"
+  role          = "{{ func.Role }}"
+  handler       = "{{ func.Handler }}"
+  runtime       = "{{ func.Runtime }}"
+  timeout       = {{ func.Timeout }}
+  memory_size   = {{ func.MemorySize }}
+
+  # NOTE: The function's source code cannot be reverse-engineered by the AWS API.
+  # You must provide the path to your deployment package here.
+  # For example:
+  # filename      = "path/to/your/deployment_package.zip"
+  # source_code_hash = filebase64sha256("path/to/your/deployment_package.zip")
+  filename = "placeholder.zip" # <-- Replace with your actual deployment package
+
+  {%- if func.get('Description') %}
+  description   = "{{ func.Description }}"
+  {%- endif %}
+
+  {%- if func.get('VpcConfig') and func.VpcConfig.get('SubnetIds') %}
+  vpc_config {
+    subnet_ids         = [
+      {%- for subnet_id in func.VpcConfig.SubnetIds -%}
+      "{{ subnet_id }}",
+      {%- endfor %}
+    ]
+    security_group_ids = [
+      {%- for sg_id in func.VpcConfig.SecurityGroupIds -%}
+      "{{ sg_id }}",
+      {%- endfor %}
+    ]
+  }
+  {%- endif %}
+
+  tags = {
+    {%- for key, value in func.get('Tags', {}).items() -%}
+    "{{ key }}" = "{{ value }}"
+    {%- endfor %}
+  }
+}
+{% endfor %}

@@ -1,0 +1,14 @@
+{% for vpc in resources -%}
+resource "aws_vpc" "vpc_{{ vpc.VpcId | replace('-', '_') }}" {
+  cidr_block           = "{{ vpc.CidrBlock }}"
+  instance_tenancy     = "{{ vpc.InstanceTenancy }}"
+  enable_dns_support   = true
+  enable_dns_hostnames = false
+
+  tags = {
+    {%- for tag in vpc.get('Tags', []) -%}
+    "{{ tag.Key }}" = "{{ tag.Value }}"
+    {%- endfor %}
+  }
+}
+{% endfor %}

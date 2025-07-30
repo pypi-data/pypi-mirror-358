@@ -1,0 +1,16 @@
+{% for integration in resources -%}
+# This resource connects a method on a specific path to a backend integration,
+# such as a Lambda function.
+resource "aws_api_gateway_integration" "integration_{{ integration.rest_api_id }}_{{ integration.resource_id }}_{{ integration.http_method | lower }}" {
+  rest_api_id = "{{ integration.rest_api_id }}"
+  resource_id = "{{ integration.resource_id }}"
+  http_method = "{{ integration.http_method }}"
+  type        = "{{ integration.type }}"
+
+  # This block correctly formats the URI for Lambda proxy integrations.
+  {%- if integration.type == "AWS_PROXY" and 'lambda' in integration.uri %}
+  integration_http_method = "POST"
+  uri                     = "arn:aws:apigateway:{{ integration.uri.split(':')[3] }}:lambda:path/2015-03-31/functions/{{ integration.uri.split('functions/')[1] }}/invocations"
+  {%- endif %}
+}
+{% endfor %}

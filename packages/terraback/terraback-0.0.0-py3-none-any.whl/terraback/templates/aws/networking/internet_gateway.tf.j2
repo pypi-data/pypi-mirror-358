@@ -1,0 +1,18 @@
+{% for igw in resources -%}
+resource "aws_internet_gateway" "igw_{{ igw.name_sanitized }}" {
+  {%- if igw.is_attached and igw.attached_vpc_id %}
+  vpc_id = "{{ igw.attached_vpc_id }}"
+  {%- endif %}
+
+  tags = {
+    {%- for tag in igw.get('Tags', []) -%}
+    "{{ tag.Key }}" = "{{ tag.Value }}"
+    {%- endfor %}
+  }
+}
+
+{%- if igw.is_attached and igw.attached_vpc_id %}
+# Internet Gateway attachment is handled by the vpc_id parameter above
+# No separate aws_internet_gateway_attachment resource needed
+{%- endif %}
+{% endfor %}

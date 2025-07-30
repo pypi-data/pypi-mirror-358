@@ -1,0 +1,12 @@
+{
+  "resources": [
+    {% for item in items %}
+    {
+      "type": "azurerm_storage_account",
+      "name": "{{ item.name | replace('.', '-') }}",
+      "id": "/subscriptions/{{ subscription_id }}/resourceGroups/{{ item.resource_group_name }}/providers/Microsoft.Storage/storageAccounts/{{ item.name }}"
+    }
+    {% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}

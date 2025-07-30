@@ -1,0 +1,105 @@
+{% for alarm in resources -%}
+{%- if alarm.get('AlarmType') == 'CompositeAlarm' %}
+resource "aws_cloudwatch_composite_alarm" "alarm_{{ alarm.name_sanitized }}" {
+  alarm_name        = "{{ alarm.AlarmName }}"
+  alarm_description = "{{ alarm.get('AlarmDescription', '') }}"
+  alarm_rule        = "{{ alarm.AlarmRule }}"
+
+  {%- if alarm.get('ActionsEnabled') is defined %}
+  actions_enabled = {{ alarm.ActionsEnabled | lower }}
+  {%- endif %}
+
+  {%- if alarm.get('AlarmActions') %}
+  alarm_actions = [
+    {%- for action in alarm.AlarmActions -%}
+    "{{ action }}",
+    {%- endfor %}
+  ]
+  {%- endif %}
+
+  {%- if alarm.get('OKActions') %}
+  ok_actions = [
+    {%- for action in alarm.OKActions -%}
+    "{{ action }}",
+    {%- endfor %}
+  ]
+  {%- endif %}
+
+  tags = {
+    {%- for tag in alarm.get('Tags', []) -%}
+    "{{ tag.Key }}" = "{{ tag.Value }}"
+    {%- endfor %}
+  }
+}
+{%- else %}
+resource "aws_cloudwatch_metric_alarm" "alarm_{{ alarm.name_sanitized }}" {
+  alarm_name        = "{{ alarm.AlarmName }}"
+  alarm_description = "{{ alarm.get('AlarmDescription', '') }}"
+  metric_name       = "{{ alarm.MetricName }}"
+  namespace         = "{{ alarm.Namespace }}"
+  statistic         = "{{ alarm.Statistic }}"
+  period            = {{ alarm.Period }}
+  evaluation_periods = {{ alarm.EvaluationPeriods }}
+  threshold         = {{ alarm.Threshold }}
+  comparison_operator = "{{ alarm.ComparisonOperator }}"
+
+  {%- if alarm.get('ActionsEnabled') is defined %}
+  actions_enabled = {{ alarm.ActionsEnabled | lower }}
+  {%- endif %}
+
+  {%- if alarm.get('AlarmActions') %}
+  alarm_actions = [
+    {%- for action in alarm.AlarmActions -%}
+    "{{ action }}",
+    {%- endfor %}
+  ]
+  {%- endif %}
+
+  {%- if alarm.get('OKActions') %}
+  ok_actions = [
+    {%- for action in alarm.OKActions -%}
+    "{{ action }}",
+    {%- endfor %}
+  ]
+  {%- endif %}
+
+  {%- if alarm.get('InsufficientDataActions') %}
+  insufficient_data_actions = [
+    {%- for action in alarm.InsufficientDataActions -%}
+    "{{ action }}",
+    {%- endfor %}
+  ]
+  {%- endif %}
+
+  {%- if alarm.get('Dimensions') %}
+  dimensions = {
+    {%- for dimension in alarm.Dimensions -%}
+    "{{ dimension.Name }}" = "{{ dimension.Value }}"
+    {%- endfor %}
+  }
+  {%- endif %}
+
+  {%- if alarm.get('Unit') %}
+  unit = "{{ alarm.Unit }}"
+  {%- endif %}
+
+  {%- if alarm.get('DatapointsToAlarm') %}
+  datapoints_to_alarm = {{ alarm.DatapointsToAlarm }}
+  {%- endif %}
+
+  {%- if alarm.get('TreatMissingData') %}
+  treat_missing_data = "{{ alarm.TreatMissingData }}"
+  {%- endif %}
+
+  {%- if alarm.get('EvaluateLowSampleCountPercentile') %}
+  evaluate_low_sample_count_percentiles = "{{ alarm.EvaluateLowSampleCountPercentile }}"
+  {%- endif %}
+
+  tags = {
+    {%- for tag in alarm.get('Tags', []) -%}
+    "{{ tag.Key }}" = "{{ tag.Value }}"
+    {%- endfor %}
+  }
+}
+{%- endif %}
+{% endfor %}

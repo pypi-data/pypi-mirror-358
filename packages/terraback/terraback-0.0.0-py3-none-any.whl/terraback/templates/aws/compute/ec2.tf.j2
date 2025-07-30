@@ -1,0 +1,54 @@
+{% for instance in resources -%}
+# Resource name created from the instance ID (e.g., i-0123... -> i_0123...)
+resource "aws_instance" "i_{{ instance.InstanceId | replace('-', '_') }}" {
+  ami           = "{{ instance.ImageId }}"
+  instance_type = "{{ instance.InstanceType }}"
+
+  {%- if instance.get('SubnetId') %}
+  subnet_id = "{{ instance.SubnetId }}"
+  {%- endif %}
+
+  {%- if instance.get('SecurityGroups') %}
+  vpc_security_group_ids = [
+    {%- for sg in instance.SecurityGroups -%}
+    "{{ sg.GroupId }}",
+    {%- endfor %}
+  ]
+  {%- endif %}
+
+  associate_public_ip_address = {{ 'true' if instance.get('PublicIpAddress') else 'false' }}
+
+  {%- if instance.get('KeyName') %}
+  key_name = "{{ instance.KeyName }}"
+  {%- endif %}
+
+  {%- if instance.get('IamInstanceProfile') %}
+  iam_instance_profile = "{{ instance.IamInstanceProfile.Arn.split('/')[-1] if instance.IamInstanceProfile.get('Arn') else instance.IamInstanceProfile.get('Id', '') }}"
+  {%- endif %}
+
+  tags = {
+    {%- for tag in instance.get('Tags', []) -%}
+    "{{ tag.Key }}" = "{{ tag.Value }}"
+    {%- endfor %}
+  }
+
+  # Additional configuration
+  disable_api_termination = {{ 'true' if instance.get('DisableApiTermination') else 'false' }}
+  
+  {%- if instance.get('Placement') and instance.Placement.get('AvailabilityZone') %}
+  availability_zone = "{{ instance.Placement.AvailabilityZone }}"
+  {%- endif %}
+
+  {%- if instance.get('EbsOptimized') %}
+  ebs_optimized = {{ instance.EbsOptimized | lower }}
+  {%- endif %}
+
+  lifecycle {
+    ignore_changes = [
+      ami,
+      user_data,
+    ]
+  }
+}
+
+{% endfor %}

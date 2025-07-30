@@ -1,0 +1,6 @@
+{% for zone in resources -%}
+resource "aws_route53_zone" "zone_{{ zone.Name | replace('.', '_') | replace('-', '_') | lower }}" {
+  name    = "{{ zone.Name }}"
+  comment = "{{ zone.Config.Comment | default('Managed by Terraform') }}"
+}
+{% endfor %}

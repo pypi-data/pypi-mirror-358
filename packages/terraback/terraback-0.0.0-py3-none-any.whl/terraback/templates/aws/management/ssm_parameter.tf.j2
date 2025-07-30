@@ -1,0 +1,47 @@
+# AWS Systems Manager Parameters
+
+{% for param in resources %}
+resource "aws_ssm_parameter" "{{ param.name_sanitized }}" {
+  name        = "{{ param.Name }}"
+  type        = "{{ param.Type }}"
+  {% if param.Description %}
+  description = "{{ param.Description }}"
+  {% endif %}
+  
+  {% if param.Type != "SecureString" and param.Value %}
+  value = "{{ param.Value | replace('"', '\\"') }}"
+  {% else %}
+  # SecureString values should be managed outside of Terraform
+  value = "PLACEHOLDER_VALUE"
+  {% endif %}
+  
+  tier = "{{ param.Tier }}"
+  
+  {% if param.DataType and param.DataType != "text" %}
+  data_type = "{{ param.DataType }}"
+  {% endif %}
+  
+  {% if param.AllowedPattern %}
+  allowed_pattern = "{{ param.AllowedPattern }}"
+  {% endif %}
+  
+  {% if param.kms_key_id %}
+  key_id = "{{ param.kms_key_id }}"
+  {% endif %}
+  
+  {% if param.tags_formatted %}
+  tags = {
+    {% for key, value in param.tags_formatted.items() %}
+    {{ key }} = "{{ value }}"
+    {% endfor %}
+  }
+  {% endif %}
+  
+  lifecycle {
+    {% if param.Type == "SecureString" %}
+    ignore_changes = [value]
+    {% endif %}
+  }
+}
+
+{% endfor %}

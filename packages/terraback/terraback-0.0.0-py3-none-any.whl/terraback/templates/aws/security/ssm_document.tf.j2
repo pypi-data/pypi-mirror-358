@@ -1,0 +1,59 @@
+{% for document in resources -%}
+resource "aws_ssm_document" "document_{{ document.name_sanitized }}" {
+  name          = "{{ document.Name }}"
+  document_type = "{{ document.DocumentType }}"
+  document_format = "{{ document.DocumentFormat }}"
+
+  content = jsonencode({{ document.Content | safe }})
+
+  {%- if document.get('Description') %}
+  description = "{{ document.Description }}"
+  {%- endif %}
+
+  {%- if document.get('VersionName') %}
+  version_name = "{{ document.VersionName }}"
+  {%- endif %}
+
+  {%- if document.get('TargetType') %}
+  target_type = "{{ document.TargetType }}"
+  {%- endif %}
+
+  {%- if document.get('platform_types_formatted') %}
+  platform_types = [
+    {%- for platform in document.platform_types_formatted -%}
+    "{{ platform }}",
+    {%- endfor %}
+  ]
+  {%- endif %}
+
+  {%- if document.get('parameters_formatted') %}
+  # Document parameters are defined in the content JSON
+  {%- endif %}
+
+  {%- if document.is_shared %}
+  permissions = {
+    type        = "Share"
+    account_ids = [
+      {%- for account_id in document.account_sharing_info -%}
+      "{{ account_id }}",
+      {%- endfor %}
+    ]
+  }
+  {%- endif %}
+
+  tags = {
+    {%- for key, value in document.get('tags_formatted', {}).items() -%}
+    "{{ key }}" = "{{ value }}"
+    {%- endfor %}
+    "DocumentCategory" = "{{ document.category }}"
+    "DocumentType" = "{{ document.DocumentType }}"
+    {%- if document.main_steps_count > 0 %}
+    "MainStepsCount" = "{{ document.main_steps_count }}"
+    {%- endif %}
+  }
+}
+
+{%- if not loop.last %}
+
+{% endif %}
+{%- endfor %}

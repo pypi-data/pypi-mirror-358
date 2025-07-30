@@ -1,0 +1,21 @@
+{% for subnet in resources -%}
+resource "aws_subnet" "subnet_{{ subnet.SubnetId | replace('-', '_') }}" {
+  vpc_id                  = "{{ subnet.VpcId }}"
+  cidr_block              = "{{ subnet.CidrBlock }}"
+  availability_zone       = "{{ subnet.AvailabilityZone }}"
+  {%- if subnet.get('AvailabilityZoneId') %}
+  availability_zone_id    = "{{ subnet.AvailabilityZoneId }}"
+  {%- endif %}
+  map_public_ip_on_launch = {{ subnet.MapPublicIpOnLaunch | lower }}
+
+  {%- if subnet.get('Ipv6CidrBlockAssociationSet') %}
+  ipv6_cidr_block         = "{{ subnet.Ipv6CidrBlockAssociationSet[0].Ipv6CidrBlock }}"
+  {%- endif %}
+
+  tags = {
+    {%- for tag in subnet.get('Tags', []) -%}
+    "{{ tag.Key }}" = "{{ tag.Value }}"
+    {%- endfor %}
+  }
+}
+{% endfor %}

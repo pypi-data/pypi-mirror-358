@@ -1,0 +1,36 @@
+{% for policy in resources -%}
+{%- if policy.is_custom %}
+# Custom SSL Policy - can be imported and managed
+resource "aws_lb_ssl_negotiation_policy" "ssl_policy_{{ policy.name_sanitized }}" {
+  name          = "{{ policy.Name }}"
+  load_balancer = "{{ policy.LoadBalancerName }}"  # You'll need to reference the actual LB
+
+  {%- for cipher in policy.ciphers_formatted %}
+  attribute {
+    name  = "{{ cipher.name }}"
+    value = "true"
+  }
+  {%- endfor %}
+
+  {%- for protocol in policy.supported_protocols_formatted %}
+  attribute {
+    name  = "Protocol-{{ protocol }}"
+    value = "true"
+  }
+  {%- endfor %}
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+{%- else %}
+# AWS Managed SSL Policy: {{ policy.Name }}
+# This is an AWS managed policy and doesn't need to be created in Terraform
+# To use it, reference it directly in your listener configuration:
+# ssl_policy = "{{ policy.Name }}"
+{%- if policy.is_in_use %}
+# ✓ Currently in use by one or more listeners
+{%- endif %}
+{%- endif %}
+
+{% endfor %}

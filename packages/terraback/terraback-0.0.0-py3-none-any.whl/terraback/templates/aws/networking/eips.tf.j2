@@ -1,0 +1,19 @@
+{% for eip in resources -%}
+resource "aws_eip" "eip_{{ eip.AllocationId | replace('eipalloc-', '') | replace('-', '_') }}" {
+  domain = "{{ eip.Domain }}"
+
+  {%- if eip.get('InstanceId') %}
+  instance = "{{ eip.InstanceId }}"
+  {%- endif %}
+
+  {%- if eip.get('NetworkInterfaceId') %}
+  network_interface = "{{ eip.NetworkInterfaceId }}"
+  {%- endif %}
+
+  tags = {
+    {%- for tag in eip.get('Tags', []) -%}
+    "{{ tag.Key }}" = "{{ tag.Value }}"
+    {%- endfor %}
+  }
+}
+{% endfor %}
