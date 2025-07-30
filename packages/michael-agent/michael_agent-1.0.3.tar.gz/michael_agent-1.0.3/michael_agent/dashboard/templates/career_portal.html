@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Portal - SmartRecruitAgent</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/static/styles.css">
+    <style>
+        .job-card {
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .job-tag {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h1 class="mb-0">Career Opportunities</h1>
+                    <p class="lead mb-0">Find your next opportunity with us</p>
+                </div>
+                <div class="col-md-6 d-flex justify-content-end">
+                    <a href="/" class="btn btn-outline-light">Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container my-5">
+        <!-- Search and Filters Section -->
+        <div class="card mb-4 shadow-sm">
+            <div class="card-body">
+                <form id="search-form">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                                <input type="text" class="form-control" id="search-input" placeholder="Search for jobs...">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" id="location-filter">
+                                <option value="">All Locations</option>
+                                <!-- Locations will be populated dynamically -->
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-primary w-100">Search Jobs</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Job Listings Container -->
+        <div class="row mb-4" id="job-listings-container">
+            <!-- Job listings will be loaded dynamically -->
+            <div class="col-12 text-center py-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2">Loading job listings...</p>
+            </div>
+        </div>
+        
+        <!-- No Results Message (hidden by default) -->
+        <div class="text-center py-5 d-none" id="no-results">
+            <i class="bi bi-search display-1 text-muted"></i>
+            <h3 class="mt-3">No job listings found</h3>
+            <p>Please try different search criteria.</p>
+        </div>
+    </div>
+    
+    <!-- Job Details Modal -->
+    <div class="modal fade" id="job-details-modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="modal-job-title">Job Title</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <p class="mb-1" id="modal-job-location"><i class="bi bi-geo-alt"></i> Location</p>
+                                <div class="d-flex gap-2 mb-3">
+                                    <span class="badge bg-info" id="modal-job-type">Full-time</span>
+                                    <span class="badge bg-secondary" id="modal-job-level">Mid-level</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="badge bg-success" id="modal-job-id">Job ID: JD123456</span>
+                            </div>
+                        </div>
+                        
+                        <hr>
+                        <div id="modal-job-description">
+                            <!-- Job description will be loaded here -->
+                        </div>
+                        
+                        <div class="mt-4">
+                            <h6>Required Skills:</h6>
+                            <div class="d-flex flex-wrap gap-2 mb-3" id="modal-required-skills">
+                                <!-- Skills will be loaded here -->
+                            </div>
+                            
+                            <h6>Preferred Skills:</h6>
+                            <div class="d-flex flex-wrap gap-2" id="modal-preferred-skills">
+                                <!-- Skills will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="apply-button">Apply Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Application Modal -->
+    <div class="modal fade" id="application-modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">Apply for <span id="application-job-title"></span></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="application-form">
+                        <input type="hidden" id="application-job-id" name="job_id">
+                        
+                        <div class="mb-3">
+                            <label for="applicant-name" class="form-label">Full Name*</label>
+                            <input type="text" class="form-control" id="applicant-name" name="name" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="applicant-email" class="form-label">Email Address*</label>
+                            <input type="email" class="form-control" id="applicant-email" name="email" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="applicant-phone" class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" id="applicant-phone" name="phone">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="resume-file" class="form-label">Upload Resume*</label>
+                            <input type="file" class="form-control" id="resume-file" name="resume" required accept=".pdf,.doc,.docx">
+                            <div class="form-text">Accepted formats: PDF, DOC, DOCX</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="cover-letter" class="form-label">Cover Letter</label>
+                            <textarea class="form-control" id="cover-letter" name="cover_letter" rows="4"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="submit-application">
+                        <span class="spinner-border spinner-border-sm d-none" id="submit-spinner" role="status" aria-hidden="true"></span>
+                        Submit Application
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Success Modal -->
+    <div class="modal fade" id="success-modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Application Submitted!</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <i class="bi bi-check-circle-fill text-success display-1"></i>
+                    <h4 class="mt-3">Thank You for Applying</h4>
+                    <p>Your application has been successfully submitted. Our team will review your resume and get back to you soon.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize global variables
+            let allJobs = [];
+            let locations = new Set();
+            
+            // Load job listings
+            fetchJobs();
+            
+            // Event listeners
+            document.getElementById('search-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                filterJobs();
+            });
+            
+            document.getElementById('location-filter').addEventListener('change', filterJobs);
+            document.getElementById('search-input').addEventListener('input', filterJobs);
+            
+            // Apply button in job modal
+            document.getElementById('apply-button').addEventListener('click', function() {
+                // Get job details from the current modal
+                const jobId = this.getAttribute('data-job-id');
+                const jobTitle = document.getElementById('modal-job-title').textContent;
+                
+                // Set values in application modal
+                document.getElementById('application-job-id').value = jobId;
+                document.getElementById('application-job-title').textContent = jobTitle;
+                
+                // Hide job details modal and show application modal
+                const jobModal = bootstrap.Modal.getInstance(document.getElementById('job-details-modal'));
+                jobModal.hide();
+                
+                const applicationModal = new bootstrap.Modal(document.getElementById('application-modal'));
+                applicationModal.show();
+            });
+            
+            // Submit application
+            document.getElementById('submit-application').addEventListener('click', function() {
+                const form = document.getElementById('application-form');
+                
+                // Check form validity
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                }
+                
+                // Get form data
+                const formData = new FormData(form);
+                
+                // Add resume file
+                const resumeFile = document.getElementById('resume-file').files[0];
+                if (!resumeFile) {
+                    alert('Please select a resume file');
+                    return;
+                }
+                formData.append('resume_file', resumeFile);
+                
+                // Show spinner
+                this.disabled = true;
+                document.getElementById('submit-spinner').classList.remove('d-none');
+                
+                // Submit application
+                fetch('/api/apply', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Hide application modal
+                        const applicationModal = bootstrap.Modal.getInstance(document.getElementById('application-modal'));
+                        applicationModal.hide();
+                        
+                        // Show success modal
+                        const successModal = new bootstrap.Modal(document.getElementById('success-modal'));
+                        successModal.show();
+                        
+                        // Reset form
+                        form.reset();
+                    } else {
+                        alert('Error submitting application: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error submitting application. Please try again.');
+                })
+                .finally(() => {
+                    // Hide spinner
+                    this.disabled = false;
+                    document.getElementById('submit-spinner').classList.add('d-none');
+                });
+            });
+            
+            // Functions
+            function fetchJobs() {
+                fetch('/api/career-jobs')
+                    .then(response => response.json())
+                    .then(data => {
+                        allJobs = data.jobs;
+                        
+                        // Collect unique locations
+                        allJobs.forEach(job => {
+                            if (job.location) {
+                                locations.add(job.location);
+                            }
+                        });
+                        
+                        // Populate location filter
+                        const locationFilter = document.getElementById('location-filter');
+                        locations.forEach(location => {
+                            const option = document.createElement('option');
+                            option.value = location;
+                            option.textContent = location;
+                            locationFilter.appendChild(option);
+                        });
+                        
+                        // Display jobs
+                        displayJobs(allJobs);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching jobs:', error);
+                        document.getElementById('job-listings-container').innerHTML = `
+                            <div class="col-12 text-center py-5">
+                                <i class="bi bi-exclamation-triangle text-warning display-4"></i>
+                                <h3 class="mt-3">Error Loading Jobs</h3>
+                                <p>Please try refreshing the page.</p>
+                            </div>
+                        `;
+                    });
+            }
+            
+            function displayJobs(jobs) {
+                const container = document.getElementById('job-listings-container');
+                
+                // Show/hide no results message
+                if (jobs.length === 0) {
+                    container.innerHTML = '';
+                    document.getElementById('no-results').classList.remove('d-none');
+                    return;
+                }
+                
+                document.getElementById('no-results').classList.add('d-none');
+                
+                // Generate HTML for job cards
+                container.innerHTML = jobs.map(job => `
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100 shadow-sm job-card" data-job-id="${job.id}">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <h5 class="card-title">${job.title}</h5>
+                                </div>
+                                <p class="text-muted mb-2"><i class="bi bi-geo-alt"></i> ${job.location || 'Remote'}</p>
+                                <div class="mb-3">
+                                    <span class="badge bg-info me-1">${job.employment_type || 'Full-time'}</span>
+                                    <span class="badge bg-secondary">${job.experience_level || 'Not specified'}</span>
+                                </div>
+                                <h6 class="card-subtitle mb-2">Required Skills:</h6>
+                                <div class="d-flex flex-wrap gap-1 mb-3">
+                                    ${job.required_skills && job.required_skills.length > 0 ? 
+                                        job.required_skills.slice(0, 3).map(skill => 
+                                            `<span class="badge bg-light text-dark job-tag">${skill}</span>`
+                                        ).join('') + (job.required_skills.length > 3 ? 
+                                            `<span class="badge bg-light text-dark job-tag">+${job.required_skills.length - 3} more</span>` : '') :
+                                        '<span class="text-muted small">No specific skills required</span>'
+                                    }
+                                </div>
+                                <div class="d-grid gap-2 mt-3">
+                                    <button class="btn btn-outline-primary view-job-btn" data-job-id="${job.id}">View Details</button>
+                                </div>
+                            </div>
+                            <div class="card-footer text-muted">
+                                <small>Posted: ${formatDate(job.created_at)}</small>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+                
+                // Add click event to each job card
+                document.querySelectorAll('.job-card').forEach(card => {
+                    card.addEventListener('click', function() {
+                        const jobId = this.getAttribute('data-job-id');
+                        openJobModal(jobId);
+                    });
+                });
+                
+                // Add click event to view details buttons
+                document.querySelectorAll('.view-job-btn').forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        e.stopPropagation(); // Prevent the card click event from firing
+                        const jobId = this.getAttribute('data-job-id');
+                        openJobModal(jobId);
+                    });
+                });
+            }
+            
+            function filterJobs() {
+                const searchTerm = document.getElementById('search-input').value.toLowerCase();
+                const selectedLocation = document.getElementById('location-filter').value.toLowerCase();
+                
+                const filteredJobs = allJobs.filter(job => {
+                    // Search in title and description
+                    const matchesSearch = !searchTerm || 
+                        job.title.toLowerCase().includes(searchTerm) ||
+                        job.content.toLowerCase().includes(searchTerm) ||
+                        job.required_skills.some(skill => skill.toLowerCase().includes(searchTerm));
+                    
+                    // Filter by location
+                    const matchesLocation = !selectedLocation || 
+                        (job.location && job.location.toLowerCase() === selectedLocation);
+                    
+                    return matchesSearch && matchesLocation;
+                });
+                
+                displayJobs(filteredJobs);
+            }
+            
+            function openJobModal(jobId) {
+                // Find the job
+                const job = allJobs.find(j => j.id === jobId);
+                if (!job) return;
+                
+                // Set modal content
+                document.getElementById('modal-job-title').textContent = job.title;
+                document.getElementById('modal-job-location').innerHTML = `<i class="bi bi-geo-alt"></i> ${job.location || 'Remote'}`;
+                document.getElementById('modal-job-type').textContent = job.employment_type || 'Full-time';
+                document.getElementById('modal-job-level').textContent = job.experience_level || 'Not specified';
+                document.getElementById('modal-job-id').textContent = `Job ID: ${job.id}`;
+                
+                // Format and set job description with line breaks
+                document.getElementById('modal-job-description').innerHTML = job.content.replace(/\n/g, '<br>');
+                
+                // Set required skills
+                const requiredSkillsContainer = document.getElementById('modal-required-skills');
+                requiredSkillsContainer.innerHTML = '';
+                if (job.required_skills && job.required_skills.length > 0) {
+                    job.required_skills.forEach(skill => {
+                        const badge = document.createElement('span');
+                        badge.className = 'badge bg-light text-dark';
+                        badge.textContent = skill;
+                        requiredSkillsContainer.appendChild(badge);
+                    });
+                } else {
+                    requiredSkillsContainer.innerHTML = '<span class="text-muted">No specific skills required</span>';
+                }
+                
+                // Set preferred skills
+                const preferredSkillsContainer = document.getElementById('modal-preferred-skills');
+                preferredSkillsContainer.innerHTML = '';
+                if (job.preferred_skills && job.preferred_skills.length > 0) {
+                    job.preferred_skills.forEach(skill => {
+                        const badge = document.createElement('span');
+                        badge.className = 'badge bg-light text-dark';
+                        badge.textContent = skill;
+                        preferredSkillsContainer.appendChild(badge);
+                    });
+                } else {
+                    preferredSkillsContainer.innerHTML = '<span class="text-muted">No preferred skills specified</span>';
+                }
+                
+                // Set job ID for apply button
+                document.getElementById('apply-button').setAttribute('data-job-id', job.id);
+                
+                // Show modal
+                const modal = new bootstrap.Modal(document.getElementById('job-details-modal'));
+                modal.show();
+            }
+            
+            // Utility function to format dates
+            function formatDate(dateString) {
+                if (!dateString) return 'Unknown';
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+            }
+        });
+    </script>
+</body>
+</html>

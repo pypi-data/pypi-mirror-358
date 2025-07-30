@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Scoring - SmartRecruitAgent</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/static/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="bg-dark text-white p-3">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="h3 mb-0">SmartRecruitAgent - Resume Scoring</h1>
+                <div>
+                    <a href="/career-portal" class="btn btn-outline-light me-2">Career Portal</a>
+                    <a href="/" class="btn btn-outline-light">Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Filters and Job Selection -->
+            <div class="col-md-3">
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        Job Description
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="job-select" class="form-label">Select Job</label>
+                            <select class="form-select" id="job-select">
+                                <option value="" selected>Loading jobs...</option>
+                            </select>
+                        </div>
+                        <div id="job-details-container" class="d-none">
+                            <h5 id="job-title" class="mt-3"></h5>
+                            <p id="job-location" class="mb-1 text-muted"></p>
+                            <div class="mb-2">
+                                <span class="badge bg-info me-1" id="job-type"></span>
+                                <span class="badge bg-secondary" id="job-level"></span>
+                            </div>
+                            <p class="mb-2 small">Required Skills:</p>
+                            <div id="required-skills-container" class="mb-3 d-flex flex-wrap gap-1"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        Filters
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="score-filter" class="form-label">Minimum Score</label>
+                            <input type="range" class="form-range" id="score-filter" min="0" max="100" value="50">
+                            <div class="d-flex justify-content-between">
+                                <span>0</span>
+                                <span id="score-value">50</span>
+                                <span>100</span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label d-block">Status</label>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="status-new" value="new" checked>
+                                <label class="form-check-label" for="status-new">New</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="status-reviewed" value="reviewed" checked>
+                                <label class="form-check-label" for="status-reviewed">Reviewed</label>
+                            </div>
+                        </div>
+                        <div class="d-grid">
+                            <button id="apply-filters" class="btn btn-primary">Apply Filters</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        Statistics
+                    </div>
+                    <div class="card-body">
+                        <canvas id="score-distribution-chart"></canvas>
+                        <div class="mt-3 text-center">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h6 class="mb-0" id="total-resumes">0</h6>
+                                    <small class="text-muted">Total</small>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 text-success" id="qualified-resumes">0</h6>
+                                    <small class="text-muted">Qualified</small>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 text-danger" id="unqualified-resumes">0</h6>
+                                    <small class="text-muted">Unqualified</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Resume List and Details -->
+            <div class="col-md-9">
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <span>Scored Resumes</span>
+                        <div>
+                            <button class="btn btn-sm btn-light" id="export-csv">Export CSV</button>
+                            <button class="btn btn-sm btn-light ms-2" id="refresh-data">Refresh</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Candidate</th>
+                                        <th>Date</th>
+                                        <th>Score</th>
+                                        <th>Skills Match</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="resumes-table-body">
+                                    <tr>
+                                        <td colspan="6" class="text-center">Select a job to view candidates</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" id="resume-details-card" style="display: none;">
+                    <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                        <span>Candidate Details</span>
+                        <button type="button" class="btn-close btn-close-white" id="close-resume-details"></button>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h4 id="candidate-name"></h4>
+                                <div class="d-flex align-items-center mb-3">
+                                    <div id="candidate-score-badge" class="me-3"></div>
+                                    <div id="candidate-contact" class="small text-muted"></div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <h5>Skills Analysis</h5>
+                                    <div id="skills-match-container"></div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <h5>Experience</h5>
+                                    <div id="experience-container"></div>
+                                </div>
+                                
+                                <div>
+                                    <h5>Education</h5>
+                                    <div id="education-container"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card border-info mb-3">
+                                    <div class="card-header bg-light">AI Analysis</div>
+                                    <div class="card-body">
+                                        <div id="ai-analysis-container"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="card border-success">
+                                    <div class="card-header bg-light">Actions</div>
+                                    <div class="card-body">
+                                        <div class="d-grid gap-2">
+                                            <button class="btn btn-outline-primary" id="view-resume-btn">
+                                                <i class="bi bi-file-earmark-text"></i> View Full Resume
+                                            </button>
+                                            <button class="btn btn-outline-success" id="schedule-interview-btn">
+                                                <i class="bi bi-calendar2-check"></i> Schedule Interview
+                                            </button>
+                                            <button class="btn btn-outline-warning" id="generate-questions-btn">
+                                                <i class="bi bi-question-circle"></i> Generate Questions
+                                            </button>
+                                            <div class="input-group">
+                                                <select class="form-select" id="status-update">
+                                                    <option selected>Change Status...</option>
+                                                    <option value="new">New</option>
+                                                    <option value="shortlisted">Shortlist</option>
+                                                    <option value="interviewed">Interviewed</option>
+                                                    <option value="rejected">Reject</option>
+                                                    <option value="hired">Hire</option>
+                                                </select>
+                                                <button class="btn btn-outline-secondary" id="update-status-btn">Update</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal for Interview Questions -->
+    <div class="modal fade" id="questions-modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">Interview Questions</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="questions-container">
+                    <p class="text-center">Generating personalized questions...</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="copy-questions-btn">Copy All</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Chart initialization
+            const scoreChart = new Chart(document.getElementById('score-distribution-chart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Below 50', '50-70', '70-85', '85-100'],
+                    datasets: [{
+                        data: [0, 0, 0, 0],
+                        backgroundColor: ['#dc3545', '#ffc107', '#0dcaf0', '#198754']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: {
+                                    size: 10
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Score filter range functionality
+            const scoreFilter = document.getElementById('score-filter');
+            const scoreValue = document.getElementById('score-value');
+            
+            scoreFilter.addEventListener('input', function() {
+                scoreValue.textContent = this.value;
+            });
+            
+            // Load job listings
+            fetch('/api/jobs')
+                .then(response => response.json())
+                .then(data => {
+                    const jobSelect = document.getElementById('job-select');
+                    jobSelect.innerHTML = '';
+                    
+                    if (data.jobs.length === 0) {
+                        const option = document.createElement('option');
+                        option.value = '';
+                        option.textContent = 'No jobs available';
+                        jobSelect.appendChild(option);
+                    } else {
+                        const defaultOption = document.createElement('option');
+                        defaultOption.value = '';
+                        defaultOption.textContent = 'Select a job';
+                        jobSelect.appendChild(defaultOption);
+                        
+                        data.jobs.forEach(job => {
+                            const option = document.createElement('option');
+                            option.value = job.id;
+                            option.textContent = job.title;
+                            jobSelect.appendChild(option);
+                        });
+                    }
+                })
+                .catch(error => console.error('Error loading jobs:', error));
+            
+            // Job selection change handler
+            document.getElementById('job-select').addEventListener('change', function() {
+                const jobId = this.value;
+                
+                if (!jobId) {
+                    document.getElementById('job-details-container').classList.add('d-none');
+                    document.getElementById('resumes-table-body').innerHTML = 
+                        '<tr><td colspan="6" class="text-center">Select a job to view candidates</td></tr>';
+                    return;
+                }
+                
+                // Load job details
+                fetch(`/api/jobs/${jobId}`)
+                    .then(response => response.json())
+                    .then(job => {
+                        document.getElementById('job-title').textContent = job.title;
+                        document.getElementById('job-location').textContent = job.location;
+                        document.getElementById('job-type').textContent = job.employment_type;
+                        document.getElementById('job-level').textContent = job.experience_level;
+                        
+                        // Display required skills
+                        const skillsContainer = document.getElementById('required-skills-container');
+                        skillsContainer.innerHTML = '';
+                        job.required_skills.forEach(skill => {
+                            const badge = document.createElement('span');
+                            badge.className = 'badge bg-light text-dark';
+                            badge.textContent = skill;
+                            skillsContainer.appendChild(badge);
+                        });
+                        
+                        document.getElementById('job-details-container').classList.remove('d-none');
+                        
+                        // Load candidates for this job
+                        loadCandidates(jobId);
+                    })
+                    .catch(error => console.error('Error loading job details:', error));
+            });
+            
+            // Load candidates for a specific job
+            function loadCandidates(jobId, filters = {}) {
+                fetch(`/api/candidates?job_id=${jobId}${getFilterQueryString(filters)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        renderCandidatesTable(data.candidates);
+                        updateStatistics(data.statistics);
+                    })
+                    .catch(error => console.error('Error loading candidates:', error));
+            }
+            
+            // Helper to build query string from filters
+            function getFilterQueryString(filters) {
+                const params = [];
+                if (filters.minScore) params.push(`min_score=${filters.minScore}`);
+                if (filters.status && filters.status.length) {
+                    params.push(`status=${filters.status.join(',')}`);
+                }
+                return params.length ? '&' + params.join('&') : '';
+            }
+            
+            // Format score for display
+            function formatScore(score) {
+                if (score === undefined || score === null) {
+                    return "N/A";
+                }
+                return (parseFloat(score) * 100).toFixed(1) + "%";
+            }
+            
+            // Render candidates table
+            function renderCandidatesTable(candidates) {
+                const tableBody = document.getElementById('resumes-table-body');
+                tableBody.innerHTML = '';
+                
+                if (candidates.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="6" class="text-center">No candidates found</td></tr>';
+                    return;
+                }
+                
+                candidates.forEach(candidate => {
+                    const row = document.createElement('tr');
+                    row.className = 'candidate-row';
+                    row.setAttribute('data-id', candidate.id);
+                    
+                    // Score color class
+                    const scoreClass = getScoreClass(candidate.score);
+                    
+                    // Format date
+                    const date = new Date(candidate.date_processed);
+                    const formattedDate = date.toLocaleDateString();
+                    
+                    row.innerHTML = `
+                        <td>
+                            <div class="fw-bold">${candidate.name}</div>
+                            <div class="small text-muted">${candidate.email || 'No email provided'}</div>
+                        </td>
+                        <td>${formattedDate}</td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="progress flex-grow-1 me-2" style="height: 8px;">
+                                    <div class="progress-bar ${scoreClass}" style="width: ${candidate.score}%;"></div>
+                                </div>
+                                <span class="small ${scoreClass}-text">${candidate.score}%</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <span class="me-2">${candidate.skills_match.matched}/${candidate.skills_match.total}</span>
+                                <div class="progress flex-grow-1" style="height: 8px;">
+                                    <div class="progress-bar bg-info" 
+                                         style="width: ${candidate.skills_match.matched / candidate.skills_match.total * 100}%;"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="badge bg-secondary">${formatStatus(candidate.status)}</span></td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary view-candidate-btn" data-id="${candidate.id}">
+                                View
+                            </button>
+                        </td>
+                    `;
+                    
+                    tableBody.appendChild(row);
+                });
+                
+                // Add event listeners to view buttons
+                document.querySelectorAll('.view-candidate-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const candidateId = this.getAttribute('data-id');
+                        loadCandidateDetails(candidateId);
+                    });
+                });
+            }
+            
+            // Load candidate details
+            function loadCandidateDetails(candidateId) {
+                console.log('Loading candidate details for:', candidateId);
+                // Show loading indicator
+                document.getElementById('resume-details-card').style.display = 'block';
+                document.getElementById('candidate-name').textContent = 'Loading...';
+                document.getElementById('candidate-score-badge').innerHTML = 
+                    `<span class="badge bg-secondary">Loading...</span>`;
+                document.getElementById('candidate-contact').innerHTML = 
+                    `<div class="spinner-border spinner-border-sm text-secondary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>`;
+                
+                // Clear content areas
+                document.getElementById('skills-match-container').innerHTML = '<p>Loading skills data...</p>';
+                document.getElementById('experience-container').innerHTML = '<p>Loading experience data...</p>';
+                document.getElementById('education-container').innerHTML = '<p>Loading education data...</p>';
+                document.getElementById('ai-analysis-container').innerHTML = '<p>Loading analysis data...</p>';
+                
+                fetch(`/api/candidates/${candidateId}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`Failed to load candidate details: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(candidate => {
+                        console.log('Candidate data received:', candidate);
+                        
+                        try {
+                            // Display candidate details
+                            document.getElementById('candidate-name').textContent = candidate.name || 'Unknown Candidate';
+                            
+                            // Score badge 
+                            const score = typeof candidate.score === 'number' ? candidate.score : 0;
+                            const scoreClass = getScoreClass(score);
+                            document.getElementById('candidate-score-badge').innerHTML = 
+                                `<span class="badge ${scoreClass} fs-6">${score}% Match</span>`;
+                            
+                            // Contact info
+                            document.getElementById('candidate-contact').innerHTML = 
+                                `<i class="bi bi-envelope"></i> ${candidate.email || 'No email'} &nbsp; 
+                                 <i class="bi bi-telephone"></i> ${candidate.phone || 'No phone'}`;
+                            
+                            // Skills matching - make sure we don't pass undefined
+                            renderSkillsMatch(candidate.skills_analysis || {});
+                            
+                            // Experience - make sure we don't pass undefined
+                            renderExperience(candidate.experience || []);
+                            
+                            // Education - make sure we don't pass undefined
+                            renderEducation(candidate.education || []);
+                            
+                            // AI Analysis - make sure we don't pass undefined
+                            renderAIAnalysis(candidate.ai_analysis || {});
+                        } catch (error) {
+                            console.error('Error processing candidate data:', error);
+                            document.getElementById('resume-details-card').style.display = 'block';
+                            document.getElementById('skills-match-container').innerHTML = 
+                                '<div class="alert alert-warning">Error processing candidate data. Some information may be incomplete.</div>';
+                        }
+                        
+                        // Scroll to the details
+                        document.getElementById('resume-details-card').scrollIntoView({ behavior: 'smooth' });
+                        
+                        // Set up the view resume button
+                        document.getElementById('view-resume-btn').onclick = function() {
+                            if (candidate.resume_path) {
+                                window.open(`/resumes/${candidateId}`, '_blank');
+                            } else {
+                                alert('Resume file not available for viewing');
+                            }
+                        };
+                        
+                        // Set up generate questions button with modal
+                        const questionsModal = new bootstrap.Modal(document.getElementById('questions-modal'));
+                        document.getElementById('generate-questions-btn').onclick = function() {
+                            questionsModal.show();
+                            document.getElementById('questions-container').innerHTML = 
+                                '<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></div>';
+                            
+                            // Make API call to generate questions
+                            fetch(`/api/generate-questions/${candidateId}`)
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error(`Failed to generate questions: ${response.status}`);
+                                    }
+                                    return response.json();
+                                })
+                                .then(data => {
+                                    renderInterviewQuestions(data.questions);
+                                })
+                                .catch(error => {
+                                    console.error('Error generating questions:', error);
+                                    document.getElementById('questions-container').innerHTML = 
+                                        '<div class="alert alert-danger">Failed to generate questions. Please try again later.</div>';
+                                });
+                        };
+                    })
+                    .catch(error => {
+                        console.error('Error loading candidate details:', error);
+                        document.getElementById('resume-details-card').style.display = 'block';
+                        document.getElementById('candidate-name').textContent = 'Error Loading Data';
+                        document.getElementById('candidate-score-badge').innerHTML = '';
+                        document.getElementById('candidate-contact').innerHTML = '';
+                        document.getElementById('skills-match-container').innerHTML = 
+                            `<div class="alert alert-danger">
+                                <h5>Error loading candidate details</h5>
+                                <p>We couldn't load the candidate details. Please try refreshing the page.</p>
+                                <p><small>Error: ${error.message}</small></p>
+                            </div>`;
+                        document.getElementById('experience-container').innerHTML = '';
+                        document.getElementById('education-container').innerHTML = '';
+                        document.getElementById('ai-analysis-container').innerHTML = '';
+                    });
+            }
+            
+            // Render skills matching
+            function renderSkillsMatch(skillsAnalysis) {
+                const container = document.getElementById('skills-match-container');
+                container.innerHTML = '';
+                
+                try {
+                    // Handle missing skills analysis data
+                    if (!skillsAnalysis || Object.keys(skillsAnalysis).length === 0) {
+                        container.innerHTML = '<p class="text-muted">No skills analysis available</p>';
+                        return;
+                    }
+                    
+                    // Create skills structure for required skills
+                    const requiredDiv = document.createElement('div');
+                    requiredDiv.className = 'mb-3';
+                    requiredDiv.innerHTML = '<h6>Required Skills</h6>';
+                    
+                    const requiredSkillsContainer = document.createElement('div');
+                    requiredSkillsContainer.className = 'd-flex flex-wrap gap-2 mb-3';
+                    
+                    // Handle both array format and object format for required skills
+                    if (Array.isArray(skillsAnalysis.required)) {
+                        const requiredSkills = skillsAnalysis.required;
+                        
+                        if (requiredSkills.length === 0) {
+                            requiredSkillsContainer.innerHTML = '<p class="text-muted">No required skills specified</p>';
+                        } else {
+                            requiredSkills.forEach(skill => {
+                                if (skill) {
+                                    const badge = document.createElement('span');
+                                    badge.className = skill.found ? 'badge bg-success' : 'badge bg-danger';
+                                    badge.innerHTML = skill.name + 
+                                        (skill.found ? ' <i class="bi bi-check"></i>' : ' <i class="bi bi-x"></i>');
+                                    requiredSkillsContainer.appendChild(badge);
+                                }
+                            });
+                        }
+                    } else if (skillsAnalysis.matched !== undefined && skillsAnalysis.total !== undefined) {
+                        // Handle cases where we only have the counts but not the full skill details
+                        requiredSkillsContainer.innerHTML = `<p>Matched ${skillsAnalysis.matched} of ${skillsAnalysis.total} required skills</p>`;
+                    } else {
+                        requiredSkillsContainer.innerHTML = '<p class="text-muted">No required skills data available</p>';
+                    }
+                    
+                    requiredDiv.appendChild(requiredSkillsContainer);
+                    container.appendChild(requiredDiv);
+                    
+                    // Additional skills
+                    if (skillsAnalysis.additional && Array.isArray(skillsAnalysis.additional) && skillsAnalysis.additional.length > 0) {
+                        const additionalDiv = document.createElement('div');
+                        additionalDiv.innerHTML = '<h6>Additional Skills</h6>';
+                        
+                        const additionalSkillsContainer = document.createElement('div');
+                        additionalSkillsContainer.className = 'd-flex flex-wrap gap-2';
+                        
+                        skillsAnalysis.additional.forEach(skill => {
+                            if (typeof skill === 'string') {
+                                const badge = document.createElement('span');
+                                badge.className = 'badge bg-info';
+                                badge.textContent = skill;
+                                additionalSkillsContainer.appendChild(badge);
+                            }
+                        });
+                        
+                        additionalDiv.appendChild(additionalSkillsContainer);
+                        container.appendChild(additionalDiv);
+                    }
+                    
+                } catch (error) {
+                    console.error('Error rendering skills match:', error);
+                    container.innerHTML = '<div class="alert alert-warning">Error displaying skills information</div>';
+                }
+            }
+            
+            // Render experience
+            function renderExperience(experience) {
+                const container = document.getElementById('experience-container');
+                container.innerHTML = '';
+                
+                try {
+                    if (!experience || !Array.isArray(experience) || experience.length === 0) {
+                        container.innerHTML = '<p class="text-muted">No experience information available</p>';
+                        return;
+                    }
+                    
+                    experience.forEach(exp => {
+                        try {
+                            if (!exp) return; // Skip if experience entry is null or undefined
+                            
+                            const expDiv = document.createElement('div');
+                            expDiv.className = 'mb-3 border-bottom pb-3';
+                            
+                            // Handle responsibilities - could be string, array of strings, or missing
+                            let responsibilitiesHtml = 'No description available';
+                            if (exp.responsibilities) {
+                                if (Array.isArray(exp.responsibilities)) {
+                                    responsibilitiesHtml = exp.responsibilities.join('<br>');
+                                } else if (typeof exp.responsibilities === 'string') {
+                                    responsibilitiesHtml = exp.responsibilities;
+                                }
+                            }
+                            
+                            // Use proper property names from the snapshot data
+                            expDiv.innerHTML = `
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <h6 class="mb-0">${exp.position || 'Unknown Position'}</h6>
+                                        <div class="text-muted">${exp.company || 'Unknown Company'}</div>
+                                    </div>
+                                    <div class="text-muted small">${exp.duration || 'No dates'}</div>
+                                </div>
+                                <p class="mt-2 mb-0 small">${responsibilitiesHtml}</p>
+                            `;
+                            
+                            container.appendChild(expDiv);
+                        } catch (expError) {
+                            console.error('Error rendering experience entry:', expError);
+                        }
+                    });
+                    
+                    // If we didn't add any entries due to errors
+                    if (container.children.length === 0) {
+                        container.innerHTML = '<p class="text-muted">No valid experience information available</p>';
+                    }
+                } catch (error) {
+                    console.error('Error rendering experience section:', error);
+                    container.innerHTML = '<div class="alert alert-warning">Error displaying experience information</div>';
+                }
+            }
+            
+            // Render education
+            function renderEducation(education) {
+                const container = document.getElementById('education-container');
+                container.innerHTML = '';
+                
+                try {
+                    if (!education || !Array.isArray(education) || education.length === 0) {
+                        container.innerHTML = '<p class="text-muted">No education information available</p>';
+                        return;
+                    }
+                    
+                    education.forEach(edu => {
+                        try {
+                            if (!edu) return; // Skip if education entry is null
+                            
+                            const eduDiv = document.createElement('div');
+                            eduDiv.className = 'mb-2';
+                            
+                            const degree = edu.degree || 'Degree not specified';
+                            const year = edu.year || 'N/A';
+                            const institution = edu.institution || 'Institution not specified';
+                            
+                            eduDiv.innerHTML = `
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="mb-0">${degree}</h6>
+                                    <div class="text-muted small">${year}</div>
+                                </div>
+                                <div class="text-muted">${institution}</div>
+                            `;
+                            
+                            container.appendChild(eduDiv);
+                        } catch (eduError) {
+                            console.error('Error rendering education entry:', eduError);
+                        }
+                    });
+                    
+                    // If no entries were added due to errors
+                    if (container.children.length === 0) {
+                        container.innerHTML = '<p class="text-muted">No valid education information available</p>';
+                    }
+                } catch (error) {
+                    console.error('Error rendering education section:', error);
+                    container.innerHTML = '<div class="alert alert-warning">Error displaying education information</div>';
+                }
+            }
+            
+            // Render AI analysis
+            function renderAIAnalysis(analysis) {
+                const container = document.getElementById('ai-analysis-container');
+                container.innerHTML = '';
+                
+                try {
+                    if (!analysis || typeof analysis !== 'object') {
+                        container.innerHTML = '<p class="text-muted">No AI analysis available</p>';
+                        return;
+                    }
+                    
+                    // Check if we have any meaningful data
+                    const hasData = analysis.strengths || analysis.weaknesses || analysis.overall;
+                    if (!hasData) {
+                        container.innerHTML = '<p class="text-muted">No AI analysis available</p>';
+                        return;
+                    }
+                    
+                    // Strengths
+                    const strengthsDiv = document.createElement('div');
+                    strengthsDiv.className = 'mb-3';
+                    strengthsDiv.innerHTML = '<h6 class="text-success">Strengths</h6>';
+                    
+                    if (Array.isArray(analysis.strengths) && analysis.strengths.length > 0) {
+                        const strengthsList = document.createElement('ul');
+                        strengthsList.className = 'small';
+                        
+                        analysis.strengths.forEach(strength => {
+                            if (strength) {
+                                const li = document.createElement('li');
+                                li.textContent = strength;
+                                strengthsList.appendChild(li);
+                            }
+                        });
+                        
+                        // Only add if we have actual items
+                        if (strengthsList.children.length > 0) {
+                            strengthsDiv.appendChild(strengthsList);
+                        } else {
+                            strengthsDiv.innerHTML += '<p class="small text-muted">No strengths data available</p>';
+                        }
+                    } else {
+                        strengthsDiv.innerHTML += '<p class="small text-muted">No strengths data available</p>';
+                    }
+                    
+                    container.appendChild(strengthsDiv);
+                    
+                    // Weaknesses
+                    const weaknessesDiv = document.createElement('div');
+                    weaknessesDiv.className = 'mb-3';
+                    weaknessesDiv.innerHTML = '<h6 class="text-danger">Areas for Improvement</h6>';
+                    
+                    if (Array.isArray(analysis.weaknesses) && analysis.weaknesses.length > 0) {
+                        const weaknessesList = document.createElement('ul');
+                        weaknessesList.className = 'small';
+                        
+                        analysis.weaknesses.forEach(weakness => {
+                            if (weakness) {
+                                const li = document.createElement('li');
+                                li.textContent = weakness;
+                                weaknessesList.appendChild(li);
+                            }
+                        });
+                        
+                        // Only add if we have actual items
+                        if (weaknessesList.children.length > 0) {
+                            weaknessesDiv.appendChild(weaknessesList);
+                        } else {
+                            weaknessesDiv.innerHTML += '<p class="small text-muted">No areas for improvement identified</p>';
+                        }
+                    } else {
+                        weaknessesDiv.innerHTML += '<p class="small text-muted">No areas for improvement identified</p>';
+                    }
+                    
+                    container.appendChild(weaknessesDiv);
+                    
+                    // Overall assessment
+                    container.innerHTML += `
+                        <div>
+                            <h6>Overall Assessment</h6>
+                            <p class="small">${analysis.overall || 'No detailed analysis available.'}</p>
+                        </div>
+                    `;
+                } catch (error) {
+                    console.error('Error rendering AI analysis:', error);
+                    container.innerHTML = '<div class="alert alert-warning">Error displaying AI analysis</div>';
+                }
+            }
+            
+            // Render interview questions
+            function renderInterviewQuestions(questions) {
+                const container = document.getElementById('questions-container');
+                container.innerHTML = '';
+                
+                if (!questions) {
+                    container.innerHTML = '<p class="text-muted">No questions could be generated</p>';
+                    return;
+                }
+                
+                // Technical questions - handle both array of strings and array of objects
+                if (questions.technical_questions || questions.technical) {
+                    const technicalQuestions = questions.technical_questions || questions.technical;
+                    
+                    if (technicalQuestions && technicalQuestions.length > 0) {
+                        const techDiv = document.createElement('div');
+                        techDiv.className = 'mb-4';
+                        techDiv.innerHTML = '<h5 class="mb-3">Technical Questions</h5>';
+                        
+                        const techList = document.createElement('ol');
+                        techList.className = 'question-list';
+                        
+                        technicalQuestions.forEach(question => {
+                            const li = document.createElement('li');
+                            li.className = 'mb-3';
+                            
+                            if (typeof question === 'string') {
+                                li.textContent = question;
+                            } else if (typeof question === 'object') {
+                                li.innerHTML = `
+                                    <div>${question.question}</div>
+                                    ${question.purpose ? `<div class="small text-muted mt-1">Purpose: ${question.purpose}</div>` : ''}
+                                `;
+                            }
+                            
+                            techList.appendChild(li);
+                        });
+                        
+                        techDiv.appendChild(techList);
+                        container.appendChild(techDiv);
+                    }
+                }
+                
+                // Behavioral questions - handle both array of strings and array of objects
+                if (questions.behavioral_questions || questions.behavioral) {
+                    const behavioralQuestions = questions.behavioral_questions || questions.behavioral;
+                    
+                    if (behavioralQuestions && behavioralQuestions.length > 0) {
+                        const behavDiv = document.createElement('div');
+                        behavDiv.className = 'mb-4';
+                        behavDiv.innerHTML = '<h5 class="mb-3">Behavioral Questions</h5>';
+                        
+                        const behavList = document.createElement('ol');
+                        behavList.className = 'question-list';
+                        
+                        behavioralQuestions.forEach(question => {
+                            const li = document.createElement('li');
+                            li.className = 'mb-3';
+                            
+                            if (typeof question === 'string') {
+                                li.textContent = question;
+                            } else if (typeof question === 'object') {
+                                li.innerHTML = `
+                                    <div>${question.question}</div>
+                                    ${question.purpose ? `<div class="small text-muted mt-1">Purpose: ${question.purpose}</div>` : ''}
+                                `;
+                            }
+                            
+                            behavList.appendChild(li);
+                        });
+                        
+                        behavDiv.appendChild(behavList);
+                        container.appendChild(behavDiv);
+                    }
+                }
+                
+                // Follow-up areas
+                if (questions.follow_up_areas && questions.follow_up_areas.length > 0) {
+                    const followUpDiv = document.createElement('div');
+                    followUpDiv.className = 'mb-4';
+                    followUpDiv.innerHTML = '<h5 class="mb-3">Areas to Explore Further</h5>';
+                    
+                    const followUpList = document.createElement('ul');
+                    followUpList.className = 'question-list';
+                    
+                    questions.follow_up_areas.forEach(area => {
+                        const li = document.createElement('li');
+                        li.className = 'mb-2';
+                        li.textContent = area;
+                        followUpList.appendChild(li);
+                    });
+                    
+                    followUpDiv.appendChild(followUpList);
+                    container.appendChild(followUpDiv);
+                }
+            }
+            
+            // Update statistics
+            function updateStatistics(stats) {
+                document.getElementById('total-resumes').textContent = stats.total;
+                document.getElementById('qualified-resumes').textContent = stats.qualified;
+                document.getElementById('unqualified-resumes').textContent = stats.unqualified;
+                
+                // Update chart data
+                scoreChart.data.datasets[0].data = [
+                    stats.score_ranges['0-50'], 
+                    stats.score_ranges['50-70'], 
+                    stats.score_ranges['70-85'], 
+                    stats.score_ranges['85-100']
+                ];
+                scoreChart.update();
+            }
+            
+            // Apply filters button
+            document.getElementById('apply-filters').addEventListener('click', function() {
+                const jobId = document.getElementById('job-select').value;
+                
+                if (!jobId) {
+                    alert('Please select a job first');
+                    return;
+                }
+                
+                const minScore = document.getElementById('score-filter').value;
+                
+                const statusFilters = [];
+                if (document.getElementById('status-new').checked) statusFilters.push('new');
+                if (document.getElementById('status-reviewed').checked) statusFilters.push('reviewed');
+                
+                loadCandidates(jobId, {
+                    minScore: minScore,
+                    status: statusFilters
+                });
+            });
+            
+            // Close resume details
+            document.getElementById('close-resume-details').addEventListener('click', function() {
+                document.getElementById('resume-details-card').style.display = 'none';
+            });
+            
+            // Refresh data
+            document.getElementById('refresh-data').addEventListener('click', function() {
+                const jobId = document.getElementById('job-select').value;
+                
+                if (!jobId) {
+                    alert('Please select a job first');
+                    return;
+                }
+                
+                loadCandidates(jobId);
+            });
+            
+            // Export to CSV
+            document.getElementById('export-csv').addEventListener('click', function() {
+                const jobId = document.getElementById('job-select').value;
+                
+                if (!jobId) {
+                    alert('Please select a job first');
+                    return;
+                }
+                
+                window.open(`/api/export-candidates?job_id=${jobId}`, '_blank');
+            });
+            
+            // Status update
+            document.getElementById('update-status-btn').addEventListener('click', function() {
+                const status = document.getElementById('status-update').value;
+                if (status === 'Change Status...') {
+                    alert('Please select a status');
+                    return;
+                }
+                
+                const candidateRow = document.querySelector('.candidate-row.active');
+                if (!candidateRow) return;
+                
+                const candidateId = candidateRow.getAttribute('data-id');
+                
+                fetch(`/api/candidates/${candidateId}/status`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ status: status })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Status updated successfully');
+                        // Refresh the candidate list
+                        const jobId = document.getElementById('job-select').value;
+                        loadCandidates(jobId);
+                    } else {
+                        alert('Error updating status: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error updating status');
+                });
+            });
+            
+            // Helper function to get score class based on score value
+            function getScoreClass(score) {
+                if (score >= 85) return 'bg-success';
+                if (score >= 70) return 'bg-info';
+                if (score >= 50) return 'bg-warning';
+                return 'bg-danger';
+            }
+            
+            // Format status for display
+            function formatStatus(status) {
+                if (!status) return 'New';
+                
+                // Capitalize first letter of each word
+                return status.split('_')
+                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(' ');
+            }
+        });
+    </script>
+</body>
+</html>
