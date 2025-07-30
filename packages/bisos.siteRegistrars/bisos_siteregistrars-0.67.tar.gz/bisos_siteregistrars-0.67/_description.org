@@ -1,0 +1,197 @@
+#+title: bisos.siteRegistrars:  CS Services for implementation of BISOS Site Regsitrars  -- box, cntnr and nets.
+
+Panel Controls:: [[elisp:(show-all)][Show-All]]  [[elisp:(org-shifttab)][Overview]]  [[elisp:(progn (org-shifttab) (org-content))][Content]] | [[elisp:(delete-other-windows)][(1)]] | [[elisp:(progn (save-buffer) (kill-buffer))][S&Q]] [[elisp:(save-buffer)][Save]] [[elisp:(kill-buffer)][Quit]] [[elisp:(bury-buffer)][Bury]]
+Links: [[file:./panels/_nodeBase_/fullUsagePanel-en.org]] (Package Panel)
+
+* Overview
+bisos.facter is a python package for adoption and adaptation of *facter* to python and
+PyCS-Framework. It is a BISOS-Capability and a Standalone-BISOS-Package.
+
+/bisos.facter/ provides access to facter information through python.
+
+/bisos.facter/ is based on PyCS-Foundation and can be used both as a Command and
+as a Service (invoke/perform model of remote operations) using RPYC for central
+management of multiple systems.
+
+
+* Table of Contents     :TOC:
+- [[#overview][Overview]]
+- [[#about-facter][About facter]]
+- [[#about-bisos-----bystar-internet-services-operating-system][About BISOS --- ByStar Internet Services Operating System]]
+- [[#uses-of-bisosfacter][Uses of bisos.facter]]
+- [[#bisosfacter-as-an-example-of-command-services-pycs][bisos.facter as an Example of Command Services (PyCS)]]
+- [[#bisosfacter-as-a-standalone-piece-of-bisos][bisos.facter as a Standalone Piece of BISOS]]
+- [[#installation][Installation]]
+  - [[#with-pip][With pip]]
+  - [[#with-pipx][With pipx]]
+- [[#usage][Usage]]
+  - [[#locally-system-command-line][Locally (system command-line)]]
+  - [[#remotely-as-a-service----performerinvoker][Remotely (as a service -- Performer+Invoker)]]
+    - [[#performer][Performer]]
+    - [[#invoker][Invoker]]
+  - [[#use-by-python-script][Use by python script]]
+- [[#bisosfacter-code-walkthrough][bisos.facter Code Walkthrough]]
+  - [[#bisosfacter-source-code-is-in-comeega][bisos.facter Source Code is in COMEEGA]]
+  - [[#take-from-120033commonengadopt][Take from 120033/common/engAdopt]]
+  - [[#binfactercs--binroperf-factercs--binroinv-factercs][./bin/facter.cs  (./bin/roPerf-facter.cs  ./bin/roInv-facter.cs)]]
+  - [[#bisosfacterfacterpy][./bisos/facter/facter.py]]
+  - [[#bisosfacterfacter_csupy][./bisos/facter/facter_csu.py]]
+- [[#documentation][Documentation]]
+  - [[#bisosfacter-blee-panels][bisos.facter Blee-Panels]]
+- [[#support][Support]]
+
+* About facter
+
+[[https://www.puppet.com/docs/puppet/7/facter.html][Facter]] gathers information about the system, which can be used as variables.
+Facter is part of [[https://www.puppet.com/][puppet]], but it can also be used without puppet.
+
+To install facter:
+
+#+begin_src bash
+sudo apt-get install -y facter
+#+end_src
+
+Facter is a ruby package. This bisos.facter python package provides access to
+facter information through python, both locally and remotely.
+
+* About BISOS --- ByStar Internet Services Operating System
+
+Layered on top of Debian, *BISOS*: (By* Internet Services Operating System) is a
+unified and universal framework for developing both internet services and
+software-service continuums that use internet services. See [[https://github.com/bxGenesis/start][Bootstrapping
+ByStar, BISOS and Blee]] for information about getting started with BISOS.
+
+bisos.facter/ is a small piece of a much bigger picture. *BISOS* is a
+foundation for *The Libre-Halaal ByStar Digital Ecosystem* which is described as
+a cure for losses of autonomy and privacy that we are experiencing in a book
+titled: [[https://github.com/bxplpc/120033][Nature of Polyexistentials]]
+
+* Uses of bisos.facter
+
+Within BISOS, [[bisos.cmdb]] uses bisos.facter for Configuration Management DataBase
+purposes.
+
+* bisos.facter as an Example of Command Services (PyCS)
+
+bisos.facter can be used locally on command-line or remotely as a service.
+bisos.facter is a PyCS multi-unit command-service.
+PyCS is a framework that converges developement of CLI and Services.
+PyCS is an alternative to FastAPI, Typer and Click.
+
+bisos.facter uses the PyCS Framework to:
+
+1) Provide access to facter information  through python namedtuple
+2) Provide local access to facter information on CLI
+3) Provide remote access to facter information through remote invocation of
+   python Expection Complete Operations using [[https://github.com/tomerfiliba-org/rpyc][rpyc]].
+4) Provide remote access to facter information on CLI
+
+What is unique in the PyCS Framework is that these four models are all
+a single abstraction.
+
+* bisos.facter as a Standalone Piece of BISOS
+
+bisos.facter is a standalone piece of BISOS. It can be used as a self-contained
+Python package separate from BISOS. Follow the installtion and usage
+instructions below for your own use.
+
+* Installation
+
+The sources for the  bisos.facter pip package is maintained at:
+https://github.com/bisos-pip/facter.
+
+The bisos.facter pip package is available at PYPI as
+https://pypi.org/project/bisos.facter
+
+You can install bisos.facter with pip or pipx.
+
+** With pip
+
+If you need access to bisos.facter as a python module, you can install it with pip:
+
+#+begin_src bash
+pip install bisos.facter
+#+end_src
+
+** With pipx
+
+If you only need access to bisos.facter on command-line, you can install it with pipx:
+
+#+begin_src bash
+pipx install bisos.facter
+#+end_src
+
+The following commands are made available:
+- facter.cs
+- roInv-facter.cs
+- roPerf-facter.cs
+
+These are all one file with 3 names. _roInv-facter.cs_ and _roPerf-facter.cs_ are sym-links to _facter.cs_
+
+* Usage
+
+** Locally (system command-line)
+
+=facter.cs= does the equivalent of facter.
+
+#+begin_src bash
+bin/facter.cs
+#+end_src
+
+** Remotely (as a service -- Performer+Invoker)
+
+You can also  run
+
+
+*** Performer
+
+Invoke performer as:
+
+#+begin_src bash
+bin/roPerf-facter.cs
+#+end_src
+
+*** Invoker
+
+#+begin_src bash
+bin/roInv-facter.cs
+#+end_src
+
+** Use by python script
+
+* bisos.facter Code Walkthrough
+
+** bisos.facter Source Code is in COMEEGA
+
+bisos.facter can be used locally on command-line or remotely as a service.
+** TODO Take from 120033/common/engAdopt
+
+
+** ./bin/facter.cs  (./bin/roPerf-facter.cs  ./bin/roInv-facter.cs)
+A multi-unit
+
+** ./bisos/facter/facter.py
+
+** ./bisos/facter/facter_csu.py
+
+* Documentation
+
+Part of ByStar Digital Ecosystem [[http://www.by-star.net]].
+
+This module's primary documentation is in
+[[http://www.by-star.net/PLPC/180047]]
+
+** bisos.facter Blee-Panels
+
+bisos.facter Blee-Panles are in ./panels directory.
+From within Blee and BISOS these panles are accessible under the
+Blee "Panels" menu.
+
+* Support
+
+For support, criticism, comments and questions; please contact the
+author/maintainer\\
+[[http://mohsen.1.banan.byname.net][Mohsen Banan]] at:
+[[http://mohsen.1.banan.byname.net/contact]]
+
+
