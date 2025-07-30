@@ -1,0 +1,134 @@
+# mydir 📂✨
+[![PyPI](https://img.shields.io/pypi/v/mydir.svg)](https://pypi.org/project/mydir/)
+[![CI](https://github.com/your‑org/mydir/actions/workflows/ci.yml/badge.svg)](https://github.com/your‑org/mydir/actions)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+*A fast directory‑tree visualiser **and** syntax‑highlighted code‑bundle exporter  
+(PDF / DOCX) — perfect for hand‑offs, audits and documentation.*
+
+
+
+## Table of Contents
+1. [Features](#features)  
+2. [Installation](#installation)  
+3. [Quick Start — CLI](#quick-start--cli)  
+4. [Quick Start — Python API](#quick-start--python-api)  
+5. [Code Bundle Export](#code-bundle-export)  
+6. [Advanced Usage](#advanced-usage)  
+7. [Contributing & Development](#contributing--development)  
+8. [License](#license)
+
+
+
+## Features
+| Category | Highlights |
+|----------|------------|
+| Tree ▶️ | folders‑first / files‑first, reverse sort, depth limit, glob ignore rules, human‑readable sizes |
+| Export 📄 | Tree → `txt`, `md`, **JSON** (for tooling), forthcoming Mermaid |
+| Bundle 🗒 | Syntax‑highlighted **PDF** & **DOCX** of every text file in the project (keeps folder ordering) |
+| Extras 🔌 | `rich` console colours (auto), Pygments themes, WeasyPrint zoom, A4/Letter page selection |
+| Dev 🛠 | 100 % typed, `ruff`/`black` formatted, pytest + tox matrix ready |
+
+
+
+## Installation
+
+```bash
+# core (tree printer only)
+pip install mydir
+
+# PDF export (adds WeasyPrint)
+pip install "mydir[pdf]"
+
+# DOCX export
+pip install "mydir[doc]"
+
+# everything
+pip install "mydir[pdf,doc]"
+````
+
+> **Windows**: WeasyPrint needs the GTK‑Cairo runtime – see the [official docs](https://weasyprint.org/docs/install/) for a one‑time setup.
+
+
+
+## Quick Start — CLI
+
+```bash
+# Print current directory (folders first)
+mydir tree .
+
+# Include file sizes, files first, save to Markdown
+mydir tree src --show-sizes --files-first -o tree.md
+
+# Bundle the whole repo into a PDF (A4, 300 DPI, 80 % zoom)
+mydir bundle . --pdf project.pdf --pdf-dpi 300 --pdf-scale 0.8
+```
+
+Run `mydir tree --help` or `mydir bundle --help` for all flags.
+
+
+
+## Quick Start — Python API
+
+```python
+from mydir import mydir
+
+tree = (
+    mydir(root="src")
+    .ignore("*.log", "__pycache__")
+    .max_depth(2)
+    .show_sizes_on()
+)
+
+print(tree.build_tree_str())          # → console
+tree.save("tree.md")                  # → Markdown code‑block
+tree.export_code_pdf("code.pdf")      # → highlighted PDF
+```
+
+
+
+## Code Bundle Export
+
+| Format | Extra install                | Notes                                                              |
+| ------ | ---------------------------- | ------------------------------------------------------------------ |
+| PDF    | `pip install "mydir[pdf]"` | WeasyPrint under the hood; supports `--pdf-scale`, DPI & page size |
+| DOCX   | `pip install "mydir[doc]"` | Uses `python‑docx`; retains syntax colours via inline styles       |
+
+Both exports walk the project, guess lexers with **Pygments**, and embed file‑path headings for easy navigation.
+
+
+
+## Advanced Usage
+
+```bash
+# Reverse alphabetical, ignore build artefacts
+mydir tree . --reverse --ignore dist build "*.egg-info"
+
+# Generate JSON (parseable) via Python
+from json import loads
+json_lines = loads(mydir(root=".").to_json())
+```
+
+
+
+## Contributing & Development
+
+```bash
+git clone https://github.com/your‑org/mydir
+cd mydir
+python -m pip install -e ".[dev,pdf,doc]"   # dev + all extras
+pre-commit install                         # ruff / black / mypy
+
+pytest -q                                  # run tests
+tox                                        # full matrix
+python -m build && twine upload --repository testpypi dist/*
+```
+
+We follow **semantic versioning** and the [Conventional Commits](https://www.conventionalcommits.org) spec for changelogs.
+
+
+
+## License
+
+This project is licensed under the **MIT License** – see [`LICENSE`](LICENSE) for details.
+
