@@ -1,0 +1,77 @@
+Metadata-Version: 2.4
+Name: yeonjae-universal-http-api-client
+Version: 1.0.1
+Summary: Universal HTTP API client supporting GitHub, GitLab, Bitbucket and other platforms
+Author-email: "CodePing.AI Team" <contact@codeping.ai>
+License: MIT
+Project-URL: Homepage, https://github.com/yeonjae-work/universal-modules
+Project-URL: Repository, https://github.com/yeonjae-work/universal-modules
+Project-URL: Issues, https://github.com/yeonjae-work/universal-modules/issues
+Project-URL: Changelog, https://github.com/yeonjae-work/universal-modules/blob/main/packages/yeonjae-universal-http-api-client/CHANGELOG.md
+Keywords: http,api,client,github,gitlab,slack,notion,universal
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Internet :: WWW/HTTP :: HTTP Servers
+Classifier: Topic :: System :: Networking
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: httpx>=0.25.0
+Requires-Dist: requests>=2.28.0
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: urllib3>=1.26.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.21.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: isort>=5.12.0; extra == "dev"
+Requires-Dist: flake8>=6.0.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Requires-Dist: requests-mock>=1.9.0; extra == "dev"
+
+# Universal HTTP API Client
+
+Universal HTTP API client with platform-specific adapters for GitHub, GitLab, Slack, and Notion.
+
+## Features
+
+- **Multi-Platform Support**: GitHub, GitLab, Slack, Notion APIs
+- **Smart Caching**: Automatic request caching with configurable TTL
+- **Rate Limiting**: Built-in rate limiting with platform-specific rules
+- **Error Handling**: Comprehensive error handling with custom exceptions
+- **Async Support**: Full async/await support for all operations
+- **Type Safety**: Complete type annotations with mypy support
+
+## Installation
+
+```bash
+pip install universal-http-api-client
+```
+
+## Quick Start
+
+```python
+from universal_http_api_client import HTTPAPIClient, Platform
+
+# GitHub API
+client = HTTPAPIClient(Platform.GITHUB, "your-token")
+repo = client.get_repository("owner/repo")
+client.close()
+
+# Slack API
+slack_client = HTTPAPIClient(Platform.SLACK, "your-slack-token")
+response = slack_client.send_message("channel", "Hello World!")
+slack_client.close()
+```
+
+## License
+
+MIT License
