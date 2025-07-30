@@ -1,0 +1,55 @@
+[project]
+name = "dymo-bluetooth"
+description = "Print labels on DYMO LT-200B over Bluetooth."
+version = "0.1.1"
+authors = [{ name = "ysfchn" }]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.9",
+    "Development Status :: 5 - Production/Stable",
+    "Operating System :: OS Independent",
+    "Topic :: System :: Hardware",
+    "Topic :: Printing"
+]
+dependencies = [
+    "bleak~=0.22.2",
+    "pillow~=11.0.0"
+]
+optional-dependencies.full = ["python-barcode[images]~=0.15.1"]
+requires-python = ">=3.9"
+
+[project.urls]
+"GitHub" = "https://github.com/ysfchn/dymo-bluetooth"
+
+[project.scripts]
+dymo_bluetooth = "dymo_bluetooth.__main__:main"
+
+[tool.setuptools]
+packages = ["dymo_bluetooth"]
+
+[tool.rye]
+dev-dependencies = [
+    "ruff~=0.0.290"
+]
+
+[build-system]
+requires = [
+    "setuptools>=61",
+    "wheel"
+]
+build-backend = "setuptools.build_meta"
+
+[tool.ruff]
+line-length = 110
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+reportDeprecated = "none"
+typeCheckingMode = "standard"
+reportOptionalMemberAccess = "warning"
+reportOptionalIterable = "none"
+pythonPlatform = "All"
