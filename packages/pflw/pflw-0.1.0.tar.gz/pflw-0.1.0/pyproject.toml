@@ -1,0 +1,25 @@
+[build-system]
+requires = ["maturin>=1.8,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "pflw"
+requires-python = ">=3.13"
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+dynamic = ["version"]
+scripts = { pflw = "pflw:main" }
+dependencies = []
+
+[tool.maturin]
+features = ["pyo3/extension-module"]
+
+[tool.pyright]
+venv = ".venv"
+venvPath = "."
+
+[dependency-groups]
+dev = ["pytest>=8.3.5"]

@@ -1,0 +1,63 @@
+name: release
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    runs-on: ${{ matrix.platform.runner }}
+    strategy:
+      matrix:
+        platform:
+          - runner: ubuntu-24.04
+            target: x86_64
+          - runner: ubuntu-24.04
+            target: aarch64
+          - runner: ubuntu-24.04
+            target: armv7
+
+          - runner: windows-latest
+            target: x64
+
+          - runner: macos-13
+            target: x86_64
+          - runner: macos-14
+            target: aarch64
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+
+      - name: Install maturin
+        run: uv tool install maturin
+
+      - name: Set up Python
+        run: uv python install
+
+      - name: Set up venv
+        run: uv venv --managed-python
+
+      - name: Build wheel
+        run: uv run --no-sync maturin build --release --out dist
+
+      - name: sdist
+        if: matrix.platform.runner == 'ubuntu-24.04' && matrix.platform.target == 'x86_64'
+        run: uv run --no-sync maturin sdist --out dist
+
+      - name: Upload wheel
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheel-${{ matrix.platform.runner }}-${{ matrix.platform.target }}
+          path: dist
