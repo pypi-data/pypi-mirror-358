@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>CloudSecGPT Report</title>
+  <link rel="icon" type="image/png" href="data:image/png;base64,{{ logo_base64 }}">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+    html,body{margin:0;padding:0;font-family:'Inter',sans-serif;background:#f5f7fa;color:#333;overflow-x:hidden}
+    header{background:#000;padding:1rem 2rem;display:flex;align-items:center;justify-content:center}
+    header img{height:48px;margin-right:1rem}
+    header h1{color:#fff;font-size:1.75rem;margin:0}
+    main{padding:2rem;max-width:1200px;margin:auto}
+    h2{margin-top:2rem;color:#222;border-bottom:2px solid #e0e0e0;padding-bottom:.5rem;text-align:center}
+    /* cards */
+    .stats{display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:2rem}
+    .stat-card{background:#fff;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,.1);flex:1;min-width:180px;padding:1rem;text-align:center}
+    .stat-card h3{margin:0;font-size:2rem;color:#0078d4}
+    .stat-card p{margin:.25rem 0 0;font-size:.9rem;color:#555}
+    /* charts */
+    .charts-row   { display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; }
+    .chart-box    { background:#fff; padding:1rem;
+                    border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,.1);
+                    width:45%; aspect-ratio:4/3; }
+    .chart-box canvas { width:100% !important; height:100% !important; }
+    /* tables */
+    .table-container{overflow-x:auto;margin-top:1rem}
+    table{width:100%;border-collapse:collapse;table-layout:fixed;word-break:break-word;background:#fff}
+    th,td{padding:.75rem;text-align:center}
+    th{background:#0078d4;color:#fff;font-weight:600;position:sticky;top:0;z-index:1}
+    tr:nth-child(even){background:#f0f4f8}
+    code{background:#eaeaea;padding:.25rem .5rem;border-radius:4px;font-size:.85rem;white-space:pre-wrap}
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<header>
+  <img src="data:image/png;base64,{{ logo_base64 }}" alt="CloudSecGPT Logo">
+  <h1>CloudSecGPT Report</h1>
+</header>
+
+<main>
+  <!-- SUMMARY CARD -->
+  <section>
+    <h2>General Summary</h2>
+    <div class="stats">
+      <div class="stat-card">
+        <h3>{{ total }}</h3>
+        <p>Total Misconfigurations</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHARTS SIDE-BY-SIDE -->
+  <section>
+    <div class="charts-row">
+      <div class="chart-box">
+        <h2 style="border:none;margin:0 0 1rem 0;">Risk Score Distribution</h2>
+        <canvas id="riskChart"></canvas>
+      </div>
+      <div class="chart-box">
+        <h2 style="border:none;margin:0 0 1rem 0;">Findings by Resource Type</h2>
+        <canvas id="resourceChart"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOP 10 TABLE -->
+  <section>
+    <h2>Top 10 Misconfigurations</h2>
+    <div class="table-container">
+      <table>
+        <tr>
+          <th>ID</th><th>Score</th><th>Summary</th><th>Resource UID</th><th>Why</th><th>Fix Command</th>
+        </tr>
+        {% for row in top10 %}
+        <tr>
+          <td>{{ row.id }}</td>
+          <td>{{ row.risk_score }}</td>
+          <td>{{ row.summary }}</td>
+          <td>{{ row.resource_uid }}</td>
+          <td>{{ row.why }}</td>
+          <td><code>{{ row.cli_fix }}</code></td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </section>
+
+  <!-- GROUPED FINDINGS TABLE -->
+  {% if groups %}
+  <section>
+    <h2>Grouped Findings</h2>
+    <div class="table-container">
+      <table>
+        <tr>
+          <th>Resource Type</th><th>Summary</th><th>Count</th><th>Max Score</th><th>Resources</th>
+        </tr>
+        {% for c in groups %}
+        <tr>
+          <td>{{ c.resource_type }}</td>
+          <td>{{ c.summary }}</td>
+          <td>{{ c.count }}</td>
+          <td>{{ c.max_score }}</td>
+          <td>
+            <ul style="margin:0;padding-left:1.2rem;">
+              {% for rid in c.resources %}
+                <li style="font-family:monospace">{{ rid }}</li>
+              {% endfor %}
+            </ul>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </section>
+  {% endif %}
+</main>
+
+<script>
+/* ------------------- Risk-Score Bar ------------------- */
+new Chart(document.getElementById('riskChart'), {
+  type:'bar',
+  data:{
+    labels: {{ score_labels | tojson }}.map(s => `Score ${s}`),
+    datasets:[{
+      data: {{ score_counts | tojson }},
+      backgroundColor:'rgba(33,150,243,0.6)',
+      borderColor:'rgba(33,150,243,1)',
+      borderWidth:1
+    }]
+  },
+  options:{
+    responsive:true,
+    maintainAspectRatio:false,
+    scales:{
+      x:{ grid:{ display:false } },
+      y:{ beginAtZero:true, title:{ display:true, text:'Count' } }
+    },
+    plugins:{
+      legend:{ display:false },
+      tooltip:{ callbacks:{ label:ctx=>`${ctx.parsed.y} findings` } }
+    }
+  }
+});
+
+/* ----------------- Resource-Type Pie ------------------ */
+new Chart(document.getElementById('resourceChart'), {
+  type:'pie',
+  data:{
+    labels: {{ resource_labels | tojson }},
+    datasets:[{ data: {{ resource_counts | tojson }} }]
+  },
+  options:{
+    responsive:true,
+    maintainAspectRatio:false,
+    plugins:{
+      legend:{ position:'bottom' },
+      tooltip:{ callbacks:{ label:ctx=>`${ctx.label}: ${ctx.parsed} findings` } }
+    }
+  }
+});
+</script>
+</body>
+</html>
