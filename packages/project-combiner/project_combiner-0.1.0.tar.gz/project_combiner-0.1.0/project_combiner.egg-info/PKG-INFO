@@ -1,0 +1,30 @@
+Metadata-Version: 2.4
+Name: project-combiner
+Version: 0.1.0
+Summary: Concatenate text-like files in a directory tree with Typer-powered CLI.
+Author-email: Your Name <you@example.com>
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Utilities
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENCE
+Requires-Dist: typer>=0.9
+Requires-Dist: colorama; sys_platform == "win32"
+Provides-Extra: all
+Requires-Dist: typer[all]; extra == "all"
+Requires-Dist: pathspec; extra == "all"
+Requires-Dist: tqdm; extra == "all"
+Dynamic: license-file
+
+```bash
+pip install combine-files[all]   # full feature set (tqdm + pathspec)
+# or minimal core
+pip install combine-files
+
+# basic usage
+combine-files . --preview-exts .md .csv -j 4 --progress
+```

@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "project-combiner"
+version = "0.1.0"
+description = "Concatenate text-like files in a directory tree with Typer-powered CLI."
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}         # or your licence
+authors = [{name = "Your Name", email = "you@example.com"}]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "Topic :: Utilities"
+]
+
+dependencies = ["typer>=0.9", "colorama; sys_platform == 'win32'"]
+
+[project.optional-dependencies]
+all = ["typer[all]", "pathspec", "tqdm"]
+
+[project.scripts]
+combine-files = "combine_files.cli:_entrypoint"
+
+
+
+
+	
