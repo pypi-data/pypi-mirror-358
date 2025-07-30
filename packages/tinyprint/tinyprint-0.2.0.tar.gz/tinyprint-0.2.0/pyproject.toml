@@ -1,0 +1,32 @@
+[project]
+name = "tinyprint"
+version = "0.2.0"
+authors = [
+    {name = "Levin Eric Zimmermann", email = "levin.eric.zimmermann@posteo.eu"},
+]
+description = "ui & cli to print zines with esc/pos printer"
+requires-python = ">=3.10"
+readme = "README.md"
+dependencies = [
+    'python-escpos>=3.1',
+    'dataclasses-json>=0.6.0',
+    'marko>=2.1.2',
+    'pdf2image>=1.17.0',
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "mypy",
+    "types-six",
+    "types-pillow",
+]
+
+[project.license]
+text = "GPL"
+
+[tool.setuptools]
+packages = ["tinyprint"]
+
+[project.scripts]
+tinyprint = "tinyprint.__main__:main"
