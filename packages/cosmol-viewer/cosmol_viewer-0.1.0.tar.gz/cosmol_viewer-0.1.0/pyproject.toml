@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cosmol-viewer"
+version = "0.1.0"
+description = "Molecular visualization tools"
+authors = [{name = "95028", email = "wjt@cosmol.org"}]
+
+[tool]
+
+[tool.maturin]
+manifest-path = "cosmol_viewer_python/Cargo.toml"
