@@ -1,0 +1,390 @@
+Metadata-Version: 2.1
+Name: autonomize-observer
+Version: 0.0.8
+Summary: Comprehensive LLM observability SDK with tracing, monitoring, and cost tracking
+Home-page: https://github.com/autonomize-ai/autonomize-observer.git
+License: Proprietary
+Keywords: llm,observability,cost tracking,monitoring,kafka,mongodb
+Author: Jagveer Singh
+Author-email: jagveer@autonomize.ai
+Requires-Python: >=3.12,<4.0
+Classifier: License :: Other/Proprietary License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Provides-Extra: anthropic
+Provides-Extra: modelhub
+Provides-Extra: openai
+Requires-Dist: anthropic (>=0.49.0,<0.50.0) ; extra == "anthropic"
+Requires-Dist: autonomize-core (>=0.1.7,<0.2.0)
+Requires-Dist: azure-identity (>=1.21.0,<2.0.0)
+Requires-Dist: azure-storage-blob (>=12.25.1,<13.0.0)
+Requires-Dist: confluent-kafka (>=2.3.0,<3.0.0)
+Requires-Dist: httpx (>=0.28.1,<0.29.0) ; extra == "modelhub"
+Requires-Dist: langchain (==0.3.26)
+Requires-Dist: openai (>=1.43.0,<2.0.0) ; extra == "openai"
+Requires-Dist: pandas (>=2.2.2,<3.0.0)
+Requires-Dist: tenacity (>=8.2.3,<10.0.0)
+Requires-Dist: tiktoken (>=0.7.0)
+Project-URL: Repository, https://github.com/autonomize-ai/autonomize-observer.git
+Description-Content-Type: text/markdown
+
+# Autonomize Observer SDK v0.0.7
+
+A production-ready SDK for comprehensive LLM observability, providing automated monitoring, cost tracking, and performance analytics for AI applications.
+
+## 🚀 Key Features
+
+### **Automated LLM Monitoring**
+- **Zero-Code Integration**: Wrap any LLM client to start monitoring immediately
+- **Real-Time Tracking**: Automatic capture of API calls, costs, tokens, and performance
+- **Multi-Provider Support**: OpenAI, Anthropic, Google, Meta, Mistral, Amazon, and more
+- **Async-First Design**: Built for modern asynchronous applications
+
+### **Agent & Workflow Tracing**
+- **End-to-End Visibility**: Trace complex multi-step AI workflows and agent executions
+- **Component-Level Insights**: Detailed breakdown of each step in your AI pipeline
+- **Consolidated Metrics**: Aggregate costs, tokens, and performance across entire workflows
+- **Flow Visualization**: Complete execution path mapping with timing and dependencies
+
+### **Enterprise-Grade Observability**
+- **Kafka Streaming**: Real-time data streaming for centralized observability
+- **MongoDB Storage**: Scalable storage with powerful querying capabilities
+- **Dashboard Ready**: Built-in APIs for analytics dashboards and reporting
+- **Cost Analytics**: Comprehensive cost tracking and budget management
+
+### **High Performance**
+- **Direct Database Operations**: Optimized for high-throughput scenarios
+- **Batch Processing**: Efficient handling of large-scale AI workloads
+- **Minimal Overhead**: < 5ms latency impact on LLM calls
+- **Scalable Architecture**: Handles thousands of concurrent AI operations
+
+## 🏗️ Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                           Autonomize Observer SDK v0.0.7                       │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│  ┌─────────────────────┐                    ┌─────────────────────────────────┐ │
+│  │   Direct LLM Calls  │                    │      Agent Workflows           │ │
+│  │                     │                    │                                 │ │
+│  │  client = OpenAI()  │                    │  tracer = AgentTracer()         │ │
+│  │  monitor(client)    │                    │  tracer.add_trace()             │ │
+│  │  client.chat()      │                    │  # Complex multi-step workflow   │ │
+│  │                     │                    │  tracer.end()                   │ │
+│  └─────────┬───────────┘                    └─────────────┬───────────────────┘ │
+│            │                                              │                     │
+│            │ llm_call_start/end events                   │ trace/span events   │
+│            │                                              │                     │
+│            └──────────────────┬───────────────────────────┘                     │
+│                               │                                                 │
+│                               ▼                                                 │
+│                    ┌─────────────────────────────────┐                         │
+│                    │         Kafka Streaming        │                         │
+│                    │                                 │                         │
+│                    │  Topic: genesis-traces-streaming│                         │
+│                    │  Real-time event processing     │                         │
+│                    └─────────────┬───────────────────┘                         │
+│                                  │                                             │
+└──────────────────────────────────┼─────────────────────────────────────────────┘
+                                   │
+                                   ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                        Genesis Service ModelHub                                │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│                    ┌─────────────────────────────────┐                         │
+│                    │       Observer Worker          │                         │
+│                    │                                 │                         │
+│                    │  • Consumes Kafka events       │                         │
+│                    │  • Processes traces & costs     │                         │
+│                    │  • Direct MongoDB operations    │                         │
+│                    │  • Real-time metrics aggregation│                         │
+│                    └─────────────┬───────────────────┘                         │
+│                                  │                                             │
+│                                  ▼                                             │
+│                    ┌─────────────────────────────────┐                         │
+│                    │         MongoDB Storage        │                         │
+│                    │                                 │                         │
+│                    │  Collections:                   │                         │
+│                    │  • traces (execution paths)     │                         │
+│                    │  • observations (components)    │                         │
+│                    │  • model_usage (LLM calls)     │                         │
+│                    │  • realtime_metrics (analytics) │                         │
+│                    └─────────────┬───────────────────┘                         │
+│                                  │                                             │
+└──────────────────────────────────┼─────────────────────────────────────────────┘
+                                   │
+                                   ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                          Analytics & Dashboards                                │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────────────────────┐ │
+│  │ Cost Analytics  │  │ Performance     │  │       Genesis Studio           │ │
+│  │                 │  │ Monitoring      │  │                                 │ │
+│  │ • Model costs   │  │                 │  │ • Visual workflow builder       │ │
+│  │ • Token usage   │  │ • Latency       │  │ • Real-time execution tracking  │ │
+│  │ • Budget alerts │  │ • Throughput    │  │ • Agent performance insights    │ │
+│  │ • Trend analysis│  │ • Error rates   │  │ • Cost optimization tools       │ │
+│  └─────────────────┘  └─────────────────┘  └─────────────────────────────────┘ │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘
+```
+
+## 📦 Installation
+
+```bash
+# Basic installation
+pip install autonomize-observer
+
+# With provider-specific dependencies
+pip install "autonomize-observer[openai]"        # OpenAI support
+pip install "autonomize-observer[anthropic]"     # Anthropic support
+pip install "autonomize-observer[openai,anthropic]"  # Multiple providers
+```
+
+## 🚀 Quick Start
+
+### Direct LLM Call Monitoring
+
+Monitor individual LLM calls with zero configuration:
+
+```python
+import os
+from openai import OpenAI
+from autonomize_observer import monitor
+
+# Configure observability backend
+os.environ["AUTONOMIZE_KAFKA_BROKERS"] = "your-kafka-brokers:9092"
+os.environ["AUTONOMIZE_KAFKA_TOPIC"] = "genesis-traces-streaming"
+os.environ["AUTONOMIZE_TRACING_ENABLED"] = "true"
+
+# Initialize and monitor LLM client
+client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+monitor(client)
+
+# Use normally - every call is automatically tracked
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "What is machine learning?"}
+    ]
+)
+
+print(response.choices[0].message.content)
+```
+
+**What gets tracked automatically:**
+- ✅ Model name and provider
+- ✅ Input/output tokens and costs
+- ✅ Request/response timing
+- ✅ Complete message content
+- ✅ Real-time metrics aggregation
+
+### Agent Workflow Tracing
+
+Track complex multi-step AI workflows:
+
+```python
+from autonomize_observer.tracing import AgentTracer
+from autonomize_observer import monitor
+import uuid
+
+# Initialize workflow tracer
+tracer = AgentTracer(
+    trace_name='Content Generation Pipeline',
+    trace_id=str(uuid.uuid4()),
+    flow_id='content-pipeline-v1',
+    project_name='content-system'
+)
+
+# Monitor LLM calls within the workflow
+client = OpenAI()
+monitor(client)
+
+# Step 1: Research Phase
+tracer.add_trace(
+    trace_id="research",
+    trace_name="Research & Information Gathering",
+    inputs={"topic": "AI in Healthcare", "depth": "comprehensive"}
+)
+
+research_response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[
+        {"role": "system", "content": "You are a research analyst."},
+        {"role": "user", "content": "Research AI applications in healthcare"}
+    ]
+)
+
+tracer.end_trace(
+    trace_id="research",
+    outputs={"research_data": research_response.choices[0].message.content}
+)
+
+# Complete workflow with consolidated metrics
+tracer.end(
+    inputs={"pipeline": "content-generation"},
+    outputs={"final_content": "generated_content.md"}
+)
+```
+
+## 🎯 Supported AI Providers & Models
+
+### **OpenAI**
+- **GPT Models**: GPT-4o, GPT-4o-mini, GPT-4 Turbo, GPT-3.5 Turbo
+- **O-Series**: o1, o1-mini, o1-preview
+- **Embeddings**: text-embedding-3-large, text-embedding-3-small
+
+### **Anthropic**
+- **Claude 3.5**: Sonnet, Haiku
+- **Claude 3**: Opus, Sonnet, Haiku
+
+### **Google (Gemini)**
+- **Gemini 2.0**: Flash, Flash Thinking
+- **Gemini 1.5**: Pro, Flash, Flash-8B
+
+### **Meta (Llama)**
+- **Llama 3.3**: 70B Instruct
+- **Llama 3.2**: 1B, 3B, 11B, 90B variants
+
+### **Mistral**
+- **Latest**: Mistral Large, Codestral
+- **Specialized**: Mistral Nemo, Mixtral variants
+
+### **Amazon Bedrock**
+- **Nova**: Pro, Lite, Micro
+- **Titan**: Text, Embeddings
+
+*Auto-detection of 150+ models with current pricing*
+
+## ⚙️ Configuration
+
+### Environment Variables
+
+| Variable | Description | Required | Default |
+|----------|-------------|----------|---------|
+| `AUTONOMIZE_KAFKA_BROKERS` | Kafka broker addresses | ✅ | - |
+| `AUTONOMIZE_KAFKA_TOPIC` | Kafka topic for streaming | ✅ | `genesis-traces-streaming` |
+| `AUTONOMIZE_TRACING_ENABLED` | Enable observability | ✅ | `false` |
+| `EXPERIMENT_NAME` | Project name for direct LLM calls | ⚪ | `Direct LLM Calls` |
+| `PROJECT_NAME` | Alternative project name | ⚪ | - |
+
+## 📊 Data Models
+
+### Traces Collection
+```json
+{
+  "trace_id": "uuid",
+  "name": "Content Generation Pipeline",
+  "project_name": "content-system",
+  "total_cost": 0.0234,
+  "input_cost": 0.0156,
+  "output_cost": 0.0078,
+  "total_tokens": 3420,
+  "models_used": ["gpt-4o"],
+  "providers_used": ["openai"],
+  "status": "completed"
+}
+```
+
+### Model Usage Collection
+```json
+{
+  "call_id": "uuid",
+  "trace_id": "uuid",
+  "model": "gpt-4o",
+  "provider": "openai",
+  "input_tokens": 1200,
+  "output_tokens": 800,
+  "total_cost": 0.036,
+  "messages": [...],
+  "response": "..."
+}
+```
+
+## 🔧 Advanced Features
+
+### Async Support
+
+```python
+import asyncio
+from openai import AsyncOpenAI
+from autonomize_observer import monitor
+
+async def async_llm_workflow():
+    client = AsyncOpenAI()
+    monitor(client)
+    
+    # Concurrent LLM calls with full observability
+    tasks = [
+        client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[{"role": "user", "content": f"Process item {i}"}]
+        )
+        for i in range(5)
+    ]
+    
+    results = await asyncio.gather(*tasks)
+    return results
+
+# Run async workflow
+results = asyncio.run(async_llm_workflow())
+```
+
+### Integration with Genesis Studio
+
+The SDK seamlessly integrates with **Genesis Studio** for visual workflow building:
+
+1. **Visual Agent Builder**: Create agents using drag-and-drop interface
+2. **Real-time Execution**: Watch your agents execute with live observability
+3. **Performance Optimization**: Identify bottlenecks and optimize costs
+4. **Production Deployment**: Deploy agents with full observability enabled
+
+## 📈 Performance & Scaling
+
+- **Minimal Latency**: < 5ms overhead per LLM call
+- **High Throughput**: Handles 10,000+ concurrent operations
+- **Efficient Storage**: Optimized MongoDB operations
+- **Real-time Processing**: Sub-second metric aggregation
+- **Scalable Architecture**: Kubernetes-ready with horizontal scaling
+
+## 🧪 Examples
+
+Explore comprehensive examples in the `examples/notebooks/` directory:
+
+- **01_basic_monitoring.ipynb**: Simple LLM call monitoring
+- **02_advanced_tracing.ipynb**: Complex agent workflow tracing  
+- **03_cost_tracking.ipynb**: Multi-model cost analysis
+- **04_async_monitoring.ipynb**: Concurrent async operations
+
+## 📋 Requirements
+
+- **Python**: 3.12+
+- **Kafka**: 2.8+ (for streaming)
+- **MongoDB**: 4.4+ (for storage)
+
+## 🚦 Getting Started Checklist
+
+1. ✅ **Install SDK**: `pip install autonomize-observer`
+2. ✅ **Configure Kafka**: Set `AUTONOMIZE_KAFKA_BROKERS`
+3. ✅ **Enable Tracing**: Set `AUTONOMIZE_TRACING_ENABLED=true`
+4. ✅ **Wrap LLM Client**: Use `monitor(client)`
+5. ✅ **Deploy Observer Worker**: Run genesis-service-modelhub worker
+6. ✅ **View Analytics**: Access MongoDB collections or Genesis Studio
+
+---
+
+**Autonomize Observer SDK v0.0.7** - Production-ready LLM observability for enterprise AI applications.
+
+## 🔮 Roadmap - Next Items
+
+### **Planned Features**
+- **🌐 HTTP API Support**: Alternative to Kafka streaming for environments without Kafka infrastructure  
+- **🧪 Unit Test Coverage**: Comprehensive test suite for all SDK components and integrations
+
+### **Contribute**
+We welcome contributions! These features are great starting points for community involvement.
+
