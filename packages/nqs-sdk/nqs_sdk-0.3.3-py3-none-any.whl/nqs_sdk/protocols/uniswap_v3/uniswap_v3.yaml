@@ -1,0 +1,147 @@
+---
+name: UniswapV3
+components:
+  - Whitelist<Token>
+protocol_metrics:
+  - name: DEX Spot
+    doc: Price of token0 in units of token1
+    symbol: dex_spot
+  - name: Current Tick Liquidity
+    doc: Liquidity parameter in the pool for the current tick
+    symbol: liquidity
+  - name: Total Volume
+    doc: Total volume of swaps in the pool in units of the user numéraire
+    symbol: total_volume_numeraire
+  - name: Total Token Volume
+    doc: Total volume of swaps in the pool for the token0 or token1
+    symbol: total_volume
+    parameters:
+      - name: token
+        type: Token
+        optional_name: true
+  - name: Total Token Holdings
+    doc: Total holdings of token0 or token1 in the pool
+    symbol: total_holdings
+    parameters:
+      - name: token
+        type: Token
+        optional_name: true
+  - name: Total Token Fees
+    doc: Total fees of token0, token1 or numeraire (if omitted) in the pool
+    symbol: total_fees
+    parameters:
+      - name: token
+        type: Option<Token>
+        optional_name: true
+  - name: Total Value Locked
+    doc: Total value locked in the pool in units of the user numéraire
+    symbol: total_value_locked
+  - name: Current Tick
+    doc: Current tick of the pool
+    symbol: current_tick
+agent_metrics:
+  - name: Position Active Liquidity
+    doc: Position active liquidity in the pool for the current tick
+    symbol: active_liquidity
+    parameters:
+      - name: position
+        type: Option<String>
+  - name: Position Liquidity
+    doc: Position liquidity in the pool
+    symbol: liquidity
+    parameters:
+      - name: position
+        type: Option<String>
+  - name: User Token Amount
+    doc: User actual amount of token0 or token1 in the pool (on the position if provided)
+    symbol: token_amount
+    parameters:
+      - name: token
+        type: Token
+        optional_name: true
+      - name: position
+        type: Option<String>
+  - name: User Position Value
+    doc: Shows the value of the agent's position in the pool, in units of numeraire.
+    symbol: net_position
+    parameters:
+      - name: position
+        type: Option<String>
+  - name: Total fees
+    doc: Total fees collected or not by the position or the portfolio in units of the
+      user numéraire
+    symbol: total_fees
+    parameters:
+      - name: position
+        type: Option<String>
+  - name: Total fees not collected
+    doc: Total fees not collected
+    symbol: fees_not_collected
+    # interdependent options not yet managed (cf failures.rs)
+    parameters:
+      - name: token
+        type: Option<Token>
+        optional_name: true
+      - name: position
+        type: Option<String>
+  - name: total fees collected
+    doc: Total fees collected
+    symbol: fees_collected
+    # interdependent options not yet managed (cf failures.rs)
+    parameters:
+      - name: token
+        type: Option<Token>
+        optional_name: true
+      - name: position
+        type: Option<String>
+  - name: Absolute Impermanent Loss
+    doc: Impermanent loss in units of the user numéraire for the position or the total
+      portfolio
+    symbol: abs_impermanent_loss
+    parameters:
+      - name: position
+        type: Option<String>
+  - name: Relative Impermanent Loss
+    doc: Impermanent loss in percentage points for the position or the total portfolio
+    symbol: perc_impermanent_loss
+    parameters:
+      - name: position
+        type: Option<String>
+  - name: Static Portfolio Value
+    doc: Value of the static portfolio in units of the user numéraire for the position
+      or the total portfolio
+    symbol: static_ptf_value
+    parameters:
+      - name: position
+        type: Option<String>
+  - name: Permanent/Realized Loss
+    doc: Permanent/Realized loss in units of the user numéraire for the position
+    symbol: permanent_loss
+    parameters:
+      - name: position
+        type: Option<String>
+  - name: Loss Versus Rebalancing
+    doc: Loss versus rebalancing in units of the user numéraire for the position or
+      the portfolio
+    symbol: loss_versus_rebalancing
+    parameters:
+      - name: position
+        type: Option<String>
+  - name: Total Fees To LVR
+    doc: Total accumulated fees as a percentage of the LVR for the position or the portfolio
+    symbol: total_fees_relative_to_lvr
+    parameters:
+      - name: position
+        type: Option<String>
+  - name: Position Lower Bound
+    doc: Lower bound of the position
+    symbol: lower_bound_price
+    parameters:
+      - name: position
+        type: String
+  - name: Position Relative Upper Bound pct
+    doc: Upper bound of the position
+    symbol: upper_bound_price
+    parameters:
+      - name: position
+        type: String
