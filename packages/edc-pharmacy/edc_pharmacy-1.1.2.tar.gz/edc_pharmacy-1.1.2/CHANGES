@@ -1,0 +1,93 @@
+1.1.2
+-----
+- refactor StockOut model to StockAvailability
+
+1.1.0
+-----
+- add rangefilters to admins
+- convert stock out report to show stock availability with
+  links to stock items and storage bins
+
+1.0.0
+-----
+- fix issue where stock requests incorrectly see dispensed stock as "in stock"
+- update list filters on Stock admin
+
+
+1.0.6
+-----
+- add screen to move stock stored at site from one bin to another
+- automatically increase bin capacity if moving in
+  more items than current capacity can hold
+- set minvaluevalidator=0 for storagebin capacity
+- fix exception raised when attempting to print stock not yet
+  allocated
+
+1.0.4
+----------
+- add stored_at_site boolean to stock table
+- add stockout
+
+1.0.3
+-----
+- precommit
+- PHARMACY_SUPER_ROLE, special case to skip clean with this role on order, receive.
+- Add dummy model to check for scan duplicates (temporary)
+- format_html fixes
+- add more restrictive access through perms
+- update main menu, split central and site
+- add storage bins for the site
+- improve navigation between changelists
+- fix requests and how it selects subjects who need medication
+  - change get next appointment/visit DF
+  - exclude those pending in an existing stock request
+- add stock request status list filter and allow delete for zero totals
+- add additional validation when posting stock codes for a stock request
+
+1.0.2
+-----
+- Lot, add fields; manufacture date, process until, expiration, etc
+- Receive, add field; reference, comment
+- format_html fixes
+- RxForm, confirm field exists
+
+1.0.1
+-----
+- format_html fixes
+- translations
+
+1.0.0
+-----
+- pre-commit
+- remove refs to bootstrap template path
+
+0.3.17
+------
+- minor, process_repack_request returns None
+
+0.3.16
+------
+- restrict perms / codenames between site and central pharmacists
+
+0.3.15
+------
+- major refactor and add stock management
+
+
+0.1.14
+------
+- remove visit_code, visit_code_sequence from rxrefill model
+- add and require refill_end_datetime
+- add utils to update refill_end_datetime if auto-calculating based on
+  time intervals between visits
+- keep rxrefill in-sync with study medication form if study med form
+  is the source of refill data
+- PreviousNextModelMixin
+- update modeladmin, add duration column
+- update form_validator to enforce refill_end_datetime after start
+- fix issue with auths not populating pharmacy codemanes
+- refactor to use utils for next/previous appt from edc-appointment
+- update / expand tests
+
+0.1.13
+------
