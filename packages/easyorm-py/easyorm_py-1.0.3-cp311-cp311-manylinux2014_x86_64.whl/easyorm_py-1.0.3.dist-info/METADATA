@@ -1,0 +1,102 @@
+Metadata-Version: 2.4
+Name: easyorm-py
+Version: 1.0.3
+Summary: easy_orm
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: requires-python
+Dynamic: summary
+
+## example
+
+### 1. load db config
+```python
+from easy_orm import EasyOrmConfig
+EasyOrmConfig({
+    "host": "127.0.0.1",
+    "port": 3306,
+    "user": "root",
+    "password": 123456,
+    "database": "dbname",
+    "mapper_xml_path": "xmlpath",
+    "raw_sql": True
+})
+```
+### 2. edit xml
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "">
+<mapper namespace="TestMapper">
+
+    <select id="find_data_by_ids">
+        select id, username from test where id in
+        <foreach collection="id_list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="test_page">
+        select id, username from test
+    </select>
+
+    <select id="test_where">
+
+        select id, username from test
+
+        <where>
+            <if test="params.get('id') is not None">
+                id = #{id}
+            </if>
+        </where>
+
+    </select>
+
+    <insert id="add_data">
+        insert into test (nickname, username) values ('xxx', 'xxx1')
+    </insert>
+
+
+    <update id="update_data_by_id">
+        update test set nickname = #{nickname} where id = #{id}
+    </update>
+
+
+    <delete id="delete_data_by_id">
+        delete from test where id = #{id}
+    </delete>
+
+</mapper>
+```
+
+
+### 3. Extend BaseMapper and Use
+```python
+# TestMapper.py
+from easy_orm import BaseMapper, Page, select_one, delete
+
+
+class TestMapper(BaseMapper):
+
+    def find_data_by_ids(self, id_list: list): ...
+
+    @select_one('select * from test where id = #{id}')
+    def find_data_one(self, id: int): ...
+
+    def test_page(self, page: Page): ...
+
+    def test_where(self, id: int): ...
+
+    def add_data(self): ...
+
+    def update_data_by_id(self, nickname: str, id: int): ...
+
+    @delete('delete from test where id = #{id}')
+    def delete_data_by_id2(self, id: int): ...
+    
+if __name__ == '__main__':
+    test = TestMapper()
+    test.find_data_by_ids([1, 2, 3])
+
+```
