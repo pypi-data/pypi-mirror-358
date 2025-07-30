@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src/"]
+
+[tool.setuptools.package-data]
+"*" = ["*.txt"]
+
+[project]
+name = "komanawa-gw-age-tools"
+dynamic = ["version"] # version set in version.py
+authors = [
+    { name = "Matt Dumont", email = "Matt@komanawa.com" },
+]
+description = "A package to manage groundwater age distributions"
+readme = "README.rst"
+license = { file = "LICENSE" }
+requires-python = ">=3.11"
+dependencies = [
+    "pandas",
+    "numpy",
+    "scipy",
+    "tables",
+]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)",
+    "Operating System :: OS Independent",
+]
+
+[tool.setuptools.dynamic]
+version = {attr = "komanawa.gw_age_tools.version.__version__"}
+
+[project.urls]
+Homepage = "https://github.com/Komanawa-Solutions-Ltd/komanawa-gw-age-tools"
+Issues = "https://github.com/Komanawa-Solutions-Ltd/komanawa-gw-age-tools/issues"
+Documentation = "https://komanawa-solutions-ltd.github.io/komanawa-gw-age-tools/"
