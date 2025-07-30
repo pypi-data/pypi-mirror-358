@@ -1,0 +1,308 @@
+{    
+    "format_version": {
+        "description": "Schema file's obsinfo version",
+        "type": "string",
+        "pattern": "^1.0$"
+    },
+    "yaml_anchors" : {
+        "description": "Free-form object or list used to set YAML anchors",
+        "oneOf": [{"type": "object"}, {"type": "array"}]
+    },
+    "extras" : {
+        "type": "object",
+        "description": "Free-form object for attribute additions to information files"
+    },
+    "note_list": {
+        "type" : "array",
+        "description" : "list of strings",
+        "minItems": 1,
+        "items" : {"type": "string"}
+    },
+    "comments": {
+        "type" : "array",
+        "description" : "list of comments (should be included in output metadata)",
+        "minItems": 0,
+        "items" : {
+            "if": {"type": "string"},
+            "then": {
+                "description": "basic comment",
+                "minimum": 2},
+            "else": {"$ref":"#/_stationxml_comment"}
+        }
+    },
+    "_stationxml_comment": {
+        "type" : "object", 
+        "required": ["value"],
+        "description": "Multiple comments with the same subject should be considered related",
+        "properties" : {
+            "value":                {"type":"string"},
+            "begin_effective_time": {"$ref": "#/date-time-Z"},
+            "end_effective_time":   {"$ref": "#/date-time-Z"},
+            "id": {"type": "integer", "minimum": 0},
+            "subject": {"type": "string"},
+            "authors": {
+                "type": "array",
+                "items": {"$ref": "person.schema.json#/definitions/person"}
+            }
+        }
+    },
+    "date": {
+        "type": "string",
+        "description": "Date in yyyy-mm-dd format",
+        "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "date_or_null": {
+        "if": {"type" : "null"},
+        "then": {"description": "no date entered"},
+        "else": {
+            "type": "string",
+            "description": "yyyy-mm-dd date",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        }
+    },
+    "date-time-Z": {
+        "type": "string",
+        "description": "Date-time in ISO format with Z for GMT+0. The Z is not required.",
+        "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]*)?[Z]*$"
+    },
+    "date-time-Z_or_null": {
+        "if": {"type" : "null"},
+        "then": {"description": "no date entered"},
+        "else": {"$ref": "#/date-time-Z"}
+    },
+    "ISOdatetime": {
+        "if": {"type" : "null"},
+        "then": {"description": "no date entered"},
+        "else": {
+            "type": "string",
+            "description": "Date-time in ISO format with Z for GMT+0. The Z is not required.",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]*)?[Z]*$"
+        }
+    },
+    "email": {
+        "type": "string",
+        "format": "email"
+    },
+    "notes": {
+        "type": "array",
+        "description": "list of notes (should not be included in output metadata)",
+        "minItems": 0,
+        "items": {"type": "string", "minLength": 1 }
+    },
+    "phone": {
+        "if": {"type": "string"},
+        "then": {
+            "description": "Phone in international format",
+            "pattern": "^[+]{0,1}[0-9]{1,3}([ ]*[(][0-9]+[)]){0,1}[ ]*([0-9]+[ -])*[0-9]+"
+        },
+        "else": {
+            "description": "Phone in US format",
+            "type": "object",
+            "required": ["area_code", "phone_number"],
+            "properties": {
+                "description": {"type": "string"},
+                "country_code": {
+                    "type": "string",
+                    "pattern": "^\\+{0,1}[0-9]{1,3}$"
+                },
+                "area_code": {
+                    "type": "string",
+                    "pattern": "^[(]{0,1}[0-9]{1,3}[)]{0,1}$"
+                },
+                "phone_number": {
+                    "type": "string",
+                    "pattern": "^[0-9]+\\-[0-9]+$"
+                }
+            }
+        }
+    },
+    "reference_name": {
+        "type": "string",
+        "description": "campaign or operator reference name"
+    },
+    "restricted_status": {
+        "type": "string",
+        "description": "restricted state",
+        "enum": ["open", "closed", "partial"]
+    },
+    "revision": {
+        "type": "object",
+        "if": { "required": ["$ref"]},
+        "then": {"$ref": "#/jsonref"},
+        "else": {
+            "description": "Date provenance of instrumentation information",
+            "type": "object",
+            "required": ["date", "authors"],
+            "properties": {
+                "date": {"$ref": "#/date"},
+                "authors": {
+                    "type": "array",
+                    "minItems" : 1,
+                    "items" : {"$ref": "person.schema.json#/definitions/person"}
+                }
+            }
+        }
+    },
+    "jsonref": { 
+        "type": "object",
+        "required": ["$ref"],
+        "properties": {
+            "$ref": {"type": "string"}
+        },
+        "additionalProperties": false
+    },
+    "string_or_null": { 
+        "type": ["string" , "null"]
+    },
+    "URI_and_revision": {
+        "type": "object",
+        "description": "URI and revision date of file to be loaded",
+        "required" : ["$ref","revision_date"],
+        "properties" : {
+            "$ref" : {"type":"string"},
+            "revision_date": {
+                "oneOf" : [
+                    { "$ref" :"#/date-time-Z"},
+                    { "$ref" :"#/date_or_null"}
+                ]
+            }
+        },
+        "additionalProperties" : false
+    },
+    "URI_ref": {
+        "type": "object",
+        "description": "URI to file containing information to be loaded here",
+        "required": ["$ref"],
+        "properties": {"$ref": {"type": "string"}},
+        "additionalProperties": false
+    },
+    "website": {
+        "type": "string",
+        "format": "uri"
+    },
+    "any_date":{
+        "oneOf" :[
+            {"$ref": "#/date" },
+            {"$ref": "#/date-time-Z"}
+        ]
+    },
+    "any_date_or_null":{
+        "oneOf" :[
+            {"type" : "null"},
+            {"$ref": "#/date" },
+            {"$ref": "#/date-time-Z"}
+        ]
+    },
+    "float_type": {
+        "oneOf":[
+            { "$ref" :"#/float_type_number"},
+            { "$ref" :"#/float_type_object"}
+        ]
+    },
+    "float_type_number": {
+        "type": "number",
+        "description": "value only, set uncertainty and measurement_method to null"
+    },
+    "float_type_object": {
+        "type": "object",
+        "required": ["value"],
+        "properties": {
+            "value": {"type": "number"},
+            "uncertainty": {"type": "number"},
+            "measurement_method": {"type": "string"}
+        }
+    },
+    "azimuth.deg": {
+        "description": "azimuth value-limited float_type",
+        "type": "object",
+        "required": ["value"],
+        "properties": {
+            "value": {"type": "number", "minimum": 0.0, "exclusiveMaximum": 360.0},
+            "uncertainty": {"type": "number", "minimum": 0.0, "maximum": 180.0},
+            "measurement_method": {"type": "string"}
+        }
+    },
+    "dip.deg": {
+        "description": "dip value-limited float_type",
+        "type": "object",
+        "required": ["value"],
+        "properties": {
+            "value": {"type": "number", "minimum": -90.0, "maxiumum": 90.0},
+            "uncertainty": {"type": "number", "minimum": 0.0, "maximum": 180.0},
+            "measurement_method": {"type": "string"}
+        }
+    },
+    "equipment": {
+        "type": "object",
+        "description": "You should include at least type, description, manufacturer and model",
+        "properties": {
+            "type":              {"type": ["string","null"]},
+            "description":       {"type": ["string","null"]},
+            "manufacturer":      {"type": ["string","null"]},
+            "vendor":            {"type": ["string","null"]},
+            "model":             {"type": ["string","null"]},
+            "serial_number":     {"type": ["string","null"]},
+            "installation_date": {"$ref": "#any_date"},
+            "removal_date":      {"$ref": "#any_date"},
+            "calibration_dates": {"$ref": "#calibration_dates_def"},
+            "resource_id":       {"$ref": "#resource_id"},
+        },
+        "additionalProperties": false
+    },
+    "calibration_dates_def": { 
+        "type": "array",
+        "description": "list of calibration dates",
+        "minItems": 1,
+        "items": {"$ref": "#/any_date"}
+    },
+    "custom_fields": { 
+        "type": "array",
+        "description": "custom StationXML fields such as <gfz:Identifier type='hdl'>10881/sensor.a7561d1a-d518-475d-9733-30370432996c</gfz:Identifier>",
+        "comment": "does no checking for now",
+        "minItems": 1,
+        "items": {"type": "string"}
+    },
+    "resource_id": { 
+        "type": "string",
+        "description": "unique ID for instruments, stages and/or filters.  Can be interpreted differently depending on the datacenter/software that generated the document. We recommend using a prefix, e.g., GENERATOR:Meaningful ID. It should be expected that elements with the same resourceId should indicate the same information."
+    },
+    "source_id": { 
+        "type": "string",
+        "format": "uri",
+        "description": "stationXML sourceID in URI form "
+    },
+    "external_references": { 
+        "type": "array",
+        "description": "list of external_reference",
+        "minItems": 1,
+        "items": {"$ref": "#/external_reference"}
+    },
+    "external_reference": { 
+        "type": "object",
+        "description": "URI of any type of external report",
+        "comment": "URI and description for external information to reference",
+        "required": ["uri", "description"],
+        "properties": {
+            "uri": {"type": "string", "format": "uri"},
+            "description": {"type": "string"}
+        },
+        "examples": [{"uri": "http://usgs.gov", "description": "USGS website"},
+                     {"uri": "http://ipgp.fr", "description": "IPGP website"}]
+    },
+    "identifiers": { 
+        "type": "array",
+        "description": "list of persistent identifiers",
+        "minItems": 1,
+        "items": {"$ref": "#/identifier"}
+    },
+    "identifier": { 
+        "type": "string",
+        "format": "uri",
+        "description": "Persistent identifiers. Must have a URI scheme (prefix)",
+        "examples": ["DOI:10.7915/SN/XX"]
+    },
+    "polarity_codes" : {
+            "type": "string",
+            "pattern": "^[+-]$"
+    }    
+}

@@ -1,0 +1,96 @@
+---
+format_version: "1.0"
+revision: 
+    date: "2019-12-20"
+    authors: 
+        - $ref: 'persons/EXAMPLE.person.yaml'
+datalogger_base:
+    equipment:
+        model: "EXAMPLE/22"
+        type: "delta-sigma A/D converter + digital filter"
+        description: "EXAMPLE/22 delta-sigma A/D converter + FIR digital filter"
+        manufacturer: "ACME dataloggers"
+        vendor: "ACME sales, Ltd."
+    stages:
+        - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR1.stage_base.yaml"}}
+        - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+        - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+        - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+        - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+        - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+        - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+        - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+        - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR3.stage_base.yaml"}}
+    sample_rate: 125
+    correction: 0.232
+    configuration_default: "125sps"
+    configurations:
+        "62.5sps":
+            configuration_description: "62.5 sps"
+            sample_rate: 62.5
+            correction: 0.464
+            stages:
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR1.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR3.stage_base.yaml"}}
+        "125sps":
+            configuration_description: "125 sps"
+            sample_rate: 125
+            correction: 0.232
+            stages:
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR1.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR3.stage_base.yaml"}}
+        "250sps":
+            configuration_description: "250 sps"
+            sample_rate: 250
+            correction: 0.116
+            stages:
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR1.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR3.stage_base.yaml"}}
+        "500sps":
+            configuration_description: "500 sps"
+            sample_rate: 500
+            correction: 0.058
+            stages:
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR1.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR3.stage_base.yaml"}}
+        "1000sps":
+            configuration_description: "1000 sps"
+            sample_rate: 1000
+            correction: 0.029
+            stages:
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR1.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR3.stage_base.yaml"}}
+                
+notes: 
+    - "Delay correction is hard-coded to 29 samples in LCHEAPO software"
+    

@@ -1,0 +1,40 @@
+---
+format_version: "1.0"
+stage_base:
+    description : "SENSOR - GENERIC DPG" # optionel
+    input_units :  {name: "Pa", description: "PRESSURE"}
+    output_units : {name: "V", description: "VOLTS"}
+    gain : {value: 4.25e-4, frequency: 1.}
+    filter:
+        type: "PolesZeros"
+        transfer_function_type: "LAPLACE (RADIANS/SECOND)"
+        zeros : 
+           - '0.0 + 0.0j'
+           - '0.0 + 0.0j'
+        poles :
+           - '-0.0182 + 0.000j'
+           - '-0.0500 + 0.000j'
+    configuration_default: "SN5027"
+    configurations:
+        "SN5027":
+            configuration_description: "S/N 5027"
+        "SN5004":
+            configuration_description: "S/N 5004, based on 2007/6 calibration w/BB01 logger"
+            calibration_dates: ["2007-06-01"]
+            gain: {value: 4.25e-4, frequency: 1.}
+            filter:
+                type: "PolesZeros"
+                transfer_function_type: "LAPLACE (RADIANS/SECOND)"
+                zeros : ['0 + 0j']
+                poles : ['-0.0182 + 0.000j']
+        "SN5018":
+            configuration_description: "S/N 5018, based on 2007/6 calibration w/BB02 logger"
+            calibration_dates: ["2007-06-01"]
+            gain: {value: 4.38e-4, frequency: 1.}
+            filter:
+                type: "PolesZeros"
+                transfer_function_type: "LAPLACE (RADIANS/SECOND)"
+                zeros : ['0 + 0j']
+                poles : ['-0.0138 + 0.000j']
+
+

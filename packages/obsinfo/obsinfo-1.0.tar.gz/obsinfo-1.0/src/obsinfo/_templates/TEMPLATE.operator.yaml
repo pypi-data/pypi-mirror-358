@@ -1,0 +1,18 @@
+---
+format_version: "1.0"
+revision:
+    authors:
+        - {$ref: "persons/EXAMPLE.person.yaml"} # Reference to a file,
+                                                 # or fields of a person element
+    date: "2024-09-30" # yyyy-mm-dd
+operator:
+    agency: "IPGP OBS Park"
+    # BEGIN OPTIONAL operator elements
+    contacts: 
+        - {$ref: "persons/EXAMPLE.person.yaml"}
+    website: "http://parc-obs.insu.cnrs.fr"
+    # END OPTIONAL operator elements
+# BEGIN OPTIONAL top-level elements
+notes: 
+   - ""
+# END OPTIONAL top-level elements

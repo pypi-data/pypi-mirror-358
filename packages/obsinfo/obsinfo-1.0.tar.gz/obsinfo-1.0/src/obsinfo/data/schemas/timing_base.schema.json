@@ -1,0 +1,79 @@
+{    
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Timing Base",
+    "description": "Information about OBSs timing",
+    "type": "object",
+    "required": ["format_version", "timing_base"],
+    "properties": {
+        "format_version" : {"$ref": "definitions.schema.json#/format_version"},
+        "revision" :       {"$ref": "definitions.schema.json#/revision"},
+        "notes":           {"$ref": "definitions.schema.json#/note_list"},
+        "timing_base":     {"$ref": "#/definitions/base"}
+    },
+    "additionalProperties" : false,
+    "definitions": {
+        "base_properties": {
+            "description": "common properties in {element}, modifications, base, definition, and configuration_definition.  This is unused because 'allOf' for makes ugly schema validation",
+            "properties": {
+                "instrument": {"type": "string", "description" : "time base used in OBS"},
+                "instrument_nominal_drift_rate": {"type": "number", "description": "nominal dimensionless drift of the instrument time base"},
+                "reference":  {"type": "string", "description" : "time base used as reference"},
+                "syncs_instrument_reference": {"$ref": "#/definitions/syncs_inst_ref"}
+            }
+        },
+        "timing" : {
+            "type" : "object",
+            "required": [
+                "base",
+                "type",
+                "syncs_instrument_reference"
+            ],
+            "properties": {
+                "base":           {"$ref" : "#/definitions/base"},
+                "configuration":  {"type": ["string", "null"]},
+                "modifications":  {"$ref" : "#/definitions/modifications"},
+                "instrument":     {"type": "string", "description" : "time base used in OBS"},
+                "reference":      {"type": "string", "description" : "time base used as reference"},
+                "type":           {"type": "string", "enum": ["piecewise_linear", "cubic_spline", "polynomial"]},
+                "parameters":     {"type": "string"},
+                "syncs_instrument_reference": {"$ref": "#/definitions/syncs_inst_ref"}
+            },
+            "additionalProperties" : false
+        },
+        "modifications" : {
+            "type" : "object",
+            "properties": {
+                "base":           {"$ref" : "#/definitions/base" },
+                "configuration":  {"type": ["string", "null"]},
+                "instrument": {"type": "string", "description" : "time base used in OBS"},
+                "reference":  {"type": "string", "description" : "time base used as reference"}
+            },
+            "additionalProperties" : false
+        },
+        "syncs_inst_ref": {
+            "type": "array",
+            "minItems": 2,
+            "items": {"type": "array",
+                      "description": "simultaneous instrument and reference times.",
+                      "minItems": 2,
+                      "maxItems": 2,
+                      "items": {"$ref": "definitions.schema.json#/date-time-Z_or_null"}
+                     }
+        },
+        "base" : {
+            "type" : "object",
+            "required": [
+                "instrument",
+                "reference"
+            ],
+            "properties": {
+                "instrument" : {"type": "string", "default" : "MCXO"},
+                "reference" : {"type": "string", "default" : "GNSS"},
+                "instrument_nominal_drift_rate" : {
+                    "type": "number", "default" : 1e-8,
+                    "description": "instrument's nominal drift rate"}
+            },
+            "additionalProperties" : false
+        }
+    }
+}

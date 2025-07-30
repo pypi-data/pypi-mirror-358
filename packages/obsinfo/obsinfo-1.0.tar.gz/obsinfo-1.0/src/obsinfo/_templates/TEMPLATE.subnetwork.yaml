@@ -1,0 +1,108 @@
+---
+format_version: "1.0"
+revision:
+    authors:
+        - {$ref: "persons/EXAMPLE.person.yaml"} # a person element
+    date: "2024-09-30" # yyyy-mm-dd
+subnetwork:
+    operators: # Default station operators
+        - {$ref: "operators/EXAMPLE.operator.yaml"}
+    network: {$ref: "networks/EXAMPLE.network.yaml"}
+    stations:
+        "STA1":
+            start_date: "2022-01-01T01:00:00"
+            end_date: "2022-07-01T01:00:00" 
+            locations:
+                "00":
+                    base: {$ref: "location_bases/EXAMPLE.location_base.yaml"}
+                    position: {lon.deg: -1.5, lat.deg: 46.1, elev.m: -200}
+                    # BEGIN OPTIONAL locations elements
+                    water_level.m: 200  # if water surface is not at sea level
+                    # END OPTIONAL locations elements
+            instrumentation:  # or instrumentations (list)  
+                base: {$ref: "instrumentation_bases/EXAMPLE.instrumentation_base.yaml"}  # `obsinfo template instrumentation_base` for details
+                # BEGIN OPTIONAL instrumentation elements
+                configuration: "SN01_2012+"  # instrumentation configuration
+                modifications:
+                    # BEGIN OPTIONAL modifications elements (ALL are optional)
+                    equipment:  {model: "MOD_MODEL"}    # shortcut for base: {equipment:}
+                    channels:       # replace channel definitions in the instrumentation_base
+                        "2":  # do something to channel 2 only 
+                            sensor: {base: {$ref: 'sensor_bases/EXAMPLE_BBSeismometer.sensor_base.yaml'}}  # replace the sensor on all channels
+                    # END OPTIONAL modifications elements
+                channel_modifications:  # All possible attributes under channel, in hierarchical order, except selecting response stages>
+                    "1-*":      # {componentcode}-{locationcode} (either can be '*')
+                        # BEGIN OPTIONAL channel_modifications elements (ANY channel element is allowed, none is required)
+                        orientation: {azimuth.deg: {value: 30, uncertainty: 5, measurement_method: 'P-pol'}}
+                        replace_preamplifier: {base: {$ref: "preamplifier_bases/EXAMPLE_DPG.preamplifier_base.yaml"}}
+                        comments: ["This is a channel-level comment"]
+                        source_id: "FDSN:XX_STA1_D_H_Z"     # should this be "generate_source_id" boolean?
+                        start_date:  "2022-02-01T02:00:00"  # Set a channel start_date that is different from the station start_date
+                        end_date:    "2022-05-01T00:00:00"  # Set a channel end_date that is different from the station end_date
+                        # END OPTIONAL channel_modifications elements
+                notes:
+                    - "This is a note.  It doesn't get written to the StationXML file"
+                serial_number: "A14"  # shortcut for modifications: {equipment: {serial_number: "A14"}}
+                datalogger_configuration: '500sps'  # shortcut for channel_modifications: {"*": {datalogger: {configuration: }}}
+                # END OPTIONAL instrumentation elements
+            # BEGIN OPTIONAL station elements
+            site: "West volcano flank"  # Something specific about this station's position
+            location_code: "00"  # Only needed if there is more than one location
+            operators: # if not specified, will copy from subnetwork operators
+                - {$ref: "operators/EXAMPLE.operator.yaml"}
+            processing:
+                - clock_correction:
+                        drift:
+                            base: {$ref: "timing_bases/EXAMPLE.timing_base.yaml"} # timing_base element
+                            type: "piecewise_linear"  # or "cubic_spline", or "polynomial {a0} {a1} {a2}..."
+                            syncs_instrument_reference:  # Specify datetimes as yyyy-mm-22Thh:mm:ss.mmmmZ
+                                - ['2022-01-01T00:00:00Z', '2022-01-01T00:00:00Z']
+                                - ['2022-07-01T03:00:00Z', '2022-07-01T03:00:00.345Z']
+                        # BEGIN OPTIONAL clock_correction element
+                        leapsecond_applied_corrections:
+                            # BEGIN OPTIONAL leapsecond_applied_corrections elements
+                            not_clock_corrected_miniseed: True  # does not-clock-corrected miniseed have leapsecond corrected? (False)
+                            syncs_instrument: True              # Are the instrument syncs corrected for the leapsecond(s)?
+                            # END OPTIONAL leapsecond_applied_corrections elements
+                        # END OPTIONAL clock_correction element
+            comments: 
+                - "This is a station-level comment"
+            extras: {whatever: "anything"}  # Free-form entry, saved in a station-level Comment
+            notes: ["This is a note.  It doesn't get written to the StationXML file"]
+            source_id: "FDSN:XX_STA1"      # should this be "generate_source_id" boolean? (or have run-time option?)
+            # external_references:  # Commented out because obspy does not implement (as of 1.4.0)
+            #     - uri: "http://usgs.gov"
+            #       description: "USGS website"
+            identifiers:
+                - "DOI:10.7915/SN/XX"
+            description: "Station description"
+            restricted_status: "open" # "open", "closed" or "partial"
+            # END OPTIONAL station elements
+    # BEGIN OPTIONAL subnetwork elements
+    leapseconds: # Leapseconds occuring during the data collection campaign
+        list_file_entries:
+            - line_text: "3692217600      37      # 1 Jan 2017"
+              leap_type: '+'
+        default_applied_corrections:
+            not_clock_corrected_miniseed: False  # does not-clock-corrected miniseed have leapsecond corrected? (False)
+            syncs_instrument: True               # Are the instrument syncs corrected for the leapsecond(s)?
+    reference_names:
+        campaign: "MY_CAMPAIGN_NAME"
+        operator: "MY_OPERATOR_NAME"
+    comments: 
+       - "This is a simple network-level comment"
+       -    value: "This is a full network-level comment"
+            # OPTIONAL full comment elements
+            begin_effective_time: "2022-01-02T00:00:00"
+            end_effective_time: "2022-01-03T00:00:00"
+            id: 4000    # integer
+            subject: "comment subject"
+            authors: [{$ref: "persons/EXAMPLE.person.yaml"}]
+            # END OPTIONAL full comment elements      
+    extras: {example: "an example", example_list: [1,2,3,4,5]}  # Saved to a network-level Comment
+    # END OPTIONAL subnetwork elements
+# BEGIN OPTIONAL top-level elements
+notes: 
+    - ""
+# END OPTIONAL top-level elements
+

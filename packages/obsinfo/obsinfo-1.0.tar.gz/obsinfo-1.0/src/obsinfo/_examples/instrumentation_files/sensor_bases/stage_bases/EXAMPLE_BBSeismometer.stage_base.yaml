@@ -1,0 +1,30 @@
+---
+format_version: "1.0"
+stage_base:
+    description : "SENSOR - Broadband Seismometer"
+    input_units :  {name: "m/s", description: "VELOCITY"}
+    output_units : {name: "V", description: "VOLTS"}
+    gain : 
+        value: 598.45
+        frequency: 1.
+    filter:
+        $ref: "sensor_bases/stage_bases/filters/EXAMPLE_BBSeismometer_SN1-399.filter.yaml"
+    configuration_default: "SN1-399, single-sided"
+    configurations:
+        "SN1-399, single-sided":
+            filter:
+                $ref: "sensor_bases/stage_bases/filters/EXAMPLE_BBSeismometer_SN1-399.filter.yaml"
+            gain: {value: 598.45, frequency: 1.}
+        "SN400+, single-sided":
+            gain: {value: 594.5, frequency: 1.}
+            filter:
+                $ref: "sensor_bases/stage_bases/filters/EXAMPLE_BBSeismometer_SN400-.filter.yaml"
+        "SN1-399, differential":
+            filter:
+                $ref: "sensor_bases/stage_bases/filters/EXAMPLE_BBSeismometer_SN1-399.filter.yaml"
+            gain: {value: 1196.9, frequency: 1.}
+        "SN400+, differential":
+            gain: {value: 1189., frequency: 1.}
+            filter:
+                $ref: "sensor_bases/stage_bases/filters/EXAMPLE_BBSeismometer_SN400-.filter.yaml"
+    

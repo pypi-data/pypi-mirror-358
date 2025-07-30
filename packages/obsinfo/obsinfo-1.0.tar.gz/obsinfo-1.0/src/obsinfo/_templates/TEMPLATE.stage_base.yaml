@@ -1,0 +1,49 @@
+---
+format_version: "1.0"
+revision:
+   authors:
+        - {$ref: "persons/EXAMPLE.person.yaml"} # Reference to person file,
+                                                 # or fields of a person element
+   date: "2024-09-30" # yyyy-mm-dd
+stage_base:
+    input_units:
+        name: "V"
+        # BEGIN OPTIONAL units elements
+        description: "Volts"
+        # END OPTIONAL units elements
+    output_units:
+        name: "V"
+        # BEGIN OPTIONAL units elements
+        description: "Volts"
+        # END OPTIONAL units elements
+    gain :
+      value: 10     # Gain (output_units/input_units)
+      frequency: 10 # Frequency at which gain is given
+    filter: {$ref: 'sensor_bases/stage_bases/filters/EXAMPLE_BBSeismometer_SN1-399.filter.yaml'}
+    # BEGIN OPTIONAL stage_base elements
+    name: "Funky filter"  # Stage/Filter name
+    description:  "Oddball offbeat filter"  # Stage/Filter description
+    delay: 0  # Value to put in StationXML stage w/o modification.
+             # if not specified and this is a digital stage, calculate
+             # as filter offset / input_sample_rate
+    polarity: "+"  # "+" if the stage does not invert sign from input to output
+                  # "-" if it does invert sign
+                  # ("+") 
+    input_sample_rate: 100  # Only use if fixed input_sample rate
+    decimation_factor: 2  # Factor by which this stage decimates data
+    calibration_dates:
+        - "2004-12-31T00:00:00"
+        - "2024-12-31T00:00:00"
+    resource_id: "IPGP:2004iepw44" # Unique ID of the filter, typically
+                                   # "GENERATOR:Meaningful_ID"
+    configuration_default: "10x"
+    configurations:
+        "1x": {gain:  {value : 1, frequency : 10.}}
+        "5x": {gain:  {value : 5, frequency : 10.}}
+        "10x": {gain:  {value : 10, frequency : 10.}}
+        "20x": {gain:  {value : 20, frequency : 10.}}
+    # END OPTIONAL stage_base elements
+# BEGIN OPTIONAL top-level elements
+notes: 
+   - ""
+# END OPTIONAL top-level elements

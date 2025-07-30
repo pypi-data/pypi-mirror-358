@@ -1,0 +1,151 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Response",
+    "description": "OBS instrument/stage response",
+    "type": "object",
+    "required": [ "stage_base","format_version" ],
+    "properties": {
+        "format_version": {"$ref" : "definitions.schema.json#/format_version"},
+        "revision":       {"$ref" : "definitions.schema.json#/revision"},
+        "yaml_anchors":   {"$ref" : "definitions.schema.json#/yaml_anchors"},
+        "notes" :         {"$ref": "definitions.schema.json#/note_list"},
+        "stage_base":     {"$ref" : "#/definitions/base"}
+    },
+    "additionalProperties" : false,
+    "definitions": {
+        "base_properties": {
+            "description": "list of common properties in {element}, modifications, base, and configuration_definition.  This is unused because 'allOf' for makes ugly schema validation",
+            "properties": {
+                "input_units":       {"$ref": "#/definitions/stage_io_units" },
+                "output_units":      {"$ref": "#/definitions/stage_io_units" },
+                "gain" :             {"$ref": "#/definitions/gain" },
+                "name":              {"type": "string",  "description": "BaseFilterType:name"},
+                "description":       {"type": "string",  "description": "BaseFilterType:Description"},
+                "decimation_factor": {"type": "integer", "description": "DecimationType:Factor"},
+                "decimation_offset": {"type": "integer", "description": "DecimationType:Offset, between 0 and decimation_factor - 1"},
+                "input_sample_rate": {"type": "number",  "description": "DecimationType:InputSampleRate"},
+                "delay" :            {"type": "number",  "description": "DecimationType:Delay"},
+                "filter" :           {"$ref": "filter.schema.json#/definitions/filter"},
+                "calibration_dates": {"$ref": "definitions.schema.json#calibration_dates_def"},
+                "polarity":          {"$ref": "definitions.schema.json#/polarity_codes"},
+                "resource_id":       {"$ref": "definitions.schema.json#/resource_id"}
+            }
+        },
+        "stage" : {
+            "description" : "stage definition (base+configuration)",
+            "type": "object",
+            "required": ["base"],
+            "properties": {
+                "base":           {"$ref" : "#/definitions/base" },
+                "configuration":  {"type": ["string", "null"]},
+                "modifications":  {"$ref": "#/definitions/modifications"},
+                "notes" :         {"$ref": "definitions.schema.json#/note_list"}
+            },
+            "additionalProperties" : false
+        },
+        "modifications": {
+            "type" : "object",
+            "description" : "Allowed stage modifications",
+            "properties": {
+                "base":           {"$ref" : "#/definitions/base" },
+                "configuration":  {"type": ["string", "null"]},
+
+                "input_units":       {"$ref": "#/definitions/stage_io_units" },
+                "output_units":      {"$ref": "#/definitions/stage_io_units" },
+                "gain" :             {"$ref": "#/definitions/gain" },
+                "name":              {"type": "string",  "description": "BaseFilterType:name"},
+                "description":       {"type": "string",  "description": "BaseFilterType:Description"},
+                "decimation_factor": {"type": "integer", "description": "DecimationType:Factor"},
+                "decimation_offset": {"type": "integer", "description": "DecimationType:Offset, between 0 and decimation_factor - 1"},
+                "input_sample_rate": {"type": "number",  "description": "DecimationType:InputSampleRate"},
+                "delay" :            {"type": "number",  "description": "DecimationType:Delay"},
+                "filter" :           {"$ref": "filter.schema.json#/definitions/filter"},
+                "calibration_dates": {"$ref": "definitions.schema.json#calibration_dates_def"},
+                "polarity":          {"$ref": "definitions.schema.json#/polarity_codes"},
+                "resource_id":       {"$ref": "definitions.schema.json#/resource_id"}
+            },
+            "additionalProperties" : false
+        },
+        "base": {
+            "type" : "object",
+            "description" : "Response stage",
+            "required" : [
+                "input_units",
+                "output_units",
+                "gain",
+                "filter"
+            ],
+            "properties": {
+                "input_units":       {"$ref": "#/definitions/stage_io_units" },
+                "output_units":      {"$ref": "#/definitions/stage_io_units" },
+                "gain" :             {"$ref": "#/definitions/gain" },
+                "filter" :           {"$ref": "filter.schema.json#/definitions/filter"},
+                "name":              {"type": "string",  "description": "BaseFilterType:name"},
+                "description":       {"type": "string",  "description": "BaseFilterType:Description"},
+                "decimation_factor": {"type": "integer", "description": "DecimationType:Factor"},
+                "decimation_offset": {"type": "integer", "description": "DecimationType:Offset, between 0 and decimation_factor - 1"},
+                "input_sample_rate": {"type": "number",  "description": "DecimationType:InputSampleRate"},
+                "delay" :            {"type": "number",  "description": "DecimationType:Delay"},
+                "calibration_dates": {"$ref": "definitions.schema.json#calibration_dates_def"},
+                "polarity":          {"$ref": "definitions.schema.json#/polarity_codes"},
+                "resource_id":       {"$ref": "definitions.schema.json#/resource_id"},
+                "configuration_default":     {"type": "string"},
+                "configurations": {"$ref": "#/definitions/configurations_map"}
+            },
+            "additionalProperties" : false
+        },
+        "configurations_map": { 
+            "description": "Map of configuration names for a given stage",
+            "patternProperties": {
+                "^[A-Za-z0-9_-]+$": {"$ref": "#/definitions/configuration_definition"}}
+        },
+        "configuration_definition": { 
+            "description": "Configuration-specific properties",
+            "properties": {
+                "configuration_description": {"type": "string"},
+
+                "input_units":       {"$ref": "#/definitions/stage_io_units" },
+                "output_units":      {"$ref": "#/definitions/stage_io_units" },
+                "gain" :             {"$ref": "#/definitions/gain" },
+                "name":              {"type": "string",  "description": "BaseFilterType:name"},
+                "description":       {"type": "string",  "description": "BaseFilterType:Description"},
+                "decimation_factor": {"type": "integer", "description": "DecimationType:Factor"},
+                "decimation_offset": {"type": "integer", "description": "DecimationType:Offset, between 0 and decimation_factor - 1"},
+                "input_sample_rate": {"type": "number",  "description": "DecimationType:InputSampleRate"},
+                "delay" :            {"type": "number",  "description": "DecimationType:Delay"},
+                "filter" :           {"$ref": "filter.schema.json#/definitions/filter"},
+                "calibration_dates": {"$ref": "definitions.schema.json#calibration_dates_def"},
+                "polarity":          {"$ref": "definitions.schema.json#/polarity_codes"},
+                "resource_id":       {"$ref": "definitions.schema.json#/resource_id"}
+            },
+            "additionalProperties": false
+        },
+        "stage_io_units": { 
+            "type" : "object",
+            "description": "units entering or exiting a stage",
+            "required" : [
+                "name",
+                "description"
+            ],
+            "properties": {
+                "name":               { "type" : "string",  "$ref": "iris_units.json#/iris_units", "description": "BaseFilterType:name"},
+                "description":        { "type" : "string",  "pattern": "[A-Za-z/*12-]+", "description": "BaseFilterType:description"}
+            },
+            "additionalProperties" : false
+        },
+        "gain" : { 
+            "type" : "object",
+            "description": "output units / input unit.  (Called sensitivity in DBIRD)",
+            "required" : ["value"],
+            "properties" : {
+                "value" : {"type" : "number"},
+                "frequency" : {
+                    "type" : "number",
+                    "description": "Hz",
+                    "default": 0
+                }
+            },
+            "additionalProperties" : false
+        }
+    }
+}

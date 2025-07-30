@@ -1,0 +1,75 @@
+---
+format_version: "1.0"
+revision:
+    authors:
+        - $ref: 'persons/EXAMPLE.person.yaml'
+    date: "2017-10-04"
+subnetwork:
+    operators:
+        - agency: "INSU-IPGP OBS Park"
+    reference_names:
+        campaign: "MYCAMPAIGN"
+        operator: "INSU-IPGP"
+    network:
+        code: "4G"
+        description: "LEAP-SECOND-TEST: Test leap second handling"
+        start_date: "2007-07-01"
+        end_date: "2025-12-31"
+    leapseconds:
+        list_file_entries:
+            - line_text: "3692217600	37	# 1 Jan 2017"
+              leap_type: "+"
+        default_applied_corrections:
+            not_clock_corrected_miniseed: false
+            syncs_instrument: false
+    stations:
+        "LSVCP":
+            site: "Lucky Strike Volcano Center"
+            start_date: "2016-07-01T12:00:00"
+            end_date: "2017-07-01T12:00:00"
+            location_code: "00"
+            instrumentation:
+                base: {$ref: "instrumentation_bases/EXAMPLE.instrumentation_base.yaml"}
+                datalogger_configuration: "250sps"
+            locations:
+                "00":
+                    base: {$ref: 'location_bases/EXAMPLE.location_base.yaml'}
+                    configuration: "BUC_DIRECT"
+                    position: {lon.deg: -32.280, lat.deg: 37.290, elev.m: -1760}
+            processing:
+                - clock_correction:
+                    drift:
+                        base: {$ref: "timing_bases/EXAMPLE.timing_base.yaml"}
+                        type: 'piecewise_linear'
+                        syncs_instrument_reference:
+                            - ["2016-07-01T16:00:00Z", "2016-07-01T16:00:00Z"]
+                            - ["2017-07-01T15:35:00Z", "2017-07-01T15:35:00.555Z"]
+                    leapsecond_applied_corrections:
+                        not_clock_corrected_miniseed: true
+                        syncs_instrument: true
+        "LSVEP":
+            site: "Lucky Strike Volcano East"
+            start_date: "2016-07-01T12:00:00"
+            end_date: "2017-07-01T12:00:00"
+            location_code: "00"
+            instrumentation:
+                base: {$ref: "instrumentation_bases/EXAMPLE.instrumentation_base.yaml"}
+                datalogger_configuration: "250sps"
+            locations:
+                "00":
+                    base: {$ref: 'location_bases/EXAMPLE.location_base.yaml'}
+                    configuration: "BUC_DIRECT"
+                    position: {lon.deg: -32.180, lat.deg: 37.290, elev.m: -1760}
+            processing:
+                - clock_correction:
+                    drift:
+                        base: {$ref: "timing_bases/EXAMPLE.timing_base.yaml"}
+                        type: 'piecewise_linear'
+                        syncs_instrument_reference:
+                            - ["2016-07-01T16:00:00Z", "2016-07-01T16:00:00Z"]
+                            - ["2017-07-01T15:35:00Z", "2017-07-01T15:35:00.555Z"]
+                    
+notes: 
+    - "Leapsecond correction example"
+
+    

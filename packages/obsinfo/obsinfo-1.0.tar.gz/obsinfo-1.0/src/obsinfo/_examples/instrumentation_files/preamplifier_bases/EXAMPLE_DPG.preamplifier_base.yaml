@@ -1,0 +1,15 @@
+---
+format_version: "1.0"
+revision: 
+    date: "2017-11-30"
+    authors: 
+        -   $ref: "persons/EXAMPLE.person.yaml"
+preamplifier_base:
+    equipment:
+        model: "DPG-Card"
+        type: "DPG Card"
+        description: "Differential Pressure Gauge Card"
+        manufacturer: "SIO-IPGP"
+        vendor: ~
+    stages:
+        - {base: {$ref: "preamplifier_bases/stage_bases/EXAMPLE_DPG-Card.stage_base.yaml"}}

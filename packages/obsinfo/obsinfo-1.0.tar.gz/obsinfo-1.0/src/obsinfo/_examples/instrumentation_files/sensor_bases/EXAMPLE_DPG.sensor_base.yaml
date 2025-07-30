@@ -1,0 +1,37 @@
+---
+format_version: "1.0"
+revision: 
+    date: "2017-11-30"
+    authors: 
+        - $ref: "persons/EXAMPLE.person.yaml"
+sensor_base:
+    equipment:
+        model: "DPG"
+        type: "Differential Pressure Gauge"
+        description: "Differential Pressure Gauge"
+        manufacturer: "various"
+        vendor: "various"
+    seed_codes:
+        band: "broadband"
+        instrument: "D"
+    stages:
+        - {base: {$ref: "sensor_bases/stage_bases/EXAMPLE_DPG.stage_base.yaml"}}
+    configuration_default: "generic"
+    configurations:
+        "generic":
+            equipment: {manufacturer: "unknown"}
+        "5004": 
+            equipment: {manufacturer: "ACME", serial_number: "5004"}
+            stage_modifications:
+                "1": {configuration: "SN5004"}
+        "5018":
+            equipment: {manufacturer: "Zoton", serial_number: "5018"}
+            stage_modifications:
+                "1": {configuration: "SN5018"}
+        "5027":
+            equipment: {manufacturer: "ACME", serial_number: "5027"}
+            stage_modifications:
+                "1": {configuration: "SN5027"}
+                
+notes: 
+    - "dip value assumes pressure gauge positive correponds to increasing pressure in upward compressional wave (seafloor up => pressure up)"

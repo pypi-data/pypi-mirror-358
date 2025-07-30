@@ -1,0 +1,26 @@
+---
+format_version: "1.0"
+revision:
+   authors:
+        - {$ref: "persons/EXAMPLE.person.yaml"} # Reference to a file,
+                                                 # or fields of a person element
+   date: "2024-09-30" # yyyy-mm-dd
+filter:
+   type: "Coefficients"
+   numerator_coefficients:
+       - 1
+       - 0
+   denominator_coefficients:
+       - 0.5
+       - 0.5
+   # BEGIN OPTIONAL filter elements
+   delay.samples: 0    # Samples that the conversion delays the data (default=0)
+   transfer_function_type: "DIGITAL"  # choices: "ANALOG (RADIANS/SECOND)",
+                                      #          "ANALOG (HERTZ)",
+                                      #           "DIGITAL"
+                                      # (default = "DIGITAL")
+   # BEGIN OPTIONAL filter elements
+# BEGIN OPTIONAL top-level elements
+notes: 
+    - ""
+# END OPTIONAL top-level elements

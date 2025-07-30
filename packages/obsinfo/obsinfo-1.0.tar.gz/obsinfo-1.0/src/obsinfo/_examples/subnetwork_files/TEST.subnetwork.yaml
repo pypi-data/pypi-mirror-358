@@ -1,0 +1,77 @@
+---
+format_version: "1.0"
+
+yaml_anchors:
+    - &LOC_DEFAULTS
+        base: {$ref: "location_bases/EXAMPLE.location_base.yaml"}
+        configuration: "SEA_SURFACE"
+    - &STATION_DEFAULTS
+        start_date: "2015-01-01T00:00:00Z"
+        end_date: "2016-01-01T00:00:00Z"
+        locations:
+            "00":
+                <<: *LOC_DEFAULTS
+                position: {lon.deg: -2, lat.deg: 44, elev.m: -1000}
+            "01":
+                <<: *LOC_DEFAULTS
+                position: {lon.deg: -2, lat.deg: 46, elev.m: -1100}
+            "02":
+                <<: *LOC_DEFAULTS
+                position: {lon.deg: -6, lat.deg: 48, elev.m: -500}
+            "03":
+                <<: *LOC_DEFAULTS
+                position: {lon.deg: -3, lat.deg: 50, elev.m: -200}
+            "04":
+                <<: *LOC_DEFAULTS
+                position: {lon.deg: 2, lat.deg: 52, elev.m: -100}
+revision:
+    authors:
+        - {$ref: "persons/EXAMPLE.person.yaml"}
+    date: "2019-12-11"
+subnetwork:
+    network:
+        code: "XX"
+        description: "Non-existant network"
+        start_date: "2007-07-01"
+        end_date: "2025-12-31"
+    operators:
+        - agency: "INSU-IPGP OBS Park"
+    reference_names:
+        campaign: "INSTRUMENTS"
+        operator: "INSU-IPGP"
+    stations:
+        "SP1":
+            <<: *STATION_DEFAULTS
+            location_code: '00'
+            instrumentation:
+              base: {$ref: "instrumentation_bases/EXAMPLE.instrumentation_base.yaml"}
+              channel_modifications:
+                "G-*": {datalogger: {configuration: "62.5sps"}}
+                "Z-*": {datalogger: {configuration: "125sps"}}
+        "SP2":
+            <<: *STATION_DEFAULTS
+            location_code: '02'
+            instrumentation:
+              base: {$ref: "instrumentation_bases/EXAMPLE.instrumentation_base.yaml"}
+              channel_modifications:
+                "G-*": {datalogger: {configuration: "125sps"}}
+                "1-*": {datalogger: {configuration: "250sps"}}
+                "2-*": {datalogger: {configuration: "500sps"}}
+                "Z-*": {datalogger: {configuration: "1000sps"}}
+        "BB1":
+            <<: *STATION_DEFAULTS
+            site: "BBOBS1 (4 channels)"
+            location_code: '04'
+            instrumentation:
+              base: {$ref: "instrumentation_bases/EXAMPLE.instrumentation_base.yaml"}
+              channel_modifications:
+                "G-*": {datalogger: {configuration: "125sps"}}
+                "1-*": {datalogger: {configuration: "250sps"}}
+                "2-*": {datalogger: {configuration: "500sps"}}
+                "Z-*": {datalogger: {configuration: "1000sps"}}
+    
+                  
+notes:
+    - "All instruments and configurations of the INSU-IPGP OBS park"
+ 
+    

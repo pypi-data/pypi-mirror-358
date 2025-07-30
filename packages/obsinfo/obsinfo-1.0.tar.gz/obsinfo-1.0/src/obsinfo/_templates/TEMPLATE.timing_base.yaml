@@ -1,0 +1,17 @@
+---
+format_version: "1.0"
+revision:
+   authors:
+        - {$ref: "persons/EXAMPLE.person.yaml"} # Reference to person file,
+                                                 # or fields of a person element
+   date: "2024-09-30" # yyyy-mm-dd
+timing_base:
+    instrument: "MCXO"
+    reference: "GNSS"
+    # BEGIN OPTIONAL timing_base elements
+    instrument_nominal_drift_rate: 1.e-8
+    # END OPTIONAL timing_base elements
+# BEGIN OPTIONAL top-level elements
+notes: 
+   - ""
+# END OPTIONAL top-level elements

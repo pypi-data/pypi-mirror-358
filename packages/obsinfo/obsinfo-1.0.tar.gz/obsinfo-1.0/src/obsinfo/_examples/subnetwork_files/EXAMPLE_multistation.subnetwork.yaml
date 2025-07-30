@@ -1,0 +1,107 @@
+---
+format_version: "1.0"
+revision:
+    authors:
+        - {$ref: "persons/EXAMPLE.person.yaml"}
+    date: "2024-05-19"
+subnetwork:
+    operators:
+        -   {$ref: "operators/EXAMPLE.operator.yaml"}
+    network:
+        $ref: "networks/EXAMPLE.network.yaml"
+    stations:
+        "LSVN":
+            start_date: "2018-08-16T00:00:00Z"
+            end_date: "2019-06-12T22:13:35Z"
+            locations:
+                "00":
+                    base: {$ref: 'location_bases/EXAMPLE.location_base.yaml'}
+                    configuration: "BUC_DROP"
+                    position: {lon.deg: -32.279, lat.deg: 37.3195, elev.m: -1805}
+            instrumentation:
+                base: {$ref: "instrumentation_bases/EXAMPLE.instrumentation_base.yaml"}
+            processing:
+                - clock_correction:
+                    drift:
+                        base: {$ref: "timing_bases/EXAMPLE.timing_base.yaml"}
+                        type: 'piecewise_linear'
+                        syncs_instrument_reference:
+                            - ["2018-08-15T12:26:00Z", "2018-08-15T12:26:00Z"]
+                            - ["2016-05-27T14:00:00", "2019-06-12T22:10:50.2615Z"]
+        "LSVE":
+            start_date: "2019-02-04T04:53:25Z"
+            end_date: "2019-06-14T08:04:35Z"
+            locations:
+                "00":
+                    base: {$ref: 'location_bases/EXAMPLE.location_base.yaml'}
+                    configuration: "BUC_DROP"
+                    position: {lon.deg: -32.24163, lat.deg: 37.2811, elev.m: -1913}
+            instrumentation:
+                base: {$ref: "instrumentation_bases/EXAMPLE.instrumentation_base.yaml"}
+            processing:
+                - clock_correction:
+                    drift:
+                        base: {$ref: "timing_bases/EXAMPLE.timing_base.yaml"}
+                        type: 'piecewise_linear'
+                        syncs_instrument_reference:
+                            - ["2018-08-15T12:26:00Z", "2018-08-15T12:26:00Z"]
+                            - ["2019-06-14T04:57:59Z", "2019-06-14T04:58:00.8214Z"]
+        "LSVS":
+            start_date: "2018-08-17T00:00:00Z"
+            end_date: "2019-06-14T08:00:30Z"
+            locations:
+                "00":
+                    base: {$ref: 'location_bases/EXAMPLE.location_base.yaml'}
+                    configuration: "ACOUSTIC_SURVEY"
+                    position: {lon.deg: -32.29756, lat.deg: 37.26049, elev.m: -1887}
+            instrumentation:
+                base: {$ref: "instrumentation_bases/EXAMPLE.instrumentation_base.yaml"} 
+                configuration: "SN09_2012+"
+            processing:
+               - clock_correction:
+                    drift:
+                        base: {$ref: "timing_bases/EXAMPLE.timing_base.yaml"}
+                        type: 'piecewise_linear'
+                        syncs_instrument_reference:
+                            - ["2018-08-16T12:24:00Z", "2018-08-16T12:24:00Z"]
+                            - ["2019-06-14T08:00:30Z", ~]
+        "LSVW":
+            start_date: "2018-08-17T00:00:00Z"
+            end_date: "2019-05-14T08:00:30Z"
+            locations:
+                "00":
+                    base: {$ref: 'location_bases/EXAMPLE.location_base.yaml'}
+                    configuration: "ACOUSTIC_SURVEY"
+                    position: {lon.deg: -32.3257, lat.deg: 37.29895, elev.m: -2040}
+            instrumentation:
+                base: {$ref: "instrumentation_bases/EXAMPLE.instrumentation_base.yaml"}
+            processing:
+               - clock_correction:
+                    drift:
+                        base: {$ref: "timing_bases/EXAMPLE.timing_base.yaml"}
+                        type: 'piecewise_linear'
+                        syncs_instrument_reference:
+                            - ["2018-08-16T12:24:00Z", "2018-08-16T12:24:00Z"]
+                            - ["2019-06-14T08:00:30Z", "2019-06-14T08:00:30.1Z"]
+        "LSVC":
+            start_date: "2018-08-17T00:00:00Z"
+            end_date: "2019-06-15T08:00:30Z"
+            locations:
+                "00":
+                    base: {$ref: 'location_bases/EXAMPLE.location_base.yaml'}
+                    configuration: "ACOUSTIC_SURVEY"
+                    position: {lon.deg: -32.2975, lat.deg: 37.2914, elev.m: -1660}
+            instrumentation:
+                base: {$ref: "instrumentation_bases/EXAMPLE.instrumentation_base.yaml"} 
+                configuration: "SN09_2012+"
+                channel_modifications:
+                    "Z": {end_date: '2019-01-02T00:00:00Z'}
+            processing:
+               - clock_correction:
+                    drift:
+                        base: {$ref: "timing_bases/EXAMPLE.timing_base.yaml"}
+                        type: 'cubic_spline'
+                        syncs_instrument_reference:
+                            - ["2018-08-16T12:24:00Z", "2018-08-16T12:24:00Z"]
+                            - ["2018-12-16T12:24:00Z", "2018-12-16T12:24:03Z"]
+                            - ["2019-06-14T08:00:30Z", "2019-06-14T08:00:34Z"]

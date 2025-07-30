@@ -1,0 +1,46 @@
+---
+format_version: "1.0"
+revision:
+   authors:
+        - {$ref: "persons/EXAMPLE.person.yaml"} # Reference to a file,
+                                                 # or fields of a person element
+   date: "2024-09-30" # yyyy-mm-dd
+# WARNING!  OBSPY 1.4.0 does not handle Polynomial filters
+filter:
+   type: "Polynomial"
+   coefficients :
+       - value: 10     # Simple expression
+       -        # Full expression
+            value: 20
+            # BEGIN OPTIONAL coefficient elements
+            plus_error: 1.
+            minus_error: 1.
+            measurement_method: "johnson a2 microcalipers"
+            number: 2      # 0 or positive integer
+            # END OPTIONAL coefficient elements
+   frequency_lower_bound: 
+        value: 0.001
+        # BEGIN OPTIONAL frequency_bound elements
+        unit: "HERTZ"   # ("HERTZ"), no other value is allowed!
+        plus_error: 0.001
+        minus_error: 0.001
+        measurement_method: "oscilloscope"
+        # END OPTIONAL frequency_bound elements
+   frequency_upper_bound:
+        value: 0.1
+        # BEGIN OPTIONAL frequency_bound elements
+        unit: "HERTZ"   # ("HERTZ"), no other value is allowed!
+        plus_error: 0.1
+        minus_error: 0.1
+        measurement_method: "oscilloscope"
+        # END OPTIONAL frequency_bound elements
+   approximation_lower_bound: 3.    # Lower bound of the approximation range
+   approximation_upper_bound: 5.    # Upper bound of the approximation range
+   maximum_error: 0.2               # Maximum error of the approximatiion
+   # BEGIN OPTIONAL filter elements
+   approximation_type: "MACLAURIN"  # ("MACLAURIN"), no other value allowed!
+   # END OPTIONAL filter elements
+# BEGIN OPTIONAL top-level elements
+notes: 
+   - ""
+# END OPTIONAL top-level elements

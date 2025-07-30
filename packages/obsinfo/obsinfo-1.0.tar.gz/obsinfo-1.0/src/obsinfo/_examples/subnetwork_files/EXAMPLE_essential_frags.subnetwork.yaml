@@ -1,0 +1,58 @@
+---
+format_version: "1.0"
+revision:
+    authors:
+        - {$ref: "persons/EXAMPLE.person.yaml"}
+    date: "2019-12-19"
+subnetwork:
+    operators:
+        -   {$ref: "operators/EXAMPLE.operator.yaml"}
+    network:
+        $ref: "networks/EXAMPLE.network.yaml"
+    stations:
+        "BB_1":
+            start_date: "2015-04-23T10:00:00"
+            end_date: "2015-05-28T15:37:00"
+            locations:
+                "00":
+                    base: {$ref: 'location_bases/EXAMPLE.location_base.yaml'}
+                    configuration: "BUC_DROP"
+                    position: {lon.deg: -32.234, lat.deg: 37.2806, elev.m: -1950}
+            instrumentation:
+                base: {$ref: "instrumentation_bases/EXAMPLE.instrumentation_base.yaml"}
+                configuration: "SN03_pre2012"
+                datalogger_configuration: "250sps"
+            processing:
+                - clock_correction:
+                    drift:
+                        base: {$ref: "timing_bases/EXAMPLE.timing_base.yaml"}
+                        type: 'piecewise_linear'
+                        syncs_instrument_reference:
+                            - ["2015-04-23T11:20:00", "2015-04-23T11:20:00"]
+                            - ["2016-05-27T14:00:00", "2016-05-27T14:00:00.2450"]
+        "BB_2":
+            notes: ["example of deploying with a different sphere"]
+            start_date: "2015-04-23T10:00:00Z"
+            end_date: "2016-05-28T15:37:00Z"
+            locations:
+                "":   # Empty location codes are frowned upon, but accepted
+                    base: {$ref: 'location_bases/EXAMPLE.location_base.yaml'}
+                    configuration: "ACOUSTIC_SURVEY"
+                    position: {lon.deg: -32.29756, lat.deg: 37.26049, elev.m: -1887}
+            instrumentation:
+                base: {$ref: "instrumentation_bases/EXAMPLE.instrumentation_base.yaml"} 
+                configuration: "SN06_2012+"
+                datalogger_configuration: "125sps"
+                channel_modifications:
+                    "1-*": {sensor: {configuration: "Sphere08"}}
+                    "2-*": {sensor: {configuration: "Sphere08"}}
+                    "Z-*": {sensor: {configuration: "Sphere08"}}
+                    "G-*": {sensor: {configuration: "5004"}}
+            processing:
+                - clock_correction:
+                    drift:
+                        base: {$ref: "timing_bases/EXAMPLE.timing_base.yaml"}
+                        type: 'piecewise_linear'
+                        syncs_instrument_reference:
+                            - ["2015-04-22T12:24:00", "2015-04-22T12:24:00"]
+                            - ["2016-05-28T15:35:02", "2016-05-28T15:35:00.3660"]

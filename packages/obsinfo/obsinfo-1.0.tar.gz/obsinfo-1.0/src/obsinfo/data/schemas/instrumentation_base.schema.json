@@ -1,0 +1,220 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Instrumentation",
+    "description": "OBS operator instruments and their components",
+    "type": "object",
+    "required": ["format_version", "revision", "instrumentation_base"],
+    "properties": {
+        "format_version" :      {"$ref" : "definitions.schema.json#/format_version"},
+        "revision" :            {"$ref" : "definitions.schema.json#/revision"},
+        "yaml_anchors" :        {"$ref" : "definitions.schema.json#/yaml_anchors"},
+        "notes" :               {"$ref": "definitions.schema.json#/note_list"},
+        "instrumentation_base": {"$ref" : "#/definitions/base" }
+    },
+    "additionalProperties" : false,
+    "definitions": {
+        "base_properties": {
+            "description": "Common properties in {element}, modifications, base, definition, and configuration_definition.  Unused because 'allOf' for makes ugly schema validation",
+            "properties": {
+                "equipment":             {"$ref": "definitions.schema.json#/equipment"},
+                "channels":              {"$ref": "#/definitions/channels"}
+            }
+        },
+        "instrumentation" : {
+            "description" : "Configuration of a generic instrumentation description",
+            "type": "object",
+            "required": ["base"],
+            "properties": {
+                "base":                  {"type": ["string", "object"] },
+                "configuration":         {"type": ["string", "null"]},
+                "modifications":         {"$ref": "#/definitions/modifications"},
+                "channel_modifications": {"$ref": "#/definitions/channel_mods"},
+                "notes" :                {"$ref": "definitions.schema.json#/note_list"},
+
+                "serial_number":         {"type": "string"},
+                "datalogger_configuration": {"type": "string"}
+            },
+            "if":   {"properties": {"base": {"type": "string"}}},
+            "then": {"properties": {"base": {"type": "string"}}},
+            "else": {"properties": {"base": {"$ref": "#/definitions/base"}}},
+            "additionalProperties": false
+        },
+        "base" : {
+            "description" : "Generic instrumentation description",
+            "type": "object",
+            "required": ["equipment", "channels"],
+            "properties": {
+                "configuration_default": {"type": "string"},
+                "configurations":        {"$ref": "#/definitions/configurations_map"},
+
+                "equipment":             {"$ref": "definitions.schema.json#/equipment"},
+                "channels":              {"$ref": "#/definitions/channels"}
+            },
+            "additionalProperties" : false
+        },
+        "modifications": {
+            "type" : "object",
+            "description" : "Instrumentation modifier",
+            "properties": {
+                "base":                  {"$ref" : "#/definitions/base" },
+                "configuration":         {"type": ["string", "null"]},
+                "equipment":     {"$ref": "definitions.schema.json#/equipment"},
+                "channels":      {"$ref": "#/definitions/channels_modif"}
+            },
+            "additionalProperties" : false
+        },
+        "configurations_map": { 
+            "description": "Map of configuration names for a given stage",
+            "patternProperties": {
+                "^[A-Za-z0-9_-]+$": {"$ref": "#/definitions/configuration_definition"}}
+        },
+        "configuration_definition": { 
+            "description": "Configuration-specific properties",
+            "properties": {
+                "configuration_description": {"type": "string"},
+
+                "equipment":                 {"$ref": "definitions.schema.json#/equipment"},
+                "channels":                  {"$ref": "#/definitions/channels_config"}
+            },
+            "additionalProperties": false
+        },
+       "channel_mods": {  
+            "type": "object",
+            "description": "individual changes specified by das channel",
+            "patternProperties": {
+                   "^[N, E, Z, 1, 2, 3, G, O, H, \\*]-[0-9, \\*]+$": { "$ref": "#/definitions/channel_modif"},
+                   "^[N, E, Z, 1, 2, 3, G, O, H, \\*]": { "$ref": "#/definitions/channel_modif"}
+            },
+            "additionalProperties": false
+        }, 
+        "channel_modif": { 
+            "type": "object",
+            "description": "DAS channel, modifications",
+            "properties" : {"$ref": "#/definitions/channel_modif_properties"},
+            "additionalProperties" : false
+        },
+        "channels": {
+            "type": "object",
+            "required": ["default"],
+            "properties": {
+                "default": { "$ref": "#/definitions/channel_default"}
+            },
+            "patternProperties": {
+                "^(?!default$).*": { "$ref": "#/definitions/channel"}
+            },
+            "additionalProperties": false
+        },
+        "channels_modif": {
+            "description": "exactly 'channels' without required (there has to be a better way to do this!)",
+            "type": "object",
+            "properties": {
+                "default": { "$ref": "#/definitions/channel_default"}
+            },
+            "patternProperties": {
+                "^(?!default$).*": { "$ref": "#/definitions/channel"}
+            },
+            "additionalProperties": false
+        },
+        "channels_config": {
+            "type": "object",
+            "definition": "modifying channels in configurations",
+            "properties": {
+                "default": { "$ref": "#/definitions/channel"}
+            },
+            "patternProperties": {
+                "^(?!default$).*": { "$ref": "#/definitions/channel"}
+            },
+            "additionalProperties": false
+        },
+        "channel_default": {
+            "type": "object",
+            "description": "Description of default DAS channel",
+            "required": ["datalogger", "sensor"],
+            "properties" : {"$ref": "#/definitions/channel_properties"},
+            "additionalProperties": false
+        },
+        "channel": {
+            "type": "object",
+            "description": "Description of one DAS channel (overwrites corresponding channel default for that channel)",
+            "properties" : {"$ref": "#/definitions/channel_properties"},
+            "additionalProperties": false
+        },
+        "channel_properties": {
+            "datalogger" :           {"$ref": "datalogger_base.schema.json#/definitions/modifications"},
+            "sensor" :               {"$ref": "sensor_base.schema.json#/definitions/modifications"},
+            "orientation":           {"$ref": "#/definitions/orientation"},
+            "preamplifier":          {"$ref": "preamplifier_base.schema.json#/definitions/modifications"},
+            "location_code":         {"type": "string"},
+            "restricted_status":     {"$ref": "definitions.schema.json#restricted_status"},
+            "source_id":             {"$ref": "definitions.schema.json#source_id"},
+            "identifiers":           {"$ref": "definitions.schema.json#identifiers"},
+            "external_references":   {"$ref": "definitions.schema.json#external_references"},
+            "comments" :             {"$ref": "definitions.schema.json#/comments"},
+            "extras":                {"$ref": "definitions.schema.json#/extras"},
+            "start_date":            {"$ref": "definitions.schema.json#/date-time-Z"},
+            "end_date":              {"$ref": "definitions.schema.json#/date-time-Z"},
+            "extras":                {"$ref": "definitions.schema.json#/extras"},
+            "replace_datalogger" :   {"$ref": "datalogger_base.schema.json#/definitions/modifications"},
+            "replace_sensor" :       {"$ref": "sensor_base.schema.json#/definitions/modifications"},
+            "replace_orientation":   {"$ref": "#/definitions/orientation"},
+            "replace_preamplifier":  {"$ref": "preamplifier_base.schema.json#/definitions/modifications"},
+            "replace_identifiers":   {"$ref": "definitions.schema.json#identifiers"},
+            "replace_external_references": {"$ref": "definitions.schema.json#external_references"},
+            "replace_comments" :     {"$ref": "definitions.schema.json#/comments"},
+            "replace_extras":        {"$ref": "definitions.schema.json#/extras"}
+        },  
+        "channel_modif_properties": {
+            "datalogger" :           {"$ref": "datalogger_base.schema.json#/definitions/modifications"},
+            "sensor" :               {"$ref": "sensor_base.schema.json#/definitions/modifications"},
+            "orientation":           {"$ref": "#/definitions/orientation_modifications"},
+            "preamplifier":          {"$ref": "preamplifier_base.schema.json#/definitions/modifications"},
+            "location_code":         {"type": "string"},
+            "restricted_status":     {"$ref": "definitions.schema.json#restricted_status"},
+            "source_id":             {"$ref": "definitions.schema.json#source_id"},
+            "identifiers":           {"$ref": "definitions.schema.json#identifiers"},
+            "external_references":   {"$ref": "definitions.schema.json#external_references"},
+            "comments" :             {"$ref": "definitions.schema.json#/comments"},
+            "extras":                {"$ref": "definitions.schema.json#/extras"},
+            "start_date":            {"$ref": "definitions.schema.json#/date-time-Z"},
+            "end_date":              {"$ref": "definitions.schema.json#/date-time-Z"},
+            "extras":                {"$ref": "definitions.schema.json#/extras"},
+            "replace_datalogger" :   {"$ref": "datalogger_base.schema.json#/definitions/modifications"},
+            "replace_sensor" :       {"$ref": "sensor_base.schema.json#/definitions/modifications"},
+            "replace_orientation":   {"$ref": "#/definitions/orientation"},
+            "replace_preamplifier":  {"$ref": "preamplifier_base.schema.json#/definitions/modifications"},
+            "replace_identifiers":   {"$ref": "definitions.schema.json#identifiers"},
+            "replace_external_references": {"$ref": "definitions.schema.json#external_references"},
+            "replace_comments" :     {"$ref": "definitions.schema.json#/comments"},
+            "replace_extras":        {"$ref": "definitions.schema.json#/extras"}
+        },  
+        "old_orientation" : { 
+            "type" : "object",
+            "description": "GET RID OF THIS! (if all tests pass)",
+            "patternProperties": {
+                "^[123HGNEZ]$": { "$ref": "#/definitions/orientation_coordinates"}
+            },
+            "additionalProperties": false
+        },
+        "orientation": { 
+            "type": "object",
+            "required": ["code"],
+            "properties": {
+                "code": {"type" :"string",
+                         "enum": ["1", "2", "3", "H", "G", "O", "N", "X", "Y", "E", "Z"]},
+                "azimuth.deg": {"$ref" :"definitions.schema.json#azimuth.deg"},
+                "dip.deg":     {"$ref" :"definitions.schema.json#dip.deg"}   
+            },
+            "additionalProperties": false
+        },
+        "orientation_modifications": { 
+            "type": "object",
+            "properties": {
+                "code": {"type" :"string",
+                         "enum": ["1", "2", "3", "H", "G", "O", "N", "X", "Y", "E", "Z"]},
+                "azimuth.deg": {"$ref" :"definitions.schema.json#azimuth.deg"},
+                "dip.deg":     {"$ref" :"definitions.schema.json#dip.deg"}   
+            },
+            "additionalProperties": false
+        }
+    }
+}

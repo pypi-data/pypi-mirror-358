@@ -1,0 +1,27 @@
+---
+format_version: "1.0"
+revision:
+    authors:
+        - {$ref: "persons/EXAMPLE.person.yaml"} # Reference to a file,
+                                                # or fields of a person element
+    date: "2024-09-30" # yyyy-mm-dd
+location_base:
+    depth.m: 0         # Installation depth beneath the seafloor
+    geology: "unknown" # Type of rock and/or geologic formation at the station 
+    vault: "seafloor"  # Type of vault
+    uncertainties.m: {lon: 200, lat: 200, elev: 20} # uncertainties in meters
+    # BEGIN OPTIONAL location_base elements
+    measurement_method: "Sea surface release point" # description of measurement method
+    water_level.m: 0  # Elevation of the water surface (0 for oceans)
+    notes: [""]
+    configuration_default: "SEA_SURFACE"
+    configurations:
+        "SEA_SURFACE":
+            configuration_description: "Standard sea-surface deployment"
+        "ACOUSTIC_SURVEY":
+            uncertainties.m: {lon: 5, lat: 5, elev: 10}
+            measurement_method: "Acoustic survey"
+    # END OPTIONAL location_base elements
+# BEGIN OPTIONAL top-level elements
+notes: [""]
+# END OPTIONAL top-level elements

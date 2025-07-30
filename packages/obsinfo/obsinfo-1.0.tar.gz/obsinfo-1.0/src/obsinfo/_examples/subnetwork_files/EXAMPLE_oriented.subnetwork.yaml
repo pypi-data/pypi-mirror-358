@@ -1,0 +1,72 @@
+---
+format_version: "1.0"
+revision:
+    authors:
+        - {$ref: "persons/EXAMPLE.person.yaml"}
+    date: "2017-10-04"
+subnetwork:
+    operators:
+        - agency: "INSU-IPGP OBS Park"
+    reference_names:
+        operator: "INSU-IPGP"
+        campaign: "ORIENTED"
+    network:
+        code: "4G"
+        description: "ORIENTED STATIONS"
+        start_date: "2007-07-01"
+        end_date: "2025-12-31"
+    stations:
+        "LSVW":
+            
+            site: "Lucky Strike Volcano West"
+            start_date: "2015-04-22T12:00:00Z"
+            end_date: "2016-05-28T21:01:00Z"
+            location_code: "00"
+            instrumentation:
+                base: {$ref: "instrumentation_bases/EXAMPLE.instrumentation_base.yaml"}
+                datalogger_configuration : "125sps"
+                channel_modifications:
+                   '1-00': {orientation:  {code: '1', azimuth.deg: {value: 33, uncertainty: 5, measurement_method: "Ppol"}}}
+                   '2-00': {orientation:  {code: '2', azimuth.deg: {value: 23, uncertainty: 5, measurement_method: "Ppol"}}}
+            locations:
+                "00":
+                    base: {$ref: 'location_bases/EXAMPLE.location_base.yaml'}
+                    configuration: "SEA_SURFACE"
+                    position: {lon.deg: -32.32504, lat.deg: 37.29744, elev.m: -2030}
+            processing:
+                - clock_correction:
+                    drift:
+                        base: {$ref: "timing_bases/EXAMPLE.timing_base.yaml"}
+                        type: 'piecewise_linear'
+                        syncs_instrument_reference:
+                            - ["2015-04-21T21:06:00Z", "2015-04-21T21:06:00Z"]
+                            - ["2016-05-28T20:59:03Z", "2016-05-28T20:59:00.32Z"]
+        "LSVE":
+            site: "Lucky Strike Volcano East"
+            start_date: "2015-04-22T12:00:00Z"
+            end_date: "2016-05-28T21:01:00Z"
+            location_code: "00"
+            instrumentation:
+                base: {$ref: "instrumentation_bases/EXAMPLE.instrumentation_base.yaml"}
+                datalogger_configuration : "125sps"
+                channel_modifications:
+                   '1-00': {orientation:  {code: '1', azimuth.deg: {value: 154, uncertainty: 7, measurement_method: "Ppol"}}}
+                   '2-00': {orientation:  {code: '2', azimuth.deg: {value: 244, uncertainty: 7, measurement_method: "Ppol"}}}
+            locations:
+                "00":
+                    base: {$ref: 'location_bases/EXAMPLE.location_base.yaml'}
+                    configuration: "SEA_SURFACE"
+                    position: {lon.deg: -32.02504, lat.deg: 37.25744, elev.m: -2130}
+            processing:
+                - clock_correction:
+                    drift:
+                        base: {$ref: "timing_bases/EXAMPLE.timing_base.yaml"}
+                        type: 'piecewise_linear'
+                        syncs_instrument_reference:
+                            - ["2015-04-21T21:06:00Z", "2015-04-21T21:06:00Z"]
+                            - ["2016-05-28T20:59:01Z", "2016-05-28T20:59:00.32Z"]
+
+notes:
+    - "An example with station orientations provided"
+    - "Provide azimuths for channels 1 and 2"
+    

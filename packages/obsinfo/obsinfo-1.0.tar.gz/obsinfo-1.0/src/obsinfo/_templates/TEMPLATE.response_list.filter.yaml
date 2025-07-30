@@ -1,0 +1,21 @@
+---
+format_version: "1.0"
+revision:
+   authors:
+        - {$ref: "persons/EXAMPLE.person.yaml"} # Reference to a file,
+                                                 # or fields of a person element
+   date: "2024-09-30" # yyyy-mm-dd
+filter:
+   type : "ResponseList"
+   elements :  # Frequency (Hz), amplitude, phase (deg)
+       - [0.001, 0.01, -90]  
+       - [  0.1, 0.1,  -45] 
+       - [   10, 0.9,   -5] 
+       - [ 1000, 1.0,    0]
+   # BEGIN OPTIONAL filter elements
+   delay.seconds: 0    # Seconds that the filter delays the data (0)
+   # BEGIN OPTIONAL filter elements
+# BEGIN OPTIONAL top-level elements
+notes: 
+   - ""
+# END OPTIONAL top-level elements

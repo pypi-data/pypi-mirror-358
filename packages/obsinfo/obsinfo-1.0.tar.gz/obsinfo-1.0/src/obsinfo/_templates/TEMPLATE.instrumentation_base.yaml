@@ -1,0 +1,189 @@
+---
+format_version: "1.0"
+revision:
+    authors:
+        - {$ref: "persons/EXAMPLE.person.yaml"} # Reference to a file,
+                                                 # or fields of a person element
+    date: "2024-09-30" # yyyy-mm-dd
+instrumentation_base:
+    equipment:
+        model: "MY_OBS"
+        type: "My Ocean Bottom Seismometer"
+        description: "This is my OBS!" 
+        manufacturer: "My OBS park"
+        # BEGIN OPTIONAL equipment elements
+        vendor: "various"
+        serial_number: "2014a2"
+        installation_date: "2024-09-30"
+        removal_date: "2025-08-31"
+        resource_id: "IPGP:2004iepw44" # Unique ID of the filter, typically
+                                       # "GENERATOR:Meaningful_ID"
+        calibration_dates: 
+           - "2004-09-22T07:00:00"
+           - "2014-08-31T07:00:00"
+        # END OPTIONAL equipment elements
+    channels:
+        default:
+            datalogger:
+                base: {$ref: "datalogger_bases/EXAMPLE.datalogger_base.yaml"}
+                # BEGIN OPTIONAL datalogger elements
+                configuration: "100sps_LINEAR"  # Must be a configuration defined in the datalogger_base
+                serial_number: "20"
+                notes: ["A note"]
+                equipment: # modify elements of the equipment defined in datalogger_base
+                    model: "ADS1281"
+                    manufacturer: "Texas Instruments"
+                    description: "Single Chip High-Resolution Analog-to-Digital Converter"
+                    # BEGIN OPTIONAL equipment elements.
+                    type: "delta-sigma A/D converter + digital filter"
+                    vendor: "various"
+                    serial_number: "2014a2"
+                    installation_date: "2024-09-30"
+                    removal_date: "2025-08-31"
+                    resource_id: "IPGP:2004iepw44"
+                    calibration_dates: 
+                       - "2004-09-22T07:00:00"
+                    # END OPTIONAL equipment elements.
+                stages:   # replace all stages 
+                    - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR1.stage_base.yaml"}}
+                    - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                    - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                    - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                    - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                    - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                    - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                    - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                    - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR3.stage_base.yaml"}}
+                stage_modifications: # Modify certain stages
+                    "1": {gain: {value: 100}}  # Modifies the "gain" subelement of stage 1
+                sample_rate: 125  # Only needed if you replace/modify stages
+                correction: 24    # Only needed if you replace/modify stages
+                # END OPTIONAL datalogger elements
+            sensor:
+                base: {$ref: "sensor_bases/EXAMPLE_BBSeismometer.sensor_base.yaml"}
+                # BEGIN OPTIONAL sensor elements
+                configuration: "something"  # Must be a configuration defined in the sensor_base
+                serial_number: "A16"
+                notes: ["A note"]
+                equipment:
+                    # All elements are optional, see datalogger:equipment above
+                    model: "Example sensor"
+                stages:
+                    - {base: {$ref: "sensor_bases/stage_bases/EXAMPLE_DPG.stage_base.yaml"}}
+                stage_modifications:
+                     "1": {gain: {value: 100}}  # Modifies the "gain" subelement of stage 1
+                seed_codes:  # Modify values given in sensor_base
+                    # BEGIN OPTIONAL seed_codes elements
+                    band: "shortperiod"  # "shortperiod" or "broadband" to
+                                         # automatically choose the appropriate
+                                         # band code for the sample rate, or
+                                         # one of the "non-band" band codes:
+                                         # ('A', 'I', 'O', 'L' or 'S')
+                    instrument: "H"      # Seed instrument code
+                    # END OPTIONAL seed_codes elements                    
+                # END OPTIONAL sensor elements
+            # BEGIN OPTIONAL default elements
+            preamplifier:
+                base: {$ref: "preamplifier_bases/EXAMPLE_DPG.preamplifier_base.yaml"}
+                # BEGIN OPTIONAL preamplifier elements
+                configuration: "16x"  # Must be a configuration defined in the preamplifier_base
+                serial_number: "2020_003"
+                notes: ["A note"]
+                equipment:
+                    # All elements are optional, see datalogger:equipment above
+                    model: "Example sensor"
+                stages:
+                    - {base: {$ref: "preamplifier_bases/stage_bases/EXAMPLE_DPG-Card.stage_base.yaml"}}
+                stage_modifications:
+                     "1": {gain: {value: 100}}   # Modifies the "gain" subelement of stage 1
+                # END OPTIONAL preamplifier elements
+            location_code: "01"        # If not specified, use station's location code
+            restricted_status: "open"  # "open", "closed", or "partial"
+            source_id: "FDSN:XX_SS_00_H_H_Z"    # StationXML sourceID: FDSN:<network>_<station>_<location>_<band>_<source>_<subsource>
+            identifiers: ["DOI:10.7915/SN/XX"]  # List of identifiers
+            external_references:  # List of external references
+                -   uri: "http://usgs.gov"
+                    description:  "USGS website"
+            comments:   # List of comments
+                - "A simple channel-level comment"
+                -   value: "A full channel-level comment"
+                    # OPTIONAL full comment elements
+                    begin_effective_time: "2020-01-01T00:00:00Z"
+                    end_effective_time:   "2024-09-30T00:00:00Z"
+                    id: 1      # integer id
+                    subject: "My subject"  # An attribute
+                    authors:
+                        - {$ref: "persons/EXAMPLE.person.yaml"}
+                    # END OPTIONAL full comment elements
+            extras: {}  # anything you want, written as an object (put into comments)
+            # END OPTIONAL default elements
+        "1":   # One element per instrument channel, name is generally the 
+               # datalogger's channel #
+            orientation:
+                code: "Z"   # The SEED orientation (or sub-source) code for this channel
+                azimuth.deg:
+                    value: 0
+                    # BEGIN OPTIONAL azimuth.deg elements
+                    uncertainty: 180
+                    # END OPTIONAL azimuth.deg elements
+                dip.deg:
+                    value: -90
+                    # BEGIN OPTIONAL dip.deg elements
+                    uncertainty: 5
+                    # END OPTIONAL dip.deg elements
+            # BEGIN OPTIONAL channel elements that MODIFY the specified elements
+            sensor: {configuration: "blah"}  # UPDATE default sensor's fields
+            datalogger: {configuration: "bleh"}  # UPDATE default datalogger's fields
+            preamplifier: {configuration: "bluh"}  # UPDATE default preamplifier's fields
+            identifiers:  ["DOI:10.7915/SN/YY"]
+            external_references:
+                -   uri: "http://ipgp.fr"
+                    description:  "IPGP website"
+            comments : 
+                - "A simple channel-level comment"
+            extras:  {}
+            # END OPTIONAL channel elements that MODIFY the specified elements
+            # BEGIN OPTIONAL channel elements that REPLACE default elements
+            location_code: '03'
+            restricted_status: "closed"
+            source_id: "FDSN:XX_SS_00_H_H_H"
+            replace_sensor: 
+                base: {$ref: "sensor_bases/EXAMPLE_DPG.sensor_base.yaml"}  
+            replace_datalogger: 
+                base: {$ref: "datalogger_bases/EXAMPLE.datalogger_base.yaml"}
+                # BEGIN OPTIONAL replace_datalogger elements
+                configuration: "250sps"
+                # END OPTIONAL replace_datalogger elements
+            replace_preamplifier:
+                base: {$ref: "preamplifier_bases/EXAMPLE_DPG.preamplifier_base.yaml"}
+            replace_identifiers:   ["DOI:10.7915/SN/YY"]
+            replace_external_references:
+                -   uri: "http://ipgp.fr"
+                    description:  "IPGP website"
+            replace_comments:
+                - "A replacement channel-level comment"
+            replace_extras: {}
+            # END OPTIONAL channel elements that REPLACE default elements
+    # BEGIN OPTIONAL instrumentation_base elements
+    configuration_default: "CONFIG1"
+    configurations:
+        "CONFIG1":  # Modifications to the base instrumentation
+            channels:
+                "default": {replace_datalogger:  {base: {$ref: "datalogger_bases/EXAMPLE.datalogger_base.yaml"}}}
+        "CONFIG2":  # Modifications to the base instrumentation
+            channels:
+                "default":
+                    replace_datalogger:  {base: {$ref: "datalogger_bases/EXAMPLE.datalogger_base.yaml"}}
+                    replace_preamplifier:
+                        base: {$ref: "preamplifier_bases/EXAMPLE_DPG.preamplifier_base.yaml"}
+                        configuration: "16x gain"
+        "SN01":
+            equipment: {serial_number: '01'}
+            channels:
+                default: {sensor: {configuration: "Sphere01"}}
+                "4": {sensor: {configuration: "generic"}}
+    # END OPTIONAL instrumentation_base elements
+# BEGIN OPTIONAL top-level elements
+notes: 
+    - ""
+# END OPTIONAL top-level elements

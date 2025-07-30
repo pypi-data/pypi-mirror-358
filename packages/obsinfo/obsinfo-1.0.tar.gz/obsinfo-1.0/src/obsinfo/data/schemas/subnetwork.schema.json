@@ -1,0 +1,93 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Subnetwork",
+    "description": "Subnetwork of stations deployed by an OBS operator within a FDSN network $comment: No $id (or id) yet: should be set to a URL at a domain we control (e.g. http://www.ipgp.fr/~crawford/json-schemas/network.schema.json",
+    "type": "object",
+    "required": ["format_version", "subnetwork"],
+    "properties": {
+        "format_version": {"$ref" : "definitions.schema.json#/format_version"},
+        "revision":       {"$ref": "definitions.schema.json#/revision"},
+        "yaml_anchors":   {"$ref": "definitions.schema.json#/yaml_anchors"},
+        "notes" :         {"$ref": "definitions.schema.json#/note_list"},
+        "subnetwork":     {"$ref": "#/definitions/subnetwork"}
+    },
+    "additionalProperties" : false,
+    "definitions" : {
+        "subnetwork": {
+            "type": "object",
+            "required": [
+                "operators",
+                "network",
+                "stations"
+            ],
+            "properties": {
+                "operators":         {"$ref": "operator.schema.json#/definitions/operators"},
+                "network":           {"$ref": "network.schema.json#/definitions/network"},
+                "leapseconds":       {"$ref": "#/definitions/leapseconds"},
+                "stations":          {"$ref": "#/definitions/stations_map"},
+                "reference_names":   {"$ref": "#/definitions/reference_names"},
+                "comments":          {"$ref": "definitions.schema.json#/comments"},
+                "extras":            {"$ref": "definitions.schema.json#/extras" }
+            },
+            "additionalProperties" : false
+        },
+        "reference_names": {
+            "type": "object",
+            "properties": {
+                "campaign":  {"$ref": "definitions.schema.json#/reference_name"},
+                "operator":  {"$ref": "definitions.schema.json#/reference_name"}
+            },
+            "additionalProperties": false
+        },
+        "leapseconds": {
+            "type": "object",
+            "required": [
+                "list_file_entries",
+                "default_applied_corrections"
+            ],
+            "properties": {
+                "list_file_entries":  {"$ref": "#/definitions/ls_list_file_entries"},
+                "default_applied_corrections":  {"$ref": "#/definitions/ls_default_applied_corrections"}
+            },
+            "additionalProperties": false
+        },
+        "ls_list_file_entries": {
+            "type" : "array",
+            "description" : "list of leapsecond.list file entries",
+            "minItems": 1,
+            "items" : {
+                "type": "object",
+                "required": [
+                    "line_text",
+                    "leap_type"
+                ],
+                "properties": {
+                    "line_text":  {"type": "string", "description": "line from leapseconds.lst"},
+                    "leap_type":  {"type": "string", "description" : "Leapsecond direction", "enum" : ["+","-"]}
+                },
+                "additionalProperties": false
+            }
+        },
+        "ls_default_applied_corrections": {
+            "type": "object",
+            "required": [
+                "not_clock_corrected_miniseed",
+                "syncs_instrument"
+            ],
+            "properties": {
+                "not_clock_corrected_miniseed":  {"type": "boolean", "description": "Are not-clock-corrected miniseed data corrected for leap seconds?"},
+                "syncs_instrument":  {"type": "boolean", "description": "Are instrument synchronization datetimes corrected for leap seconds?"}
+            },
+            "additionalProperties": false
+        },
+        "stations_map" : {
+            "type": "object",
+            "description": "Seafloor seismological stations, keys are station names",
+            "$comment": "If we use draft-06, 'patternProperties' should probably be replaced by 'propertyNames':{'pattern':}",
+            "patternProperties": {
+                "^[A-Za-z0-9_-]+$": {"$ref": "station.schema.json#/definitions/station"}
+            },
+            "additionalProperties": false
+        }
+    }
+}

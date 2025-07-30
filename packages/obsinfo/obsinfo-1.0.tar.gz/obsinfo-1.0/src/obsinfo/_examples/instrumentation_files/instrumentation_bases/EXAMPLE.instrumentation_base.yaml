@@ -1,0 +1,137 @@
+---
+format_version: "1.0"
+revision: 
+    date: "2019-12-19"
+    authors:
+        - {$ref: "persons/EXAMPLE.person.yaml"}
+instrumentation_base:
+    equipment:
+        model: "My Model"
+        type: "Broadband Ocean Bottom Seismometer"
+        description: "A really cool BBOBS" 
+        manufacturer: "ACME OBSs"
+        vendor: "ACME Sales, Ltd"
+    channels:
+        default:
+            datalogger: {base: {$ref: "datalogger_bases/EXAMPLE.datalogger_base.yaml"}}
+            preamplifier: {base: {$ref: "preamplifier_bases/EXAMPLE_BBOBS.preamplifier_base.yaml"},
+                           configuration: "0.225x gain"}
+            sensor: {base: {$ref: "sensor_bases/EXAMPLE_BBSeismometer.sensor_base.yaml"},
+                     configuration: "SN1-399, single-sided"}  
+        "1":
+            orientation: {code: "2", azimuth.deg: {value: 90, uncertainty: 180}}
+        "2":
+            orientation: {code: "1", azimuth.deg: {value: 0, uncertainty: 180}}
+        "3": 
+            orientation: {code: "Z", azimuth.deg: {value: 0}, dip.deg: {value: -90}}
+            preamplifier: {configuration: "1x gain"}
+        "4":
+            orientation : {code: "G", azimuth.deg: {value: 0}, dip.deg: {value: 90}}
+            replace_preamplifier: {base: {$ref: "preamplifier_bases/EXAMPLE_DPG.preamplifier_base.yaml"}}
+            replace_sensor: {base: {$ref: "sensor_bases/EXAMPLE_DPG.sensor_base.yaml"}}         
+    configuration_default: "seismometer_sn_1-399_2012+"  
+    configurations:
+        "seismometer_sn_1-399_2012+":
+            channels:
+                default: {sensor: {configuration: "SN1-399, single-sided"}}
+                "4": {sensor: {configuration: "generic"}}
+        "SN01_2012+":
+            equipment: {serial_number: '01'}
+            channels:
+                default: {sensor: {configuration: "Sphere01"}}
+                "4": {sensor: {configuration: "generic"}}
+        "SN02_2012+":
+            equipment: {serial_number: '02'}
+            channels:
+                default: {sensor: {configuration: "Sphere02"}}
+                "4": {sensor: {configuration: "generic"}} 
+        "SN03_2012+":
+            equipment: {serial_number: '03'}
+            channels:
+                default: {sensor: {configuration: "Sphere03"}}
+                "4": {sensor: {configuration: "generic"}}
+        "SN04_2012+":
+            equipment: {serial_number: '04'}
+            channels:
+                default: {sensor: {configuration: "Sphere04"}}
+                "4": {sensor: {configuration: "generic"}}
+        "SN05_2012+":
+            equipment: {serial_number: '05'}
+            channels:
+                default: {sensor: {configuration: "Sphere05"}}
+                "4": {sensor: {configuration: "generic"}}
+        "SN06_2012+":
+            equipment: {serial_number: '06'}
+            channels:
+                default: {sensor: {configuration: "Sphere06"}}
+                "4": {sensor: {configuration: "generic"}}
+        "SN07_2012+":
+            equipment: {serial_number: '07'}
+            channels:
+                default: {sensor: {configuration: "Sphere07"}}
+                "4": {sensor: {configuration: "generic"}}
+        "SN08_2012+":
+            equipment: {serial_number: '08'}
+            channels:
+                default: {sensor: {configuration: "Sphere08"}}
+                "4": {sensor: {configuration: "generic"}}
+        "SN09_2012+":
+            equipment: {serial_number: '09'}
+            channels:
+                default: {sensor: {configuration: "Sphere09"}}
+                "4": {sensor: {configuration: "generic"}}            
+        "SN01_pre2012":
+            equipment: {serial_number: '01'}
+            channels:
+                default: {sensor: {configuration: "Sphere01"}}
+                "3": {preamplifier: {configuration: "0.225x gain"}}
+                "4": {sensor: {configuration: "generic"}}
+        "SN02_pre2012":
+            equipment: {serial_number: '02'}
+            channels:
+                default: {sensor: {configuration: "Sphere02"}}
+                "3": {preamplifier: {configuration: "0.225x gain"}}
+                "4": {sensor: {configuration: "generic"}} 
+        "SN03_pre2012":
+            equipment: {serial_number: '03'}
+            channels:
+                default: {sensor: {configuration: "Sphere03"}}
+                "3": {preamplifier: {configuration: "0.225x gain"}}
+                "4": {sensor: {configuration: "generic"}}
+        "SN04_pre2012":
+            equipment: {serial_number: '04'}
+            channels:
+                default: {sensor: {configuration: "Sphere04"}}
+                "3": {preamplifier: {configuration: "0.225x gain"}}
+                "4": {sensor: {configuration: "generic"}}
+        "SN05_pre2012":
+            equipment: {serial_number: '05'}
+            channels:
+                default: {sensor: {configuration: "Sphere05"}}
+                "3": {preamplifier: {configuration: "0.225x gain"}}
+                "4": {sensor: {configuration: "generic"}}
+        "SN06_pre2012":
+            equipment: {serial_number: '06'}
+            channels:
+                default: {sensor: {configuration: "Sphere06"}}
+                "3": {preamplifier: {configuration: "0.225x gain"}}
+                "4": {sensor: {configuration: "generic"}}
+        "SN07_pre2012":
+            equipment: {serial_number: '07'}
+            channels:
+                default: {sensor: {configuration: "Sphere07"}}
+                "3": {preamplifier: {configuration: "0.225x gain"}}
+                "4": {sensor: {configuration: "generic"}}
+        "SN08_pre2012":
+            equipment: {serial_number: '08'}
+            channels:
+                default: {sensor: {configuration: "Sphere08"}}
+                "3": {preamplifier: {configuration: "0.225x gain"}}
+                "4": {sensor: {configuration: "generic"}}
+        "SN09_pre2012":
+            equipment: {serial_number: '09'}
+            channels:
+                default: {sensor: {configuration: "Sphere09"}}
+                "3": {preamplifier: {configuration: "0.225x gain"}}
+                "4": {sensor: {configuration: "generic"}}            
+    

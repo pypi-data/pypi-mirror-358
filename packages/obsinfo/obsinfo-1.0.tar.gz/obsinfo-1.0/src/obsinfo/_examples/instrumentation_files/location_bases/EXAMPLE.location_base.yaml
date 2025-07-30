@@ -1,0 +1,29 @@
+---
+format_version: "1.0"
+revision: 
+    date: "2022-12-15"
+    authors: 
+        - $ref: "persons/EXAMPLE.person.yaml"
+location_base:
+    depth.m: 0
+    geology: "unknown"
+    vault: "Sea floor"
+    uncertainties.m: {lon: 200, lat: 200, elev: 20}
+    measurement_method: "Sea surface release point"
+    configuration_default: "SEA_SURFACE"
+    configurations:
+        "SEA_SURFACE":
+            configuration_description: "Standard sea-surface deployment"
+        "ACOUSTIC_SURVEY":
+            uncertainties.m: {lon: 5, lat: 5, elev: 10}
+            measurement_method: "Acoustic survey"
+        "AIRGUN_SURVEY":
+            uncertainties.m: {lon: 40, lat: 40, elev: 40}
+            measurement_method: "Airgun survey"
+            notes: ["Uncertainty will generally be least along-line"]
+        "BUC_DIRECT":
+            uncertainties.m: {lon: 5, lat: 5, elev: 10}
+            measurement_method: "Short baseline transponder, seafloor release"
+        "BUC_DROP":
+            uncertainties.m: {lon: 20, lat: 20, elev: 20}
+            measurement_method: "Short baseline transponder, near-seafloor release"
