@@ -1,0 +1,78 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+{% get_current_language as LANGUAGE_CODE %}
+
+<html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
+    <head>
+        {% block extrastyle %}
+        <style>
+            @font-face {
+                font-family: 'Ray';
+                src: url('{% static "fonts/IRANYekanWebRegular.ttf" %}') format('truetype');
+            }
+
+            * {
+                font-family: Ray;
+            }
+
+            h2 > span {
+                margin-left: 0 !important;
+                margin-right: auto;
+            }
+
+            {% if LANGUAGE_BIDI %}
+            body {
+                direction: rtl;
+                text-align: right !important;
+            }
+
+            .text-left {
+                text-align: right !important;
+            }
+
+            .date > input, .time > input, .vDateField, .vTimeField {
+                text-align: left !important;
+            }
+
+            #site-name {
+                padding-right: 10%;
+            }
+
+            a > span.text-sm {
+                padding-right: 5%;
+            }
+
+            #changelist-form > div.bg-gray-50.flex.flex-col.gap-3.mb-4.p-3.rounded-md.lg\:flex-row.dark\:bg-gray-800 > a > span {
+                padding-left: 0;
+                padding-right: 10%;
+            }
+
+            @media (min-width: 1280px) {
+                #submit-row > div {
+                    left: 0 !important;
+                    right: 18rem !important;
+                }
+
+                #submit-row > div > div > div {
+                    flex-direction: row !important;
+                }
+            }
+            
+            #header-inner > div > div.flex.items-center.ml-auto > div > div > div:nth-child(2) > nav {
+                position: absolute;
+                left: 0;
+                right: auto;
+            }
+            #header-inner > div > div.flex.items-center.ml-auto > div > div > div:nth-child(1) > div{
+                position: absolute;
+                left: 0;
+                right: auto;
+            }
+            {% endif %}
+        </style>
+        {% endblock %}
+    </head>
+    <body>
+        {% block content %}{% endblock %}
+    </body>
+</html>
