@@ -1,0 +1,74 @@
+res --> new --> Android resource directory.
+menu->new->menu resource file (name as : menu_file.xml)
+drawables -> new -> vector assests (choose 4 cliparts)
+
+---------------------------------------------------------------------------
+
+menu_file.xml :
+
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/optionalmenu"
+        android:title="Item"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_baseline_menu_24">
+        <menu>
+            <item
+                android:id="@+id/settings"
+                android:title="settings"
+                app:showAsAction="never"
+                android:icon="@drawable/ic_baseline_settings_24"
+
+                />
+            <item
+                android:id="@+id/about"
+                android:title="about"
+                app:showAsAction="never"
+                android:icon="@drawable/ic_baseline_info_24"
+
+                />
+            <item
+                android:id="@+id/exit"
+                android:title="exit"
+                app:showAsAction="never"
+                android:icon="@drawable/ic_baseline_exit_to_app_24"
+
+                />
+
+
+        </menu>
+    </item>
+
+</menu>
+
+---------------------------------------------------------------------------
+
+MainActivity.kt
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_file,menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId){
+            R.id.about -> Toast.makeText(this,"About Selected",Toast.LENGTH_SHORT).show()
+            R.id.settings -> Toast.makeText(this,"Settings Selected",Toast.LENGTH_SHORT).show()
+            R.id.exit -> Toast.makeText(this,"Exit Selected",Toast.LENGTH_SHORT).show()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+}

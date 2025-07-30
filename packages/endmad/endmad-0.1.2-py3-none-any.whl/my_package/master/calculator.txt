@@ -1,0 +1,132 @@
+2.Create a basic calculator computing application by
+taking two inputs and operation to perform from user.
+Display the result in a font color Green.
+
+
+--------------------------------------------
+activity_main.xml
+---------------------------------------------
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center"
+    android:background="#FAFAFA">
+
+    <EditText
+        android:id="@+id/input1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter number 1"
+        android:inputType="numberDecimal"
+        android:layout_marginBottom="10dp" />
+
+    <EditText
+        android:id="@+id/input2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter number 2"
+        android:inputType="numberDecimal"
+        android:layout_marginBottom="20dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btnAdd"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="+" />
+
+        <Button
+            android:id="@+id/btnSub"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="-" />
+
+        <Button
+            android:id="@+id/btnMul"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="*" />
+
+        <Button
+            android:id="@+id/btnDiv"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="/" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/resultView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Result: "
+        android:textSize="18sp"
+        android:textColor="#4CAF50"
+        android:layout_marginTop="20dp" />
+
+</LinearLayout>
+
+
+
+=====================================================================
+MainActivity.kt
+=====================================================================
+
+import android.app.Activity
+import android.os.Bundle
+import android.widget.*
+
+class MainActivity : Activity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val input1 = findViewById<EditText>(R.id.input1)
+        val input2 = findViewById<EditText>(R.id.input2)
+        val resultView = findViewById<TextView>(R.id.resultView)
+
+        val btnAdd = findViewById<Button>(R.id.btnAdd)
+        val btnSub = findViewById<Button>(R.id.btnSub)
+        val btnMul = findViewById<Button>(R.id.btnMul)
+        val btnDiv = findViewById<Button>(R.id.btnDiv)
+
+        fun calculate(op: Char) {
+            val num1 = input1.text.toString().toDoubleOrNull()
+            val num2 = input2.text.toString().toDoubleOrNull()
+
+            if (num1 == null || num2 == null) {
+                resultView.text = "Please enter valid numbers"
+                return
+            }
+
+            val result = when (op) {
+                '+' -> num1 + num2
+                '-' -> num1 - num2
+                '*' -> num1 * num2
+                '/' -> {
+                    if (num2 == 0.0) {
+                        resultView.text = "Cannot divide by zero"
+                        return
+                    } else num1 / num2
+                }
+                else -> 0.0
+            }
+
+            resultView.text = "Result: $result"
+        }
+
+        btnAdd.setOnClickListener { calculate('+') }
+        btnSub.setOnClickListener { calculate('-') }
+        btnMul.setOnClickListener { calculate('*') }
+        btnDiv.setOnClickListener { calculate('/') }
+    }
+}

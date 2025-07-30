@@ -1,0 +1,101 @@
+Program to display the given UI and perform the following actions:
+Displays a Toast message when a button is pressed
+Increases a counter each time a button is clicked and displays the current
+count
+
+
+
++ --------------------------------------------------------------+         
+|   this code is for image toat_counter.png                     |
+|                                                               |
++ --------------------------------------------------------------+ 
+
+
+--------------------------------------------
+activity_main.xml
+---------------------------------------------
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@color/teal_200"
+        android:onClick="showToast"
+        android:text="Toast" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="524dp"
+        android:gravity="center"
+        android:textSize="100dp"
+        android:background="@color/purple_200"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:text="0" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/teal_200"
+        android:onClick="increase"
+        android:text="Increase" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/teal_200"
+        android:layout_marginTop="5dp"
+        android:onClick="decrease"
+        android:text="Decrese" />
+
+
+</LinearLayout>
+
+
+--------------------------------------------
+MainActivity.kt
+---------------------------------------------
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.view.View
+import android.widget.TextView
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+    var counter=0
+    override fun onCreate(savedInstanceState: Bundle?) {
+
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+    }
+
+    fun showToast(view: View) {
+        Toast.makeText(this,counter.toString(), Toast.LENGTH_SHORT ).show()
+    }
+    fun increase(view: View) {
+        counter += 1
+        val score=findViewById<TextView>(R.id.textView)
+        score.text=counter.toString()
+    }
+
+    fun decrease(view: View) {
+        counter-=1
+        val score=findViewById<TextView>(R.id.textView)
+        score.text=counter.toString()
+    }
+}

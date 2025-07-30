@@ -1,0 +1,65 @@
++ --------------------------------------------------------------+         
+|   this code is for image name_input.png                       |
+|                                                               |
++ --------------------------------------------------------------+ 
+
+--------------------------------------------
+activity_main.xml
+---------------------------------------------
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context=".MainActivity">
+
+    <EditText
+        android:id="@+id/editTextTextPersonName"
+        android:hint="Enter some text..."
+        android:layout_alignParentLeft="true"
+        android:layout_width="fill_parent"
+        android:layout_toLeftOf="@+id/button"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Name" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="Press Here" />
+</RelativeLayout>
+
+
+--------------------------------------------
+MainActivity.kt
+---------------------------------------------
+
+import android.app.Activity
+import android.os.Bundle
+import android.view.View
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+
+class MainActivity : Activity() {
+
+    private lateinit var editText: EditText
+    private lateinit var button: Button
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        editText = findViewById(R.id.editTextTextPersonName)
+        button = findViewById(R.id.button)
+
+        button.setOnClickListener {
+            val text = editText.text.toString()
+            Toast.makeText(this, "You entered: $text", Toast.LENGTH_SHORT).show()
+        }
+    }
+}

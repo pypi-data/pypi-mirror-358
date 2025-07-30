@@ -1,0 +1,89 @@
+POPUP_MENU
+
+
+res-rightclick->new->android resource directory->directory name:menu next feild also menu(menu folder will be created)
+menu(folder)->rightclick->new->menu resource file->filename:popup_menu
+
+
+activity_main.xml
+======================================
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/B1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Popup menu"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
+==============================================
+popup_menu.xml
+=================================================
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/open"
+        android:title="open"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/search"
+        android:title="search"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/exit"
+        android:title="exit"
+        app:showAsAction="never"
+        />
+
+</menu>
+
+======================================================
+MainActivity.kt
+======================================================
+package com.example.popupmenu
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.support.v7.widget.PopupMenu
+import android.widget.Button
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        val B1 = findViewById<Button>(R.id.B1)
+
+    B1.setOnClickListener{
+        val popupMenu: PopupMenu = PopupMenu(this, B1)
+        popupMenu.menuInflater.inflate(R.menu.popup_menu, popupMenu.menu)
+        popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.open ->
+                    Toast.makeText(this@MainActivity, "You Clicked : " + item.title, Toast.LENGTH_SHORT).show()
+                R.id.search ->
+                    Toast.makeText(this@MainActivity, "You Clicked : " + item.title, Toast.LENGTH_SHORT).show()
+                R.id.exit ->
+                    Toast.makeText(this@MainActivity, "You Clicked : " + item.title, Toast.LENGTH_SHORT).show()
+            }
+            true
+        })
+        popupMenu.show()
+    }
+}
+}

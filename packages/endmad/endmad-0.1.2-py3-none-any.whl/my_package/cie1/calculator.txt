@@ -1,0 +1,143 @@
+Calculator
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <EditText
+        android:id="@+id/editTextNumber1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter number 1"
+        android:inputType="number"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        android:layout_marginTop="32dp"
+        android:ems="10" />
+
+    <EditText
+        android:id="@+id/editTextNumber2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter number 2"
+        android:inputType="number"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNumber1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:ems="10" />
+
+    <TextView
+        android:id="@+id/result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Result"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNumber2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/buttonsubs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sub"
+        app:layout_constraintTop_toBottomOf="@+id/result"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/buttonadd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add"
+        app:layout_constraintTop_toBottomOf="@+id/buttonsubs"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/buttondiv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Div"
+        app:layout_constraintTop_toBottomOf="@+id/buttonadd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/buttonmult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mult"
+        app:layout_constraintTop_toBottomOf="@+id/buttondiv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
+</android.support.constraint.ConstraintLayout>
+
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+package com.example.test2
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val buttonadd = findViewById<Button>(R.id.buttonadd)
+        val buttonsubs = findViewById<Button>(R.id.buttonsubs)
+        val buttonmult = findViewById<Button>(R.id.buttonmult)
+        val buttondiv = findViewById<Button>(R.id.buttondiv)
+
+        val number1 = findViewById<EditText>(R.id.editTextNumber1)
+        val number2 = findViewById<EditText>(R.id.editTextNumber2)
+        val answer = findViewById<TextView>(R.id.result)
+
+        buttonadd.setOnClickListener{
+            val num1 = number1.text.toString().toInt()
+            val num2 = number2.text.toString().toInt()
+            val sum = num1 + num2
+            answer.text = sum.toString()
+        }
+
+        buttonsubs.setOnClickListener{
+            val num1 = number1.text.toString().toInt()
+            val num2 = number2.text.toString().toInt()
+            val sum = num1 - num2
+            answer.text = sum.toString()
+        }
+
+        buttonmult.setOnClickListener{
+            val num1 = number1.text.toString().toInt()
+            val num2 = number2.text.toString().toInt()
+            val sum = num1 * num2
+            answer.text = sum.toString()
+        }
+
+        buttondiv.setOnClickListener{
+            val num1 = number1.text.toString().toInt()
+            val num2 = number2.text.toString().toInt()
+            val sum = num1 / num2
+            answer.text = sum.toString()
+        }
+
+    }
+}
