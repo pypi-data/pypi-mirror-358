@@ -1,0 +1,35 @@
+[project]
+name = "restore-manager"
+version = "0.1.0"
+description = "A command-line tool to snapshot and restore a folder's state."
+authors = [
+    { name = "Your Name", email = "your.email@example.com" }
+]
+dependencies = [
+    "xattr",
+]
+readme = "README.md"
+requires-python = ">=3.8"
+license = { file = "LICENSE" }
+keywords = ["backup", "restore", "snapshot", "cli", "filesystem"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: POSIX :: Linux",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Topic :: System :: Archiving :: Backup",
+    "Topic :: Utilities",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/brookcs3/restore-manager"
+"Bug Tracker" = "https://github.com/brookcs3/restore-manager/issues"
+
+[project.scripts]
+restore-manager = "restore_manager:main"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
