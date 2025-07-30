@@ -1,0 +1,51 @@
+Metadata-Version: 2.4
+Name: cli-mcpx
+Version: 2.0.1
+Summary: A modern Python CLI tool for MCP (Model Context Protocol) server management
+Author-email: Kang Hee Yong <cagojeiger@naver.com>
+License-File: LICENSE
+Keywords: cli,mcp,model-context-protocol,tool
+Classifier: Development Status :: 3 - Alpha
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Application Frameworks
+Classifier: Topic :: Utilities
+Requires-Python: >=3.11
+Requires-Dist: typer>=0.16.0
+Description-Content-Type: text/markdown
+
+# cli-mcpx
+
+## 빠른 시작
+
+### 설치
+
+#### pipx 사용 (권장)
+
+```bash
+# pipx가 없다면 먼저 설치
+pip install pipx
+pipx ensurepath
+
+# cli-mcpx 설치
+pipx install cli-mcpx
+```
+
+#### 소스에서 설치
+
+```bash
+# 소스 코드 클론
+git clone https://github.com/cagojeiger/cli-mcp.git
+cd cli-mcp
+
+# 개발 모드로 설치
+pipx install -e . --force
+```
+
+## 라이선스
+
+MIT License - [LICENSE](LICENSE) 파일 참조
