@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name             = "fc3u"
+version          = "0.0.3"
+description      = "Vegetation fractional cover estimates via a TensorFlow-trained MLP model"
+readme           = "README.md"
+requires-python  = ">=3.8"
+license          = { text = "MIT" }
+authors = [
+  { name = "Borevitz Labs Australian National University" },
+  { name = "Yasar Adeel Ansari", email = "u6737670@anu.edu.au" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+]
+dependencies = [
+  "numpy<2",
+  'tensorflow; sys_platform == "darwin"',
+  'tflite_runtime; sys_platform != "darwin"',
+]
+
+[project.optional-dependencies]
+rsc     = ["rsc", "coloredlogs", "click"]
+testing = ["pytest", "pytest-cov"]
+
+[project.scripts]
+compute_fractionalcover                 = "fractionalcover3.compute_fractionalcover:fractional_cover_surface_reflectance"
+qv_fractionalcover_sentinel2            = "fractionalcover3.qv_fractionalcover_sentinel2:unmix_sentinel"
+
+[project.urls]
+Documentation = "https://jrsrp.gitlab.io/themes/cover/fractionalcover/"
+
+[tool.setuptools.package-data]
+"fractionalcover3.pkgdata" = ["*.tflite"]
+
+[options]
+include_package_data = true
