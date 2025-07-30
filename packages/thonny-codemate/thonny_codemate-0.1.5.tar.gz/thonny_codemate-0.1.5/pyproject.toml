@@ -1,0 +1,102 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "thonny-codemate"
+version = "0.1.5"
+description = "A Thonny IDE plugin that provides AI-powered coding assistance using local and cloud LLMs"
+readme = "README.md"
+authors = [
+    {name = "tokoroten", email = "shinta.nakayama@gmail.com"}
+]
+license = {text = "MIT"}
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Education",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Education",
+    "Topic :: Software Development :: Code Generators",
+]
+keywords = ["thonny", "plugin", "llm", "ai", "code-assistant", "education"]
+requires-python = ">=3.10"
+dependencies = [
+    "thonny>=4.0.0",
+    "huggingface-hub[hf_xet]>=0.16.0",
+    "tkinterweb[javascript]>=3.24",
+    "pythonmonkey>=0.2.0",
+    "markdown>=3.5",
+    "pygments>=2.17",
+    "llama-cpp-python>=0.3.9",
+]
+
+[project.optional-dependencies]
+# CUDA版（NVIDIA GPU）
+cuda = [
+    # Note: This will reinstall llama-cpp-python with CUDA support
+    # Users should run: pip install thonny-codemate[cuda] --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/cu124
+]
+# Metal版（macOS GPU）  
+metal = [
+    # Note: This will reinstall llama-cpp-python with Metal support
+    # Users on macOS should run: CMAKE_ARGS="-DLLAMA_METAL=on" pip install thonny-codemate[metal]
+]
+# 外部APIのみを使用する場合（llama-cpp-python不要）
+external-only = [
+    # 外部API（ChatGPT、Ollama、OpenRouter）のみを使用する場合は追加の依存関係なし
+]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "pytest-mock>=3.10.0",
+    "debugpy>=1.6",
+    "black>=23.0",
+    "ruff>=0.1.0",
+    "llama-cpp-python>=0.3.9",
+]
+test = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "pytest-mock>=3.10.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/tokoroten/thonny-codemate"
+Repository = "https://github.com/tokoroten/thonny-codemate"
+Issues = "https://github.com/tokoroten/thonny-codemate/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["thonnycontrib*"]
+
+[tool.setuptools.package-data]
+"*" = ["*.md", "*.txt"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+select = ["E", "F", "I", "N", "W"]
+ignore = ["E501"]  # line too long
+
+[tool.black]
+line-length = 100
+target-version = ['py310']
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+addopts = "-v"
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=7.0",
+    "debugpy>=1.6",
+    "black>=23.0",
+    "ruff>=0.1.0",
+    "llama-cpp-python>=0.3.9",
+]
