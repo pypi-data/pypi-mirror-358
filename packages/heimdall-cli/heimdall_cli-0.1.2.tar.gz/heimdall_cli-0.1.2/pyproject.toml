@@ -1,0 +1,21 @@
+[project]
+name = "heimdall-cli"  # PyPI name
+version = "0.1.2"
+description = "Command-line utility for secure and efficient file encryption and storage."
+authors = [
+    { name = "amin masoudi", email = "aminmasoudi2003@gmail.com" }
+]
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "click>=8.2.1,<9.0.0",
+    "httpx>=0.28.1,<0.29.0"
+]
+
+[project.scripts]
+heimdall = "heimdall_cli.main:cli"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
