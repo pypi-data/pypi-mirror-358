@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "easycordx"
+version = "0.1.0"
+authors = [
+    { name="LK-TEAM", email="unknownxd@email.com" },
+]
+description = "A super beginner-friendly Python library for making Discord bots."
+readme = "README.md"
+license = { file="LICENSE" } # Optional: add a LICENSE file
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Communications :: Chat",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "disnake>=2.7.0",
+]
