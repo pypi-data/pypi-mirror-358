@@ -1,0 +1,48 @@
+# TFG
+This repository hosts the code for my Bachelors' thesis in Geoinfomation and Geomatics Engineering.
+The project has been tutored by Port de Barcelona and Universitat Politècnica de Catalunya.
+
+Please refer to the homepage of the project:
+
+🏡 https://victorpachecoaznar.github.io/TFG/
+
+# About this package
+The goal of APB_spatial_computer_vision is to provide a framework to perform computer vision tasks on geospatial imagery.
+Its focus is semantic segmentation, mainly though SAM. The logic can be accessed in several points: 
+
+- Through text, to perform image to bbox tasks via Grounding DINO.
+- Through bounding box, to perform SAM and achieve segmentation.
+- Throgh a lower resolution vector dataset coming from another model, in an attempt to improve segmentation.
+
+# Tools
+- 🦆 The program leverages Spatial-SQL **DuckDB** queries for precise vector operations
+- ⚡ Image pyramids have been optimized via concurrency to GDAL-warping
+- 📷 Integration of virtual layers through GDAL to SAMGeo
+- 📄 MKDocs for automated docs+ jupyter visualization
+
+# Instructions
+The entry points of the system are the following environment variables:
+- TEXT_PROMPT: a string with the prompt to look for via Grounding DINO
+- VECTOR_DATASET: a vector dataset
+- DATA_DIR: location of the data
+- BASE_DIR: where this package is located, acessible for deployments
+- NAME_ORTOFOTO: basename for the image to be processed
+
+# Installation
+In order to install this package, please download the yaml file in order to create the environment:
+- ✅ If CUDA is available:
+
+  ```
+  conda env create -f environment_cuda.yaml
+  conda activate sam_apb_env
+  pip install apb_spatial_computer_vision
+  ```
+  
+- ❌ If CUDA is not available:
+  ```
+  conda env create -f environment_cpu.yaml
+  conda activate sam_apb_env
+  pip install apb_spatial_computer_vision
+  ```
+
+
