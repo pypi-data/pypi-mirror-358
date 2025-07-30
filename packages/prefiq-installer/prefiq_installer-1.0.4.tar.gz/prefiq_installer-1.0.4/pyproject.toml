@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel", "build"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "prefiq-installer"
+description = "CLI installer for Prefiq – scaffolding, bootstrapping, and app/site management."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { file = "LICENSE" }
+authors = [
+  { name = "Sundar", email = "sundar@prefiq.com" }
+]
+# Version is left out for dynamic loading
+dynamic = ["version"]
+
+dependencies = [
+  "rich>=13.0.0",
+  "click>=8.0.0",
+]
+
+[tool.setuptools]
+packages = ["prefiq_installer"]
+
+[tool.setuptools.dynamic]
+version = { attr = "prefiq_installer.version.__version__" }
+
+[project.scripts]
+prefiq-installer = "prefiq_installer.__main__:cli"
