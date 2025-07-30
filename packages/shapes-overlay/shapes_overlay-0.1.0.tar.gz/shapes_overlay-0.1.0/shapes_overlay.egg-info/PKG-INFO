@@ -1,0 +1,269 @@
+Metadata-Version: 2.4
+Name: shapes-overlay
+Version: 0.1.0
+Summary: Operações espaciais entre shapefiles com GeoPandas overlay
+Author-email: Ricardo Malnati <ricardomalnati@gmail.com>
+License-Expression: MIT
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: geopandas
+Requires-Dist: shapely
+Requires-Dist: fiona
+Requires-Dist: pyproj
+
+# shapes-overlay
+
+[![Python](https://img.shields.io/badge/python-3.10%2B-blue?logo=python)](https://www.python.org/)
+[![Docker](https://img.shields.io/badge/docker-ready-blue?logo=docker)](https://www.docker.com/)
+[![Build](https://img.shields.io/badge/build-passing-brightgreen)](#)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![Executar no Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Malnati/shapes-overlay/blob/main/overlay.ipynb)
+[![PyPI version](https://img.shields.io/pypi/v/shapes-overlay.svg)](https://pypi.org/project/shapes-overlay/)
+
+# ✨ Objetivo
+
+Este aplicativo realiza **operações espaciais entre dois arquivos Shapefile (`.shp`)** utilizando a função `overlay` da biblioteca [GeoPandas](https://geopandas.org/). A entrada consiste em dois shapefiles (ou `.zip` contendo o shapefile completo) e a saída é um novo shapefile resultante da operação escolhida.
+
+---
+
+# Índice
+
+- [⚙️ Operações disponíveis (`--how`)](#️-operações-disponíveis---how-)
+- [🧠 O que o projeto realmente faz (trecho principal de código)](#-o-que-o-projeto-realmente-faz-trecho-principal-de-código)
+- [📥 Parâmetros disponíveis](#-parâmetros-disponíveis)
+- [🚀 Como usar](#-como-usar)
+  - [1️⃣ Execução via Python (direto)](#1️⃣-execução-via-python-direto)
+  - [2️⃣ Execução via Docker Compose](#2️⃣-execução-via-docker-compose)
+  - [3️⃣ Execução via Google Colab (Notebook Interativo)](#3️⃣-execução-via-google-colab-notebook-interativo)
+  - [4️⃣ Execução via API](#4️⃣-execução-via-api)
+    - [Campos esperados (multipart/form)](#campos-esperados-multipartform)
+    - [Exemplo via curl](#exemplo-via-curl)
+  - [5️⃣ Importação como módulo Python](#5️⃣-importação-como-módulo-python)
+- [📦 Resultados e arquivos de saída](#-resultados-e-arquivos-de-saída)
+- [🧪 Exemplo de Teste Realizado via API](#-exemplo-de-teste-realizado-via-api)
+- [🖼️ Exemplos Visuais (Swagger e Resposta)](#-exemplos-visuais-swagger-e-resposta)
+
+---
+
+# ⚙️ Operações disponíveis (`--how`)
+
+| Operação (`how`)        | Descrição                                                                 |
+|-------------------------|---------------------------------------------------------------------------|
+| `intersection`          | Retorna apenas as **áreas comuns** entre os dois shapes                   |
+| `union`                 | Retorna **toda a área combinada** dos dois shapes                         |
+| `identity`              | Retorna os polígonos de `input_shape1`, divididos por `input_shape2`      |
+| `symmetric_difference`  | Retorna as áreas **exclusivas de cada shape**, sem interseção             |
+| `difference`            | Retorna apenas as áreas de `input_shape1` que **não estão em** `input_shape2` |
+
+---
+
+# 🧠 O que o projeto realmente faz (trecho principal de código)
+
+Abaixo, o trecho real que encapsula a execução da função `gpd.overlay`, incluindo a reprojeção de CRS quando necessário:
+
+```python
+if reproject and gdf1.crs != gdf2.crs:
+    print(f'🔁 Convertendo CRS de gdf2 ({gdf2.crs}) para coincidir com gdf1 ({gdf1.crs})')
+    gdf2 = gdf2.to_crs(gdf1.crs)
+
+resultado = gpd.overlay(
+    gdf1, gdf2,
+    how=how,
+    keep_geom_type=keep_geom_type,
+    make_valid=make_valid,
+    use_sindex=use_sindex
+)
+```
+
+
+Este código garante que as operações geométricas sejam realizadas com precisão e segurança, mesmo quando os arquivos têm sistemas de coordenadas diferentes ou geometrias imperfeitas.
+
+---
+
+# 📥 Parâmetros disponíveis
+
+| Parâmetro         | Tipo  | Obrigatório | Padrão | Descrição                                                    |
+|-------------------|-------|-------------|--------|--------------------------------------------------------------|
+| --input_shape1    | str   | ✅          |   —    | Caminho para o primeiro shapefile (ex: CAR)                  |
+| --input_shape2    | str   | ✅          |   —    | Caminho para o segundo shapefile                             |
+| --output_shape    | str   | ✅          |   —    | Caminho onde o shapefile de saída será salvo                 |
+| --how             | str   | ✅          |   —    | Tipo de operação espacial: **intersection**, **union**, **identity**, **symmetric_difference** ou **difference** |
+| --reproject       | bool  | ❌          | true   | Reprojetar input_shape2 para o CRS de input_shape1           |
+| --keep_geom_type  | bool  | ❌          | true   | Manter o tipo original da geometria (evita mistura de tipos) |
+| --make_valid      | bool  | ❌          | true   | Corrigir geometrias inválidas automaticamente                |
+
+---
+
+# 🚀 Como usar
+
+## 1️⃣ Execução via Python (direto)
+
+```bash
+python overlay.py \
+  --input_shape1 path/para/shape1.shp \
+  --input_shape2 path/para/shape2.shp \
+  --output_shape path/para/overlayed.shp \
+  --how intersection
+```
+---
+
+## 2️⃣ Execução via Docker Compose
+
+```bash
+docker compose build INPUT_SHAPE1=shape1.shp \
+			INPUT_SHAPE2=shape2.shp \
+			OUTPUT_SHAPE=overlayed.shp \
+			HOW=intersection \
+docker compose up overlay
+```
+---
+
+## 3️⃣ Execução via Google Colab (Notebook Interativo)
+
+Além das formas tradicionais de uso, você pode executar o projeto diretamente no navegador, sem instalar nada, utilizando o [notebook interativo no Google Colab](https://colab.research.google.com/github/Malnati/shapes-overlay/blob/main/overlay.ipynb). Esta é a maneira mais simples e acessível para testar rapidamente as operações de overlay entre shapefiles.
+
+## Como funciona?
+
+1. **Acesse o notebook:**
+   - Clique no badge "Executar no Colab" no topo deste README ou [acesse diretamente aqui](https://colab.research.google.com/github/Malnati/shapes-overlay/blob/main/overlay.ipynb).
+
+2. **Faça upload dos arquivos:**
+   - O notebook apresenta uma interface gráfica para upload de dois arquivos `.zip`, cada um contendo um shapefile completo (com `.shp`, `.shx`, `.dbf`, `.prj`, etc).
+   - Exemplo da interface:
+
+     ![Interface do notebook](./assets/GoogleColabsOverlayNotebook.png)
+
+3. **Escolha a operação e parâmetros:**
+   - Selecione o tipo de operação espacial desejada (`intersection`, `union`, `identity`, `symmetric_difference` ou `difference`).
+   - Marque/desmarque as opções de `keep_geom_type`, `make_valid` e `reproject` conforme necessário.
+
+4. **Execute o overlay:**
+   - Clique no botão **Executar Overlay**.
+   - O notebook irá processar os arquivos, realizar a operação escolhida e gerar um novo shapefile compactado (`resultado_overlay.zip`).
+   - Exemplo de mensagem de sucesso e botão de download:
+
+     ![Download do resultado](./assets/GoogleColabsOverlayNotebook-Downloading.png.png)
+
+5. **Baixe o resultado:**
+   - O arquivo `.zip` gerado estará pronto para download diretamente pelo navegador.
+
+## Vantagens do uso via Colab
+- Não requer instalação de dependências locais.
+- Interface amigável e interativa.
+- Ideal para testes rápidos e demonstrações.
+
+> **Dica:** O notebook utiliza as mesmas opções e lógica do código principal do projeto, garantindo resultados idênticos aos obtidos via linha de comando ou API.
+
+> **Nota:** O parâmetro `--how` aceita apenas os seguintes valores: `intersection`, `union`, `identity`, `symmetric_difference`, `difference`. Qualquer outro valor resultará em erro.
+---
+
+## 4️⃣ Execução via API
+
+**Como iniciar**
+
+`docker compose up -d api`
+
+Acesse: http://localhost:8383/docs para ver a documentação Swagger.
+
+Endpoint: `POST /overlay`
+
+Envia dois arquivos `.zip` (cada um contendo os arquivos do shapefile completo) e retorna o shapefile resultante da operação.
+
+### Campos esperados (multipart/form):
+
+| Campo         | Tipo                | Obrigatório | Descrição                                            |
+|---------------|---------------------|-------------|-----------------------------------------------------|
+| input_shape1  | UploadFile (.zip)   | ✅          | Primeiro shapefile compactado                        |
+| input_shape2  | UploadFile (.zip)   | ✅          | Segundo shapefile compactado                         |
+| how           | str                 | ✅          | Tipo de operação: **intersection**, **union**, **identity**, **symmetric_difference** ou **difference** |
+| reproject     | bool                | ❌          | Reprojetar ou não (true por padrão)                  |
+| keep_geom_type| bool                | ❌          | Manter tipo de geometria (true por padrão)           |
+| make_valid    | bool                | ❌          | Corrigir geometrias inválidas (true por padrão)      |
+
+## Exemplo via curl:
+```bash
+curl -X POST http://localhost:8383/overlay \
+  -F "input_shape1=@shape1.zip" \
+  -F "input_shape2=@shape2.zip" \
+  -F "how=union" \
+  --output resultado_union.zip
+
+curl -X POST http://localhost:8383/overlay \
+  -F "input_shape1=@shape1.zip" \
+  -F "input_shape2=@shape2.zip" \
+  -F "how=identity" \
+  --output resultado_identity.zip
+```
+---
+
+## 5️⃣ Importação como módulo Python
+
+Você pode usar a função diretamente:
+
+```Python
+from overlay import overlay
+
+overlay(
+    input_shape1="shape1.shp",
+    input_shape2="shape2.shp",
+    output_shape="overlayed.shp",
+    how="difference"
+)
+```
+---
+
+# 📦 Resultados e arquivos de saída
+
+O resultado é um novo shapefile salvo no caminho definido em --output_shape ou retornado compactado via API. Ele inclui os arquivos:
+
+```plain
+overlayed.zip
+├── overlayed.shp
+├── overlayed.shx
+├── overlayed.dbf
+└── overlayed.prj
+```
+---
+
+# 🧪 Exemplo de Teste Realizado via API
+
+Abaixo está um exemplo real de teste realizado utilizando o endpoint `POST /overlay` da API, via Swagger.
+
+### Parâmetros utilizados
+- **input_shape1:** [`Biomas_BR_ABC_2021.zip`](./Biomas_BR_ABC_2021.zip)
+- **input_shape2:** [`Brasil.zip`](./Brasil.zip)
+- **how:** `intersection`
+- **keep_geom_type:** `true` (padrão)
+- **make_valid:** `true` (padrão)
+- **reproject:** `true` (padrão)
+
+### Requisição via Swagger (código gerado)
+```bash
+curl -X 'POST' \
+  'http://192.168.5.179:8383/overlay' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: multipart/form-data' \
+  -F 'input_shape1=@Biomas_BR_ABC_2021.zip;type=application/zip' \
+  -F 'input_shape2=@Brasil.zip;type=application/zip' \
+  -F 'how=intersection' \
+  -F 'keep_geom_type=true' \
+  -F 'make_valid=true' \
+  -F 'reproject=true'
+```
+
+# 🖼️ Exemplos Visuais (Swagger e Resposta)
+
+#### Exemplo visual do POST (Swagger UI):
+![POST /overlay - Swagger UI](./assets/OverlayParameters.png)
+
+#### Exemplo visual do Server response:
+![Server response - Swagger UI](./assets/Responsebody.png)
+
+### Arquivo de saída gerado
+- [`intersection.zip`](./intersection.zip) — resultado do teste (tempo de execução: **menos de 1 min**)
+
+O arquivo de saída contém o shapefile resultante da operação de interseção entre os biomas e o shape do Brasil.
+
+📝 Licença
+
+MIT — consulte o arquivo LICENSE para mais detalhes.
