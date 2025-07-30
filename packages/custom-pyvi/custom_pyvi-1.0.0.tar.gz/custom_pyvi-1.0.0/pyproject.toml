@@ -1,0 +1,35 @@
+# pyproject.toml
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "custom-pyvi"
+version = "1.0.0"
+authors = [
+  { name="Chill4Share", email="chill4share@gmail.com" },
+]
+description = "Một phiên bản tùy chỉnh của ViTokenizer để xử lý Tiếng Việt hiệu quả cho các dự án cụ thể."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { file="LICENSE" }
+keywords = ["vi-tokenizer", "vietnamese nlp", "word segmentation", "custom"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Text Processing :: Linguistic",
+]
+
+dependencies = [
+    "scikit-learn",
+    "sklearn-crfsuite",
+]
