@@ -1,0 +1,117 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "date-ranges"
+version = "0.1.1"
+description = "A DateRange type and related utility functions"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Scott Karlin", email = "pypi@karlin-online.com"}]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+]
+dependencies = [
+    "attrs >=23.1",
+]
+
+[project.urls]
+"Home Page" = "https://gitlab.com/sck/date-ranges"
+
+[project.optional-dependencies]
+tests = [
+    "pytest >=8.4.1",
+]
+build = [
+    "build",
+    "twine",
+    "packaging",
+]
+ci = [
+    "pytest >=8.4.1",
+    "twine",
+    "packaging",
+    "ruff",
+]
+dev = [
+    "build",
+    "twine",
+    "mypy >=1.16.1",
+    "packaging",
+    "pre-commit >=4.2.0",
+    "pytest >=8.4.1",
+    "pytest-cov >=4.1",
+    "coverage >=7.3",
+    "ruff",
+]
+
+[tool.mypy]
+explicit_package_bases = false
+namespace_packages = false
+files = "src, tests"
+strict = true
+disable_error_code = [
+    # beat these down (comment out) one-by-one
+    # "abstract",
+    # "arg-type",
+    # "assignment",
+    # "attr-defined",
+    # "call-arg",
+    # "call-overload",
+    # "comparison-overlap",
+    # "dict-item",
+    # "import-not-found",
+    # "import-untyped",
+    # "index",
+    # "misc",
+    # "name-defined",
+    # "no-any-return",
+    # "no-redef",
+    # "no-untyped-call",
+    # "no-untyped-def",
+    # "operator",
+    # "override",
+    # "redundant-cast",
+    # "return-value",
+    # "str-bytes-safe",
+    # "truthy-function",
+    # "type-arg",
+    # "type-var",
+    # "union-attr",
+    # "valid-type",
+    # "var-annotated",
+]
+
+[tool.pytest.ini_options]
+minversion = "7.4"
+addopts = "-ra -q"
+testpaths = [
+    "tests",
+]
+
+[tool.ruff]
+line-length = 90
+target-version = "py312"
+exclude = [
+]
+
+[tool.ruff.lint]
+#extend-select = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+# E501: line-length
+# F401: unused-import
+"__init__.py" = ["F401"]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
