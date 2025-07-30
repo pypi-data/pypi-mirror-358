@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyconnector"
+version = "0.1.0"
+description = "Pluggable connectors for databases and services like Databricks, Postgres, SMTP, SFTP"
+readme = "README.md"
+authors = [{ name = "rvakr", email = "contactmail.br@gmail.com" }]
+license = { text = "MIT" }
+requires-python = ">=3.7"
+
+[project.urls]
+Homepage = "https://github.com/RVAKR/pyconnector"
+
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
