@@ -1,0 +1,25 @@
+[project]
+name = "flat-ray"
+version = "0.1.0"
+description = "A CLI tool that scans malformed or well-formed XML/HTML files and produces a flat, hierarchical summary of tags, attributes, and values. Basic usage: Structural analysis before data transformation or corpora integration into larger pipelines."
+authors = [{ name = "Lucas Terriel" }]
+license = {file = "LICENSE"}
+dependencies = [
+    "sloppy-xml",
+    "rich",
+    "tqdm",
+    "joblib",
+    "termcolor"
+]
+requires-python = ">=3.8"
+
+[project.scripts]
+flat-ray = "flat_ray.cli:main"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["flat_ray"]
