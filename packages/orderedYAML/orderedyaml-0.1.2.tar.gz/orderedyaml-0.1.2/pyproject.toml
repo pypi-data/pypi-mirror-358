@@ -1,0 +1,17 @@
+[project]
+name = "orderedYAML"
+version = "0.1.2"
+description = "Order nested YAML output using ruamel.yaml with custom key ordering"
+readme = "README.md"
+authors = [{ name="Sam Griffith", email="samgriffith3@gmail.com" }]
+license = {text = "MIT"}
+keywords = ["yaml", "ruamel", "ordered", "commentedmap"]
+requires-python = ">=3.7"
+
+dependencies = [
+  "ruamel.yaml>=0.17.0"
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
