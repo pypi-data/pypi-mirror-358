@@ -1,0 +1,682 @@
+Metadata-Version: 2.4
+Name: atila
+Version: 0.27.2
+Summary: Atila Framework
+Home-page: https://gitlab.com/sitai/atila
+Download-URL: https://pypi.python.org/pypi/atila
+Author: Hans Roh
+Author-email: hansroh@gmail.com
+License: MIT
+Platform: posix
+Platform: nt
+Classifier: Development Status :: 4 - Beta
+Classifier: Topic :: Internet :: WWW/HTTP :: WSGI
+Classifier: Environment :: Console
+Classifier: Topic :: Internet
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: skitai>=0.57.0
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: download-url
+Dynamic: home-page
+Dynamic: license
+Dynamic: license-file
+Dynamic: platform
+Dynamic: requires-dist
+Dynamic: summary
+
+# Atila
+
+*Atila* is **life-cycle hook based web framework** which is run on [Skitai WSGI App Engine](https://pypi.org/project/skitai/).
+
+```python
+# myservice/__init__.py
+def __app__ ():
+    from atila import Atila
+    return Atila (__name__)
+
+def __mount__ (context, app):
+    @app.route ("/")
+    def index (context):
+        return "Hello, World"
+```
+
+```python
+# skitaid.py
+import skitai
+import myservice
+
+skitai.mount ("/", myservice)
+skitai.run ()
+```
+
+And run,
+```python
+python3 skitaid.py
+```
+Now, `http://localhost:5000/` is working.
+
+
+
+
+
+
+
+# Life-Cycle Hook Based Implementation
+
+Users can use some special hook functions like `__app__ ()`, `__mount__ ()` and so on.
+
+This hooks can be integrated your existing source codes without any side effects.
+You just add routed controllers and then it could work as API backend.
+
+
+
+
+
+
+
+
+# Important Notice
+
+*CAUTION*: Atila is base on WSGI but can be run only
+with [Skitai App Engine](https://pypi.org/project/skitai/)
+because it crosses the border of WSGI for async router.
+
+This means if you make your Atila app, you have no choice
+but Skitai as WSGI app server. And Atila's unique and unconventional
+style may become very hard work to port to other framework.
+
+
+
+
+
+
+
+# Async/Await Support
+
+Atila almost fully support `async/await` manner.
+
+Briefly Atila has 2 event loops for:
+- handling requests with `asyncore` as main loop
+- running async functions with `asyncio` as executor
+
+I still recommend use `sync` funtions mainly unless massive
+I/O related tasks or have no choice.
+
+
+
+
+# Table of Content
+- **[Atila](https://gitlab.com/skitai/atila/-/blob/master/docs/000.preface.md#atila)**
+- **[Life-Cycle Hook Based Implementation](https://gitlab.com/skitai/atila/-/blob/master/docs/000.preface.md#life-cycle-hook-based-implementation)**
+- **[Important Notice](https://gitlab.com/skitai/atila/-/blob/master/docs/000.preface.md#important-notice)**
+- **[Async/Await Support](https://gitlab.com/skitai/atila/-/blob/master/docs/000.preface.md#asyncawait-support)**
+- **[Installation](https://gitlab.com/skitai/atila/-/blob/master/docs/000.preface.md#installation)**
+- **[Before You Start](https://gitlab.com/skitai/atila/-/blob/master/docs/005.before-you-start.md#before-you-start)**
+  - Getting IDE Suggestions
+- **[Quick Start](https://gitlab.com/skitai/atila/-/blob/master/docs/010.quick-start.md#quick-start)**
+  - Dumb Seek
+  - Unit Testing
+  - Write Atila App Hooks
+  - Add Launch Script
+  - Add Analyzing API Endpoint
+  - Add Indexing and Searching API Endpoints
+  - Testing API
+  - Final Source Codes
+  - Conclusion
+- **[Connecting Database](https://gitlab.com/skitai/atila/-/blob/master/docs/015.database.md#connecting-database)**
+  - Option I: Database Management Not Required
+  - Option II: Database Management Required: Django As ORM
+    - Initialize Django Project
+    - Auto Reloading For Development
+    - Add Django App
+    - Django Rest Framework
+    - Working With Atila App
+  - Conclusion
+- **[App Life Cycle and Hooks](https://gitlab.com/skitai/atila/-/blob/master/docs/020.life-cycle-and-hooks.md#app-life-cycle-and-hooks)**
+  - App Life Cycle and Hooks
+    - Runtine Preference and Bootstrapping
+  - Request Life Cycle and Hooks
+- **[App Middlewares](https://gitlab.com/skitai/atila/-/blob/master/docs/022.middleware.md#app-middlewares)**
+  - Using Async Middleware
+- **[Context](https://gitlab.com/skitai/atila/-/blob/master/docs/030.context.md#context)**
+  - Global Context
+    - Proto Context
+    - Thread Context
+  - Request Context
+    - Request Context
+    - Cloned Context
+  - Registering Context Scope Objects and Methods
+- **[Routing](https://gitlab.com/skitai/atila/-/blob/master/docs/032.routing.md#routing)**
+  - Routing
+  - URL Parameter Types
+    - String (Default)
+    - Integer
+    - Float
+    - Path
+  - Request Parameters
+  - Async Routing
+- **[Request Parameters](https://gitlab.com/skitai/atila/-/blob/master/docs/035.request-parameter.md#request-parameters-1)**
+  - URL / Body Parameter
+  - Parameter Validation
+    - Inline Validation
+    - Class Validation
+    - Django Model Based Validation
+    - Functional Validation
+    - More Validators
+    - Validation Operators
+  - Getting Argument Specifications
+- **[Processing Request](https://gitlab.com/skitai/atila/-/blob/master/docs/040.request.md#processing-request)**
+  - Request Object
+    - Basic Members
+    - Basic Methods
+    - Route Options
+  - Environment Variables
+    - In The Template Engine
+  - App & Request Gloabal
+  - File Upload
+  - Cookie
+  - Session
+    - Namespaced Session
+  - Message Box
+  - Route Name Based Call
+  - Helpers
+    - Conditional Prework
+    - Checking Dependencies
+- **[Making Response](https://gitlab.com/skitai/atila/-/blob/master/docs/050.response.md#making-response)**
+  - Cache Control
+  - HTTP Error
+  - Primitive
+    - String
+    - API Response
+    - Rendered Template
+    - render_or_API
+    - File
+    - Static
+    - Generator
+    - Redirecting
+    - RPC Response
+    - Threaded Data Streaming
+  - Building URL
+- **[Websocket](https://gitlab.com/skitai/atila/-/blob/master/docs/100.websocket.md#websocket)**
+  - Specifications
+    - WS_STREAM
+    - WS_SESSION
+      - Opening/Closing Hooks
+  - WebSocket Piped Process
+- **[gRPC](https://gitlab.com/skitai/atila/-/blob/master/docs/110.grpc.md#grpc)**
+  - Unary RPC
+    - Async version
+  - Async Streaming RPC
+    - Response Streaming
+    - Request Streaming
+    - Bidirectional Streaming
+- **[Access Control and Authentication](https://gitlab.com/skitai/atila/-/blob/master/docs/200.authentification.md#access-control-and-authentication)**
+  - CORS (Cross Origin Resource Sharing) and Preflight
+  - Custom Authentication
+  - WWW-Authentication
+    - Authentication On Specific Methods
+    - Password Provider
+    - Authentication On Entire App
+  - Bearer Authentication
+  - Test Passing
+- **[Security and Token](https://gitlab.com/skitai/atila/-/blob/master/docs/205.security-and-token.md#security-and-token)**
+  - Cross Site Request Forgery Token (CSRF Token)
+  - JWT Token
+  - One-Time Password
+  - One-Time Token
+- **[Event Bus](https://gitlab.com/skitai/atila/-/blob/master/docs/210.event-bus.md#event-bus)**
+  - Request Life Cycle Events
+- **[Interval Base App Maintenancing](https://gitlab.com/skitai/atila/-/blob/master/docs/220.scheduled-maintain.md#interval-base-app-maintenancing)**
+- **[Multiple GPUs Allocation To Workers](https://gitlab.com/skitai/atila/-/blob/master/docs/230.gpu-allocation.md#multiple-gpus-allocation-to-workers)**
+- **[Using Task](https://gitlab.com/skitai/atila/-/blob/master/docs/240.task.md#using-task)**
+  - Thread / Process / Subrocess
+  - Tasks
+- **[HTTP/2,3 Server Pushing](https://gitlab.com/skitai/atila/-/blob/master/docs/250.server-push.md#http23-server-pushing)**
+- **[Logging and Traceback](https://gitlab.com/skitai/atila/-/blob/master/docs/260.logging.md#logging-and-traceback)**
+- **[Template Engine](https://gitlab.com/skitai/atila/-/blob/master/docs/340.template-engine.md#template-engine)**
+  - Customizing Jinja2
+  - Custom Error Templates
+- **[Using Requests](https://gitlab.com/skitai/atila/-/blob/master/docs/360.requests.md#using-requests)**
+- **[Allied App](https://gitlab.com/skitai/atila/-/blob/master/docs/500.allied-app.md#allied-app)**
+  - Conclusion
+- **[Working With Multiple Apps](https://gitlab.com/skitai/atila/-/blob/master/docs/510.multiple-apps.md#working-with-multiple-apps)**
+  - Event Subscription
+  - Data Exchanging
+  - Accesing Other App Directly
+- **[Test Client](https://gitlab.com/skitai/atila/-/blob/master/docs/700.test-client.md#test-client)**
+  - Integrating pytest and API Documentation
+- **[Debugging](https://gitlab.com/skitai/atila/-/blob/master/docs/710.debugging.md#debugging)**
+  - VS Code
+- **[Deployment](https://gitlab.com/skitai/atila/-/blob/master/docs/720.deployment.md#deployment)**
+  - Using Systemctl
+  - Using AWS ECS (Elastic Container Service)
+- **[Change Log](https://gitlab.com/skitai/atila/-/blob/master/docs/900.change-log.md#change-log)**
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Installation
+
+**Requirements**
+
+Python 3.7+
+
+
+**Installation**
+
+Atila and other core base dependent libraries is developing on
+single milestone, install/upgrade all at once. Otherwise it is
+highly possible to meet some errors.
+
+With pip
+```bash
+pip3 install -U atila skitai rs4
+```
+
+Optional required as you need,
+```bash
+pip3 install protobuf # for GRPC
+```
+
+
+
+**[<< Back To README](https://gitlab.com/skitai/atila/-/blob/master/README.md)**
+
+
+
+
+
+
+
+
+
+
+
+
+# Before You Start
+
+## Getting IDE Suggestions
+
+Type hinting enables IDE suggestions.
+
+```python
+from atila import Atila, Context
+
+def __mount__ (context: Context, app: Atila):
+
+    @app.route ("/ping")
+    def ping (context: Context):
+        return 'pong'
+```
+
+In this document, type hinting is not used for code readability.
+
+
+
+
+
+
+
+
+
+
+# Quick Start
+For exmaple, you make local dumb search engine named as `dumbseek`.
+
+
+
+## Dumb Seek
+Your package structure is like this.
+
+```shell
+dumbseek/
+    index/
+        __init__.py
+        indexer.py
+        searcher.py
+        db.py
+    __init__.py
+    analyzer.py
+```
+
+File `dumbseek/__init__.py`
+```python
+__version__ = "1.0"
+
+NAME = "Dumb Seek"
+```
+
+File `dumbseek/analyzer.py`
+```python
+def analyze (query):
+    return query.lower ().split ()
+```
+
+File `dumbseek/index/__init__.py` is *empty*.
+
+
+File `dumbseek/index/db.py`
+```python
+INVERTED_INDEX = {}
+DOCUMENTS = {}
+```
+
+File `dumbseek/index/indexer.py`
+```python
+from .. import analyzer
+from . import db
+
+def index (doc):
+    doc_ids = list (db.DOCUMENTS.keys ())
+    if not doc_ids:
+        doc_id = 0
+    else:
+        doc_id = max (doc_ids) + 1
+
+    db.DOCUMENTS [doc_id] = doc
+    for token in analyzer.analyze (doc):
+        if token not in db.INVERTED_INDEX:
+            db.INVERTED_INDEX [token] = set ()
+        db.INVERTED_INDEX [token].add (doc_id)
+    return doc_id
+```
+
+File `dumbseek/index/searcher.py`
+```python
+from .. import analyzer
+from . import db
+
+def search (query):
+    results = None
+    for token in analyzer.analyze (query):
+        if token not in db.INVERTED_INDEX:
+            return []
+        doc_ids = db.INVERTED_INDEX.get (token, set ())
+        if results is None:
+            results = doc_ids
+            continue
+        results = results.intersection (doc_ids)
+    return [db.DOCUMENTS [doc_id] for doc_id in sorted (list (results))]
+```
+
+
+
+
+
+
+
+## Unit Testing
+For more clarify, pytest example is:
+```python
+import os
+import sys; sys.path.insert (0, '../examples/dumbseek')
+import dumbseek
+from dumbseek import analyzer
+from dumbseek.index import indexer, searcher, db
+
+def test_analyze ():
+    assert analyzer.analyze ('Detective Holmes') == ['detective', 'holmes']
+
+def test_index ():
+    assert indexer.index ('Detective Holmes') == 0
+    assert db.DOCUMENTS [0] == 'Detective Holmes'
+    assert db.INVERTED_INDEX ['detective'] == {0}
+    assert indexer.index ('Detective Monk') == 1
+    assert db.INVERTED_INDEX ['monk'] == {1}
+    assert searcher.search ('detective holmes') == ['Detective Holmes']
+```
+
+
+
+
+
+
+
+
+## Write Atila App Hooks
+
+Now, you find `dumbseek` is useful than you think, you have plan to
+serve with RESTful API.
+
+Add `__app__` and `__mount__` hooks into `dumbseek/__init__.py`.
+```python
+__version__ = "1.0"
+
+NAME = "Dumb Seek"
+
+# atila hooks ------------------------
+def __app__ ():
+    from atila import Atila
+    return Atila (__name__)
+
+def __mount__ (context, app):
+    @app.route ("/")
+    def index (context):
+        return context.API (app = NAME)
+```
+
+
+
+
+
+
+
+## Add Launch Script
+For testing, you have to create launch script.
+
+```python
+# skitaid.py
+import skitai
+import dumbseek
+
+if __name__ == '__main__':
+    with skitai.preference () as pref:
+        skitai.mount ('/', dumbseek, pref)
+    skitai.run (port = 5000, name = 'dumbseek')
+```
+
+```shell
+python3 skitaid.py --devel
+```
+Now, `http://localhost:5000/` is working.
+
+
+
+
+
+
+
+
+## Add Analyzing API Endpoint
+
+We have to create endpoint `POST /api/tokens`.
+Add `__mount__` hook to `dumbseek/analyzer.py`.
+
+```python
+def analyze (query):
+    return query.lower ().split ()
+
+# atila hooks ------------------------
+def __mount__ (context, app):
+    @app.route ("/tokens", methods = ["POST", "OPTIONS"])
+    def tokens (context, query):
+        return context.API (result = analyze (query))
+```
+
+And for mounting to app, add `__setup__` hook to `dumbseek/__init__.py`.
+```python
+def __setup__ (context, app):
+    from . import analyzer
+    app.mount ("/api", analyzer)
+
+def __mount__ (context, app):
+    ...
+```
+`http://localhost:5000/api/tokens` is working.
+
+
+
+
+
+
+
+
+## Add Indexing and Searching API Endpoints
+
+We have to create 3 endpoints:
+- `POST /api/documents` for indexing document
+- `GET /api/documents` for searching document
+- `GET /api/documents/<int:doc_id>` for geting document
+
+
+Add `__mount__` to `dumbseek/index/__init__.py`.
+```python
+# atila hooks ------------------------
+def __mount__ (context, app):
+    from . import indexer
+    from . import searcher
+
+    @app.route ("/documents", methods = ["POST", "OPTIONS"])
+    def index_document (context, document):
+        doc_id = indexer.index (document)
+        return context.API (
+            "201 Created",
+            url = context.urlfor (get_document, doc_id)
+        )
+
+    @app.route ("/documents", methods = ["GET"])
+    def search_document (context, q):
+        return context.API (
+            result = searcher.search (q)
+        )
+
+    @app.route ("/documents/<int:doc_id>", methods = ["GET"])
+    def get_document (context, doc_id):
+        try:
+            return context.API (
+                document = db.DOCUMENTS [doc_id]
+            )
+        except KeyError:
+            raise context.HttpError ("404 Not Found")
+```
+
+And mount to app, add `__setup__` hook to `dumbseek/__init__.py`.
+```python
+def __setup__ (context, app):
+    from . import analyzer
+    from . import index
+    app.mount ("/api", analyzer)
+    app.mount ("/api", index)
+
+def __mount__ (context, app):
+    ...
+```
+`http://localhost:5000/api/documents` is working.
+
+
+
+
+
+
+
+
+
+
+## Testing API
+```python
+import pytest
+from functools import partial
+import skitai
+from atila.pytest_hooks import *
+
+@pytest.fixture
+def launch ():
+    return partial (skitai.test_client, port = 30371, silent = False)
+
+def test_api (launch):
+    with launch ('../examples/dumbseek/skitaid.py') as engine:
+        r = engine.get ('/')
+        assert r.json () ['app'] == 'Dumb Seek'
+
+        r = engine.post ('/api/tokens', data = {'query': 'Detective Holmes'})
+        assert r.json () ['result'] == ['detective', 'holmes']
+
+        r = engine.post ('/api/documents', data = {'document': 'Detective Holmes'})
+        assert r.status_code == 201
+        assert r.json () ['url'] == '/api/documents/0'
+
+        r = engine.get ('/api/documents', params = {'q': 'Detective Holmes'})
+        assert r.json () ['result'] == ['Detective Holmes']
+
+        r = engine.get ('/api/documents/0')
+        assert r.json ()['document'] == 'Detective Holmes'
+
+        r = engine.post ('/api/documents', data = {'document': 'Detective Monk'})
+
+        r = engine.get ('/api/documents', params = {'q': 'detective'})
+        assert r.json () ['result'] == ['Detective Holmes', 'Detective Monk']
+```
+
+
+
+
+
+## Final Source Codes
+See https://gitlab.com/skitai/atila/-/tree/master/examples/dumbseek
+
+
+
+
+
+
+
+
+
+## Conclusion
+- We add REST API to our existing source codes without any side effects
+- We can still use `dumbseek` as local library
+- Just add `skitaid.py`, we can serve as RESTful API online
+
+
+
+
+
+
+
+
+
+
+
+**[<< Back To README](https://gitlab.com/skitai/atila/-/blob/master/README.md)**
+
+
+
+
+
+
+
+
+
+
