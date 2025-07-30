@@ -1,0 +1,38 @@
+[project]
+name = "yta-audio-narration"
+version = "0.0.4"
+description = "Youtube Autonomous Audio Narration Module."
+authors = [
+    {name = "danialcala94",email = "danielalcalavalera@gmail.com"}
+]
+readme = "README.md"
+requires-python = "==3.9"
+dependencies = [
+    "yta_audio_narration_common (>=0.0.1,<1.0.0)",
+    "yta_validation (>=0.0.1,<1.0.0)",
+    "yta_constants (>=0.0.1,<1.0.0)",
+    "yta_programming (>=0.0.1,<1.0.0)",
+    "yta_file (>=0.0.1,<1.0.0)",
+    "yta_text (>=0.0.1,<1.0.0)",
+    "yta_file_downloader (>=0.0.1,<1.0.0)",
+    # These 'torch' and 'torchaudio' are needed by, at
+    # least, the 'deepfilternet' (df) library, and it
+    # is also needed for the open_voice voice that has
+    # been commented
+    #"torch (>=2.3.0,<3.0.0)",
+    # TODO: Maybe these specific modules can be
+    # optional...
+    "yta_audio_narration_coqui (>=0.0.1,<1.0.0)",
+    "yta_audio_narration_google (>=0.0.1,<1.0.0)",
+    "yta_audio_narration_microsoft (>=0.0.1,<1.0.0)",
+]
+
+[tool.poetry]
+packages = [{include = "yta_audio_narration", from = "src"}]
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
