@@ -1,0 +1,107 @@
+Metadata-Version: 2.4
+Name: doclayout-yolo-slim
+Version: 0.1.0
+Summary: A simplified and faster implementation of doclayout-yolo for document layout inference
+Author-email: Vladyslav Nalyvaiko <v.nalyvaiko@quextro.com>
+License: AGPL-3.0
+License-File: LICENSE
+Keywords: analysis,computer-vision,document,layout,machine-learning,yolo
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: GNU Affero General Public License v3
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.11
+Requires-Dist: matplotlib>=3.10.3
+Requires-Dist: numpy>=2.3.1
+Requires-Dist: opencv-python>=4.11.0.86
+Requires-Dist: pandas>=2.3.0
+Requires-Dist: py-cpuinfo>=9.0.0
+Requires-Dist: pyyaml>=6.0.2
+Requires-Dist: requests>=2.32.4
+Requires-Dist: torch>=2.7.1
+Requires-Dist: torchvision>=0.22.1
+Requires-Dist: tqdm>=4.67.1
+Description-Content-Type: text/markdown
+
+# DocLayout-YOLO-Slim
+
+This library is just a lightweight slim version of the original [doclayout-yolo library](https://github.com/opendatalab/DocLayout-YOLO) focued on inference of the models that were developed by OpenDataLab.
+
+## Installation
+
+### From PyPI (Coming Soon)
+```bash
+pip install doclayout-yolo-slim
+```
+
+### From Source
+```bash
+git clone https://github.com/yourusername/doclayout-yolo-slim.git
+cd doclayout-yolo-slim
+pip install -e .
+```
+
+### Using uv
+```bash
+uv add doclayout-yolo-slim
+```
+
+## Quick Start
+
+```python
+from doclayout_yolo_slim.models import YOLOv10
+
+# Load the model
+model = YOLOv10(model="doclayout_yolo_docsynth300k_imgsz1600.pt")
+
+# Run inference
+results = model.predict("path/to/your/image.png")
+print(results)
+```
+
+
+## Model Files
+
+You'll need the pre-trained model file with original library. The example uses `doclayout_yolo_docsynth300k_imgsz1600.pt` which should be placed in your project directory or specify the full path.
+
+## Requirements
+
+- Python >= 3.11
+- PyTorch >= 2.7.1
+- OpenCV >= 4.11.0
+- NumPy >= 2.3.1
+- Other dependencies listed in `pyproject.toml`
+
+## Performance
+
+This slim implementation offers:
+- Reduced memory usage
+- Faster inference times
+- Smaller package size
+- Simplified codebase for easier maintenance
+
+## License
+
+This project is licensed under the AGPL-3.0 License - see the LICENSE file for details.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Acknowledgments
+
+- Based on the original ultralytics YOLO implementation
+- Inspired by doclayout-yolo for document layout analysis
+- Optimized for production use cases requiring speed and efficiency
+
+## Changelog
+
+### v0.1.0
+- Initial release
+- Simplified YOLOv10 implementation
