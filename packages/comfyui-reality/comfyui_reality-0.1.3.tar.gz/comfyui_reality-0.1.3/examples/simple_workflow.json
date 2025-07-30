@@ -1,0 +1,87 @@
+{
+  "name": "Simple AR Sticker Workflow",
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "sd_xl_base_1.0.safetensors"
+    }
+  },
+  "2": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "cute cartoon sticker of a cat, flat design, vibrant colors",
+      "clip": ["1", 1]
+    }
+  },
+  "3": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "blurry, realistic, 3d render, photographic",
+      "clip": ["1", 1]
+    }
+  },
+  "4": {
+    "class_type": "EmptyLatentImage",
+    "inputs": {
+      "width": 512,
+      "height": 512,
+      "batch_size": 1
+    }
+  },
+  "5": {
+    "class_type": "KSampler",
+    "inputs": {
+      "seed": 42,
+      "steps": 20,
+      "cfg": 7.5,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 1.0,
+      "model": ["1", 0],
+      "positive": ["2", 0],
+      "negative": ["3", 0],
+      "latent_image": ["4", 0]
+    }
+  },
+  "6": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": ["5", 0],
+      "vae": ["1", 2]
+    }
+  },
+  "7": {
+    "class_type": "AROptimizer",
+    "inputs": {
+      "image": ["6", 0],
+      "optimization_level": "balanced",
+      "target_platform": "ios"
+    }
+  },
+  "8": {
+    "class_type": "MaterialComposer",
+    "inputs": {
+      "geometry": ["7", 0],
+      "material_type": "unlit",
+      "double_sided": true
+    }
+  },
+  "9": {
+    "class_type": "SpatialPositioner",
+    "inputs": {
+      "ar_object": ["8", 0],
+      "position_x": 0.0,
+      "position_y": 0.0,
+      "position_z": 0.0,
+      "scale": 0.1
+    }
+  },
+  "10": {
+    "class_type": "USDZExporter",
+    "inputs": {
+      "ar_scene": ["9", 0],
+      "filename": "ar_sticker.usdz",
+      "optimize_for_ar": true
+    }
+  }
+}

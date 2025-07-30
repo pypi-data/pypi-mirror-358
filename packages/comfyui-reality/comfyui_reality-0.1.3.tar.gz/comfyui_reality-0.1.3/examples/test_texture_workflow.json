@@ -1,0 +1,41 @@
+{
+  "name": "Test Texture Orientation",
+  "description": "Simple workflow to test UV texture orientation fix",
+  
+  "1": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "test_texture.png",
+      "upload": "image"
+    },
+    "_meta": {
+      "title": "Load Test Texture"
+    }
+  },
+  
+  "2": {
+    "class_type": "USDZExporter",
+    "inputs": {
+      "image": ["1", 0],
+      "filename": "test_uv_orientation",
+      "scale": 1.0,
+      "material_type": "unlit",
+      "optimization_level": "quality",
+      "coordinate_system": "y_up",
+      "physics_enabled": false
+    },
+    "_meta": {
+      "title": "Export USDZ with Fixed UVs"
+    }
+  },
+  
+  "3": {
+    "class_type": "PreviewImage",
+    "inputs": {
+      "images": ["1", 0]
+    },
+    "_meta": {
+      "title": "Preview Input"
+    }
+  }
+}

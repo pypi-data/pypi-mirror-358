@@ -1,0 +1,108 @@
+name: Publish to ComfyUI Registry
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish'
+        required: true
+        default: 'latest'
+      registry:
+        description: 'Registry to publish to'
+        required: true
+        default: 'comfyui'
+        type: choice
+        options:
+        - comfyui
+        - pypi
+        - both
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: release
+    
+    permissions:
+      contents: read
+      id-token: write  # For PyPI trusted publishing
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Install uv
+      uses: astral-sh/setup-uv@v4
+      with:
+        version: "latest"
+    
+    - name: Set up Python 3.12
+      run: uv python install 3.12
+    
+    - name: Install dependencies
+      run: |
+        uv sync --extra dev
+    
+    - name: Run tests
+      run: |
+        uv run pytest --cov=comfy_reality
+    
+    - name: Build package
+      run: |
+        uv build
+    
+    - name: Verify package contents
+      run: |
+        uv run python -c "
+        import tarfile
+        import zipfile
+        import os
+        
+        for file in os.listdir('dist'):
+            print(f'Checking {file}')
+            if file.endswith('.tar.gz'):
+                with tarfile.open(f'dist/{file}', 'r:gz') as tar:
+                    print('  Contents:', tar.getnames()[:10])
+            elif file.endswith('.whl'):
+                with zipfile.ZipFile(f'dist/{file}') as zip:
+                    print('  Contents:', zip.namelist()[:10])
+        "
+    
+    - name: Publish to PyPI
+      if: github.event.inputs.registry == 'pypi' || github.event.inputs.registry == 'both' || github.event_name == 'release'
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        print-hash: true
+    
+    - name: Install comfy-cli
+      if: github.event.inputs.registry == 'comfyui' || github.event.inputs.registry == 'both' || github.event_name == 'release'
+      run: |
+        uv tool install comfy-cli
+    
+    - name: Validate ComfyUI package
+      if: github.event.inputs.registry == 'comfyui' || github.event.inputs.registry == 'both' || github.event_name == 'release'
+      run: |
+        uv tool run comfy-cli node validate .
+    
+    - name: Publish to ComfyUI Registry
+      if: github.event.inputs.registry == 'comfyui' || github.event.inputs.registry == 'both' || github.event_name == 'release'
+      env:
+        COMFYUI_REGISTRY_TOKEN: ${{ secrets.COMFYUI_REGISTRY_TOKEN }}
+      run: |
+        uv tool run comfy-cli node publish . --token "$COMFYUI_REGISTRY_TOKEN"
+    
+    - name: Create GitHub Release Assets
+      if: github.event_name == 'release'
+      run: |
+        gh release upload ${{ github.event.release.tag_name }} dist/*
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Update package registry metadata
+      if: github.event_name == 'release'
+      run: |
+        echo "Package published successfully to registries" >> $GITHUB_STEP_SUMMARY
+        echo "- PyPI: https://pypi.org/project/comfyui-reality/" >> $GITHUB_STEP_SUMMARY
+        echo "- ComfyUI Registry: https://registry.comfy.org/publishers/gerred/nodes/comfyui-reality" >> $GITHUB_STEP_SUMMARY

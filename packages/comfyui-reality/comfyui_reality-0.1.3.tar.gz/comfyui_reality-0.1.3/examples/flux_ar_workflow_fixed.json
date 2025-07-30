@@ -1,0 +1,102 @@
+{
+  "name": "Flux AR Sticker Generator (Fixed)",
+  "description": "Fixed workflow with proper node connections for texture flow",
+  
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "flux1-dev-fp8.safetensors"
+    },
+    "_meta": {
+      "title": "Load Flux Model"
+    }
+  },
+  
+  "2": {
+    "class_type": "DualCLIPLoader",
+    "inputs": {
+      "clip_name1": "t5xxl_fp8_e4m3fn.safetensors",
+      "clip_name2": "clip_l.safetensors",
+      "type": "flux"
+    },
+    "_meta": {
+      "title": "Load CLIP Models"
+    }
+  },
+  
+  "3": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "ae.safetensors"
+    },
+    "_meta": {
+      "title": "Load VAE"
+    }
+  },
+  
+  "4": {
+    "class_type": "FluxARGenerator",
+    "inputs": {
+      "model": ["1", 0],
+      "clip": ["2", 0],
+      "vae": ["3", 0],
+      "positive": "adorable kawaii robot mascot, chibi style, big expressive LED eyes, rounded body, pastel purple and mint green colors, holographic accents, floating antenna, cute smile, sticker design, flat illustration, centered composition, clean simple background",
+      "negative": "realistic, photographic, 3d render, complex details, busy background, text, watermark, multiple objects",
+      "seed": 42,
+      "steps": 20,
+      "cfg": 1.0,
+      "width": 1024,
+      "height": 1024,
+      "ar_style": "character",
+      "background_removal": true
+    },
+    "_meta": {
+      "title": "Generate AR Content with Flux"
+    }
+  },
+  
+  "5": {
+    "class_type": "ARBackgroundRemover",
+    "inputs": {
+      "image": ["4", 0],
+      "method": "edge_detection",
+      "threshold_value": 240,
+      "chroma_color": "white",
+      "edge_sensitivity": 0.15,
+      "feather": 3,
+      "cleanup": true,
+      "mask_hint": ["4", 1]
+    },
+    "_meta": {
+      "title": "Refine Background Removal"
+    }
+  },
+  
+  "6": {
+    "class_type": "ImageSave",
+    "inputs": {
+      "images": ["5", 0],
+      "filename_prefix": "flux_ar_character"
+    },
+    "_meta": {
+      "title": "Save Generated Image"
+    }
+  },
+  
+  "7": {
+    "class_type": "USDZExporter",
+    "inputs": {
+      "image": ["5", 0],
+      "mask": ["5", 1],
+      "filename": "flux_robot_mascot",
+      "scale": 0.25,
+      "material_type": "unlit",
+      "optimization_level": "balanced",
+      "coordinate_system": "y_up",
+      "physics_enabled": false
+    },
+    "_meta": {
+      "title": "Export to USDZ"
+    }
+  }
+}

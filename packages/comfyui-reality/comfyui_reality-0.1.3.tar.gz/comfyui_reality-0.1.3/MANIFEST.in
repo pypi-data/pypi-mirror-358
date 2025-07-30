@@ -1,0 +1,53 @@
+# Include all Python source files
+recursive-include src *.py
+include src/comfy_reality/py.typed
+
+# Include documentation
+include README.md
+include LICENSE*
+include CHANGELOG*
+include AR_WORKFLOW_GUIDE.md
+recursive-include docs *
+
+# Include examples and assets
+recursive-include examples *.py *.json *.md *.png *.jpg *.jpeg *.usdz
+
+# Include web assets if they exist (ComfyUI frontend)
+recursive-include src/comfy_reality/web *
+recursive-include web *
+
+# Include package metadata
+include pyproject.toml
+
+# Exclude development and build artifacts
+exclude .coverage
+exclude coverage.xml
+exclude .DS_Store
+exclude *.log
+exclude .pytest_cache
+exclude .ruff_cache
+exclude .mypy_cache
+exclude .venv
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+recursive-exclude * .git*
+recursive-exclude * .mise*
+recursive-exclude * .pre-commit*
+
+# Exclude test files
+recursive-exclude tests *
+recursive-exclude * test_*.py
+recursive-exclude * *_test.py
+
+# Exclude development directories
+exclude scripts/
+exclude htmlcov/
+exclude output/
+exclude comfyui/
+
+# Exclude editor and system files
+exclude .DS_Store
+exclude Thumbs.db
+exclude *.swp
+exclude *.swo
+exclude *~

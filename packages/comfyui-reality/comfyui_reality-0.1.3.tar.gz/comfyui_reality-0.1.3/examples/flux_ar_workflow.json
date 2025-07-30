@@ -1,0 +1,204 @@
+{
+  "name": "Flux AR Sticker Generator",
+  "description": "Generate AR stickers using Flux with automatic background removal",
+  
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "flux1-dev-fp8.safetensors"
+    },
+    "_meta": {
+      "title": "Load Flux Model"
+    }
+  },
+  
+  "2": {
+    "class_type": "DualCLIPLoader",
+    "inputs": {
+      "clip_name1": "t5xxl_fp8_e4m3fn.safetensors",
+      "clip_name2": "clip_l.safetensors",
+      "type": "flux"
+    },
+    "_meta": {
+      "title": "Load CLIP Models"
+    }
+  },
+  
+  "3": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "ae.safetensors"
+    },
+    "_meta": {
+      "title": "Load VAE"
+    }
+  },
+  
+  "4": {
+    "class_type": "FluxARGenerator",
+    "inputs": {
+      "model": ["1", 0],
+      "clip": ["2", 0],
+      "vae": ["3", 0],
+      "positive": "adorable kawaii robot mascot, chibi style, big expressive LED eyes, rounded body, pastel purple and mint green colors, holographic accents, floating antenna, cute smile, sticker design, flat illustration, centered composition, clean simple background",
+      "negative": "realistic, photographic, 3d render, complex details, busy background, text, watermark, multiple objects",
+      "seed": 42,
+      "steps": 20,
+      "cfg": 1.0,
+      "width": 1024,
+      "height": 1024,
+      "ar_style": "character",
+      "background_removal": true
+    },
+    "_meta": {
+      "title": "Generate AR Content with Flux"
+    }
+  },
+  
+  "5": {
+    "class_type": "ARBackgroundRemover",
+    "inputs": {
+      "image": ["4", 0],
+      "method": "edge_detection",
+      "threshold_value": 240,
+      "chroma_color": "white",
+      "edge_sensitivity": 0.15,
+      "feather": 3,
+      "cleanup": true,
+      "mask_hint": ["4", 1]
+    },
+    "_meta": {
+      "title": "Refine Background Removal"
+    }
+  },
+  
+  "6": {
+    "class_type": "ImageSave",
+    "inputs": {
+      "images": ["5", 0],
+      "filename_prefix": "flux_ar_character"
+    },
+    "_meta": {
+      "title": "Save Generated Image"
+    }
+  },
+  
+  "7": {
+    "class_type": "AROptimizer",
+    "inputs": {
+      "image": ["5", 0],
+      "optimization_level": "quality",
+      "target_platform": "universal",
+      "texture_size": 2048,
+      "simplification_ratio": 0.9,
+      "alpha_mode": "blend",
+      "generate_lod": true,
+      "lod_levels": 3
+    },
+    "_meta": {
+      "title": "Optimize for AR"
+    }
+  },
+  
+  "8": {
+    "class_type": "MaterialComposer",
+    "inputs": {
+      "geometry": ["7", 0],
+      "material_type": "standard",
+      "base_color": [1.0, 1.0, 1.0, 1.0],
+      "metallic": 0.1,
+      "roughness": 0.8,
+      "double_sided": true,
+      "emissive_color": [0.5, 0.7, 1.0],
+      "emissive_intensity": 0.2,
+      "alpha_cutoff": 0.1
+    },
+    "_meta": {
+      "title": "Apply AR Materials"
+    }
+  },
+  
+  "9": {
+    "class_type": "AnimationBuilder",
+    "inputs": {
+      "ar_object": ["8", 0],
+      "animation_type": "float",
+      "float_amplitude": 0.03,
+      "float_frequency": 0.3,
+      "rotation_enabled": true,
+      "rotation_speed": 5.0,
+      "rotation_axis": "y",
+      "loop": true,
+      "duration": 0.0
+    },
+    "_meta": {
+      "title": "Add Floating Animation"
+    }
+  },
+  
+  "10": {
+    "class_type": "PhysicsIntegrator",
+    "inputs": {
+      "ar_object": ["9", 0],
+      "collision_shape": "box",
+      "physics_type": "dynamic",
+      "mass": 0.3,
+      "restitution": 0.8,
+      "friction": 0.2,
+      "enable_gravity": false,
+      "collision_group": "interactive"
+    },
+    "_meta": {
+      "title": "Add Physics"
+    }
+  },
+  
+  "11": {
+    "class_type": "SpatialPositioner",
+    "inputs": {
+      "ar_object": ["10", 0],
+      "position_x": 0.0,
+      "position_y": 0.0,
+      "position_z": 0.0,
+      "rotation_x": 0.0,
+      "rotation_y": 0.0,
+      "rotation_z": 0.0,
+      "scale": 0.25,
+      "anchor_type": "horizontal",
+      "coordinate_system": "y-up"
+    },
+    "_meta": {
+      "title": "Position in AR Space"
+    }
+  },
+  
+  "12": {
+    "class_type": "USDZExporter",
+    "inputs": {
+      "ar_scene": ["11", 0],
+      "filename": "flux_robot_mascot",
+      "metadata": {
+        "title": "Kawaii Robot Mascot",
+        "author": "ComfyReality + Flux",
+        "description": "AI-generated AR mascot character",
+        "keywords": ["robot", "mascot", "AR", "flux", "ai"]
+      },
+      "optimize_for_ar": true,
+      "include_preview": true,
+      "compression_level": "balanced"
+    },
+    "_meta": {
+      "title": "Export USDZ"
+    }
+  },
+  
+  "13": {
+    "class_type": "PreviewImage",
+    "inputs": {
+      "images": ["5", 2]
+    },
+    "_meta": {
+      "title": "Preview with Checkerboard"
+    }
+  }
+}

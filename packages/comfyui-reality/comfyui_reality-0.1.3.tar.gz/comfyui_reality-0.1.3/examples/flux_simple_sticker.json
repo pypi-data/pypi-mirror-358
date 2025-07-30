@@ -1,0 +1,99 @@
+{
+  "name": "Flux Simple AR Sticker",
+  "description": "Minimal workflow for Flux AR sticker generation",
+  
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "flux1-schnell-fp8.safetensors"
+    },
+    "_meta": {
+      "title": "Load Flux Schnell (Fast)"
+    }
+  },
+  
+  "2": {
+    "class_type": "FluxARGenerator",
+    "inputs": {
+      "model": ["1", 0],
+      "clip": ["1", 1],
+      "vae": ["1", 2],
+      "positive": "cute smiling sun emoji, kawaii style, simple flat design, bright yellow, orange rays, sticker art, centered, minimalist, white background",
+      "negative": "realistic, photo, 3d, complex, shadows",
+      "seed": 12345,
+      "steps": 4,
+      "cfg": 1.0,
+      "width": 1024,
+      "height": 1024,
+      "ar_style": "sticker",
+      "background_removal": true
+    },
+    "_meta": {
+      "title": "Generate AR Sticker"
+    }
+  },
+  
+  "3": {
+    "class_type": "AROptimizer",
+    "inputs": {
+      "image": ["2", 0],
+      "optimization_level": "performance",
+      "target_platform": "ios",
+      "texture_size": 1024,
+      "simplification_ratio": 0.7,
+      "alpha_mode": "cutout"
+    },
+    "_meta": {
+      "title": "Optimize for Mobile"
+    }
+  },
+  
+  "4": {
+    "class_type": "MaterialComposer",
+    "inputs": {
+      "geometry": ["3", 0],
+      "material_type": "unlit",
+      "base_color": [1.0, 1.0, 1.0, 1.0],
+      "double_sided": true,
+      "alpha_cutoff": 0.5
+    },
+    "_meta": {
+      "title": "Unlit Material"
+    }
+  },
+  
+  "5": {
+    "class_type": "SpatialPositioner",
+    "inputs": {
+      "ar_object": ["4", 0],
+      "scale": 0.15,
+      "anchor_type": "horizontal"
+    },
+    "_meta": {
+      "title": "AR Positioning"
+    }
+  },
+  
+  "6": {
+    "class_type": "USDZExporter",
+    "inputs": {
+      "ar_scene": ["5", 0],
+      "filename": "sun_sticker",
+      "optimize_for_ar": true
+    },
+    "_meta": {
+      "title": "Export USDZ"
+    }
+  },
+  
+  "7": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": ["2", 0],
+      "filename_prefix": "flux_sticker"
+    },
+    "_meta": {
+      "title": "Save Image"
+    }
+  }
+}
