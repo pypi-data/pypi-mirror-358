@@ -1,0 +1,90 @@
+Metadata-Version: 2.3
+Name: langchain-xinference
+Version: 0.1.2
+Summary: An integration package connecting Xinference and LangChain
+License: MIT
+Requires-Python: >=3.10,<4.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Provides-Extra: dev
+Provides-Extra: lint
+Provides-Extra: test
+Requires-Dist: aiohttp (>=3.8.0,<4.0.0)
+Requires-Dist: codespell (>=2.2.6) ; extra == "lint"
+Requires-Dist: ipython ; extra == "dev"
+Requires-Dist: langchain-core (>=0.3.15,<0.4.0)
+Requires-Dist: langchain-tests (>=0.3.5) ; extra == "test"
+Requires-Dist: mypy (>=1.10) ; extra == "lint"
+Requires-Dist: pydantic (>=2.10.0,<3.0.0)
+Requires-Dist: pytest (>=7.4.3) ; extra == "test"
+Requires-Dist: pytest-asyncio (>=0.23.2) ; extra == "test"
+Requires-Dist: pytest-socket (>=0.7.0) ; extra == "test"
+Requires-Dist: pytest-watcher (>=0.3.4) ; extra == "test"
+Requires-Dist: ruff (>=0.5) ; extra == "lint"
+Requires-Dist: xinference-client (>=1.7.1,<2.0.0)
+Description-Content-Type: text/markdown
+
+# 💻 langchain-xinference
+
+This package contains the LangChain integration with Xinference
+
+## 🤝 Support
+
+- [x] Chat
+- [x] Generate
+- [x] Embeddings
+- [x] Reranks
+- [x] Tools Call
+
+## 🚀 Installation
+
+```bash
+pip install -U langchain-xinference
+```
+
+## ☕ Chat Models
+
+`ChatXinference` class exposes chat models from Xinference.
+
+```python
+from langchain_xinference.chat_models import ChatXinference
+from langchain.prompts import PromptTemplate
+
+llm = ChatXinference(
+  server_url="http://0.0.0.0:9997",  # replace your xinference server url
+  model_uid={model_uid}  # replace model_uid with the model UID return from launching the model
+         )
+prompt = PromptTemplate(input=["country"], template="Q: where can we visit in the capital of {country}? A:")
+chain = prompt | llm
+
+chain.invoke(input={"country": "France"})
+
+ai_res = chain.stream(input={"country": "France"})
+for chunk in ai_res:
+    print(chunk.content)
+```
+
+## ☕ Generate
+`Xinference` class exposes LLMs from Xinference.
+
+```python
+from langchain_xinference.llms import Xinference
+from langchain.prompts import PromptTemplate
+
+llm = Xinference(
+    server_url="http://0.0.0.0:9997",  # replace your xinference server url
+    model_uid={model_uid}  # replace model_uid with the model UID return from launching the model
+ )
+prompt = PromptTemplate(input=["country"], template="Q: where can we visit in the capital of {country}? A:")
+chain = prompt | llm
+chain.invoke(input={"country": "France"})
+
+ai_res = chain.stream(input={"country": "France"})
+for chunk in ai_res:
+    print(chunk)
+```
+

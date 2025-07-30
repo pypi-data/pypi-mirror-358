@@ -1,0 +1,53 @@
+[build-system]
+requires = ["uv>=0.6.0", "poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[project]
+name = "langchain-xinference"
+version = "0.1.2"
+description = "An integration package connecting Xinference and LangChain"
+authors = []
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10,<4.0"
+dependencies = [
+    "langchain-core>=0.3.15,<0.4.0",
+    "aiohttp>=3.8.0,<4.0.0",
+    "xinference-client>=1.7.1,<2.0.0",
+    "pydantic>=2.10.0,<3.0.0",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.4.3",
+    "pytest-asyncio>=0.23.2",
+    "pytest-socket>=0.7.0",
+    "pytest-watcher>=0.3.4",
+    "langchain-tests>=0.3.5"
+]
+lint = [
+    "ruff>=0.5",
+    "mypy>=1.10",
+    "codespell>=2.2.6"
+]
+dev = ["ipython"]
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "T201"]
+
+[tool.mypy]
+disallow_untyped_defs = true
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+
+[tool.pytest.ini_options]
+addopts = "--strict-markers --strict-config --durations=5"
+markers = [
+    "compile: mark placeholder test used to compile integration tests without running them",
+]
+asyncio_mode = "auto"
+testpaths = ["tests"]
