@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyRNAither"
+version = "0.0.2a"
+description = "Python reimplementation of RNAither adapted for high-throughput CRISPR screening analysis"
+authors = [
+{ name = "Rahul Brahma", email = "rahul.brahma@uni-greifswald.de" },
+{ name = "Yasas Wijesekara", email = "yasas.wijesekara@uni-greifswald.de"}
+]
+readme = "README.md"
+license = "LicenseRef-LICENSE"
+requires-python = ">=3.11"
+
+dependencies = [
+    "numpy>=2.3.0",
+    "pandas>=2.3.0",
+    "matplotlib>=3.0",
+    "scipy>=1.4",
+    "scikit-learn",
+    "matplotlib-venn",
+    "statsmodels",
+    "sphinx>=8.2.3",
+    "sphinx-rtd-theme>=3.0.2",
+    "sphinx-autodoc-typehints>=3.2.0",
+]
+
+[project.scripts]
+pyrnaither = "pyrnaither.main:main"
+
+[tool.setuptools.packages.find]
+include = ["pyrnaither*"]
+exclude = ["logs"]

@@ -1,0 +1,125 @@
+Metadata-Version: 2.4
+Name: pyRNAither
+Version: 0.0.2a0
+Summary: Python reimplementation of RNAither adapted for high-throughput CRISPR screening analysis
+Author-email: Rahul Brahma <rahul.brahma@uni-greifswald.de>, Yasas Wijesekara <yasas.wijesekara@uni-greifswald.de>
+License-Expression: LicenseRef-LICENSE
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy>=2.3.0
+Requires-Dist: pandas>=2.3.0
+Requires-Dist: matplotlib>=3.0
+Requires-Dist: scipy>=1.4
+Requires-Dist: scikit-learn
+Requires-Dist: matplotlib-venn
+Requires-Dist: statsmodels
+Requires-Dist: sphinx>=8.2.3
+Requires-Dist: sphinx-rtd-theme>=3.0.2
+Requires-Dist: sphinx-autodoc-typehints>=3.2.0
+Dynamic: license-file
+
+<div align="center">
+  <a href="https://github.com/user-attachments/assets/5cfbd9db-1a7e-47ea-aada-b4a130a80a09">
+    <img src="https://github.com/user-attachments/assets/5cfbd9db-1a7e-47ea-aada-b4a130a80a09" alt="drawing" />
+  </a>
+</div>
+  
+  # pyRNAither
+  
+  [![Python Version](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/)
+  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+  [![Documentation Status](https://readthedocs.org/projects/pyrnaither/badge/?version=latest)](https://pyrnaither.readthedocs.io/)
+  [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+  [![PyPI version](https://badge.fury.io/py/pyRNAither.svg)](https://badge.fury.io/py/pyRNAither)
+  
+  **Python reimplementation of [RNAither](https://doi.org/10.1093/bioinformatics/btp014) adapted for high-throughput CRISPR screening analysis**
+</div>
+
+## 📖 Overview
+
+pyRNAither is a powerful Python package for analyzing high-throughput CRISPR screening data. It provides a comprehensive suite of tools for quality control, normalization, statistical analysis, and visualization of CRISPR screening results.
+
+## ✨ Features
+
+- **Data Processing**: Efficient handling of large-scale CRISPR screening data
+- **Quality Control**: Comprehensive QC metrics and visualization
+- **Normalization**: Multiple normalization methods for CRISPR data
+- **Statistical Analysis**: Advanced statistical tests for hit identification
+- **Visualization**: Publication-quality plots and interactive visualizations
+- **Modular Design**: Easy to extend and customize for specific needs
+
+## 🚀 Installation
+
+### Using pip
+
+```bash
+pip install pyRNAither
+```
+
+### From source
+
+```bash
+# Clone the repository
+git clone https://github.com/Takshan/pyRNAither.git
+cd pyRNAither
+
+# Install in development mode
+pip install -e .
+```
+
+## 📚 Documentation
+
+For detailed documentation, including API reference and examples, please visit our [documentation](https://takshan.github.io/pyRNAither/).
+
+## 🎯 Quick Start
+
+We are currently wokring on a quick start guide consisting of example analysis pipelines and a step-by-step guide to get started with pyRNAither. In the meantime, please refer to the [documentation](https://takshan.github.io/pyRNAither/).
+
+### Basic Usage
+
+```python
+import pyrnaither as prt
+
+#load data
+```
+
+### Example Analysis Pipeline
+
+```python
+import pyrnaither as prt
+from pyrnaither import stats, visualization
+
+# Load and preprocess data
+
+```
+
+## 📊 Example Plots
+
+### Quality Control Metrics
+
+### Volcano Plot
+
+### Heatmap
+
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 📧 Contact
+
+For questions or support, please contact:
+- Rahul Brahma: rahul.brahma[at]uni-greifswald[dot]de
+- Yasas Wijesekara: yasas.wijesekara[at]uni-greifswald[dot]de
+
+## 📚 References
+
+1. Rieber N, Knapp B, Eils R, Kaderali L. RNAither, an automated pipeline for the statistical analysis of high-throughput RNAi screens. Bioinformatics. 2009 Mar 1;25(5):678-9. doi: 10.1093/bioinformatics/btp014. Epub 2009 Jan 25. PMID: 19168909.
+
+
+---
+
+<div align="center">
+  Made with ❤️ by the pyRNAither Team
+</div>
