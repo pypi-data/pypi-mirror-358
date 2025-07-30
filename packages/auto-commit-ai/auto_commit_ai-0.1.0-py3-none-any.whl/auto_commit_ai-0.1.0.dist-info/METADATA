@@ -1,0 +1,54 @@
+Metadata-Version: 2.4
+Name: auto-commit-ai
+Version: 0.1.0
+Summary: Generate automatic commit messages using AI
+Author-email: Toni Miquel Llull <tonimiquel.llull@gmail.com>
+License: GNU AGPL v3
+Project-URL: Homepage, https://gitlab.com/tmllull/auto-commit-ai
+Project-URL: Repository, https://gitlab.com/tmllull/auto-commit-ai
+Project-URL: Issues, https://gitlab.com/tmllull/auto-commit-ai/issues
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: python-dotenv
+Requires-Dist: openai
+Requires-Dist: google-genai
+Dynamic: license-file
+
+# auto-commit-ai
+
+`auto-commit-ai` is a Python module that automatically generates commit messages for your codebase by analyzing the changes in your code. It leverages AI to summarize code diffs and suggest meaningful commit messages, streamlining your development workflow and improving commit quality.
+
+## Features
+
+- **Automatic commit message generation**: Uses AI to analyze code changes and generate descriptive commit messages.
+- **Easy integration**: Can be used as a CLI tool or integrated into your existing workflow.
+- **Customizable providers**: Supports multiple AI providers for flexibility.
+
+## Installation
+
+For now, the module is not published on PyPI (yet). You can clone the repository:
+
+```bash
+git clone https://gitlab.com/tmllull/auto-commit-ai.git
+cd auto-commit-ai
+pip install .
+```
+
+## Usage
+
+You can use `auto-commit-ai` from the command line:
+
+```bash
+auto-commit-ai
+```
+
+...
