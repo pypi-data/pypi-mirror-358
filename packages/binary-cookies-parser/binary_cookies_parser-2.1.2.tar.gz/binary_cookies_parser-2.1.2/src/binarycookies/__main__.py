@@ -1,0 +1,52 @@
+import json
+import warnings
+from datetime import datetime
+from enum import Enum
+from typing import Type
+
+import typer
+from rich import print
+
+from binarycookies import load, DEPRECATION_MESSAGE
+
+
+class DateTimeEncoder(json.JSONEncoder):
+    def default(self, obj: Type) -> str:
+        if isinstance(obj, datetime):
+            return obj.isoformat()
+        return super().default(obj)
+
+
+class OutputType(str, Enum):
+    json = "json"
+    ascii = "ascii"
+
+
+def cli(file_path: str, output: str = "json"):
+    """CLI entrypoint for reading Binary Cookies"""
+
+
+    with open(file_path, "rb") as f:
+        cookies = load(f)
+    if output == OutputType.json:
+        print(json.dumps([cookie.model_dump() for cookie in cookies], indent=2, cls=DateTimeEncoder))
+    elif output == OutputType.ascii:
+        for cookie in cookies:
+            print(f"Name: {cookie.name}")
+            print(f"Value: {cookie.value}")
+            print(f"URL: {cookie.url}")
+            print(f"Path: {cookie.path}")
+            print(f"Created: {cookie.create_datetime.isoformat()}")
+            print(f"Expires: {cookie.expiry_datetime.isoformat()}")
+            print(f"Flag: {cookie.flag.value}")
+            print("-" * 40)
+
+
+def main():
+    """CLI entrypoint for reading Binary Cookies"""
+    warnings.warn(DEPRECATION_MESSAGE, category=DeprecationWarning, stacklevel=2)
+    typer.run(cli)
+
+
+if __name__ == "__main__":
+    main()
