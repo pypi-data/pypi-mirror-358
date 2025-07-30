@@ -1,0 +1,107 @@
+Metadata-Version: 2.4
+Name: no-cluely
+Version: 0.0.3
+Summary: Detect Cluely cheating software and its evasion techniques
+Author: TerminalSin
+License: MIT
+Project-URL: Homepage, https://github.com/terminalsin/no-cluely
+Project-URL: Bug Reports, https://github.com/terminalsin/no-cluely/issues
+Project-URL: Source, https://github.com/terminalsin/no-cluely
+Project-URL: Documentation, https://github.com/terminalsin/no-cluely#readme
+Keywords: privacy,monitoring,detection,cluely,employee,screen-sharing,evasion,macos
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: System Administrators
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: MacOS
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Security
+Classifier: Topic :: System :: Monitoring
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: typing-extensions>=4.0.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
+Requires-Dist: black>=22.0.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Requires-Dist: flake8>=5.0.0; extra == "dev"
+
+# NoCluely-py
+
+Python library for detecting Cluely employee monitoring software and its evasion techniques.
+
+## Installation
+
+```bash
+pip install no-cluely
+```
+
+### Requirements
+
+- **Python**: 3.8 or later
+- **Platform**: macOS only (Cluely is macOS-specific)
+- **Architecture**: x64 (Intel/Apple Silicon)
+
+## Quick Start
+
+### Simple Detection
+```python
+from no_cluely import NoCluely
+
+# Quick check
+if NoCluely.is_cluely_running():
+    print("⚠️ Employee monitoring detected!")
+else:
+    print("✅ No monitoring software found")
+```
+
+### Detailed Analysis
+```python
+from no_cluely import NoCluely
+
+detection = NoCluely.detect_cluely_detailed()
+
+if detection.is_detected:
+    print(f"🚨 Cluely Detected!")
+    print(f"   Severity: {detection.severity_level}")
+    print(f"   Windows: {detection.window_count}")
+    print(f"   Techniques: {', '.join(detection.evasion_techniques)}")
+else:
+    print("✅ System clean")
+```
+
+### Real-time Monitoring
+```python
+from no_cluely import CluelyMonitor
+
+def on_detected(detection):
+    print(f"🚨 Monitoring started! Severity: {detection.severity_level}")
+
+def on_removed():
+    print("✅ Monitoring stopped")
+
+monitor = CluelyMonitor()
+monitor.start(
+    interval=5.0,  # Check every 5 seconds
+    on_detected=on_detected,
+    on_removed=on_removed
+)
+
+# Your application continues...
+# Call monitor.stop() when done
+```
+
+## License
+
+MIT License
+
+## Contributing
+
+Issues and pull requests welcome at: https://github.com/your-org/no-cluely-driver 
