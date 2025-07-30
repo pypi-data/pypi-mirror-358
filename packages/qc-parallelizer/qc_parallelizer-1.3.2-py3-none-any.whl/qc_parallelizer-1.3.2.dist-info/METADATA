@@ -1,0 +1,41 @@
+Metadata-Version: 2.4
+Name: qc-parallelizer
+Version: 1.3.2
+Summary: A module for optimally combining and distributing quantum circuits
+Author-email: Henri Ahola <firstname.lastname@vtt.fi>
+License-Expression: MIT
+Project-URL: GitHub, https://github.com/vttresearch/qc-parallelizer
+Project-URL: Notebooks, https://github.com/vttresearch/qc-parallelizer/tree/main/notebooks
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: qiskit<1.3,>=1.0
+Requires-Dist: z3-solver>=4.0.0.0
+Requires-Dist: rustworkx>=0.15.0
+Provides-Extra: tests
+Requires-Dist: iqm-client[qiskit]; extra == "tests"
+Requires-Dist: pytest; extra == "tests"
+Requires-Dist: pytest-cov; extra == "tests"
+Provides-Extra: notebooks
+Requires-Dist: iqm-client[qiskit]; extra == "notebooks"
+Requires-Dist: ipykernel; extra == "notebooks"
+Requires-Dist: matplotlib; extra == "notebooks"
+Requires-Dist: pylatexenc; extra == "notebooks"
+Dynamic: license-file
+
+# Quantum Circuit Parallelizer
+
+[![python](https://img.shields.io/badge/python-3.10-blue.svg)](https://www.python.org)
+[![PyPI version](https://badge.fury.io/py/qc-parallelizer.svg)](https://pypi.org/project/qc-parallelizer)
+[![License: MIT](https://img.shields.io/badge/License-MIT-red.svg)](https://opensource.org/licenses/MIT)
+
+A Python module for optimally combining and distributing quantum circuits. Please find the source
+code, examples, and documentation, [on GitHub](https://github.com/vttresearch/qc-parallelizer). The
+diagram below illustrates the module's operation on a high level.
+
+![](https://raw.githubusercontent.com/vttresearch/qc-parallelizer/refs/heads/main/notebooks/parallelizer-full.drawio.png)
+
+## Authors
+
+This project is written and maintained by **Henri Ahola** and belongs to **VTT Technical Research
+Centre of Finland**.
