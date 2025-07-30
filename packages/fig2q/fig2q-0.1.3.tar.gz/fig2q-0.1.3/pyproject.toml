@@ -1,0 +1,27 @@
+[project]
+name = "fig2q"
+version = "0.1.3"
+description = "Directly upload Figma designs to Q"
+authors = [{ name = "NZZ Visuals", email = "visuals@nzz.ch" }]
+dependencies = ["requests", "PyYAML"]
+readme = "README.md"
+
+[project.scripts]
+fig2q = "fig2q.cli:main"
+
+[build-system]
+requires = ["setuptools", "wheel", "requests", "PyYAML"]
+build-backend = "setuptools.build_meta"
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "pytest-mock>=3.10",
+    "responses>=0.23",   # For mocking HTTP requests
+]
+
+[tool.pytest.ini_options]
+addopts = "-v -ra --cov=fig2q"
+testpaths = ["tests"]
+python_files = "test_*.py"
