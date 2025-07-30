@@ -1,0 +1,30 @@
+[build-system]
+requires = ["hatchling>=1.18"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pyw-core"
+version = "0.0.0.post1"
+description = "Reserved placeholder for pyw-core (umbrella namespace)"
+authors = [{name = "pythonWoods"}]
+license = {text = "MIT"}
+requires-python = ">=3.9"
+readme = "README.md"
+
+
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Typing :: Typed",
+]
+
+[project.urls]
+Homepage      = "https://github.com/pythonWoods/pyw-core"
+Documentation = "https://pythonwoods.dev/docs/pyw-core/latest/"
+Issues        = "https://github.com/pythonWoods/pyw-core/issues"
+Changelog     = "https://github.com/pythonWoods/pyw-core/releases"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pyw"]
