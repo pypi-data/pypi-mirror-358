@@ -1,0 +1,55 @@
+#!/bin/bash
+# HELP: Uninstall CodeGuard pre-commit hook from the current git repository
+# OPT: repo_path - Path to git repository (optional, defaults to current directory)
+
+set -euo pipefail
+
+# Default to current directory if no repo path provided
+REPO_PATH="${1:-$(pwd)}"
+
+# Ensure we have an absolute path
+REPO_PATH=$(realpath "$REPO_PATH")
+
+# Check if this is a git repository
+if [ ! -d "$REPO_PATH/.git" ]; then
+    echo "❌ Error: Not a git repository: $REPO_PATH"
+    echo "ℹ️  Please run this command from within a git repository"
+    exit 1
+fi
+
+HOOK_PATH="$REPO_PATH/.git/hooks/pre-commit"
+BACKUP_PATH="$HOOK_PATH.backup"
+
+# Check if hook exists
+if [ ! -f "$HOOK_PATH" ]; then
+    echo "ℹ️  No pre-commit hook found at: $HOOK_PATH"
+    exit 0
+fi
+
+# Check if this is a CodeGuard hook
+if grep -q "CodeGuard pre-commit hook" "$HOOK_PATH" 2>/dev/null; then
+    echo "🔍 Found CodeGuard pre-commit hook"
+    
+    # Remove the hook
+    rm "$HOOK_PATH"
+    echo "✅ CodeGuard pre-commit hook removed successfully!"
+    
+    # Check if there's a backup to restore
+    if [ -f "$BACKUP_PATH" ]; then
+        echo "📝 Found backup hook, restoring it..."
+        mv "$BACKUP_PATH" "$HOOK_PATH"
+        chmod +x "$HOOK_PATH"
+        echo "✅ Previous hook restored from backup"
+    fi
+    
+else
+    echo "⚠️  Pre-commit hook exists but doesn't appear to be a CodeGuard hook"
+    echo "📍 Hook location: $HOOK_PATH"
+    echo "ℹ️  Use 'codeguard git status' to check hook details"
+    echo "ℹ️  Manual removal required if you want to delete this hook"
+    exit 1
+fi
+
+echo ""
+echo "🎉 CodeGuard hook uninstallation complete!"
+echo "ℹ️  Commits will no longer be validated automatically"
