@@ -1,0 +1,41 @@
+Metadata-Version: 2.4
+Name: hanifx-timelock
+Version: 6.0.0
+Summary: A powerful file time-locking utility from the hanifx project.
+Home-page: https://github.com/hanifx-540/hanifx-timelock
+Author: Hanif Sajim
+Author-email: sajim4653@gmail.com
+Project-URL: Facebook, https://facebook.com/hanifx540
+Project-URL: GitHub, https://github.com/hanifx-540
+Keywords: hanifx timelock file-lock lock security
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Security :: Cryptography
+Classifier: Topic :: Software Development :: Libraries
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: project-url
+Dynamic: requires-python
+Dynamic: summary
+
+# hanifx-timelock
+
+A lightweight Python utility to lock any file until a specific date and time.
+
+## Installation
+
+```bash
+pip install hanifx-timelock
+
+from hanifx_timelock import lock_file
+
+lock_file("hello.py", "2025-08-01 10:00", mode="soft")
