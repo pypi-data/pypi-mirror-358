@@ -1,0 +1,85 @@
+[build-system]
+requires = ["setuptools>=67.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bridgex"
+version = "0.0.1-dev"
+description = "graphical interface for converting files to Markdown, built in Python and based on PySide6 and Markitdown"
+readme = { file = "README.md", content-type = "text/markdown", charset = "utf-8" }
+license = "MIT"
+authors = [{ name = "dev2forge", email = "bridgex@dev2forge.software" }]
+maintainers = [{ name = "tutosrive", email = "tutosrive@dev2forge.software" }]
+
+keywords = [
+    "markdown",
+    "converter",
+    "pyside6",
+    "gui",
+    "editor",
+    "viewer",
+    "pdf",
+    "docx",
+    "pptx",
+    "xls",
+    "xlsx",
+    "outlook",
+    "csv",
+    "txt",
+    "html",
+    "htm",
+    "file converter",
+    "markdown converter",
+    "markitdown",
+    "dev2forge",
+    "bridgex",
+    "microsoft office"
+]
+
+dependencies = [
+    "markitdown[pdf,docx,pptx,xls,xlsx,outlook]==0.1.1",
+    "chromologger==0.1.8",
+    "PySide6-Essentials==6.9.0",
+    "sqlazo==0.1.5",
+    "chromolog==0.2.4"
+]
+requires-python = ">=3.9,<=3.13"
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: End Users/Desktop",
+    "Intended Audience :: Developers",
+    "Topic :: Utilities",
+    "Topic :: Text Processing :: Markup",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Environment :: X11 Applications :: Qt",
+    "Environment :: Win32 (MS Windows)",
+    "Environment :: MacOS X"
+]
+
+[project.scripts]
+bridgex = "bridgex.__main__:main"
+
+[project.urls]
+Homepage = "https://github.com/Dev2Forge/bridgex"
+Repository = "https://github.com/Dev2Forge/bridgex"
+Issues = "https://github.com/Dev2Forge/bridgex/issues"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = { find = { where = ["src"] } }
+
+[tool.setuptools.package-data]
+bridgex = [
+    "NOTICE",
+    "OSL/*",
+    "interface/assets/**/*",
+    "logs/*",
+    "interface/translations/locale/**/*.qm",
+    "interface/translations/others/**/*.trg",
+    "interface/translations/others/**/*.srm"
+]
