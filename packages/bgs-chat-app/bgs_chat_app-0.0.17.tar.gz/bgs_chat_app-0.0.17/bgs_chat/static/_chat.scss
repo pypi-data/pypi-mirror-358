@@ -1,0 +1,159 @@
+//temp TODO Remove
+.great-ds-hidden {
+    display: none !important;
+}
+
+.bgs-chat-iframes-container {
+    display: flex;
+    flex-direction: row;
+}
+.bgs-chat-iframe-container-app {
+    height: 400px;
+    width: 400px;
+    padding-right: 20px;
+}
+
+@font-face {
+    font-family: 'Noto Sans';
+    src: url('/static/fonts/NotoSans-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Noto SemiBold';
+    src: url('/static/fonts/NotoSans-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+p {
+    font-family: 'Noto Sans';
+}
+h1 {
+    font-family: 'Noto SemiBold';
+}
+
+
+// Above Chat
+
+.great-ds-chat__heading_container {
+    margin-top: 15px;
+    flex-direction: row;
+    display: flex;
+}
+
+.great-ds-chat__heading-icon { 
+    height: 36px;
+    width: 36px;
+    margin-right: 15px;
+}
+
+.great-ds-chat__heading {
+    font-family: "Noto Sans";
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 45px;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.great-ds-chat__leading-text {
+    padding-bottom: 30px;
+    font-family: "Noto Sans";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 25px;
+}
+
+
+// Chat Container
+.great-ds-chat {
+    width: 66%;
+}
+
+.great-ds-chat__start_button,
+.great-ds-chat__end_button {
+    height: 40px;
+    width: 40px;
+}
+
+// Messages
+.great-ds-chat__messages-container{
+    display: flex;
+    flex-direction: column;
+    padding-top: 30px;
+
+    border-image: linear-gradient(to left, #009DBC 0%, #1D70B8 27.83%, #04043F 100%) 1 0 0;
+    border-width: 4px;
+    border-style: solid;
+    padding: 5px;
+
+}
+
+.great-ds-chat__message-container{
+
+    &--user {
+        align-self: flex-start;
+        background-color: #EEF2F6;
+        padding: 20px;
+        margin-top: 25px;
+        margin-bottom: 25px;
+        align-self: flex-end;
+
+    }
+    &--agent {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        width: 100%;
+        align-self: flex-start;
+    }
+}
+
+.great-ds-chat__message {
+    word-break: break-all;
+    margin: 0;
+    &--agent {
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+}
+
+
+
+.great-ds-chat__input-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.great-ds-chat__input {
+    width: 100%;
+}
+
+.great-ds-chat__input-button {
+    width: 40px;
+    height: 40px;
+    background-color: #1D70B8;
+    padding: 0;
+    border: 0;
+    &:hover{
+        .great-ds-chat__input-icon {
+            background-color: #003078ff;
+            background-color: #003078ff;
+        }
+    }
+}
+
+.great-ds-chat__input-icon {
+    background-color: #1D70B8;
+    color: #1D70B8;
+    padding: 11px;
+    height: 18px;
+    width: 18px;
+}
+// Below Chat
+
+
+// Fonts
