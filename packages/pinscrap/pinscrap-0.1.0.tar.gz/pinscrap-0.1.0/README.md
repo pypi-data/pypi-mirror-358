@@ -1,0 +1,68 @@
+# PinScrap  स्क्रैप
+
+[![PyPI version](https://badge.fury.io/py/pinscrap.svg)](https://badge.fury.io/py/pinscrap)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/release/python-380/)
+
+Una librería de scraping **avanzada y asíncrona** para Pinterest, diseñada para extraer datos de pines y tableros sin necesidad de una API Key oficial.
+
+### ⚠️ Advertencia Importante
+
+Este proyecto realiza scraping en Pinterest y va en contra de sus Términos de Servicio. El uso de esta librería es bajo tu propio riesgo. Pinterest puede cambiar su estructura web en cualquier momento, lo que puede romper esta librería hasta que sea actualizada. Úsala con responsabilidad.
+
+---
+
+### Características Principales
+
+*   **Asíncrono por Diseño**: Construido sobre `asyncio` y `Playwright` para un rendimiento extremadamente rápido y eficiente.
+*   **Sin API Key**: Accede a los datos públicos de Pinterest como si fueras un usuario real.
+*   **Búsqueda Avanzada**: Busca pines por términos clave y obtén una lista estructurada de resultados.
+*   **Modelos de Datos Robustos**: Utiliza Pydantic para validar y estructurar los datos extraídos, garantizando calidad y consistencia.
+*   **Descarga Automática**: Incluye una utilidad para descargar las imágenes de los pines encontrados.
+
+### Instalación
+
+```bash
+pip install pinscrap
+```
+Después de la instalación, necesitas instalar los navegadores que Playwright controlará:
+```bash
+playwright install
+```
+
+### Inicio Rápido
+
+Aquí tienes un ejemplo simple para buscar pines sobre "arquitectura futurista" y descargar las primeras 5 imágenes.
+
+```python
+import asyncio
+from pinscrap import PinScrapClient, download_pin_image
+from loguru import logger
+
+async def run_scraper():
+    client = PinScrapClient(headless=True)
+    
+    try:
+        search_results = await client.search("arquitectura futurista")
+        
+        logger.info(f"Búsqueda finalizada. Se encontraron {search_results.pin_count} pines.")
+        
+        download_tasks = []
+        for pin in search_results.pins[:5]:
+            logger.info(f"Añadiendo a la cola de descarga: {pin.id} - {pin.image_url}")
+            download_tasks.append(download_pin_image(pin.image_url))
+            
+        await asyncio.gather(*download_tasks)
+        
+    except Exception as e:
+        logger.error(f"Ha ocurrido un error durante el proceso: {e}")
+    finally:
+        await client.close()
+
+if __name__ == "__main__":
+    asyncio.run(run_scraper())
+```
+
+### Desarroladores Patchyn
+
+Esta libreria esta desarrollada por el proyecto Patchyn, un proyecto el cual se dedica a hacer librerias para facilitar las cosas :).

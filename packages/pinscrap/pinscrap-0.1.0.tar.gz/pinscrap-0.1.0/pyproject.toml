@@ -1,0 +1,30 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pinscrap"
+version = "0.1.0"
+authors = [
+  { name="Patchyn", email="kaitonekox@outlook.com" },
+]
+description = "Una librería de scraping avanzada para Pinterest."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Framework :: AsyncIO",
+    "Topic :: Internet :: WWW/HTTP :: Browsers",
+]
+dependencies = [
+    "playwright>=1.40.0",
+    "httpx[http2]>=0.25.0",
+    "pydantic>=2.5.0",
+    "loguru>=0.7.0"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/patchyn/pinscrap"
+"Bug Tracker" = "https://github.com/patchyn/pinscrap/issues"
