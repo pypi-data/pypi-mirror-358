@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "quillguard"
+version = "0.1.0"
+description = "QuillGuard: A multi-layered security system for LLM applications"
+authors = [
+    { name = "QuillAI Team", email = "team@quillai.ai" }
+]
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+dependencies = [
+    "openai>=1.0.0",
+    "nemoguardrails>=0.5.0",
+    "sentence-transformers>=2.2.2",
+    "numpy>=1.21.0",
+    "pydantic>=2.0.0",
+    "python-dotenv>=1.0.0",
+    "PyYAML>=6.0.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "black>=23.0.0",
+    "mypy>=1.0.0",
+    "pytest-asyncio>=0.21.0"
+]
+
+[tool.setuptools]
+packages = ["quillguard", "quillguard.guardrails", "quillguard.generation", "quillguard.logging"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+python_files = ["test_*.py"] 

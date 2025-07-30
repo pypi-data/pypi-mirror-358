@@ -1,0 +1,108 @@
+Metadata-Version: 2.4
+Name: quillguard
+Version: 0.1.0
+Summary: QuillGuard: A multi-layered security system for LLM applications
+Author-email: QuillAI Team <team@quillai.ai>
+License-Expression: MIT
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: openai>=1.0.0
+Requires-Dist: nemoguardrails>=0.5.0
+Requires-Dist: sentence-transformers>=2.2.2
+Requires-Dist: numpy>=1.21.0
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: python-dotenv>=1.0.0
+Requires-Dist: PyYAML>=6.0.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.21.0; extra == "dev"
+Dynamic: license-file
+
+# QuillGuard
+
+A multi-layered security system for LLM applications, built on top of NeMo Guardrails.
+
+## Features
+
+- NeMo Guardrails integration for content filtering
+- OpenAI content generation with security checks
+- Comprehensive security logging
+- Easy-to-use SDK interface
+- Configurable security rules
+
+## Installation
+
+```bash
+pip install quillguard
+```
+
+## Quick Start
+
+```python
+import asyncio
+from duoguard_nemo import DuoGuardNemoSDK
+
+async def main():
+    # Initialize the SDK
+    sdk = DuoGuardNemoSDK(
+        config_path="config",  # Path to NeMo Guardrails config
+        openai_api_key="your-api-key",  # Or use OPENAI_API_KEY env var
+        log_path="logs/security.log"
+    )
+    
+    # Process a message
+    result = await sdk.process_message(
+        messages=[{"role": "user", "content": "Write an article about healthy eating."}],
+        system_prompt="You are an AI Article writer..."
+    )
+    
+    if result["success"]:
+        print("Generated content:", result["response"])
+    else:
+        print("Error:", result["error"])
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
+## Configuration
+
+### NeMo Guardrails Config
+
+Place your NeMo Guardrails configuration in the `config` directory. The SDK will use this for content filtering.
+
+### Environment Variables
+
+- `OPENAI_API_KEY`: Your OpenAI API key (optional if provided during initialization)
+
+## Security Logging
+
+Security decisions and events are logged to `logs/security.log` by default. Each log entry includes:
+- Timestamp
+- Event type
+- Message content
+- Decision details
+- Error information (if any)
+
+## Development
+
+1. Clone the repository
+2. Install development dependencies:
+   ```bash
+   pip install -e ".[dev]"
+   ```
+3. Run tests:
+   ```bash
+   pytest
+   ```
+
+## License
+
+MIT License
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request. 
