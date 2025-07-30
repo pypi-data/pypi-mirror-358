@@ -1,0 +1,19 @@
+[project]
+name = "slaac-resolver"
+version = "0.0.2"
+description = "Discover SLAAC IPv6 neighbors and resolve their names via mDNS (Avahi)"
+readme = "README.md"
+requires-python = ">=3.7"
+license = {text = "GNU General Public License v3.0 (GPLv3)"}
+authors = [{ name = "Carlos Junior", email = "cjuniorfox@gmail.com" }]
+keywords = ["slaac", "ipv6", "mdns", "avahi", "networking"]
+
+[project.urls]
+Homepage = "https://github.com/cjuniorfox/slaac-resolver"
+
+[project.scripts]
+slaac-resolver = "slaac_resolver.cli:main"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
