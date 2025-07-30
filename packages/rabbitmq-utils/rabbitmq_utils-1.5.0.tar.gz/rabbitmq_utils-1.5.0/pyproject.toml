@@ -1,0 +1,33 @@
+[project]
+name = "rabbitmq-utils"
+version = "1.5.0"
+description = "Provide easy connection to RabbitMQ server."
+authors = [
+    { name = "Tahir Rafique", email = "tahirrafiqueasad@gmail.com" }
+]
+dependencies = [
+    "pika>=1.3.0"
+]
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = ["rabbitmq", "consumer", "producer", "publisher", "subscriber"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Information Technology",
+    "Natural Language :: English",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
