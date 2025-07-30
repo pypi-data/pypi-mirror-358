@@ -1,0 +1,440 @@
+Metadata-Version: 2.4
+Name: ecidcodes
+Version: 0.2.8
+Summary: Python bindings for ecidcodes Library
+Author: EcoLogic Computing GmbH
+Author-email: info@ecologic-computing.com
+License: Proprietary Software License Agreement
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pybind11>=2.6.0
+Requires-Dist: setuptools
+Requires-Dist: wheel
+Requires-Dist: scikit-build-core
+Dynamic: author
+Dynamic: author-email
+Dynamic: license
+Dynamic: license-file
+Dynamic: requires-python
+
+# IDCODES Library
+
+## Overview
+
+**`IDCODES`** is a C++ library designed to provide tools for Binary Galois (Finite) Field `GF` and
+ includes functionality for polynomial evaluation `RSID` and `RS2ID`, hashing `SHA1ID` and `SHA256ID`, Reed-Muller `RMID`,
+ and collision testing modules. The library is designed for use in high-performance computational environments and
+ supports modular, extensible templates.
+
+<!-- ## Benchmark Results  -->
+<!-- ![Our Results](docs/figures/flowchart.png) -->
+
+## Features
+
+- **Galois Field Operations:** Initialization, multiplication, and evaluation of polynomials over finite fields `GF 2^n = 1 to 64`.
+- **Reed Solomon Codes:** Evaluate Reed-Solomon and Concatenated Reed-Solomon Tagging codes
+- **Hashing Algorithms:** Implements `SHA-1` and `SHA-256` for secure message hashing.
+- **Reed-Muller Codes:** Evaluate multivariable polynomials for error correction.
+- **Collision Testing:** Measure collision probabilities in tag values for large-scale simulations.
+- **Speed Benchmarks:** Measure execution speed for various parameters with CLI input and save to CSV Results.
+
+
+## Requirements
+
+- **C++:** Requires a modern C++ compiler with support for C++17 and [`CMake`](https://cmake.org/).
+
+  On Ubuntu the `C/C++` compiler and `cmake` can be installed with:
+  ```bash
+  sudo apt update
+  sudo apt install build-essential cmake
+  ```
+
+- **Dependencies:**
+  - [Boost](https://www.boost.org) (for `UUID` and `SHA-1`)
+  - [OpenSSL](https://www.openssl.org) (for cryptographic functions and `SHA-256`)
+  - [LibSSL API](https://wiki.openssl.org/index.php/Libssl_API)
+  - [Python 3.12](https://www.python.org/downloads/release/python-3120/) 
+
+  On Ubuntu [`Boost`](https://www.boost.org), [`OpenSSL`](https://www.openssl.org) and  [`Libssl`](https://wiki.openssl.org/index.php/Libssl_API) can be installed with the following commands:
+  ```bash
+  sudo apt install libboost-all-dev openssl libssl-dev
+  ```
+
+## Build Instructions
+
+Follow these steps to install dependencies, compile and build the project:
+1. Clone the repository and checkout development branch:
+   ```bash
+   # Over HTTPS (requires login with Github credentials)
+   git clone https://github.com/Ecologic-Computing/idcodes.git
+   # Over SSH (requires SSH key to be added to Github account)
+   git clone git@github.com:Ecologic-Computing/idcodes.git
+   cd idcodes
+   git checkout release
+   ```
+2. Install necessary dependencies on `Ubuntu` using `install_dependencies.sh` script:
+    ```bash
+    chmod +x install_dependencies.sh
+    sudo ./install_dependencies.sh
+    ```
+3. Create a build directory in the repository root folder:
+    ```bash
+    mkdir build
+    cd build
+    ```
+4. Run `cmake` to generate the build files & Compile the code using `make`:
+    ```bash
+    cmake ..
+    make
+    ```
+5. Install Scripts for benchmarking and Other Python files:
+    ```bash
+    make install 
+    ```
+6. Create a Python 3.12 Virtual environment at location `./.venv` using `requirements.txt` file to run python files:
+    ```bash
+    bash ./python_venv.sh
+    ```
+7. Activate python environment:
+    ```bash
+    source .venv/bin/activate
+    ```
+
+
+### Using [CMakePresets.json](CMakePresets.json) to build and install:
+From the root directory of `idcodes` repo run the following commands to build and install
+See `buildPresets` in `CMakePresets.json` for common build types such as `Release` and `Debug` as well as Platform Architecture for Intel/AMD `x86_64` or for ARM `aarch64`
+
+1. To configure current Preset run: 
+    ```bash
+    cmake --preset <buildPresets.name>
+    ```
+2. To build run:
+    ```bash
+    cmake --build --preset <buildPresets.name>
+    ```
+3. To install run:
+    ```bash
+    cmake --build --target install --preset <buildPresets.name>
+    ```
+
+### Example
+This example shows benchmark CLI utility:
+```bash
+$ source .venv/bin/activate
+$ cd out/build/GCC_ARM
+$ ./bin/benchmarks --help
+Idcodes Library Benchmark 
+
+Allowed options:
+  --help                       help message
+  --n_iter arg (=100000)       Number of iterations for benchmarking, positive 
+                               integer >0
+  --vec_len arg                Vector length in Bytes for benchmarking, positive integer
+                               >0
+  --id_code_type arg           ID code type: SHA256ID | SHA1ID | RSID | RS2ID |
+                               RMID
+  --tag_pos arg (=2)           Tag Position for encoding: Positive integer >=0
+  --gf2_exp arg                GF(2^n) Exponent values,  positive integer >=0 
+                               max 64
+  --data_type arg (=txt)       Data Type: txt | bin | random
+  --input_data arg             Message Input File, full path
+  --rs2_inner_tag_pos arg (=2) Concatenated RS Inner tag position, positive 
+                               integer >=0
+  --rm_order arg (=)          Reed Muller monomial order, positive integer >=0
+  --csv_file_path arg (=./)    CSV file path Benchmark Results, make sure Path 
+                               exists on system!
+
+```
+Main Function:
+```bash
+$ ./main --help
+Idcodes Library Main Function 
+
+Allowed options:
+  --help                       help message
+  --vec_len arg                Vector length in Bytes for benchmarking, positive integer
+                               >0
+  --id_code_type arg           ID code type: SHA256ID | SHA1ID | RSID | RS2ID |
+                               RMID
+  --tag_pos arg (=2)           Tag Position for encoding: Positive integer >=0
+  --gf2_exp arg                GF(2^n) Exponent values,  positive integer >=0 
+                               max 64
+  --data_type arg (=txt)       Data Type: txt | bin | random
+  --input_data arg             Message Input File, full path
+  --rs2_inner_tag_pos arg (=2) Concatenated RS Inner tag position, positive 
+                               integer >=0
+  --rm_order arg (=)          Reed Muller monomial order, positive integer >=0
+```
+
+
+Python CSV benchmark plot utility:
+```bash
+(.venv)$ python3 ./bin/benchmark_csv_plot.py --help
+usage: benchmark_csv_plot.py [-h] [--csv_path CSV_PATH] [--output_plot_path OUTPUT_PLOT_PATH] [--idtypes IDTYPES [IDTYPES ...]] [--strlens STRLENS [STRLENS ...]] [--expsizes EXPSIZES [EXPSIZES ...]] [--tagpos TAGPOS [TAGPOS ...]]
+
+Plot CSV data.
+
+options:
+  -h, --help            show this help message and exit
+  --csv_path CSV_PATH [CSV_PATH ...]
+                        Path to the CSV files. e.g. ./data1.csv ./data2.csv
+  --output_plot_path OUTPUT_PLOT_PATH
+                        Path to save plots. e.g. ./output.png
+  --idtypes IDTYPES [IDTYPES ...]
+                        List of ID types. e.g. RSID SHA256ID
+  --lengths LENGTHS [LENGTHS ...]
+                        List of string lengths. e.g. 10 100 1000 10000
+  --expsizes EXPSIZES [EXPSIZES ...]
+                        List of experiment sizes. e.g. 8 16
+  --tagpos TAGPOS [TAGPOS ...]
+                        List of tag positions. e.g. 2 4
+```
+
+## Development
+
+- Setup Clang formatter as the default linting tool before committing any changes:
+  * Install `clang-format` tool in your environment. On Ubuntu install `clang-format` with this command:
+    ```bash 
+    sudo apt install clang-format
+    ```
+  * Install VS code extension [Clang-Format](https://marketplace.visualstudio.com/items?itemName=xaver.clang-format) to add the formatter to list of formatters
+
+    Once Installed, open any `*.cpp` file and from command selection palette (`Ctrl+Shift+P`) type `Format Document With...` `-> ` `Configure Default Formatter` `-> ` `Clang-Format`
+
+  * See `.clang-format` file for applied configuration
+- Enable clang formatter to auto apply formatting on save with VS code 
+  Add `"editor.formatOnSave": true,` to your `settings.json` file
+
+- Setup Python formatter as default linting tool for python before committing any changes
+  * Install VS code extension [Black Formatter](https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter)
+  * Once installed in VS code enable this setting:
+    Add the following lines to `settings.json` **Ctrl+Shift+P** and type `Preferences: Open User Settings (JSON)`:
+    This should enable format on save and set Black Formatter as default
+    ```json
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnSave": true
+      }
+    ```
+
+- Tips
+
+  >To view Make Build when using CMAKE you can add  to CMake `cacheVariables` this option to print more detailed verbose output of makefile for debugging or troubleshooting linking errors and check if the set flags are applied correctly.
+  ```json
+  "CMAKE_VERBOSE_MAKEFILE": "ON"
+  ```
+### Documentation
+To generate documentation ensure `docs/doxyfile` is configured correctly.
+
+- **Prerequisites**
+
+    Install `Doxygen` `Graphviz` and `LaTeX` on your system. 
+    On Ubuntu this can be installed with following:
+  ```bash
+  sudo apt install doxygen graphviz texlive-latex-extra 
+  ``` 
+- **Build Documentation**
+
+  From your `build` directory run the following to generate `html` and `pdf` documentation
+  ```bash
+  make doc
+  ```
+  When using `CmakePresets.json` run the following command from the root directory of repo to generate documentation:
+  ```
+  cmake --build --target doc --preset  <buildPresets.name>
+  ```
+- **View Documentation**
+
+  The `html` documentation can be viewed in a web browser by opening file `docs/html/index.html`
+  > **Tip** when using WSL the documentation can be viewed by opening the following address in a browser:
+  > `file://wsl.localhost/Ubuntu/<PATH_TO_IDCODES>/build/docs/html/index.html` 
+
+  The `pdf` documentation can be found inside `build` directory at `docs/latex/idcodes_documentation.pdf`
+
+
+
+  
+
+## CI/CD Pipeline
+
+### [`act`](https://github.com/nektos/act) - Run GitHub Actions **Locally** 
+
+#### Install Docker
+
+`act` uses Docker to run workflows, so ensure Docker is installed on your system. You can install Docker using various means. We will show how to install Docker using `apt` on Ubuntu as desribed in [Install Docker Engine on Ubuntu -> Install using the apt repository](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository)
+
+```bash
+# Uininstall old versions of Docker components
+for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
+```
+```bash
+# Add Docker's official GPG key:
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+```
+
+```bash
+# Install latest version
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+After successfully installing docker follow the steps outlined in [Linux Post-Install](https://docs.docker.com/engine/install/linux-postinstall/) guide.
+
+Configure Docker to startup automatically on boot with `systemd`
+```bash
+sudo systemctl enable docker.service
+sudo systemctl enable containerd.service
+```
+Make sure to restart your system before the next step
+
+Verify installation is successful
+```bash
+sudo docker run hello-world
+```
+
+Post-Install Setup for `non-root` user, create `docker` group and add your `user` to it:
+```bash
+sudo groupadd docker
+sudo usermod -aG docker $USER
+```
+Now, restart your terminal or reboot the system to ensure changes are applied correctly. Verify by running command `docker run hello-world` without `sudo`.
+
+
+#### Install Act
+Follow the instructions to install  [`act`](https://nektosact.com/installation/index.html) on official website through `tar` package
+Copy the link for your package latest release and follow instructions below:
+
+```bash
+mkdir temp
+cd temp
+# Replace <arch_tar.gz> in the next command with Linux 64-bit (arm64/aarch64) link below
+#https://github.com/nektos/act/releases/latest/download/act_Linux_arm64.tar.gz
+#Replace <arch_tar.gz> in the next command with Linux 64-bit (amd64/x86_64) link below
+#https://github.com/nektos/act/releases/latest/download/act_Linux_x86_64.tar.gz 
+wget <arch_tar.gz>
+```
+Untar and install
+```
+tar -xvf <arch_tar.gz>.tar.gz 
+# Move act binary to /usr/bin/
+sudo mv act /usr/bin/
+# Delete temporary folder
+cd ..
+rm -rd temp
+```
+
+Check if act is successfully installed by running:
+```bash
+act --version
+```
+
+To run the default workflow defined in `.github/workflows/ci.yml:` in `jobs` section
+`<Job ID>` is the name of the build. which can be verified by running `act --list`
+```
+act -j `<Job ID>`
+```
+Using `-W <path_to_workflows>` override default github workflow
+```bash
+# Specify your own workflow for act
+act -W '.act/workflows/'
+```
+When run first time select `Medium` image size ~ 500MB
+
+
+### [`Github Actions`](https://docs.github.com/en/actions) Run Github Actions on Cloud
+
+Install [Github Actions VS Code Extension](https://marketplace.visualstudio.com/items?itemName=github.vscode-github-actions) to view logs
+
+Runs all workflows by default. The Running actions progress can be seen here: [Actions Page](https://github.com/Ecologic-Computing/idcodes/actions)
+
+Runs the default workflow defined in `.github/workflows/ci.yml:` in `jobs` section
+
+When a `push` or `pull` request is made on `branch_name` as defined in `ci.yml` all github actions are executed
+```yaml
+on:
+  push:
+    branches:
+      - branch_name
+  pull_request:
+    branches:
+      - branch_name
+```
+
+The released artifacts can be found at [Release Page](https://github.com/Ecologic-Computing/idcodes/releases).
+
+
+### Building using docker
+
+VS Code extensions to use to see running containers and images.
+
+[Docker VS Code Extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) 
+
+
+We define settings for container in `Dockerfile` in current directory `.`  and build image with  `-t, --tag` Name and optionally a tag in the "name:tag" format `idcodes:latest` using 
+```bash
+docker build -t idcodes:latest .
+```
+Run Container
+
+```bash
+docker run idcodes
+```
+
+Open Docker Container in `-i, --interactive` interactive mode with `-t, --tty ` in a tty console and  --rm `remove on exit` 
+```bash
+docker run --rm -i -t idcodes:latest
+```
+
+### Build docker container and use it in act GH Action job 
+
+```bash
+# First build the docker container 
+docker build -t idcodes .
+# Use local container to run jobs on self-hosted container in this case simply the idcodes:latest
+act --container-architecture=linux/arm64 --pull=false -P self-hosted=idcodes:latest -W .act/workflows/ -j release
+ ```
+
+### Create Release with GH Actions job
+```bash
+# Install gh cli
+sudo apt install gh
+# Configure with SSH
+gh auth login
+
+# To generate a token run this command
+gh auth token
+```
+```bash
+#
+mkdir -p $HOME/.act
+echo "--artifact-server-path $HOME/.act" >> $HOME/.actrc
+# Generate a token by visiting this site: https://github.com/settings/tokens and replace SECRET_VALUE below
+echo "GITHUB_TOKEN=SECRET_VALUE" >> ./act/act.secrets
+# For secrets use `--secret-file ./act/act.secrets`
+# Alternatively use `-s GITHUB_TOKEN="$(gh auth token)"`
+docker build --progress=plain -t idcodes_act_node -f dev/docker_templates/act_node/Dockerfile .
+# Replace  --container-architecture=linux/arm64 | amd64 appropriately
+# Otherwise you will get this Error: Error response from daemon: pull access denied for idcodes_act_node, repository does not exist or may require 'docker login': denied: requested access to the resource is denied
+act --use-new-action-cache --verbose --secret-file ./act/act.secrets --container-architecture=linux/amd64 --pull=false -P self-hosted=idcodes_act_node:latest -W .act/workflows/ -j release
+act --use-new-action-cache --verbose -s GITHUB_TOKEN="$(gh auth token)" --container-architecture=linux/arm64 --pull=false -P self-hosted=idcodes_act_node:latest -W .act/workflows/ -j release
+```
+
