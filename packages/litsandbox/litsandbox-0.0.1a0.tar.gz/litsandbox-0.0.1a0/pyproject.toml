@@ -1,0 +1,33 @@
+[project]
+name = "litsandbox"
+dynamic = ["version"]
+description = "Safe and persistent environment for running AI generated code."
+readme = "README.md"
+license = { text = "Apache-2.0" }
+authors = [
+    { name = "Lightning AI", email = "community@lightning.ai" }
+]
+requires-python = ">=3.9"
+dependencies = [
+    "lightning-sdk>=0.2.23",
+]
+urls = {Homepage = "https://github.com/Lightning-AI/litsandbox"}
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "src/litsandbox/__about__.py"
+pattern = "__version__ = \"(?P<version>.+)\""
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[project.optional-dependencies]
+dev = [
+    "coverage>=7.9.1",
+    "pytest>=8.4.1",
+    "coverage[toml]>=7.5.3",
+    "pytest-cov>=6.2.1",
+]
