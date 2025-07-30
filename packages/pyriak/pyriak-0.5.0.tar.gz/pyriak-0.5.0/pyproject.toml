@@ -1,0 +1,107 @@
+[tool.poetry]
+name = "pyriak"
+version = "0.5.0"
+description = "An implementation of Entity Component System architecture"
+authors = ["aatle <168398276+aatle@users.noreply.github.com>"]
+license = "MIT"
+readme = "README.md"
+keywords = ["ecs", "framework", "architecture"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Intended Audience :: Developers",
+    "Typing :: Typed",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+
+[tool.poetry.dependencies]
+python = ">=3.10"
+
+[tool.poetry.group.dev.dependencies]
+ruff = ">=0.8.0"
+mypy = "^1.14.0"
+
+[tool.poetry.urls]
+Repository = "https://github.com/aatle/pyriak.git"
+Issues = "https://github.com/aatle/pyriak/issues"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.ruff]
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "W",
+    "I",
+    "N",
+    "B",
+    "A",
+    "Q",
+    "UP",
+    "C4",
+    "PL",
+    "RUF",
+    "ARG",
+    "SIM",
+    "PIE",
+    "BLE",
+    "FBT",
+    "ISC",
+    "RSE",
+    "FLY",
+    "RET",
+    "T20",
+    "ICN",
+    "TC",
+    "SLOT",
+    "PERF",
+    "ANN",
+    "FURB",
+]
+ignore = ["SIM105", "PERF203", "ISC001", "PLC0414", "RUF022", "RUF023", "ANN401"]
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+
+
+[tool.mypy]
+enable_error_code = [
+    "possibly-undefined",
+    "redundant-expr",
+    "truthy-bool",
+    "truthy-iterable",
+    "ignore-without-code",
+    "redundant-self",
+    "unused-ignore",
+    "unimported-reveal",
+    "mutable-override",
+    "deprecated",
+]
+warn_unused_ignores = true
+warn_return_any = true
+warn_redundant_casts = true
+warn_unreachable = true
+warn_incomplete_stub = true
+local_partial_types = true
+no_implicit_reexport = true
+strict_equality = true
+check_untyped_defs = true
+extra_checks = true
+disallow_any_unimported = true
+disallow_subclassing_any = true
+disallow_incomplete_defs = true
+disallow_untyped_defs = true
+disallow_untyped_decorators = true
+disallow_untyped_calls = true
