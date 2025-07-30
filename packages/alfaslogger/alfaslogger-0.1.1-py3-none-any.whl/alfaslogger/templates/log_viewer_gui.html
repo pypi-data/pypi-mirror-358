@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alfas Logger</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --light-bg: #eef2f7;
+            --light-container-bg: #ffffff;
+            --light-text: #333;
+            --light-header-text: #2c3e50;
+            --light-control-bg: #ffffff;
+            --light-control-border: #ced4da;
+            --light-button-primary: #007bff;
+            --light-button-primary-hover: #0056b3;
+            --light-button-secondary: #6c757d;
+            --light-button-secondary-hover: #5a6268;
+            --light-log-output-bg: #f8f8f8;
+            --light-log-output-border: #ddd;
+            --light-modal-bg: #fefefe;
+            --light-modal-border: #888;
+            --light-modal-header: #007bff;
+            --log-debug: #888;
+            --log-info: #5dade2;
+            --log-warning: #f4d03f;
+            --log-error: #e74c3c;
+            --log-critical: #c0392b;
+        }
+
+        body.dark-theme {
+            --dark-bg: #2c3e50;
+            --dark-container-bg: #34495e;
+            --dark-text: #ecf0f1;
+            --dark-header-text: #ecf0f1;
+            --dark-control-bg: #2c3e50;
+            --dark-control-border: #4a667b;
+            --dark-button-primary: #2980b9;
+            --dark-button-primary-hover: #3498db;
+            --dark-button-secondary: #7f8c8d;
+            --dark-button-secondary-hover: #95a5a6;
+            --dark-log-output-bg: #212832;
+            --dark-log-output-border: #3d4452;
+            --dark-modal-bg: #3a536b;
+            --dark-modal-border: #4a667b;
+            --dark-modal-header: #5dade2;
+
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+        
+        body.dark-theme .container {
+            background: var(--dark-container-bg);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        body.dark-theme h1 {
+            color: var(--dark-header-text);
+        }
+        body.dark-theme .controls {
+            background-color: var(--dark-control-bg);
+            border: 1px solid var(--dark-control-border);
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+        }
+        body.dark-theme .controls label {
+            color: #bdc3c7;
+        }
+        body.dark-theme .controls select, 
+        body.dark-theme .controls input[type="number"], 
+        body.dark-theme .controls button, 
+        body.dark-theme .controls a {
+            background-color: var(--dark-button-secondary);
+            color: var(--dark-text);
+            border-color: var(--dark-control-border);
+        }
+        body.dark-theme .controls button:hover, 
+        body.dark-theme .controls a:hover {
+            background-color: var(--dark-button-secondary-hover);
+        }
+        body.dark-theme #log-output {
+            background-color: var(--dark-log-output-bg);
+            color: var(--dark-text);
+            border: 1px solid var(--dark-log-output-border);
+            box-shadow: inset 0 1px 5px rgba(0,0,0,0.2);
+        }
+        body.dark-theme .log-entry {
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        body.dark-theme #theme-toggle {
+            background-color: var(--dark-button-secondary);
+            border-color: var(--dark-button-secondary);
+        }
+        body.dark-theme #theme-toggle:hover {
+            background-color: var(--dark-button-secondary-hover);
+        }
+        body.dark-theme .modal-content {
+            background-color: var(--dark-modal-bg);
+            color: var(--dark-text);
+            border: 1px solid var(--dark-modal-border);
+        }
+        body.dark-theme .close-button {
+            color: #ccc;
+        }
+        body.dark-theme .close-button:hover,
+        body.dark-theme .close-button:focus {
+            color: var(--dark-text);
+        }
+        body.dark-theme .modal-content h2 {
+            color: var(--dark-modal-header);
+        }
+        body.dark-theme .modal-options button {
+            background-color: #27ae60;
+        }
+        body.dark-theme .modal-options button:hover {
+            background-color: #2ecc71;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--light-bg);
+            color: var(--light-text);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 30px;
+            border-radius: 10px;
+            background: var(--light-container-bg);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        h1 {
+            color: var(--light-header-text);
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 700;
+            font-size: 2.5em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .controls {
+            margin-bottom: 25px;
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--light-control-bg);
+            border: 1px solid var(--light-control-border);
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .controls label {
+            font-weight: 500;
+        }
+        .controls select, .controls input[type="number"], .controls button, .controls a {
+            padding: 10px 15px;
+            border: 1px solid var(--light-control-border);
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: all 0.2s ease-in-out;
+            box-sizing: border-box;
+            text-decoration: none;
+            background-color: var(--light-container-bg);
+            color: var(--light-text);
+        }
+        .controls select:focus, .controls input[type="number"]:focus, .controls button:focus, .controls a:focus {
+            border-color: var(--light-button-primary);
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+            outline: none;
+        }
+        .controls button, .controls a {
+            background-color: var(--light-button-primary);
+            color: white;
+            cursor: pointer;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .controls button:hover, .controls a:hover {
+            background-color: var(--light-button-primary-hover);
+            transform: translateY(-1px);
+        }
+        #status-message {
+            margin-left: 15px;
+            font-size: 0.9em;
+            color: #28a745;
+        }
+
+        #log-output {
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Fira Code', monospace;
+            white-space: pre-wrap;
+            max-height: 70vh;
+            overflow-y: auto;
+            font-size: 0.9em;
+            background-color: var(--light-log-output-bg);
+            color: var(--light-text);
+            border: 1px solid var(--light-log-output-border);
+            box-shadow: inset 0 1px 5px rgba(0,0,0,0.05);
+        }
+        .log-entry {
+            margin-bottom: 2px;
+            line-height: 1.3;
+            padding: 1px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+
+        .log-entry.DEBUG { color: var(--log-debug); }
+        .log-entry.INFO { color: var(--log-info); }
+        .log-entry.WARNING { color: var(--log-warning); }
+        .log-entry.ERROR { color: var(--log-error); }
+        .log-entry.CRITICAL { color: var(--log-critical); font-weight: bold; text-decoration: underline; }
+        
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: none;
+            margin-left: 10px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: var(--light-button-secondary);
+            border-color: var(--light-button-secondary);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: background-color 0.2s, transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+        }
+        #theme-toggle:hover {
+            background-color: var(--light-button-secondary-hover);
+            transform: scale(1.05);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: var(--light-modal-bg);
+            margin: auto;
+            padding: 20px;
+            border: 1px solid var(--light-modal-border);
+            width: 80%;
+            max-width: 600px;
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+            animation: fadeIn 0.3s;
+            color: var(--light-text);
+        }
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .modal-content h2 {
+            margin-top: 0;
+            color: var(--light-modal-header);
+        }
+        .modal-content h3 {
+            color: var(--light-header-text);
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        body.dark-theme .modal-content h3 {
+            color: var(--dark-header-text);
+        }
+
+        .modal-options button {
+            display: block;
+            width: calc(100% - 20px);
+            margin: 10px auto;
+            background-color: #28a745;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.2s;
+        }
+        .modal-options button:hover {
+            background-color: #218838;
+        }
+        
+        .modal-options button.clear-option-button {
+            background-color: #dc3545;
+        }
+        .modal-options button.clear-option-button:hover {
+            background-color: #c82333;
+        }
+        .modal-options button.clear-option-button.console-only {
+            background-color: #ffc107;
+            color: #333;
+        }
+        .modal-options button.clear-option-button.console-only:hover {
+            background-color: #e0a800;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        #log-size-display {
+            text-align: right;
+            font-size: 0.9em;
+            color: #777;
+            margin-top: 10px;
+        }
+        body.dark-theme #log-size-display {
+            color: #bbb;
+        }
+
+        #downloadFileList {
+            max-height: 250px;
+            overflow-y: auto;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            text-align: left;
+            padding: 10px;
+            background-color: #f0f0f0;
+            color: #333;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9em;
+        }
+        body.dark-theme #downloadFileList {
+            border: 1px solid var(--dark-control-border);
+            background-color: #2c3e50;
+            color: var(--dark-text);
+        }
+        #downloadFileList a {
+            display: block;
+            padding: 5px;
+            text-decoration: none;
+            color: var(--light-button-primary);
+            transition: background-color 0.2s;
+        }
+        #downloadFileList a:hover {
+            background-color: #e9ecef;
+            color: var(--light-button-primary-hover);
+        }
+        body.dark-theme #downloadFileList a {
+            color: var(--dark-button-primary);
+        }
+        body.dark-theme #downloadFileList a:hover {
+            background-color: #3a536b;
+            color: var(--dark-button-primary-hover);
+        }
+        .file-entry {
+            margin-bottom: 3px;
+        }
+        .file-entry:last-child {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Alfas Logger</h1>
+
+        <button id="theme-toggle">
+            <i class="fas fa-sun"></i>
+        </button>
+
+        <div class="controls">
+            <label for="logLevel">Log Seviyesi:</label>
+            <select id="logLevel">
+                <option value="ALL">Tümü</option>
+                <option value="DEBUG">DEBUG</option>
+                <option value="INFO">INFO</option>
+                <option value="WARNING">WARNING</option>
+                <option value="ERROR">ERROR</option>
+                <option value="CRITICAL">CRITICAL</option>
+            </select>
+            
+            <button onclick="openClearLogsModal()">Logları Temizle/Sil</button>
+            <span id="status-message"></span>
+            <div class="loader" id="loader"></div>
+
+            <div style="width: 100%; text-align: center; margin-top: 15px;">
+                <button onclick="openDownloadModal()">Logları İndir</button>
+            </div>
+        </div>
+
+        <div id="log-output">
+            Web Soket bağlantısı bekleniyor...
+        </div>
+        <div id="log-size-display">Log Dosyası Boyutu: Hesaplama bekleniyor...</div>
+    </div>
+
+    <div id="downloadModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeDownloadModal()">&times;</span>
+            <h2>İndirmek İstediğiniz Dosyayı Seçin</h2>
+            <div id="downloadFileList">
+                Yükleniyor...
+            </div>
+            <div class="modal-options download-options">
+                <button onclick="downloadFile('/download_all_logs_zip', 'all_application_logs.zip', true)">Tüm Logları ZIP Olarak İndir</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="clearLogsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeClearLogsModal()">&times;</span>
+            <h2>Logları Nereden Temizlemek/Silmek İstersiniz?</h2>
+            <h3>Aktif Logları Temizle (Ekran/DB/Dosya İçeriği)</h3>
+            <div class="modal-options clear-options">
+                <button class="clear-option-button console-only" onclick="clearLogs('console')">Sadece Ekran/Terminal</button>
+                <button class="clear-option-button" onclick="clearLogs('file')">Sadece Aktif Log Dosyası İçeriği</button>
+                <button class="clear-option-button" onclick="clearLogs('database')">Sadece Aktif Veritabanı İçeriği</button>
+                <button class="clear-option-button" onclick="clearLogs('all')">Hepsini Temizle (Aktif Loglar)</button>
+            </div>
+            <h3 style="margin-top: 25px;">Dosyaları Uzantısına Göre Sil (Klasörlerden)</h3>
+            <div class="modal-options clear-options">
+                <button class="clear-option-button" onclick="deleteLogsByExtension('log')">.log Dosyalarını Sil</button>
+                <button class="clear-option-button" onclick="deleteLogsByExtension('db')">.db Dosyalarını Sil</button>
+                <button class="clear-option-button" onclick="deleteLogsByExtension('zip')">.zip Dosyalarını Sil</button>
+                <button class="clear-option-button" onclick="deleteLogsByExtension('all_files')">Tüm Log Dosyalarını Sil (Tüm Uzantılar)</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        const logOutput = document.getElementById('log-output');
+        const logLevelSelect = document.getElementById('logLevel');
+        const statusMessage = document.getElementById('status-message');
+        const loader = document.getElementById('loader');
+        const themeToggle = document.getElementById('theme-toggle');
+        const downloadModal = document.getElementById('downloadModal');
+        const clearLogsModal = document.getElementById('clearLogsModal');
+        const logSizeDisplay = document.getElementById('log-size-display');
+        const downloadFileList = document.getElementById('downloadFileList');
+
+        const WS_PORT = 8001;
+        const WS_URL = `ws://localhost:${WS_PORT}`;
+        let websocket;
+        const maxLogEntries = 1000;
+        let allLogs = [];
+
+        const levelOrder = {
+            "DEBUG": 1, "INFO": 2, "WARNING": 3, "ERROR": 4, "CRITICAL": 5
+        };
+
+        function applyTheme(theme) {
+            document.body.className = theme + '-theme';
+            localStorage.setItem('theme', theme);
+            updateThemeToggleButton(theme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            applyTheme(newTheme);
+        }
+
+        function updateThemeToggleButton(theme) {
+            const icon = themeToggle.querySelector('i');
+            if (theme === 'dark') {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            } else {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            applyTheme(savedTheme);
+        });
+
+        themeToggle.addEventListener('click', toggleTheme);
+
+        function connectWebSocket() {
+            logOutput.innerHTML = 'Web Soket bağlantısı bekleniyor...';
+            loader.style.display = 'inline-block';
+            statusMessage.textContent = 'Bağlanılıyor...';
+            statusMessage.style.color = 'blue';
+
+            websocket = new WebSocket(WS_URL);
+
+            websocket.onopen = function(event) {
+                console.log('WebSocket bağlantısı kuruldu.');
+                statusMessage.textContent = 'Bağlandı.';
+                statusMessage.style.color = 'green';
+                loader.style.display = 'none';
+                fetchInitialLogs();
+                startLogSizePolling();
+            };
+
+            websocket.onmessage = function(event) {
+                const logData = JSON.parse(event.data);
+                addLogEntry(logData);
+            };
+
+            websocket.onclose = function(event) {
+                console.log('WebSocket bağlantısı kesildi:', event.reason);
+                statusMessage.textContent = 'Bağlantı kesildi. Yeniden bağlanılıyor...';
+                statusMessage.style.color = 'red';
+                loader.style.display = 'inline-block';
+                clearInterval(logSizeInterval);
+                setTimeout(connectWebSocket, 3000);
+            };
+
+            websocket.onerror = function(event) {
+                console.error('WebSocket hatası:', event);
+                statusMessage.textContent = 'Bağlantı hatası.';
+                statusMessage.style.color = 'red';
+                loader.style.display = 'inline-block';
+            };
+        }
+
+        async function fetchInitialLogs() {
+            allLogs = [];
+            logOutput.innerHTML = 'Geçmiş loglar yükleniyor...';
+        }
+
+        function addLogEntry(logData) {
+            allLogs.unshift(logData);
+
+            if (allLogs.length > maxLogEntries) {
+                allLogs.pop();
+            }
+            renderLogs();
+        }
+
+        function renderLogs() {
+            logOutput.innerHTML = '';
+            const selectedLevel = logLevelSelect.value;
+
+            const filteredAndSortedLogs = allLogs.filter(log => {
+                return selectedLevel === 'ALL' || (log.level && levelOrder[log.level] >= levelOrder[selectedLevel]);
+            });
+
+            filteredAndSortedLogs.forEach(log => {
+                const div = document.createElement('div');
+                div.classList.add('log-entry');
+                if (log.level) {
+                    div.classList.add(log.level);
+                }
+                div.textContent = log.formatted_message;
+                logOutput.appendChild(div);
+            });
+            logOutput.scrollTop = 0;
+        }
+
+        function openClearLogsModal() {
+            clearLogsModal.style.display = 'flex';
+        }
+
+        function closeClearLogsModal() {
+            clearLogsModal.style.display = 'none';
+        }
+
+        async function clearLogs(target) {
+            closeClearLogsModal();
+
+            statusMessage.textContent = 'Loglar temizleniyor...';
+            statusMessage.style.color = 'orange';
+
+            try {
+                const response = await fetch('/clear_logs', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ target: target })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    statusMessage.textContent = result.message;
+                    statusMessage.style.color = 'green';
+                    
+                    if (target === 'console' || target === 'all') {
+                        allLogs = [];
+                        logOutput.innerHTML = '';
+                    }
+                    fetchInitialLogs();
+                    updateLogSizeDisplay();
+                    populateDownloadFileList();
+
+                } else {
+                    statusMessage.textContent = `Hata: ${result.message || 'Log temizlenemedi.'}`;
+                    statusMessage.style.color = 'red';
+                }
+            } catch (error) {
+                console.error('Log temizleme isteği sırasında hata:', error);
+                statusMessage.textContent = `Hata: Log temizlenemedi. (${error.message})`;
+                statusMessage.style.color = 'red';
+            }
+        }
+
+        async function deleteLogsByExtension(extension) {
+            closeClearLogsModal();
+
+            statusMessage.textContent = `.${extension} uzantılı dosyalar siliniyor...`;
+            statusMessage.style.color = 'orange';
+
+            try {
+                const response = await fetch('/delete_logs_by_ext', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ extension: extension })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    statusMessage.textContent = result.message;
+                    statusMessage.style.color = 'green';
+                    fetchInitialLogs();
+                    updateLogSizeDisplay();
+                    populateDownloadFileList();
+                } else {
+                    statusMessage.textContent = `Hata: ${result.message || 'Dosyalar silinemedi.'}`;
+                    statusMessage.style.color = 'red';
+                }
+            } catch (error) {
+                console.error('Dosya silme isteği sırasında hata:', error);
+                statusMessage.textContent = `Hata: Dosyalar silinemedi. (${error.message})`;
+                statusMessage.style.color = 'red';
+            }
+        }
+
+
+        async function openDownloadModal() {
+            downloadModal.style.display = 'flex';
+            await populateDownloadFileList();
+        }
+
+        function closeDownloadModal() {
+            downloadModal.style.display = 'none';
+        }
+
+        async function populateDownloadFileList() {
+            downloadFileList.innerHTML = 'Dosyalar yükleniyor...';
+            try {
+                const response = await fetch('/get_log_files');
+                if (!response.ok) {
+                    throw new Error(`HTTP Hata! Statü: ${response.status}`);
+                }
+                const files = await response.json();
+                
+                downloadFileList.innerHTML = '';
+                if (files.length === 0) {
+                    downloadFileList.innerHTML = '<p>İndirilebilir dosya bulunamadı.</p>';
+                } else {
+                    files.forEach(filePath => {
+                        const fileEntryDiv = document.createElement('div');
+                        fileEntryDiv.classList.add('file-entry');
+                        const link = document.createElement('a');
+                        
+                        const lastSlashIndex = filePath.lastIndexOf('/');
+                        let folderName = '';
+                        let fileName = filePath;
+
+                        if (lastSlashIndex !== -1) {
+                            folderName = filePath.substring(0, lastSlashIndex);
+                            fileName = filePath.substring(lastSlashIndex + 1);
+                        }
+                        
+                        const encodedSubdir = encodeURIComponent(folderName);
+                        const encodedFilename = encodeURIComponent(fileName);
+
+                        link.href = `/download/${encodedSubdir}/${encodedFilename}`;
+                        link.textContent = filePath;
+                        link.title = `Dosya Yolu: /logs/${filePath}`;
+                        fileEntryDiv.appendChild(link);
+                        downloadFileList.appendChild(fileEntryDiv);
+                    });
+                }
+            } catch (error) {
+                console.error('İndirilebilir dosya listesi çekilirken hata:', error);
+                downloadFileList.innerHTML = `<p style="color: red;">Dosya listesi yüklenirken hata: ${error.message}</p>`;
+            }
+        }
+
+        function downloadFile(url, filename, isZip = false) {
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            closeDownloadModal();
+            statusMessage.textContent = `${filename} indirme başlatıldı.`;
+            statusMessage.style.color = 'green';
+        }
+
+
+        window.onclick = function(event) {
+            if (event.target == downloadModal) {
+                closeDownloadModal();
+            }
+            if (event.target == clearLogsModal) {
+                closeClearLogsModal();
+            }
+        }
+
+        let logSizeInterval;
+
+        function formatBytes(bytes, decimals = 2) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        }
+
+        async function getLogFilesTotalSize() {
+            let totalSize = 0;
+            try {
+                const response = await fetch('/logs');
+                if (response.ok) {
+                    const logText = await response.text();
+                    totalSize = new TextEncoder().encode(logText).length;
+                }
+            } catch (error) {
+                console.error('Toplam log boyutu alınırken hata:', error);
+            }
+            return totalSize;
+        }
+
+
+        async function updateLogSizeDisplay() {
+            const size = await getLogFilesTotalSize();
+            logSizeDisplay.textContent = `Toplam Log Boyutu: ${formatBytes(size)}`;
+        }
+
+        function startLogSizePolling() {
+            updateLogSizeDisplay();
+            logSizeInterval = setInterval(updateLogSizeDisplay, 3000);
+        }
+
+
+        logLevelSelect.addEventListener('change', renderLogs);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            connectWebSocket();
+        });
+    </script>
+</body>
+</html>
