@@ -1,0 +1,370 @@
+syntax = "proto3";
+
+import "bitvector.proto";
+
+enum Irrational {
+    PI = 0;
+    EULER = 1;
+}
+
+message Symbol {
+    string value = 1;
+}
+
+message Arg {
+    oneof arg {
+        ArgValue argvalue_value= 1;
+        Symbol symbol_value = 2;
+        ArgFunction argfunction_value = 3;
+        Irrational irrational_value = 4;
+    }
+}
+
+message ArgValue {
+    oneof arg_value {
+        int64 integer_value = 1;
+        double double_value = 2;
+        bool bool_value = 3;
+    }
+}
+
+enum FunctionType {
+    ADD = 0;
+    MUL = 1;
+    DIV = 2;
+    POW = 3;
+    SIN = 5;
+    COS = 6;
+    TAN = 7;
+    EXP = 8;
+    LOG = 9;
+    IDENTITY = 10;
+}
+
+message ArgFunction {
+    FunctionType mtype = 1;
+    repeated Arg args = 2;
+}
+
+message ComplexArg {
+    Arg real = 1;
+    Arg imag = 2;
+}
+
+message Rational {
+    int64 num = 1;
+    int64 den = 2;
+}
+
+enum GateType {
+        GateID = 0;
+        GateX = 1;
+        GateY = 2;
+        GateZ = 3;
+        GateH = 4;
+        GateHXY = 5;
+        GateHYZ = 6;
+        GateS = 7;
+        GateT = 8;
+        Delay = 9;
+        GateU = 10;
+        GateP = 11;
+        GateRX = 12;
+        GateRY = 13;
+        GateRZ = 14;
+        GateR = 15;
+        GateU1 = 16;
+        GateU2 = 17;
+        GateU3 = 18;
+        GateSWAP = 19;
+        GateISWAP = 20;
+        GateECR = 21;
+        GateDCX = 22;
+        GateRXX = 23;
+        GateRYY = 24;
+        GateRZZ = 25;
+        GateRZX = 26;
+        GateXXplusYY = 27;
+        GateXXminusYY = 28;
+}
+
+message SimpleGate {
+    GateType mtype = 1;
+    repeated Arg parameters = 2;
+}
+
+message CustomGate {
+    int64 numqubits = 1;
+    repeated ComplexArg matrix = 2;
+}
+
+message Generalized {
+    string name = 1;
+    repeated Arg args = 2;
+    repeated int64 qregsizes = 3;
+}
+
+message Control {
+    Gate operation = 1;
+    int64 numcontrols = 2;
+}
+
+message Power {
+    Gate operation = 1;
+
+    oneof power {
+        double double_val= 2;
+        Rational rational_val = 3;
+        int64 int_val = 4;
+    }
+}
+
+message Inverse {
+    Gate operation = 1;
+}
+
+message Parallel {
+    Gate operation = 1;
+    int64 numrepeats = 2;
+}
+
+message GateCall {
+    GateDecl decl = 1;
+    repeated Arg args = 2;
+}
+
+message GateDecl {
+    string name = 1;
+    repeated Symbol args = 2;
+    repeated Instruction instructions = 3;
+}
+
+message PauliString {
+    int64 numqubits = 1;
+    string pauli =  2;
+}
+
+message Gate {
+    oneof gate {
+        SimpleGate simplegate = 1;
+        CustomGate customgate = 2;
+        Generalized generalized = 3;
+        Control control = 4;
+        Power power = 5;
+        Inverse inverse = 6;
+        Parallel parallel = 7;
+        GateCall gatecall = 8;
+        PauliString paulistring = 9;
+    }
+}
+
+enum OperatorType {
+    SigmaMinus = 0;
+    SigmaPlus = 1;
+    Sigma0001 = 2;
+    Sigma0010 = 3;
+    Sigma0011 = 4;
+    Sigma0110 = 5;
+    Sigma0111 = 6;
+    Sigma1011 = 7;
+    Projector0 = 8;
+    Projector1 = 9;
+    Projector00 = 10;
+    Projector01 = 11;
+    Projector10 = 12;
+    Projector11 = 13;
+    ProjectorX0 = 14;
+    ProjectorX1 = 15;
+    ProjectorY0 = 16;
+    ProjectorY1 = 17;
+    DiagonalOp = 18;
+}
+
+message SimpleOperator {
+    OperatorType mtype = 1;
+    repeated Arg parameters = 2;
+}
+
+message CustomOperator {
+    int64 numqubits = 1;
+    repeated ComplexArg matrix = 2;
+}
+
+message RescaledGate {
+    Gate operation = 1;
+    Arg scale = 2;
+}
+
+message Operator {
+    oneof operator {
+        SimpleGate simplegate = 1;
+        CustomGate customgate = 2;
+        Generalized generalized = 3;
+        Control control = 4;
+        Power power = 5;
+        Inverse inverse = 6;
+        Parallel parallel = 7;
+        GateCall gatecall = 8;
+        PauliString paulistring = 9;
+        SimpleOperator simpleoperator = 10;
+        CustomOperator customoperator = 11;
+        RescaledGate rescaledgate = 12;
+    }
+}
+
+enum KrausChannelType {
+    ResetX = 0;
+    ResetY = 1;
+    ResetZ = 2;
+    AmplitudeDamping = 3;
+    GeneralizedAmplitudeDamping = 4;
+    PhaseAmplitudeDamping = 5;
+    ThermalNoise = 6;
+    PauliX = 7;
+    PauliY = 8;
+    PauliZ = 9;
+    ProjectiveNoiseX = 10;
+    ProjectiveNoiseY = 11;
+    ProjectiveNoiseZ = 12;
+}
+
+message SimpleKrausChannel {
+    KrausChannelType mtype = 1;
+    repeated Arg parameters = 2;
+}
+
+message CustomKrausChannel {
+    int64 numqubits = 1;
+    repeated Operator operators = 2;
+}
+
+message DepolarizingChannel {
+    int64 numqubits = 1;
+    Arg probability = 2;
+}
+
+message MixedUnitaryChannel {
+    repeated RescaledGate operators = 1;
+}
+
+message PauliChannel {
+    repeated Arg probabilities = 1;
+    repeated PauliString paulistrings = 2;
+}
+
+message KrausChannel {
+    oneof krauschannel {
+        SimpleKrausChannel simplekrauschannel = 1;
+        CustomKrausChannel customkrauschannel = 2;
+        DepolarizingChannel depolarizingchannel = 3;
+        MixedUnitaryChannel mixedunitarychannel = 4;
+        PauliChannel paulichannel = 5;
+    }
+}
+
+enum OperationType {
+    MeasureX = 0;
+    MeasureY = 1;
+    MeasureZ = 2;
+    MeasureXX = 3;
+    MeasureYY = 4;
+    MeasureZZ = 5;
+    MeasureResetX = 6;
+    MeasureResetY = 7;
+    MeasureResetZ = 8;
+    BondDim = 9;
+    SchmidtRank = 10;
+    VonNeumannEntropy = 11;
+    Not = 12;
+}
+
+message SimpleOperation {
+    OperationType mtype = 1;
+    repeated Arg parameters = 2;
+}
+
+message IfStatement {
+    Operation operation = 1;
+    BitVector bitstring = 2;
+}
+
+message Barrier {
+    int64 numqubits = 1;
+}
+
+message Amplitude {
+    BitVector bs = 1;
+}
+
+message ExpectationValue {
+    Operator operator = 1;
+}
+
+enum AnnotationType {
+    QubitCoordinates = 0;
+    ShiftCoordinates = 1;
+    Tick = 3;
+}
+
+message Note {
+    oneof note {
+        int64 int_note = 1;
+        double double_note= 2;
+    }
+}
+
+message SimpleAnnotation {
+    AnnotationType mtype = 1;
+    repeated Note notes = 2;
+}
+
+message Detector {
+    int64 numqubits = 1;
+    repeated Note notes = 2;
+}
+
+message ObservableInclude {
+    int64 numbits = 1;
+    repeated Note notes = 2;
+}
+
+message Operation {
+    oneof operation {
+        SimpleGate simplegate = 1;
+        CustomGate customgate = 2;
+        Generalized generalized = 3;
+        Control control = 4;
+        Power power = 5;
+        Inverse inverse = 6;
+        Parallel parallel = 7;
+        GateCall gatecall = 8;
+        PauliString paulistring = 9;
+        SimpleKrausChannel simplekrauschannel = 10;
+        CustomKrausChannel customkrauschannel = 11;
+        DepolarizingChannel depolarizingchannel = 12;
+        MixedUnitaryChannel mixedunitarychannel = 13;
+        PauliChannel paulichannel = 14;
+        SimpleOperator simpleoperator = 15;
+        CustomOperator customoperator = 16;
+        RescaledGate rescaledgate = 17;
+        SimpleOperation simpleoperation = 18;
+        IfStatement ifstatement = 19;
+        Barrier barrier = 20;
+        Amplitude amplitude = 21;
+        ExpectationValue expectationvalue = 22;
+        Detector detector = 23;
+        ObservableInclude observableinc = 24;
+        SimpleAnnotation simpleannotation = 25;
+    }
+}
+
+message Instruction {
+    Operation operation = 1;
+    repeated int64 qtargets = 2;
+    repeated int64 ctargets = 3;
+    repeated int64 ztargets = 4;
+}
+
+message Circuit {
+    repeated Instruction instructions = 1;
+}
