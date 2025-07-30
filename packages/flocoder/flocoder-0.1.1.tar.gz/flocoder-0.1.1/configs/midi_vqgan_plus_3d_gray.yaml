@@ -1,0 +1,28 @@
+# @package _global_
+defaults:
+  - common/base
+  - common/midi
+  - common/vqgan_plus
+  - common/preencoding
+  - common/flow
+  - _self_
+
+# Override specific settings
+codec:
+  choice: "vqgan_plus"
+  learning_rate: 5.0e-5
+  project_name: "fc-gray-vqgan-plus-midi"
+  # grayscale so no onsets
+  in_channels: 1
+  add_onsets: False
+  # defaults for everything else
+  
+preencoding:
+  vqgan_checkpoint: "vqgan_best.pt"
+
+flow:
+  batch_size: 256 
+  unet:
+    n_classes: 0
+    condition: false
+  project_name: "fc-flow-gray-vqgan-plus-midi"

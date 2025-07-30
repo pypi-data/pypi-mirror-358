@@ -1,0 +1,40 @@
+# @package _global_
+# vqgan architecture
+codec:
+    choice: "vqgan"
+    in_channels: 3
+    hidden_channels: 256
+    num_downsamples: 3
+    internal_dim: 128
+    vq_embedding_dim: 4
+    codebook_levels: 4
+    #vq_num_embeddings: 64
+    vq_num_embeddings: 96
+    commitment_weight: 0.5
+    no_grad_ckpt: false 
+
+    # vqgan training
+    batch_size: 64
+    learning_rate: 1.0e-4
+    # warmup is before the adversarial training starts
+    warmup_epochs: 5
+    epochs: 2000
+    # base learning rate gets scaled by the batch size
+    base_lr: 1e-4
+    image_size: 128
+    # regularization parameters
+    lambda_gen: 0.05
+    lambda_ce: 0.0
+    lambda_l1: 0.2
+    lambda_mse: 0.5
+    lambda_perc: 1.0e-3
+    lambda_spec: 5.0e-4 
+    lambda_vq: 0.25 
+    # only for midi_data:
+    add_onsets: true
+
+    project_name: "flocoder-vqgan"
+    # run_name: "best to set via CLI"
+
+    checkpoint: "vqgan_best.pt"
+

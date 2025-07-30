@@ -1,0 +1,7 @@
+# @package _global_
+# the encoder is the bottleneck, so for speed, don't make batch_size too big or use too many workers
+preencoding:
+  batch_size: 32
+  num_workers: 8
+  max_storage_gb: 60
+  augs_per: 1024

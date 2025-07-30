@@ -1,0 +1,17 @@
+# @package _global_
+flow: 
+    batch_size: 256
+    learning_rate: 0.0001
+    # unet parameters
+    epochs: 10000
+    num_layers: 8
+    num_blocks: 4
+    num_heads: 8
+    num_channels: 256
+    num_residuals: 2
+    condition: true
+    #dim_mults: [1, 2, 4, 4]
+    dim_mults: [1, 2, 4, 8]
+
+project_name: "flocoder-flow"
+

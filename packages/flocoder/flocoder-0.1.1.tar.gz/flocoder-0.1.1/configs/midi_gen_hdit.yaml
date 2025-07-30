@@ -1,0 +1,24 @@
+# @package _global_
+defaults:
+  - common/base
+  - common/midi
+  - common/vqgan
+  - common/preencoding
+  - common/flow
+  - _self_
+
+no_wandb: true
+
+# Override specific settings
+codec:
+  choice: "noop"
+
+preencoding:
+  vqgan_checkpoint: "noop" 
+
+flow:
+  batch_size: 256 
+  unet:
+    n_classes: 0
+    condition: false
+  project_name: "fc-flow-gray-vqgan-midi"

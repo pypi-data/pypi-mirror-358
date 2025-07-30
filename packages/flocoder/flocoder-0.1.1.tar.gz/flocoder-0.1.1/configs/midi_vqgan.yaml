@@ -1,0 +1,25 @@
+# @package _global_
+defaults:
+  - common/base
+  - common/midi
+  - common/vqgan
+  - common/preencoding
+  - common/flow
+  - _self_
+
+preencoding:
+  vqgan_checkpoint: "vqgan_best.pt"
+
+# Override specific settings
+codec:
+  choice: vqgan 
+  commitment-weight: 0.6  # Higher for MIDI
+  lambda_ce: 2.0  # Higher cross-entropy for MIDI
+  project_name: "fc-vqgan-midi"
+
+flow:
+  batch_size: 256 
+  project_name: "fc-flow-midi"
+  unet:
+    n_classes: 0
+    condition: false

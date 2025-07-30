@@ -1,0 +1,31 @@
+# @package _global_
+# vqgan_plus architecture
+codec:
+    choice: "vqgan_plus"
+    in_channels: 3
+    hidden_channels: 128      # VQGAN+ uses 128 base channels
+    num_downsamples: 4        # VQGAN+ uses 4 downsamples
+    internal_dim: 8
+    vq_embedding_dim: 8       # VQGAN+ uses 8 dims
+    codebook_levels: 1
+    vq_num_embeddings: 1024   # VQGAN+ uses 1024
+    commitment_weight: 0.25
+    no_grad_ckpt: false
+
+    # VQGAN+ specific training params
+    batch_size: 128
+    epochs: 2000
+    warmup_epochs: 7
+    lambda_mse: 4.0           # L2 reconstruction weight
+    lambda_l1: 0.0           # l1 loss weight
+    lambda_perc: 0.1          # ResNet50 perceptual loss weight
+    lambda_adv: 0.02          # Discriminator loss weight
+    lambda_vq: 0.25           # VQ commitment weight
+    lambda_ce: 0.0           # cross-entropy weight
+    lambda_spec: 0.0           # spectral loss weight
+
+    project_name: "flocoder-vqgan-plus"
+    # run_name: "best to set via CLI"
+
+    checkpoint: "vqgan_plus_best.pt"
+

@@ -1,0 +1,20 @@
+# @package _global_
+defaults:
+  - common/base
+  - common/vqgan_plus
+  - common/preencoding
+  - common/flow
+  - _self_
+
+# Dataset-specific config - if not present this gets downloaded
+data: "~/datasets/Oxford_Flowers102/images"
+
+# Override specific settings
+codec:
+  choice: "vqgan_plus"
+  project_name: "fc-vqgan-flowers"
+  vqgan_checkpoint: "vqgan_best.pt"
+
+flow:
+  vqgan_checkpoint: "vqgan_best.pt"
+  project_name: "fc-flow-flowers-vqgan"
