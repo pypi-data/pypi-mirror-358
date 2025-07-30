@@ -1,0 +1,1 @@
+"""Boltz MCP Server - A Model Context Protocol server for Boltz-2 protein structure prediction.""" 
