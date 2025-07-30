@@ -1,0 +1,205 @@
+---
+description:
+globs:
+alwa2. **Code Style & Quali3. **Error4. **Testing Requirements**
+   - Write tests for all new functionality
+   - Use async testing patterns
+   - Mock external APIs appropriately
+   - Include integration tests for critical paths
+
+### Documentation
+
+1. **Code Documentation****
+   - Use typed exceptions for different scenarios
+   - Implement proper retry mechanisms
+   - Log errors with structured logging
+   - Provide helpful error messages
+
+4. **Testing Requirements**. **Python Standards**
+   - Use async/await for all I/O operations
+   - Full type hints throughout codebase
+   - Pydantic models for data validation
+   - Context managers for resource management
+
+2. **Flex Messages Standards**
+   - Use factory methods (.create()) for all components
+   - Never use deprecated FlexSpacer (removed from LINE spec)
+   - Always provide alt_text for FlexMessage
+   - Use print_flex_json() for testing with auto-clipboard
+   - Validate JSON output in LINE Flex Message Simulator
+
+3. **Webhook Processing Standards**
+   - Always verify LINE signatures for security
+   - Use decorator-based event handlers (@handler.message_handler, etc.)
+   - Handle all event types gracefully with proper error logging
+   - Implement duplicate event detection for reliability
+   - Use proper HTTP status codes (200 for success, 401 for invalid signature)
+   - Log all webhook events for debugging and monitoring
+   - Support both `/webhook` and `/` endpoints for flexibility
+
+4. **Error Handling**true
+---
+# LINE API Integration Library - Project Rules
+
+## Project Overview
+
+This is a comprehensive LINE API integration library built for production use, providing modern async/await patterns, full Pydantic type safety, and coverage for all major LINE platform features including Messaging API, Flex Messages, Rich Menus, LINE Login, and LIFF.
+
+## Core Development Rules
+
+### Code Organization
+
+1. **Directory Structure**
+   - `/debug`: All debug/investigation scripts (gitignored)
+   - `/tests`: All pytest tests
+   - `/examples`: Real-world examples
+   - `/docs`: API docs and guides
+   - `/line_api`: Main package code
+
+2. **File Patterns**
+   - All imports at top of files
+   - Module `__init__.py` files for public API exports
+   - Test files show proper usage patterns
+   - Integration guides in services
+
+### Code Style & Quality
+
+1. **Python Standards**
+   - Use async/await for all I/O operations
+   - Full type hints throughout codebase
+   - Pydantic models for data validation
+   - Context managers for resource management
+
+2. **Error Handling**
+   - Use typed exceptions for different scenarios
+   - Implement proper retry mechanisms
+   - Log errors with structured logging
+   - Provide helpful error messages
+
+3. **Testing Requirements**
+   - Write tests for all new functionality
+   - Use async testing patterns
+   - Mock external APIs appropriately
+   - Include integration tests for critical paths
+
+### Documentation
+
+1. **Code Documentation**
+   - Comprehensive docstrings for public functions
+   - Include usage examples in docstrings
+   - Update README.md for new features
+   - Maintain API documentation
+
+2. **Performance Considerations**
+   - Use async patterns for I/O operations
+   - Implement proper rate limiting
+   - Cache responses when appropriate
+   - Monitor memory usage for large operations
+
+## Package Management
+
+1. **Using UV**
+   - All Python package management done via `uv`
+   - Install dependencies: `uv sync`
+   - Install dev dependencies: `uv sync --dev`
+   - Create virtual environments: `uv venv`
+   - Update dependencies: `uv pip compile`
+
+2. **Virtual Environments**
+   - Always use isolated environments
+   - Create new environment: `uv venv`
+   - Activate environment: `source .venv/bin/activate`
+   - Deactivate: `deactivate`
+
+3. **Dependency Management**
+   - Keep `pyproject.toml` up to date
+   - Lock dependencies with `uv.lock`
+   - Regular security updates
+   - Version pinning for stability
+
+## Commit Message Format
+
+Each commit message must include:
+
+1. First line: Brief summary of purpose and impact
+2. Sections with emojis:
+   - 🎯 New Features
+   - 🛠️ Technical Implementation
+   - 📁 Files Added/Modified
+   - ✅ Benefits
+   - 🧪 Tested
+3. Use bullet points (•) for readability
+4. Keep descriptions concise but informative
+
+## Development Process
+
+1. **Adding New Features**
+   - Plan the API design first
+   - Write tests before implementation
+   - Implement with full type hints
+   - Add comprehensive documentation
+   - Update main LineAPI class if needed
+   - Validate with tests and type checking
+
+2. **Code Quality Tools**
+   - Use `ruff` for linting/formatting
+   - Run `mypy` for type checking
+   - Follow existing code style
+   - Keep functions focused and small
+
+## Current Implementation Status
+
+### ✅ Completed Features
+
+1. **Core Module** (`line_api/core/`)
+   - Configuration management with Pydantic
+   - Environment variable loading
+   - Type-safe settings
+
+2. **Messaging API** (`line_api/messaging/`)
+   - Push message functionality
+   - Text message support
+   - Async HTTP client integration
+
+3. **Webhook Processing** (`line_api/webhook/`)
+   - Complete webhook event handling
+   - LINE signature verification for security
+   - Decorator-based event handlers (message, postback, follow, etc.)
+   - Type-safe Pydantic models for all LINE event types
+   - FastAPI integration with proper error handling
+   - Duplicate event detection and processing
+
+4. **Flex Messages** (`line_api/flex_messages/`)
+   - Complete Pydantic models for all Flex components
+   - Type-safe factory methods (.create())
+   - JSON export utilities with clipboard integration
+   - LINE Flex Message Simulator compatibility
+   - No deprecated components (FlexSpacer removed)
+
+### 🚧 Planned Features
+
+- Rich Menu management
+- LINE Login OAuth2 integration
+- LIFF (LINE Front-end Framework) support
+- Advanced message types (images, videos, audio)
+
+## Environment Setup
+
+Required environment variables:
+```bash
+# LINE Bot Configuration
+LINE_CHANNEL_ACCESS_TOKEN=your_line_bot_token
+LINE_CHANNEL_SECRET=your_line_bot_secret
+
+# LINE Login Configuration (optional)
+LINE_API_LOGIN_CHANNEL_ID=your_login_channel_id
+LINE_API_LOGIN_CHANNEL_SECRET=your_login_channel_secret
+
+# LIFF Configuration (optional)
+LINE_API_LIFF_CHANNEL_ID=your_liff_channel_id
+
+# Development Configuration
+LINE_API_DEBUG=true
+LINE_API_TIMEOUT=30
+LINE_API_MAX_RETRIES=3
+```
