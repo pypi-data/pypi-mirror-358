@@ -1,0 +1,68 @@
+[project]
+name = "flow-config"
+version = "0.1.0"
+description = "A Python library for event-driven configuration management"
+readme = "docs/source/README.md"
+authors = [{name = "Chinmay Sonawane", email = "chinmaysonawane57@gmail.com"}]
+license = {file = "LICENSE"}
+requires-python = ">=3.9"
+dependencies = [
+    "watchdog>=2.0",
+    "PyYAML>=6.0",
+    "orjson>=3.0",
+    "pydantic>=2.0",
+    "python-dotenv >=1.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "black>=23.0",
+    "isort>=5.0",
+    "sphinx>=5.0",
+    "sphinx-rtd-theme>=1.0",
+    "myst-parser>=0.18",
+    "types-setuptools",
+    "types-PyYAML",
+    "pylint>=3.0",
+    "mypy>=1.0",
+    "python-dotenv>=1.1",
+]
+
+[project.urls]
+Homepage = "https://github.com/chinmay29hub/configflow"
+Repository = "https://github.com/chinmay29hub/configflow.git"
+Issues = "https://github.com/chinmay29hub/configflow/issues"
+Documentation = "https://configflow.readthedocs.io/"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.black]
+line-length = 88
+target-version = ['py39']
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.pytest.ini_options]
+addopts = "-v --tb=short"
+testpaths = ["tests"]
+
+[tool.pylint]
+max-line-length = 88
+disable = [
+    "missing-module-docstring",
+    "missing-class-docstring",
+    "missing-function-docstring",
+]
+good-names = ["f", "e"]
+
+[tool.mypy]
+python_version = "3.9"
+strict = true
+ignore_missing_imports = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
