@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aap_ipykernel"
+version = "1.0.6"
+description = "Running IPython kernels remotely and through batch queues"
+authors = [
+    { name = "Tom Daff"},
+    { name = "Conor Wills"}
+]
+readme = "README.md"
+requires-python = ">=3.7"
+license = {text = "BSD"}
+classifiers = [
+    'Programming Language :: Python :: 3',
+    'Framework :: IPython',
+    'License :: OSI Approved :: BSD License',
+]
+dependencies = [
+    'notebook>=6',
+    'pexpect>=4',
+    'tornado>=4'
+]
+
+[project.urls]
+Homepage = "https://github.com/CWills96/remote_ipykernel"
+
+[project.scripts]
+rkr = "aap_ipykernel.manage:manage"
+aap_ipykernel = "aap_ipykernel.manage:manage"
