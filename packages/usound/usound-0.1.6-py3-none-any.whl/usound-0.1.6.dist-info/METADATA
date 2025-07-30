@@ -1,0 +1,45 @@
+Metadata-Version: 2.1
+Name: usound
+Version: 0.1.6
+Summary: usound: This application transcribes the voice of a PC speaker.
+Home-page: https://github.com/hamacom2004jp/usound
+Download-URL: https://github.com/hamacom2004jp/usound
+Author: hamacom2004jp
+Author-email: hamacom2004jp@gmail.com
+Maintainer: hamacom2004jp
+Maintainer-email: hamacom2004jp@gmail.com
+License: MIT
+Keywords: cli restapi redis fastapi
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Information Technology
+Classifier: Intended Audience :: System Administrators
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Natural Language :: Japanese
+Classifier: Programming Language :: Python
+Classifier: Topic :: Utilities
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: cmdbox<0.6.2,>=0.6.1
+Requires-Dist: faster-whisper
+Requires-Dist: soundcard
+Requires-Dist: soundfile
+
+# Unravel The Sound
+
+This application transcribes the voice of a PC speaker.
+The AI model is connected to the Internet for downloading, but after that, it runs locally and does not upload data.
+
+# Install
+
+- Install usound with the following command.
+
+```bash
+pip install usound
+usound -v
+```
+
+# Lisence
+
+This project is licensed under the MIT License, see the LICENSE.txt file for details

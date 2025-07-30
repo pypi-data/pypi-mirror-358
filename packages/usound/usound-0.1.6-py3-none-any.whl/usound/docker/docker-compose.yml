@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  iinfer:
+    build: ./iinfer
+    container_name: iinfer
+    environment:
+      - TX=Asia/Tokyo
+      - IINFER_DEBUG=false
+      - REDIS_HOST=${REDIS_HOST:-redis}
+      - REDIS_PORT=${REDIS_PORT:-6379}
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-password}
+      - SVNAME=${SVNAME:-server}
+      - LISTEN_PORT=${LISTEN_PORT:-8090}
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    image: gaic/hamacom/iinfer:latest
+    devices:
+      - dev/bus/usb/:dev/bus/usb/
+    #ports:
+    #  - ${WFILER_PORT-8090}:8090
+    restart: on-failure
+    tty: true
+    volumes:
+      - /opt/gaic/iinfer:/opt/gaic/iinfer
+      - /opt/gaic_share:/opt/gaic_share
+    working_dir: /opt/gaic/iinfer
