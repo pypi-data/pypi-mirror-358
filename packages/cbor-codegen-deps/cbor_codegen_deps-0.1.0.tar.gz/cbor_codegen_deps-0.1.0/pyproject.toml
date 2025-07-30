@@ -1,0 +1,28 @@
+[project]
+name = "cbor-codegen-deps"
+version = "0.1.0"
+description = "Dependencies for CBOR code generation"
+license = { text = "BSD-3-Clause" }
+classifiers = [
+    "License :: OSI Approved :: BSD License",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "jinja2>=3.1.6",
+    "pycparser>=2.22",
+]
+
+[dependencies]
+pycparser = ">=2.21"
+
+[dependency-groups]
+dev = [
+    "coverage>=7.6.1",
+    "cppyy>=3.5.0",
+    "pytest>=8.3.5",
+    "uv>=0.1.0",
+    "pytest-subprocess>=1.5.0", # Added for running external commands in tests
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"] # Set project root as Python path for module discovery
