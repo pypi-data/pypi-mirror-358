@@ -1,0 +1,20 @@
+This document deals with how to print the builder name when presenting it to users.
+
+- We don't want the users to specify a name for each builder for many reasons:
+    - there may be a great many number of builders.
+    - it's yet another chore for the users which I don't think is necessary.
+    - I think there is a way to generate a name which is rather short and good
+        automatically (read below).
+
+So what should we use as a builder name?
+
+Here is an Idea:
+    Mako(inputs=['templates/README.rst.mako'], outputs=['README.rst'])
+
+What is the outputs are unknown?
+    Mako(inputs=['templates/README.rst.mako'], outputs=Unknown)
+    We can print the outputs after the run.
+
+The implication of this is that all builders need to have a standard way
+	to show their inputs and outputs.
+	This should be in their parent.

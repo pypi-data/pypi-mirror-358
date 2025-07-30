@@ -1,0 +1,25 @@
+This is a script that creates the [docs] without pydmt:
+
+=============================
+#!/bin/bash -eux
+rm -rf docs/* docs/.??*
+rm -f sphinx/pydmt*.rst sphinx/modules.rst
+sphinx-apidoc -o sphinx/ src/pydmt
+# grep src sphinx/*.rst
+sphinx-build sphinx docs
+=============================
+
+Comparing 'src' folder approach vs storing the python code at the root
+
+if you use 'src':
+- you have to do the command:
+	$ sphinx-apidoc -o sphinx/ src/pydmt
+	with the src prefix
+- you have to add the following lines to sphinx/conf.py:
+	sys.path.insert(0, os.path.abspath("../src")) <- to access the python code itself
+	sys.path.insert(0, os.path.abspath("..")) <- to access the root and stuff line 'config'
+
+TODO in the sphinx builder:
+make it run like the script above:
+- remove all files from the docs folder (target folder)
+- remove all .rst files in the sphinx folder (source foldr) EXCEPT index.rst

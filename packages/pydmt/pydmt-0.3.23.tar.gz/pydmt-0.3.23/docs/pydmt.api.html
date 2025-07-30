@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>pydmt.api package &#8212; pydmt Documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=05de5ca2"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pydmt.builders package" href="pydmt.builders.html" />
+    <link rel="prev" title="pydmt package" href="pydmt.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="pydmt-api-package">
+<h1>pydmt.api package<a class="headerlink" href="#pydmt-api-package" title="Link to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+</section>
+<section id="module-pydmt.api.builder">
+<span id="pydmt-api-builder-module"></span><h2>pydmt.api.builder module<a class="headerlink" href="#module-pydmt.api.builder" title="Link to this heading">¶</a></h2>
+<p>builder.py</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pydmt.api.builder.Builder">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydmt.api.builder.</span></span><span class="sig-name descname"><span class="pre">Builder</span></span><a class="reference internal" href="_modules/pydmt/api/builder.html#Builder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.builder.Builder" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>A Builder is what really builds things in the system.
+A builder knows on which inputs it relies and what
+outputs it generates (sometimes before build and sometimes
+after).</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.api.builder.Builder.build">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/pydmt/api/builder.html#Builder.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.builder.Builder.build" title="Link to this definition">¶</a></dt>
+<dd><p>this method actually does the building
+Just do whatever you want here. Options are:
+- Write pure python code
+- Call native code
+- Call external programs
+- A combination of the above
+If there are any problems then throw an exception.
+Try not to segfault the interpreter in this method…:)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.api.builder.Builder.get_name">
+<span class="sig-name descname"><span class="pre">get_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/pydmt/api/builder.html#Builder.get_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.builder.Builder.get_name" title="Link to this definition">¶</a></dt>
+<dd><p>Override this to get better names
+:return: the name of this builder</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.api.builder.Builder.get_signature">
+<span class="sig-name descname"><span class="pre">get_signature</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/pydmt/api/builder.html#Builder.get_signature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.builder.Builder.get_signature" title="Link to this definition">¶</a></dt>
+<dd><p>return the sha1 of anything that identifies the sources of the build
+Techically this is the sha1 of the file content of the list of files
+returned from <a class="reference internal" href="#pydmt.api.builder.Builder.get_sources" title="pydmt.api.builder.Builder.get_sources"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_sources()</span></code></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.api.builder.Builder.get_sources">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_sources</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#pydmt.api.builder.Node" title="pydmt.api.builder.Node"><span class="pre">Node</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/pydmt/api/builder.html#Builder.get_sources"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.builder.Builder.get_sources" title="Link to this definition">¶</a></dt>
+<dd><p>return the name of the source files for this builder
+If the builder takes a whole folder the list all the filers in that folder.
+If a built takes all the .py files in a folder then list those.
+In the current implementation this method is not really that important because
+it is not used to calculate the signature of the input to the build.
+The &#64;get_signature method is use for that.
+In the future the get_signature method will go away.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.api.builder.Builder.get_targets">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_targets</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#pydmt.api.builder.Node" title="pydmt.api.builder.Node"><span class="pre">Node</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/pydmt/api/builder.html#Builder.get_targets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.builder.Builder.get_targets" title="Link to this definition">¶</a></dt>
+<dd><p>return list of targets</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.api.builder.Builder.get_targets_as_string">
+<span class="sig-name descname"><span class="pre">get_targets_as_string</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/pydmt/api/builder.html#Builder.get_targets_as_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.builder.Builder.get_targets_as_string" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.api.builder.Builder.yield_results">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">yield_results</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Generator</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/pydmt/api/builder.html#Builder.yield_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.builder.Builder.yield_results" title="Link to this definition">¶</a></dt>
+<dd><p>Return the signatures and names of results
+:return:</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pydmt.api.builder.File">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydmt.api.builder.</span></span><span class="sig-name descname"><span class="pre">File</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/api/builder.html#File"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.builder.File" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pydmt.api.builder.Node" title="pydmt.api.builder.Node"><code class="xref py py-class docutils literal notranslate"><span class="pre">Node</span></code></a></p>
+<p>This is a node which is a file</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.api.builder.File.add_to_digester">
+<span class="sig-name descname"><span class="pre">add_to_digester</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.digester.Digester" title="pydmt.utils.digester.Digester"><span class="pre">Digester</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/pydmt/api/builder.html#File.add_to_digester"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.builder.File.add_to_digester" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.api.builder.File.get_name">
+<span class="sig-name descname"><span class="pre">get_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/api/builder.html#File.get_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.builder.File.get_name" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.api.builder.File.remove">
+<span class="sig-name descname"><span class="pre">remove</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/api/builder.html#File.remove"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.builder.File.remove" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pydmt.api.builder.Folder">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydmt.api.builder.</span></span><span class="sig-name descname"><span class="pre">Folder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/api/builder.html#Folder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.builder.Folder" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pydmt.api.builder.Node" title="pydmt.api.builder.Node"><code class="xref py py-class docutils literal notranslate"><span class="pre">Node</span></code></a></p>
+<p>This is a node representing a single Folder</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.api.builder.Folder.add_to_digester">
+<span class="sig-name descname"><span class="pre">add_to_digester</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.digester.Digester" title="pydmt.utils.digester.Digester"><span class="pre">Digester</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/pydmt/api/builder.html#Folder.add_to_digester"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.builder.Folder.add_to_digester" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.api.builder.Folder.get_name">
+<span class="sig-name descname"><span class="pre">get_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/api/builder.html#Folder.get_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.builder.Folder.get_name" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.api.builder.Folder.remove">
+<span class="sig-name descname"><span class="pre">remove</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/api/builder.html#Folder.remove"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.builder.Folder.remove" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pydmt.api.builder.Node">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydmt.api.builder.</span></span><span class="sig-name descname"><span class="pre">Node</span></span><a class="reference internal" href="_modules/pydmt/api/builder.html#Node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.builder.Node" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>This is a source object which knows how to add his checksum to a checksum
+calculation</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.api.builder.Node.add_to_digester">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_to_digester</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.digester.Digester" title="pydmt.utils.digester.Digester"><span class="pre">Digester</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/pydmt/api/builder.html#Node.add_to_digester"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.builder.Node.add_to_digester" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.api.builder.Node.get_name">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/pydmt/api/builder.html#Node.get_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.builder.Node.get_name" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.api.builder.Node.remove">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">remove</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/pydmt/api/builder.html#Node.remove"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.builder.Node.remove" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pydmt.api.builder.SourceFile">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydmt.api.builder.</span></span><span class="sig-name descname"><span class="pre">SourceFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/api/builder.html#SourceFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.builder.SourceFile" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pydmt.api.builder.File" title="pydmt.api.builder.File"><code class="xref py py-class docutils literal notranslate"><span class="pre">File</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pydmt.api.builder.SourceFiles">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydmt.api.builder.</span></span><span class="sig-name descname"><span class="pre">SourceFiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filenames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/api/builder.html#SourceFiles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.builder.SourceFiles" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pydmt.api.builder.Node" title="pydmt.api.builder.Node"><code class="xref py py-class docutils literal notranslate"><span class="pre">Node</span></code></a></p>
+<p>This is a source of many files</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.api.builder.SourceFiles.add_to_digester">
+<span class="sig-name descname"><span class="pre">add_to_digester</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pydmt.utils.html#pydmt.utils.digester.Digester" title="pydmt.utils.digester.Digester"><span class="pre">Digester</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/pydmt/api/builder.html#SourceFiles.add_to_digester"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.builder.SourceFiles.add_to_digester" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.api.builder.SourceFiles.get_name">
+<span class="sig-name descname"><span class="pre">get_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/api/builder.html#SourceFiles.get_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.builder.SourceFiles.get_name" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.api.builder.SourceFiles.remove">
+<span class="sig-name descname"><span class="pre">remove</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/api/builder.html#SourceFiles.remove"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.builder.SourceFiles.remove" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pydmt.api.builder.SourceFolder">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydmt.api.builder.</span></span><span class="sig-name descname"><span class="pre">SourceFolder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/api/builder.html#SourceFolder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.builder.SourceFolder" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pydmt.api.builder.Folder" title="pydmt.api.builder.Folder"><code class="xref py py-class docutils literal notranslate"><span class="pre">Folder</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pydmt.api.builder.TargetFile">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydmt.api.builder.</span></span><span class="sig-name descname"><span class="pre">TargetFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/api/builder.html#TargetFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.builder.TargetFile" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pydmt.api.builder.File" title="pydmt.api.builder.File"><code class="xref py py-class docutils literal notranslate"><span class="pre">File</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pydmt.api.builder.TargetFolder">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydmt.api.builder.</span></span><span class="sig-name descname"><span class="pre">TargetFolder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/api/builder.html#TargetFolder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.builder.TargetFolder" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pydmt.api.builder.Folder" title="pydmt.api.builder.Folder"><code class="xref py py-class docutils literal notranslate"><span class="pre">Folder</span></code></a></p>
+</dd></dl>
+
+</section>
+<section id="module-pydmt.api.copy">
+<span id="pydmt-api-copy-module"></span><h2>pydmt.api.copy module<a class="headerlink" href="#module-pydmt.api.copy" title="Link to this heading">¶</a></h2>
+<p>copy.py</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pydmt.api.copy.Copy">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydmt.api.copy.</span></span><span class="sig-name descname"><span class="pre">Copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/api/copy.html#Copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.copy.Copy" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pydmt.api.one_source_one_target.OneSourceOneTarget" title="pydmt.api.one_source_one_target.OneSourceOneTarget"><code class="xref py py-class docutils literal notranslate"><span class="pre">OneSourceOneTarget</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.api.copy.Copy.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/api/copy.html#Copy.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.copy.Copy.build" title="Link to this definition">¶</a></dt>
+<dd><p>this method actually does the building
+Just do whatever you want here. Options are:
+- Write pure python code
+- Call native code
+- Call external programs
+- A combination of the above
+If there are any problems then throw an exception.
+Try not to segfault the interpreter in this method…:)</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pydmt.api.fail">
+<span id="pydmt-api-fail-module"></span><h2>pydmt.api.fail module<a class="headerlink" href="#module-pydmt.api.fail" title="Link to this heading">¶</a></h2>
+<p>fail.py</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pydmt.api.fail.Fail">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydmt.api.fail.</span></span><span class="sig-name descname"><span class="pre">Fail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/api/fail.html#Fail"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.fail.Fail" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pydmt.api.one_source_one_target.OneSourceOneTarget" title="pydmt.api.one_source_one_target.OneSourceOneTarget"><code class="xref py py-class docutils literal notranslate"><span class="pre">OneSourceOneTarget</span></code></a></p>
+<p>This is a builder that fails.
+Why do we need it? Tests
+Why does it need a source and target?
+Because otherwise it would not get triggered</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.api.fail.Fail.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/api/fail.html#Fail.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.fail.Fail.build" title="Link to this definition">¶</a></dt>
+<dd><p>this method actually does the building
+Just do whatever you want here. Options are:
+- Write pure python code
+- Call native code
+- Call external programs
+- A combination of the above
+If there are any problems then throw an exception.
+Try not to segfault the interpreter in this method…:)</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pydmt.api.feature">
+<span id="pydmt-api-feature-module"></span><h2>pydmt.api.feature module<a class="headerlink" href="#module-pydmt.api.feature" title="Link to this heading">¶</a></h2>
+<p>feature.py</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pydmt.api.feature.Feature">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydmt.api.feature.</span></span><span class="sig-name descname"><span class="pre">Feature</span></span><a class="reference internal" href="_modules/pydmt/api/feature.html#Feature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.feature.Feature" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>A Feature is a piece of code that adds builder to a pydmt system in a predefined
+way. This is a way to share common practices between projects.</p>
+<p>Examples of features can be:
+- all the rules about how to build a python module with documentation and release it.
+- all the rules about how to build a C project and release it.</p>
+<p>These are similar to facets or natures in development environments.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.api.feature.Feature.setup">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">setup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pydmt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pydmt.core.html#pydmt.core.pydmt.PyDMT" title="pydmt.core.pydmt.PyDMT"><span class="pre">PyDMT</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/pydmt/api/feature.html#Feature.setup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.feature.Feature.setup" title="Link to this definition">¶</a></dt>
+<dd><p>build your feature here</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pydmt.api.one_source_one_target">
+<span id="pydmt-api-one-source-one-target-module"></span><h2>pydmt.api.one_source_one_target module<a class="headerlink" href="#module-pydmt.api.one_source_one_target" title="Link to this heading">¶</a></h2>
+<p>one_source_one_target.py</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pydmt.api.one_source_one_target.OneSourceOneTarget">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydmt.api.one_source_one_target.</span></span><span class="sig-name descname"><span class="pre">OneSourceOneTarget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/api/one_source_one_target.html#OneSourceOneTarget"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.one_source_one_target.OneSourceOneTarget" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pydmt.api.builder.Builder" title="pydmt.api.builder.Builder"><code class="xref py py-class docutils literal notranslate"><span class="pre">Builder</span></code></a></p>
+<p>This is a builder which has one source file and one target file</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.api.one_source_one_target.OneSourceOneTarget.get_sources">
+<span class="sig-name descname"><span class="pre">get_sources</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#pydmt.api.builder.Node" title="pydmt.api.builder.Node"><span class="pre">Node</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/pydmt/api/one_source_one_target.html#OneSourceOneTarget.get_sources"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.one_source_one_target.OneSourceOneTarget.get_sources" title="Link to this definition">¶</a></dt>
+<dd><p>return the name of the source files for this builder
+If the builder takes a whole folder the list all the filers in that folder.
+If a built takes all the .py files in a folder then list those.
+In the current implementation this method is not really that important because
+it is not used to calculate the signature of the input to the build.
+The &#64;get_signature method is use for that.
+In the future the get_signature method will go away.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.api.one_source_one_target.OneSourceOneTarget.get_targets">
+<span class="sig-name descname"><span class="pre">get_targets</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#pydmt.api.builder.Node" title="pydmt.api.builder.Node"><span class="pre">Node</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/pydmt/api/one_source_one_target.html#OneSourceOneTarget.get_targets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.one_source_one_target.OneSourceOneTarget.get_targets" title="Link to this definition">¶</a></dt>
+<dd><p>return list of targets</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.api.one_source_one_target.OneSourceOneTarget.yield_results">
+<span class="sig-name descname"><span class="pre">yield_results</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Generator</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/pydmt/api/one_source_one_target.html#OneSourceOneTarget.yield_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.api.one_source_one_target.OneSourceOneTarget.yield_results" title="Link to this definition">¶</a></dt>
+<dd><p>Return the signatures and names of results
+:return:</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pydmt.api">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pydmt.api" title="Link to this heading">¶</a></h2>
+<p>__init__.py</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">pydmt</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">pydmt</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="pydmt.html">pydmt package</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">pydmt</a><ul>
+  <li><a href="pydmt.html">pydmt package</a><ul>
+      <li>Previous: <a href="pydmt.html" title="previous chapter">pydmt package</a></li>
+      <li>Next: <a href="pydmt.builders.html" title="next chapter">pydmt.builders package</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Mark Veltzer.
+      
+      |
+      <a href="_sources/pydmt.api.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

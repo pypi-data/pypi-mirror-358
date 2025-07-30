@@ -1,0 +1,102 @@
+- add a command:
+	$ pydmt build --printsummary
+	which only prints what the different builders will do.
+	This will enable to take this text and put it in the README.md
+	to show what the "build passing" sticker means.
+- "pydmt build_venv" is too slow. Take care of this.
+	how???
+	is the idea to use the current env and just modify it instead of erasing
+	it and recreating it from scratch? this sould good.
+	There should be a flag that will say if we really want to recreate the entire
+	venv or just update it.
+- BuilderApt is wasteful in that it always runs
+	"apt-get update"
+	make it more efficient by holding a file in ~/.config/pydmt/builderapt
+	whose date is the timestamp of the last update.
+	Only update if the difference of time between now and the file is say more
+	than two hours.
+- take care of "double build" needs.
+	This means that I run:
+	$ pydmt build
+	everything builds ok and then I run:
+	$ pydmt build
+	again and something builds.
+	If you want to see an example then you can use the "pyclassifiers" project.
+- add a subprocess runner that allows the programmer
+	to control if it's running a process from within the virtual
+	env (or any other path) or not.
+	use that all over pydmt
+	This will allow me to block running things like pdymt from the system/user
+	python and force it to be inside the virtual env.
+	It could also force something to be used outside the virtual env.
+- allow to say which virtual env I want in .pydmt.config
+	and create that version of the virutal env (in my case 3.10).
+	If you want to install a virtual machine of a different version of pythin you need
+	to have a different version of python installed.
+- when using subprocess make the policy to only print output if the command
+	fails the default policy.
+	have several policies:
+		- regular (no restriction)
+		- devnull
+		- only print on error
+- make pydmt print builders which are cached and which are skipped.
+- add infrastructure support for pydmt to run a command and only
+	print it's output if it fails.
+	Make that the default behaviour for all commands that pydmt runs.
+- do a release command in pydmt.
+	make testing to make sure that it makes sense.
+	increase version number.
+	build again.
+	test again.
+	commit with version number.
+	push
+	upload to pypi.
+- tools feature:
+	every builder? can declare a tool it is using:
+	say java or htmllint etc...
+	Pydmt has a central tools manager and it knows all the tools.
+	It can also print all the tools, their locations and their versions at the begining
+	of the run and that is what we will do in CICD. This will enable us to debug
+	this easier.
+- measure the time of everybuilder and enable to easily turn it on.
+	after that optimize the run time of pydmt.
+- when I run pydmt in an empty directory I don't get any warning or anything
+	just an running with no indication of anything.
+	should I have a .pydmt config file?.
+	more output for pydmt is requires even for things which are ok with cache.
+- do it so I would see reasonable errors when I run pymdt:
+	do not show stack trace by default
+	show the actually errors by default.
+- make pydmt be plugin based so I could Iterate all builders or features.
+- add the ability to add parameters to:
+	$ pydmt build [paramters]
+  and control which features and builders are we running.
+  this will enabled me to not run templating when doing CI/CD
+	which currently breaks my code.
+
+- add to YAML scanning and finding of vscode type schema and
+	using it.
+- add json validation with Coc.
+- add conversion of yaml to json.
+- add pylinting to pydmt
+	https://stackoverflow.com/questions/2028268/invoking-pylint-programmatically
+
+- change version
+	then build
+	then build again
+	somehow the second build still does something
+	fix that
+- add a plugin system to pydmt.
+	pick up all features and builders
+	This way we will not need hardcoding of default builders in pydmt/main.py build method
+- implement the "clean" method
+	just go over all builders, take all targets and remove them.
+	The problems is what happens with targets we discover after building?
+		write a doc about it.
+- support yaml validations
+- maybe run sphinx programaticlly instead of via the executable?
+- support other template types like jinja2, mustache, string.template (standard library), ...
+- cannot do something like:
+	$ pydmt build | foo
+	get weird errors - take care of that.
+- emit logging messages when things are running for easy debugging.

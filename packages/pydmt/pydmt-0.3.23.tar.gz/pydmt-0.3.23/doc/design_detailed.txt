@@ -1,0 +1,17 @@
+get source method of builder
+
+the get_sources method of builder should NOT return just a list of strings.
+It should return a list of Source object.
+Each source object could contribute to calculating the checksum of a build.
+Examples of source object:
+	a file
+	a folder
+	a folder and only .py files in it
+	an output of a command (say sphinx --version)
+If we make this change then implementors of Builder object will not need to
+implement the get_signature method anymore since the get signature will do
+something like:
+	for s in sources:
+		add_to_signature(s)
+In this case we can also print a nicer description of the sources of a build.
+* Maybe the same idea could be used for the output of a build?
