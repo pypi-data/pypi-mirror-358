@@ -1,0 +1,41 @@
+
+StorageListSidebar {
+  width: 20%;
+}
+
+StorageContent {
+  width: 80%;
+}
+
+#controls {
+  height: auto;
+  align-horizontal: center;
+
+  & > Button {
+    color: $primary;
+    border: solid $primary;
+    padding-top: 0;
+    width: 15;
+    text-align: center;
+
+    &:hover {
+        color: $text;
+    }
+    &:focus {
+        color: $text;
+    }
+  }
+}
+
+#header {
+  height: 3;
+  width: 100%;
+  color: white;
+  padding: 1 1 0 1;
+}
+
+ResizingRule {
+  color: $background-lighten-3;
+  padding: 0 0;
+  margin: 0 0;
+}
