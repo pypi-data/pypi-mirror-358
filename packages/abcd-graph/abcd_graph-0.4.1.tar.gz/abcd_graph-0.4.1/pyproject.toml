@@ -1,0 +1,86 @@
+[project]
+name = "abcd-graph"
+version = "0.4.1"
+readme = "README.md"
+description = "A python library for generating ABCD graphs."
+authors = [
+    { name = "Aleksander Wojnarowicz", email = "alwojnarowicz@gmail.com" },
+    { name = "Jordan Barrett" }
+]
+license = "MIT"
+requires-python = ">=3.9"
+packages = [{include = "abcd_graph", from = "src"}]
+repository = "https://github.com/AleksanderWWW/abcd-graph"
+dependencies = [
+    "numpy>=1.26.4",
+    "typing-extensions>=4.10.0"
+]
+
+[project.optional-dependencies]
+networkx = [
+    "networkx>=3.2.1",
+]
+igraph = [
+    "igraph>=0.11.8",
+]
+matplotlib = [
+    "matplotlib>=3.9.4",
+]
+scipy = [
+    "scipy>=1.13.1",
+]
+all = [
+    "igraph>=0.11.8",
+    "matplotlib>=3.9.4",
+    "networkx>=3.2.1",
+    "scipy>=1.13.1",
+]
+dev = [
+    "pre-commit>=4.0.1",
+    "pytest>=8.3.4",
+    "pytest-cov>=6.0.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+addopts = ["--strict-markers"]
+markers = [
+    "integration: marks tests using external dependencies"
+]
+
+
+[tool.black]
+line-length = 120
+target-version = ['py310', 'py311', 'py312']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 120
+force_grid_wrap = 2
+
+[tool.mypy]
+files = "src/abcd_graph"
+mypy_path = "stubs"
+install_types = "True"
+non_interactive = "True"
+disallow_untyped_defs = "True"
+disallow_any_unimported = "True"
+no_implicit_optional = "True"
+check_untyped_defs = "True"
+warn_return_any = "True"
+show_error_codes = "True"
+warn_unused_ignores = "True"
