@@ -1,0 +1,68 @@
+[project]
+name = "lazywrapper"
+version = "0.1.0-beta.0"
+description = "Wrapper for lazy functions / variables"
+authors = [{ name = "ttk-adm", email = "218129711+ttk-adm@users.noreply.github.com" }]
+readme = {file = "README.md", content-type = "text/markdown"}
+license = {file = "LICENSE.md"}
+classifiers = [
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+]
+
+requires-python = ">=3.10"
+dependencies = [
+
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+]
+dev = [
+    "lazywrapper[test]",
+    "black",
+    "flake8",
+    "ruff",
+]
+doc = [
+    "lazywrapper[test]",
+    "sphinx",
+    "sphinx-autodoc-typehints",
+    "pydata-sphinx-theme",
+]
+
+
+[project.urls]
+Homepage = "https://github.com/ttk-adm/lazywrapper"
+#Documentation = "https://lazywrapper.readthedocs.io/"
+Repository = "https://github.com/ttk-adm/lazywrapper"
+Issues = "https://github.com/ttk-adm/lazywrapper/issues"
+
+
+[tool.black]
+line-length = 88
+target-version = ['py310']
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.bandit.assert_used]
+skips = ["*/test_*.py"]
+
+[tool.setuptools]
+package-dir = {""= "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = ["tests"]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
