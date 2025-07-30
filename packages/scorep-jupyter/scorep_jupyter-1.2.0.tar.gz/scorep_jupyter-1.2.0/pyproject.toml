@@ -1,0 +1,32 @@
+[build-system]
+requires = [
+  "setuptools>=61",
+  "wheel",
+]
+build-backend = "setuptools.build_meta:__legacy__"
+
+[project]
+name='scorep-jupyter'
+version='1.2.0'
+authors=[
+  {name='Elias Werner',email='elias.werner@tu-dresden.de'},
+]
+description='This is a Jupyter Python Kernel for Score-P instrumentation. It supports performance data recording with Score-P for fine-grained performance analysis.'
+readme={ file='README.md', content-type="text/markdown"}
+license={ file="LICENSE" }
+requires-python = ">=3.8"
+classifiers=[
+"Programming Language :: Python :: 3",
+]
+
+dependencies = [
+  "ipykernel",
+  "jupyter-client",
+  "astunparse",
+  "dill",
+  "scorep"
+]
+
+[project.urls]
+homepage = "https://github.com/score-p/scorep_jupyter_kernel_python"
+repository = "https://github.com/score-p/scorep_jupyter_kernel_python"
