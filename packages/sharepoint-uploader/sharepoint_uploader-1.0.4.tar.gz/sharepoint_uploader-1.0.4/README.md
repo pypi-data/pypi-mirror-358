@@ -1,0 +1,226 @@
+# SharePoint Uploader
+
+A Python package for uploading files to SharePoint using Microsoft Graph API. This package provides an easy-to-use interface for uploading various file types, creating folders, and handling authentication with built-in retry logic and proper error handling.
+
+## Features
+
+- 🔐 **Secure Authentication**: Uses Microsoft Authentication Library (MSAL) for secure OAuth2 authentication
+- 📁 **File Upload**: Support for uploading any file type to SharePoint
+- 📊 **DataFrame Integration**: Direct upload of pandas DataFrames as CSV files
+- 📋 **Batch Operations**: Upload multiple files at once
+- 🔄 **Retry Logic**: Automatic retry with exponential backoff for failed operations
+- 🛡️ **Error Handling**: Comprehensive error handling and logging
+- 📂 **Folder Management**: Create and manage SharePoint folders
+
+## Installation
+
+```bash
+pip install sharepoint-uploader
+```
+
+## Quick Start
+
+### Prerequisites
+
+Before using this package, you need to:
+
+1. Register an application in Azure Active Directory
+2. Grant the following permissions to your app:
+   - `Sites.ReadWrite.All`
+   - `Files.ReadWrite.All`
+3. Generate a client secret for your application
+
+### Basic Usage
+
+```python
+from sharepoint_uploader import SharePointUploader
+import pandas as pd
+
+# Initialize the uploader
+uploader = SharePointUploader(
+    client_id="your-client-id",
+    client_secret="your-client-secret",
+    tenant_id="your-tenant-id",
+    site_domain_name="company.sharepoint.com",
+    drive_name="Documents"
+)
+
+# Upload a single file
+uploader.upload_file("local_file.pdf", "target_folder")
+
+# Upload multiple Word documents
+docx_files = ["report1.docx", "report2.docx", "report3.docx"]
+uploader.upload_docx(docx_files, "reports/2024")
+
+# Upload a DataFrame as CSV
+df = pd.DataFrame({
+    "Name": ["Alice", "Bob", "Charlie"],
+    "Age": [25, 30, 35],
+    "Department": ["Engineering", "Sales", "Marketing"]
+})
+uploader.upload_dataframe_as_csv(df, "employees.csv", "data")
+
+# Create folders
+uploader.create_folder("new_project", "projects")
+```
+
+### Advanced Usage
+
+```python
+import logging
+
+# Custom logger
+logger = logging.getLogger("my_app")
+logger.setLevel(logging.DEBUG)
+
+# Initialize with custom logger
+uploader = SharePointUploader(
+    client_id="your-client-id",
+    client_secret="your-client-secret",
+    tenant_id="your-tenant-id",
+    site_domain_name="company.sharepoint.com",
+    drive_name="Documents",
+    logger=logger
+)
+
+# Upload with custom CSV parameters
+df = pd.DataFrame({"col1": [1, 2, 3], "col2": ["a", "b", "c"]})
+uploader.upload_dataframe_as_csv(
+    df, 
+    "data_with_semicolons.csv", 
+    "exports",
+    sep=";",  # Use semicolon separator
+    encoding="utf-8-sig"  # Include BOM for Excel compatibility
+)
+
+# Upload with specific content type
+uploader.upload_file(
+    "custom_file.bin", 
+    "uploads",
+    content_type="application/octet-stream",
+    max_retries=5
+)
+```
+
+## API Reference
+
+### SharePointUploader Class
+
+The main class for handling SharePoint operations.
+
+#### Constructor Parameters
+
+- `client_id` (str): Azure AD application client ID
+- `client_secret` (str): Azure AD application client secret  
+- `tenant_id` (str): Azure AD tenant ID
+- `site_domain_name` (str): SharePoint site domain (e.g., 'company.sharepoint.com')
+- `drive_name` (str): SharePoint drive/site name
+- `logger` (logging.Logger, optional): Custom logger instance
+
+#### Methods
+
+##### `upload_file(file_path, folder_path="", content_type=None, max_retries=3)`
+Upload any file type to SharePoint.
+
+**Parameters:**
+- `file_path` (str): Local path to the file
+- `folder_path` (str): Target folder in SharePoint
+- `content_type` (str): MIME type (auto-detected if None)
+- `max_retries` (int): Maximum upload attempts
+
+**Returns:** `bool` - True if successful
+
+##### `upload_docx(file_paths, folder_path="")`
+Upload multiple Word documents.
+
+**Parameters:**
+- `file_paths` (List[str]): List of .docx file paths
+- `folder_path` (str): Target folder in SharePoint
+
+**Returns:** `bool` - True if all uploads successful
+
+##### `upload_dataframe_as_csv(dataframe, file_name, folder_path="", **csv_kwargs)`
+Upload pandas DataFrame as CSV.
+
+**Parameters:**
+- `dataframe` (pd.DataFrame): DataFrame to upload
+- `file_name` (str): Target filename (.csv extension added if missing)
+- `folder_path` (str): Target folder in SharePoint
+- `**csv_kwargs`: Additional arguments for `to_csv()`. Assumes 'UTF-8' encoding if not provided any.
+
+**Returns:** `bool` - True if successful
+
+##### `create_folder(folder_name, parent_folder_path="")`
+Create a folder in SharePoint.
+
+**Parameters:**
+- `folder_name` (str): Name of the folder to create
+- `parent_folder_path` (str): Parent folder path
+
+**Returns:** `str` - Full path of the created folder
+
+## Configuration
+
+### Environment Variables
+
+You can use environment variables for configuration:
+
+```python
+import os
+from sharepoint_uploader import SharePointUploader
+
+uploader = SharePointUploader(
+    client_id=os.getenv("SHAREPOINT_CLIENT_ID"),
+    client_secret=os.getenv("SHAREPOINT_CLIENT_SECRET"),
+    tenant_id=os.getenv("SHAREPOINT_TENANT_ID"),
+    site_domain_name=os.getenv("SHAREPOINT_DOMAIN"),
+    drive_name=os.getenv("SHAREPOINT_DRIVE_NAME")
+)
+```
+
+### Logging Configuration
+
+```python
+import logging
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('sharepoint_uploads.log'),
+        logging.StreamHandler()
+    ]
+)
+
+logger = logging.getLogger("sharepoint_uploader")
+```
+
+## Error Handling
+
+The package includes comprehensive error handling:
+
+```python
+try:
+    uploader.upload_file("nonexistent.txt", "folder")
+except FileNotFoundError:
+    print("File not found")
+except Exception as e:
+    print(f"Upload failed: {e}")
+```
+
+Common exceptions:
+- `FileNotFoundError`: Source file doesn't exist
+- `requests.exceptions.HTTPError`: HTTP errors (401, 403, 404, etc.)
+- `Exception`: General upload or API errors
+
+## Supported File Types
+
+The package supports uploading any file type. Common MIME types are automatically detected:
+
+- **Documents**: .pdf, .docx, .xlsx, .pptx
+- **Images**: .jpg, .jpeg, .png, .gif
+- **Data**: .csv, .json, .xml
+- **Archives**: .zip, .tar.gz
+- **Text**: .txt, .md, .log
+- **Custom**: Any file with specified content type
