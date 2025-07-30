@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools", "wheel", "setuptools_scm[toml]==7.*"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "multistage-build"
+dynamic = [
+  "version",  # The version is taken directly from the repository, using setuptools-scm.
+]
+description = "A generic PEP-517 build backend which allows additional processing to be applied to the resulting metadata, wheel and/or editable wheel."
+readme = "README.md"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent",
+]
+authors = [
+  { name = "Phil Elson", email = "philip.elson@cern.ch" },
+]
+requires-python = ">=3.7"
+
+dependencies = [
+  'importlib_metadata >= 4.6 ; python_version < "3.10"',  # For entry_points
+  'tomli >= 1.1.0 ; python_version < "3.11"',
+]
+
+[project.optional-dependencies]
+test = [
+  "build",
+  "pytest",
+  "pyproject_hooks",
+]
+doc = [
+]
+dev = [
+  "multistage-build[doc,test]",
+]
+
+[project.urls]
+Homepage = "https://github.com/pelson/multistage-build"
+Repository = "https://github.com/pelson/multistage-build"
+
+[tool.setuptools.packages.find]
+include = ["multistage_build", "multistage_build.*"]
+
+[tool.setuptools_scm]
+# Tell setuptools_scm to write a _version.py file in the package.
+write_to = "multistage_build/_version.py"
+
+[tool.isort]
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+line_length = 88
+force_sort_within_sections = true
