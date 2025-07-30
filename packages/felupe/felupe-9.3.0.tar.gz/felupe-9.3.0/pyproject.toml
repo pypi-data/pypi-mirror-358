@@ -1,0 +1,90 @@
+[build-system]
+requires = ["setuptools>=77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[tool.isort]
+profile = "black"
+
+[project]
+name = "felupe"
+description = "Finite Element Analysis"
+readme = "README.md"
+authors = [
+  {name = "Andreas Dutzler", email = "a.dutzler@gmail.com"},
+]
+requires-python = ">=3.9"
+license = "GPL-3.0-or-later"
+license-files = ["LICENSE"]
+keywords = [
+  "computational-mechanics",
+  "fea",
+  "fem",
+  "finite-elements",
+  "finite-elements-analysis",
+  "finite-elements-methods",
+  "hyperelasticity",
+  "partial-differential-equations",
+  "pde",
+  "python", 
+  "scientific-computing",
+  "solid-mechanics-codes",
+]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Programming Language :: Python",
+  "Intended Audience :: Science/Research",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Scientific/Engineering :: Mathematics",
+  "Topic :: Utilities"
+]
+dynamic = ["version"]
+
+dependencies = [
+  "numpy",
+  "scipy",
+]
+
+[project.optional-dependencies]
+docs = [
+    "pydata-sphinx-theme",
+    "sphinx-autoapi",
+    "sphinx-inline-tabs",
+    "sphinx-copybutton",
+    "sphinx-design",
+    "sphinx-gallery",
+    "pypandoc",
+]
+autodiff = ["tensortrax", "jax"]
+examples = [
+    "contique",
+    "imageio",
+    "pypardiso",
+    "torch",
+]
+io = [
+    "h5py",
+    "meshio",
+]
+parallel = ["einsumt"]
+progress = ["tqdm"]
+plot = ["matplotlib"]
+view = ["pyvista[jupyter]"]
+all = ["felupe[autodiff,io,parallel,plot,progress,view]"]
+
+[tool.setuptools.dynamic]
+version = {attr = "felupe.__about__.__version__"}
+
+[project.urls]
+Homepage = "https://felupe.readthedocs.io/en/latest"
+Documentation = "https://felupe.readthedocs.io/en/latest"
+Repository = "https://github.com/adtzlr/felupe"
+Issues = "https://github.com/adtzlr/felupe/issues"
+Changelog = "https://github.com/adtzlr/felupe/blob/main/CHANGELOG.md"
