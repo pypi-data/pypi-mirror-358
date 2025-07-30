@@ -1,0 +1,18 @@
+[project]
+name = "easier-data"
+version = "1.0.0b1"
+description = "Python package for managing data and plotting easier"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "matplotlib>=3.10.3",
+    "numpy>=2.3.0",
+    "scipy>=1.15.3",
+]
+
+[dependency-groups]
+dev = [
+    "accurate-benchmark>=1.1.0",
+    "jupyter>=1.1.1",
+    "ruff>=0.12.0",
+]
