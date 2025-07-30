@@ -1,0 +1,147 @@
+# Edazer
+
+**Edazer** is a lightweight Python package for performing **common** exploratory data analysis (EDA) tasks.  
+It provides quick and intuitive methods to **inspect**, **summarize**, and **understand** your datasets—whether you're using **pandas** or **polars**.
+
+Ideal for:
+
+- Jupyter notebooks
+- Fast data profiling
+- Early-stage data exploration
+
+---
+
+## Features
+
+- **Quick DataFrame Summaries:** Instantly view info, describe, nulls, duplicates, and shape using `summary` method
+- **Unique Value Inspection:** Easily display unique values for any or all columns.
+- **Type-based Column Selection:** Find columns by dtype (e.g., int, float categorical).
+- **Flexible Subsetting:** Use the `lookup` method to view head, tail, or random samples.
+- **Custom DataFrame Naming:** Track multiple DataFrames with custom names for clarity.
+
+---
+
+## Installation
+
+```bash
+pip install edazer
+```
+
+---
+
+## Quick Start with Titanic Dataset
+
+```python
+import seaborn as sns
+from edazer import Edazer
+
+# Load the Titanic dataset from seaborn
+titanic = sns.load_dataset('titanic')
+
+# Create an Edazer instance
+titanic = Edazer(titanic, backend= "pandas" ,name="titanic") # backend options : "pandas", "polars"
+
+#Complete DataFrame summary: info | descriptive statistics | nulls| duplicates | uniques | shape
+titanic.summarize_df()
+
+# Show unique values for selected columns
+titanic.show_unique_values(column_names=['class', 'embarked'], max_unique=5)
+
+# Get columns with float dtype
+print(titanic.cols_with_dtype(['float']), exact= False)
+
+#Combine multiple methods
+titanic.show_unique_values(column_names=titanic_dz.cols_with_dtype(dtypes=["object"]))
+
+# Display the first few rows
+print(titanic.lookup("head"))
+
+#Access the df and use it like a pandas/polars df
+print(titanic.df.columns)
+
+```
+
+---
+
+## 📘 API Reference
+
+### `Edazer(df, backend="pandas", name=None)`
+
+Create an analyzer instance.
+
+- `df`: `pd.DataFrame` or `pl.DataFrame`  
+- `backend`: `"pandas"` or `"polars"` (default: `"pandas"`)  
+- `name`: Optional string label for the DataFrame
+
+---
+
+### `summarize_df()`
+
+Print summary:
+
+- Schema/info
+- Descriptive stats
+- Null/duplicate counts
+- Unique values
+- Shape
+
+---
+
+### `show_unique_values(column_names=None, max_unique=10)`
+
+Show unique values for columns.
+
+- `column_names`: Optional list of columns  
+- `max_unique`: Max unique values to display per column
+
+---
+
+### `cols_with_dtype(dtypes, exact=False, return_dtype_map=False)`
+
+Return columns matching specified dtypes.
+
+- `dtypes`: List of type strings (e.g. `["int", "object"]`)  
+- `exact`: Match full dtype string (e.g. `"int64"`)  
+- `return_dtype_map`: If `True`, return `{col: dtype}`
+
+---
+
+### `lookup(option="head")`
+
+Quickly inspect data.
+
+- `option`: `"head"`, `"tail"`, or `"sample"`
+
+
+## Example Output
+
+```python
+titanic_eda.show_unique_values(column_names=titanic_dz.cols_with_dtype(dtypes=["object"]))
+
+# Output:
+sex: ['male', 'female']
+embarked: ['S', 'C', 'Q', nan]
+who: ['man', 'woman', 'child']
+embark_town: ['Southampton', 'Cherbourg', 'Queenstown', nan]
+alive: ['no', 'yes']
+```
+
+---
+
+## Contributing
+
+Contributions are highly welcome! 
+
+https://github.com/adarsh-79/edazer
+(to be updated soon)
+
+---
+
+## License
+
+MIT License
+
+---
+
+## Author
+[adarsh3690704](https://github.com/adarsh-79)
