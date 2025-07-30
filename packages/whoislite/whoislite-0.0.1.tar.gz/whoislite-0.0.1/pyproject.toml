@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+
+[project]
+name = "whoislite"
+version = "0.0.1"
+description = "WhoisLite is a fast, pure Python library for querying WHOIS information for domain names across hundreds of TLDs."
+readme = "README.md"
+authors = [{ name = "Kalinin Mitko", email = "kalinin.mitko@gmail.com" }]
+license = { file = "LICENSE" }
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+]
+keywords = ["python", "whois", "whois-loopup", "whois-query", "whois-client"]
+requires-python = ">=3.9"
+
+[project.optional-dependencies]
+dev = ["pip-tools"]
+
+[project.urls]
+Homepage = "https://github.com/null-none/whoislite"
+
+[tools.setuptools]
+packages = ["src"]
