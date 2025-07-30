@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools >= 75.3.2", "vermin"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "haskell-taboo-py"
+dynamic = ["version"]
+authors = [
+  { name="Aly Cerruti", email="me@s5.pm" },
+]
+description = "A banned identifiers checker for Haskell sources"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+
+[project.license]
+file = "LICENSE"
+
+dependencies = [
+    "click>=8.1.8",
+    "tree-sitter>=0.23.2",
+    "tree-sitter-haskell>=0.23.1",
+]
+
+[project.optional-dependencies]
+dev = ["build", "vermin"]
+
+[project.urls]
+Homepage = "https://github.com/UCSC-CSE-114A/taboo-checker-py"
+Issues = "https://github.com/UCSC-CSE-114A/taboo-checker-py/issues"
+
+[project.scripts]
+haskell-taboo-py = "haskell_taboo_py:haskell_taboo_py"
+
+[tool.setuptools.dynamic]
+version = {attr = "haskell_taboo_py.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["haskell_taboo_py*"]
