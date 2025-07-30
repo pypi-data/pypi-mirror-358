@@ -1,0 +1,21 @@
+[project]
+name = "aws-ssm-env"
+version = "0.1.3"
+description = "A lightweight utility to fetch AWS SSM parameters and inject them as environment variables using JSON."
+readme = "README.md"
+authors = [
+    { name = "Angelo Antu", email = "angelo.antu@kireap.com" }
+]
+license = "MIT"
+requires-python = ">=3.10"
+keywords = ["aws", "ssm", "environment", "parameter-store", "boto3"]
+dependencies = [
+    "boto3>=1.37.2,<1.37.4"
+]
+
+[tool.poetry]
+packages = [{ include = "aws_ssm_env", from = "src" }]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
