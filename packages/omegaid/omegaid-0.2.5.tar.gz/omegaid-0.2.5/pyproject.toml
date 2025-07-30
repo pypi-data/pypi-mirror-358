@@ -1,0 +1,87 @@
+[project]
+name = "omegaid"
+description = "A high-performance toolbox for PhiID computation, accelerated by GPU."
+readme = "README.md"
+requires-python = ">=3.12"
+license = {file = "LICENSE"}
+keywords = ["pid","information theory", "gpu", "cupy"]
+authors = [
+  {name = "Rui Lin", email = "Rui.Lin.ipwt@proton.me"}
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: BSD License",
+  "Programming Language :: Python :: 3 :: Only"
+]
+
+dependencies = [
+  "numba>=0.58.1",
+  "numpy",
+  "scipy",
+]
+
+dynamic = ["version"]
+
+[project.optional-dependencies]
+cuda-12x = ["cupy-cuda12x"]
+cuda-11x = ["cupy-cuda11x"]
+
+[build-system]
+requires = ["hatchling", "uv-dynamic-versioning"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+source = "uv-dynamic-versioning"
+
+[tool.hatch.build.targets.wheel]
+packages = ["omegaid"]
+exclude = ["/omegaid/tests"]
+
+[tool.ruff]
+line-length = 120
+exclude = [
+    "phyid/"
+]
+target-version = "py38"
+
+[tool.ruff.lint]
+select = ["E", "F", "B", "NPY"]
+ignore = ["E402", "D"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["D104"]
+"omegaid/tests/*" = ["B011"]
+
+[tool.mypy]
+namespace_packages = true
+explicit_package_bases = true
+ignore_missing_imports = true
+
+[tool.coverage.run]
+source = ["omegaid"]
+omit = [
+    "omegaid/tests/*",
+    "omegaid/_version.py",
+]
+
+[dependency-groups]
+dev = [
+    "build>=1.2.2.post1",
+    "cupy-cuda12x>=13.4.1",
+    "mypy>=1.14.1",
+    "psutil>=7.0.0",
+    "pynvml>=11.5.3",
+    "pytest>=8.3.5",
+    "ruff>=0.12.1",
+    "scipy-stubs>=1.16.0.0",
+    "types-psutil>=7.0.0.20250601",
+]
+
+[tool.pytest.ini_options]
+markers = [
+    "cupy: marks tests as requiring cupy",
+]
