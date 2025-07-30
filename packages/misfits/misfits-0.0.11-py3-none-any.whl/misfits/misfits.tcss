@@ -1,0 +1,176 @@
+* {
+  scrollbar-color: $surface-lighten-3;
+  scrollbar-color-hover: $primary 80%;
+  scrollbar-color-active: $primary;
+  scrollbar-background: $surface-darken-1;
+  scrollbar-background-hover: $surface-darken-1;
+  scrollbar-background-active: $surface-darken-1;
+  scrollbar-size-vertical: 1;
+  scrollbar-size-horizontal: 0;
+
+  &:focus {
+    scrollbar-color: $surface-lighten-3;
+  }
+}
+
+DataTable > .datatable--header {
+  text-style: bold;
+  background: $primary 30%;
+  color: $text;
+}
+
+DataTable > .datatable--cursor {
+  background: $accent 30%;
+}
+
+FitsTable {
+  height: 1fr;
+  background: $background;
+  border: round $secondary;
+  border-subtitle-align: right;
+  & :focus-within {
+    border: round $accent;
+  }
+}
+
+HeaderDialog {
+  width: 1fr; /* change HeaderDialog's ellipsis accordingly */
+  border: round $secondary;
+  background: $background;
+  & :focus-within {
+    border: round $accent;
+  }
+}
+
+TableDialog {
+  width: 3fr;
+}
+
+EmptyDialog {
+  width: 3fr;
+  height: 1fr;
+  border: round $secondary;
+  align: center middle;
+  hatch: right green 20%;
+}
+
+EmptyDialog Label {
+  width: auto;
+}
+
+TabbedContent {
+  margin-top: 1;
+  height: 1fr;  /* keeps loading indicator at center */
+  background: $background;
+}
+
+TabPane {
+  padding: 0;
+  border: none;
+}
+
+Tabs .-active {
+  background: transparent;  /* disables block highlighting */
+}
+
+HeaderEntry {
+  align: center middle;
+}
+
+HeaderEntry Container {
+  width: 48;
+  height: 12;
+  border: thick $background;
+  background: $surface;
+}
+
+HeaderEntry TextArea {
+  margin: 1;
+  border: none;
+}
+
+LogScreen RichLog {
+  background: $background;
+}
+
+InfoScreen {
+  align: center middle;
+}
+
+InfoScreen Container {
+  width: 76;
+  height: 18;
+  border: ascii $primary;
+  background: $surface;
+}
+
+FileExplorerScreen {
+  align: center middle;
+}
+
+FileExplorerScreen Container {
+  align: center middle;
+  width: 75%;
+  height: 75%;
+  padding: 0 1;
+  border: thick $background;
+  background: $surface;
+}
+
+FileExplorerScreen DirectoryTree {
+  border: round $secondary;
+  background: $background;
+  &.error {
+    border: round $error;
+  }
+}
+
+FileInput {
+  /* will align prompt of FileInput to prompt of filter */
+  height: 3;
+  padding: 0 0 0 1;
+  background: $background;
+  border: round $primary;
+  & :focus-within {
+    border: round $accent;
+  }
+  &.error {
+    border: round $error;
+  }
+}
+
+FileInput Input {
+  height: 1;
+  width: 1fr;
+  border: none;
+}
+
+FilterInput {
+  border: round $secondary;
+  height: 3;
+  &:focus-within {
+    border: round $accent;
+  }
+  &.error {
+    border: round $error;
+  }
+}
+
+FilterInput Input {
+  height: 1;
+  width: 1fr;
+  border: none;
+}
+
+Header {
+  height: 1;
+  background: $footer-background;
+}
+
+Header Static {
+  width: 1fr;
+}
+
+Header Label {
+  width: auto;
+}
