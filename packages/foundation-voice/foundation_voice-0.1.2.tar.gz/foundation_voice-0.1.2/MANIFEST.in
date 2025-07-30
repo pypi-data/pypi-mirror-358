@@ -1,0 +1,31 @@
+include README.md
+include requirements.txt
+include pyproject.toml
+
+# Include all package directories
+recursive-include foundation_voice *
+
+# Global exclude patterns
+global-exclude __pycache__
+global-exclude *.py[cod]
+global-exclude *~.py
+
+global-exclude .env
+
+global-exclude .git/
+global-exclude .gitignore
+
+global-exclude .mypy_cache/
+global-exclude .pytest_cache/
+global-exclude .vscode/
+
+global-exclude venv/
+global-exclude env/
+global-exclude .venv/
+global-exclude .eggs/
+global-exclude *.egg-info/
+
+# Ignore development and testing files
+prune tests/
+prune examples/
+prune docs/
