@@ -1,0 +1,81 @@
+[build-system]
+requires = [ "setuptools" ]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "poezio-omemo"
+description = "OMEMO plugin for Poezio"
+readme = "README.md"
+dynamic = [ "version" ]
+authors = [
+    {name = "Maxime Buquet (pep.)", email = "pep@bouah.net"},
+    {name = "Tim Henkes (Syndace)", email = "me@syndace.dev"}
+]
+maintainers = [ { name = "Tim Henkes (Syndace)", email = "me@syndace.dev" } ]
+license = "GPL-3.0-only"
+license-files = [ "LICENSE" ]
+requires-python = ">= 3.9"
+dependencies = [
+    "slixmpp-omemo>=2.0.0"
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+
+    "Intended Audience :: Developers",
+    "Topic :: Communications :: Chat",
+    "Topic :: Internet :: XMPP",
+    "Topic :: Security :: Cryptography",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+
+[tool.setuptools.dynamic]
+version = { attr = "poezio_omemo.version.__version__" }
+
+[tool.setuptools.packages.find]
+exclude = [ "tests" ]
+
+[project.entry-points."poezio_plugins"]
+omemo = "poezio_omemo"
+
+[project.optional-dependencies]
+lint = [
+    "mypy",
+    "pylint",
+    "flake8",
+    "flake8-pyproject"
+]
+dev = [
+    "poezio-omemo[lint]"
+]
+
+[project.urls]
+Repository = "https://codeberg.org/poezio/poezio-omemo"
+Issues = "https://codeberg.org/poezio/poezio-omemo/issues"
+Changelog = "https://codeberg.org/poezio/poezio-omemo/src/branch/main/CHANGELOG.md"
+
+[tool.mypy]
+strict = true
+
+[[tool.mypy.overrides]]
+module = [
+    "poezio",
+    "poezio.*"
+]
+ignore_missing_imports = true
+
+[tool.flake8]
+max-line-length = 110
+doctests = true
+ignore = [ "E201", "E202", "W503" ]
+per-file-ignores = [
+    "poezio_omemo/__init__.py:F401"
+]
