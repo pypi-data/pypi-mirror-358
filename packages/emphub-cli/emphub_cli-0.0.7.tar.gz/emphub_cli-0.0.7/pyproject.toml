@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "emphub-cli"
+version = "0.0.7"
+authors = [
+  { name="David Monk", email="dmonk@cern.ch" },
+]
+description = "CLI toold to interface with EMPHub"
+readme = "README.md"
+requires-python = ">=3.6"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+dependencies = [
+    "click",
+    "tabulate",
+    "pyyaml",
+    "minio"
+]
+
+[project.urls]
+Homepage = "https://gitlab.cern.ch/dmonk/emphub-cli"
+Issues = "https://gitlab.cern.ch/dmonk/emphub-cli/issues"
+
+[project.scripts]
+emp = "emphub_cli.cli:main_cli"
