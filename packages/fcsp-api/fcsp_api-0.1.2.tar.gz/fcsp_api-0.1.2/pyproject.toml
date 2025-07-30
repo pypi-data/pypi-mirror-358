@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fcsp-api"
+version = "0.1.2"
+description = "A Python library for interacting with Ford Charge Station Pro (FCSP) devices via their REST API"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Eric Pullen", email = "eric@ericpullen.com"}
+]
+keywords = ["ford", "charging", "evse", "electric-vehicle", "home-automation", "iot", "api"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Home Automation",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    "Topic :: System :: Hardware",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "requests>=2.25.0",
+    "urllib3>=1.26.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov>=2.0",
+    "black>=21.0",
+    "flake8>=3.8",
+    "mypy>=0.800",
+    "twine>=3.0",
+    "build>=0.10",
+]
+crypto = [
+    "cryptography>=3.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/ericpullen/fcsp-api"
+Documentation = "https://github.com/ericpullen/fcsp-api#readme"
+Repository = "https://github.com/ericpullen/fcsp-api.git"
+Issues = "https://github.com/ericpullen/fcsp-api/issues"
+
+[project.scripts]
+fcsp-scanner = "fcsp_api.scanner:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["fcsp_api*"] 
