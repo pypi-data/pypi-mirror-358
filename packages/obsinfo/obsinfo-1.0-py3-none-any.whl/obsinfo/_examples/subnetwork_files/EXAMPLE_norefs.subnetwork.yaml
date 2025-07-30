@@ -1,0 +1,57 @@
+---
+format_version: "1.0"
+revision:
+    authors:
+        - names: ["Wayne Crawford"]
+          agencies: ["IPGP", "CNRS"]
+          emails: ["crawford@ipgp.fr"]
+          phones:  ["+33 01 83 95 76 63"]
+    date: "2019-12-19"
+subnetwork:
+    operators:
+        - agency: "INSU-IPGP OBS operator"
+          contacts: 
+              -
+                  names: ["Wayne Crawford"]
+                  emails: ["crawford@ipgp.fr", "parc-obs@services.cnrs.fr"]
+                  phones: ["+33 (0)6 51 51 10 54"]
+              -
+                  names: ["Romuald Daniel"]
+          website: "http://parc-obs.insu.cnrs.fr"
+    network:
+        code: "4G"
+        description: "EMSO-AZORES: Local seismological network around the summit of Lucky Strike volcano"
+        start_date: "2007-07-01"
+        end_date: "2025-12-31"
+        description: ""
+        comments: 
+            - "Lucky Strike Volcano, North Mid-Atlantic Ridge"
+    stations:
+        "BB_1":
+            site: "My favorite site"
+            start_date: "2011-04-23T10:00:00"
+            end_date: "2011-05-28T15:37:00"
+            location_code: "00"
+            locations:
+                "00":
+                    base:
+                        depth.m: 0
+                        geology: "unknown"
+                        vault: "Sea floor"
+                        uncertainties.m: {lon: 20, lat: 20, elev: 20}
+                        measurement_method: "Short baseline transponder, near-seafloor release"
+                    position: {lon.deg: -32.234, lat.deg: 37.2806, elev.m: -1950}
+            instrumentation:
+                base: "INSU_BBOBS"
+                configuration: "SN07"
+                datalogger_configuration: "62.5sps"
+            processing:
+                - clock_correction:
+                    drift:
+                        base:
+                            instrument: "Seascan MCXO, ~1e-8 nominal drift"
+                            reference: "GNSS"
+                        type: 'piecewise_linear'
+                        syncs_instrument_reference:
+                            - ["2015-04-23T11:20:00", "2015-04-23T11:20:00"]
+                            - ["2016-05-27T14:00:00", "2016-05-27T14:00:00.2450"]

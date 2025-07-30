@@ -1,0 +1,23 @@
+---
+format_version: "1.0"
+revision: 
+    date: "2017-11-30"
+    authors: 
+        -   $ref: "persons/EXAMPLE.person.yaml"
+preamplifier_base:
+    equipment:
+        model: "BBOBS-GAIN"
+        type: "Analog gain card"
+        description: "Example BBOBS gain card"
+        manufacturer: "ACME BBOBSs"
+        vendor: "ACME Sales Ltd."
+    stages:
+        - {base: {$ref: "preamplifier_bases/stage_bases/EXAMPLE_BBOBS.stage_base.yaml"}}
+    configuration_default: "1x gain"
+    configurations:
+        "0.225x gain":
+            stage_modifications:
+                '*': {configuration: "0.225x"}
+        "1x gain":
+            stage_modifications:
+                '*': {configuration: "1.0x"}

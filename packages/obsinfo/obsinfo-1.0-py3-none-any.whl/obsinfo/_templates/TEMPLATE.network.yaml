@@ -1,0 +1,32 @@
+---
+format_version: "1.0"
+revision:
+    authors:
+        - {$ref: "persons/EXAMPLE.person.yaml"} 
+    date: "2024-09-30" # yyyy-mm-dd
+network:
+    code: "XX"
+    description: "EXAMPLE NETWORK"
+    start_date: "2011-01-01"
+    end_date: "2016-12-31"
+    # BEGIN OPTIONAL network elements
+    comments: 
+        - "Simple comment"
+        -   value: "A full channel-level comment"
+            # BEGIN OPTIONAL full comment elements
+            begin_effective_time: "2020-01-01T00:00:00Z"
+            end_effective_time:   "2024-09-30T00:00:00Z"
+            id: 1                  # integer >= 0
+            subject: "My subject"  # Attribute
+            authors:
+                - {$ref: "persons/EXAMPLE.person.yaml"}
+            # END OPTIONAL full comment elements
+    operators: # Network-level operators
+        - {$ref: "operators/EXAMPLE.operator.yaml"}
+    restricted_status: "open"  # "open", "closed" or "partial"
+    source_id: "FDSN:XX"    # FDSN:<network>
+    identifiers: ["DOI:10.7915/SN/XX"]  # List of identifiers
+    # END OPTIONAL network elements
+# BEGIN OPTIONAL top-level elements
+notes: ["The code XX is reserved for test or transient data"]
+# END OPTIONAL top-level elements

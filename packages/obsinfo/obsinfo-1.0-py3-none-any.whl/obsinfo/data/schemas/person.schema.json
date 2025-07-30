@@ -1,0 +1,49 @@
+{    
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Person",
+    "description": "StationXML Person file",
+    "type": "object",
+    "required": ["format_version", "person"],
+    "properties": {
+        "format_version" : {"$ref": "definitions.schema.json#/format_version"},
+        "revision" :       {"$ref": "definitions.schema.json#/revision"},
+        "notes":           {"$ref": "definitions.schema.json#/note_list"},
+        "person" :         {"$ref": "#/definitions/person"}
+    },
+    "additionalProperties" : false,
+    "definitions": {
+        "person" : {
+            "type": "object",
+            "description": "StationXML Person object",
+            "required": ["names"],
+            "properties": {
+                "names":    {"$ref": "#/definitions/names"},
+                "agencies": {"$ref": "#/definitions/agencies"},
+                "emails":   {"$ref": "#/definitions/emails"},
+                "phones":   {"$ref": "#/definitions/phones"}
+            },
+            "additionalProperties": false
+        },
+        "names" : {
+            "description": "StationXML Person:Names",
+            "type": "array",
+            "items" : {"type": "string"}
+        },
+        "agencies" : {
+            "description": "StationXML Person:Agency",
+            "type": "array",
+            "items" : {"type": "string"}
+        },
+        "emails" : {
+            "description": "StationXML Person:Email",
+            "type": "array",
+            "items" : {"type": "string", "format": "email"}
+        },
+        "phones" : {
+            "description": "StationXML Person:Phone",
+            "type": "array",
+            "items" : {"$ref": "definitions.schema.json#/phone"}
+        }
+
+    }
+}

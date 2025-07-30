@@ -1,0 +1,49 @@
+---
+format_version: "1.0"
+revision:
+    authors:
+        - {$ref: "persons/EXAMPLE.person.yaml"} # Reference to a file,
+                                                 # or fields of a person element
+    date: "2024-09-30" # yyyy-mm-dd
+preamplifier_base:
+    equipment:
+        model: "CUBI-RC-RC"
+        type: "Analog gain/filter card"
+        description: "CUBI gain/filter card, LP at ~100 MHz"
+        manufacturer: "IPGP"
+        # OPTIONAL elements
+        vendor: "None"
+        serial_number: "2014a2"
+        installation_date: "2024-09-30"
+        removal_date: "2025-08-31"
+        resource_id: "IPGP:2004iepw44" # Unique ID of the filter, typically
+                                       # "GENERATOR:Meaningful_ID"
+        calibration_dates: 
+           - "2004-09-22T07:00:00"
+    stages:
+        - base: {$ref: "preamplifier_bases/stage_bases/EXAMPLE_BBOBS.stage_base.yaml"} 
+   # BEGIN OPTIONAL preamplifier_base elements
+    stage_modifications: 
+        "1": {gain: {value: 200}}    # Modifications to a stage or stages, with
+                                     # stage number(s) as key (1 = first stage)
+    notes:
+        - "A note"
+    configuration_default: "128x gain"
+    configurations:
+        "16x gain":
+            stage_modifications:
+                '2': {gain: {value: 16}}
+        "32x gain":
+            stage_modifications:
+                '2': {gain: {value: 32}}
+        "64x gain":
+            stage_modifications:
+                '2': {gain: {value: 64}}
+        "128x gain":
+            stage_modifications:
+                '2': {gain: {value: 128}}
+   # END OPTIONAL preamplifier_base elements
+# BEGIN OPTIONAL top-level elements
+notes: 
+   - ""
+# END OPTIONAL top-level elements

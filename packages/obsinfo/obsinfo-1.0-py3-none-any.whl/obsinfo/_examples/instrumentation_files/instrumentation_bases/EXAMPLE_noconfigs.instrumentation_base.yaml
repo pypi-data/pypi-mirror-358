@@ -1,0 +1,32 @@
+---
+format_version: "1.0"
+revision: 
+    date: "2019-12-19"
+    authors:
+        - {$ref: "persons/EXAMPLE.person.yaml"}
+instrumentation_base:
+    equipment:
+        model: "My Model"
+        type: "Broadband Ocean Bottom Seismometer"
+        description: "A really cool BBOBS" 
+        manufacturer: "ACME OBSs"
+        vendor: "ACME Sales, Ltd"
+    channels:
+        default:
+            datalogger: {base: {$ref: "datalogger_bases/EXAMPLE.datalogger_base.yaml"}}
+            preamplifier: {base: {$ref: "preamplifier_bases/EXAMPLE_BBOBS.preamplifier_base.yaml"},
+                           configuration: "0.225x gain"}
+            sensor: {base: {$ref: "sensor_bases/EXAMPLE_BBSeismometer.sensor_base.yaml"},
+                     configuration: "SN1-399, single-sided"}  
+        "1":
+            orientation: {code: "2", azimuth.deg: {value: 90, uncertainty: 180}}
+        "2":
+            orientation: {code: "1", azimuth.deg: {value: 0, uncertainty: 180}}
+        "3": 
+            orientation: {code: "Z", azimuth.deg: {value: 0}, dip.deg: {value: -90}}
+            preamplifier: {configuration: "1x gain"}
+        "4":
+            orientation : {code: "G", azimuth.deg: {value: 0}, dip.deg: {value: 90}}
+            replace_preamplifier: {base: {$ref: "preamplifier_bases/EXAMPLE_DPG.preamplifier_base.yaml"}}
+            replace_sensor: {base: {$ref: "sensor_bases/EXAMPLE_DPG.sensor_base.yaml"}}         
+    

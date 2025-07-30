@@ -1,0 +1,30 @@
+---
+format_version: "1.0"
+revision:
+    authors:
+        - {$ref: "persons/EXAMPLE.person.yaml"} # Reference to a file,
+                                                 # or fields of a person element
+    date: "2024-09-30" # yyyy-mm-dd
+filter:
+   type: "PolesZeros"
+   zeros :
+       - "0 + 0j"
+       - "0 _ 0j"
+   poles :
+       - "1 + 1j"
+       - "1 - 1j"
+       - "4000 + 0j"
+   # BEGIN OPTIONAL filter elements (default in parentheses)
+   delay.seconds: 0  # used to calculate stage-level delay
+   transfer_function_type: "LAPLACE (HERTZ)"  # "LAPLACE (RADIANS/SECOND)"
+                                              # or "LAPLACE (HERTZ)"
+                                              # or "DIGITAL (Z-TRANSFORM)"
+                                              # ("LAPLACE (RADIANS/SECOND)")
+   normalization_frequency: 10  # (gain:frequency)
+   normalization_factor: 1.33   # (calculated from normalization frequency
+                                #  and poles and zeros)
+   # END OPTIONAL filter elements
+# BEGIN OPTIONAL top-level elements
+notes: 
+   - ""
+# END OPTIONAL top-level elements

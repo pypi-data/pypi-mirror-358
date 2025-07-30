@@ -1,0 +1,141 @@
+{    
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Location Base",
+    "description": "location_base file",
+    "type": "object",
+    "required": ["format_version", "location_base"],
+    "properties": {
+        "format_version" : {"$ref": "definitions.schema.json#/format_version"},
+        "revision" :       {"$ref": "definitions.schema.json#/revision"},
+        "notes":           {"$ref": "definitions.schema.json#/note_list"},
+        "location_base":   {"$ref": "#/definitions/base"}
+    },
+    "additionalProperties" : false,
+    "definitions": {
+        "base_properties": {
+            "description": "list of common properties in {element}, modifications, base, definition, and configuration_definition.  This is unused because 'allOf' for makes ugly schema validation",
+            "properties": {
+                "uncertainties.m" : {"$ref": "#/definitions/GeoJSON_m" },
+                "measurement_method" : {"$ref": "#/definitions/GeoJSON_string" },
+                "depth.m" :         {"type": "number", "description" : "depth beneath the seafloor (m)"},
+                "geology" :         {"type": "string", "default" : "unknown"},
+                "vault" :           {"type": "string", "default" : "Sea floor"},
+                "notes":           {"$ref": "definitions.schema.json#/note_list"}
+            }
+        },
+         "location": {
+            "description": "location definition (base + configuration)",
+            "type" : "object",
+            "required": [
+                "base",
+                "position"
+            ],
+            "properties": {
+                "base":          {"$ref" : "#/definitions/base" },
+                "configuration": {"type": ["string", "null"]},
+                "modifications": {"$ref" : "#/definitions/modifications" },
+                "notes":         {"$ref": "definitions.schema.json#/note_list"},
+                "water_level.m": {"type": "number"},
+                "position":      {"$ref": "#/definitions/GeoJSON" }
+            },
+            "additionalProperties" : false
+        },
+        "modifications" : {
+            "description" : "location modifications",
+            "type": "object",
+            "properties": {
+                "base":          {"$ref" : "#/definitions/base" },
+                "position":      {"$ref": "#/definitions/GeoJSON" },
+                "configuration": {"type": ["string", "null"]},
+
+                "uncertainties.m" : {"$ref": "#/definitions/GeoJSON_m" },
+                "measurement_method" : {"$ref": "#/definitions/GeoJSON_string" },
+                "depth.m" :         {"type": "number", "description" : "depth beneath the seafloor (m)"},
+                "geology" :         {"type": "string", "default" : "unknown"},
+                "vault" :           {"type": "string", "default" : "Sea floor"},
+                "water_level.m":          {"type": "number"},
+                "notes":           {"$ref": "definitions.schema.json#/note_list"}
+            },
+            "additionalProperties" : false
+        },
+        "base" : {
+            "description": "Location specification",
+            "type" : "object",
+            "required": ["uncertainties.m",
+                         "depth.m",
+                         "geology",
+                         "vault"],
+            "properties": {
+                "depth.m" :               {"type": "number", "description" : "depth beneath the seafloor (m)"},
+                "geology" :               {"type": "string", "default" : "unknown"},
+                "vault" :                 {"type": "string", "default" : "Sea floor"},
+                "uncertainties.m" :       {"$ref": "#/definitions/GeoJSON_m" },
+                "measurement_method" :    {"$ref": "#/definitions/GeoJSON_string" },
+                "water_level.m":          {"type": "number"},
+                "configuration_default":  {"type": "string"},
+                "configurations":         {"$ref": "#/definitions/configurations_map"},
+                "notes":                  {"$ref": "definitions.schema.json#/note_list"}
+            },
+            "additionalProperties" : false
+        },
+        "configurations_map": {
+            "description": "Map of configuration names",
+            "patternProperties": {
+                "^[A-Za-z0-9_-]+$": {"$ref": "#/definitions/configuration_definition"}
+            }
+        },
+        "configuration_definition" : {
+            "description": "Configuration-specific properties",
+            "properties": {
+                "configuration_description": {"type": "string"},
+
+                "uncertainties.m" : {"$ref": "#/definitions/GeoJSON_m" },
+                "measurement_method" : {"$ref": "#/definitions/GeoJSON_string" },
+                "depth.m" :         {"type": "number", "description" : "depth beneath the seafloor (m)"},
+                "geology" :         {"type": "string", "default" : "unknown"},
+                "vault" :           {"type": "string", "default" : "Sea floor"},
+                "water_level.m":          {"type": "number"},
+                "notes":            {"$ref": "definitions.schema.json#/note_list"}
+            },
+            "additionalProperties": false
+        },
+        "GeoJSON": {
+            "type": "object",
+            "description": "Object position",
+            "required": ["lat.deg","lon.deg","elev.m"],
+            "properties": {
+                "lat.deg":  {"type": "number"},
+                "lon.deg":  {"type": "number"},
+                "elev.m": {"type" :"number"}
+            },
+            "additionalProperties" : false
+        },
+        "GeoJSON_m": {
+            "type": "object",
+            "description": "Position uncertainties in meters",
+            "required": ["lat","lon","elev"],
+            "properties": {
+                "lat":  {"type": "number"},
+                "lon":  {"type": "number"},
+                "elev": {"type" :"number"}
+            },
+            "additionalProperties" : false
+        },
+        "GeoJSON_string": {
+            "description": "Position measurement method(s)",
+            "oneOf": [
+                {   "type": "string"},
+                {
+                    "type": "object",                    
+                    "required": ["lat","lon","elev"],
+                    "properties": {
+                        "lat":  {"type": "string"},
+                        "lon":  {"type": "string"},
+                        "elev": {"type" :"string"}
+                    },
+                    "additionalProperties" : false
+                }
+            ]
+        }
+    }
+}

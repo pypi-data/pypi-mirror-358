@@ -1,0 +1,16 @@
+---
+format_version: "1.0"
+stage_base:
+    description : "BBOBS PREAMPLIFIER"
+    input_units : {name: "V", description: "VOLTS"}
+    output_units : {name: "V", description: "VOLTS"}
+    gain : { value : 1.0, frequency: 0}
+    filter :
+        type : "ANALOG"
+    configuration_default: "1.0x"
+    configurations:
+        "1.0x":
+            gain: {value: 1.0, frequency: 0}
+        "0.225x":
+            gain: {value: 0.225, frequency: 0}
+    

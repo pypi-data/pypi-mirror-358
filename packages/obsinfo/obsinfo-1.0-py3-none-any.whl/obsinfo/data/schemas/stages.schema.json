@@ -1,0 +1,45 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Response",
+    "description": "OBS instrument_component response stages",
+    "type": "object",
+    "required": [ "stages", "format_version" ],
+    "properties": {
+        "format_version":  {"$ref" : "definitions.schema.json#/format_version"},
+        "revision":        {"$ref" : "definitions.schema.json#/revision"},
+        "yaml_anchors":    {"$ref" : "definitions.schema.json#/yaml_anchors"},
+        "notes" :          {"$ref": "definitions.schema.json#/note_list"},
+        "stages":          {"$ref" : "#/definitions/stages" }
+    },
+    "additionalProperties" : false,
+    "definitions": {
+        "stages" : {
+            "if": {"type": "array"},
+            "then": {
+               "minItems": 1,
+               "description" : "list of stages",
+               "items" : { "$ref" : "stage_base.schema.json#/definitions/stage" }
+            },
+            "else": {"$ref" : "stage_base.schema.json#/definitions/stage" }
+        },
+        "modifications" : {
+            "if": {"type": "array"},
+            "then": {
+               "minItems": 1,
+               "description" : "list of stages",
+               "items" : { "$ref" : "stage_base.schema.json#/definitions/modifications" }
+            },
+            "else": {"$ref" : "stage_base.schema.json#/definitions/modifications" }
+        },
+        "stage_modifications": {  
+            "type": "object",
+            "description": "individual changes specified by stage number",
+            "patternProperties": {                                                                  
+               "^\\*$":                   { "$ref": "stage_base.schema.json#/definitions/modifications"},
+               "^\\[[0-9]+\\-[0-9]+\\]$": { "$ref": "stage_base.schema.json#/definitions/modifications"},
+               "^\\[[0-9\\,]*[0-9]+\\]$": { "$ref": "stage_base.schema.json#/definitions/modifications"},
+               "^[0-9]+$":                { "$ref": "stage_base.schema.json#/definitions/modifications"}
+             }
+        }
+    }
+}

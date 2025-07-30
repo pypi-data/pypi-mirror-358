@@ -1,0 +1,26 @@
+---
+format_version: "1.0"
+subnetwork:
+    operators: [{$ref: "operators/EXAMPLE.operator.yaml"}]
+    network: {$ref: "networks/EXAMPLE.network.yaml"}
+    stations:
+        "BB_1":
+            start_date: "2015-04-23T10:00:00"
+            end_date: "2015-05-28T15:37:00"
+            locations:
+                "00":
+                    base: {$ref: 'location_bases/EXAMPLE.location_base.yaml'}
+                    configuration: "BUC_DROP"
+                    position: {lon.deg: -32.234, lat.deg: 37.2806, elev.m: -1950}
+            instrumentation:
+                base: {$ref: "instrumentation_bases/EXAMPLE.instrumentation_base.yaml"}
+                configuration: "SN03_pre2012"
+                datalogger_configuration: "250sps"
+            processing:
+                - clock_correction:
+                    drift:
+                        base: {$ref: "timing_bases/EXAMPLE.timing_base.yaml"}
+                        type: 'piecewise_linear'
+                        syncs_instrument_reference:
+                            - ["2015-04-23T11:20:00", "2015-04-23T11:20:00"]
+                            - ["2016-05-27T14:00:00", "2016-05-27T14:00:00.2450"]

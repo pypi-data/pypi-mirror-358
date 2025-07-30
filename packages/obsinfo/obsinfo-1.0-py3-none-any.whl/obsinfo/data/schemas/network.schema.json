@@ -1,0 +1,38 @@
+{    
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Network Information",
+    "description": "allows separate network files to be validated",
+    "type": "object",
+    "required": ["format_version", "network"],
+    "properties": {
+        "format_version" : {"$ref": "definitions.schema.json#/format_version"},
+        "revision" :       {"$ref": "definitions.schema.json#/revision"},
+        "notes":           {"$ref": "definitions.schema.json#/note_list"},
+        "network" :   {"$ref": "#/definitions/network"}
+    },
+    "additionalProperties" : false,
+    "definitions": {
+        "network" : {
+            "description": "Network information in FDSN nomenclature",
+            "type": "object",
+            "required" : [
+                "code",
+                "start_date",
+                "end_date",
+                "description"
+            ],
+            "properties" : {
+                "code" :             {"type": "string",  "description": "FDSN network code or 'XX'"},
+                "description":       {"type": "string" , "description": "FDSN network name"},
+                "end_date":          {"$ref": "definitions.schema.json#/any_date_or_null"},
+                "start_date":        {"$ref": "definitions.schema.json#/any_date"},
+                "operators":         {"$ref": "operator.schema.json#definitions/operators"},
+                "restricted_status": {"$ref": "definitions.schema.json#/restricted_status"},
+                "source_id":         {"$ref": "definitions.schema.json#source_id"},
+                "identifiers":       {"$ref": "definitions.schema.json#identifiers"},
+                "comments":          {"$ref": "definitions.schema.json#/comments"}
+            },
+            "additionalProperties" : false
+        }
+    }
+}

@@ -1,0 +1,70 @@
+---
+format_version: "1.0"
+revision:
+    authors:
+        - {$ref: "persons/EXAMPLE.person.yaml"} # Reference to a file,
+                                                 # or fields of a person element
+    date: "2024-09-30" # yyyy-mm-dd
+datalogger_base:
+    equipment:
+        model: "ADS1281"
+        type: "delta-sigma A/D converter + digital filter"
+        description: "Single Chip High-Resolution Analog-to-Digital Converter"
+        manufacturer: "Texas Instruments"
+        # BEGIN OPTIONAL equipment elements
+        vendor: "various"
+        serial_number: "2014a2"
+        installation_date: "2024-09-30"
+        removal_date: "2025-08-31"
+        resource_id: "IPGP:2004iepw44" # Unique ID of the filter, typically
+                                       # "GENERATOR:Meaningful_ID"
+        calibration_dates: 
+           - "2004-09-22T07:00:00"
+           - "2014-08-31T07:00:00"
+        # END OPTIONAL equipment elements
+    sample_rate: 250  # Data sampling rate
+    stages:  # A list of stages (base + possible modifications)
+        - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR1.stage_base.yaml"}}
+        - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+        - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+        - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+        - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+        - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+        - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+        - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR3.stage_base.yaml"}}
+    # BEGIN OPTIONAL datalogger_base elements
+    stage_modifications: 
+        "1": {gain: {value: 200}}    # Modifications to a stage or stages, with
+                                     # stage number(s) as key (1 = first stage)
+    notes:
+        - "First note"
+        - "Second note"
+    correction: 27.5 # Time that the datalogger subtracted
+                     # (this value/sample_rate) from the data to compensate
+                     # for digitization delays.
+                     # If 0, the datalogger did not correct the times.
+                     # If None, correction will be set equal to delay in all
+                     # stages (perfect datalogger correction).
+    configuration_default: "250sps"  # The default configuration (must be
+                                            # one of the specified configurations)
+    configurations:  # Each configuration can use the same elements as in
+                     # datalogger_base, which are then updated.  An additional
+                     # element is configuration_description
+        "250sps" : # any provided elements update base values
+            configuration_description: "250 sps"
+        "500sps" : # any provided elements update base values
+            configuration_description: "500 sps"
+            sample_rate: 500
+            stages:
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR1.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR2.stage_base.yaml"}}
+                - {base: {$ref: "datalogger_bases/stage_bases/EXAMPLE_FIR3.stage_base.yaml"}}
+    # END OPTIONAL datalogger_base elements
+# BEGIN OPTIONAL top-level elements
+notes: 
+    - ""
+# END OPTIONAL top-level elements

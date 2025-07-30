@@ -1,0 +1,26 @@
+---
+format_version: "1.0"
+revision: 
+    date: "2017-11-30"
+    authors: 
+        -   $ref: "persons/EXAMPLE.person.yaml"
+stage_base:
+    name: "EXAMPLE FIR1"
+    description : "DIGITIZER - EXAMPLE Delta-Sigma A/D converter" #  optional
+    input_units : { name : "V", description: "Volts"}
+    output_units : { name : "counts", description: "Digital Counts"}
+    input_sample_rate : 32000
+    decimation_factor: 1
+    gain : 
+        frequency: 0
+        value: 1165084 #  counts/V
+    filter:
+        type : "ADCONVERSION"
+        v_plus: 4.5
+        v_minus: -4.5
+        counts_dtype: 'int24'
+        counts_plus: '0x4FFFFF'
+        counts_minus: '0xB00000'
+notes:
+    - "First stage of datalogger: convert do digital signal"
+    

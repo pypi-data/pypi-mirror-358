@@ -1,0 +1,74 @@
+---
+format_version: "1.0"
+revision: 
+    date: "2017-11-30"
+    authors: 
+        - $ref: "persons/EXAMPLE.person.yaml"
+sensor_base:
+    equipment:
+        model: "BBOBS-SX"
+        type: "Broadband seismometer"
+        description: "Really great broadband seismometer"
+        manufacturer: "ACME seismometry Gbmh"
+        vendor: "ACME Sales, Ltd."
+    seed_codes:
+        band: "broadband"
+        instrument: "H" 
+    configuration_default: "SN1-399, single-sided"
+    stages:
+        - {base: {$ref: "sensor_bases/stage_bases/EXAMPLE_BBSeismometer.stage_base.yaml"}}
+    configurations:
+        "Sphere01":
+            equipment: {serial_number: "133"}
+            stage_modifications:
+                '*': {configuration: "SN1-399, single-sided"}
+        "Sphere02":
+            equipment: {serial_number: "132"}
+            stage_modifications:
+                '*': {configuration: "SN1-399, single-sided"}
+        "Sphere03":
+            equipment: {serial_number: "134"}
+            stage_modifications:
+                '*': {configuration: "SN1-399, single-sided"}
+        "Sphere04":
+            equipment: {serial_number: "138"}
+            stage_modifications:
+                '*': {configuration: "SN1-399, single-sided"}
+        "Sphere05":
+            equipment: {serial_number: "137"}
+            stage_modifications:
+                '*': {configuration: "SN1-399, single-sided"}
+        "Sphere06":
+            equipment: {serial_number: "830"}
+            stage_modifications:
+                '*': {configuration: "SN400+, single-sided"}
+        "Sphere07":
+            equipment: {serial_number: "136"}
+            stage_modifications:
+                '*': {configuration: "SN1-399, single-sided"}
+        "Sphere08":
+            equipment: {serial_number: "829"}
+            stage_modifications:
+                '*': {configuration: "SN400+, single-sided"}
+        "Sphere09":
+            equipment: {serial_number: "826"}
+            stage_modifications:
+                '*': {configuration: "SN400+, single-sided"}
+        "SN1-399, single-sided" :
+            configuration_description: "serial numbers 1-399, single-sided connection"
+            stage_modifications:
+                '*': {configuration: "SN1-399, single-sided"}
+        "SN400plus, single-sided" :
+            configuration_description: "serial numbers 400+, single-sided connection"
+            stage_modifications:
+                '*': {configuration: "SN400+, single-sided"}
+        "SN1-399, differential" :
+            configuration_description: "serial numbers 1-399, single-sided connection"
+            stage_modifications:
+                '*': {configuration: "SN1-399, differential"}
+        "SN400plus, differential" :
+            configuration_description: "serial numbers 400+, single-sided connection"
+            stage_modifications:
+                '*': {configuration: "SN400+, differential"}
+    
+    

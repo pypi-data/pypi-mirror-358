@@ -1,0 +1,54 @@
+---
+format_version: "1.0"
+revision:
+    authors:
+        - {$ref: "persons/EXAMPLE.person.yaml"} # Reference to a file,
+                                                 # or fields of a person element
+    date: "2024-09-30" # yyyy-mm-dd
+sensor_base:
+    seed_codes:
+        band: "broadband" # 'broadband', 'shortperiod', "A", "I", "O", "L", or "S"
+                          # If "broadband" or "shortperiod", will chose the appropriate
+                          # code according to the sampling rate
+        instrument: "H"  # Seed "instrument" (or "source") code
+    equipment:
+        model: "CMG-3T"
+        type: "Broadband seismometer"
+        description: "Triaxial force-feedback seismometer"
+        manufacturer: "Guralp, Ltd"
+        # BEGIN OPTIONAL equipment elements
+        vendor: "various"
+        serial_number: "2014a2"
+        installation_date: "2024-09-30"
+        removal_date: "2025-08-31"
+        resource_id: "IPGP:2004iepw44" # Unique ID of the filter, typically
+                                       # "GENERATOR:Meaningful_ID"
+        calibration_dates: 
+           - "2004-09-22T07:00:00"
+           - "2014-08-31T07:00:00"
+        # END OPTIONAL equipment elements
+    stages:
+        -  base: {$ref: "sensor_bases/stage_bases/EXAMPLE_BBSeismometer.stage_base.yaml"}
+           # BEGIN OPTIONAL stage elements
+           configuration: "SN1-399, differential"
+           # END OPTIONAL stage elements
+    # BEGIN OPTIONAL sensor_base elements
+    stage_modifications: {}
+    notes: [""]
+    configuration_default: "DEFAULT"
+    configurations:
+        "DEFAULT":
+          configuration_description: "Default configuration"
+        "High Gain":
+          configuration description: "High gain configuration"
+          stage_modifications:
+              "1": {gain: {value: 100}}
+        "Low Gain":
+          configuration description: "Low gain configuration"
+          stage_modifications:
+              "1": {gain: {value: 1}}
+    # END OPTIONAL sensor_base elements
+# BEGIN OPTIONAL top-level elements
+notes: 
+   - ""
+# END OPTIONAL top-level elements

@@ -1,0 +1,126 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Sensor",
+    "description": "Sensor Instrument Components",
+    "type": "object",
+    "required": ["format_version", "sensor_base"],
+    "properties": {
+        "format_version": {"$ref" : "definitions.schema.json#/format_version"},
+        "revision" :      {"$ref": "definitions.schema.json#/revision"},
+        "yaml_anchors":   {"$ref": "definitions.schema.json#/yaml_anchors"},
+        "notes" :         {"$ref": "definitions.schema.json#/note_list"},
+        "sensor_base":    {"$ref": "#/definitions/base" }
+    },
+    "additionalProperties" : false,
+    "definitions": {
+        "common_properties": {
+            "description": "list of common properties in {element}, modifications, base, definition, and configuration_definition.  This is unused because 'allOf' for makes ugly schema validation",
+            "properties": {
+                "notes":               {"$ref": "definitions.schema.json#/note_list"},
+                "equipment":           {"$ref": "definitions.schema.json#/equipment"},
+                "stages":              {"$ref": "stages.schema.json#/definitions/stages" },
+                "stage_modifications": {"$ref": "stages.schema.json#/definitions/stage_modifications" },
+                "seed_codes":          {"$ref": "#/definitions/seed_codes"}
+            }
+        },
+        "sensor" : {
+            "description" : "sensor definition (base+configuration)",
+            "type": "object",
+            "required": ["base"],
+            "properties": {
+                "base":                {"$ref" : "#/definitions/base" },
+                "configuration":       {"type": ["string", "null"]},
+                "modifications":       {"$ref": "#/definitions/modifications"},
+                "stage_modifications": {"$ref": "stages.schema.json#/definitions/stage_modifications" },
+                "notes":               {"$ref": "definitions.schema.json#/note_list"},
+                
+                "serial_number":       {"type": "string"}                
+            }
+        },
+        "modifications" : {
+            "description" : "sensor modifications: same as definition except base not required",
+            "type": "object",
+            "properties": {
+                "base":                    {"$ref" : "#/definitions/base" },
+                "configuration":           {"type": ["string", "null"]},
+                "serial_number":           {"type": "string"}, 
+                "notes":                   {"$ref": "definitions.schema.json#/note_list"},
+                "equipment":               {"$ref": "definitions.schema.json#/equipment"},
+                "stages":                  {"$ref": "stages.schema.json#/definitions/stages" },
+                "stage_modifications":     {"$ref": "stages.schema.json#/definitions/stage_modifications" },
+                "seed_codes":              {"$ref": "#/definitions/seed_codes"}
+            },
+            "additionalProperties" : false
+        },
+        "base": { 
+            "description": "Sensor specification",
+            "required": ["equipment",
+                         "seed_codes",
+                         "stages"],
+            "properties": {
+                "equipment":             {"$ref": "definitions.schema.json#/equipment"},
+                "seed_codes":            {"$ref": "#/definitions/seed_codes"},
+                "stages":                {"$ref": "stages.schema.json#/definitions/stages" },
+                "stage_modifications":   {"$ref": "stages.schema.json#/definitions/stage_modifications" },
+                "notes":                 {"$ref": "definitions.schema.json#/note_list"},
+                "configuration_default": {"type": "string"},
+                "configurations":        {"$ref": "#/definitions/configurations_map"}
+            },
+            "additionalProperties": false
+        },
+        "configurations_map": {
+            "description": "Map of configuration names",
+            "patternProperties": {
+                "^[A-Za-z0-9_-]+$": {"$ref": "#/definitions/configuration_definition"}
+            }
+        },
+        "configuration_definition" : {
+            "description": "Configuration-specific properties",
+            "properties": {
+                "configuration_description": {"type": "string"},
+
+                "notes":                     {"$ref": "definitions.schema.json#/note_list"},
+                "equipment":                 {"$ref": "definitions.schema.json#/equipment"},
+                "stages":                    {"$ref": "stages.schema.json#/definitions/modifications" },
+                "stage_modifications":       {"$ref": "stages.schema.json#/definitions/stage_modifications" },
+                "seed_codes":                {"$ref": "#/definitions/seed_codes"}
+            },
+            "additionalProperties": false
+        },
+        "seed_codes" : {
+            "description": "Seed codes, azimuths and dips associated with a sensor",
+            "type" : "object",
+            "required" : ["band",
+                          "instrument"],
+            "properties" :  {
+                "band":   {"$ref": "#/definitions/seed_band_code" },
+                "instrument":  {"$ref": "#/definitions/seed_instrument_code" }
+            },
+            "additionalProperties": false
+        },
+        "seed_band_code" : {
+            "type": "string",
+            "description": "'broadband' for corner period >= 10s, 'shortperiod' for <10s (band code will be adjusted to the sample rate), or a single non-modifiable letter",
+            "enum": ["broadband", "shortperiod", "A", "I", "O", "L", "S"]
+        },
+        "seed_instrument_code": {
+            "description": "SEED instrument code",
+            "type": "string",
+            "pattern": "^[A-Z]$"
+        },
+        "seed_orientations_map": {
+            "description": "permitted orientation codes and their azimuth and dip",
+            "type": "object",
+            "patternProperties": {
+                "^[A-Z0-9]$": {
+                    "type": "object",
+                    "required": ["azimuth.deg", "dip.deg"],
+                    "properties": {
+                        "azimuth.deg": {"$ref": "definitions.schema.json#/azimuth.deg"},
+                        "dip.deg":     {"$ref": "definitions.schema.json#/dip.deg"}
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,26 @@
+---
+format_version: "1.0"
+revision:
+   authors:
+        - {$ref: "persons/EXAMPLE.person.yaml"} # Reference to person file,
+                                                 # or fields of a person element
+   date: "2024-09-30" # yyyy-mm-dd
+filter:
+   type: "FIR"
+   symmetry: "NONE" # "EVEN", "ODD" or "NONE"
+   coefficients:
+       - 1
+       - 10
+       - -20
+       - 30
+       - -20
+       - 10
+       - 1
+   delay.samples: 3   # used to calculate stage-level delay, should be at/before max peak
+   # BEGIN OPTIONAL filter elements
+   coefficient_divisor: 12  # number to divide all coefficients by for unity gain (1)
+   # END OPTIONAL filter elements
+# BEGIN OPTIONAL top-level elements
+notes: 
+   - ""
+# END OPTIONAL top-level elements

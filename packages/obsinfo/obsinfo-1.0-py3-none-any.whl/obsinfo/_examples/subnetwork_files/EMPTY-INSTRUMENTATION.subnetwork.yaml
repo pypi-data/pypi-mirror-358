@@ -1,0 +1,69 @@
+---
+format_version: "1.0"
+yaml_anchors:
+    obs_clock_correction_linear_defaults: &LINEAR_CLOCK_DEFAULTS
+        time_base: "Seascan MCXO, ~1e-8 nominal drift"
+        reference: "GPS"
+        start_sync_instrument: 0
+notes:
+    - "You should be able to build a StationXML file to station level
+      with this (no channel or response information)"
+    - "Or should there be a default 'empty' instrumentation file?"
+revision:
+    authors:
+        - {$ref: "persons/EXAMPLE.person.yaml"}
+    date: "2019-12-19"
+subnetwork:
+    network: {$ref: "networks/EXAMPLE.network.yaml"}
+    operators:
+        -
+            agency: "INSU-IPGP OBS Park"
+            contacts: [{$ref: "persons/EXAMPLE.person.yaml"}]
+            website:  "http://ipgp.fr"  
+    reference_names:
+        campaign: "MYCAMPAIGN"
+        operator: "INSU-IPGP"
+    stations:
+        "STA1":
+            site: "My favorite site"
+            start_date: "2015-04-23T10:00:00"
+            end_date: "2016-05-28T15:37:00"
+            location_code: "00"
+            locations:
+                "00":
+                    base: {$ref: 'location_bases/EXAMPLE.location_base.yaml'}
+                    configuration: "BUC_DROP"
+                    position: {lon.deg: -32.5, lat.deg: 37.5, elev.m: -2000}
+            instrumentation:
+                base: "THAT_GREAT_BBOBS"
+                datalogger_configuration: "100sps_MINPHASE"
+            processing:
+                - clock_correction:
+                    drift:
+                        base: {$ref: "timing_bases/EXAMPLE.timing_base.yaml"}
+                        type: 'piecewise_linear'
+                        syncs_instrument_reference:
+                            - ["2015-04-23T11:20:00", "2015-04-23T11:20:00"]
+                            - ["2016-05-27T14:00:00", "2016-05-27T14:00:00.2450"]
+        "STA2":
+            
+            site: "My other favorite site"
+            start_date: "2015-04-23T10:00:00Z"
+            end_date: "2016-05-28T15:37:00Z"
+            location_code: "00"
+            locations:
+                "00":
+                    base: {$ref: 'location_bases/EXAMPLE.location_base.yaml'}
+                    configuration: "BUC_DROP"
+                    position: {lon.deg: -32.3, lat.deg: 37.3, elev.m: -1500}
+            instrumentation:
+                base: "THAT_GREAT_SPOBS"
+                datalogger_configuration: "100sps_MAXPHASE"
+            processing:
+                - clock_correction:
+                    drift:
+                        base: {$ref: "timing_bases/EXAMPLE.timing_base.yaml"}
+                        type: 'piecewise_linear'
+                        syncs_instrument_reference:
+                            - ["2015-04-22T12:24:00", "2015-04-22T12:24:00"]
+                            - ["2016-05-28T15:35:02", "2016-05-28T15:35:00.3660"]

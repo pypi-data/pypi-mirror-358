@@ -1,0 +1,100 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Datalogger",
+    "description": "Datalogger Instrument Components",
+    "type": "object",
+    "required": ["format_version", "datalogger_base"],
+    "properties": {
+        "format_version" :       {"$ref" : "definitions.schema.json#/format_version"},
+        "revision" :             {"$ref": "definitions.schema.json#/revision"},
+        "yaml_anchors" :         {"$ref": "definitions.schema.json#/yaml_anchors"},
+        "notes":                 {"$ref": "definitions.schema.json#/note_list"},
+        "datalogger_base":       {"$ref": "#/definitions/base" }
+    },
+    "additionalProperties" : false,
+    "definitions": {
+        "common_properties": {
+            "description": "list of common properties in {element}, modifications, base, definition, and configuration_definition.  This is unused because 'allOf' for makes ugly schema validation",
+            "properties": {
+                "notes":                  {"$ref": "definitions.schema.json#/note_list"},
+                "equipment":              {"$ref": "definitions.schema.json#/equipment"},
+                "stages":                 {"$ref": "stages.schema.json#/definitions/stages" },
+                "stage_modifications":    {"$ref": "stages.schema.json#/definitions/stage_modifications" },
+                "sample_rate":            {"type": "number", "minimum": 0},
+                "correction":       {"$ref": "#/definitions/correction"}
+            }
+        },
+        "datalogger" : {
+            "description" : "datalogger definition (base+configuration)",
+            "type": "object",
+            "required": ["base"],
+            "properties": {
+                "base":                    {"$ref" : "#/definitions/base" },
+                "configuration":           {"type": ["string", "null"]},
+                "modifications":           {"$ref": "#/definitions/modifications"},
+                "stage_modifications":     {"$ref": "stages.schema.json#/definitions/stage_modifications" },
+                "notes":                   {"$ref": "definitions.schema.json#/note_list"},
+
+                "serial_number":           {"type": "string"}
+            },
+            "additionalProperties": false
+        },
+        "modifications" : {
+            "description" : "datalogger modifications, same as definition except base not required and not modifications",
+            "type": "object",
+            "properties": {
+                "base":                    {"$ref" : "#/definitions/base" },
+                "configuration":           {"type": ["string", "null"]},
+                "serial_number":           {"type": "string"}, 
+
+                "notes":                  {"$ref": "definitions.schema.json#/note_list"},
+                "equipment":              {"$ref": "definitions.schema.json#/equipment"},
+                "stages":                 {"$ref": "stages.schema.json#/definitions/stages" },
+                "stage_modifications":    {"$ref": "stages.schema.json#/definitions/stage_modifications" },
+                "sample_rate":            {"type": "number", "minimum": 0},
+                "correction":       {"$ref": "#/definitions/correction"}
+            },
+            "additionalProperties" : false
+        },
+        "base" : {
+            "description": "Datalogger specification",
+            "required": ["sample_rate",
+                         "equipment",
+                         "stages"],
+            "properties": {
+                "configuration_default":  {"type": "string"},
+                "configurations":         {"$ref": "#/definitions/configurations_map"},
+
+                "sample_rate":            {"type": "number", "minimum": 0},
+                "equipment":              {"$ref": "definitions.schema.json#/equipment"},
+                "stages":                 {"$ref": "stages.schema.json#/definitions/stages" },
+                "stage_modifications":    {"$ref": "stages.schema.json#/definitions/stage_modifications" },
+                "notes":                  {"$ref": "definitions.schema.json#/note_list"},
+                "correction":             {"$ref": "#/definitions/correction"}
+            },
+            "additionalProperties": false
+        },
+        "configurations_map": {
+            "description": "Map of configuration names for a given datalogger",
+            "patternProperties": {"^[A-Za-z0-9_-]+$": {"$ref": "#/definitions/configuration_definition" }}
+        },
+        "configuration_definition" : {
+            "description": "Configuration-specific properties",
+            "properties": {
+                "configuration_description": {"type": "string"},
+
+                "notes":                  {"$ref": "definitions.schema.json#/note_list"},
+                "equipment":              {"$ref": "definitions.schema.json#/equipment"},
+                "stages":                 {"$ref": "stages.schema.json#/definitions/stages" },
+                "stage_modifications":    {"$ref": "stages.schema.json#/definitions/stage_modifications" },
+                "sample_rate":            {"type": "number", "minimum": 0},
+                "correction":       {"$ref": "#/definitions/correction"}
+            },
+            "additionalProperties": false
+        },
+        "correction": {
+            "type" : "number",
+            "description": "If boolean is True ignore all filter (stage) delays, set them to zero and make this total delay in last filter (stage)"  
+        }
+      }
+}
