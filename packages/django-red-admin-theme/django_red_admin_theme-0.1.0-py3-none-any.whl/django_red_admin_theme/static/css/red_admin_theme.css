@@ -1,0 +1,106 @@
+/* Red Theme for Django Admin */
+:root {
+    --primary: #d32f2f; /* Red primary color */
+    --primary-light: #ff6659; /* Lighter red for hover */
+    --text-color: #333; /* Dark text for contrast */
+    --background: #fff; /* White background */
+    --font-family: 'Roboto', Arial, sans-serif; /* Modern font */
+}
+
+/* General body styling */
+body {
+    font-family: var(--font-family);
+    font-size: 16px; /* Increased font size */
+    color: var(--text-color);
+    background-color: var(--background);
+}
+
+/* Header styling */
+#branding h1 {
+    background-color: var(--primary);
+    color: white;
+    font-size: 24px; /* Larger header font */
+    padding: 15px;
+}
+
+/* Navigation menu */
+#user-tools {
+    font-size: 14px;
+    color: white;
+}
+#user-tools a:link, #user-tools a:visited {
+    color: white;
+}
+#user-tools a:hover {
+    color: var(--primary-light);
+}
+
+/* Module headers */
+.module h2, .module caption, .inline-group h2 {
+    background: var(--primary);
+    color: white;
+    font-size: 18px; /* Larger section headers */
+    padding: 12px;
+}
+
+/* Buttons */
+.button, input[type=submit], input[type=button], .submit-row input {
+    background: var(--primary);
+    color: white;
+    font-size: 14px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+}
+.button:hover, input[type=submit]:hover, input[type=button]:hover {
+    background: var(--primary-light);
+}
+
+/* Form fields */
+.form-row label {
+    font-size: 14px;
+    color: var(--text-color);
+}
+.form-row input, .form-row select, .form-row textarea {
+    font-size: 14px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Table styling */
+#changelist table thead th {
+    background: var(--primary);
+    color: white;
+    font-size: 14px;
+}
+#changelist table tbody td {
+    font-size: 13px;
+}
+
+/* Breadcrumbs */
+.breadcrumbs {
+    background: #f5f5f5;
+    padding: 10px;
+    font-size: 14px;
+}
+.breadcrumbs a {
+    color: var(--primary);
+}
+.breadcrumbs a:hover {
+    color: var(--primary-light);
+}
+
+/* Login page */
+.login #container {
+    background: var(--background);
+    border: 1px solid #ddd;
+}
+.login #header {
+    background: var(--primary);
+    color: white;
+}
+.login .submit-row input {
+    width: 100%;
+    font-size: 16px;
+}
