@@ -1,0 +1,26 @@
+Metadata-Version: 2.4
+Name: gamepad-mapper
+Version: 0.0.1
+Summary: Calibrate a gamepad and map axes and buttons
+Author-email: Jonas Eschmann <jonas.eschmann@gmail.com>
+License: MIT
+Requires-Dist: platformdirs
+Requires-Dist: pygame
+Description-Content-Type: text/markdown
+
+# Gamepad Calibration
+```python
+import sys, pygame
+from calibration import load_or_calibrate
+
+pygame.init()
+pygame.joystick.init()
+if pygame.joystick.get_count() == 0:
+    print("No game controller found.")
+    sys.exit(1)
+
+joystick = pygame.joystick.Joystick(0)
+joystick.init()
+
+mapping = load_or_calibrate(joystick, ["Roll", "Pitch", "Throttle", "Yaw"], ["arm"], force_calibration=True, name="example")
+```
