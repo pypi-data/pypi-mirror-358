@@ -1,0 +1,70 @@
+Metadata-Version: 2.1
+Name: mistrorpc
+Version: 0.1.0
+Summary: Mistro RPC Protocol Library
+Author: Li lingyi
+Author-email: alan_sudo@yeah.net
+Maintainer: Project VsingerXiaoice Group
+Maintainer-email: alan_sudo@yeah.net
+License: Project VsingerXiaoice License
+        
+        Copyright (C) 2025 Li Lingyi.
+        
+        This software is in Public Domain. Anyone can use, modify, convey, distribute, and/or sell this software without any limitation.
+Requires: fastapi
+Requires: aiohttp
+Requires: requests
+Requires: pydantic
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# MistroRPC
+
+Mistro is an RPC protocol & library made by Project VsingerXiaoice Group.
+
+## Usage
+
+Example Server:
+
+```python
+from mistrorpc import MistroServer
+from fastapi import FastAPI
+import uvicorn
+
+app = FastAPI()
+rpc = MistroServer(app, "password123456")
+
+@rpc.rpc_fn("hello_world")
+def hello_world(ping: str):
+    return {"hello": "world", "ping": ping}
+
+uvicorn.run(app, host="0.0.0.0", port=4431)
+```
+
+Example Client:
+
+```python
+from mistrorpc import MistroClient
+import asyncio
+
+client = MistroClient(api="http://127.0.0.1", "password123456")
+
+print("Sync Response:", client.get_fn("hello_world")("sync_response"))
+
+async def main():
+    print("Async Response:", await client.get_asyncfn("hello_world")("async_response"))
+
+asyncio.run(main())
+```
+
+## Protocol
+
+### API
+
+See `connect.py`.
+
+### Pickle format
+
+We use rePickle for encoding arguments & return values.
+
+rePickle is an internal modules `mistrorpc.pickle` at `pickle.py`.
