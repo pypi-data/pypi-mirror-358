@@ -1,0 +1,84 @@
+[project]
+name = "easy-audio-interfaces"
+version = "0.5.2"
+description = "Easy Audio Interfaces is a Python library that provides a simple and flexible way to work with audio streams, including recording, playback, network transfer, and processing."
+readme = "README.md"
+requires-python = ">=3.9,<3.13"
+authors = [
+  { name = "Ankush Malaker", email = "43288948+AnkushMalaker@users.noreply.github.com" },
+]
+dependencies = [
+  "fire>=0.5.0,<0.6.0",
+  "rich>=13.5.3,<14.0.0",
+  "opuslib>=3.0.1,<4.0.0",
+  "websockets>=14.0",
+  "scipy>=1.13.1",
+  "wyoming>=1.6.1",
+  "soxr>=0.5.0.post1",
+]
+optional-dependencies = { stt = [
+  "faster-whisper",
+], silero-vad = [
+  "torch",
+  "torchaudio",
+], bluetooth = [
+  "bleak",
+], local-audio = [
+  "pyaudio",
+], test = [
+  "pytest",
+  "pytest-asyncio",
+  "hypothesis>=6.135.12",
+] }
+
+
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+
+[tool.setuptools]
+platforms = ["any"]
+zip-safe  = true
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["easy_audio_interfaces*"]
+exclude = ["easy_audio_interfaces/tests"]
+
+[tool.isort]
+profile = "black"
+
+[tool.black]
+exclude = '''
+(
+  .venv
+  | .git
+  | multirun
+)
+'''
+line-length = 100
+target-version = ["py39", "py310"]
+
+[tool.mypy]
+files = ["easy_audio_interfaces"]
+
+[[tool.mypy.overrides]]
+module = [
+  "onnxruntime.*",
+  "samplerate.*",
+  "fire.*",
+  "scipy.*",
+  "torchaudio.*",
+  "opuslib.*",
+  "soxr.*",
+]
+ignore_missing_imports = true
+
+[dependency-groups]
+dev = [
+    "black>=25.1.0",
+    "isort>=6.0.1",
+    "pre-commit>=4.2.0",
+]
