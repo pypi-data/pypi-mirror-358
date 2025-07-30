@@ -1,0 +1,43 @@
+#!/bin/bash
+# HELP: Create a new git worktree and launch Claude Code in it
+# ARG: name - Name for the worktree (e.g., 'feature-auth')
+
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 <worktree-name>"
+    echo "Example: $0 feature-auth"
+    exit 1
+fi
+
+# Ensure we're in a git repository
+if ! git rev-parse --git-dir > /dev/null 2>&1; then
+    echo "Error: Not in a git repository"
+    exit 1
+fi
+
+WORKTREE_NAME=$1
+PROJECT_DIR=$(git rev-parse --show-toplevel)
+PROJECT_NAME=$(basename "$PROJECT_DIR")
+BRANCH_NAME="worktree/$WORKTREE_NAME"
+WORKTREE_PATH="$(dirname "$PROJECT_DIR")/$PROJECT_NAME-$WORKTREE_NAME"
+
+echo "Setting up worktree: $WORKTREE_NAME"
+echo "Branch: $BRANCH_NAME"
+echo "Path: $WORKTREE_PATH"
+
+# Create new branch and worktree
+git worktree add -b "$BRANCH_NAME" "$WORKTREE_PATH"
+
+if [ $? -eq 0 ]; then
+    echo "Worktree created successfully!"
+    echo ""
+    echo "To re-enter this worktree later, use:"
+    echo "  cg-worktree-edit $WORKTREE_NAME"
+    echo ""
+    
+    # Use the edit script to enter the worktree
+    SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
+    "$SCRIPT_DIR/cg-worktree-edit" "$WORKTREE_NAME"
+else
+    echo "Failed to create worktree"
+    exit 1
+fi

@@ -1,0 +1,28 @@
+#!/bin/bash
+# HELP: List all available worktrees for this project
+
+# Ensure we're in a git repository
+if ! git rev-parse --git-dir > /dev/null 2>&1; then
+    echo "Error: Not in a git repository"
+    exit 1
+fi
+
+PROJECT_DIR=$(git rev-parse --show-toplevel)
+PROJECT_NAME=$(basename "$PROJECT_DIR")
+
+echo "Available worktrees for $PROJECT_NAME:"
+
+# List worktrees
+git worktree list | grep "$PROJECT_NAME-" | while IFS= read -r line; do
+    path=$(echo "$line" | awk '{print $1}')
+    name=$(basename "$path" | sed "s/$PROJECT_NAME-//")
+    echo "  • $name"
+done
+
+# Check if any were found
+WORKTREE_COUNT=$(git worktree list | grep -c "$PROJECT_NAME-" || echo 0)
+if [ "$WORKTREE_COUNT" -eq 0 ]; then
+    echo "  (none found)"
+    echo ""
+    echo "Create one with: codeguard worktree setup <name>"
+fi

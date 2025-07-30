@@ -1,0 +1,88 @@
+# CodeGuard LLM Proxy Configuration
+
+# Server configuration
+server:
+  ssl_cert_file: "~/.codeguard/ssl/llm_proxy_server.crt"
+  ssl_key_file: "~/.codeguard/ssl/llm_proxy_server.key"
+
+# Upstream API configuration
+upstream:
+  timeout: 60
+  retries:
+    max_retries: 3
+    initial_delay: 1.0
+    backoff_multiplier: 2.0
+    max_delay: 60.0
+  anthropic:
+    base_url: "https://api.anthropic.com"
+  openai:
+    base_url: "https://api.openai.com"
+
+# Content management configuration
+content:
+  injection:
+    enabled: true
+  filtering:
+    enabled: true
+  response:
+    strip_metadata: false
+    normalize_whitespace: true
+  system_prompts:
+    - template: "codeguard_context"
+      enabled: true
+      priority: 1
+      source: "template_file"
+    - template: "urgent_notes"
+      enabled: true
+      priority: 2
+      source: "urgent_store"
+    - template: "user_template"
+      enabled: true
+      priority: 3
+      source: "user_home"
+    - template: "project_template"
+      enabled: true
+      priority: 4
+      source: "project_root"
+  filters:
+    - type: "pattern"
+      pattern: "🔒 CodeGuard Session Active.*?---"
+      action: "remove"
+      enabled: true
+  limits:
+    max_context_size: 2000000
+
+# Tool interception configuration
+tools:
+  logging:
+    enabled: true
+    log_parameters: true
+  blocking:
+    enabled: false
+    blocked_tools: []
+    allowed_tools: []
+    require_approval: []
+  security:
+    enabled: false  # Disabled per urgent rules system design
+    dangerous_patterns:
+      - "rm\\s+-rf"
+      - "sudo\\s+rm"
+      - "DELETE\\s+FROM"
+      - "DROP\\s+TABLE"
+      - "format\\s+c:"
+      - "del\\s+/[fs]"
+  limits:
+    enabled: false  # Disabled per urgent rules system design
+    max_result_size: null  # Remove size cap
+
+# Streaming configuration
+streaming:
+  enable_processing: true
+  buffer_size: 8192
+  max_event_size: 65536
+
+# Logging configuration
+logging:
+  requests: true
+  full_content: false
+  level: "INFO"

@@ -1,0 +1,115 @@
+#!/bin/bash
+# HELP: Delete all worktrees that have no uncommitted changes
+
+# Ensure we're in a git repository
+if ! git rev-parse --git-dir > /dev/null 2>&1; then
+    echo "Error: Not in a git repository"
+    exit 1
+fi
+
+# Parse arguments
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -h|--help)
+            echo "Usage: $0"
+            echo ""
+            echo "Delete all worktrees that have no uncommitted changes"
+            echo ""
+            echo "This command will:"
+            echo "  - Find all worktrees for this project"
+            echo "  - Check each worktree for uncommitted changes"
+            echo "  - Delete only those with clean status (no changes)"
+            echo "  - Skip worktrees with uncommitted changes"
+            echo ""
+            echo "Options:"
+            echo "  -h, --help  Show this help message"
+            echo ""
+            echo "Note: This command does NOT support --force. Use 'codeguard worktree delete <name> --force' for individual forced deletions."
+            exit 0
+            ;;
+        *)
+            echo "Error: Unexpected argument '$1'"
+            echo "Usage: $0"
+            echo "Use -h or --help for more information"
+            exit 1
+            ;;
+    esac
+done
+
+PROJECT_DIR=$(git rev-parse --show-toplevel)
+PROJECT_NAME=$(basename "$PROJECT_DIR")
+
+echo "Cleaning worktrees for project: $PROJECT_NAME"
+echo "============================================================"
+
+# Find all worktrees
+CLEANED_COUNT=0
+SKIPPED_COUNT=0
+TOTAL_COUNT=0
+
+git worktree list | grep "$PROJECT_NAME-" | while IFS= read -r line; do
+    path=$(echo "$line" | awk '{print $1}')
+    name=$(basename "$path" | sed "s/$PROJECT_NAME-//")
+    TOTAL_COUNT=$((TOTAL_COUNT + 1))
+    
+    echo ""
+    echo "🔍 Checking worktree: $name"
+    echo "📁 Path: $path"
+    
+    if [ -d "$path" ]; then
+        cd "$path"
+        
+        # Check if there are any changes
+        if [ -n "$(git status --porcelain)" ]; then
+            echo "⏭️  SKIPPED - Has uncommitted changes:"
+            git status --porcelain | while read -r status_line; do
+                echo "   $status_line"
+            done
+            SKIPPED_COUNT=$((SKIPPED_COUNT + 1))
+        else
+            echo "🧹 CLEANING - No uncommitted changes detected"
+            
+            # Remove the worktree
+            cd "$PROJECT_DIR"
+            if git worktree remove "$path" 2>/dev/null; then
+                echo "✅ Deleted successfully"
+                CLEANED_COUNT=$((CLEANED_COUNT + 1))
+            else
+                echo "❌ Failed to delete"
+                SKIPPED_COUNT=$((SKIPPED_COUNT + 1))
+            fi
+        fi
+    else
+        echo "❌ Worktree directory not found - may need manual cleanup"
+        SKIPPED_COUNT=$((SKIPPED_COUNT + 1))
+    fi
+    
+    echo "------------------------------------------------------------"
+done
+
+# Get final counts (need to recount since subshell variables don't persist)
+FINAL_CLEANED=0
+FINAL_REMAINING=0
+
+echo ""
+echo "📊 Summary:"
+
+# Count what was actually cleaned by checking what's left
+REMAINING_WORKTREES=$(git worktree list | grep -c "$PROJECT_NAME-" || echo 0)
+
+if [ "$REMAINING_WORKTREES" -eq 0 ]; then
+    echo "🎉 All worktrees have been cleaned"
+else
+    echo "📁 $REMAINING_WORKTREES worktree(s) remaining (had uncommitted changes)"
+    echo ""
+    echo "Remaining worktrees:"
+    git worktree list | grep "$PROJECT_NAME-" | while IFS= read -r line; do
+        path=$(echo "$line" | awk '{print $1}')
+        name=$(basename "$path" | sed "s/$PROJECT_NAME-//")
+        echo "  - $name"
+    done
+fi
+
+echo ""
+echo "💡 To delete worktrees with changes, use:"
+echo "   codeguard worktree delete <name> --force"

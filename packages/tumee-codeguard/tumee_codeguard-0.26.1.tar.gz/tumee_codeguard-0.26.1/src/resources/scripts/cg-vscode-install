@@ -1,0 +1,227 @@
+#!/bin/bash
+# HELP: Download and install the latest CodeGuard VSCode plugin
+# OPT: version - Specific version to install (optional, defaults to latest)
+# OPT: --keep - Keep the downloaded .vsix file instead of deleting after installation
+
+set -euo pipefail
+
+# Parse arguments
+KEEP_FILE=false
+VERSION=""
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --keep)
+            KEEP_FILE=true
+            shift
+            ;;
+        -h|--help)
+            echo "Usage: $0 [version] [--keep]"
+            echo ""
+            echo "Download and install the CodeGuard VSCode plugin"
+            echo ""
+            echo "Arguments:"
+            echo "  version   Specific version to install (e.g., 'v1.6.2', '1.6.2')"
+            echo "            If not specified, installs the latest version"
+            echo ""
+            echo "Options:"
+            echo "  --keep    Keep the downloaded .vsix file instead of deleting after installation"
+            echo "  -h, --help Show this help message"
+            exit 0
+            ;;
+        --*)
+            echo "❌ Unknown option: $1"
+            echo "Use --help for usage information"
+            exit 1
+            ;;
+        *)
+            if [ -z "$VERSION" ]; then
+                VERSION="$1"
+            else
+                echo "❌ Too many arguments. Only one version can be specified."
+                echo "Use --help for usage information"
+                exit 1
+            fi
+            shift
+            ;;
+    esac
+done
+
+echo "🔧 CodeGuard VSCode Plugin Installer"
+echo "===================================="
+echo ""
+
+# Check if 'code' command is available
+if ! command -v code &> /dev/null; then
+    echo "❌ Error: VSCode 'code' command not found in PATH"
+    echo ""
+    echo "Please ensure VSCode is installed and the 'code' command is available."
+    echo "You may need to:"
+    echo "  - Install VSCode from https://code.visualstudio.com/"
+    echo "  - Add VSCode to your PATH (Cmd+Shift+P > 'Shell Command: Install code command in PATH')"
+    exit 1
+fi
+
+echo "✅ VSCode 'code' command found"
+
+# Determine download directory
+if [ "$KEEP_FILE" = true ]; then
+    # Try current directory first, fallback to temp if not writable
+    if [ -w "$(pwd)" ]; then
+        DOWNLOAD_DIR="$(pwd)"
+        echo "📁 Will download to current directory: $DOWNLOAD_DIR"
+    else
+        DOWNLOAD_DIR=$(mktemp -d)
+        echo "📁 Current directory not writable, using temp: $DOWNLOAD_DIR"
+    fi
+else
+    # Use temp directory for temporary download
+    DOWNLOAD_DIR=$(mktemp -d)
+    echo "📁 Using temporary directory: $DOWNLOAD_DIR"
+fi
+
+# Download the plugin using Python
+if [ -z "$VERSION" ]; then
+    echo "🌐 Fetching latest plugin release..."
+else
+    echo "🌐 Fetching plugin version: $VERSION"
+fi
+
+PYTHON_SCRIPT=$(cat << 'EOF'
+import sys
+import json
+import urllib.request
+import urllib.error
+import os
+import time
+
+def download_plugin(download_dir, version=None):
+    try:
+        # Get release info from GitHub API
+        print("  📡 Contacting GitHub API...", file=sys.stderr)
+        if version:
+            # Ensure version has 'v' prefix for tag lookup
+            tag = version if version.startswith('v') else f'v{version}'
+            api_url = f"https://api.github.com/repos/TuMee-Dev/TuMee-CodeGuard-vscode-plugin/releases/tags/{tag}"
+            print(f"  🔍 Looking for version: {tag}", file=sys.stderr)
+        else:
+            api_url = "https://api.github.com/repos/TuMee-Dev/TuMee-CodeGuard-vscode-plugin/releases/latest"
+            print("  🔍 Looking for latest version", file=sys.stderr)
+        
+        with urllib.request.urlopen(api_url) as response:
+            if response.status != 200:
+                if version and response.status == 404:
+                    print(f"❌ Version '{version}' not found", file=sys.stderr)
+                    print("   Check available versions at: https://github.com/TuMee-Dev/TuMee-CodeGuard-vscode-plugin/releases", file=sys.stderr)
+                else:
+                    print(f"❌ GitHub API request failed with status {response.status}", file=sys.stderr)
+                sys.exit(1)
+            
+            release_data = json.loads(response.read().decode())
+        
+        # Find .vsix asset
+        vsix_asset = None
+        for asset in release_data.get('assets', []):
+            if asset['name'].endswith('.vsix'):
+                vsix_asset = asset
+                break
+        
+        if not vsix_asset:
+            print("❌ No .vsix file found in latest release", file=sys.stderr)
+            sys.exit(1)
+        
+        download_url = vsix_asset['browser_download_url']
+        filename = vsix_asset['name']
+        file_path = os.path.join(download_dir, filename)
+        
+        print(f"  📦 Found plugin: {filename}", file=sys.stderr)
+        print(f"  ⬇️  Downloading from: {download_url}", file=sys.stderr)
+        
+        # Download the file
+        with urllib.request.urlopen(download_url) as response:
+            if response.status != 200:
+                print(f"❌ Download failed with status {response.status}", file=sys.stderr)
+                sys.exit(1)
+            
+            total_size = int(response.headers.get('content-length', 0))
+            downloaded = 0
+            last_progress_time = time.time()
+            last_percent = -1
+            
+            with open(file_path, 'wb') as f:
+                while True:
+                    chunk = response.read(8192)
+                    if not chunk:
+                        break
+                    f.write(chunk)
+                    downloaded += len(chunk)
+                    
+                    if total_size > 0:
+                        percent = (downloaded * 100) // total_size
+                        current_time = time.time()
+                        # Show progress every second or when percentage changes
+                        if current_time - last_progress_time >= 1.0 or percent != last_percent:
+                            print(f"\r  📥 Progress: {percent}%", end='', flush=True, file=sys.stderr)
+                            last_progress_time = current_time
+                            last_percent = percent
+        
+        print(f"\n  ✅ Downloaded: {file_path}", file=sys.stderr)
+        return file_path
+        
+    except urllib.error.URLError as e:
+        print(f"❌ Network error: {e}", file=sys.stderr)
+        sys.exit(1)
+    except json.JSONDecodeError as e:
+        print(f"❌ Failed to parse GitHub API response: {e}", file=sys.stderr)
+        sys.exit(1)
+    except Exception as e:
+        print(f"❌ Unexpected error: {e}", file=sys.stderr)
+        sys.exit(1)
+
+if __name__ == "__main__":
+    download_dir = sys.argv[1]
+    version = sys.argv[2] if len(sys.argv) > 2 and sys.argv[2] != "" else None
+    file_path = download_plugin(download_dir, version)
+    print(file_path)
+EOF
+)
+
+# Run the Python download script
+DOWNLOADED_FILE=$(python3 -c "$PYTHON_SCRIPT" "$DOWNLOAD_DIR" "$VERSION")
+
+if [ ! -f "$DOWNLOADED_FILE" ]; then
+    echo "❌ Download failed - file not found: $DOWNLOADED_FILE"
+    exit 1
+fi
+
+echo ""
+echo "🔧 Installing VSCode extension..."
+
+# Install the extension
+if code --install-extension "$DOWNLOADED_FILE"; then
+    echo "✅ Successfully installed CodeGuard VSCode plugin!"
+    
+    # Clean up if not keeping the file
+    if [ "$KEEP_FILE" = false ]; then
+        echo "🧹 Cleaning up temporary files..."
+        rm -f "$DOWNLOADED_FILE"
+        rmdir "$DOWNLOAD_DIR" 2>/dev/null || true
+    else
+        echo "📁 Downloaded file kept at: $DOWNLOADED_FILE"
+    fi
+    
+    echo ""
+    echo "🎉 Installation complete!"
+    echo "   You may need to reload VSCode to see the new extension."
+    echo "   Press Ctrl+Shift+P (Cmd+Shift+P on Mac) and run 'Developer: Reload Window'"
+    
+else
+    echo "❌ Failed to install VSCode extension"
+    
+    # Clean up on failure
+    if [ "$KEEP_FILE" = false ]; then
+        rm -f "$DOWNLOADED_FILE" 2>/dev/null || true
+        rmdir "$DOWNLOAD_DIR" 2>/dev/null || true
+    fi
+    
+    exit 1
+fi

@@ -1,0 +1,1 @@
+🔍 CODEGUARD: Compare file content between git revisions.

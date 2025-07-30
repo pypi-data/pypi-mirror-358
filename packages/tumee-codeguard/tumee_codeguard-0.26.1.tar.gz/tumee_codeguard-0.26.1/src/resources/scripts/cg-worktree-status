@@ -1,0 +1,107 @@
+#!/bin/bash
+# HELP: Check status of all worktrees to monitor worker progress
+
+# Ensure we're in a git repository
+if ! git rev-parse --git-dir > /dev/null 2>&1; then
+    echo "Error: Not in a git repository"
+    exit 1
+fi
+
+PROJECT_DIR=$(git rev-parse --show-toplevel)
+PROJECT_NAME=$(basename "$PROJECT_DIR")
+
+echo "Checking status of all $PROJECT_NAME worktrees:"
+echo "============================================================"
+
+# Find all worktrees
+FOUND_ANY=0
+git worktree list | grep "$PROJECT_NAME-" | while IFS= read -r line; do
+    path=$(echo "$line" | awk '{print $1}')
+    name=$(basename "$path" | sed "s/$PROJECT_NAME-//")
+    FOUND_ANY=1
+    
+    echo ""
+    echo "🔍 Worktree: $name"
+    echo "📁 Path: $path"
+    
+    if [ -d "$path" ]; then
+        cd "$path"
+        
+        # Get current branch first
+        branch=$(git branch --show-current)
+        
+        # Check if there are any uncommitted changes
+        has_uncommitted_changes=false
+        if [ -n "$(git status --porcelain)" ]; then
+            has_uncommitted_changes=true
+            echo "📝 Status: HAS UNCOMMITTED CHANGES"
+            echo "Modified files:"
+            git status --porcelain | while read -r status_line; do
+                echo "   $status_line"
+            done
+            
+            # Check if there are staged changes
+            if [ -n "$(git diff --cached --name-only)" ]; then
+                echo "✅ Staged files:"
+                git diff --cached --name-only | while read -r file; do
+                    echo "   📄 $file"
+                done
+            fi
+        fi
+        
+        # Check if there are commits that need to be merged to main
+        has_pending_merges=false
+        if git show-ref --verify --quiet refs/remotes/origin/$branch; then
+            # Check if there are commits in this branch not in main
+            if [ -n "$(git log --oneline main..origin/$branch 2>/dev/null)" ]; then
+                has_pending_merges=true
+                if [ "$has_uncommitted_changes" = false ]; then
+                    echo "📝 Status: MERGES PENDING"
+                else
+                    echo "📝 Additional Status: MERGES PENDING"
+                fi
+                echo "Commits ready to merge:"
+                git log --oneline main..origin/$branch | head -3 | while read -r commit_line; do
+                    echo "   📦 $commit_line"
+                done
+                total_commits=$(git rev-list --count main..origin/$branch 2>/dev/null || echo 0)
+                if [ "$total_commits" -gt 3 ]; then
+                    echo "   ... and $((total_commits - 3)) more commits"
+                fi
+            fi
+        fi
+        
+        # Show clean status only if no changes and no pending merges
+        if [ "$has_uncommitted_changes" = false ] && [ "$has_pending_merges" = false ]; then
+            echo "📝 Status: CLEAN (no changes)"
+        fi
+        
+        # Show current branch
+        echo "🌿 Branch: $branch"
+        
+        # Show last commit
+        last_commit=$(git log -1 --oneline 2>/dev/null || echo "No commits")
+        echo "💾 Last commit: $last_commit"
+        
+    else
+        echo "❌ Worktree directory not found"
+    fi
+    
+    echo "------------------------------------------------------------"
+done
+
+# Check if any were found
+WORKTREE_COUNT=$(git worktree list | grep -c "$PROJECT_NAME-" || echo 0)
+if [ "$WORKTREE_COUNT" -eq 0 ]; then
+    echo ""
+    echo "  (no worktrees found)"
+    echo ""
+    echo "Create one with: codeguard worktree setup <name>"
+else
+    echo ""
+    echo "💡 To open a worktree in VS Code:"
+    echo "   code /path/to/worktree"
+    echo ""
+    echo "💡 To commit changes in a worktree:"
+    echo "   cd /path/to/worktree && git add . && git commit -m 'message'"
+fi

@@ -1,0 +1,142 @@
+#!/bin/bash
+# HELP: Merge worktree changes to main branch with conflict preflight check
+# ARG: name - Name of the worktree to merge
+# FLAG: --commit - Automatically commit after merge (default: pause for review)
+
+AUTO_COMMIT=false
+WORKTREE_NAME=""
+
+# Parse arguments
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --commit)
+            AUTO_COMMIT=true
+            shift
+            ;;
+        -*)
+            echo "Unknown option $1"
+            exit 1
+            ;;
+        *)
+            if [ -z "$WORKTREE_NAME" ]; then
+                WORKTREE_NAME=$1
+            else
+                echo "Too many arguments"
+                exit 1
+            fi
+            shift
+            ;;
+    esac
+done
+
+if [ -z "$WORKTREE_NAME" ]; then
+    echo "Usage: $0 [--commit] <worktree-name>"
+    echo "Example: $0 feature-auth"
+    echo "Example: $0 --commit feature-auth"
+    exit 1
+fi
+
+# Ensure we're in a git repository
+if ! git rev-parse --git-dir > /dev/null 2>&1; then
+    echo "Error: Not in a git repository"
+    exit 1
+fi
+
+PROJECT_DIR=$(git rev-parse --show-toplevel)
+PROJECT_NAME=$(basename "$PROJECT_DIR")
+BRANCH_NAME="worktree/$WORKTREE_NAME"
+WORKTREE_PATH="$(dirname "$PROJECT_DIR")/$PROJECT_NAME-$WORKTREE_NAME"
+
+echo "Merging worktree: $WORKTREE_NAME"
+echo "Branch: $BRANCH_NAME"
+echo "Path: $WORKTREE_PATH"
+
+# Check if worktree exists
+if [ ! -d "$WORKTREE_PATH" ]; then
+    echo "Error: Worktree directory $WORKTREE_PATH does not exist"
+    exit 1
+fi
+
+# Switch to main branch in current repo
+echo "Switching to main branch..."
+git checkout main
+
+# Pull latest changes
+echo "Pulling latest changes..."
+git pull origin main
+
+# Preflight check for merge conflicts
+echo "Checking for potential merge conflicts..."
+MERGE_BASE=$(git merge-base main "$BRANCH_NAME")
+CONFLICTS=$(git merge-tree "$MERGE_BASE" main "$BRANCH_NAME" | grep -E "^<<<<<<< |^======= |^>>>>>>> ")
+
+if [ -n "$CONFLICTS" ]; then
+    echo "⚠️  WARNING: Merge conflicts detected!"
+    echo "Conflicted sections:"
+    git merge-tree "$MERGE_BASE" main "$BRANCH_NAME" | grep -E "^<<<<<<< |^======= |^>>>>>>> " | head -10
+    echo ""
+    read -p "Do you want to proceed with the merge anyway? (y/N): " -n 1 -r
+    echo
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        echo "Merge cancelled. Please resolve conflicts in the worktree first."
+        exit 1
+    fi
+else
+    echo "✅ No conflicts detected. Safe to merge!"
+fi
+
+# Perform the actual merge
+if [ "$AUTO_COMMIT" = true ]; then
+    echo "Merging branch $BRANCH_NAME (with commit)..."
+    git merge "$BRANCH_NAME"
+    MERGE_RESULT=$?
+else
+    echo "Merging branch $BRANCH_NAME (no commit - for review)..."
+    git merge --no-commit "$BRANCH_NAME"
+    MERGE_RESULT=$?
+fi
+
+if [ $MERGE_RESULT -eq 0 ]; then
+    if [ "$AUTO_COMMIT" = true ]; then
+        echo "Merge and commit successful!"
+        
+        # Ask for confirmation before cleanup
+        read -p "Do you want to remove the worktree and branch? (y/N): " -n 1 -r
+        echo
+        
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            echo "Removing worktree..."
+            git worktree remove "$WORKTREE_PATH"
+            
+            echo "Deleting branch $BRANCH_NAME..."
+            git branch -d "$BRANCH_NAME"
+            
+            echo "Cleanup complete!"
+        else
+            echo "Worktree and branch preserved."
+            echo "To manually remove later:"
+            echo "  git worktree remove $WORKTREE_PATH"
+            echo "  git branch -d $BRANCH_NAME"
+        fi
+    else
+        echo "✅ Merge successful! Changes staged for review."
+        echo ""
+        echo "Review the changes with:"
+        echo "  git diff --cached"
+        echo "  git status"
+        echo ""
+        echo "When ready to commit:"
+        echo "  git commit -m 'your commit message'"
+        echo ""
+        echo "To abort the merge:"
+        echo "  git merge --abort"
+    fi
+else
+    echo "Merge failed! Please resolve conflicts manually."
+    echo "Worktree preserved at: $WORKTREE_PATH"
+    echo ""
+    if [ "$AUTO_COMMIT" = false ]; then
+        echo "To abort the merge: git merge --abort"
+    fi
+    exit 1
+fi

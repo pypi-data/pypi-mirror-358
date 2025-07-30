@@ -1,0 +1,279 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tumee-codeguard"
+dynamic = ["version"]
+description = "A code validation tool for enforcing access control on code modifications"
+readme = "README.md"
+license = "MIT"
+authors = [
+    {name = "TuMee Dev", email = "it@tumee.com"}
+]
+maintainers = [
+    {name = "TuMee Dev", email = "it@tumee.com"}
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "tree-sitter>=0.23.0,<0.24.0",  # 0.24.0 is incompatible with language parsers compiled for v14
+    "tree-sitter-python>=0.21.0,<0.24.0",
+    "tree-sitter-javascript>=0.21.0,<0.24.0",
+    "tree-sitter-typescript>=0.21.0,<0.24.0",
+    "tree-sitter-java>=0.21.0,<0.24.0",
+    "tree-sitter-c-sharp>=0.21.0,<0.24.0",
+    "tree-sitter-cpp>=0.21.0,<0.24.0",
+    "tree-sitter-go>=0.21.0,<0.24.0",
+    "tree-sitter-rust>=0.21.0,<0.23.0",
+    "tree-sitter-ruby>=0.21.0,<0.24.0",
+    "tree-sitter-php>=0.21.0,<0.24.0",
+    "tree-sitter-html>=0.20.0,<0.24.0",
+    "tree-sitter-css>=0.21.0,<0.24.0",
+    "tree-sitter-bash>=0.21.0,<0.24.0",
+    "tree-sitter-sql>=0.3.0,<0.4.0",
+    "tree-sitter-json>=0.24.0,<0.25.0",
+    "tree-sitter-yaml>=0.7.0,<0.8.0",
+    "tree-sitter-toml>=0.7.0,<0.8.0",
+    "tree-sitter-lua>=0.2.0,<0.3.0",
+    "tree-sitter-scala>=0.21.0,<0.24.0",
+    "tree-sitter-haskell>=0.21.0,<0.24.0",
+    "tree-sitter-ocaml>=0.21.0,<0.25.0",
+    "tree-sitter-markdown>=0.3.0,<0.4.0",
+    "pathspec>=0.11.0",
+    "pyyaml>=6.0",
+    "colorama>=0.4.6",
+    "typer>=0.16.0",
+    "rich>=13.0.0",
+    "textual>=0.41.0",
+    "fastapi==0.115.12",
+    "fastmcp==2.6.0", 
+    "fastapi-mcp==0.3.4",
+    "mcp==1.9.2",
+    "uvicorn==0.25.0",
+    "diskcache==5.6.3",
+    "cachetools==5.3.0",
+    "redis==5.0.1",
+    # LLM Proxy dependencies
+    "httpx>=0.25.0",
+    "sse-starlette>=1.6.0",
+    "pydantic>=2.0.0",
+    "litellm>=1.40.0",
+    "proxy.py>=2.4.0",
+    # SSL service dependencies
+    "cryptography>=41.0.0",
+    "pyopenssl>=23.0.0",
+    # File watching
+    "watchdog>=3.0.0",
+    # Async file operations
+    "aiofiles>=23.0.0",
+    # Async console input for interactive CLI
+    "aioconsole>=0.6.0",
+    # Async filesystem operations  
+    "aiopath>=0.6.11",
+    # Compression 
+    "lz4>=4.0.0",
+    # P2P networking dependencies
+    "pyzmq>=25.0.0",
+    "psutil>=5.9.0",
+    # Dart task management integration
+    "dart-tools>=0.7.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-cov>=4.1.0",
+    "black>=24.0.0",
+    "flake8>=7.0.0",
+    "mypy>=1.8.0",
+    "isort>=5.13.0",
+    "twine>=4.0.2",
+    "build>=1.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/TuMee-Dev/TuMee-Code-Validator"
+Repository = "https://github.com/TuMee-Dev/TuMee-Code-Validator"
+Issues = "https://github.com/TuMee-Dev/TuMee-Code-Validator/issues"
+
+[project.scripts]
+codeguard = "codeguard.cli:main"
+
+[tool.setuptools]
+packages = [
+    "codeguard",
+    "codeguard.ai_ownership",
+    "codeguard.chat",
+    "codeguard.chat.prompt",
+    "codeguard.chat.shared",
+    "codeguard.chat.sys",
+    "codeguard.cli",
+    "codeguard.cli.commands",
+    "codeguard.cli.components",
+    "codeguard.context",
+    "codeguard.context.analyzers",
+    "codeguard.context.changes",
+    "codeguard.context.analysis",
+    "codeguard.context.components",
+    "codeguard.context.config",
+    "codeguard.core",
+    "codeguard.core.caching",
+    "codeguard.core.components",
+    "codeguard.core.config",
+    "codeguard.core.decorators",
+    "codeguard.core.factories",
+    "codeguard.core.filesystem",
+    "codeguard.core.filesystem.temporal",
+    "codeguard.core.filesystem.temporal.providers",
+    "codeguard.core.formatters",
+    "codeguard.core.infrastructure",
+    "codeguard.core.language",
+    "codeguard.core.module_boundary",
+    "codeguard.core.naming",
+    "codeguard.core.output",
+    "codeguard.core.parsing",
+    "codeguard.core.parsing.processors",
+    "codeguard.core.processing",
+    "codeguard.core.progress",
+    "codeguard.core.project",
+    "codeguard.core.scope",
+    "codeguard.core.security",
+    "codeguard.core.streaming",
+    "codeguard.core.validation",
+    "codeguard.core.vcs",
+    "codeguard.ide",
+    "codeguard.ide.lsp_server",
+    "codeguard.servers",
+    "codeguard.servers.ide_server",
+    "codeguard.servers.ide_server.command_handlers",
+    "codeguard.servers.llm_proxy",
+    "codeguard.servers.llm_proxy.processors",
+    "codeguard.servers.mcp_server",
+    "codeguard.servers.mcp_server.context",
+    "codeguard.servers.mcp_server.middleware",
+    "codeguard.servers.mcp_server.models",
+    "codeguard.servers.mcp_server.prompts",
+    "codeguard.servers.mcp_server.resources",
+    "codeguard.servers.mcp_server.runtime",
+    "codeguard.servers.mcp_server.tools",
+    "codeguard.servers.mcp_server.tools.modules",
+    "codeguard.servers.mcp_server.tools.modules.prompt_inject_core",
+    "codeguard.servers.mcp_server.tools.shared",
+    "codeguard.servers.mcp_server.tools.smart",
+    "codeguard.servers.mcp_server.tools.smart.actions",
+    "codeguard.servers.mcp_server.tools.smart.core",
+    "codeguard.servers.mcp_server.tools.smart.features",
+    "codeguard.servers.mcp_server.tools.smart.providers",
+    "codeguard.servers.mcp_server.tools.smart.providers.dart",
+    "codeguard.servers.mcp_server.tools.smart.providers.github",
+    "codeguard.servers.mcp_server.tools.smart.providers.jira",
+    "codeguard.servers.mcp_server.tools.smart.providers.linear",
+    "codeguard.servers.mcp_server.tools.smart.tasklist",
+    "codeguard.servers.mcp_server.validators",
+    "codeguard.servers.p2p_server",
+    "codeguard.servers.p2p_server.network_manager",
+    "codeguard.servers.p2p_server.worker_manager",
+    "codeguard.servers.p2p_server.p2p_manager",
+    "codeguard.shared",
+    "codeguard.shared.chat",
+    "codeguard.shared.llm_parsing",
+    "codeguard.shared.llm_parsing.parsers",
+    "codeguard.resources",
+    "codeguard.resources.scripts",
+    "codeguard.resources.themes",
+    "codeguard.themes",
+    "codeguard.vcs",
+    "codeguard.utils",
+]
+package-dir = {"codeguard" = "src"}
+include-package-data = true
+
+[tool.setuptools.package-data]
+codeguard = [
+    "resources/**/*",
+    "servers/mcp_server/prompts/**/*"
+]
+
+[tool.setuptools.dynamic]
+version = {attr = "codeguard.version.__version__"}
+
+# Black configuration
+[tool.black]
+line-length = 100
+target-version = ['py38', 'py39', 'py310', 'py311', 'py312']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # Directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+# isort configuration
+[tool.isort]
+profile = "black"
+line_length = 100
+known_first_party = ["codeguard"]
+skip_gitignore = true
+
+# mypy configuration
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = false
+warn_unused_configs = false
+disallow_untyped_defs = false
+ignore_missing_imports = true
+no_implicit_optional = false
+strict_optional = false
+warn_unused_ignores = false
+check_untyped_defs = false
+warn_no_return = false
+disable_error_code = ["attr-defined", "arg-type", "var-annotated", "assignment", "index", "call-overload", "return-value"]
+files = ["src"]
+exclude = [
+    "tests/",
+    "build/",
+    "dist/",
+    "examples/",
+]
+
+# pytest configuration
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = ["tests", "src/*/tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-ra -q --strict-markers"
+asyncio_default_fixture_loop_scope = "function"
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "asyncio: marks tests as async tests that use asyncio",
+]
+
+# vulture configuration
+[tool.vulture]
+paths = ["src", ".vulture_whitelist.py"]
+min_confidence = 90

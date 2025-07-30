@@ -1,0 +1,75 @@
+# Component Presets Configuration
+# Users can define custom component combinations here
+
+# Built-in presets
+presets:
+  # Quick summary - essential info only
+  summary:
+    - project_summary
+    - ai_modules:limit=10
+    - dependency_metrics
+  
+  # Detailed analysis - comprehensive view
+  detailed:
+    - project_summary
+    - modules:sort_by=importance;limit=20
+    - dependency_metrics
+    - ai_modules:limit=20
+    - top_files_context:limit=15
+    - top_files_lines:limit=15
+    - top_files_complexity:limit=15
+  
+  # Architecture focused - structure and dependencies
+  architecture:
+    - project_summary
+    - modules:sort_by=complexity;limit=10
+    - dependency_metrics
+    - dependency_graph
+  
+  # Context analysis focused - AI context and regions
+  context_focused:
+    - context_overview
+    - ai_modules:limit=20
+    - top_files_context:limit=25
+  
+  # Performance analysis - timing and efficiency
+  performance:
+    - project_summary
+    - performance_metrics
+    - modules:sort_by=files;limit=10
+    - top_files_lines:limit=20
+  
+  # Full analysis - everything available
+  full:
+    - project_summary
+    - modules:sort_by=importance;limit=10
+    - dependency_metrics
+    - dependency_relationships:limit=20
+    - dependency_graph
+    - ai_modules:limit=30
+    - top_files_context:limit=20
+    - top_files_lines:limit=20
+    - top_files_complexity:limit=20
+    - performance_metrics
+  
+  # Minimal - just the basics
+  minimal:
+    - project_summary
+    - modules:limit=10
+  
+  # Refactor analysis - comprehensive refactoring insights
+  refactor:
+    - refactor_metrics
+    - top_files_refactor_urgency:limit=15
+    - maintainability_analysis
+    - refactor_recommendations:limit=10
+    - top_files_complexity:limit=10
+
+# Custom presets - users can add their own here
+custom_presets:
+  # Example custom preset for code review
+  review:
+    - project_summary
+    - ai_modules:limit=5
+    - top_files_complexity:limit=10
+    - dependency_metrics
