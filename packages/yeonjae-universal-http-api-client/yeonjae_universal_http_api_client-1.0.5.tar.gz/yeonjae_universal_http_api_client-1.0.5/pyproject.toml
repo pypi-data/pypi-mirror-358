@@ -1,0 +1,73 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "yeonjae-universal-http-api-client"
+version = "1.0.5"
+description = "Universal HTTP API client supporting GitHub, GitLab, Bitbucket and other platforms"
+readme = {file = "README.md", content-type = "text/markdown"}
+license = {text = "MIT"}
+authors = [
+    {name = "CodePing.AI Team", email = "contact@codeping.ai"}
+]
+keywords = ["http", "api", "client", "github", "gitlab", "slack", "notion", "universal"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Internet :: WWW/HTTP :: HTTP Servers",
+    "Topic :: System :: Networking",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "httpx>=0.25.0",
+    "requests>=2.28.0",
+    "pydantic>=2.0.0",
+    "urllib3>=1.26.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0",
+    "requests-mock>=1.9.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/yeonjae-work/universal-modules"
+Repository = "https://github.com/yeonjae-work/universal-modules"
+Issues = "https://github.com/yeonjae-work/universal-modules/issues"
+Changelog = "https://github.com/yeonjae-work/universal-modules/blob/main/packages/yeonjae-universal-http-api-client/CHANGELOG.md"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"*" = ["py.typed"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.mypy]
+python_version = "1.0.3"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
