@@ -1,0 +1,32 @@
+[build-system]
+requires = ["poetry-core>=2.0"]
+build-backend = "poetry.core.masonry.api"
+
+[project]
+name = "unittest2doc"
+version = "0.1.2"
+description = "Convert unittest test cases to sphinx doc"
+license = "MIT"
+readme = "README.rst"
+requires-python = ">3.10"
+authors = [
+  { name = "Fmajor", email = "wujinnnnn@gmail.com" },
+]
+dependencies = [
+  "rich",
+  "pyyaml",
+  "jinja2",
+  "sphinx-toolbox",
+  "cloud-sptheme",
+]
+
+[project.urls]
+Homepage = "https://github.com/Fmajor/unittest2doc"
+Issues = "https://github.com/Fmajor/unittest2doc/issues"
+
+[tool.poetry]
+packages = [
+    { include = "unittest2doc", from = "src" },
+]
+[tool.poetry.scripts]
+unittest2doc = "unittest2doc.bin:main"
