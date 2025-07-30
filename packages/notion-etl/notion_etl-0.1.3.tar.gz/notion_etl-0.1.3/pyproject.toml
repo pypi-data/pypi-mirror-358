@@ -1,0 +1,53 @@
+[build-system]
+requires = ["hatchling", "uv-dynamic-versioning"]
+build-backend = "hatchling.build"
+
+[project]
+
+name = "notion-etl"
+dynamic = ["version"]
+description = "A Python package for extracting data from Notion using Polars dataframes."
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [{ name = "Jose Sanchez" }]
+dependencies = ["notion-client==2.2.1", "polars==1.29.0"]
+requires-python = ">=3.11"
+
+[project.urls]
+Homepage = "https://github.com/Josersanvil/notion-etl/"
+Repository = "https://github.com/Josersanvil/notion-etl/"
+Issues = "https://github.com/Josersanvil/notion-etl/issues"
+
+[dependency-groups]
+dev = [
+  "pytest",
+  "pytest-mock",
+  "pytest-cov",
+  "pytest-vcr",
+  "ruff",
+  "mypy",
+  "pre-commit",
+]
+
+[tool.hatch.version]
+source = "uv-dynamic-versioning"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.sdist]
+include = ["notion_etl/**", "README.md", "LICENSE", "py.typed"]
+
+[tool.hatch.build.targets.wheel]
+include = ["notion_etl/**", "README.md", "LICENSE", "py.typed"]
+
+[tool.uv-dynamic-versioning]
+fallback-version = "0.0.0"
+
+[tool.mypy]
+strict = true
+exclude = ["^tests/"]
+
+[[tool.mypy.overrides]]
+module = "notion_etl.loader"
+disable_error_code = "index"
