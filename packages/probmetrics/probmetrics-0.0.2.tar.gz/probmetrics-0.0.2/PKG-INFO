@@ -1,0 +1,189 @@
+Metadata-Version: 2.4
+Name: probmetrics
+Version: 0.0.2
+Summary: Probabilistic metrics and calibration methods
+Project-URL: Documentation, https://github.com/dholzmueller/probmetrics#readme
+Project-URL: Issues, https://github.com/dholzmueller/probmetrics/issues
+Project-URL: Source, https://github.com/dholzmueller/probmetrics
+Author: David Holzmüller
+License-Expression: Apache-2.0
+License-File: LICENSE.txt
+Keywords: Calibration,Classification,Metrics,Refinement
+Classifier: Development Status :: 4 - Beta
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Requires-Python: >=3.9
+Requires-Dist: numpy>=1.25
+Requires-Dist: scikit-learn>=1.3
+Requires-Dist: torch>=2.0
+Requires-Dist: torchmetrics>=1.2.1
+Provides-Extra: dev
+Requires-Dist: fire; extra == 'dev'
+Requires-Dist: matplotlib>=3.0; extra == 'dev'
+Requires-Dist: myst-parser>=3.0; extra == 'dev'
+Requires-Dist: pytest-cov>=4.0; extra == 'dev'
+Requires-Dist: pytest>=7.0; extra == 'dev'
+Requires-Dist: scipy; extra == 'dev'
+Requires-Dist: sphinx-rtd-theme>=2.0; extra == 'dev'
+Requires-Dist: sphinx>=7.0; extra == 'dev'
+Provides-Extra: dirichletcal
+Requires-Dist: dirichletcal; extra == 'dirichletcal'
+Provides-Extra: extra
+Requires-Dist: cir-model; extra == 'extra'
+Requires-Dist: netcal; extra == 'extra'
+Requires-Dist: pytorch-minimize; extra == 'extra'
+Requires-Dist: relplot; extra == 'extra'
+Requires-Dist: scikit-learn<1.7,>=1.3; extra == 'extra'
+Requires-Dist: venn-abers; extra == 'extra'
+Description-Content-Type: text/markdown
+
+[![test](https://github.com/dholzmueller/probmetrics/actions/workflows/testing.yml/badge.svg)](https://github.com/dholzmueller/probmetrics/actions/workflows/testing.yml)
+[![Downloads](https://img.shields.io/pypi/dm/probmetrics)](https://pypistats.org/packages/probmetrics)
+
+
+# Probmetrics: Classification metrics and post-hoc calibration
+
+This package (PyTorch-based) currently contains
+- classification metrics, especially also 
+metrics for assessing the quality of probabilistic predictions, and
+- post-hoc calibration methods, especially 
+  a fast and accurate implementation of temperature scaling.
+
+It accompanies our paper
+[Rethinking Early Stopping: Refine, Then Calibrate](https://arxiv.org/abs/2501.19195).
+Please cite our paper if you use this repository for research purposes.
+The experiments from the paper can be found here: 
+[vision](https://github.com/eugeneberta/RefineThenCalibrate-Vision), 
+[tabular](https://github.com/dholzmueller/pytabkit), 
+[theory](https://github.com/eugeneberta/RefineThenCalibrate-Theory).
+
+## Installation
+
+Probmetrics is available via
+```bash
+pip install probmetrics
+```
+To obtain all functionality, install `probmetrics[extra,dev,dirichletcal]`.
+- extra installs more packages for smooth ECE, 
+  Venn-Abers calibration, 
+  centered isotonic regression, 
+  the temperature scaling implementation in NetCal.
+- dev installs more packages for development (esp. documentation)
+- dirichletcal installs Dirichlet calibration, 
+  which however only works for Python 3.12 upwards.
+
+## Using temperature scaling
+
+We provide a highly efficient implementation of temperature scaling
+that, unlike some other implementations, 
+does not suffer from optimization issues.
+
+### Numpy interface
+
+```python
+from probmetrics.calibrators import get_calibrator
+import numpy as np
+
+probas = np.asarray([[0.1, 0.9]])  # shape = (n_samples, n_classes)
+labels = np.asarray([1])  # shape = (n_samples,)
+# this is the version with Laplace smoothing, 
+# use calibrate_with_mixture=False (the default) for no Laplace smoothing
+calib = get_calibrator('temp-scaling', calibrate_with_mixture=True)
+# other option: calib = MixtureCalibrator(TemperatureScalingCalibrator())
+# there is also a fit_torch / predict_proba_torch interface
+calib.fit(probas, labels)
+calibrated_probas = calib.predict_proba(probas)
+```
+
+### PyTorch interface
+
+The PyTorch version can be used directly with GPU tensors, but 
+this can actually be slower than CPU for smaller validation sets (around 1K-10K samples).
+
+```python
+from probmetrics.distributions import CategoricalProbs
+from probmetrics.calibrators import get_calibrator
+import torch
+
+probas = torch.as_tensor([[0.1, 0.9]])
+labels = torch.as_tensor([1])
+
+# temp-scaling with Laplace smoothing
+calib = get_calibrator('ts-mix')
+
+# if you have logits, you can use CategoricalLogits instead
+calib.fit_torch(CategoricalProbs(probas), labels)
+calib.predict_proba_torch(CategoricalProbs(probas))
+```
+
+## Using our refinement and calibration metrics
+
+We provide estimators for refinement error 
+(loss after post-hoc calibration)
+and calibration error 
+(loss improvement through post-hoc calibration). 
+They can be used as follows:
+
+```python
+import torch
+from probmetrics.metrics import Metrics
+
+# compute multiple metrics at once 
+# this is more efficient than computing them individually
+metrics = Metrics.from_names(['logloss', 
+                              'refinement_logloss_ts-mix_all', 
+                              'calib-err_logloss_ts-mix_all'])
+y_true = torch.tensor(...)
+y_logits = torch.tensor(...)
+results = metrics.compute_all_from_labels_logits(y_true, y_logits)
+print(results['refinement_logloss_ts-mix_all'].item())
+```
+
+## Using more metrics
+
+In general, while some metrics can be 
+flexibly configured using the corresponding classes,
+many metrics are available through their name. 
+Here are some relevant classification metrics:
+```python
+from probmetrics.metrics import Metrics
+
+metrics = Metrics.from_names([
+    'logloss',
+    'brier',  # for binary, this is 2x the brier from sklearn
+    'accuracy', 'class-error',
+    'auroc-ovr', # one-vs-rest
+    'auroc-ovo-sklearn', # one-vs-one (can be slow!)
+    # calibration metrics
+    'ece-15', 'rmsce-15', 'mce-15', 'smece'
+    'refinement_logloss_ts-mix_all', 
+    'calib-err_logloss_ts-mix_all',
+    'refinement_brier_ts-mix_all', 
+    'calib-err_brier_ts-mix_all'
+])
+```
+
+The following function returns a list of all metric names:
+```python
+from probmetrics.metrics import Metrics, MetricType
+Metrics.get_available_names(metric_type=MetricType.CLASS)
+```
+
+While there are some classes for regression metrics, they are not implemented.
+
+
+## Releases
+
+- v0.0.2:
+  - Removed numpy<2.0 constraint, 
+  - allow 1D vectors in CategoricalLogits / CategoricalProbs
+  - add TorchCal temperature scaling
+  - minor fixes in AutoGluon temperature scaling 
+    that shouldn't affect the performance in practice
+- v0.0.1: Initial release
