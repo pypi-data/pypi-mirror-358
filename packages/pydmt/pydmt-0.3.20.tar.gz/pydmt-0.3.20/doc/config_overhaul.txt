@@ -1,0 +1,42 @@
+Current our configutation is just a bunch of python files under the "config" folder.
+
+We want to have configuration function calls.
+
+This will mean that:
+- the names of the configuration functions will be auto completed by editors.
+- the help for the functions will be presented to developers calling these functions.
+- the names of the paremeters that can be filled will be shown to the developers.
+- type hints can be used to verify that the developers are entering the right types
+	alreay at code writing time.
+- the functions could verify higher level consistency of the data (beyond just types)
+- the developer using these functions could still program and calculuate the paramters
+	to the functions since the code calling the configuration functions is still
+	python.
+- we can have default values for function paramters.
+- any function which is not called will use default code defined by the function author.
+- this system, because it's still python code will have all the flexibility of the previous
+	system but it will be clear for every subsystem which paramters should be supplied.
+- there is no chance of getting the function name wrong or the names of the arguments.
+
+Here is an example
+
+Instead of:
+=========[github.py]==============
+workflows_platforms = [
+    ("ubuntu-22.04", "3.10"),
+    ("ubuntu-20.04", "3.9"),
+    ("ubuntu-20.04", "3.8"),
+]
+==============8<===================
+we will have:
+=========[github.py]==============
+from pydmt.cfgs.github import set_platforms
+# set_platforms is defined as def set_platforms(plt: List[Tuple[str, str]]) -> None:
+set_platforms([
+    ("ubuntu-22.04", "3.10"),
+    ("ubuntu-20.04", "3.9"),
+    ("ubuntu-20.04", "3.8"),
+])
+==============8<===================
+In this case all the configuration can be done at a single file so there is no need for a
+whole config directory.

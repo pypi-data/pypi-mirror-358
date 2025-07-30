@@ -1,0 +1,10 @@
+pydmt once used to distinguish between those two build and even had a flag for it (--dev [true|false]).
+This is a bad idea.
+What if I have seven itegration environments? You get the idea.
+
+There is no need to distinguish between them since we already have environment variables to do that!
+for instance, in github workflows there is an environment variable called `GITHUB_WORKFLOW`.
+
+make can also pick up environment variables.
+
+Pydmt should be clean of those details.

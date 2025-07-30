@@ -1,0 +1,24 @@
+target:
+    A single product of a builder (a builder may have more than one target).
+    Usually a file but may not be so (may be a blob on s3 or something)
+    a target has a name.
+    Examples:
+        file://foo.txt
+        s3://bucket/path
+        ...
+    You can build a target if you know it's name.
+    Targets do not expose themselves as object to the users.
+
+
+Builder: a piece of code that builds.
+    It receives multiple targets as inputs (often one) and produces multiple targets (often one)
+    Builders have a type and can have a name.
+    You can run a builder by a name.
+    If you want to run a specific builder then you can run it with a reference.
+
+How do you run a build?
+    You can either run all builders (or a default builder).
+    You can ask to run a builder by name (which recursively will run all builders
+        it depends upon).
+    You can ask to run a build for target name in which case the system will find
+        which builder builds that target and will run it.

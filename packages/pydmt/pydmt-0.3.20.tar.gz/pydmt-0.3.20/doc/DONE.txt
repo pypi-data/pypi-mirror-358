@@ -1,0 +1,23 @@
+- add validation with yaml schemas and not juse json schemas.
+	allow to have 'schema_file_json' and 'schema_file_yaml'
+	in metadata and work according to that.
+	modify the data files accordingly.
+- add loading of url.
+- removed now unneeded file support (left onyl url support)
+- add installer for npm which works like this:
+	$ npm install --quiet --silent htmlhint > /dev/null
+	and works from a package.json and package-lock.json
+	have a look at riddle-book project for example
+- my cache is bad if the filename has a space in it.
+- add a "make" builder for pydmt which depends on the Makefile
+	and produces an "out/make.stamp" file and run it at the
+	end of pydmt build under the venv ofcourse.
+- disabled feature was removed.
+- added ability to control log level from the command line.
+- removed the various different imports from config/python.py and settled for just one import.
+- add installer for gems which works like this:
+	$ bundle install --local
+	and works from a Gemfile and Gemfile.lock
+	look at site-personal-jekyll.
+- added option to remove packages in the apt builder.
+- made sure pydmt will work in an empty folder.
