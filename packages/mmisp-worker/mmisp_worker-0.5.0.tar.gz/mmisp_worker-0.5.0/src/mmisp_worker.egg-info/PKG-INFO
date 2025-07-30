@@ -1,0 +1,45 @@
+Metadata-Version: 2.4
+Name: mmisp-worker
+Version: 0.5.0
+Author: Ahmad Baki, Tobias Gasteiger, Lukas Sewing, Christopher Worsch, Amadeus Haessler
+Requires-Python: >=3.11.0
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: streaq==1.0.0
+Requires-Dist: mmisp-api-client==0.8.0
+Requires-Dist: mmisp-lib==0.11.0
+Requires-Dist: websockets
+Requires-Dist: email-validator
+Requires-Dist: fastapi
+Requires-Dist: jinja2
+Requires-Dist: mysql-connector-python
+Requires-Dist: publicsuffix2
+Requires-Dist: redis
+Requires-Dist: requests
+Requires-Dist: uvicorn
+Requires-Dist: validators
+Requires-Dist: httpx
+Requires-Dist: aiodns
+Provides-Extra: dev
+Requires-Dist: httpx-ws; extra == "dev"
+Requires-Dist: faker; extra == "dev"
+Requires-Dist: ruff>=0.3.7; extra == "dev"
+Requires-Dist: mypy==1.10.0; extra == "dev"
+Requires-Dist: pre-commit==3.6.0; extra == "dev"
+Requires-Dist: pytest==8.3.5; extra == "dev"
+Requires-Dist: pytest-asyncio==0.26.0; extra == "dev"
+Requires-Dist: pytest-test-groups; extra == "dev"
+Requires-Dist: pytest-cov==4.1.0; extra == "dev"
+Requires-Dist: respx==0.20.2; extra == "dev"
+Requires-Dist: mysql-connector-python==8.3.0; extra == "dev"
+Requires-Dist: icecream; extra == "dev"
+Requires-Dist: types-requests; extra == "dev"
+Requires-Dist: build; extra == "dev"
+Requires-Dist: twine; extra == "dev"
+Dynamic: license-file
+
+## Coverage
+
+Celery worker coverage is currently not possible to measure.
+Performance penalties are too bad, we cannot use to python 3.10,
+coverage.py with python 3.12 sysmon is not capable of measuring greenlet.

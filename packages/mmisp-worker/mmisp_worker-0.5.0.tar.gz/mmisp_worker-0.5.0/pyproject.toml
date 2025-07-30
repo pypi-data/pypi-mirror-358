@@ -1,0 +1,97 @@
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mmisp-worker"
+version = "0.5.0"
+description = ""
+authors = [{name = "Ahmad Baki"}, {name = "Tobias Gasteiger"}, {name = "Lukas Sewing"}, {name = "Christopher Worsch"}, {name = "Amadeus Haessler"}]
+readme = "README.md"
+requires-python = ">=3.11.0"
+
+
+dependencies = [
+    "streaq==1.0.0",
+    "mmisp-api-client==0.8.0",
+    "mmisp-lib==0.11.0",
+    "websockets",
+    "email-validator",
+    "fastapi",
+    "jinja2",
+    "mysql-connector-python",
+    "publicsuffix2",
+    "redis",
+    "requests",
+    "uvicorn",
+    "validators",
+    "httpx",
+    "aiodns"
+]
+
+
+[project.optional-dependencies]
+dev = [
+  "httpx-ws",
+  "faker",
+  "ruff>=0.3.7",
+  "mypy==1.10.0",
+  "pre-commit==3.6.0",
+  "pytest==8.3.5",
+  "pytest-asyncio==0.26.0",
+  "pytest-test-groups",
+  "pytest-cov==4.1.0",
+  "respx==0.20.2",
+  "mysql-connector-python==8.3.0",
+  "icecream",
+  "types-requests",
+  "build",
+  "twine"
+]
+
+
+[project.scripts]
+mmisp-worker-api = "mmisp.worker.main:main"
+mmisp-worker = "mmisp.worker.node.worker_main:main"
+
+[tool.setuptools.package-data]
+'mmisp.worker.jobs.email.templates' = ['*.j2']
+
+[tool.coverage.report]
+exclude_also = [
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "@abstractmethod",
+    "pass",
+    ]
+
+[tool.ruff]
+fix = true
+line-length = 120
+required-version = ">=0.3.7"
+src = ["src"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "ICN", "ANN"]
+#select = ["ALL"]
+ignore = ["ANN002", "ANN003", "ANN401"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["ANN101","ANN001", "ANN201", "ANN202"]
+
+[tool.pylint.format]
+max-line-length = 120
+
+[tool.coverage.run]
+concurrency = ["greenlet", "thread"]
+include = [
+  "/usr/local/lib/python3.11/site-packages/mmisp/*",
+  "/home/mmisp/.local/lib/python3.11/site-packages/mmisp/*"
+  ]
+
+[tool.mypy]
+plugins = ["pydantic.mypy"]
+
+[tool.pytest.ini_options]
+asyncio_default_fixture_loop_scope = "session"
+asyncio_default_test_loop_scope = "session"
