@@ -1,0 +1,37 @@
+[project]
+name = "overkiz-exporter"
+version = "1.2.0"
+description = ""
+authors = [
+    {name = "François Schmidts", email = "francois@schmidts.fr"},
+]
+readme = "README.md"
+requires-python = ">=3.13,<4.0"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Topic :: Home Automation",
+     "Topic :: System :: Monitoring",
+]
+dependencies = [
+    "pyoverkiz>=1.15.3",
+    "the-conf>=1.0.1",
+    "prometheus-client>=0.21.1",
+    "daemon-metrics (>=1.0.0,<2.0.0)",
+]
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.10.0"
+mypy = "^1.13.0"
+pycodestyle = "^2.12.1"
+flake8 = "^7.1.1"
+pylint = "^3.3.2"
+ipdb = "^0.13.13"
+types-requests = "^2.32.4.20250611"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 79
+target-version = ["py313"]
