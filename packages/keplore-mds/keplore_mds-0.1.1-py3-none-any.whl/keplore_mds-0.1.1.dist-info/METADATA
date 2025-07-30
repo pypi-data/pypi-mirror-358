@@ -1,0 +1,46 @@
+Metadata-Version: 2.4
+Name: keplore-mds
+Version: 0.1.1
+Summary: A simple MCP server for addition operations
+Project-URL: Homepage, https://github.com/nenus-ai/mcp-model-data-service
+Project-URL: Repository, https://github.com/nenus-ai/mcp-model-data-service
+Author-email: Kirk Xu <kirk@keploreai.com>
+License: MIT
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.10
+Requires-Dist: datasets>=3.6.0
+Requires-Dist: fastmcp>=2.9.2
+Requires-Dist: huggingface-hub>=0.33.1
+Requires-Dist: mcp>=1.9.4
+Requires-Dist: pydantic>=2.0.0
+Provides-Extra: dev
+Requires-Dist: black; extra == 'dev'
+Requires-Dist: build; extra == 'dev'
+Requires-Dist: flake8; extra == 'dev'
+Requires-Dist: mypy; extra == 'dev'
+Requires-Dist: pytest; extra == 'dev'
+Requires-Dist: pytest-cov; extra == 'dev'
+Requires-Dist: twine; extra == 'dev'
+Description-Content-Type: text/markdown
+
+# Install
+```bash
+uv venv . -p 3.11
+source .venv/bin/activate
+uv sync
+```
+
+# Test
+```bash
+make test
+```
+
+# Build
+```bash
+make build
+```
