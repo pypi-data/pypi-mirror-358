@@ -1,0 +1,783 @@
+#!/usr/bin/env python
+
+import sys
+from PySpectra.pyqtSelector import *
+
+import PyTango
+import math, os, sys
+import HasyUtils
+import tngGui.lib.utils as utils
+import tngGui.lib.definitions as definitions
+import json
+import tngGui.lib.helpBox as helpBox
+
+
+class MacroServerIfc( QMainWindow):
+    def __init__( self, logWidget = None, parent = None):
+        super( MacroServerIfc, self).__init__( parent)
+        self.parent = parent
+        self.tkFlag = self.parent.tkFlag
+
+        self.setWindowTitle( "Selected MacroServer Features")
+        self.logWidget = logWidget
+        try:
+            self.door = PyTango.DeviceProxy( HasyUtils.getLocalDoorNames()[0])
+        except Exception as e:
+            self.logWidget.append( "MacroServerIfc.__init__(): Failed to create proxy to Door" )
+            self.logWidget.append( repr( e))
+            sys.exit( 255)
+
+        self.prepareWidgets()
+        #
+        # Menu Bar
+        #
+        self.menuBar = QMenuBar()
+        self.setMenuBar( self.menuBar)
+        self.prepareMenuBar()
+        self.prepareStatusBar()
+
+        self.updateTimer = QtCore.QTimer(self)
+        self.updateTimer.timeout.connect( self.cb_refreshMacroServerIfc)
+        self.updateTimer.start( definitions.TIMEOUT_REFRESH)
+
+    def prepareMenuBar( self):
+        self.fileMenu = self.menuBar.addMenu('&File')
+        self.exitAction = QAction('E&xit', self)        
+        self.exitAction.setStatusTip('Exit application')
+        self.exitAction.triggered.connect(QApplication.quit)
+        self.fileMenu.addAction( self.exitAction)
+
+        #
+        # the activity menubar: help and activity
+        #
+        self.menuBarActivity = QMenuBar( self.menuBar)
+        self.menuBar.setCornerWidget( self.menuBarActivity, QtCore.Qt.TopRightCorner)
+
+        #
+        # Help menu (bottom part)
+        #
+        self.helpMenu = self.menuBarActivity.addMenu('Help')
+        self.widgetAction = self.helpMenu.addAction(self.tr("Widget"))
+        self.widgetAction.triggered.connect( self.cb_helpWidget)
+        self.fioAdditionsAction = self.helpMenu.addAction(self.tr("FioAdditions"))
+        self.fioAdditionsAction.triggered.connect( self.cb_helpFioAdditions)
+
+        self.activityIndex = 0
+        self.activity = self.menuBarActivity.addMenu( "_")
+
+    def cb_helpWidget(self):
+        w = helpBox.HelpBox(self, self.tr("HelpWidget"), self.tr(
+            "\
+<p><b>ScanFile</b><br>\
+Use e.g. tst.fio to create .fio files or e.g. [\"tst.fio\", \"tst.nxs\"] \
+to to create .fio and .nxs files.\
+\
+<p><b>JsonRecorder</b><br>\
+The SardanaMonitor receives json-encoded data. Therefore the JsonRecoder <br>\
+checkbox should be enabled.\
+\
+<p><b>ShowDial</b><br>\
+If False, the DIAL is not displayed. At DESY the DIAL has no meaning.\
+\
+<p><b>ShowCtrlAxis</b><br>\
+If True, the pool device names are displayed together with the <br>\
+aliases when using wa or wm.\
+\
+<p><b>General Hooks</b><br>\
+Hooks are explained in the Spock manual, Scans chapter.<br>\
+They can be enabled or disabled and the source file can <br>\
+be edited and reloaded.<br>\
+It is assumed that the hooks and the on-condition Macro are in <br>\
+$HOME/sardanaMacros/general_features.py<\
+\
+<p><b>GeneralOnStopFunction</b><br>\
+ The on-stop function will be invoked, if a scan is terminated<br>\
+by Ctrl-C. It is assumed that the sourcee file is here:<br>\
+$HOME/sardanaMacros/generalFunctions/general_functions.py\
+\
+<p><b>Logging</b><br>\
+LogMacro: if True, logging is active<br>\
+LogMacroDir: directory where the log will be stored\
+\
+"
+                ))
+        w.show()
+    def cb_helpFioAdditions(self):
+        w = helpBox.HelpBoxPlain(self, self.tr("HelpFioAdditions"), self.tr(
+            "\
+The environment variable points to python script which \n\
+injects some data into the header of the .fio file \n\
+\n\
+ senv FioAdditions /online_dir/fioAdds.py\n\
+\n\
+Here is an example from P10, authors, M. Sprung, Teresa Nunez \n\
+\n\
+#!/usr/bin/env python\n\
+#\n\
+# this script returns output to be filled into the header of a .fio file. \n\
+# allowed combinations: list, dict, [list], [dict], [list, dict], [dict, list]\n\
+# \n\
+import PyTango\n\
+\n\
+def get_motpos( mot):\n\
+    # Get the current position of a motor using the sardananame\n\
+\n\
+    position = -1000000000 # --- Define a dummy default position\n\
+    try:\n\
+        pool_proxy = PyTango.DeviceProxy(mot)\n\
+        position    = pool_proxy.Position\n\
+    except:\n\
+        pass\n\
+\n\
+    return position\n\
+\n\
+def main():\n\
+\n\
+    motlist = [ 'd1_mot01', 'd1_mot02', 'd1_mot03', 'd1_mot04']\n\
+    \n\
+    dct = dict(zip(motlist,map(get_motpos, motlist)))\n\
+    for motor, value in dct.items():\n\
+        if value == -1000000000:\n\
+            del dct[motor]\n\
+\n\
+    lst = []\n\
+\n\
+    return [ dct, lst]\n\
+\n\
+if __name__ == '__main__':\n\
+    main()\n\
+\n\
+"
+                ))
+        w.show()
+
+    def prepareStatusBar( self):
+        #
+        # Status Bar
+        #
+        self.statusBar = QStatusBar()
+        self.setStatusBar( self.statusBar)
+
+        self.abortMacro = QPushButton(self.tr("Abort Macro")) 
+        self.abortMacro.setToolTip( "Sends AbortMacro to Door")
+        self.statusBar.addWidget( self.abortMacro) 
+        self.abortMacro.clicked.connect( self.cb_abortMacro)
+
+        self.stopMacro = QPushButton(self.tr("Stop Macro")) 
+        self.stopMacro.setToolTip( "Sends StopMacro to door; no action, if door.state == ON; stops all moves; dscan: motors return to start position")
+        self.statusBar.addWidget( self.stopMacro) 
+        self.stopMacro.clicked.connect( self.cb_stopMacro)
+
+        self.restartMS = QPushButton(self.tr("Restart MS")) 
+        self.restartMS.setToolTip( "Restart MacroServer")
+        self.statusBar.addWidget( self.restartMS) 
+        self.restartMS.clicked.connect( self.cb_restartMS)
+
+        self.restartBoth = QPushButton(self.tr("Restart MS and Pool")) 
+        self.restartBoth.setToolTip( "Restart MacroServer and Pool")
+        self.statusBar.addWidget( self.restartBoth) 
+        self.restartBoth.clicked.connect( self.cb_restartBoth)
+
+        self.apply = QPushButton(self.tr("&Apply")) 
+        self.statusBar.addPermanentWidget( self.apply) # 'permanent' to shift it right
+        self.apply.clicked.connect( self.cb_applyMacroServerIfc)
+        self.apply.setShortcut( "Alt+a")
+
+        self.exit = QPushButton(self.tr("E&xit")) 
+        self.statusBar.addPermanentWidget( self.exit) # 'permanent' to shift it right
+        self.exit.clicked.connect( self.cb_closeMacroServerIfc )
+        self.exit.setShortcut( "Alt+x")
+
+    def fillMgComboBox( self):
+        """
+        called initially but also after new MGs have been created
+        """
+        activeMntGrp = HasyUtils.getEnv( "ActiveMntGrp")
+        count = 0
+        self.activeMntGrpComboBox.clear()
+        for mg in HasyUtils.getMgAliases():
+            self.activeMntGrpComboBox.addItem( mg)
+            #
+            # initialize the comboBox to the current ActiveMntGrp
+            #
+            if activeMntGrp == mg:
+                self.activeMntGrpComboBox.setCurrentIndex( count)
+            count += 1
+        return 
+        
+    def prepareWidgets( self):
+        w = QWidget()
+        self.layout_v = QVBoxLayout()
+        w.setLayout( self.layout_v)
+        self.setCentralWidget( w)
+        self.dct = {}
+        #
+        # the ActiveMntGrp
+        #
+        if HasyUtils.getMgAliases() is not None:
+            hBox = QHBoxLayout()
+            w = QLabel( "ActiveMntGrp")
+            w.setMinimumWidth( 120)
+            hBox.addWidget( w)
+            hBox.addStretch()            
+            self.activeMntGrpComboBox = QComboBox()
+            self.activeMntGrpComboBox.setMinimumWidth( 250)
+            self.fillMgComboBox()
+            
+            #
+            # connect the callback AFTER the combox is filled. Otherwise there
+            # will be some useless changes
+            #
+            self.activeMntGrpComboBox.currentIndexChanged.connect( self.cb_activeMntGrpChanged)
+            hBox.addWidget( self.activeMntGrpComboBox)
+            hBox.addStretch()            
+            self.layout_v.addLayout( hBox)
+            
+        #
+        # horizontal line
+        #
+        hBox = QHBoxLayout()
+        w = QFrame()
+        w.setFrameShape( QFrame.HLine)
+        w.setFrameShadow(QFrame.Sunken)
+        hBox.addWidget( w)
+        self.layout_v.addLayout( hBox)
+        #
+        # some Env variables
+        #
+        self.varsEnv = [ "ScanDir", "ScanFile", "FioAdditions", "SignalCounter"]
+        for var in self.varsEnv:
+            hBox = QHBoxLayout()
+            w = QLabel( "%s:" % var)
+            w.setMinimumWidth( 120)
+            hBox.addWidget( w)
+            hsh = {}
+            w_value = QLabel()
+            w_value.setMinimumWidth( 250)
+            w_value.setFrameStyle( QFrame.Panel | QFrame.Sunken)
+            hBox.addWidget( w_value)
+            w_line = QLineEdit()
+            w_line.setAlignment( QtCore.Qt.AlignRight)
+            w_line.setMinimumWidth( 250)
+            hBox.addWidget( w_line)
+            self.dct[ var] = { "w_value": w_value, "w_line": w_line}
+            self.layout_v.addLayout( hBox)
+            if var == "ScanFile": 
+                w.setToolTip( " Use tst.fio or [\"tst.fio\", \"tst.nxs\"] to specify 1 or 2 output files.")
+                w_value.setToolTip( " Use tst.fio or [\"tst.fio\", \"tst.nxs\"] to specify 1 or 2 output files.")
+                w_line.setToolTip( " Use tst.fio or [\"tst.fio\", \"tst.nxs\"] to specify 1 or 2 output files.")
+            if var == "SignalCounter": 
+                w.setToolTip( " Identfies a counter as the 'Signal', used for mvsa, mesh scans, SSA")
+                w_value.setToolTip( " Identfies a counter as the 'Signal', used for mvsa, mesh scans, SSA")
+                w_line.setToolTip( " Identfies a counter as the 'Signal', used for mvsa, mesh scans, SSA")
+
+        #
+        # horizontal line
+        #
+        hBox = QHBoxLayout()
+        w = QFrame()
+        w.setFrameShape( QFrame.HLine)
+        w.setFrameShadow(QFrame.Sunken)
+        hBox.addWidget( w)
+        self.layout_v.addLayout( hBox)
+        #
+        # JsonRecorder
+        #
+        hBox = QHBoxLayout()
+        self.w_jsonRecorderCheckBox = QCheckBox()
+        self.w_jsonRecorderCheckBox.setToolTip( "Enables SardanaMonitor")
+        a = HasyUtils.getEnv( "JsonRecorder")
+        if a is False:
+            self.w_jsonRecorderCheckBox.setChecked( False)
+        else:
+            self.w_jsonRecorderCheckBox.setChecked( True)
+
+        self.w_jsonRecorderCheckBox.stateChanged.connect( self.cb_jsonRecorder)
+        hBox.addWidget( self.w_jsonRecorderCheckBox)
+        l = QLabel( "JsonRecorder")
+        l.setMinimumWidth( 120)
+        hBox.addWidget( l)
+        hBox.addStretch()
+        self.layout_v.addLayout( hBox)
+        #
+        # horizontal line
+        #
+        hBox = QHBoxLayout()
+        w = QFrame()
+        w.setFrameShape( QFrame.HLine)
+        w.setFrameShadow(QFrame.Sunken)
+        hBox.addWidget( w)
+        self.layout_v.addLayout( hBox)
+        #
+        # ShowDial, ShowCtrlAxis
+        #
+        hsh = HasyUtils.getEnv( "_ViewOptions")
+        hBox = QHBoxLayout()
+        self.w_showDialCheckBox = QCheckBox()
+        self.w_showDialCheckBox.setToolTip( "If True, 'Dial' with motor position (wa, wm)")
+        if hsh[ 'ShowDial']:
+            self.w_showDialCheckBox.setChecked( True)
+        else:
+            self.w_showDialCheckBox.setChecked( False)
+        self.w_showDialCheckBox.stateChanged.connect( self.cb_showDial)
+        hBox.addWidget( self.w_showDialCheckBox)
+        l = QLabel( "ShowDial")
+        l.setMinimumWidth( 120)
+        hBox.addWidget( l)
+
+        self.w_showCtrlAxisCheckBox = QCheckBox()
+        self.w_showCtrlAxisCheckBox.setToolTip( "If True, show controller axis with motor position (wa, wm)")
+        if hsh[ 'ShowCtrlAxis']:
+            self.w_showCtrlAxisCheckBox.setChecked( True)
+        else:
+            self.w_showCtrlAxisCheckBox.setChecked( False)
+        self.w_showCtrlAxisCheckBox.stateChanged.connect( self.cb_showCtrlAxis)
+        hBox.addWidget( self.w_showCtrlAxisCheckBox)
+        l = QLabel( "ShowCtrlAxis")
+        l.setMinimumWidth( 120)
+        hBox.addWidget( l)
+        hBox.addStretch()
+        self.layout_v.addLayout( hBox)
+        #
+        # horizontal line
+        #
+        hBox = QHBoxLayout()
+        w = QFrame()
+        w.setFrameShape( QFrame.HLine)
+        w.setFrameShadow(QFrame.Sunken)
+        hBox.addWidget( w)
+        self.layout_v.addLayout( hBox)
+        #
+        # general hooks on-condition, on-stop
+        #
+        hBox = QHBoxLayout()
+        self.w_generalHooksCheckBox = QCheckBox()
+        lst = HasyUtils.getEnv( "_GeneralHooks")
+        if lst is None:
+            self.w_generalHooksCheckBox.setChecked( False)
+        else:
+            self.w_generalHooksCheckBox.setChecked( True)
+
+        self.w_generalHooksCheckBox.stateChanged.connect( self.cb_generalHooks)
+        hBox.addWidget( self.w_generalHooksCheckBox)
+        l = QLabel( "General hooks")
+        l.setMinimumWidth( 120)
+        hBox.addWidget( l)
+        #
+        self.w_onConditionCheckBox = QCheckBox()
+        a = HasyUtils.getEnv( "GeneralCondition")
+        if a is None:
+            self.w_onConditionCheckBox.setChecked( False)
+        else:
+            self.w_onConditionCheckBox.setChecked( True)
+            
+        self.w_onConditionCheckBox.stateChanged.connect( self.cb_onCondition)
+        hBox.addWidget( self.w_onConditionCheckBox)
+        l = QLabel( "On condition")
+        l.setMinimumWidth( 120)
+        hBox.addWidget( l)
+
+        self.w_editGeneralHooks = QPushButton(self.tr("Edit")) 
+        self.w_editGeneralHooks.setStatusTip( "Edit file containing hooks and on-condition macros")
+        hBox.addWidget( self.w_editGeneralHooks)
+        self.w_editGeneralHooks.clicked.connect( self.cb_editGeneralHooks)
+
+        self.w_reloadGeneralHooks = QPushButton(self.tr("Reload")) 
+        self.w_reloadGeneralHooks.setStatusTip( "Reload hooks and on-condition code")
+        hBox.addWidget( self.w_reloadGeneralHooks)
+        self.w_reloadGeneralHooks.clicked.connect( self.cb_reloadGeneralHooks)
+        #
+        self.w_generalStopCheckBox = QCheckBox()
+        a = HasyUtils.getEnv( "GeneralOnStopFunction")
+        if a is None:
+            self.w_generalStopCheckBox.setChecked( False)
+        else:
+            self.w_generalStopCheckBox.setChecked( True)
+
+        self.w_generalStopCheckBox.stateChanged.connect( self.cb_generalStop)
+        hBox.addWidget( self.w_generalStopCheckBox)
+        l = QLabel( "GeneralOnStopFunction")
+        hBox.addWidget( l)
+        l.setMinimumWidth( 120)
+
+        self.w_editOnStop = QPushButton(self.tr("Edit OnStop")) 
+        self.w_editOnStop.setToolTip( "After edit, restart MacroServer")
+        self.w_editOnStop.setStatusTip( "Edit ~/sardnanaMacros/generalFunctions/general_functions.py")
+        hBox.addWidget( self.w_editOnStop)
+        self.w_editOnStop.clicked.connect( self.cb_editOnStop)
+        
+        hBox.addStretch()
+        self.layout_v.addLayout( hBox)
+        #
+        # horizontal line
+        #
+        hBox = QHBoxLayout()
+        w = QFrame()
+        w.setFrameShape( QFrame.HLine)
+        w.setFrameShadow(QFrame.Sunken)
+        hBox.addWidget( w)
+        self.layout_v.addLayout( hBox)
+        #
+        # logging
+        #
+        # LogMacro
+        # 
+        hBox = QHBoxLayout()
+        self.w_LogMacroCheckBox = QCheckBox()
+        self.w_LogMacroCheckBox.setToolTip( "If True, logging is active. \nThe file session_<BL>_door_<TANGO_HOST>.<i>.log\nis created in LogMacroDir")
+        self.w_LogMacroCheckBox.stateChanged.connect( self.cb_LogMacro)
+        hBox.addWidget( self.w_LogMacroCheckBox)
+        l = QLabel( "LogMacro")
+        l.setMinimumWidth( 120)
+        l.setToolTip( "If True, logging is active. \nThe file session_<BL>_door_<TANGO_HOST>.<i>.log\nis created in LogMacroDir")
+        hBox.addWidget( l)
+        hBox.addStretch()
+        self.layout_v.addLayout( hBox)
+        #
+        #
+        # LogMacroMode
+        # 
+        self.varsEnv.append( "LogMacroMode")
+        var = "LogMacroMode"
+        w = QLabel( "%s:" % var)
+        w.setToolTip( "If False, only one log file is created (recommended)")
+        w.setMinimumWidth( 120)
+        hBox.addWidget( w)
+        hsh = {}
+        w_value = QLabel()
+        w_value.setMinimumWidth( 250)
+        w_value.setFrameStyle( QFrame.Panel | QFrame.Sunken)
+        hBox.addWidget( w_value)
+        w_line = QLineEdit()
+        w_line.setAlignment( QtCore.Qt.AlignRight)
+        w_line.setMinimumWidth( 250)
+        hBox.addWidget( w_line)
+        self.dct[ var] = { "w_value": w_value, "w_line": w_line}
+        
+        #
+        # LogMacroDir
+        # 
+        self.varsEnv.append( "LogMacroDir")
+        var = "LogMacroDir"
+        hBox = QHBoxLayout()
+        w = QLabel( "%s:" % var)
+        w.setMinimumWidth( 120)
+        hBox.addWidget( w)
+        hsh = {}
+        w_value = QLabel()
+        w_value.setMinimumWidth( 250)
+        w_value.setFrameStyle( QFrame.Panel | QFrame.Sunken)
+        hBox.addWidget( w_value)
+        w_line = QLineEdit()
+        w_line.setAlignment( QtCore.Qt.AlignRight)
+        w_line.setMinimumWidth( 250)
+        hBox.addWidget( w_line)
+        self.dct[ var] = { "w_value": w_value, "w_line": w_line}
+        self.layout_v.addLayout( hBox)
+
+        #
+        # horizontal line
+        #
+        hBox = QHBoxLayout()
+        w = QFrame()
+        w.setFrameShape( QFrame.HLine)
+        w.setFrameShadow( QFrame.Sunken)
+        hBox.addWidget( w)
+        self.layout_v.addLayout( hBox)
+
+        return 
+
+    def cb_refreshMacroServerIfc( self):
+
+        if self.isMinimized(): 
+            return
+
+        self.activityIndex += 1
+        if self.activityIndex > (len( definitions.ACTIVITY_SYMBOLS) - 1):
+            self.activityIndex = 0
+        self.activity.setTitle( definitions.ACTIVITY_SYMBOLS[ self.activityIndex])
+        #
+        # has the ActiveMntGrp been changed from outside?
+        #
+        if HasyUtils.getMgAliases() is not None:
+            activeMntGrp = HasyUtils.getEnv( "ActiveMntGrp")
+            temp = str(self.activeMntGrpComboBox.currentText())
+            if temp != activeMntGrp:
+                max = self.activeMntGrpComboBox.count()
+                for count in range( 0, max):
+                    temp1 = str( self.activeMntGrpComboBox.itemText( count))
+                    if temp1 == activeMntGrp:
+                        self.activeMntGrpComboBox.setCurrentIndex( count)
+                    break
+                else:
+                    self.logWidget.append( "New ActiveMntGrp not on the list, restart widget")
+
+        envDct = HasyUtils.getEnvDct()
+                    
+        for var in self.varsEnv:
+            try: 
+                res = envDct[ var]
+                if type( res) is list:
+                    res = repr( res)
+                if res is None:
+                    self.dct[ var][ "w_value"].setText( "None")
+                else:
+                    self.dct[ var][ "w_value"].setText( str(res))
+            except: 
+                self.dct[ var][ "w_value"].setText( "None")
+
+        try: 
+            hsh = envDct[ "_ViewOptions"]
+            if hsh[ 'ShowDial']:
+                self.w_showDialCheckBox.setChecked( True)
+            else:
+                self.w_showDialCheckBox.setChecked( False)
+            if hsh[ 'ShowCtrlAxis']:
+                self.w_showCtrlAxisCheckBox.setChecked( True)
+            else:
+                self.w_showCtrlAxisCheckBox.setChecked( False)
+        except: 
+            pass
+        
+        try: 
+            lst = envDct[ "_GeneralHooks"]
+            if lst is None:
+                self.w_generalHooksCheckBox.setChecked( False)
+            else:
+                self.w_generalHooksCheckBox.setChecked( True)
+        except: 
+            self.w_generalHooksCheckBox.setChecked( False)
+
+        try: 
+            a = envDct[ "GeneralCondition"]
+            if a is None:
+                self.w_onConditionCheckBox.setChecked( False)
+            else:
+                self.w_onConditionCheckBox.setChecked( True)
+        except: 
+            self.w_onConditionCheckBox.setChecked( False)
+
+        try: 
+            a = envDct[ "GeneralOnStopFunction"]
+            if a is None:
+                self.w_generalStopCheckBox.setChecked( False)
+            else:
+                self.w_generalStopCheckBox.setChecked( True)
+        except: 
+            self.w_generalStopCheckBox.setChecked( False)
+
+        try: 
+            a = envDct[ "JsonRecorder"]
+            if a is True:
+                self.w_jsonRecorderCheckBox.setChecked( True)
+            else:
+                self.w_jsonRecorderCheckBox.setChecked( False)
+        except:
+            self.w_jsonRecorderCheckBox.setChecked( False)
+            
+        try: 
+            a = envDct[ "LogMacro"]
+            if a is True:
+                self.w_LogMacroCheckBox.setChecked( True)
+            else:
+                self.w_LogMacroCheckBox.setChecked( False)
+        except: 
+                self.w_LogMacroCheckBox.setChecked( False)
+
+        return
+        
+    def closeEvent( self, e):
+        self.cb_closeMacroServerIfc()
+
+    def cb_closeMacroServerIfc( self): 
+        self.updateTimer.stop()
+        self.close()
+
+    def findEditor( self):
+        if self.tkFlag:
+            argout = "emacs"
+        else: 
+            argout = HasyUtils.findEditor()                    
+        return argout
+
+    def cb_jsonRecorder( self):
+        if self.w_jsonRecorderCheckBox.isChecked():
+            HasyUtils.setEnv( "JsonRecorder", True)
+            a = HasyUtils.getEnv( "JsonRecorder")
+            self.logWidget.append( "JsonRecorder: %s" % repr( a))
+        else:
+            HasyUtils.setEnv( "JsonRecorder", False)
+            a = HasyUtils.getEnv( "JsonRecorder")
+            self.logWidget.append( "JsonRecorder: %s" % repr(a))
+
+    def cb_LogMacro( self):
+        if self.w_LogMacroCheckBox.isChecked():
+            HasyUtils.setEnv( "LogMacro", True)
+            a = HasyUtils.getEnv( "LogMacro")
+            self.logWidget.append( "LogMacro: %s" % repr( a))
+        else:
+            HasyUtils.setEnv( "LogMacro", False)
+            self.logWidget.append( "LogMacro: disabled")
+
+    def cb_generalStop( self):
+        if self.w_generalStopCheckBox.isChecked():
+            HasyUtils.runMacro( "gs_enable")
+            a = HasyUtils.getEnv( "GeneralOnStopFunction")
+            self.logWidget.append( "General on stop: %s" % repr( a))
+        else:
+            HasyUtils.runMacro( "gs_disable")
+            self.logWidget.append( "General on stop: disabled")
+
+    def cb_onCondition( self):
+        if self.w_onConditionCheckBox.isChecked():
+            HasyUtils.runMacro( "gc_enable")
+            a = HasyUtils.getEnv( "GeneralCondition")
+            self.logWidget.append( "General condition: %s" % repr( a))
+        else:
+            HasyUtils.runMacro( "gc_disable")
+            self.logWidget.append( "General condition: disabled")
+
+    def cb_generalHooks( self):
+
+        if self.w_generalHooksCheckBox.isChecked():
+            HasyUtils.runMacro( "gh_enable")
+            hsh = HasyUtils.getEnv( "_GeneralHooks")
+            self.logWidget.append( "GeneralHooks: %s" % repr( hsh))
+        else:
+            HasyUtils.runMacro( "gh_disable")
+            self.logWidget.append( "GeneralHooks: disabled")
+
+    def cb_editGeneralHooks( self):
+        lst = HasyUtils.getEnv( "_GeneralHooks")
+        if lst is None:
+            self.logWidget.append( "GeneralHooks: disabled, enable before edit")
+            return
+        #
+        # need just one hooks macro name to identify the file
+        #
+        hooksMacroName = lst[0][0]
+        hsh = HasyUtils.getMacroInfo( hooksMacroName)
+        os.system( "%s %s&" % ( self.findEditor(), hsh[ 'file_path']))
+        return 
+
+    def cb_reloadGeneralHooks( self):
+        lst = HasyUtils.getEnv( "_GeneralHooks")
+        if lst is None:
+            self.logWidget.append( "GeneralHooks: disabled")
+            return
+        #
+        # use the first hook macro name. relmac pulls-in the whole file
+        #
+        HasyUtils.runMacro( "relmac %s" % lst[0][0] ) 
+        return 
+
+    def cb_editOnStop( self):
+        lst = HasyUtils.getEnv( "GeneralOnStopFunction")
+        if lst is None:
+            self.logWidget.append( "GeneralOnStopFunction: disabled, enable before edit")
+            return
+        home = os.getenv( "HOME")
+        os.system( "%s %s/sardanaMacros/generalFunctions/general_functions.py&" % ( self.findEditor(), home))
+        return 
+            
+    def cb_showDial( self):
+        hsh = HasyUtils.getEnv( "_ViewOptions")
+        if self.w_showDialCheckBox.isChecked():
+            hsh[ 'ShowDial'] = True
+        else:
+            hsh[ 'ShowDial'] = False
+        HasyUtils.setEnv( "_ViewOptions", hsh)
+
+    def cb_showCtrlAxis( self):
+        hsh = HasyUtils.getEnv( "_ViewOptions")
+        if self.w_showCtrlAxisCheckBox.isChecked():
+            hsh[ 'ShowCtrlAxis'] = True
+        else:
+            hsh[ 'ShowCtrlAxis'] = False
+        HasyUtils.setEnv( "_ViewOptions", hsh)
+        
+    def cb_applyMacroServerIfc( self):
+        for var in self.varsEnv:
+            hsh = self.dct[ var]
+            inp = str(hsh[ "w_line"].text())
+            if len( inp) > 0:
+                self.logWidget.append( "setting %s to %s %s" % (var, repr(inp), type( inp)))
+                HasyUtils.setEnv( var, inp)
+                hsh[ 'w_value'].setText( repr( HasyUtils.getEnv( var)))
+                hsh[ "w_line"].clear()
+
+        return 
+
+    def cb_abortMacro( self): 
+
+        self.door.abortmacro()
+        self.logWidget.append( "Sent abortmacro() to door")
+        return 
+
+    def cb_stopMacro( self): 
+        
+        if self.door.State() != PyTango.DevState.ON:        
+            self.door.StopMacro()
+            self.logWidget.append( "Sent StopMacro() to %s" % self.door.name())
+        else:
+            self.logWidget.append( "%s is already in ON state, no action" % self.door.name())
+        return 
+
+    def cb_restartMS( self): 
+
+        try: 
+            MsName = HasyUtils.getLocalMacroServerServers()[0]
+        except Exception as e: 
+            self.logWidget.append( "cb_restartMS: failed to get MS names")
+            self.logWidget.append( "cb_restartMS: %s" % repr( e))
+            return 
+            
+        self.logWidget.append( "cb_restartMS: restarting %s" % MsName)
+        self.parent.app.processEvents()
+
+        HasyUtils.restartServer( MsName)
+        self.logWidget.append( "cb_restartMS: restarting %s DONE" % MsName)
+        return 
+
+    def cb_restartBoth( self): 
+
+        try: 
+            MsName = HasyUtils.getLocalMacroServerServers()[0]
+        except Exception as e: 
+            self.logWidget.append( "cb_restartBoth: failed to get MS names")
+            self.logWidget.append( "cb_restartBoth: %s" % repr( e))
+            return 
+
+        try: 
+            PoolName = HasyUtils.getLocalPoolServers()[0]
+        except Exception as e: 
+            self.logWidget.append( "cb_restartBoth: failed to get Pool name")
+            self.logWidget.append( "cb_restartBoth: %s" % repr( e))
+            return 
+            
+        self.logWidget.append( "cb_restartBoth: restarting %s and %s" % (MsName, PoolName))
+        self.parent.app.processEvents()
+
+        self.logWidget.append( "cb_restartBoth: stopping %s" % MsName)
+        self.parent.app.processEvents()
+        HasyUtils.stopServer( MsName)
+
+        self.logWidget.append( "cb_restartBoth: restarted %s" % PoolName)
+        self.parent.app.processEvents()
+        HasyUtils.restartServer( PoolName)
+
+        self.logWidget.append( "cb_restartBoth: restarted %s DONE" % PoolName)
+        self.parent.app.processEvents()
+
+        HasyUtils.startServer( MsName)
+        print( "cb_restartBoth: restarting %s and %s DONE" % (MsName, PoolName))
+        return 
+            
+    def cb_activeMntGrpChanged( self):
+        temp = str(self.activeMntGrpComboBox.currentText())
+        if len( temp.strip()) == 0:
+            return 
+        HasyUtils.setEnv( "ActiveMntGrp", temp)
+        elements = HasyUtils.getMgElements( temp)
+        #self.logWidget.append( "macroServerIfc.cb_activeMntGrpChanged: ActiveMntGrp to %s: %s" % (temp, elements))
+        return 
