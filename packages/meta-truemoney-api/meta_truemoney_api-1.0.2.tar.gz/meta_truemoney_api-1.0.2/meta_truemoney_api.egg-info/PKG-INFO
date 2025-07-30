@@ -1,0 +1,38 @@
+Metadata-Version: 2.1
+Name: meta-truemoney-api
+Version: 1.0.2
+Summary: API สำหรับเชื่อมต่อระบบซองอั่งเปา TrueMoney
+Home-page: https://github.com/yourname/meta-truemoney-api
+Author: DEVPARK
+Author-email: DevPark <0924011344aa@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/Park000007/meta-truemoney-api
+Project-URL: Bug Tracker, https://github.com/Park000007/meta-truemoney-api/issues
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests
+
+# 🧧 meta-truemoney-api
+
+โมดูล Python สำหรับเชื่อม API ซองอั่งเปา TrueMoney แบบไม่คิดค่าธรรมเนียม  
+เหมาะสำหรับใช้งานร่วมกับ Discord Bot, Backend Web, และอื่น ๆ
+
+## 🔧 ติดตั้ง
+```bash
+pip install meta-truemoney-api
+```
+
+## 🧠 วิธีใช้
+
+```python
+from meta_truemoney_api.client import MetaTrueMoneyAPI
+
+api = MetaTrueMoneyAPI(api_key="YOUR_API_KEY", phone="0800000000")
+result = api.redeem("https://gift.truemoney.com/campaign/?v=xxxxxx")
+
+if result["status"]:
+    print("เติมสำเร็จ:", result["credited"], "บาท")
+else:
+    print("ผิดพลาด:", result["error"])
+```
