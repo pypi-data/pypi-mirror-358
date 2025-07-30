@@ -1,0 +1,68 @@
+Metadata-Version: 2.1
+Name: xyz-restful
+Version: 0.3.0
+Summary: restful utils
+Home-page: https://github.com/szuprefix/py-xyz-restful
+Author: szuprefix
+Author-email: szuprefix@126.com
+License: MIT
+Classifier: Environment :: Web Environment
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Text Processing :: Indexing
+Classifier: Topic :: Utilities
+Classifier: Topic :: Internet
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Description-Content-Type: text/x-rst
+
+=================
+XYZ RestFul API
+=================
+
+XYZ RestFul API provides a way to register django-rest-framework apis as easy as Django admins.
+
+Usage Example
+-------------
+
+First, add 'xyz_restful' into django settings's INSTALLED_APPS
+::
+
+    INSTALLED_APPS = [
+        ...
+        'xyz_restful',
+        ...
+    ]
+
+Then, register url router in project's ``"urls.py"``
+::
+
+    from xyz_restful.helper import router
+
+    urlpatterns = [
+        url(r'^admin/', admin.site.urls),
+        url(r'^api/', include(router.urls)),
+        ...
+    ]
+
+Then, in an app for example: comment , create a file ``"comment/apis.py"``
+::
+
+    from xyz_restful.decorators import register
+
+    @register()
+    class PostViewSet(viewsets.ModelViewSet):
+        serializer_class = serializers.PostSerializer
+        queryset = models.Post.objects.all()
+
+then, full api url just like :
+``http://127.0.0.1:8000/api/comment/post/``
+
+Enjoyed!
