@@ -1,0 +1,184 @@
+
+# Discord Music Streamer
+
+A Python library for streaming music in Discord voice channels with YouTube support and queue management.
+
+## Features
+
+- 🎵 Stream music from YouTube
+- 📋 Queue management (add, remove, shuffle)
+- ⏯️ Basic controls (play, pause, resume, stop, skip)
+- 🔍 YouTube search functionality
+- 🤖 Pre-built Discord.py commands
+- 📦 Easy to integrate into existing bots
+
+## Installation
+
+```bash
+pip install discord-music-streamer
+```
+
+## Quick Start
+
+### Basic Usage
+
+```python
+import discord
+from discord.ext import commands
+from discord_music_streamer import MusicPlayer
+
+bot = commands.Bot(command_prefix='!', intents=discord.Intents.all())
+music_player = MusicPlayer(bot)
+
+@bot.command()
+async def play(ctx, *, query):
+    result = await music_player.play(ctx, query)
+    await ctx.send(result)
+
+@bot.command()
+async def pause(ctx):
+    result = music_player.pause(ctx)
+    await ctx.send(result)
+
+@bot.command()
+async def resume(ctx):
+    result = music_player.resume(ctx)
+    await ctx.send(result)
+
+bot.run('YOUR_BOT_TOKEN')
+```
+
+### Using Pre-built Commands
+
+```python
+import discord
+from discord.ext import commands
+from discord_music_streamer.commands import MusicCommands
+
+bot = commands.Bot(command_prefix='!', intents=discord.Intents.all())
+
+# Add all music commands at once
+bot.add_cog(MusicCommands(bot))
+
+bot.run('YOUR_BOT_TOKEN')
+```
+
+## API Reference
+
+### MusicPlayer
+
+The main class for handling music playback.
+
+#### Methods
+
+- `play(ctx, query)` - Play a song from YouTube
+- `pause(ctx)` - Pause the current song
+- `resume(ctx)` - Resume the current song
+- `stop(ctx)` - Stop playback and clear queue
+- `skip(ctx)` - Skip the current song
+- `get_queue(ctx)` - Get the current queue
+- `disconnect(ctx)` - Disconnect from voice channel
+- `now_playing(ctx)` - Get currently playing song info
+
+### QueueManager
+
+Manages music queues for different guilds.
+
+#### Methods
+
+- `add_to_queue(guild_id, source)` - Add a song to the queue
+- `get_next(guild_id)` - Get the next song from the queue
+- `clear_queue(guild_id)` - Clear the queue
+- `shuffle_queue(guild_id)` - Shuffle the queue
+- `queue_size(guild_id)` - Get queue size
+
+### YouTubeSource
+
+Handles YouTube audio sources.
+
+#### Methods
+
+- `from_query(query)` - Create source from search query or URL
+- `search_youtube(query, max_results=5)` - Search YouTube videos
+
+## Requirements
+
+- Python 3.8+
+- discord.py[voice] >= 2.0.0
+- yt-dlp >= 2023.7.6
+- PyNaCl >= 1.5.0
+- FFmpeg (must be installed on system)
+
+## Installation Notes
+
+Make sure you have FFmpeg installed on your system:
+
+**Windows:**
+Download from https://ffmpeg.org/download.html
+
+**macOS:**
+```bash
+brew install ffmpeg
+```
+
+**Linux:**
+```bash
+sudo apt update
+sudo apt install ffmpeg
+```
+
+## Example Bot
+
+```python
+import discord
+from discord.ext import commands
+from discord_music_streamer import MusicPlayer
+
+# Bot setup
+intents = discord.Intents.default()
+intents.message_content = True
+intents.voice_states = True
+bot = commands.Bot(command_prefix='!', intents=intents)
+
+# Initialize music player
+music_player = MusicPlayer(bot)
+
+@bot.event
+async def on_ready():
+    print(f'{bot.user} has logged in!')
+
+@bot.command()
+async def play(ctx, *, query):
+    """Play a song from YouTube"""
+    try:
+        result = await music_player.play(ctx, query)
+        await ctx.send(result)
+    except Exception as e:
+        await ctx.send(f"Error: {str(e)}")
+
+@bot.command()
+async def queue(ctx):
+    """Show current queue"""
+    queue = music_player.get_queue(ctx)
+    if queue:
+        queue_text = "\n".join([f"{i+1}. {title}" for i, title in enumerate(queue)])
+        await ctx.send(f"Current queue:\n```{queue_text}```")
+    else:
+        await ctx.send("Queue is empty")
+
+# Add more commands as needed...
+
+bot.run('YOUR_BOT_TOKEN')
+```
+
+## License
+
+MIT License - see LICENSE file for details.
+
+## Contributing
+
+Pull requests are welcome! Please feel free to submit issues and enhancement requests.
+
+## Support
+
+If you encounter any issues, please check the GitHub issues page or create a new issue.
