@@ -1,0 +1,62 @@
+Metadata-Version: 2.4
+Name: winzy-selected-file
+Version: 0.1.0
+Summary: Get selected files as a text file on mac os
+Author: Sukhbinder Singh
+License: Apache-2.0
+Project-URL: Homepage, https://github.com/sukhbinder/winzy-selected-file
+Project-URL: Changelog, https://github.com/sukhbinder/winzy-selected-file/releases
+Project-URL: Issues, https://github.com/sukhbinder/winzy-selected-file/issues
+Project-URL: CI, https://github.com/sukhbinder/winzy-selected-file/actions
+Classifier: License :: OSI Approved :: Apache Software License
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: winzy
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
+Dynamic: license-file
+
+# winzy-selected-file
+
+[![PyPI](https://img.shields.io/pypi/v/winzy-selected-file.svg)](https://pypi.org/project/winzy-selected-file/)
+[![Changelog](https://img.shields.io/github/v/release/sukhbinder/winzy-selected-file?include_prereleases&label=changelog)](https://github.com/sukhbinder/winzy-selected-file/releases)
+[![Tests](https://github.com/sukhbinder/winzy-selected-file/workflows/Test/badge.svg)](https://github.com/sukhbinder/winzy-selected-file/actions?query=workflow%3ATest)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/sukhbinder/winzy-selected-file/blob/main/LICENSE)
+
+Get selected files as a text file on mac os
+
+## Installation
+
+First [install winzy](https://github.com/sukhbinder/winzy) by typing
+
+```bash
+pip install winzy
+```
+
+Then install this plugin in the same environment as your winzy application.
+```bash
+winzy install winzy-selected-file
+```
+## Usage
+
+To get help type ``winzy  sfiles --help``
+
+## Demo
+![Demo of winzy sfiles](https://raw.githubusercontent.com/sukhbinder/winzy-selected-file/refs/heads/main/demo-selected-files.gif)
+
+## Development
+
+To set up this plugin locally, first checkout the code. Then create a new virtual environment:
+```bash
+cd winzy-selected-file
+python -m venv venv
+source venv/bin/activate
+```
+Now install the dependencies and test dependencies:
+```bash
+pip install -e '.[test]'
+```
+To run the tests:
+```bash
+python -m pytest
+```

@@ -1,0 +1,33 @@
+[project]
+name = "winzy-selected-file"
+version = "0.1.0"
+description = "Get selected files as a text file on mac os"
+readme = "README.md"
+authors = [{name = "Sukhbinder Singh"}]
+license = {text = "Apache-2.0"}
+classifiers = [
+    "License :: OSI Approved :: Apache Software License"
+]
+dependencies = [
+    "winzy",
+]
+
+[project.urls]
+Homepage = "https://github.com/sukhbinder/winzy-selected-file"
+Changelog = "https://github.com/sukhbinder/winzy-selected-file/releases"
+Issues = "https://github.com/sukhbinder/winzy-selected-file/issues"
+CI = "https://github.com/sukhbinder/winzy-selected-file/actions"
+
+[project.entry-points."winzy.plugins"]
+sfiles = "winzy_selected_file:sfiles_plugin"
+
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
