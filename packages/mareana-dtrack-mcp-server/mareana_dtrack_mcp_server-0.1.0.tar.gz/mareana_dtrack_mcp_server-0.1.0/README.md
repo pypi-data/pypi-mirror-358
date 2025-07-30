@@ -1,0 +1,242 @@
+# DependencyTrack MCP Server
+
+A Model Context Protocol (MCP) server that provides AI assistants with vulnerability assessment capabilities for CI/CD pipelines using DependencyTrack.
+
+## Features
+
+- **Search Projects**: Find projects in DependencyTrack by name with wildcard support
+- **List Projects**: Get all projects with pagination support
+- **Vulnerability Assessment**: Get Critical & High severity vulnerabilities with fix information
+- **Detailed Vulnerability Info**: Get comprehensive vulnerability details
+- **CI/CD Integration**: Designed for automated pipeline security assessment
+
+## Installation
+
+### Using uvx (Recommended)
+
+```bash
+# Install the MCP server from PyPI
+uvx install mareana-dtrack-mcp-server
+
+# Or install from local directory for development
+uvx install ./dtrack-mcp-server
+```
+
+### Using pip
+
+```bash
+# Install from PyPI
+pip install mareana-dtrack-mcp-server
+
+# Or install from local directory for development
+pip install ./dtrack-mcp-server
+
+# Or install in development mode
+pip install -e ./dtrack-mcp-server
+```
+
+## Configuration
+
+The MCP server requires the following environment variables:
+
+```bash
+export DTRACK_BASE_URL="https://your-dtrack-server.com"
+export DTRACK_USERNAME="your-username"
+export DTRACK_PASSWORD="your-password"
+```
+
+## Usage
+
+### Running the MCP Server
+
+```bash
+# Set environment variables
+export DTRACK_BASE_URL="https://your-dtrack-server.com"
+export DTRACK_USERNAME="your-username"
+export DTRACK_PASSWORD="your-password"
+
+# Run the server
+mareana-dtrack-mcp-server
+```
+
+### Using with AI Assistants
+
+The MCP server provides the following tools:
+
+#### 1. Search Projects
+Search for projects by name with wildcard support:
+
+```json
+{
+  "name": "search_projects",
+  "arguments": {
+    "query": "admin%"
+  }
+}
+```
+
+Wildcard patterns:
+- `admin%` - Projects starting with "admin"
+- `%service` - Projects ending with "service"
+- `%web%` - Projects containing "web"
+- `admin` - Projects containing "admin"
+
+#### 2. List Projects
+List all projects with pagination:
+
+```json
+{
+  "name": "list_projects",
+  "arguments": {
+    "fetch_all": true,
+    "page_size": 100
+  }
+}
+```
+
+#### 3. Get Vulnerability Assessment
+Get Critical & High vulnerabilities with fix information (ideal for CI/CD):
+
+```json
+{
+  "name": "get_vulnerability_assessment",
+  "arguments": {
+    "project_uuid": "your-project-uuid"
+  }
+}
+```
+
+#### 4. Get Project Vulnerabilities
+Get vulnerabilities for a specific project:
+
+```json
+{
+  "name": "get_project_vulnerabilities",
+  "arguments": {
+    "project_uuid": "your-project-uuid",
+    "critical_high_only": true,
+    "suppress_inactive": true
+  }
+}
+```
+
+#### 5. Get Vulnerability Details
+Get detailed information about a specific vulnerability:
+
+```json
+{
+  "name": "get_vulnerability_details",
+  "arguments": {
+    "vulnerability_uuid": "your-vulnerability-uuid"
+  }
+}
+```
+
+### Resources
+
+The server also provides resources that can be read:
+
+- `dtrack://projects` - List of all projects
+- `dtrack://vulnerabilities` - All critical and high severity vulnerabilities
+
+## Example Workflow
+
+1. **Search for your project**:
+   ```json
+   {
+     "name": "search_projects",
+     "arguments": {
+       "query": "my-application"
+     }
+   }
+   ```
+
+2. **Get vulnerability assessment**:
+   ```json
+   {
+     "name": "get_vulnerability_assessment",
+     "arguments": {
+       "project_uuid": "found-project-uuid"
+     }
+   }
+   ```
+
+3. **Analyze results** for CI/CD pipeline decisions:
+   - `has_critical_high_vulns`: Boolean indicating if action is needed
+   - `total_critical_high`: Total count of critical/high vulnerabilities
+   - `critical_count`: Number of critical vulnerabilities
+   - `high_count`: Number of high vulnerabilities
+   - `vulnerabilities`: Array with detailed vulnerability information and fix details
+
+## CI/CD Integration
+
+The vulnerability assessment response is designed for easy CI/CD integration:
+
+```json
+{
+  "project_uuid": "uuid",
+  "has_critical_high_vulns": true,
+  "total_critical_high": 3,
+  "critical_count": 1,
+  "high_count": 2,
+  "vulnerabilities": [
+    {
+      "vuln_id": "CVE-2023-1234",
+      "severity": "CRITICAL",
+      "cvss_score": 9.8,
+      "description": "Remote code execution vulnerability...",
+      "components": [
+        {
+          "name": "apache-commons",
+          "version": "2.1.0",
+          "purl": "pkg:maven/org.apache.commons/commons-lang3@2.1.0"
+        }
+      ],
+      "fix_available": true,
+      "fix_info": "Patched versions: 2.1.1, 2.2.0",
+      "published": "2023-01-15",
+      "cwe": "CWE-94"
+    }
+  ]
+}
+```
+
+## Development
+
+### Running Tests
+
+```bash
+cd dtrack-mcp-server
+python -m pytest tests/
+```
+
+### Building
+
+```bash
+cd dtrack-mcp-server
+python -m build
+```
+
+## Authentication
+
+The server supports DependencyTrack's Basic Authentication. Make sure your DependencyTrack user has the necessary permissions to:
+
+- View projects
+- View vulnerabilities
+- Access API endpoints
+
+## Error Handling
+
+The server includes comprehensive error handling:
+
+- Connection errors to DependencyTrack
+- Authentication failures
+- Missing environment variables
+- API request failures
+- Invalid project/vulnerability UUIDs
+
+All errors are logged and returned as structured responses to the AI assistant.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details. 
