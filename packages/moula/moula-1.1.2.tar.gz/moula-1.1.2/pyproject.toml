@@ -1,0 +1,32 @@
+[project]
+name = "moula"
+version = "1.1.2"
+description = ""
+author = {name = "François Schmidts", email = "francois@schmidts.fr"}
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "the-conf>=1.0.1",
+    "prometheus-client>=0.21.1",
+    "woob>=3.7",
+    "requests>=2.31",
+    "daemon-metrics>=1.0.0",
+]
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.10.0"
+mypy = "^1.13.0"
+pycodestyle = "^2.12.1"
+flake8 = "^7.1.1"
+pylint = "^3.3.2"
+ipdb = "^0.13.13"
+types-requests = "^2.32.0.20241016"
+isort = "^6.0.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 79
+target-version = ["py313"]
