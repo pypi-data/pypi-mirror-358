@@ -1,0 +1,1 @@
+Explore what methods are available on the session object

@@ -1,0 +1,127 @@
+#!/bin/bash
+# HELP: Show git repository status and CodeGuard hook information
+# OPT: repo_path - Path to git repository (optional, defaults to current directory)
+
+set -euo pipefail
+
+# Default to current directory if no repo path provided
+REPO_PATH="${1:-$(pwd)}"
+
+# Ensure we have an absolute path
+REPO_PATH=$(realpath "$REPO_PATH")
+
+echo "🔍 CodeGuard Git Status Report"
+echo "=============================="
+echo ""
+
+# Check if this is a git repository
+if [ ! -d "$REPO_PATH/.git" ]; then
+    echo "❌ Error: Not a git repository: $REPO_PATH"
+    exit 1
+fi
+
+echo "📍 Repository: $REPO_PATH"
+
+# Get git repository information
+cd "$REPO_PATH"
+
+# Current branch
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "unknown")
+echo "🌿 Current branch: $CURRENT_BRANCH"
+
+# Repository root
+REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo "unknown")
+echo "📂 Repository root: $REPO_ROOT"
+
+# Last commit
+LAST_COMMIT=$(git log -1 --format="%h %s" 2>/dev/null || echo "No commits")
+echo "📝 Last commit: $LAST_COMMIT"
+
+echo ""
+echo "🪝 Pre-commit Hook Status"
+echo "========================"
+
+HOOK_PATH="$REPO_PATH/.git/hooks/pre-commit"
+BACKUP_PATH="$HOOK_PATH.backup"
+
+if [ ! -f "$HOOK_PATH" ]; then
+    echo "❌ No pre-commit hook installed"
+    echo "ℹ️  Run 'codeguard git install-hook' to install CodeGuard hook"
+else
+    echo "✅ Pre-commit hook exists: $HOOK_PATH"
+    
+    # Check if it's executable
+    if [ -x "$HOOK_PATH" ]; then
+        echo "✅ Hook is executable"
+    else
+        echo "⚠️  Hook exists but is not executable"
+    fi
+    
+    # Check if it's a CodeGuard hook
+    if grep -q "CodeGuard pre-commit hook" "$HOOK_PATH" 2>/dev/null; then
+        echo "✅ This is a CodeGuard hook"
+        
+        # Get hook size and last modified
+        HOOK_SIZE=$(ls -lh "$HOOK_PATH" | awk '{print $5}')
+        HOOK_DATE=$(ls -l "$HOOK_PATH" | awk '{print $6, $7, $8}')
+        echo "📏 Hook size: $HOOK_SIZE"
+        echo "📅 Last modified: $HOOK_DATE"
+        
+        # Check if backup exists
+        if [ -f "$BACKUP_PATH" ]; then
+            echo "📝 Backup hook exists: $BACKUP_PATH"
+        fi
+    else
+        echo "⚠️  This is NOT a CodeGuard hook"
+        echo "ℹ️  Run 'codeguard git install-hook' to replace with CodeGuard hook"
+    fi
+fi
+
+echo ""
+echo "🔧 CodeGuard Installation"
+echo "========================"
+
+# Check if codeguard is available
+CODEGUARD_PATH=$(which codeguard 2>/dev/null || echo "")
+if [ -n "$CODEGUARD_PATH" ]; then
+    echo "✅ CodeGuard found: $CODEGUARD_PATH"
+    
+    # Try to get version
+    if CODEGUARD_VERSION=$(codeguard --version 2>/dev/null | head -n1); then
+        echo "📦 Version: $CODEGUARD_VERSION"
+    fi
+else
+    echo "❌ CodeGuard not found in PATH"
+    echo "ℹ️  Please install CodeGuard or add it to your PATH"
+fi
+
+echo ""
+echo "📊 Staged Files Status"
+echo "====================="
+
+# Get staged files
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACMR 2>/dev/null || echo "")
+
+if [ -z "$STAGED_FILES" ]; then
+    echo "ℹ️  No files currently staged for commit"
+else
+    echo "📁 Currently staged files:"
+    echo "$STAGED_FILES" | while read -r file; do
+        if [ -f "$file" ]; then
+            echo "  ✅ $file"
+        else
+            echo "  ❌ $file (deleted)"
+        fi
+    done
+    
+    echo ""
+    echo "ℹ️  Use 'codeguard git validate-staged' to check these files"
+fi
+
+echo ""
+echo "🎯 Quick Actions"
+echo "==============="
+echo "• Install hook:    codeguard git install-hook"
+echo "• Uninstall hook:  codeguard git uninstall-hook"
+echo "• Check staged:    codeguard git validate-staged"
+echo "• This status:     codeguard git status"

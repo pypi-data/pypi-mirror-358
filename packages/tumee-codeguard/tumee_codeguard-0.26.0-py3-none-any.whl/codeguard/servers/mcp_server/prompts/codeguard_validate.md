@@ -1,0 +1,1 @@
+🎯 ESSENTIAL FOR AI CODING ASSISTANTS: Validate code changes with session context.

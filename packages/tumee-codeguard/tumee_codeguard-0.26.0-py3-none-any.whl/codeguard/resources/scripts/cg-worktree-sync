@@ -1,0 +1,171 @@
+#!/bin/bash
+# HELP: Update worktree with latest changes from main branch
+# OPT: --force - Force sync even if local changes exist
+
+FORCE_SYNC=false
+
+# Parse arguments
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --force)
+            FORCE_SYNC=true
+            shift
+            ;;
+        -h|--help)
+            echo "Usage: $0 [--force]"
+            echo "Update current worktree with latest changes from main branch"
+            echo ""
+            echo "This command must be run from within a worktree directory."
+            echo "It will:"
+            echo "  1. Check for uncommitted changes"
+            echo "  2. Fetch latest changes from origin"
+            echo "  3. Merge main into current worktree branch"
+            echo "  4. Handle conflicts if any arise"
+            echo ""
+            echo "Options:"
+            echo "  --force     Force sync even if uncommitted changes exist"
+            echo "  -h, --help  Show this help message"
+            exit 0
+            ;;
+        *)
+            echo "Error: Unknown option '$1'"
+            echo "Use --help for usage information"
+            exit 1
+            ;;
+    esac
+done
+
+# Ensure we're in a git repository
+if ! git rev-parse --git-dir > /dev/null 2>&1; then
+    echo "Error: Not in a git repository"
+    exit 1
+fi
+
+# Check if we're in a worktree
+CURRENT_DIR=$(pwd)
+
+# Use git worktree list to determine if current directory is a worktree
+IS_WORKTREE=false
+while IFS= read -r line; do
+    # Extract the path from git worktree list output (first field)
+    WORKTREE_PATH=$(echo "$line" | awk '{print $1}')
+    if [ "$CURRENT_DIR" = "$WORKTREE_PATH" ]; then
+        # Check if this line contains a branch name (indicating it's not the main repo)
+        if echo "$line" | grep -q '\[.*\]'; then
+            BRANCH_INFO=$(echo "$line" | grep -o '\[.*\]' | tr -d '[]')
+            # If branch is not "main", we're in a worktree
+            if [ "$BRANCH_INFO" != "main" ]; then
+                IS_WORKTREE=true
+            fi
+        fi
+        break
+    fi
+done < <(git worktree list)
+
+if [ "$IS_WORKTREE" = false ]; then
+    echo "Error: This command must be run from within a worktree, not the main repository"
+    echo "Use 'codeguard worktree list' to see available worktrees"
+    echo "Use 'codeguard worktree edit <name>' to enter a worktree"
+    exit 1
+fi
+
+# Get current branch
+CURRENT_BRANCH=$(git branch --show-current)
+if [ -z "$CURRENT_BRANCH" ]; then
+    echo "Error: Unable to determine current branch"
+    exit 1
+fi
+
+# Verify this looks like a worktree branch
+if [[ ! "$CURRENT_BRANCH" =~ ^worktree/ ]]; then
+    echo "Warning: Current branch '$CURRENT_BRANCH' doesn't appear to be a worktree branch"
+    echo "Worktree branches typically start with 'worktree/'"
+    read -p "Do you want to continue anyway? (y/N): " -n 1 -r
+    echo
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        echo "Sync cancelled."
+        exit 1
+    fi
+fi
+
+echo "🔄 Syncing worktree branch '$CURRENT_BRANCH' with main..."
+
+# Check for uncommitted changes
+if [ -n "$(git status --porcelain)" ] && [ "$FORCE_SYNC" = false ]; then
+    echo "❌ Error: You have uncommitted changes in this worktree:"
+    git status --short
+    echo ""
+    echo "Please commit your changes first, or use --force to proceed anyway."
+    echo "  git add . && git commit -m 'WIP: your changes'"
+    echo "  $0 --force"
+    exit 1
+elif [ -n "$(git status --porcelain)" ] && [ "$FORCE_SYNC" = true ]; then
+    echo "⚠️  Warning: Proceeding with uncommitted changes (--force used):"
+    git status --short
+    echo ""
+fi
+
+# Fetch latest changes from origin
+echo "📡 Fetching latest changes from origin..."
+if ! git fetch origin main 2>/dev/null; then
+    echo "❌ Error: Failed to fetch from origin"
+    exit 1
+fi
+
+# Check for potential merge conflicts before attempting merge
+echo "🔍 Checking for potential conflicts..."
+MERGE_BASE=$(git merge-base "$CURRENT_BRANCH" origin/main)
+CONFLICTS=$(git merge-tree "$MERGE_BASE" "$CURRENT_BRANCH" origin/main | grep -E "^<<<<<<< |^======= |^>>>>>>> ")
+
+if [ -n "$CONFLICTS" ]; then
+    echo "⚠️  Warning: Potential merge conflicts detected!"
+    echo "Conflicted sections preview:"
+    git merge-tree "$MERGE_BASE" "$CURRENT_BRANCH" origin/main | grep -E "^<<<<<<< |^======= |^>>>>>>> " | head -10
+    echo ""
+    read -p "Do you want to proceed with the merge? (y/N): " -n 1 -r
+    echo
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        echo "Sync cancelled. You may want to review changes in main first."
+        echo "To see what changes would be merged:"
+        echo "  git log $CURRENT_BRANCH..origin/main --oneline"
+        exit 1
+    fi
+fi
+
+# Perform the merge
+echo "🔄 Merging main into $CURRENT_BRANCH..."
+if git merge origin/main; then
+    echo "✅ Sync successful! Your worktree is now up to date with main."
+    
+    # Show summary of what was merged
+    # Check if the merge actually brought in new commits
+    MERGE_OUTPUT=$(git log --oneline HEAD@{1}..HEAD 2>/dev/null)
+    if [ -n "$MERGE_OUTPUT" ]; then
+        COMMITS_MERGED=$(echo "$MERGE_OUTPUT" | wc -l | tr -d ' ')
+        echo ""
+        echo "📈 Merged $COMMITS_MERGED new commit(s) from main:"
+        echo "$MERGE_OUTPUT" | head -5
+        if [ "$COMMITS_MERGED" -gt 5 ]; then
+            echo "   ... and $((COMMITS_MERGED - 5)) more"
+        fi
+    else
+        echo "📋 Your worktree was already up to date with main."
+    fi
+    
+else
+    echo "❌ Merge failed! There are conflicts that need to be resolved."
+    echo ""
+    echo "Conflicted files:"
+    git status --short | grep "^UU\|^AA\|^DD"
+    echo ""
+    echo "To resolve conflicts:"
+    echo "  1. Edit the conflicted files to resolve markers (<<<<<<< ======= >>>>>>>)"
+    echo "  2. Stage the resolved files: git add <file>"
+    echo "  3. Complete the merge: git commit"
+    echo ""
+    echo "To abort the merge:"
+    echo "  git merge --abort"
+    echo ""
+    echo "After resolving conflicts, your worktree will be synced with main."
+    exit 1
+fi

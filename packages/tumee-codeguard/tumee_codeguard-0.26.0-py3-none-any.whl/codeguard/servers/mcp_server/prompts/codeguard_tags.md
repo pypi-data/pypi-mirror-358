@@ -1,0 +1,1 @@
+🔍 CODEGUARD: Scan a directory for guard violations.
