@@ -1,0 +1,15 @@
+include README.md
+include LICENSE
+include requirements.txt
+include pytest.ini
+recursive-include bitcoin_dca *.py
+recursive-include scripts *.py
+recursive-include tests *.py
+global-exclude *.pyc
+global-exclude __pycache__
+global-exclude .git*
+global-exclude .cache*
+global-exclude .DS_Store
+prune bitcoin_dca.egg-info
+prune build
+prune dist
