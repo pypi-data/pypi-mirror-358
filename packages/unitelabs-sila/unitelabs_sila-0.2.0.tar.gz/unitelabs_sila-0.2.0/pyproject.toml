@@ -1,0 +1,76 @@
+[project]
+name = "unitelabs-sila"
+version = "0.2.0"
+description = "An un-opinionated SiLA 2 library."
+keywords = ["SiLA 2", "laboratory", "automation", "connectivity"]
+license = "MIT"
+readme = "README.md"
+requires-python = ">=3.9,<4.0"
+authors = [{ name = "UniteLabs", email = "developers+sila@unitelabs.io" }]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Healthcare Industry",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries",
+]
+dependencies = [
+    "grpcio >= 1.70.0",
+    "typing-extensions",
+    "zeroconf >= 0.147.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "cryptography >= 43.0.3",
+    "pytest",
+    "pytest-asyncio",
+    "pytest-cov",
+    "ruff",
+]
+
+[project.urls]
+homepage = "https://sila-standard.com"
+repository = "https://gitlab.com/unitelabs/sila2/sila-python"
+documentation = "https://gitlab.com/unitelabs/sila2/sila-python/-/README.md"
+"Bug Tracker" = "https://gitlab.com/unitelabs/sila2/sila-python/-/issues"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+addopts = "--color=yes"
+
+[tool.ruff]
+src = ["src", "tests"]
+line-length = 120
+target-version = "py39"
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "@typing.overload",
+    "if typing.TYPE_CHECKING:",
+    "\\.\\.\\.",
+]
+
+[tool.poetry]
+packages = [{ include = "sila", from = "src" }]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
