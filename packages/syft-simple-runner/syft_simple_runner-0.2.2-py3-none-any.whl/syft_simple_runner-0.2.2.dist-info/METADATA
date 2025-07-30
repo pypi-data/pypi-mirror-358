@@ -1,0 +1,34 @@
+Metadata-Version: 2.4
+Name: syft-simple-runner
+Version: 0.2.2
+Summary: Simple code execution runner for SyftBox
+Project-URL: Homepage, https://github.com/OpenMined/syft-simple-runner
+Project-URL: Repository, https://github.com/OpenMined/syft-simple-runner.git
+Project-URL: Issues, https://github.com/OpenMined/syft-simple-runner/issues
+Author-email: OpenMined <info@openmined.org>
+License-Expression: Apache-2.0
+License-File: LICENSE
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.9
+Requires-Dist: click>=8.0.0
+Requires-Dist: loguru>=0.7.0
+Requires-Dist: pathlib>=1.0.1
+Requires-Dist: syft-code-queue>=0.1.3
+Requires-Dist: syft-core>=0.2.5
+Provides-Extra: dev
+Requires-Dist: build>=1.2.0; extra == 'dev'
+Requires-Dist: pytest-cov>=4.1.0; extra == 'dev'
+Requires-Dist: pytest>=7.0.0; extra == 'dev'
+Requires-Dist: ruff>=0.3.0; extra == 'dev'
+Requires-Dist: twine>=6.1.0; extra == 'dev'
+Description-Content-Type: text/markdown
+
+# Syft Simple Runner
+
+Simple and secure code execution runner for Syft Code Queue.
+
+See full documentation in the main repository.
