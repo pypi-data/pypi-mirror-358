@@ -1,0 +1,41 @@
+[project]
+name = "mjkit"
+version = "0.0.14"
+description = ""
+authors = [
+    {name = "devmjun",email = "dev.mjun@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.10, <4"
+license = "SEE LICENSE FILE"
+
+classifiers = [
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3 :: Only"
+]
+
+
+[tool.poetry.dependencies]
+python = ">=3.10,<4"
+holidays = ">=0.7.0,<1.0.0"
+
+
+[tool.poetry.group.dev.dependencies]
+twine = "^6.1.0"
+
+# rust 컴파일러 필요.
+# macOS 기준설치: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+# rustc --version
+readmeai = "^0.6.1"
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[project.urls]
+Homepage = "https://github.com/devmjun/mjkit"
+Repository = "https://github.com/devmjun/mjkit"
