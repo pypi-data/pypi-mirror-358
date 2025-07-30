@@ -1,0 +1,146 @@
+[build-system]
+requires = ["setuptools>=42", "wheel", "setuptools-git-versioning"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["httomo*"]
+
+[tool.setuptools-git-versioning]
+enabled = true
+template = "{tag}"
+dev_template = "{tag}"
+
+[project]
+name = "httomo"
+description = "High Throughput Tomography framework."
+readme = "README.rst"
+license = {text = "BSD-3-Clause"}
+authors = [
+    {name = "Daniil Kazantsev", email = "daniil.kazantsev@diamond.ac.uk"},
+    {name = "Yousef Moazzam", email = "yousef.moazzam@diamond.ac.uk"},
+    {name = "Jessica Verschoyle", email = "jessica.verschoyle@diamond.ac.uk"},
+    {name = "Naman Gera", email = "naman.gera@diamond.ac.uk"},
+    {name = "Garry ODonnell"},
+    {name = "Jacob Williamson"},
+    {email = "scientificsoftware@diamond.ac.uk"},
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python :: 3.10",
+]
+
+requires-python = ">=3.10"
+dynamic = ["version"]
+dependencies = [
+    "click",
+    "cupy",
+    "numpy",
+    "hdf5plugin",
+    "httomo-backends",
+    "loguru",
+    "mpi4py",
+    "pyyaml",
+    "tqdm",
+    "graypy"
+]
+
+[project.scripts]
+httomo = "httomo.cli:main"
+
+[project.urls]
+repository = "https://github.com/DiamondLightSource/HTTomo"
+
+[project.optional-dependencies]
+cpu = ["httomolib" ]
+gpu = ["httomolibgpu"]
+dev-cpu = [
+  "pytest",
+  "pytest-cov",
+  "pytest-xdist",
+  "pytest-mock",
+  "flake8",
+  "pyproject-flake8",
+  "pydocstyle",
+  "httomolib[dev]",
+  "plumbum",
+  "mypy",
+  "types-PyYAML",
+  "pre-commit"
+]
+dev-gpu = [
+  "pytest",
+  "pytest-cov",
+  "pytest-xdist",
+  "pytest-mock",
+  "flake8",
+  "pyproject-flake8",
+  "pydocstyle",
+  "httomolib[dev]",
+  "httomolibgpu[dev]",
+  "plumbum",
+  "mypy",
+  "types-PyYAML",
+  "pre-commit",
+  "ccpi-regularisation-cupy",
+]
+
+[tool.mypy]
+# Ignore missing stubs for modules we use
+ignore_missing_imports = true
+python_version = "3.10"  # make sure we're compatible with 3.9
+plugins = 'numpy.typing.mypy_plugin'
+
+[tool.isort]
+profile = "black"
+float_to_top = true
+
+[tool.flake8]
+# Make flake8 respect black's line length (default 88),
+max-line-length = 88
+extend-ignore = [
+    "E203",
+    "F811"
+]
+per-file-ignores = [
+    "*pyi:E302"
+]
+
+[tool.pydocstyle]
+convention = "google"
+add-ignore = [
+    "D100", # Ignore missing docstrings in public modules
+    "D104", # Ignore missing docstrings in public packages
+    "D418", # Ignore missing docstrings in dunder methods; See: https://github.com/PyCQA/pydocstyle/issues/525
+]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = [
+   "-vv",
+   "-ra",
+   "-q",
+   "--tb=native",
+]
+testpaths = [
+    "tests",
+]
+filterwarnings = [
+    "ignore::ImportWarning",
+    "ignore:distutils:DeprecationWarning:numexpr"
+]
+
+
+[tool.coverage.run]
+data_file = "/tmp/httomo.coverage"
+
+[tool.coverage.paths]
+# Tests are run from installed location, map back to the src directory
+source = [
+    "httomo",
+    "**/site-packages/"
+]
