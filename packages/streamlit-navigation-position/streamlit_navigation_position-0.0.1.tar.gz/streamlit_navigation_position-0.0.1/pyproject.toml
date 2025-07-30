@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "streamlit-navigation-position"
+version = "0.0.1"
+description = "Streamlit component that allows you to configure the position of the navigation bar"
+readme = "README.md"
+authors = [
+    {name = "Pedroca Fã do Streamlit", email = "pedroluxa871632@gmail.com"}
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+requires-python = ">=3.7"
+dependencies = [
+    "streamlit >= 0.63",
+]
+
+[project.optional-dependencies]
+devel = [
+    "wheel",
+    "pytest==7.4.0",
+    "playwright==1.48.0",
+    "requests==2.31.0",
+    "pytest-playwright-snapshot==1.0",
+    "pytest-rerunfailures==12.0",
+]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["navigation_position*"] 
