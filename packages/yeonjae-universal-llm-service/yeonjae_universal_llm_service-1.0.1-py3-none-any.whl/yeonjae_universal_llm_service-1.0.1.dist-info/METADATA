@@ -1,0 +1,120 @@
+Metadata-Version: 2.4
+Name: yeonjae-universal-llm-service
+Version: 1.0.1
+Summary: Universal LLM service supporting OpenAI, Anthropic, and local models for code analysis and summarization
+Author-email: "CodePing.AI Team" <contact@codeping.ai>
+License: MIT
+Project-URL: Homepage, https://github.com/yeonjae-work/universal-modules
+Project-URL: Repository, https://github.com/yeonjae-work/universal-modules
+Project-URL: Issues, https://github.com/yeonjae-work/universal-modules/issues
+Project-URL: Changelog, https://github.com/yeonjae-work/universal-modules/blob/main/packages/yeonjae-universal-llm-service/CHANGELOG.md
+Keywords: llm,openai,anthropic,ai,machine-learning,nlp,text-generation,code-analysis
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Text Processing :: Linguistic
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: typing-extensions>=4.0.0; python_version < "3.10"
+Provides-Extra: openai
+Requires-Dist: openai>=1.0.0; extra == "openai"
+Provides-Extra: anthropic
+Requires-Dist: anthropic>=0.7.0; extra == "anthropic"
+Provides-Extra: all
+Requires-Dist: openai>=1.0.0; extra == "all"
+Requires-Dist: anthropic>=0.7.0; extra == "all"
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.21.0; extra == "dev"
+Requires-Dist: pytest-mock>=3.10.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: isort>=5.12.0; extra == "dev"
+Requires-Dist: flake8>=6.0.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Requires-Dist: responses>=0.23.0; extra == "dev"
+
+# Universal LLM Service
+
+Universal LLM service supporting OpenAI, Anthropic, and local models for code analysis and summarization.
+
+## Features
+
+- **Multi-Provider Support**: OpenAI, Anthropic, Azure OpenAI, Google, and local models
+- **Async Operations**: Full async/await support for all LLM operations
+- **Smart Configuration**: Automatic provider detection and configuration
+- **Response Validation**: Built-in response quality validation
+- **Rate Limiting**: Intelligent rate limiting and retry mechanisms
+- **Type Safety**: Complete type annotations with mypy support
+- **Extensible Design**: Easy to add new LLM providers
+
+## Installation
+
+```bash
+# Basic installation
+pip install universal-llm-service
+
+# With OpenAI support
+pip install universal-llm-service[openai]
+
+# With Anthropic support
+pip install universal-llm-service[anthropic]
+
+# With all providers
+pip install universal-llm-service[all]
+```
+
+## Quick Start
+
+```python
+import asyncio
+from universal_llm_service import LLMService, LLMInput, LLMProvider, ModelConfig
+
+async def main():
+    # Initialize service
+    service = LLMService()
+    
+    # Create input
+    input_data = LLMInput(
+        prompt="Analyze this code and provide insights",
+        llm_provider=LLMProvider.OPENAI,
+        model_config=ModelConfig(model="gpt-4", temperature=0.3)
+    )
+    
+    # Generate summary
+    result = await service.generate_summary(input_data)
+    print(f"Summary: {result.summary}")
+    print(f"Confidence: {result.confidence_score}")
+    print(f"Tokens used: {result.metadata.total_tokens}")
+
+asyncio.run(main())
+```
+
+## Configuration
+
+Set your API keys as environment variables:
+
+```bash
+export OPENAI_API_KEY="your-openai-key"
+export ANTHROPIC_API_KEY="your-anthropic-key"
+```
+
+## Supported Providers
+
+- **OpenAI**: GPT-3.5, GPT-4, and newer models
+- **Anthropic**: Claude 3 family (Haiku, Sonnet, Opus)
+- **Azure OpenAI**: Enterprise OpenAI deployment
+- **Google**: Gemini and PaLM models
+- **Local**: Custom local model integration
+
+## License
+
+MIT License
