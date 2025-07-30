@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fable3d"
+version = "1.1.4"
+description = "Prosty silnik 3D w Pythonie"
+readme = "README.md"
+requires-python = ">=3.6"
+authors = [
+  { name = "MichaŁ Lewandowski", email = "slawek.1q2w3e4r@gmail.com" }
+]
+
+license = { text = "Fable3D LICENSE" }
+
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent"
+]
+
+dependencies = [
+  "PySDL2>=0.9.17",
+  "PyOpenGL>=3.1.6",
+  "numpy>=1.20",
+  "pyassimp>=5.2.5",
+  "pillow>=11.2.1",
+  "sounddevice>=0.5.0",
+  "soundfile>=0.12.1"
+]
