@@ -1,0 +1,51 @@
+Metadata-Version: 2.4
+Name: quick_qemu
+Version: 0.5.1
+Summary: Quick start qemu machines
+Keywords: qemu,helper,tool
+Author-email: "Alexander K." <devkral@web.de>
+Description-Content-Type: text/markdown
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: POSIX
+Classifier: Environment :: Console
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: Intended Audience :: System Administrators
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: System :: Emulators
+Classifier: Topic :: Utilities
+Classifier: Topic :: Software Development :: Testing
+Classifier: Topic :: Office/Business
+License-File: LICENSE
+
+install
+-------
+pip3 install quick_qemu
+
+
+execute
+-------
+
+``` sh
+python -m quick_qemu <path to cd> <path to image> <argument1> <argument2>...
+or
+quick_qemu <path to cd> <path to image> <argument1> <argument2>...
+```
+
+environment
+-----------
+* QUICK_QEMU_OUTPUT: set output, default spice-app
+* QUICK_QEMU_NOGL: if set disables ql rendering
+* QUICK_QEMU_CPU: change virtual cpu
+* QUICK_QEMU_MACHINE: change virtual acpi
+
+example
+-------
+
+``` sh
+python -m quick_qemu ~/Downloads/archlinux.iso
+
+```
+

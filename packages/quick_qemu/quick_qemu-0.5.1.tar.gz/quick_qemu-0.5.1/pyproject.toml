@@ -1,0 +1,39 @@
+[project]
+name = "quick_qemu"
+description = "Quick start qemu machines"
+authors = [
+    {name = "Alexander K.", email = "devkral@web.de"},
+]
+dependencies = []
+readme = "README.md"
+license = {text = "MIT"}
+
+
+classifiers=[
+    'License :: OSI Approved :: MIT License',
+    'Operating System :: POSIX',
+    'Environment :: Console',
+    'Development Status :: 5 - Production/Stable',
+    'Intended Audience :: Developers',
+    'Intended Audience :: Education',
+    'Intended Audience :: End Users/Desktop',
+    'Intended Audience :: System Administrators',
+    'Programming Language :: Python :: 3',
+    'Topic :: System :: Emulators',
+    'Topic :: Utilities',
+    'Topic :: Software Development :: Testing',
+    'Topic :: Office/Business',
+]
+keywords=['qemu', 'helper', 'tool']
+dynamic = ["version"]
+
+[project.scripts]
+quick_qemu = "quick_qemu:main"
+
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+
+[tool]
+[tool.flit]
