@@ -1,0 +1,18 @@
+[build-system]
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
+
+[tool.maturin]
+# Build artifacts with the specified Cargo profile
+profile = "release"
+bindings = "bin"
+strip = true
+compatibility = "manylinux2014"
+
+[project]
+name = "duello"
+version = "0.1.0"
+dependencies = [
+    "mdtraj>=1.9",
+    "pdb2xyz>=0.1.2",
+]
