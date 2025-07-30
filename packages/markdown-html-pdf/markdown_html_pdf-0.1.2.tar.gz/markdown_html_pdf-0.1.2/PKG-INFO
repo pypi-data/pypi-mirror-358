@@ -1,0 +1,150 @@
+Metadata-Version: 2.4
+Name: markdown-html-pdf
+Version: 0.1.2
+Summary: A powerful Python package to convert Markdown files to PDF with syntax highlighting and emoji support
+Project-URL: Homepage, https://github.com/bellanda/markdown-html-pdf
+Project-URL: Repository, https://github.com/bellanda/markdown-html-pdf
+Project-URL: Issues, https://github.com/bellanda/markdown-html-pdf/issues
+Author-email: Gustavo Casadei Bellanda <bellanda.dev@outlook.com>
+License: MIT License
+        
+        Copyright (c) 2025 Gustavo Casadei Bellanda
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+License-File: LICENSE
+Keywords: converter,markdown,pdf,playwright,syntax-highlighting
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Documentation
+Classifier: Topic :: Text Processing :: Markup
+Classifier: Topic :: Utilities
+Requires-Python: >=3.12
+Requires-Dist: click>=8.0.0
+Requires-Dist: html2docx>=1.6.0
+Requires-Dist: linkify-it-py>=2.0.3
+Requires-Dist: markdown-it-py>=3.0.0
+Requires-Dist: playwright>=1.53.0
+Requires-Dist: pygments>=2.18.0
+Provides-Extra: dev
+Requires-Dist: pytest-asyncio>=0.21.0; extra == 'dev'
+Requires-Dist: pytest>=7.0.0; extra == 'dev'
+Requires-Dist: ruff>=0.1.0; extra == 'dev'
+Description-Content-Type: text/markdown
+
+# markdown-html-pdf
+
+A powerful Python package to convert Markdown files to PDF with syntax highlighting and emoji support.
+
+## Features
+
+- ✨ Convert Markdown to PDF with beautiful formatting
+- 🎨 Syntax highlighting for code blocks
+- 😀 Full emoji support
+- 🔧 GitHub-flavored Markdown support
+- 📱 Responsive design optimized for print
+- 🚀 Fast conversion using Playwright
+- 💻 Command-line interface
+- 🐍 Python API
+
+## Installation
+
+```bash
+pip install markdown-html-pdf
+```
+
+After installation, you need to install Playwright browsers:
+
+```bash
+playwright install
+```
+
+Or use the built-in auto-installer on first run.
+
+## Usage
+
+### Command Line
+
+```bash
+# Basic conversion
+markdown-html-pdf input.md output.pdf
+
+# With custom title
+markdown-html-pdf input.md output.pdf --title "My Document"
+
+# Install browsers first (useful for first run)
+markdown-html-pdf input.md output.pdf --install-browsers
+```
+
+You can also use the shorter alias:
+
+```bash
+md2pdf input.md output.pdf
+```
+
+### Python API
+
+```python
+import asyncio
+from markdown_html_pdf import markdown_html_pdf
+
+async def convert():
+    await markdown_html_pdf(
+        markdown_file_path="input.md",
+        pdf_output_file_path="output.pdf",
+        html_output_title="My Document"
+    )
+
+asyncio.run(convert())
+```
+
+## Requirements
+
+- Python 3.12+
+- Playwright (automatically installed)
+
+## How it works
+
+1. **Markdown to HTML**: Converts Markdown to HTML using `markdown-it-py` with GitHub-flavored Markdown support
+2. **Syntax Highlighting**: Applies syntax highlighting to code blocks using Pygments
+3. **HTML to PDF**: Uses Playwright to render HTML to PDF with optimized settings for text fidelity
+
+## Supported Markdown Features
+
+- Headers (H1-H6)
+- **Bold** and _italic_ text
+- `Inline code` and code blocks with syntax highlighting
+- Links and images
+- Tables
+- Lists (ordered and unordered)
+- Blockquotes
+- Horizontal rules
+- Emojis 😎
+
+## License
+
+MIT License - see LICENSE file for details.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
