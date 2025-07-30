@@ -1,0 +1,40 @@
+[project]
+name = "pyssed"
+version = "0.2.0"
+description = "The Mixture Adaptive Design (MAD) and extensions: Robust and precise anytime-valid causal inference in adaptive experiments"
+readme = "README.md"
+authors = [
+    { name = "Daniel Molitor", email = "molitdj97@gmail.com" }
+]
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.24.2",
+    "pandas>=2.0.0",
+    "plotnine>=0.12.0",
+    "tqdm>=4.50.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "black>=24.1.0",
+    "ipykernel>=6.29.5",
+    "jupyter>=1.1.1",
+    "jupyter-core>=5.7.2",
+    "pytest>=8.0.0",
+    "pyyaml>=6.0.2",
+    "quartodoc>=0.9.1",
+]
+
+[tool.black]
+line-length = 88
+target-version = ['py312']
+include = '\.pyi?$'
+
+#[[tool.uv.index]]
+#name = "testpypi"
+#url = "https://test.pypi.org/simple/"
+#publish-url = "https://test.pypi.org/legacy/"
