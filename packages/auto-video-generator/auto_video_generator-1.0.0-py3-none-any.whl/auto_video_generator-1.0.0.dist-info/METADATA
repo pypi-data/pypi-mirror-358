@@ -1,0 +1,540 @@
+Metadata-Version: 2.4
+Name: auto-video-generator
+Version: 1.0.0
+Summary: 自动生成带字幕视频的工具，支持文字转语音、字幕同步和视频合成
+Home-page: https://github.com/zgmurder/auto-video-generator
+Author: zgmurder
+Author-email: zgmurder <zgmurder1@gmail.com>
+Maintainer-email: zgmurder <zgmurder1@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/zgmurder/auto-video-generator
+Project-URL: Documentation, https://github.com/zgmurder/auto-video-generator#readme
+Project-URL: Repository, https://github.com/zgmurder/auto-video-generator
+Project-URL: Bug Tracker, https://github.com/zgmurder/auto-video-generator/issues
+Keywords: video,subtitle,tts,text-to-speech,automation,multimedia
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Multimedia :: Video
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: edge-tts>=6.1.0
+Requires-Dist: moviepy>=1.0.3
+Requires-Dist: pydub>=0.25.1
+Requires-Dist: tqdm>=4.64.0
+Requires-Dist: Pillow>=9.0.0
+Requires-Dist: numpy>=1.21.0
+Requires-Dist: opencc-python-reimplemented>=0.1.7
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
+Requires-Dist: black>=22.0.0; extra == "dev"
+Requires-Dist: flake8>=5.0.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Provides-Extra: docs
+Requires-Dist: sphinx>=5.0.0; extra == "docs"
+Requires-Dist: sphinx-rtd-theme>=1.0.0; extra == "docs"
+Dynamic: author
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-python
+
+# 自动视频生成器
+
+一个基于Python的自动化视频生成工具，支持文字转语音、字幕同步和视频合成。
+
+## 功能特性
+
+- 🎵 **文字转语音**: 使用微软Edge TTS服务，支持多种音色
+- 🎬 **自动视频合成**: 根据配置文件自动生成带字幕的视频
+- ⏱️ **精确同步**: 字幕和语音严格同步，支持静默时间配置
+- 🎨 **字幕样式**: 可自定义字体、颜色、背景等样式
+- 📝 **配置驱动**: 通过JSON配置文件控制整个生成流程
+- 🔄 **批量处理**: 支持多条字幕批量生成
+- 🚀 **一键生成**: 全流程自动化，无需手动干预
+- 📦 **exe打包**: 支持打包成独立exe文件，无需安装Python
+- ✂️ **智能分割**: 自动分割长字幕，支持多种分割策略
+
+## 项目结构
+
+```
+video4/
+├── auto_generate_video.py          # 主程序入口
+├── test_auto_split.py              # 智能分割测试脚本
+├── build_exe.py                    # exe打包脚本
+├── config.json                     # 配置文件
+├── simhei.ttf                      # 字体文件
+├── ffmpeg/                         # FFmpeg工具包
+│   └── bin/
+│       ├── ffmpeg.exe
+│       ├── ffprobe.exe
+│       └── ffplay.exe
+├── 发布版/                         # 发布包
+│   ├── auto_generate_video.exe
+│   ├── config.json
+│   └── README.md
+└── output1.mp4                     # 输出视频文件
+```
+
+## 安装依赖
+
+```bash
+pip install -r requirements.txt
+```
+
+## 使用方法
+
+### 方法一：直接使用Python脚本（推荐开发者）
+
+#### 1. 准备配置文件
+
+编辑 `config.json` 文件，设置字幕内容和样式：
+
+```json
+{
+  "video": "test.mp4",
+  "output": "output1.mp4",
+  "activeTimbre": 0,
+  "autoSplit": {
+    "enable": true,
+    "strategy": "smart",
+    "maxChars": 20,
+    "targetDuration": 3.0
+  },
+  "timing": [
+    {
+      "text": "欢迎使用自动生成带字幕视频工具！这是一个很长的句子，需要被智能分割。"
+    },
+    {
+      "text": "第一步：解压发布包，确保目录结构完整。第二步：找到README文件。"
+    }
+  ],
+  "segments": [
+    {"start": "00:00:00", "end": "00:00:11"},
+    {"start": "00:01:26", "end": "00:01:50"}
+  ],
+  "subtitleStyle": {
+    "fontPath": "./simhei.ttf",
+    "fontSize": 40,
+    "color": "white",
+    "bgColor": [0, 0, 0, 128],
+    "marginX": 100,
+    "marginBottom": 50,
+    "height": 100
+  }
+}
+```
+
+#### 2. 运行程序
+
+```bash
+python auto_generate_video.py
+```
+
+### 方法二：使用打包的exe文件（推荐普通用户）
+
+#### 1. 下载发布包
+
+下载 `发布版` 目录中的所有文件
+
+#### 2. 运行exe文件
+
+- 双击 `auto_generate_video.exe`
+- 程序会自动读取 `config.json` 配置文件
+- 生成完成后输出 `output1.mp4` 文件
+
+## 智能分割功能
+
+### 功能说明
+
+智能分割功能可以自动将长字幕分割成更短的片段，提高字幕的可读性和观看体验。
+
+### 分割策略
+
+#### 1. 智能分割 (smart)
+- **按句子分割**: 优先按句号、问号、感叹号分割
+- **按逗号分割**: 如果没有句号，则按逗号、分号分割
+- **按字符数分割**: 如果仍然过长，则按最大字符数分割
+- **智能时长分配**: 根据分割后的文本长度比例分配时长
+
+#### 2. 时长分割 (duration)
+- **目标时长**: 将字幕组合成指定时长的片段
+- **自动合并**: 自动将短字幕合并到目标时长
+- **保持语义**: 尽量保持语义完整性
+
+#### 3. 禁用分割 (none)
+- **保持原样**: 不进行任何分割处理
+
+### 配置选项
+
+```json
+{
+  "autoSplit": {
+    "enable": true,           // 是否启用智能分割
+    "strategy": "smart",      // 分割策略: "smart", "duration", "none"
+    "maxChars": 20,          // 最大字符数（仅smart策略有效）
+    "targetDuration": 3.0    // 目标时长（仅duration策略有效）
+  }
+}
+```
+
+### 使用示例
+
+#### 智能分割示例
+```json
+{
+  "autoSplit": {
+    "enable": true,
+    "strategy": "smart",
+    "maxChars": 15
+  },
+  "timing": [
+    {"text": "欢迎使用自动生成带字幕视频工具！这是一个很长的句子，需要被智能分割。"}
+  ]
+}
+```
+
+**分割结果**:
+- "欢迎使用自动生成带字幕视频工具！"
+- "这是一个很长的句子，需要被智能分割。"
+
+#### 时长分割示例
+```json
+{
+  "autoSplit": {
+    "enable": true,
+    "strategy": "duration",
+    "targetDuration": 3.0
+  },
+  "timing": [
+    {"text": "欢迎使用自动生成带字幕视频工具！", "duration": 2.5},
+    {"text": "第一步：解压发布包，确保目录结构完整。", "duration": 3.0},
+    {"text": "第二步：找到README文件，可以看到参数说明。", "duration": 2.8}
+  ]
+}
+```
+
+**分割结果**:
+- "欢迎使用自动生成带字幕视频工具！" (2.5秒)
+- "第一步：解压发布包，确保目录结构完整。" (3.0秒)
+- "第二步：找到README文件，可以看到参数说明。" (2.8秒)
+
+## 视频片段剪辑（segments配置）
+
+### segmentsMode 配置选项
+
+- `segmentsMode`: 控制segments字段的含义
+  - `"keep"`: 保留模式 - segments指定要保留的片段
+  - `"cut"`: 剪掉模式 - segments指定要剪掉的片段
+
+### 保留模式 (segmentsMode: "keep")
+
+```json
+{
+  "segmentsMode": "keep",
+  "segments": [
+    {"start": "00:00:10", "end": "00:00:20"},
+    {"start": "00:00:40", "end": "00:00:50"}
+  ]
+}
+```
+
+表示保留10~20秒和40~50秒，最终视频为这两个片段的拼接（总时长20秒）。
+
+### 剪掉模式 (segmentsMode: "cut")
+
+```json
+{
+  "segmentsMode": "cut",
+  "segments": [
+    {"start": "00:00:10", "end": "00:00:20"},
+    {"start": "00:00:40", "end": "00:00:50"}
+  ]
+}
+```
+
+表示剪掉10~20秒和40~50秒，最终视频为0~10、20~40、50~结尾的拼接。
+
+### 默认行为
+
+- 如果不设置segmentsMode，默认为"keep"模式
+- 如果segments为空数组，则保留整个视频
+
+## 打包exe文件
+
+### 打包命令
+
+```bash
+python build_exe.py
+```
+
+### 打包说明
+
+- 打包后的exe文件包含所有依赖，无需安装Python
+- 生成的exe文件较大（约190MB），这是正常的
+- 首次运行可能需要较长时间解压
+- 建议将字体文件和配置文件与exe放在同一目录
+
+## 配置文件说明
+
+### config.json 结构
+
+```json
+{
+  "video": "test.mp4",
+  "output": "output1.mp4",
+  "activeTimbre": 0,
+  "autoSplit": {
+    "enable": true,
+    "strategy": "smart",
+    "maxChars": 20,
+    "targetDuration": 3.0
+  },
+  "timing": [
+    {
+      "text": "欢迎使用自动生成带字幕视频工具！"
+    },
+    {
+      "text": "这是一个功能强大的工具"
+    }
+  ],
+  "segments": [
+    {"start": "00:00:00", "end": "00:00:11"}
+  ],
+  "subtitleStyle": {
+    "fontPath": "./simhei.ttf",
+    "fontSize": 40,
+    "color": "white",
+    "bgColor": [0, 0, 0, 128],
+    "marginX": 100,
+    "marginBottom": 50,
+    "height": 100
+  }
+}
+```
+
+### 配置字段说明
+
+- **video**: 源视频文件路径
+- **output**: 输出视频文件路径
+- **activeTimbre**: 音色索引，对应Edge TTS的音色列表
+- **autoSplit**: 智能分割配置
+  - **enable**: 是否启用智能分割
+  - **strategy**: 分割策略 ("smart", "duration", "none")
+  - **maxChars**: 最大字符数（smart策略）
+  - **targetDuration**: 目标时长（duration策略）
+- **timing**: 字幕配置数组
+  - **text**: 字幕文本内容
+- **segments**: 视频片段配置
+  - **start**: 开始时间 (HH:MM:SS)
+  - **end**: 结束时间 (HH:MM:SS)
+- **subtitleStyle**: 字幕样式配置
+  - **fontPath**: 字体文件路径
+  - **fontSize**: 字体大小
+  - **color**: 字体颜色
+  - **bgColor**: 背景颜色 [R, G, B, A]
+  - **marginX**: 水平边距
+  - **marginBottom**: 底部边距
+  - **height**: 字幕高度
+
+## 工作流程
+
+1. **读取配置**: 解析 `config.json` 配置文件
+2. **智能分割**: 根据配置自动分割长字幕
+3. **生成音频**: 使用Edge TTS将文字转换为语音
+4. **计算时长**: 自动计算每条字幕的朗读时长
+5. **视频剪辑**: 根据segments配置剪辑视频片段
+6. **合成视频**: 将音频、视频和字幕合成为最终视频
+7. **输出结果**: 生成带字幕的MP4视频文件
+
+## 音色选择
+
+程序会根据 `activeTimbre` 索引自动选择对应的音色。常用的音色索引：
+
+- 0: zh-CN-XiaoxiaoNeural (女声)
+- 1: zh-CN-YunyangNeural (男声)
+- 2: zh-CN-XiaoyiNeural (女声)
+- 3: zh-CN-YunxiNeural (女声)
+- 4: zh-CN-YunjianNeural (男声)
+
+## 字幕同步机制
+
+- **延迟时间**: `delay` 字段控制每条字幕的播放延迟
+- **静默处理**: 延迟期间生成透明字幕，确保时间轴同步
+- **精确计算**: 自动计算每条字幕的朗读时长，确保字幕和语音严格同步
+- **智能分割**: 自动分割长字幕，保持语义完整性
+
+## 字幕样式自定义
+
+通过 `subtitleStyle` 字段可以自定义字幕外观：
+
+```json
+{
+  "subtitleStyle": {
+    "fontPath": "./simhei.ttf",     // 字体文件
+    "fontSize": 40,                 // 字体大小
+    "color": "white",               // 字体颜色
+    "bgColor": [0, 0, 0, 128],     // 背景颜色 [R, G, B, A]
+    "marginX": 100,                 // 水平边距
+    "marginBottom": 50,             // 底部边距
+    "height": 100                   // 字幕高度
+  }
+}
+```
+
+## 测试功能
+
+运行测试脚本验证智能分割功能：
+
+```bash
+python test_auto_split.py
+```
+
+测试脚本会显示：
+- 智能分割效果
+- 时长分割效果
+- 配置文件加载测试
+
+## 注意事项
+
+1. **字体文件**: 确保 `simhei.ttf` 字体文件存在于项目目录
+2. **网络连接**: Edge TTS需要网络连接来生成语音
+3. **文件权限**: 确保程序有读写当前目录的权限
+4. **依赖安装**: 确保所有Python依赖包已正确安装
+5. **exe文件**: 首次运行可能需要较长时间，请耐心等待
+6. **智能分割**: 建议根据实际需求调整分割参数
+
+## 故障排除
+
+### 常见问题
+
+1. **字体文件缺失**
+   - 确保 `simhei.ttf` 文件存在
+   - 检查 `fontPath` 配置是否正确
+
+2. **智能分割效果不理想**
+   - 调整 `maxChars` 参数
+   - 尝试不同的 `strategy` 策略
+   - 检查原始文本的标点符号
+
+3. **视频文件找不到**
+   - 确保视频文件路径正确
+   - 检查文件名大小写
+
+4. **音频生成失败**
+   - 检查网络连接
+   - 确认Edge TTS服务可用
+
+5. **exe文件运行缓慢**
+   - 首次运行需要解压，请耐心等待
+   - 确保有足够的磁盘空间
+
+## 更新日志
+
+### v2.0.0 (最新)
+- ✨ 新增智能分割功能
+- ✨ 支持多种分割策略
+- ✨ 优化字幕样式配置
+- ✨ 改进错误处理机制
+- ✨ 添加测试脚本
+
+### v1.0.0
+- 🎉 初始版本发布
+- ✨ 基础文字转语音功能
+- ✨ 字幕同步功能
+- ✨ 视频合成功能
+
+## 许可证
+
+本项目采用 MIT 许可证，详见 LICENSE 文件。
+
+## 贡献
+
+欢迎提交 Issue 和 Pull Request 来改进这个项目。
+
+## 联系方式
+
+如有问题或建议，请通过以下方式联系：
+
+- 提交 GitHub Issue
+- 发送邮件至开发者邮箱
+
+---
+
+**注意**: 本项目仅供学习和研究使用，请遵守相关法律法规。
+
+### timing 字段新用法
+
+- 现在支持只填写一条长文本，程序会自动按智能分割策略（如句号、逗号、maxChars等）自动分割为多条字幕。
+- 示例：
+
+```json
+"timing": [
+  {
+    "text": "欢迎使用自动生成带字幕视频工具！第一步：解压发布包，确保目录结构完整。第二步：找到README文件，可以看到参数说明。第三步：你可以在 config.json 中自定义字幕内容、音色、视频片段等。修改 timing 字段可更换每条字幕和语音内容。修改 segments 字段可自定义需要剪掉的视频片段。修改 subtitleStyle 可自定义字幕样式。全部设置完成后，运行 exe 即可自动生成带字幕的视频。输出文件 output1.mp4 会在同目录下生成。如遇到问题，请查阅 README.md 或联系开发者。感谢使用，祝你创作愉快！"
+  }
+]
+```
+
+- 不再需要 delay 字段，所有分段和时长由程序自动处理。
+
+## 延迟机制说明
+
+### 统一延迟实现方式
+
+- **所有延迟都通过空文本 + delay 实现**，不再有"播放前延迟"的概念
+- 格式：`{"text": " ", "delay": 1000}` （delay单位为毫秒）
+- 这种方式更统一、更清晰，所有时间控制都通过相同的机制
+
+### 使用示例
+
+```json
+"timing": [
+  {"text": " ", "delay": 1000},  // 开头静默1秒
+  {"text": "这是第一条字幕"},
+  {"text": " ", "delay": 500},   // 中间静默0.5秒
+  {"text": "这是第二条字幕"},
+  {"text": " ", "delay": 2000}   // 结尾静默2秒
+]
+```
+
+### 优势
+
+1. **统一性**：所有时间控制都通过相同的delay机制
+2. **灵活性**：可以在任意位置插入静默
+3. **清晰性**：代码逻辑更简单，不需要区分"播放前延迟"和"静默片段"
+4. **可维护性**：时间轴更容易理解和调整 
+
+## 音频时长控制
+
+### 自动音频截断
+
+- 当语音时长超过视频时长时，程序会自动截断音频以匹配视频时长
+- 确保视频播放完毕后音频也会结束，避免音频继续播放
+- 程序会在控制台显示音频和视频的时长信息
+
+### 示例
+
+```
+视频时长: 20.00 秒
+音频时长: 52.06 秒
+音频时长超过视频时长，将音频截断至 20.00 秒
+```
+
+### 优势
+
+1. **同步性**: 确保音频和视频严格同步结束
+2. **用户体验**: 避免视频结束后音频继续播放的尴尬
+3. **自动化**: 无需手动调整，程序自动处理
+
+--- 
