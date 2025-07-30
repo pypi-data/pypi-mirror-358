@@ -1,0 +1,80 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cloudflare-images-migrator"
+version = "1.0.0"
+authors = [
+    {name = "Mario Lemos Quirino Neto", email = "mariolqn@users.noreply.github.com"},
+]
+description = "Enterprise-grade tool to migrate images to Cloudflare Images with persistent tracking and duplicate detection"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Multimedia :: Graphics",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Archiving :: Backup",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Environment :: Console",
+]
+keywords = [
+    "cloudflare",
+    "images",
+    "migration",
+    "cdn",
+    "optimization",
+    "duplicate-detection",
+    "enterprise",
+    "security",
+    "tracking",
+    "automation",
+]
+dependencies = [
+    "requests>=2.28.0",
+    "pillow>=9.0.0",
+    "tqdm>=4.64.0",
+    "colorama>=0.4.4",
+    "pyyaml>=6.0",
+    "python-magic>=0.4.24",
+    "beautifulsoup4>=4.11.0",
+    "python-dotenv>=0.19.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov",
+    "black",
+    "flake8",
+    "mypy",
+]
+
+[project.urls]
+Homepage = "https://github.com/mariolqn/Cloudflare-Images-Migrator"
+"Bug Tracker" = "https://github.com/mariolqn/Cloudflare-Images-Migrator/issues"
+Documentation = "https://github.com/mariolqn/Cloudflare-Images-Migrator#readme"
+"Source Code" = "https://github.com/mariolqn/Cloudflare-Images-Migrator"
+
+[project.scripts]
+cloudflare-images-migrator = "main:main"
+cf-images-migrate = "main:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+exclude = ["test*", "tests*"]
+
+[tool.setuptools.package-data]
+"*" = ["*.yaml", "*.yml", "*.txt", "*.md"] 
