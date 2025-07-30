@@ -1,0 +1,107 @@
+CHECKBOX -> PIZZAAA
+
+XML
+
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pizza - 100 Rs"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="48dp"
+        android:layout_marginStart="32dp" />
+
+    <CheckBox
+        android:id="@+id/checkBox2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Coffee - 50 Rs"
+        app:layout_constraintTop_toBottomOf="@id/checkBox"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="32dp" />
+
+    <CheckBox
+        android:id="@+id/checkBox3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Burger - 120 Rs"
+        app:layout_constraintTop_toBottomOf="@id/checkBox2"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="32dp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show Bill"
+        app:layout_constraintTop_toBottomOf="@id/checkBox3"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="32dp" />
+
+
+</android.support.constraint.ConstraintLayout>
+
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+
+
+package com.example.myapplication
+
+import android.annotation.SuppressLint
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.*
+
+class MainActivity : AppCompatActivity() {
+    lateinit var pizza: CheckBox
+    lateinit var coffee: CheckBox
+    lateinit var burger: CheckBox
+    lateinit var button: Button
+
+    @SuppressLint("MissingInflatedId")
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        pizza = findViewById(R.id.checkBox)
+        coffee = findViewById(R.id.checkBox2)
+        burger = findViewById(R.id.checkBox3)
+        button = findViewById(R.id.button)
+
+        button.setOnClickListener {
+            var totalAmount = 0
+            val result = StringBuilder()
+            result.append("Selected Items:\n")
+
+            if (pizza.isChecked) {
+                result.append("Pizza: 100 Rs\n")
+                totalAmount += 100
+            }
+
+            if (coffee.isChecked) {
+                result.append("Coffee: 50 Rs\n")
+                totalAmount += 50
+            }
+
+            if (burger.isChecked) {
+                result.append("Burger: 120 Rs\n")
+                totalAmount += 120
+            }
+
+            result.append("Total: $totalAmount Rs")
+            Toast.makeText(applicationContext, result.toString(), Toast.LENGTH_LONG).show()
+        }
+    }
+}

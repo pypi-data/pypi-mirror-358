@@ -1,0 +1,73 @@
++ --------------------------------------------------------------+         
+|   this code is for image google_alert.png                     |
+|                                                               |
++ --------------------------------------------------------------+ 
+
+
+============================================================================================================
+MainActivity.kt
+=========================================================================================================
+res->drawable->new->image asset->clipArt->double click on click art->change icon to clo0ck(as ur wish)->next->finish
+
+                                            |
+                                            |
+                                           \ /
+
+package com.example.sum
+
+import android.app.Activity
+import android.app.AlertDialog
+import android.os.Bundle
+import android.view.View
+import android.widget.Toast
+
+class MainActivity : Activity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+    }
+
+    fun showDialog(view: View) {
+        val alertDialogBuilder = AlertDialog.Builder(this)
+
+        alertDialogBuilder.setTitle("Use Google's location service?")
+        alertDialogBuilder.setIcon(R.drawable.ic_baseline_access_time_filled_24) // Use your own icon in res/drawable
+        alertDialogBuilder.setMessage("Let Google help apps determine locations. " +
+                "This means sending anonymous location data to Google even when no apps are running.")
+        alertDialogBuilder.setCancelable(false)
+
+        alertDialogBuilder.setPositiveButton("AGREE") { _, _ ->
+            Toast.makeText(this, "You agreed", Toast.LENGTH_SHORT).show()
+        }
+
+        alertDialogBuilder.setNegativeButton("DISAGREE") { _, _ ->
+            Toast.makeText(this, "You disagreed", Toast.LENGTH_SHORT).show()
+        }
+
+        val alertDialog = alertDialogBuilder.create()
+        alertDialog.show()
+    }
+}
+
+
+============================================================================================================
+activity_main.xml
+=========================================================================================================
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#ECECEC"
+    android:gravity="center">
+
+    <Button
+        android:id="@+id/dialogButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DIALOG"
+        android:onClick="showDialog"
+        android:layout_centerInParent="true"/>
+</RelativeLayout>

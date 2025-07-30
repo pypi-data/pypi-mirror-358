@@ -1,0 +1,116 @@
+
++ --------------------------------------------------------------+         
+|   this code is for image toast_counter_landscape.png          |
+|                                                               |
++ --------------------------------------------------------------+ 
+
+
+--------------------------------------------
+activity_main.xml
+---------------------------------------------
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <!-- Show Count TextView -->
+    <TextView
+        android:id="@+id/textViewCount"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="0"
+        android:textSize="120sp"
+        android:background="#FFFF00"
+        android:textColor="#0000AA" />
+
+    <!-- Toast Button (Top) -->
+    <Button
+        android:id="@+id/buttonToast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TOAST"
+        android:onClick="showToast"
+        android:layout_alignTop="@id/textViewCount"
+        android:layout_toStartOf="@id/textViewCount"
+        android:layout_marginEnd="16dp" />
+
+    <!-- Zero Button (Middle) -->
+    <Button
+        android:id="@+id/buttonZero"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ZERO"
+        android:onClick="resetCount"
+        android:background="#CCCCCC"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@id/textViewCount"
+        android:layout_marginEnd="16dp" />
+
+    <!-- Count Button (Bottom) -->
+    <Button
+        android:id="@+id/buttonCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="COUNT"
+        android:onClick="countUp"
+        android:layout_alignBottom="@id/textViewCount"
+        android:layout_toStartOf="@id/textViewCount"
+        android:layout_marginEnd="16dp" />
+</RelativeLayout>
+
+
+
+--------------------------------------------
+MainActivity.kt
+---------------------------------------------
+
+
+import android.app.Activity
+import android.graphics.Color
+import android.os.Bundle
+import android.view.View
+import android.widget.Button
+import android.widget.TextView
+import android.widget.Toast
+
+class MainActivity : Activity() {
+
+    private lateinit var countTextView: TextView
+    private lateinit var countButton: Button
+    private var count = 0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        countTextView = findViewById(R.id.textViewCount)
+        countButton = findViewById(R.id.buttonCount)
+    }
+
+    fun showToast(view: View) {
+        Toast.makeText(this, "Hello Toast!", Toast.LENGTH_SHORT).show()
+    }
+
+    fun countUp(view: View) {
+        count++
+        countTextView.text = count.toString()
+
+        // Change background color based on odd/even
+        if (count % 2 == 0) {
+            countButton.setBackgroundColor(Color.parseColor("#0000FF")) // Blue for even
+        } else {
+            countButton.setBackgroundColor(Color.parseColor("#FF5722")) // Orange for odd
+        }
+    }
+
+    fun resetCount(view: View) {
+        count = 0
+        countTextView.text = "0"
+        countButton.setBackgroundColor(Color.parseColor("#0000FF")) // Reset to blue
+    }
+}

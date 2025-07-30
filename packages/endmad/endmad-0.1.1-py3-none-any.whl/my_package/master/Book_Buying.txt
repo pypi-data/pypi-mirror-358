@@ -1,0 +1,107 @@
+1.Create an App to compute total cost incurred for
+buying BOOKS in an outlet. If the cost exceeds Rs. 300,
+give discount of 10%. Use Checkbox to display the list
+of items.
+
+
+--------------------------------------------
+activity_main.xml
+---------------------------------------------
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#E8F5E9">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select books to purchase:"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:paddingBottom="10dp" />
+
+    <CheckBox
+        android:id="@+id/book1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Data Structures - ₹150" />
+
+    <CheckBox
+        android:id="@+id/book2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Operating Systems - ₹180" />
+
+    <CheckBox
+        android:id="@+id/book3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Computer Networks - ₹200" />
+
+    <Button
+        android:id="@+id/calculateBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calculate Total"
+        android:layout_marginTop="20dp"
+        android:background="#4CAF50"
+        android:textColor="#FFFFFF"
+        android:padding="10dp" />
+
+    <TextView
+        android:id="@+id/resultView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Total cost will be shown here."
+        android:textSize="16sp"
+        android:textColor="#000000"
+        android:paddingTop="20dp" />
+</LinearLayout>
+
+
+=====================================================================
+MainActivity.kt
+=====================================================================
+
+
+import android.app.Activity
+import android.os.Bundle
+import android.widget.Button
+import android.widget.CheckBox
+import android.widget.TextView
+
+class MainActivity : Activity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val book1 = findViewById<CheckBox>(R.id.book1)
+        val book2 = findViewById<CheckBox>(R.id.book2)
+        val book3 = findViewById<CheckBox>(R.id.book3)
+        val calculateBtn = findViewById<Button>(R.id.calculateBtn)
+        val resultView = findViewById<TextView>(R.id.resultView)
+
+        calculateBtn.setOnClickListener {
+            var total = 0
+
+            if (book1.isChecked) total += 150
+            if (book2.isChecked) total += 180
+            if (book3.isChecked) total += 200
+
+            val discount = if (total > 300) total * 0.10 else 0.0
+            val finalAmount = total - discount
+
+            val result = if (discount > 0)
+                "Total: ₹$total\nDiscount: ₹${discount.toInt()}\nPayable: ₹${finalAmount.toInt()}"
+            else
+                "Total: ₹$total\nNo discount applied."
+
+            resultView.text = result
+        }
+    }
+}

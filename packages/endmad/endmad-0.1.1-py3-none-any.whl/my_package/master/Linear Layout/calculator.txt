@@ -1,0 +1,162 @@
++ --------------------------------------------------------------+         
+|   this code is for image calculator.png                       |
+|                                                               |
++ --------------------------------------------------------------+ 
+
+
+
+--------------------------------------------
+activity_main.xml
+---------------------------------------------
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Operand 1" />
+
+    <EditText
+        android:id="@+id/editTextInput1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:hint="Enter first number"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Operand 2" />
+
+    <EditText
+        android:id="@+id/editTextInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:hint="Enter second number"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Operand1 = Operand1 Operator Operand2"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="8dp">
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="+" />
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="-" />
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="*" />
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="/" />
+    </LinearLayout>
+</LinearLayout>
+
+
+--------------------------------------------
+MainActivity.kt
+---------------------------------------------
+
+
+
+import android.app.Activity
+import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+
+class MainActivity : Activity() {
+
+    private lateinit var editTextInput1: EditText
+    private lateinit var editTextInput2: EditText
+    private lateinit var resultTextView: TextView
+
+    private lateinit var buttonAdd: Button
+    private lateinit var buttonSub: Button
+    private lateinit var buttonMul: Button
+    private lateinit var buttonDiv: Button
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        editTextInput1 = findViewById(R.id.editTextInput1)
+        editTextInput2 = findViewById(R.id.editTextInput)
+        resultTextView = findViewById(R.id.textView4)
+
+        buttonAdd = findViewById(R.id.button1)
+        buttonSub = findViewById(R.id.button2)
+        buttonMul = findViewById(R.id.button3)
+        buttonDiv = findViewById(R.id.button4)
+
+        buttonAdd.setOnClickListener { performOperation('+') }
+        buttonSub.setOnClickListener { performOperation('-') }
+        buttonMul.setOnClickListener { performOperation('*') }
+        buttonDiv.setOnClickListener { performOperation('/') }
+    }
+
+    private fun performOperation(operator: Char) {
+        val num1 = editTextInput1.text.toString().toDoubleOrNull()
+        val num2 = editTextInput2.text.toString().toDoubleOrNull()
+
+        if (num1 == null || num2 == null) {
+            resultTextView.text = "Invalid input"
+            return
+        }
+
+        val result = when (operator) {
+            '+' -> num1 + num2
+            '-' -> num1 - num2
+            '*' -> num1 * num2
+            '/' -> {
+                if (num2 == 0.0) {
+                    resultTextView.text = "Cannot divide by zero"
+                    return
+                } else {
+                    num1 / num2
+                }
+            }
+            else -> return
+        }
+
+        resultTextView.text = "$num1 $operator $num2 = $result"
+    }
+}

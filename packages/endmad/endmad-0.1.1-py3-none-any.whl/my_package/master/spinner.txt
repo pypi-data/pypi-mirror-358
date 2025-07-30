@@ -1,0 +1,92 @@
+activity_main.xml :
+
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/result"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:text="Hello World!"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:background="#fb6f92"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinnerCountry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/result"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</android.support.constraint.ConstraintLayout>
+
+
+---------------------------------------------------------------------------
+
+MainActivity.kt :
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import android.widget.TextView
+
+class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
+
+    lateinit var spinner: Spinner
+    lateinit var result: TextView
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        spinner = findViewById(R.id.spinnerCountry)
+        result = findViewById(R.id.result)
+
+        val arrayAdapter = ArrayAdapter.createFromResource(
+            this,
+            R.array.countries,
+            android.R.layout.simple_spinner_item
+        )
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = arrayAdapter
+
+        spinner.onItemSelectedListener = this
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+        result.text = parent.getItemAtPosition(position).toString()
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>) {
+        // Do nothing
+    }
+}
+
+---------------------------------------------------------------------------
+
+strings.xml 
+
+<resources>
+    <string name="app_name">Spinner</string>
+    <string-array name="countries">
+        <item>India</item>
+        <item>America</item>
+        <item>Srilanka</item>
+        <item>England</item>
+        <item>Germany</item>
+    </string-array>
+</resources>

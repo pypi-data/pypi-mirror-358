@@ -1,0 +1,87 @@
+
+
+--------------------------------------------
+activity_main.xml
+---------------------------------------------
+
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <CheckBox
+        android:id="@+id/checkBox1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="88dp"
+        android:button="@drawable/ic_baseline_add_reaction_24"
+        android:checked="true"
+        android:minHeight="48dp"
+        android:text="CheckBox1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <CheckBox
+        android:id="@+id/checkBox2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="428dp"
+        android:button="@drawable/ic_baseline_add_reaction_24"
+        android:checked="false"
+        android:minHeight="48dp"
+        android:text="CheckBox2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="292dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
+
+=====================================================================
+MainActivity.kt
+=====================================================================
+
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Button
+import android.widget.CheckBox
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        var btn=findViewById<Button>(R.id.button)
+        btn.setOnClickListener{
+            var ck1=findViewById<CheckBox>(R.id.checkBox1)
+            var ck2=findViewById<CheckBox>(R.id.checkBox2)
+            var sb=StringBuilder("")
+            if(ck1.isChecked)
+                sb.append(" "+ck1.text)
+            if(ck2.isChecked)
+                sb.append(" "+ck2.text)
+            Toast.makeText(this,sb,Toast.LENGTH_LONG).show()
+        }
+    }
+}
+==============================
+drawable-->right click-->vector asset-->select image and check the size
+
+do same for the rADIO BUTTONS -->CUSTOM RADIO BUTTON

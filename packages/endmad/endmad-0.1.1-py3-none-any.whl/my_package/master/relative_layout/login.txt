@@ -1,0 +1,94 @@
++ --------------------------------------------------------------+         
+|   this code is for image login.png                            |
+|                                                               |
++ --------------------------------------------------------------+ 
+
+
+
+--------------------------------------------
+activity_main.xml
+---------------------------------------------
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00CC99"
+    tools:context=".MainActivity">
+
+    <EditText
+        android:id="@+id/text1"
+        android:hint="Username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:padding="8dp"
+        android:background="#FFFFFF" />
+
+    <EditText
+        android:id="@+id/text2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text1"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:padding="8dp"
+        android:background="#FFFFFF"
+        android:hint="Password"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:layout_below="@id/text2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:background="#004D40"
+        android:textColor="#FFFFFF" />
+
+</RelativeLayout>
+
+
+
+--------------------------------------------
+MainActivity.kt
+---------------------------------------------
+
+
+import android.app.Activity
+import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+
+class MainActivity : Activity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val usernameField = findViewById<EditText>(R.id.text1)
+        val passwordField = findViewById<EditText>(R.id.text2)
+        val loginButton = findViewById<Button>(R.id.loginButton)
+
+        loginButton.setOnClickListener {
+            val username = usernameField.text.toString().trim()
+            val password = passwordField.text.toString().trim()
+
+            if (username.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Please enter username and password", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Logging in...\nUsername: $username\nPassword: $password", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+}

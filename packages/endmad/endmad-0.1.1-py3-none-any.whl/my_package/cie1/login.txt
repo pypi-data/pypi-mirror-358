@@ -1,0 +1,87 @@
+
+LoginSingup
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/editTextUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Username"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/editTextPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:inputType="textPassword" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
+
+        <Button
+            android:id="@+id/buttonLogin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="LOGIN" />
+
+        <Button
+            android:id="@+id/buttonSignup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="SIGNUP" />
+
+    </LinearLayout>
+
+</LinearLayout>
+
+
+
+package com.example.test1
+
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val usernameEditText = findViewById<EditText>(R.id.editTextUsername)
+        val passwordEditText = findViewById<EditText>(R.id.editTextPassword)
+        val loginButton = findViewById<Button>(R.id.buttonLogin)
+
+        loginButton.setOnClickListener {
+            val enteredUsername = usernameEditText.text.toString()
+            val enteredPassword = passwordEditText.text.toString()
+
+            if (enteredUsername == "vyom" && enteredPassword == "goyal") {
+                Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
+                // You can add code here to navigate to the next screen or perform other actions
+            } else {
+                Toast.makeText(this, "Invalid Credentials", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        val signupButton = findViewById<Button>(R.id.buttonSignup)
+        signupButton.setOnClickListener {
+            Toast.makeText(this, "Signup functionality to be implemented", Toast.LENGTH_SHORT).show()
+            // Implement your signup logic here
+        }
+    }
+}

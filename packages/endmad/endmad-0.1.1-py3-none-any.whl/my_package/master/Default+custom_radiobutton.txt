@@ -1,0 +1,118 @@
+
+
+--------------------------------------------
+activity_main.xml
+---------------------------------------------
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:gravity="center_horizontal">
+
+    <!-- Default Radio Group -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Default Radio Group"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="10dp" />
+
+    <RadioGroup
+        android:id="@+id/defaultRadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/defaultRadio1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Option 1"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/defaultRadio2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Option 2" />
+    </RadioGroup>
+
+    <!-- Custom Radio Group -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Custom Radio Group"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp" />
+
+    <RadioGroup
+        android:id="@+id/customRadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/customRadio1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Custom 1"
+            android:button="@drawable/ic_baseline_add_reaction_24" />
+
+        <RadioButton
+            android:id="@+id/customRadio2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Custom 2"
+            android:button="@drawable/ic_baseline_add_reaction_24" />
+    </RadioGroup>
+
+    <!-- Button to Show Selected Option -->
+    <Button
+        android:id="@+id/showButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SHOW SELECTED"
+        android:layout_marginTop="20dp" />
+</LinearLayout>
+
+=====================================================================
+MainActivity.kt
+=====================================================================
+
+
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import android.widget.*
+
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val defaultGroup = findViewById<RadioGroup>(R.id.defaultRadioGroup)
+        val customGroup = findViewById<RadioGroup>(R.id.customRadioGroup)
+        val showButton = findViewById<Button>(R.id.showButton)
+
+        showButton.setOnClickListener {
+            val defaultSelectedId = defaultGroup.checkedRadioButtonId
+            val customSelectedId = customGroup.checkedRadioButtonId
+
+            val defaultRadio = findViewById<RadioButton>(defaultSelectedId)
+            val customRadio = findViewById<RadioButton>(customSelectedId)
+
+            val result = "Default: ${defaultRadio.text}\nCustom: ${customRadio.text}"
+            Toast.makeText(this, result, Toast.LENGTH_LONG).show()
+        }
+    }
+}
+
+
+==============================
+drawable-->right click-->vector asset-->select image and check the size

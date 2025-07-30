@@ -1,0 +1,167 @@
++ --------------------------------------------------------------+         
+|   this code is for image fragment.png                         |
+|                                                               |
++ --------------------------------------------------------------+ 
+
+
+right click on com.example.fragments (inside java folder (1st folder)) -> new ->Fragment -> Fragment(Blank) (name as fragment1.kt,fragment2.kt)
+
+
+=============================================
+activity_main.xml
+=============================================
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/bf1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Load Fragment 1"
+            android:background="#2196F3"/>
+
+        <Button
+            android:id="@+id/bf2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Load Fragment 2"
+            android:background="#FFEB3B"
+            android:layout_marginStart="10dp"/>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"/>
+</LinearLayout>
+
+=============================================
+fragment1.xml
+=============================================
+
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Fragment 1"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:textColor="#FFFFFF"
+        android:background="#2196F3" />
+</FrameLayout>
+
+=============================================
+fragment2.xml
+=============================================
+
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Fragment 2"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:textColor="#FFFFFF"
+        android:background="#FFEB3B" />
+</FrameLayout>
+
+
+=============================================
+MainActivity.kt
+=============================================
+
+package com.example.cie3_fragments
+
+import android.app.Activity
+import android.app.Fragment
+import android.app.FragmentManager
+import android.os.Bundle
+import android.widget.Button
+
+class MainActivity : Activity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val btn1 = findViewById<Button>(R.id.bf1)
+        val btn2 = findViewById<Button>(R.id.bf2)
+
+        btn1.setOnClickListener {
+            goToFragment(Fragment1())
+        }
+
+        btn2.setOnClickListener {
+            goToFragment(Fragment2())
+        }
+    }
+
+    private fun goToFragment(fragment: Fragment) {
+        val myFragmentManager = fragmentManager  // This is fine now
+        val transaction = myFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragmentContainer, fragment)
+        transaction.commit()
+    }
+}
+
+=============================================
+fragment1.kt
+=============================================
+
+package com.example.cie3_fragments
+
+
+import android.app.Fragment
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+
+class Fragment1 : Fragment() {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment1, container, false)
+    }
+}
+
+
+=============================================
+fragment2.kt
+=============================================
+
+package com.example.cie3_fragments
+
+import android.app.Fragment
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+
+class Fragment2 : Fragment() {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment2, container, false)
+    }
+}
