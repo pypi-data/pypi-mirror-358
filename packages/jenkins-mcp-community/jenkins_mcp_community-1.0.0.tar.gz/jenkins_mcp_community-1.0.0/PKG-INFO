@@ -1,0 +1,438 @@
+Metadata-Version: 2.4
+Name: jenkins-mcp-community
+Version: 1.0.0
+Summary: Community Edition Model Context Protocol (MCP) server for Jenkins CI/CD integration
+Project-URL: Homepage, https://github.com/jenkins-mcp-community/jenkins-mcp-server
+Project-URL: Documentation, https://github.com/jenkins-mcp-community/jenkins-mcp-server#readme
+Project-URL: Repository, https://github.com/jenkins-mcp-community/jenkins-mcp-server
+Project-URL: Bug Tracker, https://github.com/jenkins-mcp-community/jenkins-mcp-server/issues
+Project-URL: Changelog, https://github.com/jenkins-mcp-community/jenkins-mcp-server/blob/main/CHANGELOG.md
+Author-email: Jenkins MCP Community <jenkins-mcp-community@example.com>
+Maintainer-email: Jenkins MCP Community <jenkins-mcp-community@example.com>
+License: MIT
+License-File: LICENSE
+Keywords: ai,automation,cicd,devops,jenkins,mcp,model-context-protocol
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Console
+Classifier: Framework :: AsyncIO
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: System Administrators
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Internet :: WWW/HTTP :: HTTP Servers
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: System :: Systems Administration
+Requires-Python: >=3.10
+Requires-Dist: cachetools>=5.3.0
+Requires-Dist: httpx>=0.27.0
+Requires-Dist: jenkinsapi>=0.3.14
+Requires-Dist: loguru>=0.7.0
+Requires-Dist: mcp[cli]>=1.6.0
+Requires-Dist: pydantic>=2.10.6
+Requires-Dist: python-dotenv>=1.0.1
+Requires-Dist: python-jenkins>=1.8.0
+Requires-Dist: tenacity>=8.2.0
+Provides-Extra: dev
+Requires-Dist: mypy>=1.8.0; extra == 'dev'
+Requires-Dist: pre-commit>=4.1.0; extra == 'dev'
+Requires-Dist: pytest-asyncio>=0.23.0; extra == 'dev'
+Requires-Dist: pytest-cov>=4.1.0; extra == 'dev'
+Requires-Dist: pytest-mock>=3.12.0; extra == 'dev'
+Requires-Dist: pytest>=8.0.0; extra == 'dev'
+Requires-Dist: ruff>=0.9.7; extra == 'dev'
+Provides-Extra: test
+Requires-Dist: pytest-asyncio>=0.23.0; extra == 'test'
+Requires-Dist: pytest-cov>=4.1.0; extra == 'test'
+Requires-Dist: pytest-mock>=3.12.0; extra == 'test'
+Requires-Dist: pytest>=8.0.0; extra == 'test'
+Requires-Dist: responses>=0.24.0; extra == 'test'
+Description-Content-Type: text/markdown
+
+# Jenkins MCP Server - Community Edition
+
+![Build](https://img.shields.io/badge/build-passing-brightgreen)
+![License](https://img.shields.io/badge/License-MIT-blue.svg)
+![Python](https://img.shields.io/badge/python-3.10+-blue.svg)
+![Code Style](https://img.shields.io/badge/code%20style-ruff-000000.svg)
+![MCP](https://img.shields.io/badge/MCP-compatible-purple.svg)
+![Jenkins](https://img.shields.io/badge/Jenkins-2.400+-blue.svg)
+
+A **Community Edition** Model Context Protocol (MCP) server for Jenkins CI/CD integration, providing essential Jenkins operations through standardized tools. This open-source version focuses on core functionality for AI assistants to interact with Jenkins instances.
+
+## 🎯 Overview
+
+The Jenkins MCP Server Community Edition provides essential Jenkins integration for AI assistants with:
+
+- **Core Job Management**: List, create, and manage Jenkins jobs
+- **Build Operations**: Trigger builds and monitor build status
+- **Lightweight Design**: Focused on essential features without complexity
+- **Open Source**: MIT licensed for community use and contribution
+
+## ✨ Features
+
+### **📋 Core Features (Community Edition)**
+1. ✅ **List Jenkins Jobs** - Browse and filter Jenkins jobs with folder support
+2. ✅ **Get Job Details** - Retrieve detailed job information and build history
+3. ✅ **Create Jenkins Jobs** - Create freestyle, pipeline, and folder jobs
+4. ✅ **Trigger Builds** - Start builds with or without parameters
+5. ✅ **Get Build Status** - Monitor build progress and results
+
+### **🏗️ Architecture**
+
+```
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│   AI Assistant  │◄──►│ Jenkins MCP      │◄──►│ Jenkins Master  │
+│   (Claude, etc) │    │ Server (CE)      │    │                 │
+└─────────────────┘    └──────────────────┘    └─────────────────┘
+                              │                          │
+                              │                          ▼
+                              ▼                 ┌─────────────────┐
+                    ┌──────────────────┐       │ Jenkins Agents  │
+                    │ 5 Core Tools     │       │ (Build Nodes)   │
+                    │ - list_jobs      │       └─────────────────┘
+                    │ - get_details    │                │
+                    │ - create_job     │                ▼
+                    │ - trigger_build  │       ┌─────────────────┐
+                    │ - get_status     │       │ Build Artifacts │
+                    └──────────────────┘       └─────────────────┘
+```
+
+## 📋 Prerequisites
+
+### **System Requirements**
+- **Python**: 3.10 or higher
+- **Operating System**: Linux, macOS, or Windows
+- **Memory**: Minimum 256MB RAM
+- **Network**: HTTP/HTTPS access to Jenkins server
+
+### **Jenkins Requirements**
+- **Jenkins Version**: 2.400+ (LTS recommended)
+- **Required Plugins**: Basic Jenkins installation (no additional plugins required)
+
+### **Authentication Requirements**
+- Jenkins user account with appropriate permissions
+- API token (recommended) or username/password
+- Required Jenkins permissions:
+  - Overall/Read
+  - Job/Build, Job/Cancel, Job/Read
+  - Job/Create, Job/Configure (for job creation)
+
+## 🚀 Installation
+
+### **Method 1: From Source**
+
+```bash
+# Clone the repository
+git clone <repository-url>
+cd jenkins_mcp_community
+
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -e .
+```
+
+### **Method 2: Using Docker**
+
+```bash
+# Build the Docker image
+docker build -t jenkins-mcp-community .
+
+# Run with Docker
+docker run --rm \
+  jenkins-mcp-community \
+  --jenkins-url http://your-jenkins.com:8080 \
+  --jenkins-username your-username \
+  --jenkins-token your-api-token
+```
+
+### **Method 3: Using uvx (Recommended for Quick Testing)**
+
+```bash
+# Run directly with uvx (no installation needed)
+uvx jenkins-mcp-server@latest \
+  --jenkins-url http://your-jenkins.com:8080 \
+  --jenkins-username your-username \
+  --jenkins-token your-token
+
+# With environment variables
+JENKINS_URL=http://your-jenkins.com:8080 \
+JENKINS_USERNAME=your-username \
+JENKINS_TOKEN=your-token \
+uvx jenkins-mcp-server@latest
+```
+
+## ⚙️ Configuration
+
+### **Environment Variables**
+
+```bash
+# Required Configuration
+JENKINS_URL=http://your-jenkins-server:8080
+JENKINS_USERNAME=your-username
+JENKINS_TOKEN=your-api-token
+
+# Optional Configuration
+JENKINS_TIMEOUT=30                    # Request timeout in seconds
+```
+
+### **Getting Jenkins API Token**
+
+1. Log into your Jenkins instance
+2. Go to **Manage Jenkins** → **Manage Users**
+3. Click on your username → **Configure**
+4. Under **API Token**, click **Add new Token**
+5. Generate and copy the token (store securely)
+
+## 📖 Usage
+
+### **Command Line Interface**
+
+```bash
+# Basic usage
+python -m jenkins_mcp_server
+
+# With custom configuration
+python -m jenkins_mcp_server \
+  --jenkins-url http://localhost:8080 \
+  --jenkins-username your-username \
+  --jenkins-token your-token \
+  --log-level DEBUG
+```
+
+### **With AI Assistants**
+
+#### **Amazon Q Developer CLI**
+
+Add to your MCP configuration:
+
+```json
+{
+  "mcpServers": {
+    "jenkins": {
+      "command": "python",
+      "args": [
+        "-m", "jenkins_mcp_server",
+        "--jenkins-url", "http://your-jenkins.com",
+        "--jenkins-username", "your-username", 
+        "--jenkins-token", "your-token"
+      ]
+    }
+  }
+}
+```
+
+#### **Claude Desktop**
+
+Add to `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "jenkins": {
+      "command": "python",
+      "args": ["-m", "jenkins_mcp_server"],
+      "env": {
+        "JENKINS_URL": "http://your-jenkins.com",
+        "JENKINS_USERNAME": "your-username",
+        "JENKINS_TOKEN": "your-token"
+      }
+    }
+  }
+}
+```
+
+### **Available MCP Tools (Community Edition)**
+
+| Tool | Description | Example Usage |
+|------|-------------|---------------|
+| `list_jenkins_jobs` | List jobs with filtering | List all jobs in "production" folder |
+| `get_job_details` | Get detailed job information | Get details for "my-pipeline" job |
+| `create_jenkins_job` | Create new jobs | Create a freestyle job with build steps |
+| `trigger_jenkins_build` | Trigger builds with parameters | Trigger build with BRANCH=main |
+| `get_build_status` | Get build status and info | Get status of build #42 |
+
+### **Example Interactions**
+
+```bash
+# List all jobs
+"Show me all Jenkins jobs"
+
+# Create a new job
+"Create a freestyle job called 'my-app-build'"
+
+# Trigger a build with parameters
+"Trigger a build for 'my-pipeline' with ENVIRONMENT=staging"
+
+# Get build status
+"What's the status of the latest build for 'my-app'?"
+
+# Get job details
+"Show me details for the 'deployment-pipeline' job"
+```
+
+## 📁 Project Structure
+
+```
+jenkins_mcp_community/
+├── 📄 README.md                     # This file
+├── 📄 LICENSE                       # MIT license
+├── ⚙️ pyproject.toml                # Project configuration
+├── 🐳 Dockerfile                    # Docker image definition
+├── 📦 jenkins_mcp_server/           # Main package
+│   ├── 🐍 __init__.py              # Package initialization
+│   ├── 🐍 __main__.py              # CLI entry point
+│   ├── 🐍 server.py                # FastMCP server implementation
+│   ├── 🐍 models.py                # Pydantic data models
+│   ├── 🐍 exceptions.py            # Custom exception classes
+│   ├── 📁 handlers/                # Request handlers
+│   │   ├── 🐍 base_handler.py      # Base handler with common functionality
+│   │   ├── 🐍 job_handler.py       # Job management operations
+│   │   └── 🐍 build_handler.py     # Build management operations
+│   └── 📁 utils/                   # Utility modules
+│       ├── 🐍 cache.py             # Simple caching system
+│       ├── 🐍 connection_pool.py   # HTTP connection pooling
+│       ├── 🐍 retry.py             # Retry logic with backoff
+│       ├── 🐍 validation.py        # Input validation
+│       ├── 🐍 logging_helper.py    # Structured logging
+│       └── 🐍 path_utils.py        # Path manipulation utilities
+└── 🧪 tests/                       # Test suite
+    ├── 🧪 conftest.py              # Pytest configuration
+    ├── 📁 unit/                    # Unit tests
+    └── 📁 integration/             # Integration tests
+```
+
+## 🧪 Testing
+
+```bash
+# Run all tests
+pytest
+
+# Run with coverage
+pytest --cov=jenkins_mcp_server --cov-report=html
+
+# Run specific test categories
+pytest tests/unit/          # Unit tests only
+pytest tests/integration/   # Integration tests only
+```
+
+## 🔒 Security Considerations
+
+### **Authentication & Authorization**
+
+- **API Tokens**: Use Jenkins API tokens instead of passwords
+- **Least Privilege**: Grant minimum required permissions
+- **Secure Storage**: Store credentials in environment variables
+
+### **Required Jenkins Permissions**
+
+```
+Overall:
+  - Read
+
+Job:
+  - Build (for triggering builds)
+  - Configure (for creating/updating jobs)
+  - Create (for creating new jobs)
+  - Read (for viewing job details)
+```
+
+### **Network Security**
+
+- **HTTPS**: Use HTTPS for Jenkins connections in production
+- **Firewall**: Restrict network access to Jenkins server
+- **Certificate Validation**: Enable SSL certificate verification
+
+## 🤝 Contributing
+
+We welcome contributions to this open-source project!
+
+### **Development Setup**
+
+```bash
+# Fork and clone the repository
+git clone <your-fork-url>
+cd jenkins_mcp_community
+
+# Create development environment
+python -m venv venv
+source venv/bin/activate
+
+# Install development dependencies
+pip install -e ".[dev,test]"
+
+# Run tests
+pytest
+```
+
+### **Pull Request Process**
+
+1. **Fork** the repository
+2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+3. **Make** your changes with tests
+4. **Ensure** all tests pass (`pytest`)
+5. **Commit** your changes (`git commit -m 'Add amazing feature'`)
+6. **Push** to the branch (`git push origin feature/amazing-feature`)
+7. **Open** a Pull Request
+
+### **Code Standards**
+
+- **Code Style**: Follow PEP 8 (enforced by `ruff`)
+- **Type Hints**: Use type hints throughout
+- **Documentation**: Update docstrings and documentation
+- **Tests**: Add tests for new functionality
+- **Commit Messages**: Use conventional commit format
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+```
+MIT License
+
+Copyright (c) 2024 Jenkins MCP Community
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+## 🙏 Acknowledgements
+
+### **Core Dependencies**
+- **[FastMCP](https://github.com/pydantic/fastmcp)** - Modern MCP server framework
+- **[python-jenkins](https://github.com/python-jenkins/python-jenkins)** - Jenkins API client
+- **[Pydantic](https://github.com/pydantic/pydantic)** - Data validation and settings management
+- **[httpx](https://github.com/encode/httpx)** - Modern HTTP client
+
+### **Special Thanks**
+- **Jenkins Community** - For the amazing CI/CD platform
+- **MCP Protocol Team** - For the standardized AI integration protocol
+- **Python Community** - For the excellent ecosystem of tools and libraries
+
+---
+
+**Jenkins MCP Server Community Edition - Open Source Jenkins Integration for AI**
