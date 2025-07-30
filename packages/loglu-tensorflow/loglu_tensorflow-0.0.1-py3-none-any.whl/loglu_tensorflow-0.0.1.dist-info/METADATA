@@ -1,0 +1,50 @@
+Metadata-Version: 2.1
+Name: loglu-tensorflow
+Version: 0.0.1
+Summary: LogLU Activation Function - TensorFlow
+Home-page: https://github.com/XenReZ/LogLU-TensorFlow
+Author: Rishi Chaitanya
+Author-email: rishichaitanya888@gmail.com
+License: Apache-2.0
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Requires-Dist: tensorflow>=2.10.0
+Requires-Dist: keras>=2.10.0
+
+
+### Installation
+
+To use LogLU, simply install it using the following command:
+
+```bash
+pip install loglu-tensorflow
+```
+
+### Implementation
+
+```python
+import tensorflow as tf
+from loglu_tensorflow import LogLU # Importing the LogLU activation function from the loglu package
+
+# Define a model
+model = tf.keras.models.Sequential([
+    tf.keras.layers.Dense(128, input_shape=(784,)),
+    tf.keras.layers.Activation(LogLU()),  # Use LogLU as the activation function
+    tf.keras.layers.Dense(10, activation='softmax')
+])
+
+# Compile the model
+
+# Summary of the model
+model.summary()
+```
+
+## License
+
+LogLU-TensorFlow is released under the [Apache License 2.0](https://github.com/XenReZ/LogLU-TensorFlow/blob/main/LICENSE).
