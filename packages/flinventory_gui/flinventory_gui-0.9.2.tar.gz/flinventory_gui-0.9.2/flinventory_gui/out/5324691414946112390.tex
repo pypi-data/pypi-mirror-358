@@ -1,0 +1,38 @@
+\documentclass{standalone}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{adjustbox}
+\usepackage[utf8]{inputenc}
+\usepackage{relsize}
+\usepackage{setspace}
+\linespread{0.75}
+\setlength\parindent{0pt}
+\begin{document}
+\setlength{\fboxsep}{0pt}
+\fbox{%
+  % need sizes:
+  % width (reduce by 0.24 cm)
+  % height
+  % text primary language
+  % text secondary language
+  % image path
+  % location shortcut
+  % optional: text size (default: \relscale{1} or something guessed based on existing algorithm)
+  % optional: image height (otherwise half of entire size)
+  \begin{minipage}[t][3.5cm][t]{4.86cm}
+    \vspace{1mm}
+    \setlength{\parskip}{0pt}
+    \centering
+    {\relscale{1.3888888888888888}
+      Nabendynano
+    }
+
+    {\relscale{1.9452651031598398} }
+
+    \vspace*{1pt}
+    \includegraphics[height=1.75cm,keepaspectratio,width=4.86cm]{../../../../../Hobby/fahrrad/things-data/things/3j8a2/image.png}
+    \vspace*{-.8\baselineskip}
+    \flushright {\tiny R-L-L-22-4}
+  \end{minipage}
+}
+\end{document}
