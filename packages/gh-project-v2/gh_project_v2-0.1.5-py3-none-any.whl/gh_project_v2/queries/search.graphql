@@ -1,0 +1,49 @@
+query ($query: String!, $type: SearchType!, $first: Int = 20, $after: String) {
+  search(query: $query, type: $type, first: $first, after: $after) {
+    nodes {
+      __typename
+      ... on Issue {
+        id
+        number
+        title
+        url
+        state
+        createdAt
+        updatedAt
+        author {
+          login
+        }
+        repository {
+          nameWithOwner
+        }
+      }
+      ... on PullRequest {
+        id
+        number
+        title
+        url
+        state
+        createdAt
+        updatedAt
+        author {
+          login
+        }
+        repository {
+          nameWithOwner
+        }
+      }
+      ... on Repository {
+        id
+        name
+        nameWithOwner
+        url
+        description
+        stargazerCount
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}

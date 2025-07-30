@@ -1,0 +1,25 @@
+query GetRepositoryReleases($owner: String!, $repo: String!, $first: Int = 20, $after: String) {
+  repository(owner: $owner, name: $repo) {
+    releases(first: $first, after: $after) {
+      nodes {
+        id
+        name
+        tagName
+        createdAt
+        publishedAt
+        updatedAt
+        description
+        isDraft
+        isPrerelease
+        url
+        author {
+          login
+        }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}

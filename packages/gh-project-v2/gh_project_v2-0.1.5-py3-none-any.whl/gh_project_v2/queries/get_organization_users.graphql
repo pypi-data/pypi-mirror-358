@@ -1,0 +1,24 @@
+query GetOrganizationUsers($login: String!, $first: Int = 20, $after: String) {
+  organization(login: $login) {
+    membersWithRole(first: $first, after: $after) {
+      nodes {
+        id
+        login
+        name
+        email
+        bio
+        company
+        location
+        websiteUrl
+        url
+        avatarUrl
+        createdAt
+        updatedAt
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}

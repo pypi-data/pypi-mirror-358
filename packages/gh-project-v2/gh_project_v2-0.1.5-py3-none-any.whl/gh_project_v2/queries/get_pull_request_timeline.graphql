@@ -1,0 +1,467 @@
+query($owner: String!, $repo: String!, $number: Int!, $first: Int = 20, $after: String) {
+  repository(owner: $owner, name: $repo) {
+    pullRequest(number: $number) {
+      timelineItems(first: $first, after: $after) {
+        nodes {
+          __typename
+          ... on Node {
+            id
+          }
+          ... on AddedToProjectEvent {
+            createdAt
+            actor {
+              login
+            }
+            project {
+              name
+              url
+            }
+          }
+          ... on AssignedEvent {
+            createdAt
+            actor {
+              login
+            }
+            assignee {
+              ... on User {
+                login
+              }
+            }
+          }
+          ... on ClosedEvent {
+            createdAt
+            actor {
+              login
+            }
+            stateReason
+          }
+          ... on CommentDeletedEvent {
+            createdAt
+            actor {
+              login
+            }
+          }
+          ... on CrossReferencedEvent {
+            createdAt
+            actor {
+              login
+            }
+            source {
+              ... on Issue {
+                number
+                title
+                url
+                repository {
+                  name
+                  owner {
+                    login
+                  }
+                }
+              }
+              ... on PullRequest {
+                number
+                title
+                url
+                repository {
+                  name
+                  owner {
+                    login
+                  }
+                }
+              }
+            }
+          }
+          ... on DemilestonedEvent {
+            id
+            createdAt
+            actor {
+              login
+            }
+            milestoneTitle
+            subject {
+              ... on Issue {
+                number
+                title
+                url
+                repository {
+                  name
+                  owner {
+                    login
+                  }
+                }
+              }
+              ... on PullRequest {
+                number
+                title
+                url
+                repository {
+                  name
+                  owner {
+                    login
+                  }
+                }
+              }
+            }
+          }
+          ... on IssueComment {
+            createdAt
+            actor: author {
+              login
+            }
+            body
+            url
+            updatedAt
+          }
+          ... on IssueTypeAddedEvent {
+            createdAt
+            actor {
+              login
+            }
+            issueType {
+              id
+              name
+              description
+              color
+            }
+          }
+          ... on IssueTypeChangedEvent {
+            id
+            createdAt
+            actor {
+              login
+            }
+            prevIssueType {
+              id
+              name
+              description
+              color
+            }
+            issueType {
+              id
+              name
+              description
+              color
+            }
+          }
+          ... on IssueTypeRemovedEvent {
+            createdAt
+            actor {
+              login
+            }
+            issueType {
+              id
+              name
+              description
+              color
+            }
+          }
+          ... on LabeledEvent {
+            createdAt
+            actor {
+              login
+            }
+            label {
+              name
+              color
+            }
+          }
+          ... on LockedEvent {
+            createdAt
+            actor {
+              login
+            }
+            lockReason
+          }
+          ... on MarkedAsDuplicateEvent {
+            createdAt
+            actor {
+              login
+            }
+            canonical {
+              ... on Issue {
+                number
+                title
+                url
+                repository {
+                  name
+                  owner {
+                    login
+                  }
+                }
+              }
+              ... on PullRequest {
+                number
+                title
+                url
+                repository {
+                  name
+                  owner {
+                    login
+                  }
+                }
+              }
+            }
+            duplicate {
+              ... on Issue {
+                number
+                title
+                url
+                repository {
+                  name
+                  owner {
+                    login
+                  }
+                }
+              }
+              ... on PullRequest {
+                number
+                title
+                url
+                repository {
+                  name
+                  owner {
+                    login
+                  }
+                }
+              }
+            }
+          }
+          ... on MentionedEvent {
+            createdAt
+            actor {
+              login
+            }
+          }
+          ... on MergedEvent {
+            createdAt
+            actor {
+              login
+            }
+            commit {
+              oid
+            }
+            mergeRefName
+          }
+          ... on MilestonedEvent {
+            createdAt
+            actor {
+              login
+            }
+            milestoneTitle
+            subject {
+              ... on Issue {
+                number
+                title
+                url
+                repository {
+                  name
+                  owner {
+                    login
+                  }
+                }
+              }
+              ... on PullRequest {
+                number
+                title
+                url
+                repository {
+                  name
+                  owner {
+                    login
+                  }
+                }
+              }
+            }
+          }
+          ... on MovedColumnsInProjectEvent {
+            createdAt
+            actor {
+              login
+            }
+            project {
+              name
+              url
+            }
+            previousProjectColumnName
+            projectColumnName
+          }
+          ... on ParentIssueAddedEvent {
+            createdAt
+            actor {
+              login
+            }
+            parent {
+              ... on Issue {
+                number
+                title
+                url
+                repository {
+                  name
+                  owner {
+                    login
+                  }
+                }
+              }
+            }
+          }
+          ... on ParentIssueRemovedEvent {
+            createdAt
+            actor {
+              login
+            }
+            parent {
+              ... on Issue {
+                number
+                title
+                url
+                repository {
+                  name
+                  owner {
+                    login
+                  }
+                }
+              }
+            }
+          }
+          ... on PinnedEvent {
+            createdAt
+            actor {
+              login
+            }
+          }
+          ... on ReferencedEvent {
+            createdAt
+            actor {
+              login
+            }
+            subject {
+              ... on Issue {
+                number
+                title
+                url
+                repository {
+                  name
+                  owner {
+                    login
+                  }
+                }
+              }
+              ... on PullRequest {
+                number
+                title
+                url
+                repository {
+                  name
+                  owner {
+                    login
+                  }
+                }
+              }
+            }
+          }
+          ... on RenamedTitleEvent {
+            createdAt
+            actor {
+              login
+            }
+            previousTitle
+            currentTitle
+          }
+          ... on ReopenedEvent {
+            createdAt
+            actor {
+              login
+            }
+          }
+          ... on SubIssueAddedEvent {
+            createdAt
+            actor {
+              login
+            }
+            subIssue {
+              ... on Issue {
+                number
+                title
+                url
+                repository {
+                  name
+                  owner {
+                    login
+                  }
+                }
+              }
+            }
+          }
+          ... on SubIssueRemovedEvent {
+            createdAt
+            actor {
+              login
+            }
+            subIssue {
+              ... on Issue {
+                number
+                title
+                url
+                repository {
+                  name
+                  owner {
+                    login
+                  }
+                }
+              }
+            }
+          }
+          ... on SubscribedEvent {
+            createdAt
+            actor {
+              login
+            }
+          }
+          ... on TransferredEvent {
+            createdAt
+            actor {
+              login
+            }
+            fromRepository {
+              name
+              owner {
+                login
+              }
+            }
+          }
+          ... on UnassignedEvent {
+            createdAt
+            actor {
+              login
+            }
+            assignee {
+              ... on User {
+                login
+              }
+            }
+          }
+          ... on UnlabeledEvent {
+            createdAt
+            actor {
+              login
+            }
+            label {
+              name
+              color
+            }
+          }
+          ... on UnsubscribedEvent {
+            createdAt
+            actor {
+              login
+            }
+          }
+        }
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+      }
+    }
+  }
+}

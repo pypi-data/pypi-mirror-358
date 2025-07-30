@@ -1,0 +1,23 @@
+query GetOrganizationRepos($login: String!, $first: Int = 20, $after: String) {
+  organization(login: $login) {
+    repositories(first: $first, after: $after) {
+      nodes {
+        id
+        name
+        nameWithOwner
+        url
+        description
+        isPrivate
+        homepageUrl
+        owner {
+          login
+          url
+        }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}

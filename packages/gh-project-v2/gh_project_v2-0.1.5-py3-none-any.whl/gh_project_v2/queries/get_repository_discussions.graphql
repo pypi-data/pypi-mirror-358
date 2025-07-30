@@ -1,0 +1,26 @@
+query GetRepositoryDiscussions($owner: String!, $repo: String!, $first: Int = 20, $after: String) {
+  repository(owner: $owner, name: $repo) {
+    discussions(first: $first, after: $after) {
+      nodes {
+        id
+        number
+        title
+        url
+        author {
+          login
+        }
+        createdAt
+        updatedAt
+        category {
+          id
+          name
+        }
+        body
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}

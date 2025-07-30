@@ -1,0 +1,14 @@
+query getLabelById($id: ID!) {
+  node(id: $id) {
+    ... on Label {
+      id
+      name
+      color
+      description
+      url
+      createdAt
+      updatedAt
+      isDefault
+    }
+  }
+}

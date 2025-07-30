@@ -1,0 +1,14 @@
+query getLabel($owner: String!, $repo: String!, $name: String!) {
+  repository(owner: $owner, name: $repo) {
+    label(name: $name) {
+      id
+      name
+      color
+      description
+      url
+      createdAt
+      updatedAt
+      isDefault
+    }
+  }
+}

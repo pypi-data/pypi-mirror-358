@@ -1,0 +1,23 @@
+query GetRepositoryIssues($owner: String!, $repo: String!, $first: Int = 20, $after: String) {
+  repository(owner: $owner, name: $repo) {
+    issues(first: $first, after: $after) {
+      nodes {
+        id
+        number
+        title
+        url
+        state
+        createdAt
+        updatedAt
+        author {
+          login
+        }
+        body
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}

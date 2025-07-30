@@ -1,0 +1,24 @@
+query getComment($id: ID!) {
+  node(id: $id) {
+    ... on IssueComment {
+      id
+      body
+      author {
+        login
+      }
+      url
+      createdAt
+      updatedAt
+    }
+    ... on PullRequestReviewComment {
+      id
+      body
+      author {
+        login
+      }
+      url
+      createdAt
+      updatedAt
+    }
+  }
+}

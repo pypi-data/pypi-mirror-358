@@ -1,0 +1,19 @@
+query GetMilestoneRepository($owner: String!, $repo: String!, $number: Int!) {
+  repository(owner: $owner, name: $repo) {
+    milestone(number: $number) {
+      repository {
+        id
+        name
+        nameWithOwner
+        url
+        description
+        isPrivate
+        homepageUrl
+        owner {
+          login
+          url
+        }
+      }
+    }
+  }
+}

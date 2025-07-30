@@ -1,0 +1,22 @@
+query($viewId: ID!, $fieldsFirst: Int = 20, $fieldsAfter: String) {
+  node(id: $viewId) {
+    ... on ProjectV2View {
+      id
+      name
+      number
+      layout
+      fields(first: $fieldsFirst, after: $fieldsAfter) {
+        nodes {
+          ... on ProjectV2FieldCommon {
+            id
+            name
+          }
+        }
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+      }
+    }
+  }
+}

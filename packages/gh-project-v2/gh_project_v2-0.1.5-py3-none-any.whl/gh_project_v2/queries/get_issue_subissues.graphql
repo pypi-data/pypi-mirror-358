@@ -1,0 +1,74 @@
+query($owner: String!, $repo: String!, $number: Int!, $first: Int!) {
+  repository(owner: $owner, name: $repo) {
+    issue(number: $number) {
+      subIssues(first: $first) {
+        nodes {
+          id
+          number
+          title
+          url
+          state
+          createdAt
+          updatedAt
+          author {
+            login
+          }
+          body
+          repository {
+            id
+            name
+            nameWithOwner
+            url
+            owner {
+              login
+              url
+            }
+            description
+            isPrivate
+            homepageUrl
+          }
+          labels(first: 20) {
+            nodes {
+              id
+              name
+              color
+              description
+              url
+              createdAt
+              updatedAt
+              isDefault
+            }
+          }
+          closed
+          closedAt
+          assignees(first: 20) {
+            nodes {
+              __typename
+              ... on User {
+                id
+                login
+                name
+                email
+                bio
+                company
+                location
+                websiteUrl
+                url
+                avatarUrl
+              }
+              ... on Organization {
+                id
+                login
+                name
+                description
+                url
+                location
+                websiteUrl
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

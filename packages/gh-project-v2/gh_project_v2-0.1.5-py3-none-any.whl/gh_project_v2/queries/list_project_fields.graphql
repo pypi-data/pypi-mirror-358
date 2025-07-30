@@ -1,0 +1,36 @@
+query($projectId: ID!, $first: Int = 20, $after: String) {
+  node(id: $projectId) {
+    ... on ProjectV2 {
+      fields(first: $first, after: $after) {
+        nodes {
+          ... on ProjectV2Field {
+            id
+            name
+            dataType
+          }
+          ... on ProjectV2IterationField {
+            id
+            name
+            configuration {
+              duration
+              startDay
+            }
+          }
+          ... on ProjectV2SingleSelectField {
+            id
+            name
+            dataType
+            options {
+              id
+              name
+            }
+          }
+        }
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+      }
+    }
+  }
+}

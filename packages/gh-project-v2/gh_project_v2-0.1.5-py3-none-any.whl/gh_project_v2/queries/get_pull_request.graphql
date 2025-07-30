@@ -1,0 +1,17 @@
+query($owner: String!, $repo: String!, $number: Int!) {
+  repository(owner: $owner, name: $repo) {
+    pullRequest(number: $number) {
+      id
+      number
+      title
+      url
+      state
+      createdAt
+      updatedAt
+      author {
+        login
+      }
+      body
+    }
+  }
+}

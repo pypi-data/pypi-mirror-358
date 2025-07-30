@@ -1,0 +1,25 @@
+query GetMilestonePullRequests($owner: String!, $repo: String!, $number: Int!, $first: Int = 20, $after: String) {
+  repository(owner: $owner, name: $repo) {
+    milestone(number: $number) {
+      pullRequests(first: $first, after: $after) {
+        nodes {
+          id
+          number
+          title
+          url
+          state
+          createdAt
+          updatedAt
+          author {
+            login
+          }
+          body
+        }
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+      }
+    }
+  }
+}

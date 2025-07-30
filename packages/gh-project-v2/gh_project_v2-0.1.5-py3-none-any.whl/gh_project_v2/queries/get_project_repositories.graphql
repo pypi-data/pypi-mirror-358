@@ -1,0 +1,25 @@
+query GetProjectRepositories($projectId: ID!, $first: Int!) {
+  node(id: $projectId) {
+    ... on ProjectV2 {
+      repositories(first: $first) {
+        nodes {
+          id
+          name
+          nameWithOwner
+          url
+          description
+          owner {
+            login
+            url
+          }
+          isPrivate
+          homepageUrl
+        }
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+query GetUserIssues($login: String!, $first: Int = 20, $after: String) {
+  user(login: $login) {
+    issues(first: $first, after: $after) {
+      nodes {
+        id
+        number
+        title
+        url
+        state
+        createdAt
+        updatedAt
+        repository {
+          owner {
+            login
+          }
+          name
+        }
+        author {
+          login
+        }
+        body
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+query GetIssueLabels($owner: String!, $repo: String!, $number: Int!, $first: Int = 20, $after: String) {
+  repository(owner: $owner, name: $repo) {
+    issue(number: $number) {
+      labels(first: $first, after: $after) {
+        nodes {
+          id
+          name
+          color
+          description
+          url
+          createdAt
+          updatedAt
+          isDefault
+        }
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+      }
+    }
+  }
+}

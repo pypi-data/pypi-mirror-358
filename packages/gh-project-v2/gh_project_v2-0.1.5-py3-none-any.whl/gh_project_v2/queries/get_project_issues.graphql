@@ -1,0 +1,207 @@
+query($projectId: ID!, $first: Int = 20, $after: String, $fieldsFirst: Int = 20, $fieldsAfter: String, $usersFirst: Int = 20) {
+  node(id: $projectId) {
+    ... on ProjectV2 {
+      items(first: $first, after: $after) {
+        nodes {
+          id
+          fieldValues(first: $fieldsFirst, after: $fieldsAfter) {
+            nodes {
+              ... on ProjectV2ItemFieldTextValue {
+                text
+                field {
+                  ... on ProjectV2FieldCommon {
+                    id
+                    name
+                  }
+                }
+              }
+              ... on ProjectV2ItemFieldDateValue {
+                date
+                field {
+                  ... on ProjectV2FieldCommon {
+                    id
+                    name
+                  }
+                }
+              }
+              ... on ProjectV2ItemFieldSingleSelectValue {
+                name
+                field {
+                  ... on ProjectV2FieldCommon {
+                    id
+                    name
+                  }
+                }
+              }
+              ... on ProjectV2ItemFieldUserValue {
+                users(first: $usersFirst) {
+                  nodes {
+                    login
+                  }
+                }
+                field {
+                  ... on ProjectV2FieldCommon {
+                    id
+                    name
+                    dataType
+                  }
+                }
+              }
+              ... on ProjectV2ItemFieldRepositoryValue {
+                repository {
+                  name
+                }
+                field {
+                  ... on ProjectV2FieldCommon {
+                    id
+                    name
+                    dataType
+                  }
+                }
+              }
+              ... on ProjectV2ItemFieldMilestoneValue {
+                milestone {
+                  title
+                }
+                field {
+                  ... on ProjectV2FieldCommon {
+                    id
+                    name
+                    dataType
+                  }
+                }
+              }
+            }
+            pageInfo {
+              hasNextPage
+              endCursor
+            }
+          }
+          content {
+            __typename
+            ... on Issue {
+              id
+              number
+              title
+              url
+              state
+              createdAt
+              updatedAt
+              closed
+              closedAt
+              repository {
+                id
+                name
+                nameWithOwner
+                url
+                owner {
+                  login
+                  url
+                }
+                description
+                isPrivate
+                homepageUrl
+              }
+              assignees(first: 20) {
+                nodes {
+                  __typename
+                  ... on User {
+                    id
+                    login
+                    name
+                    email
+                    bio
+                    company
+                    location
+                    websiteUrl
+                    url
+                    avatarUrl
+                  }
+                }
+              }
+              labels(first: 20) {
+                nodes {
+                  id
+                  name
+                  color
+                  description
+                  url
+                  isDefault
+                  createdAt
+                  updatedAt
+                }
+              }
+            }
+            ... on PullRequest {
+              id
+              number
+              title
+              url
+              state
+              createdAt
+              updatedAt
+              closed
+              closedAt
+              repository {
+                id
+                name
+                nameWithOwner
+                url
+                owner {
+                  login
+                  url
+                }
+                description
+                isPrivate
+                homepageUrl
+              }
+              assignees(first: 20) {
+                nodes {
+                  __typename
+                  ... on User {
+                    id
+                    login
+                    name
+                    email
+                    bio
+                    company
+                    location
+                    websiteUrl
+                    url
+                    avatarUrl
+                  }
+                }
+              }
+              labels(first: 20) {
+                nodes {
+                  id
+                  name
+                  color
+                  description
+                  url
+                  isDefault
+                  createdAt
+                  updatedAt
+                }
+              }
+            }
+            ... on DraftIssue {
+              id
+              title
+              body
+              createdAt
+              updatedAt
+              creator {
+                login
+              }
+            }
+          }
+        }
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+      }
+    }
+  }
+}
