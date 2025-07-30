@@ -1,0 +1,39 @@
+[project]
+name = "vic-au-important-dates-mcp"
+version = "0.1.3"
+license = { text = "MIT" }
+description = "MCP Server for Victoria,Australia important dates API"
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [
+    {name = "Ravi Nair", email = "ivarrian@gmail.com"}
+]
+keywords = ["victoria", "australia", "dates", "holidays", "api"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "fastmcp>=2.9.2",
+    "ipython>=9.3.0",
+    "openai-agents>=0.0.19",
+    "pydantic>=2.11.7",
+    "pyyaml>=6.0.2",
+    "requests>=2.32.4",
+    "python-dotenv>=1.0.0",
+]
+
+[project.scripts]
+vic-au-dates-mcp-server = "vic_au_important_dates_mcp.server:main"
+
+[project.urls]
+Homepage = "https://github.com/ivarrian/vic-au-important-dates-mcp"
+Repository = "https://github.com/ivarrian/vic-au-important-dates-mcp"
+Issues = "https://github.com/ivarrian/vic-au-important-dates-mcp/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
