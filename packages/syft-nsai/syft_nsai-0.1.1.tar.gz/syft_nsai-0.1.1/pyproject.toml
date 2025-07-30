@@ -1,0 +1,154 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "syft-nsai"
+dynamic = ["version"]
+description = "OpenAI-compatible interface for using SyftBox datasets with AI models in secure enclaves"
+readme = "README.md"
+license = "Apache-2.0"
+authors = [
+    { name = "OpenMined", email = "info@openmined.org" },
+]
+keywords = ["syft", "privacy", "ai", "datasets", "openai", "enclaves", "federated-learning"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Security :: Cryptography",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+requires-python = ">=3.12"
+dependencies = [
+    "syft-datasets>=0.2.0",
+    "syft-rds",
+    "syftbox-enclave",
+    "syft-core",
+    "syft-wallet>=0.1.1",
+    "typing-extensions>=4.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/OpenMined/syft-nsai"
+Documentation = "https://github.com/OpenMined/syft-nsai#readme"
+Repository = "https://github.com/OpenMined/syft-nsai"
+Issues = "https://github.com/OpenMined/syft-nsai/issues"
+Changelog = "https://github.com/OpenMined/syft-nsai/releases"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-mock>=3.10.0",
+    "coverage[toml]>=7.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.7.0",
+    "types-requests",
+    "pre-commit>=3.0.0",
+]
+
+[tool.hatch.version]
+path = "syft_nsai/__init__.py"
+pattern = "__version__ = ['\"](?P<version>[^'\"]*)['\"]"
+
+[tool.hatch.build.targets.wheel]
+packages = ["syft_nsai"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/syft_nsai",
+    "/tests",
+    "/examples",
+    "/README.md",
+    "/LICENSE",
+    "/CONTRIBUTING.md",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4", # flake8-comprehensions
+    "UP", # pyupgrade
+]
+ignore = [
+    "E501", # line too long, handled by black
+    "B008", # do not perform function calls in argument defaults
+    "C901", # too complex
+    "W293", # blank line contains whitespace (happens in f-strings)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*" = ["S101"]
+
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = [
+    "syft_rds.*",
+    "syftbox_enclave.*",
+    "syft_core.*",
+]
+ignore_missing_imports = true
+
+[tool.coverage.run]
+source = ["syft_nsai"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--verbose",
+    "-ra",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+] 

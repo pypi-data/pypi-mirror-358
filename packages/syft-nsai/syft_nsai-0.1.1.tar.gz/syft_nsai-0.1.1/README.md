@@ -1,0 +1,281 @@
+# syft-nsai
+
+**Bridge Data and AI. Privately.**
+
+An OpenAI-compatible interface for using SyftBox datasets with AI models in secure enclaves.
+
+## 🚀 What is syft-nsai?
+
+`syft-nsai` transforms how you work with federated datasets by providing a familiar OpenAI-style chat completions API that operates within secure enclaves. No more complex setup or unfamiliar APIs - just select your datasets and chat with your data.
+
+```python
+import syft_datasets as syd
+import syft_nsai as nsai
+
+# Discover datasets with beautiful interactive UI
+syd.datasets
+
+# Use them with familiar OpenAI-style API
+selected_datasets = [syd.datasets[i] for i in [0, 1, 5]]
+response = nsai.client.chat.completions.create(
+    model=selected_datasets,  # Your datasets become the "model"
+    messages=[{"role": "user", "content": "What trends do you see in this data?"}]
+)
+
+# Access results
+print(response.choices[0].message.content)
+```
+
+## ✨ Key Features
+
+- **🔒 Privacy-First**: All processing happens in secure enclaves
+- **🤝 OpenAI Compatible**: Drop-in replacement for familiar chat completions API
+- **📊 Real Data Integration**: Datasets are loaded and summarized before AI analysis
+- **⚡ Lazy Loading**: Results are fetched asynchronously for better UX
+- **🔄 Seamless Integration**: Works perfectly with `syft-datasets` for dataset discovery
+
+## 🏗️ Architecture
+
+```
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│  syft-datasets  │    │   syft-nsai      │    │  Secure Enclave │
+│                 │    │                  │    │                 │
+│ Dataset Discovery│───▶│OpenAI-style API  │───▶│  AI Processing  │
+│ Interactive UI   │    │Chat Completions  │    │  with Real Data │
+│ Search & Select  │    │Async Results     │    │                 │
+└─────────────────┘    └──────────────────┘    └─────────────────┘
+```
+
+## 📦 Installation
+
+```bash
+pip install syft-nsai
+```
+
+For development:
+```bash
+pip install syft-nsai[dev]
+```
+
+## 🔑 Configuration
+
+### Tinfoil API Key
+
+syft-nsai uses **syft-wallet** for secure API key management. When you first use NSAI, it will automatically:
+
+1. **Check syft-wallet** for your Tinfoil API key
+2. **Check environment variables** as a fallback
+3. **Prompt you to enter** the key if not found anywhere
+4. **Save it securely** to syft-wallet for future use
+
+#### First-time Setup
+
+```python
+import syft_nsai as nsai
+
+# On first use, you'll be prompted for your API key
+response = nsai.client.chat.completions.create(
+    model=datasets,
+    messages=[{"role": "user", "content": "Hello"}]
+)
+# 🔑 Tinfoil API Key Required
+# NSAI needs a Tinfoil API key to run AI models in secure enclaves.
+# You can get a free API key at: https://tinfoil.sh/
+# Please enter your Tinfoil API key: tk_xxxxx...
+# ✓ API key saved securely to syft-wallet
+```
+
+#### Manual Key Management
+
+```python
+import syft_nsai as nsai
+
+# Set or update your API key
+nsai.set_tinfoil_api_key("tk_your_new_key_here")
+# or prompt for input:
+nsai.set_tinfoil_api_key()
+
+# Check current key status
+nsai.show_tinfoil_status()
+# ✓ Tinfoil API key found: tk_SxHBk...UOFd
+
+# Get the key programmatically
+api_key = nsai.get_tinfoil_api_key()
+```
+
+#### Environment Variable Fallback
+
+You can still use environment variables:
+```bash
+export TINFOIL_API_KEY="tk_your_key_here"
+```
+
+NSAI will detect this and offer to save it to syft-wallet for easier future use.
+
+**Security Benefits**: 
+- ✅ Keys stored in 1Password (if available) or secure system keyring
+- ✅ No hardcoded keys in your code
+- ✅ One-time setup per machine
+- ✅ Automatic detection across all methods
+
+## 🚀 Quick Start
+
+### 1. Discover Datasets
+
+First, use `syft-datasets` to explore available datasets:
+
+```python
+import syft_datasets as syd
+
+# Show interactive dataset browser
+syd.datasets
+```
+
+### 2. Select and Analyze
+
+Use the selected datasets with the OpenAI-compatible API:
+
+```python
+import syft_nsai as nsai
+
+# Select datasets (from the interactive UI or programmatically)
+my_datasets = [syd.datasets[0], syd.datasets[3]]
+
+# Create chat completion
+response = nsai.client.chat.completions.create(
+    model=my_datasets,
+    messages=[
+        {"role": "system", "content": "You are a data analyst."},
+        {"role": "user", "content": "Summarize the key insights from this data."}
+    ]
+)
+
+# Results are loaded lazily when accessed
+insights = response.choices[0].message.content
+print(insights)
+```
+
+### 3. Advanced Usage
+
+```python
+# Multiple datasets for cross-analysis
+crop_data = syd.datasets.search("crop")[0]
+weather_data = syd.datasets.search("weather")[0]
+
+response = nsai.client.chat.completions.create(
+    model=[crop_data, weather_data],
+    messages=[{
+        "role": "user", 
+        "content": "Analyze the correlation between weather patterns and crop yields."
+    }]
+)
+```
+
+## 🔧 How It Works
+
+1. **Dataset Integration**: Selected datasets are loaded and analyzed within the enclave
+2. **Context Enhancement**: Your prompts are enhanced with actual dataset summaries and sample data  
+3. **Secure Processing**: AI analysis happens in a privacy-preserving enclave using Tinfoil API
+4. **Familiar Interface**: Results are returned through OpenAI-compatible response objects
+
+## 🔗 Integration with SyftBox Ecosystem
+
+`syft-nsai` is part of the broader SyftBox ecosystem:
+
+- **syft-datasets**: Dataset discovery and management
+- **syft-core**: Core SyftBox functionality  
+- **syftbox-enclave**: Secure enclave execution
+- **syft-rds**: Remote data science capabilities
+
+## 📚 API Reference
+
+### Client
+
+```python
+import syft_nsai as nsai
+
+# Global client instance
+client = nsai.client
+```
+
+### Chat Completions
+
+```python
+response = nsai.client.chat.completions.create(
+    model=datasets_list,        # List of Dataset objects
+    messages=messages_list,     # OpenAI-style messages
+    **kwargs                    # Additional parameters
+)
+```
+
+### Response Objects
+
+```python
+# ChatCompletion
+response.choices              # List of Choice objects
+
+# Choice  
+choice = response.choices[0]
+choice.message                # Message object
+
+# Message
+message = choice.message
+message.content               # Actual AI response (lazy loaded)
+```
+
+### API Key Management
+
+```python
+# Set or update Tinfoil API key
+nsai.set_tinfoil_api_key(api_key=None)  # Prompts if None
+
+# Get current API key
+api_key = nsai.get_tinfoil_api_key()    # Raises ValueError if not found
+
+# Check key status
+nsai.show_tinfoil_status()              # Shows masked key or missing status
+```
+
+## 🧪 Development
+
+### Setup
+
+```bash
+git clone https://github.com/OpenMined/syft-nsai
+cd syft-nsai
+uv sync
+```
+
+### Testing
+
+```bash
+uv run pytest
+```
+
+### Linting
+
+```bash
+uv run ruff check .
+uv run ruff format .
+```
+
+## 🤝 Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## 📄 License
+
+Licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE) for details.
+
+## 🙏 Acknowledgments
+
+Built with ❤️ by the OpenMined community. Special thanks to:
+- The Tinfoil team for secure AI infrastructure
+- SyftBox contributors for the federated data ecosystem
+- The broader privacy-preserving ML community
+
+---
+
+**Transform your data science workflow. Privately and securely.**
+
+[Get Started →](https://github.com/OpenMined/syft-nsai#quick-start) | [Documentation →](https://github.com/OpenMined/syft-nsai#api-reference) | [Examples →](./examples/) 
