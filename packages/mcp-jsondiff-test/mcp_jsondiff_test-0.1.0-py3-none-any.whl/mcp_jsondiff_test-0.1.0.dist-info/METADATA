@@ -1,0 +1,35 @@
+Metadata-Version: 2.4
+Name: mcp-jsondiff-test
+Version: 0.1.0
+Summary: [Test]
+Author-email: 'yohan' <2220041897@qq.com>
+Requires-Python: >=3.13
+Requires-Dist: build>=1.2.2.post1
+Requires-Dist: deepdiff>=8.5.0
+Requires-Dist: fastmcp>=2.9.0
+Requires-Dist: mcp[cli]>=1.9.4
+Requires-Dist: twine>=6.1.0
+Description-Content-Type: text/markdown
+
+## jsondiff MCP
+基于 Model Context Protocol (MCP) 的json对比工具
+纯个人测试用，并无对比功能
+
+## inspector
+```
+npx @modelcontextprotocol/inspector uvx mcp-jsondiff-test
+```
+
+## MCP 服务器配置
+```
+{
+  "mcpServers": {
+    "mcp_jsondiff_test": {
+        "command": "uvx",
+        "args": [
+          "mcp-jsondiff-test@latest"
+        ]
+      }
+  }
+}
+```
