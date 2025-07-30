@@ -1,0 +1,80 @@
+[project]
+name = "omegaid"
+description = "A high-performance toolbox for PhiID computation, accelerated by GPU."
+readme = "README.md"
+requires-python = ">=3.12"
+license = {file = "LICENSE"}
+keywords = ["pid","information theory", "gpu", "cupy"]
+authors = [
+  {name = "Proof of Ineffective Input", email = "Rui.Lin.ipwt@proton.me"}
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: BSD License",
+  "Programming Language :: Python :: 3 :: Only"
+]
+
+dependencies = [
+  "numba>=0.58.1",
+  "numpy",
+  "scipy",
+]
+
+dynamic = ["version"]
+
+[project.optional-dependencies]
+gpu = ["cupy"]
+
+[build-system]
+requires = ["setuptools", "versioneer[toml]"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["omegaid"]
+
+[tool.versioneer]
+VCS = "git"
+style = "pep440"
+versionfile_source = "omegaid/_version.py"
+versionfile_build = "omegaid/_version.py"
+tag_prefix = "v"
+parentdir_prefix = "omegaid-"
+
+[tool.ruff]
+select = ["E", "F", "B", "D", "NPY"]
+ignore = ["E402"]
+line-length = 120
+exclude = [
+    "setup.py",
+    "versioneer.py",
+    "omegaid/_version.py"
+]
+target-version = "py38"
+
+[tool.ruff.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["D104"]
+"omegaid/tests/*" = ["B011"]
+
+[tool.mypy]
+ignore_missing_imports = true
+
+[tool.coverage.run]
+source = ["omegaid"]
+omit = [
+    "omegaid/tests/*",
+    "omegaid/_version.py",
+]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.14.1",
+    "psutil>=7.0.0",
+    "pynvml>=11.5.3",
+    "pytest>=8.3.5",
+    "scipy-stubs>=1.16.0.0",
+    "types-psutil>=7.0.0.20250601",
+]

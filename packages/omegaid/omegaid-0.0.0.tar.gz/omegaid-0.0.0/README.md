@@ -1,0 +1,143 @@
+# ΩID
+
+[![PyPI version](https://badge.fury.io/py/omegaid.svg)](https://badge.fury.io/py/omegaid)
+[![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/dmf-archive/OmegaID)
+
+ΩID is a Python package for calculating the integrated information decomposition (ΦID) of time series data. It is designed for high-performance computing, with optional GPU acceleration via CuPy.
+
+## Usage
+
+ΩID provides multiple functions for ΦID calculation, tailored for different use cases.
+
+### Bivariate Systems (2x2)
+
+For standard 2x2 systems (e.g., two sources influencing two targets), the legacy implementation offers the highest performance.
+
+```python
+import numpy as np
+from omegaid.core.phiid import calc_phiid_ccs, calc_phiid_mmi
+
+# Generate some random data for a 2x2 system
+src = np.random.randn(1000)
+trg = np.random.randn(1000)
+
+# Calculate PhiID using the high-performance CCS method (GPU-accelerated)
+atoms_res_ccs, _ = calc_phiid_ccs(src, trg, tau=1)
+print("CCS Results (Bivariate):", atoms_res_ccs)
+
+# For theoretical comparison, use the MMI method (CPU-only)
+atoms_res_mmi, _ = calc_phiid_mmi(src, trg, tau=1)
+print("MMI Results (Bivariate):", atoms_res_mmi)
+```
+
+### Multivariate Systems (NxM)
+
+For generalized systems with N sources and M targets, use the `multivariate` functions.
+
+```python
+import numpy as np
+from omegaid.core.phiid import calc_phiid_multivariate_ccs, calc_phiid_multivariate_mmi
+
+# Generate data for a 3-source, 3-target system
+n_samples = 1000
+sources = np.random.randn(n_samples, 3)
+targets = np.random.randn(n_samples, 3)
+
+# Calculate PhiID using the generalized CCS method
+# Note: The core logic is JIT-compiled with Numba for CPU performance.
+# The `xp` backend is used for entropy calculations, allowing GPU use there.
+atoms_res_multi_ccs, _ = calc_phiid_multivariate_ccs(sources, targets, tau=1)
+print("CCS Results (Multivariate):", atoms_res_multi_ccs)
+
+# The MMI version is also available (CPU-only)
+atoms_res_multi_mmi, _ = calc_phiid_multivariate_mmi(sources, targets, tau=1)
+print("MMI Results (Multivariate):", atoms_res_multi_mmi)
+```
+
+## Installation
+
+ΩID is available on PyPI. You can install it with `pip`:
+
+### With GPU support
+
+To install ΩID with GPU support, you need to have a CUDA-enabled GPU and the CUDA toolkit installed. Then, install the package with the `gpu` extra:
+
+```bash
+pip install "omegaid[gpu]"
+```
+
+### CPU-only
+
+If you don't have a GPU or don't want to use it, you can install the CPU-only version:
+
+```bash
+pip install omegaid
+```
+
+## Benchmarks
+
+The performance of ΩID has been benchmarked across different scenarios.
+
+### Bivariate Implementation (`calc_phiid_*`)
+
+This implementation is highly optimized for 2x2 systems. It shows excellent GPU speedup with `calc_phiid_ccs` for computations involving a large number of features (dimensions).
+
+The table below shows the performance for the bivariate implementation with 50,000 samples.
+
+| Dims | Function         | NumPy Time (s) | CuPy Time (s) | Perf Ratio |
+| :--- | :--------------- | :------------- | :------------ | :--------- |
+| 16   | calc_phiid_mmi   | 0.1591         | N/A           | N/A        |
+| 16   | calc_phiid_ccs   | 0.1738         | 0.6258        | 0.28x      |
+| 64   | calc_phiid_mmi   | 0.1594         | N/A           | N/A        |
+| 64   | calc_phiid_ccs   | 0.1762         | 0.0235        | 7.51x      |
+| 256  | calc_phiid_mmi   | 0.1577         | N/A           | N/A        |
+| 256  | calc_phiid_ccs   | 0.1685         | 0.0230        | 7.31x      |
+| 512  | calc_phiid_mmi   | 0.1821         | N/A           | N/A        |
+| 512  | calc_phiid_ccs   | 0.1680         | 0.0229        | 7.34x      |
+| 1024 | calc_phiid_mmi   | 0.1783         | N/A           | N/A        |
+| 1024 | calc_phiid_ccs   | 0.1778         | 0.0237        | 7.52x      |
+
+### Generalized Multivariate Implementation (`calc_phiid_multivariate_*`)
+
+This implementation handles arbitrary N-source, M-target systems. After a major refactoring, it now correctly distinguishes between the number of variables (which determines the combinatorial complexity of the information lattice) and the feature dimensions of each variable (which determines the computational cost of the underlying entropy calculations). The entropy calculation is robust against singular covariance matrices by using an SVD-based approach on both CPU and GPU backends.
+
+### Performance Summary
+
+The table below summarizes the performance of the refactored multivariate implementation.
+
+| System (NxNxFeat) | Samples | Backend | Total Time (s) | Perf Ratio |
+| :---------------- | :------ | :------ | :------------- | :--------- |
+| **2x2x1**         | 1,000   | numpy   | 2.950          | -          |
+|                   |         | cupy    | **0.428**      | **6.89x**  |
+| **2x2x16**        | 1,000   | numpy   | **3.855**      | -          |
+|                   |         | cupy    | 6.336          | 0.61x      |
+| **2x2x32**        | 1,000   | numpy   | 13.857         | -          |
+|                   |         | cupy    | **12.521**     | **1.11x**  |
+| **3x3x1**         | 1,000   | numpy   | **1.944**      | -          |
+|                   |         | cupy    | 3.390          | 0.57x      |
+
+_Note: The legacy bivariate implementation remains the fastest option for 2x2 systems, especially those with high feature dimensions._
+
+### Conclusion
+
+1. **Refactoring Success**: The multivariate backend is now robust, handling high-dimensional features by correctly separating combinatorial (variable-level) from computational (feature-level) complexity.
+2. **Performance Trade-offs**:
+   - **GPU excels** when both variables and features are low, due to lower overhead.
+   - **CPU excels** when variable count is high, due to its optimization for combinatorial logic.
+   - When feature count is high, the raw cost of entropy calculation becomes the main bottleneck, and performance between backends becomes comparable.
+3. **Future Work**: The fundamental limit is the algorithm's exponential complexity. Further breakthroughs will require algorithmic, not just implementation, innovation.
+
+## Citation
+
+If you wish to cite this work, please use the following BibTeX entry:
+
+```bibtex
+@misc{omega_id,
+  author = {Rui, L.},
+  title  = {{ΩID: Integrated Information Decomposition}},
+  year   = {2025},
+  publisher    = {GitHub},
+  url    = {https://github.com/dmf-archive/OmegaID}
+}
+```
