@@ -1,0 +1,28 @@
+from .pyhyperscan import (check_patterns, compile_pattern, compile_multi_patterns, scan_data, free_database, HS_FLAG_CASELESS_PY,
+HS_FLAG_CASELESS_PY,
+HS_FLAG_DOTALL_PY,
+HS_FLAG_MULTILINE_PY,
+HS_FLAG_SINGLEMATCH_PY,
+HS_FLAG_ALLOWEMPTY_PY,
+HS_FLAG_UTF8_PY,
+HS_FLAG_UCP_PY,
+HS_FLAG_PREFILTER_PY,
+HS_FLAG_SOM_LEFTMOST_PY,
+HS_FLAG_COMBINATION_PY)
+
+__all__ = ["check_patterns",
+           "compile_pattern",
+           "compile_multi_patterns",
+           "scan_data", "free_database",
+           "HS_FLAG_CASELESS_PY",
+           "HS_FLAG_CASELESS_PY",
+           "HS_FLAG_DOTALL_PY",
+           "HS_FLAG_MULTILINE_PY",
+           "HS_FLAG_SINGLEMATCH_PY",
+           "HS_FLAG_ALLOWEMPTY_PY",
+           "HS_FLAG_UTF8_PY",
+           "HS_FLAG_UCP_PY",
+           "HS_FLAG_PREFILTER_PY",
+           "HS_FLAG_SOM_LEFTMOST_PY",
+           "HS_FLAG_COMBINATION_PY"
+           ]
