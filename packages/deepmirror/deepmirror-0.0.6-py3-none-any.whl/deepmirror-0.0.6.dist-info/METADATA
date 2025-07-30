@@ -1,0 +1,117 @@
+Metadata-Version: 2.4
+Name: deepmirror
+Version: 0.0.6
+Summary: Command line interface for the deepmirror public API
+Author-email: Ryan Greenhalgh <ryan@deepmirror.ai>
+Maintainer-email: Ryan Greenhalgh <ryan@deepmirror.ai>
+Project-URL: Homepage, https://www.deepmirror.ai/
+Project-URL: Repository, https://github.com/deepmirror/deepmirror-client
+Project-URL: Documentation, https://github.com/deepmirror/deepmirror-client
+Project-URL: Issues, https://github.com/deepmirror/deepmirror-client/issues
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: click>=8.1.8
+Requires-Dist: requests>=2.31.0
+Requires-Dist: pandas>=2.2.2
+Requires-Dist: pydantic>=2.11.5
+Requires-Dist: pydantic-settings>=2.9.1
+Requires-Dist: scikit-learn>=1.6.1
+Requires-Dist: matplotlib>=3.10.3
+Requires-Dist: tqdm>=4.67.1
+Requires-Dist: ipykernel>=6.29.5
+Requires-Dist: types-requests==2.32.4.20250611
+Requires-Dist: py3Dmol>=2.5.0
+Requires-Dist: onnx>=1.18.0
+Requires-Dist: rdkit==2025.03.3
+Provides-Extra: dev
+Requires-Dist: pytest>=8.0.0; extra == "dev"
+Requires-Dist: pre-commit>=3.6.0; extra == "dev"
+Requires-Dist: pylint>=3.3.7; extra == "dev"
+Requires-Dist: ruff>=0.11.13; extra == "dev"
+Requires-Dist: mypy==1.16.1; extra == "dev"
+Dynamic: license-file
+
+# deepmirror
+
+`deepmirror` is a command-line interface for interacting with the [deepmirror API](https://api.app.deepmirror.ai/public/docs). It allows you to train models, run predictions, and submit structure prediction jobs directly from your terminal.
+
+## Installation
+
+```bash
+pip install deepmirror
+```
+
+## Authentication
+
+Before using most commands, you need to log in to get your API token:
+
+```bash
+dm login EMAIL
+```
+
+This saves your token and host in `~/.config/deepmirror/` for reuse.
+
+## Model Commands
+
+### List Available Models
+
+```bash
+dm model list
+```
+
+### View Model Metadata
+
+```bash
+dm model metadata MODEL_ID
+```
+
+### Get Full Model Info
+
+```bash
+dm model info MODEL_ID
+```
+
+## Train a Custom Model
+
+```bash
+dm train --model-name mymodel \
+  --csv-file path/to/data.csv \
+  --smiles-column smiles \
+  --value-column target \
+  [--classification]
+```
+
+- `--classification` enables classification mode.
+- Default SMILES column is `smiles`, target column is `target`.
+
+## Run Inference
+
+You can run inference using either a CSV file or direct SMILES input:
+
+```bash
+# From a CSV or TXT file
+dm predict --model-name mymodel --csv-file inputs.csv
+
+# Direct SMILES
+dm predict --model-name mymodel --smiles "CCO"
+```
+
+## Co-folding and Affinity Predictions
+
+Explore co-folding capabilities using the following notebooks:
+
+- **[Predict 3D structures](https://github.com/deepmirror/deepmirror-client/blob/main/notebooks/Predict_Structure.ipynb)** of protein–ligand complexes via co-folding [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/deepmirror/deepmirror-client/blob/main/notebooks/Predict_Structure.ipynb)
+
+- **[Apply constraints](https://github.com/deepmirror/deepmirror-client/blob/main/notebooks/Constrained_Predict_Structure.ipynb)** during co-folding to guide the predicted structure [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/deepmirror/deepmirror-client/blob/main/notebooks/Constrained_Predict_Structure.ipynb)
+
+- **[Estimate binding affinity values](https://github.com/deepmirror/deepmirror-client/blob/main/notebooks/Boltz2.ipynb)** alongside structural prediction using Boltz-2 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/deepmirror/deepmirror-client/blob/main/notebooks/Boltz2.ipynb)
+
+## 💡 Tips
+
+- If a token is missing or expired, commands will prompt you to log in again.
+- Use `--help` on any command for more details, e.g.:
+
+  ```bash
+  dm train --help
+  ```
