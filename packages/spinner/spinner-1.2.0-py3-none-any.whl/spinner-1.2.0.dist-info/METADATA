@@ -1,0 +1,32 @@
+Metadata-Version: 2.4
+Name: spinner
+Version: 1.2.0
+Author-email: Rodrigo Ceccato de Freitas <rodrigoceccatodefreitas@gmail.com>, Jhonatan Cléto <j256444@dac.unicamp.br>
+Requires-Python: <4,>=3.9.12
+License-File: LICENSE
+Requires-Dist: click~=8.1
+Requires-Dist: jinja2~=3.1
+Requires-Dist: pyyaml~=6.0
+Requires-Dist: numpy~=2.2
+Requires-Dist: pandas~=2.2
+Requires-Dist: pydantic~=2.10
+Requires-Dist: rich~=13.9
+Requires-Dist: tokenize-rt~=6.1
+Provides-Extra: dev
+Requires-Dist: black==24.4.2; extra == "dev"
+Requires-Dist: black[jupyter]==24.4.2; extra == "dev"
+Requires-Dist: isort==5.13.2; extra == "dev"
+Requires-Dist: taskipy==1.13.0; extra == "dev"
+Requires-Dist: pytest; extra == "dev"
+Provides-Extra: docs
+Requires-Dist: mkdocs==1.6.1; extra == "docs"
+Requires-Dist: mkdocs-material==9.5.40; extra == "docs"
+Requires-Dist: mkdocs-include-markdown-plugin==7.1.5; extra == "docs"
+Provides-Extra: exporter
+Requires-Dist: ipykernel~=6.29; extra == "exporter"
+Requires-Dist: nbconvert~=7.16; extra == "exporter"
+Requires-Dist: nbformat~=5.10; extra == "exporter"
+Requires-Dist: matplotlib~=3.10; extra == "exporter"
+Requires-Dist: scipy~=1.15; extra == "exporter"
+Requires-Dist: seaborn~=0.13; extra == "exporter"
+Dynamic: license-file
