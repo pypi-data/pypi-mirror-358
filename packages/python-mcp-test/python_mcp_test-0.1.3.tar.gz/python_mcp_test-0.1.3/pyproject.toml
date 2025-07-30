@@ -1,0 +1,18 @@
+[project]
+name = "python-mcp-test"
+version = "0.1.3"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "mcp[cli]>=1.10.1",
+    "requests>=2.32.4",
+    "python-dotenv>=1.0.0",
+]
+
+[project.scripts]
+python-mcp-test = "python_mcp_test.server:main"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
