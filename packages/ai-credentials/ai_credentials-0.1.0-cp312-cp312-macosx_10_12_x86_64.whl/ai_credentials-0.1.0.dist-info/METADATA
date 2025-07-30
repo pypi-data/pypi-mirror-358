@@ -1,0 +1,35 @@
+Metadata-Version: 2.4
+Name: ai_credentials
+Version: 0.1.0
+Requires-Dist: pytest ; extra == 'dev'
+Requires-Dist: black ; extra == 'dev'
+Provides-Extra: dev
+Summary: A Python library for managing credentials with Rust backend
+License: MIT
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown; charset=UTF-8; variant=GFM
+Project-URL: Homepage, https://github.com/yourusername/ai_credentials
+Project-URL: Repository, https://github.com/yourusername/ai_credentials.git
+
+# ai_credentials
+
+A Python library for managing credentials securely using a Rust backend.
+
+## Installation
+
+```bash
+pip install ai_credentials
+```
+
+## Usage
+
+```python
+import ai_credentials
+
+# Register credentials from .env file
+ai_credentials.register_credentials('.env')
+
+# Retrieve credentials for a specific username
+password = ai_credentials.get_credentials('.env', 'user@example.com')
+print(f'Retrieved password: {password}')
+``` 
