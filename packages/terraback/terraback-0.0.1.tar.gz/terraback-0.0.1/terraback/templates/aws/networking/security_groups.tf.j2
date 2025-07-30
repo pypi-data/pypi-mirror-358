@@ -1,0 +1,44 @@
+{% for sg in resources -%}
+resource "aws_security_group" "sg_{{ sg.GroupId | replace('-', '_') }}" {
+  name        = "{{ sg.GroupName }}"
+  description = "{{ sg.Description }}"
+  vpc_id      = "{{ sg.VpcId }}"
+
+  {%- for rule in sg.get('IpPermissions', []) %}
+  ingress {
+    from_port       = {{ rule.FromPort | default(0) }}
+    to_port         = {{ rule.ToPort | default(0) }}
+    protocol        = "{{ rule.IpProtocol }}"
+    cidr_blocks     = [
+      {%- for ip_range in rule.get('IpRanges', []) -%}
+      "{{ ip_range.CidrIp }}"
+      {%- if not loop.last %},{% endif %}{%- endfor -%}
+    ]
+    security_groups = [
+      {%- for group in rule.get('UserIdGroupPairs', []) -%}
+      "{{ group.GroupId }}"
+      {%- if not loop.last %},{% endif %}{%- endfor -%}
+    ]
+  }
+  {%- endfor %}
+
+  {%- for rule in sg.get('IpPermissionsEgress', []) %}
+  egress {
+    from_port   = {{ rule.FromPort | default(0) }}
+    to_port     = {{ rule.ToPort | default(0) }}
+    protocol    = "{{ rule.IpProtocol }}"
+    cidr_blocks = [
+      {%- for ip_range in rule.get('IpRanges', []) -%}
+      "{{ ip_range.CidrIp }}"
+      {%- if not loop.last %},{% endif %}{%- endfor -%}
+    ]
+  }
+  {%- endfor %}
+
+  tags = {
+    {%- for tag in sg.get('Tags', []) -%}
+    "{{ tag.Key }}" = "{{ tag.Value }}"
+    {%- endfor %}
+  }
+}
+{% endfor %}

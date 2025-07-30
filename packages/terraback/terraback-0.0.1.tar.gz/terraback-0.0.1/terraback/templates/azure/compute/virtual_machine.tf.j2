@@ -1,0 +1,111 @@
+{% for vm in resources %}
+resource "azurerm_linux_virtual_machine" "{{ vm.name_sanitized }}" {
+  name                = "{{ vm.name }}"
+  resource_group_name = "{{ vm.resource_group_name }}"
+  location            = "{{ vm.location }}"
+  size                = "{{ vm.size }}"
+
+  {% if vm.admin_username %}
+  admin_username = "{{ vm.admin_username }}"
+  {% endif %}
+
+  {% if vm.computer_name %}
+  computer_name = "{{ vm.computer_name }}"
+  {% endif %}
+
+  {% if vm.availability_set_id %}
+  availability_set_id = "{{ vm.availability_set_id }}"
+  {% endif %}
+
+  {% if vm.zone %}
+  zone = "{{ vm.zone }}"
+  {% endif %}
+
+  {% if vm.network_interface_ids %}
+  network_interface_ids = [
+    {% for nic_id in vm.network_interface_ids %}
+    "{{ nic_id }}",
+    {% endfor %}
+  ]
+  {% endif %}
+
+  {% if vm.os_disk %}
+  os_disk {
+    {% if vm.os_disk.name %}
+    name = "{{ vm.os_disk.name }}"
+    {% endif %}
+    {% if vm.os_disk.caching %}
+    caching = "{{ vm.os_disk.caching }}"
+    {% endif %}
+    {% if vm.os_disk.storage_account_type %}
+    storage_account_type = "{{ vm.os_disk.storage_account_type }}"
+    {% endif %}
+    {% if vm.os_disk.disk_size_gb %}
+    disk_size_gb = {{ vm.os_disk.disk_size_gb }}
+    {% endif %}
+  }
+  {% endif %}
+
+  {% if vm.source_image_reference %}
+  source_image_reference {
+    publisher = "{{ vm.source_image_reference.publisher }}"
+    offer     = "{{ vm.source_image_reference.offer }}"
+    sku       = "{{ vm.source_image_reference.sku }}"
+    version   = "{{ vm.source_image_reference.version }}"
+  }
+  {% elif vm.source_image_id %}
+  source_image_id = "{{ vm.source_image_id }}"
+  {% endif %}
+
+  {% if vm.boot_diagnostics %}
+  boot_diagnostics {
+    enabled = {{ vm.boot_diagnostics.enabled | lower }}
+    {% if vm.boot_diagnostics.storage_account_uri %}
+    storage_account_uri = "{{ vm.boot_diagnostics.storage_account_uri }}"
+    {% endif %}
+  }
+  {% endif %}
+
+  {% if vm.license_type %}
+  license_type = "{{ vm.license_type }}"
+  {% endif %}
+
+  {% if vm.priority %}
+  priority = "{{ vm.priority }}"
+  {% endif %}
+
+  {% if vm.eviction_policy %}
+  eviction_policy = "{{ vm.eviction_policy }}"
+  {% endif %}
+
+  {% if vm.tags %}
+  tags = {
+    {% for key, value in vm.tags.items() %}
+    {{ key }} = "{{ value }}"
+    {% endfor %}
+  }
+  {% endif %}
+
+  # Note: Admin password/SSH keys should be managed separately for security
+  admin_ssh_key {
+    username   = "{{ vm.admin_username or 'azureuser' }}"
+    public_key = file("~/.ssh/id_rsa.pub") # Update with your key path
+  }
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+{% if vm.data_disks %}
+{% for disk in vm.data_disks %}
+resource "azurerm_virtual_machine_data_disk_attachment" "{{ vm.name_sanitized }}_disk_{{ disk.lun }}" {
+  managed_disk_id    = azurerm_managed_disk.{{ disk.name | replace('-', '_') }}.id
+  virtual_machine_id = azurerm_linux_virtual_machine.{{ vm.name_sanitized }}.id
+  lun                = "{{ disk.lun }}"
+  caching            = "{{ disk.caching }}"
+}
+{% endfor %}
+{% endif %}
+
+{% endfor %}

@@ -1,0 +1,114 @@
+{% for lb in resources -%}
+resource "aws_lb" "lb_{{ lb.name_sanitized }}" {
+  name               = "{{ lb.LoadBalancerName }}"
+  internal           = {{ lb.Scheme == 'internal' | lower }}
+  load_balancer_type = "{{ lb.Type }}"
+  
+  # Security Groups are only applicable to Application Load Balancers.
+  {%- if lb.Type == 'application' and lb.get('SecurityGroups') %}
+  security_groups    = [
+    {%- for sg in lb.SecurityGroups -%}
+    "{{ sg }}",
+    {%- endfor %}
+  ]
+  {%- endif %}
+
+  {%- if lb.get('subnet_mappings') and lb.Type in ['network', 'gateway'] %}
+  # Using subnet mappings for static IP configuration
+  {%- for mapping in lb.subnet_mappings %}
+  subnet_mapping {
+    subnet_id = "{{ mapping.subnet_id }}"
+    {%- if mapping.get('allocation_id') %}
+    allocation_id = "{{ mapping.allocation_id }}"
+    {%- endif %}
+    {%- if mapping.get('private_ipv4_address') %}
+    private_ipv4_address = "{{ mapping.private_ipv4_address }}"
+    {%- endif %}
+    {%- if mapping.get('ipv6_address') %}
+    ipv6_address = "{{ mapping.ipv6_address }}"
+    {%- endif %}
+  }
+  {%- endfor %}
+  {%- else %}
+  # Using subnet list
+  subnets            = [
+    {%- for subnet in lb.AvailabilityZones -%}
+    "{{ subnet.SubnetId }}",
+    {%- endfor %}
+  ]
+  {%- endif %}
+
+  # Load Balancer Attributes
+  {%- if lb.get('Attributes', {}).get('deletion_protection.enabled') %}
+  enable_deletion_protection = {{ lb.Attributes['deletion_protection.enabled'] }}
+  {%- endif %}
+
+  {%- if lb.Type == 'application' %}
+  {%- if lb.get('Attributes', {}).get('routing.http2.enabled') %}
+  enable_http2 = {{ lb.Attributes['routing.http2.enabled'] }}
+  {%- endif %}
+
+  {%- if lb.get('Attributes', {}).get('routing.http.drop_invalid_header_fields.enabled') %}
+  drop_invalid_header_fields = {{ lb.Attributes['routing.http.drop_invalid_header_fields.enabled'] }}
+  {%- endif %}
+
+  {%- if lb.get('Attributes', {}).get('routing.http.xff_client_port.enabled') %}
+  enable_xff_client_port = {{ lb.Attributes['routing.http.xff_client_port.enabled'] }}
+  {%- endif %}
+
+  {%- if lb.get('Attributes', {}).get('routing.http.preserve_host_header.enabled') %}
+  preserve_host_header = {{ lb.Attributes['routing.http.preserve_host_header.enabled'] }}
+  {%- endif %}
+
+  {%- if lb.get('Attributes', {}).get('routing.http.xff_header_processing.mode') %}
+  xff_header_processing_mode = "{{ lb.Attributes['routing.http.xff_header_processing.mode'] }}"
+  {%- endif %}
+
+  {%- if lb.get('Attributes', {}).get('waf.fail_open.enabled') %}
+  enable_waf_fail_open = {{ lb.Attributes['waf.fail_open.enabled'] }}
+  {%- endif %}
+
+  {%- if lb.get('Attributes', {}).get('idle_timeout.timeout_seconds') %}
+  idle_timeout = {{ lb.Attributes['idle_timeout.timeout_seconds'] }}
+  {%- endif %}
+  {%- endif %}
+
+  {%- if lb.Type == 'network' or lb.Type == 'gateway' %}
+  {%- if lb.get('Attributes', {}).get('load_balancing.cross_zone.enabled') %}
+  enable_cross_zone_load_balancing = {{ lb.Attributes['load_balancing.cross_zone.enabled'] }}
+  {%- endif %}
+  {%- endif %}
+
+  {%- if lb.get('Attributes', {}).get('access_logs.s3.enabled') == 'true' %}
+  access_logs {
+    enabled = true
+    bucket  = "{{ lb.Attributes.get('access_logs.s3.bucket', '') }}"
+    {%- if lb.Attributes.get('access_logs.s3.prefix') %}
+    prefix  = "{{ lb.Attributes['access_logs.s3.prefix'] }}"
+    {%- endif %}
+  }
+  {%- endif %}
+
+  {%- if lb.get('CustomerOwnedIpv4Pool') %}
+  customer_owned_ipv4_pool = "{{ lb.CustomerOwnedIpv4Pool }}"
+  {%- endif %}
+
+  {%- if lb.get('IpAddressType') %}
+  ip_address_type = "{{ lb.IpAddressType }}"
+  {%- endif %}
+
+  {%- if lb.get('Attributes', {}).get('dns_record.client_routing_policy') %}
+  client_keep_alive = {{ lb.Attributes.get('client_keep_alive.seconds', 3600) }}
+  {%- endif %}
+
+  tags = {
+    {%- for tag in lb.get('Tags', []) -%}
+    "{{ tag.Key }}" = "{{ tag.Value }}"
+    {%- endfor %}
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+{% endfor %}

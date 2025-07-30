@@ -1,0 +1,26 @@
+{% for natgw in resources -%}
+resource "aws_nat_gateway" "natgw_{{ natgw.name_sanitized }}" {
+  {%- if natgw.get('SubnetId') %}
+  subnet_id = "{{ natgw.SubnetId }}"
+  {%- endif %}
+
+  {%- if not natgw.is_private and natgw.primary_allocation_id %}
+  allocation_id = "{{ natgw.primary_allocation_id }}"
+  {%- endif %}
+
+  {%- if natgw.get('ConnectivityType') %}
+  connectivity_type = "{{ natgw.ConnectivityType }}"
+  {%- endif %}
+
+  tags = {
+    {%- for tag in natgw.get('Tags', []) -%}
+    "{{ tag.Key }}" = "{{ tag.Value }}"
+    {%- endfor %}
+  }
+
+  # NAT Gateways depend on Internet Gateway for public connectivity
+  {%- if not natgw.is_private %}
+  depends_on = [aws_internet_gateway.igw]
+  {%- endif %}
+}
+{% endfor %}

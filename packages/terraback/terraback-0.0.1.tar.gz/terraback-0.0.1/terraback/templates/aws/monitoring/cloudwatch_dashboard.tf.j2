@@ -1,0 +1,7 @@
+{% for dashboard in resources -%}
+resource "aws_cloudwatch_dashboard" "dashboard_{{ dashboard.name_sanitized }}" {
+  dashboard_name = "{{ dashboard.DashboardName }}"
+
+  dashboard_body = jsonencode({{ dashboard.DashboardBody | safe }})
+}
+{% endfor %}

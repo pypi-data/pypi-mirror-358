@@ -1,0 +1,34 @@
+{% for snapshot in resources -%}
+resource "aws_ebs_snapshot" "snapshot_{{ snapshot.SnapshotId | replace('-', '_') }}" {
+  volume_id   = "{{ snapshot.VolumeId }}"
+  description = "{{ snapshot.Description | default('Imported snapshot') }}"
+
+  {%- if snapshot.get('Encrypted') %}
+  encrypted = {{ snapshot.Encrypted | lower }}
+  {%- endif %}
+
+  {%- if snapshot.get('KmsKeyId') %}
+  kms_key_id = "{{ snapshot.KmsKeyId }}"
+  {%- endif %}
+
+  tags = {
+    {%- for tag in snapshot.get('Tags', []) -%}
+    "{{ tag.Key }}" = "{{ tag.Value }}"
+    {%- endfor %}
+  }
+
+  # Note: Snapshots cannot be created directly from existing snapshots in Terraform
+  # This resource represents the state of an existing snapshot for import purposes
+  # The actual snapshot data and creation process is managed by AWS
+  
+  lifecycle {
+    # Prevent accidental deletion of imported snapshots
+    prevent_destroy = true
+    
+    # Ignore changes to description as it might be managed elsewhere
+    ignore_changes = [
+      description,
+    ]
+  }
+}
+{% endfor %}
