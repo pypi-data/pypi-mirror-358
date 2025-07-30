@@ -1,0 +1,36 @@
+# discord.gg/opening | dataopen
+
+## DISCLAIMER:
+##      Some features can rate limit your account, use this at your own risk.
+
+
+```python
+import openwrapper # Import the module
+       
+client = dxcord.Client(token='your_token_here') # Initialize the client with your token
+      
+client.GetCountry() # Get the country of the user
+
+client.GetDms() # Get the direct messages of the user
+
+client.GetGuilds() # Get the guilds of the user
+
+client.GetFriends() # Get the friends of the user
+
+client.TokenLookup() # Lookup the token of the user
+
+client.SendMessage(ChannelId=id,Message='message') # Send a message to a channel
+
+client.RemoveFriend(UserId=id) # Remove a friend
+
+client.SetLanguage(CountryCode='en-GB') # Set the language of the user ('da','de','en-GB','en-US','es-ES','fr','hr','it','lt','hu','nl','no','pl','pt-BR','ro','fi','sv-SE','vi','tr','cs','el','bg','ru','uk','th','zh-CN','ja','ko')
+
+client.SetHypesquad(house=id) # Set the hypesquad of the user (1 = Bravery, 2 = Brillance, 3 = Balance)
+
+client.BlockUser(UserId=id) # Block a user
+
+client.UnblockUser(UserId=id) # Unblock a user
+
+client.GetMessage(ChannelId=id) # Get all messages of a channel
+
+```
