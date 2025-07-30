@@ -1,0 +1,36 @@
+Metadata-Version: 2.4
+Name: fastapi-repository
+Version: 0.0.1
+Summary: A base repository for FastAPI projects, inspired by Ruby on Rails' Active Record and Ransack.
+Author-email: Seiya Takeda <takedaseiya@gmail.com>
+Project-URL: Homepage, https://github.com/seiyat/fastapi-repository
+Project-URL: Bug Tracker, https://github.com/seiyat/fastapi-repository/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: sqlalchemy>=1.4.0
+Requires-Dist: fastapi>=0.70.0
+
+# FastAPI Repository
+
+A base repository for FastAPI projects, inspired by Ruby on Rails' Active Record and Ransack.
+
+## Installation
+
+```bash
+pip install fastapi-repository
+```
+
+## Usage
+
+```python
+from fastapi_repository import BaseRepository
+from sqlalchemy.ext.asyncio import AsyncSession
+from .models import User
+
+class UserRepository(BaseRepository):
+    def __init__(self, session: AsyncSession):
+        super().__init__(session, model=User)
+```
