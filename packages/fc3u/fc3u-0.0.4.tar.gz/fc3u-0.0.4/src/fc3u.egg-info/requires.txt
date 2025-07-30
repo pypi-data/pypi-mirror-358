@@ -1,0 +1,16 @@
+numpy<2
+
+[:sys_platform != "darwin"]
+tflite_runtime
+
+[:sys_platform == "darwin"]
+tensorflow
+
+[rsc]
+rsc
+coloredlogs
+click
+
+[testing]
+pytest
+pytest-cov
