@@ -1,0 +1,1 @@
+PyPi package for the bgs-chat django application, for us within great-cms
