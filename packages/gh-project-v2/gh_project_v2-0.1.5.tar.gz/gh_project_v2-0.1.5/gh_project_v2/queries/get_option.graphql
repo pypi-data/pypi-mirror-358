@@ -1,0 +1,8 @@
+query getOption($id: ID!) {
+  node(id: $id) {
+    ... on ProjectV2SingleSelectFieldOption {
+      id
+      name
+    }
+  }
+}

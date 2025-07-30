@@ -1,0 +1,54 @@
+[project]
+name = "gh-project-v2"
+version = "0.1.5"
+description = "Python module for working with GitHub GraphQL API, focusing on ProjectsV2"
+authors = [
+    {name = "psec.io", email = "info@psec.io"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.8"
+keywords = ["github", "graphql", "api", "projects", "projectsv2", "automation"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    "Topic :: System :: Systems Administration",
+]
+dependencies = [
+    "requests>=2.25.0",
+    "PyJWT>=2.0.0",
+    "jinja2>=3.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/psecio/gh-project-v2"
+Repository = "https://github.com/psecio/gh-project-v2"
+Issues = "https://github.com/psecio/gh-project-v2/issues"
+Documentation = "https://github.com/psecio/gh-project-v2#readme"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0.0",
+    "black>=22.0.0",
+    "flake8>=3.9.0",
+    "pytest-mock>=3.14.0",
+]
+
+[tool.poetry]
+packages = [{include = "gh_project_v2"}]
+
+[tool.poetry.group.dev.dependencies]
+pytest-mock = "^3.14.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

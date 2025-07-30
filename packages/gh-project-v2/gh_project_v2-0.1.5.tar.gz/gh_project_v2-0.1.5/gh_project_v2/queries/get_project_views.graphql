@@ -1,0 +1,30 @@
+query($projectId: ID!, $first: Int = 20, $fieldsFirst: Int = 20, $fieldsAfter: String) {
+  node(id: $projectId) {
+    ... on ProjectV2 {
+      views(first: $first) {
+        nodes {
+          id
+          name
+          number
+          layout
+          fields(first: $fieldsFirst, after: $fieldsAfter) {
+            nodes {
+              ... on ProjectV2FieldCommon {
+                id
+                name
+              }
+            }
+            pageInfo {
+              hasNextPage
+              endCursor
+            }
+          }
+        }
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+      }
+    }
+  }
+}

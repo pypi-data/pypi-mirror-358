@@ -1,0 +1,13 @@
+query($id: ID!) {
+  node(id: $id) {
+    ... on Organization {
+      id
+      login
+      name
+      description
+      url
+      location
+      websiteUrl
+    }
+  }
+}

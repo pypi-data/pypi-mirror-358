@@ -1,0 +1,22 @@
+query GetRepositoryMilestones($owner: String!, $repo: String!, $first: Int = 20, $after: String) {
+  repository(owner: $owner, name: $repo) {
+    milestones(first: $first, after: $after) {
+      nodes {
+        id
+        number
+        title
+        state
+        description
+        dueOn
+        createdAt
+        closedAt
+        updatedAt
+        url
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}

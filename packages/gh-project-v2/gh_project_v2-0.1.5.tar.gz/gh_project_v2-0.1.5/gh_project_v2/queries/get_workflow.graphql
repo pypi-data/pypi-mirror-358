@@ -1,0 +1,16 @@
+query getWorkflow($owner: String!, $repo: String!, $id: ID!) {
+  node(id: $id) {
+    ... on Workflow {
+      id
+      name
+      path
+      state
+      url
+      createdAt
+      updatedAt
+      fileContents
+      ref
+      runCount
+    }
+  }
+}

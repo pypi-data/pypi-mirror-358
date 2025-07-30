@@ -1,0 +1,181 @@
+query($owner: String!, $number: Int!) {
+  {% if owner_type == "org" %}
+  organization: organization(login: $owner) {
+    projectV2(number: $number) {
+      id
+      title
+      shortDescription
+      public
+      closed
+      url
+      number
+      readme
+      updatedAt
+      resourcePath
+      creator {
+        __typename
+        ... on User {
+          id
+          login
+          name
+          email
+          bio
+          company
+          location
+          websiteUrl
+          url
+          avatarUrl
+          createdAt
+          updatedAt
+        }
+        ... on Organization {
+          id
+          login
+          name
+          description
+          url
+          location
+          websiteUrl
+        }
+      }
+      owner {
+        __typename
+        ... on User {
+          id
+          login
+          name
+          email
+          bio
+          company
+          location
+          websiteUrl
+          url
+          avatarUrl
+          createdAt
+          updatedAt
+        }
+        ... on Organization {
+          id
+          login
+          name
+          description
+          url
+          location
+          websiteUrl
+        }
+      }
+      fields(first: 20) {
+        nodes {
+          ... on ProjectV2Field {
+            id
+            name
+            dataType
+          }
+          ... on ProjectV2IterationField {
+            id
+            name
+            dataType
+          }
+          ... on ProjectV2SingleSelectField {
+            id
+            name
+            dataType
+            options {
+              id
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+  {% else %}
+  user: user(login: $owner) {
+    projectV2(number: $number) {
+      id
+      title
+      shortDescription
+      public
+      closed
+      url
+      number
+      readme
+      updatedAt
+      resourcePath
+      creator {
+        ... on User {
+          id
+          login
+          name
+          email
+          bio
+          company
+          location
+          websiteUrl
+          url
+          avatarUrl
+          createdAt
+          updatedAt
+        }
+        ... on Organization {
+          id
+          login
+          name
+          description
+          url
+          location
+          websiteUrl
+        }
+      }
+      owner {
+        ... on User {
+          id
+          login
+          name
+          email
+          bio
+          company
+          location
+          websiteUrl
+          url
+          avatarUrl
+          createdAt
+          updatedAt
+        }
+        ... on Organization {
+          id
+          login
+          name
+          description
+          url
+          location
+          websiteUrl
+        }
+      }
+      fields(first: 20) {
+        nodes {
+          ... on ProjectV2Field {
+            id
+            name
+            dataType
+          }
+          ... on ProjectV2IterationField {
+            id
+            name
+            dataType
+          }
+          ... on ProjectV2SingleSelectField {
+            id
+            name
+            dataType
+            options {
+              id
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+  {% endif %}
+}
