@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "compassone-sdk"
+version = "0.0.53"
+description = "A client library for accessing CompassOne API"
+authors = []
+readme = "README.md"
+packages = [
+    {include = "compassone_sdk"},
+]
+include = ["CHANGELOG.md", "compassone_sdk/py.typed"]
+
+
+[tool.poetry.dependencies]
+python = "^3.9"
+httpx = ">=0.23.0,<0.29.0"
+attrs = ">=22.2.0"
+python-dateutil = "^2.8.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = ["F", "I", "UP"]
