@@ -1,0 +1,32 @@
+[build-system]
+    requires = ["hatchling>=1.18"]
+    build-backend = "hatchling.build"
+
+    [project]
+    name = "pyw-vision"
+    version = "0.0.0.post2"
+    description = "Reserved placeholder for pyw-vision (vision utilities)"
+    authors = [{name = "pythonWoods"}]
+    license = {text = "MIT"}
+    requires-python = ">=3.9"
+    readme = "README.md"
+    dependencies = [
+  "pyw-core>=0.0.0"
+]
+
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Typing :: Typed",
+]
+
+[project.urls]
+Homepage      = "https://github.com/pythonWoods/pyw-vision"
+Documentation = "https://pythonwoods.dev/docs/pyw-vision/latest/"
+Issues        = "https://github.com/pythonWoods/pyw-vision/issues"
+Changelog     = "https://github.com/pythonWoods/pyw-vision/releases"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pyw"]

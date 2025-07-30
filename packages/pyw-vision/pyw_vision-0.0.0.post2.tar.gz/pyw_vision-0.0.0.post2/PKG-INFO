@@ -1,0 +1,507 @@
+Metadata-Version: 2.4
+Name: pyw-vision
+Version: 0.0.0.post2
+Summary: Reserved placeholder for pyw-vision (vision utilities)
+Project-URL: Homepage, https://github.com/pythonWoods/pyw-vision
+Project-URL: Documentation, https://pythonwoods.dev/docs/pyw-vision/latest/
+Project-URL: Issues, https://github.com/pythonWoods/pyw-vision/issues
+Project-URL: Changelog, https://github.com/pythonWoods/pyw-vision/releases
+Author: pythonWoods
+License: MIT
+License-File: LICENSE
+Classifier: Development Status :: 2 - Pre-Alpha
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Typing :: Typed
+Requires-Python: >=3.9
+Requires-Dist: pyw-core>=0.0.0
+Description-Content-Type: text/markdown
+
+# pyw-vision 👁️
+[![PyPI](https://img.shields.io/pypi/v/pyw-vision.svg)](https://pypi.org/project/pyw-vision/)
+[![CI](https://github.com/pythonWoods/pyw-vision/actions/workflows/ci.yml/badge.svg)](https://github.com/pythonWoods/pyw-vision/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+> Computer vision utilities & helpers per l'ecosistema **pythonWoods**.
+
+## Overview
+
+**pyw-vision** fornisce utilities e helpers per computer vision, con focus su semplicità d'uso e performance. Parte dell'ecosistema pythonWoods, si integra perfettamente con gli altri moduli per soluzioni complete di image processing e analisi visiva.
+
+## Features
+
+### 🖼️ Image Processing
+- **Resize & Transform**: Ridimensionamento intelligente con aspect ratio
+- **Filters & Effects**: Blur, sharpen, brightness, contrast
+- **Format Conversion**: Supporto multi-formato (JPEG, PNG, WebP, TIFF)
+- **Batch Processing**: Elaborazione efficiente di grosse quantità di immagini
+
+### 🎯 Object Detection  
+- **YOLO Integration**: Supporto per YOLOv5/v8 con model caching
+- **Custom Models**: Caricamento di modelli personalizzati
+- **Bounding Boxes**: Utilities per gestione e rendering bbox
+- **Confidence Filtering**: Filtri automatici per detection quality
+
+### 🔍 Feature Extraction
+- **Keypoints Detection**: SIFT, ORB, Harris corners
+- **Descriptors**: Feature matching e similarity
+- **Template Matching**: Ricerca pattern in immagini
+- **Contour Analysis**: Shape detection e analysis
+
+### 📊 Analysis Tools
+- **Image Metrics**: Histogram, statistics, quality metrics
+- **Comparison**: SSIM, MSE, perceptual difference
+- **Color Analysis**: Palette extraction, dominant colors
+- **Geometric**: Perspective correction, distortion removal
+
+## Installation
+
+```bash
+# Base installation
+pip install pyw-vision
+
+# Con supporto deep learning (YOLOv8, PyTorch)
+pip install pyw-vision[ml]
+
+# Computer vision completo (include motion detection)
+pip install pyw-cv  # Bundle: pyw-vision + pyw-motion
+```
+
+## Quick Start
+
+### Basic Image Processing
+
+```python
+from pyw.vision import Image, ImageProcessor
+
+# Carica e processa immagine
+img = Image.from_file("photo.jpg")
+
+# Chain processing
+processed = (img
+    .resize(width=800, keep_aspect=True)
+    .enhance_contrast(1.2)
+    .apply_blur(radius=2)
+    .convert_format("webp")
+)
+
+processed.save("output.webp", quality=85)
+```
+
+### Object Detection
+
+```python
+from pyw.vision import ObjectDetector
+
+# Setup detector con model caching automatico
+detector = ObjectDetector.yolo_v8(model_size="medium")
+
+# Detection su singola immagine
+results = detector.detect("image.jpg", confidence=0.5)
+
+for detection in results:
+    print(f"Object: {detection.class_name} ({detection.confidence:.2f})")
+    print(f"Bbox: {detection.bbox}")
+
+# Batch detection
+batch_results = detector.detect_batch([
+    "img1.jpg", "img2.jpg", "img3.jpg"
+], max_workers=4)
+```
+
+### Feature Matching
+
+```python
+from pyw.vision import FeatureExtractor, FeatureMatcher
+
+# Estrai features da due immagini
+extractor = FeatureExtractor.sift(n_features=1000)
+features1 = extractor.extract("template.jpg")
+features2 = extractor.extract("scene.jpg")
+
+# Match features
+matcher = FeatureMatcher(algorithm="flann")
+matches = matcher.match(features1, features2)
+
+# Trova homography
+homography = matcher.find_homography(matches, min_matches=10)
+if homography is not None:
+    print("Template found in scene!")
+```
+
+## Advanced Usage
+
+### Custom Image Pipeline
+
+```python
+from pyw.vision import ImagePipeline, filters
+
+# Definisci pipeline custom
+pipeline = ImagePipeline([
+    filters.NormalizeLighting(),
+    filters.RemoveNoise(method="bilateral"),
+    filters.EnhanceSharpness(factor=1.5),
+    filters.ColorBalance(auto=True)
+])
+
+# Applica a singola immagine
+result = pipeline.process("noisy_image.jpg")
+
+# Batch processing con progress
+results = pipeline.process_batch(
+    ["img1.jpg", "img2.jpg", "img3.jpg"],
+    output_dir="processed/",
+    show_progress=True
+)
+```
+
+### Smart Cropping
+
+```python
+from pyw.vision import SmartCropper
+
+cropper = SmartCropper(
+    target_ratio=(16, 9),
+    focus_detection=True  # Usa face/object detection
+)
+
+# Crop intelligente mantenendo soggetti importanti
+cropped = cropper.crop("portrait.jpg")
+cropped.save("cropped_16x9.jpg")
+
+# Crop multipli per social media
+variants = cropper.crop_variants("image.jpg", formats=[
+    ("instagram_post", 1080, 1080),
+    ("instagram_story", 1080, 1920),
+    ("facebook_cover", 1200, 630)
+])
+```
+
+### Real-time Processing
+
+```python
+from pyw.vision import VideoProcessor
+import cv2
+
+# Setup video processor
+processor = VideoProcessor(
+    input_source=0,  # Webcam
+    fps_limit=30
+)
+
+@processor.frame_handler
+def process_frame(frame):
+    # Applica detection in real-time
+    detections = detector.detect(frame, confidence=0.6)
+    
+    # Disegna bounding boxes
+    for det in detections:
+        frame = det.draw_on(frame, color="red", thickness=2)
+    
+    return frame
+
+# Avvia processing
+processor.start()
+```
+
+### Integration con pyw-fs
+
+```python
+from pyw.vision import Image
+from pyw.fs import FileSystem
+
+# Usa filesystem unificato (local/S3/GCS)
+fs = FileSystem.from_url("s3://my-bucket/images/")
+
+# Processa immagini remote
+for image_path in fs.glob("*.jpg"):
+    img = Image.from_fs(fs, image_path)
+    
+    # Genera thumbnail
+    thumb = img.resize(width=200, keep_aspect=True)
+    
+    # Salva thumbnail
+    thumb_path = image_path.replace(".jpg", "_thumb.jpg")
+    thumb.save_to_fs(fs, thumb_path)
+```
+
+## Configuration
+
+```python
+from pyw.vision import VisionConfig
+from pyw.core import BaseConfig
+
+class MyVisionConfig(BaseConfig):
+    # Model paths e caching
+    model_cache_dir: str = "~/.pyw/vision/models"
+    max_cache_size_gb: float = 5.0
+    
+    # Default processing settings
+    default_image_quality: int = 85
+    max_image_dimension: int = 4096
+    
+    # Performance
+    max_workers: int = 4
+    use_gpu: bool = True
+    memory_limit_mb: int = 2048
+
+# Applica config globalmente
+VisionConfig.set_global(MyVisionConfig())
+```
+
+## Performance Optimization
+
+### GPU Acceleration
+
+```python
+from pyw.vision import accelerate
+
+# Auto-detect e configura GPU
+accelerate.setup_gpu(memory_fraction=0.8)
+
+# Check disponibilità
+if accelerate.gpu_available():
+    print(f"GPU: {accelerate.gpu_info()}")
+    
+    # Usa GPU per batch processing
+    detector = ObjectDetector.yolo_v8(device="cuda")
+```
+
+### Memory Management
+
+```python
+from pyw.vision import memory
+
+# Context manager per gestione memoria
+with memory.limit_usage(max_mb=1024):
+    # Processa immagini grandi
+    large_img = Image.from_file("huge_image.tiff")
+    processed = large_img.resize(width=2000)
+
+# Auto-cleanup di model cache
+memory.cleanup_model_cache(max_age_days=7)
+```
+
+### Profiling
+
+```python
+from pyw.vision import profiler
+
+# Profile performance di detection
+with profiler.measure("yolo_detection") as p:
+    results = detector.detect_batch(image_list)
+
+print(f"Detection took {p.elapsed:.2f}s")
+print(f"Images/sec: {len(image_list) / p.elapsed:.1f}")
+```
+
+## Quality Assurance
+
+### Image Quality Metrics
+
+```python
+from pyw.vision import quality
+
+# Calcola metriche qualità
+metrics = quality.analyze("image.jpg")
+print(f"Sharpness: {metrics.sharpness:.2f}")
+print(f"Brightness: {metrics.brightness:.2f}")
+print(f"Contrast: {metrics.contrast:.2f}")
+print(f"Noise level: {metrics.noise_level:.2f}")
+
+# Compare due immagini
+similarity = quality.compare("original.jpg", "processed.jpg")
+print(f"SSIM: {similarity.ssim:.3f}")
+print(f"PSNR: {similarity.psnr:.1f} dB")
+```
+
+### Validation Pipeline
+
+```python
+from pyw.vision import validation
+
+# Valida batch di immagini
+validator = validation.ImageValidator(
+    min_resolution=(640, 480),
+    max_file_size_mb=10,
+    allowed_formats=["jpg", "png", "webp"]
+)
+
+results = validator.validate_batch("input_dir/")
+valid_images = [r.path for r in results if r.is_valid]
+```
+
+## Testing Support
+
+```python
+from pyw.vision.testing import (
+    generate_test_image, assert_image_equal,
+    mock_detector, benchmark_pipeline
+)
+
+def test_image_processing():
+    # Genera immagine test
+    test_img = generate_test_image(
+        width=800, height=600,
+        pattern="checkerboard",
+        noise_level=0.1
+    )
+    
+    # Processa
+    result = processor.enhance(test_img)
+    
+    # Assertions
+    assert_image_equal(result, expected_result, tolerance=0.05)
+    assert result.width == 800
+    assert result.height == 600
+
+# Mock detector per testing
+with mock_detector(fake_detections=[
+    {"class": "person", "confidence": 0.9, "bbox": [10, 10, 100, 200]}
+]) as detector:
+    results = detector.detect("test.jpg")
+    assert len(results) == 1
+```
+
+## CLI Tools
+
+```bash
+# Resize batch di immagini
+pyw-vision resize input/*.jpg --width=800 --output=resized/
+
+# Object detection con preview
+pyw-vision detect image.jpg --model=yolov8m --show-preview
+
+# Estrai frames da video
+pyw-vision extract-frames video.mp4 --fps=1 --output=frames/
+
+# Genera report qualità
+pyw-vision quality-report images/ --format=html --output=report.html
+
+# Benchmark performance
+pyw-vision benchmark --model=yolov8s --images=test_set/ --iterations=10
+```
+
+## Examples
+
+### Automated Photo Enhancement
+
+```python
+from pyw.vision import PhotoEnhancer
+
+# Setup enhancer con AI
+enhancer = PhotoEnhancer(
+    auto_exposure=True,
+    noise_reduction=True,
+    color_enhancement=True,
+    face_aware=True  # Ottimizza per ritratti
+)
+
+# Enhance singola foto
+enhanced = enhancer.enhance("photo.jpg")
+enhanced.save("enhanced.jpg")
+
+# Batch con settings ottimizzati per tipo
+settings = {
+    "portrait": {"face_aware": True, "skin_smoothing": 0.3},
+    "landscape": {"saturation": 1.2, "clarity": 1.1},
+    "night": {"denoise": "aggressive", "highlight_recovery": True}
+}
+
+for photo_type, photos in photo_collections.items():
+    enhancer.update_settings(settings[photo_type])
+    for photo in photos:
+        enhanced = enhancer.enhance(photo)
+        enhanced.save(f"enhanced/{photo_type}/{photo.name}")
+```
+
+### Security Camera Analysis
+
+```python
+from pyw.vision import SecurityAnalyzer
+from pyw.logger import get_logger
+
+logger = get_logger("security")
+
+# Setup analyzer
+analyzer = SecurityAnalyzer(
+    person_detection=True,
+    vehicle_detection=True,
+    intrusion_zones=["front_door", "parking"],
+    alert_confidence=0.7
+)
+
+# Analizza frame camera
+frame = capture_camera_frame()
+events = analyzer.analyze(frame, timestamp=datetime.now())
+
+for event in events:
+    if event.type == "person_detected":
+        logger.warning(f"Person detected in {event.zone}")
+        # Invia alert
+        
+    elif event.type == "vehicle_detected":
+        logger.info(f"Vehicle detected: {event.details}")
+```
+
+## Roadmap
+
+- 🤖 **AI Models**: Integrazione con modelli Hugging Face, ONNX runtime
+- 🎥 **Video Processing**: Advanced video analysis, object tracking  
+- 📱 **Mobile Optimization**: Lightweight models per deployment mobile
+- ☁️ **Cloud Integration**: Processing su AWS Rekognition, Google Vision API
+- 🔧 **Custom Training**: Tools per training di modelli personalizzati
+- 📊 **Analytics**: Dashboard e reporting avanzati
+- 🚀 **Edge Computing**: Ottimizzazioni per Raspberry Pi, edge devices
+
+## Architecture
+
+```
+pyw-vision/
+├── pyw/
+│   └── vision/
+│       ├── __init__.py          # Public API
+│       ├── core/
+│       │   ├── image.py         # Image class e processing base
+│       │   ├── detector.py      # Object detection
+│       │   ├── features.py      # Feature extraction
+│       │   └── pipeline.py      # Processing pipelines
+│       ├── models/
+│       │   ├── yolo.py         # YOLO integration
+│       │   ├── opencv.py       # OpenCV models
+│       │   └── custom.py       # Custom model loading
+│       ├── filters/
+│       │   ├── enhance.py      # Enhancement filters
+│       │   ├── artistic.py     # Artistic effects
+│       │   └── repair.py       # Image repair
+│       ├── utils/
+│       │   ├── metrics.py      # Quality metrics
+│       │   ├── geometry.py     # Geometric operations
+│       │   └── color.py        # Color space operations
+│       └── cli/                # Command line tools
+└── tests/                      # Test suite completa
+```
+
+## Contributing
+
+1. **Fork & Clone**: `git clone https://github.com/pythonWoods/pyw-vision.git`
+2. **Development setup**: `poetry install --with dev && poetry shell`
+3. **Install test dependencies**: `poetry install --extras "ml"`
+4. **Quality checks**: `ruff check . && mypy && pytest --cov`
+5. **Test con immagini reali**: Usa il dataset in `tests/fixtures/`
+6. **Documentation**: Aggiorna examples per nuove features
+7. **Performance**: Benchmark changes con `pytest --benchmark-only`
+8. **Pull Request**: Include esempi e test coverage
+
+Esplora il mondo della computer vision con **pythonWoods**! 🌲👁️
+
+## Links utili
+
+Documentazione dev (work-in-progress) → https://pythonwoods.dev/docs/pyw-vision/latest/
+
+Issue tracker → https://github.com/pythonWoods/pyw-vision/issues
+
+Changelog → https://github.com/pythonWoods/pyw-vision/releases
+
+© pythonWoods — MIT License
