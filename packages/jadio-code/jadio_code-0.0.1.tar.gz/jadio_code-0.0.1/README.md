@@ -1,0 +1,179 @@
+# JADIO CODE
+
+**Version:** 0.0.1  
+**Status:** Alpha / In Development  
+
+---
+
+## ✅ What is JADIO CODE?
+
+JADIO CODE is a fully offline, 100% Python IDE designed to connect to the **JADIO** LAN server.  
+
+It's your own local development environment with:  
+- Integrated agent assistant (**Code.AIGent**)  
+- Native Python GUI (using **PyQt6**)  
+- Tools for interacting with local AI models  
+- Modular design for extensions and plugins
+
+Everything is designed to be fully *yours*, *offline*, and *locally controlled*.  
+
+---
+
+## ✅ Goals (v0.0.1)
+
+⭐ Native desktop IDE in **Python**  
+⭐ Built with **PyQt6** (no web stack)  
+⭐ Modular UI panels  
+⭐ Clean separation of UI and backend logic  
+⭐ Ready to connect with JADIO LAN server over localhost  
+⭐ Ability to integrate with local AI models  
+
+---
+
+## ✅ Current Features (0.0.1)
+
+✔️ Modular UI structure with PyQt6  
+✔️ Defined layout for all major panels  
+✔️ Placeholder classes for:
+- Chat agent interface
+- Editor
+- Terminal
+- Project explorer
+- Plugin manager
+- Settings
+✔️ Clean separation of:
+- UI code
+- Backend logic
+
+---
+
+## ✅ Folder Structure
+
+JADIO-CODE/
+├── UI/
+│ ├── mainwindows/
+│ └── submodules/
+│
+└── Backend/
+
+yaml
+Copy
+Edit
+
+---
+
+### ✅ UI/
+
+⭐ **Purpose:** All PyQt6 window and widget classes.  
+⭐ **Design:** 
+- Panels and views
+- Modular layout for easy extension
+
+**Example subfolders:**
+UI/
+mainwindows/
+code_aigent/
+editor/
+explorer/
+terminal/
+submodules/
+code_doctor/
+help/
+jdonet/
+llm/
+plugins/
+settings/
+
+yaml
+Copy
+Edit
+
+✅ Each panel has its own folder and PyQt6 classes.  
+✅ Supports split views, tabs, sidebars, and terminal.  
+
+---
+
+### ✅ Backend/
+
+⭐ **Purpose:** All non-UI logic.  
+⭐ **Design:** 
+- State management
+- LAN server API calls
+- Business rules
+
+**Example subfolders:**
+Backend/
+code_aigent/
+code_doctor/
+editor/
+explorer/
+help/
+jdonet/
+lan/
+llm/
+plugins/
+settings/
+terminal/
+
+yaml
+Copy
+Edit
+
+✅ Each submodule has its own `*_core.py`.  
+✅ Supports clean separation from UI.  
+✅ Easy to test independently.
+
+---
+
+## ✅ Design Philosophy
+
+✔️ 100% Python (PyQt6)  
+✔️ No HTML, CSS, or JavaScript  
+✔️ Local-first, offline-only by default  
+✔️ Modular and pluggable architecture  
+✔️ Clear separation of UI and backend  
+✔️ Ready to integrate with JADIO LAN server (localhost)  
+✔️ Ready to run external tools (Rust/Go/Haskell/etc.) via subprocess
+
+---
+
+## ✅ Planned Features
+
+✅ Persistent agent chat (Code.AIGent)  
+✅ Simworld time integration  
+✅ Local model management  
+✅ Project explorer with file actions  
+✅ Terminal runner for JADIO CLI tools  
+✅ Memory viewer for agent files  
+✅ Plugin system for extra tools  
+✅ Localhost email/messaging panels
+
+---
+
+## ✅ Installation (dev)
+
+pip install PyQt6
+
+yaml
+Copy
+Edit
+
+✅ Requires Python 3.10+ recommended.
+
+---
+
+## ✅ Running (dev)
+
+Example:
+```bash
+python -m UI.mainwindows.MainWindow
+✅ Note: v0.0.1 is a work in progress, many panels are skeletons or placeholders.
+
+✅ Roadmap
+✔️ v0.0.1: Define layout and module structure ✅ (done)
+⬜ v0.0.2: Implement MainWindow navigation
+⬜ v0.0.3: Add LAN server connection
+⬜ v0.0.4: Wire up basic agent chat
+⬜ v0.0.5: Add editor and terminal functionality
+⬜ v0.1.0: First installable offline build
+
