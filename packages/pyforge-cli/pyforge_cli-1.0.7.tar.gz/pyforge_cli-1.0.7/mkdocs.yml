@@ -1,0 +1,141 @@
+site_name: PyForge CLI Documentation
+site_description: A powerful CLI tool for data format conversion and synthetic data generation
+site_url: https://py-forge-cli.github.io/PyForge-CLI/
+repo_url: https://github.com/Py-Forge-Cli/PyForge-CLI
+repo_name: Py-Forge-Cli/PyForge-CLI
+edit_uri: edit/main/docs/
+use_directory_urls: true
+
+theme:
+  name: material
+  language: en
+  logo: assets/icon_512x512.svg
+  favicon: assets/icon_pyforge_forge.svg
+  palette:
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep purple
+      accent: purple
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep purple
+      accent: purple
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+  features:
+    - navigation.sections
+    - navigation.expand
+    - navigation.indexes
+    - navigation.top
+    - toc.follow
+    - search.highlight
+    - search.share
+    - search.suggest
+    - content.tabs.link
+    - content.code.copy
+    - content.code.select
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/pencil
+    view: material/eye
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Py-Forge-Cli/PyForge-CLI
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/pyforge-cli/
+  version:
+    provider: mike
+    default: latest
+
+extra_css:
+  - stylesheets/extra.css
+
+plugins:
+  - search:
+      separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      repo_url_shorthand: true
+      user: Py-Forge-Cli
+      repo: PyForge-CLI
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Overview: getting-started/index.md
+    - Installation: getting-started/installation.md
+    - Quick Start: getting-started/quick-start.md
+    - First Conversion: getting-started/first-conversion.md
+    - Tools Prerequisites: getting-started/tools-prerequisites.md
+  - Sample Datasets: sample-datasets.md
+  - Converters:
+    - Overview: converters/index.md
+    - PDF to Text: converters/pdf-to-text.md
+    - Excel to Parquet: converters/excel-to-parquet.md
+    - XML to Parquet: converters/xml-to-parquet.md
+    - CSV to Parquet: converters/csv-to-parquet.md
+    - Database Files: converters/database-files.md
+    - DBF Files: converters/dbf-files.md
+    - MDF Tools Installer: converters/mdf-tools-installer.md
+  - Reference:
+    - Overview: reference/index.md
+    - CLI Commands: reference/cli-reference.md
+  - Tutorials:
+    - Overview: tutorials/index.md
+    - Troubleshooting: tutorials/troubleshooting.md
+  - API:
+    - Overview: api/index.md
+  - About:
+    - Overview: about/index.md
+    - Changelog: about/changelog.md
+    - Contributing: about/contributing.md
+    - License: about/license.md
