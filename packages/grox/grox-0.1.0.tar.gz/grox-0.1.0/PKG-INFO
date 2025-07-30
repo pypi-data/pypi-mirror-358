@@ -1,0 +1,57 @@
+Metadata-Version: 2.4
+Name: grox
+Version: 0.1.0
+Summary: Async-ready context and logging manager for multi-tenant services
+Author-email: Phragman <a@staphi.com>
+License: MIT
+Requires-Python: <3.14,>=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pydantic<3,>=1.10.0
+Requires-Dist: structlog>=23.1.0
+Requires-Dist: python-json-logger>=2.0.0
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: click>=8.0
+Requires-Dist: jinja2
+Requires-Dist: langfabric<0.2.0,>=0.1.8
+Requires-Dist: seyaml<1.0,>=0.1.1
+Requires-Dist: langgraph<0.5.0,>=0.4.10
+Requires-Dist: langgraph-checkpoint-redis<0.0.9,>=0.0.8
+Requires-Dist: langchain-redis<0.3.0,>=0.2.3
+Requires-Dist: colorama<0.5.0,>=0.4.6
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
+Dynamic: license-file
+
+# Grox
+
+![Unit Tests](https://github.com/grakn/grox/actions/workflows/ci.yaml/badge.svg?branch=main)
+[![PyPI Downloads](https://static.pepy.tech/badge/langfabric)](https://pepy.tech/projects/langfabric)
+
+**Grox** is a lightweight async-ready Python library for building multi-tenant AI agents, project-scoped services with graph orchestrated LLM execution flows, structured logging, request correlation, and centralized configuration.
+
+## ✨ Features
+
+- Singleton `GroxContext` with thread-safe project registration
+- `GroxExecutionContext` object per request/input (with `tenant_id` and `project_code`)
+- Per-request correlation ID and user-scoped structured logging via `structlog`
+- YAML-based config loading with Pydantic
+- Clean separation between global project data and per-request logic
+
+## 🛠️ Installation
+
+```
+pip install grox
+```
+
+## For development
+
+Poetry
+```
+poetry install --extras "test"
+```
+
+PIP
+```
+pip3 install ".[test]"
+```
