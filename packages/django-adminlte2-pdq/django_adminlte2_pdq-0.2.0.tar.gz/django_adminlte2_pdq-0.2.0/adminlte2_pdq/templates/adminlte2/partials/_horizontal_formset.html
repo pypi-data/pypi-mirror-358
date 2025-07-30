@@ -1,0 +1,52 @@
+{% load adminlte_filters %}
+
+
+<div class="form-inline col-sm-12">
+  <div class="panel panel-default">
+
+    <div class="panel-heading">
+      {{ section_heading }}
+    </div>
+
+    <div class="panel-body">
+    {{ formset.management_form }}
+
+    {% for form in formset %}
+      <div class="col-sm-12">
+        {% for field in form %}
+          {% if field|fieldtype == "HiddenInput" %}
+            {{ field }}
+          {% else %}
+            <div class="form-group col-lg-3 {% if field.errors %}has-error{% endif %}">
+              {% if field|fieldtype != "CheckboxInput" %}
+                <label
+                  for="{{ field.id_for_label }}"
+                  class="control-label {% if bold_required and field.field.required %}required{% endif %}"
+                >
+                  {{ field.label }}:{% if asterisk_required and field.field.required %}*{% endif %}
+                </label>
+              {% endif %}
+
+              {% if field|fieldtype == "CheckboxInput" %}
+                {% include "adminlte2/partials/_form/_checkbox.html" %}
+              {% elif field|fieldtype == "Select" or field|fieldtype == "NullBooleanSelect" or field|fieldtype == "SelectMultiple" %}
+                {% include "adminlte2/partials/_form/_select.html" %}
+              {% elif field|fieldtype == "RadioSelect" %}
+                {% include "adminlte2/partials/_form/_radio.html" %}
+              {% elif field|fieldtype == "CheckboxSelectMultiple" %}
+                {% include "adminlte2/partials/_form/_checkbox_select.html" %}
+              {% elif field|fieldtype == "ClearableFileInput" %}
+                {% include "adminlte2/partials/_form/_file.html" %}
+              {% else %}
+                {% include "adminlte2/partials/_form/_text.html" %}
+              {% endif %}
+
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endfor %}
+
+    </div>
+  </div>
+</div>
