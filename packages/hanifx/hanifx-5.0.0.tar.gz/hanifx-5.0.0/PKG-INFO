@@ -1,0 +1,59 @@
+Metadata-Version: 2.4
+Name: hanifx
+Version: 5.0.0
+Summary: hanifx: Advanced Python Security, Time-Lock & Utility Toolkit
+Home-page: https://github.com/hanifx-540/hanifx
+Author: Hanif
+Author-email: sajim4653@gmail.com
+Project-URL: GitHub, https://github.com/hanifx-540/hanifx
+Project-URL: Facebook, https://facebook.com/hanifx540
+Project-URL: Documentation, https://github.com/hanifx-540/hanifx/blob/main/README.md
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Security
+Classifier: Topic :: Utilities
+Classifier: Development Status :: 5 - Production/Stable
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: project-url
+Dynamic: requires-python
+Dynamic: summary
+
+# hanifx
+
+**hanifx** is a Python security and utility module built by Hanif. It includes tools like **time-locking Python scripts**, code protection, and more upcoming advanced security features.
+
+---
+
+## 🔐 Features
+
+- `lock_file()`: Inject a time-lock in any Python script so it cannot be executed before a specific time.
+- Modes:
+  - `hard`: blocks execution completely before time
+  - `warn`: shows warning but allows execution
+- Easy to use with one function
+- Lightweight and zero dependencies
+
+---
+
+## 🚀 Installation
+
+```bash
+pip install hanifx
+
+from hanifx import lock_file
+
+# Lock script until July 1, 2025 at 14:30 UTC
+lock_file("my_script.py", "2025-07-01 14:30", mode="hard")
+
+⛔ This script is time-locked until 2025-07-01 14:30 UTC.
