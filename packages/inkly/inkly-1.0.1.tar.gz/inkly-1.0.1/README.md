@@ -1,0 +1,342 @@
+# Inkly - OpenAPI クライアント & サーバコードジェネレータ
+
+[![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Code style: ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![Type checked: pyright](https://img.shields.io/badge/Type%20checked-pyright-blue.svg)](https://github.com/microsoft/pyright)
+
+**Inkly** は OpenAPI 3.0 仕様書から型安全な Python クライアントと FastAPI/Flask サーバコードを自動生成する現代的なツールです。
+
+## ✨ 特徴
+
+- 🚀 **Python 3.12+ 対応** - 最新の型アノテーション（`dict[str, Any]`、`list[int]` など）を使用
+- 🔒 **型安全** - Pydantic v2 モデルによる厳密な型チェック
+- ⚡ **高速開発** - OpenAPI 仕様書から瞬時にコード生成
+- 🎯 **モダンな開発環境** - ruff、pyright、pytest による品質保証
+- 🌐 **非同期サポート** - httpx による高性能非同期クライアント
+- 🔧 **柔軟な出力** - フラット構造またはディレクトリ構造での生成
+- 🎭 **モックサーバ** - 開発・テスト用の動的モックサーバ
+- 🌟 **フレームワーク対応** - FastAPI/Flask 両対応
+
+## 🎯 目的
+
+OpenAPI 定義を単なるドキュメントではなく、**実装の出発点**と捉え、
+
+* **型安全なクライアント**
+* **スキーマ駆動のサーバ**
+  の両方を自動構築することで、開発体験を飛躍的に向上させることを目的とします。
+
+---
+
+## 📦 主な機能
+
+### ✅ クライアント生成
+
+* OpenAPI v3 対応
+* HTTP メソッド・エンドポイント定義の自動変換
+* `pydantic` ベースの型付きモデルの自動生成
+* 各エンドポイントに対応するメソッドの生成
+* クライアントインスタンスによる API 呼び出し
+* 型チェック・補完が効く IDE フレンドリな出力
+* CLI からの簡単操作
+
+### 🖥️ サーバスキャフォールド / モックサーバ
+
+* FastAPI ベースのルーティングコード自動生成
+* リクエスト・レスポンスの型チェック付きスタブ関数
+* OpenAPI の `example` フィールドを使った簡易モック応答（オプション）
+* ビジネスロジックを書くだけで即動く開発サーバ
+* `inkly serve` によるライブプレビュー型起動も可能
+
+---
+
+## 🚀 インストール
+
+```bash
+pip install inkly
+```
+
+### 開発版のインストール
+
+```bash
+git clone https://github.com/inkly-team/inkly.git
+cd inkly
+pip install -e ".[dev]"
+```
+
+---
+
+## 🛠️ 使用例
+
+### クライアント生成
+
+```bash
+# 基本的なクライアント生成
+inkly generate --input openapi.yaml --output ./client
+
+# 非同期クライアント生成
+inkly generate --input openapi.yaml --output ./client --use-async
+
+# 単一ファイル構成
+inkly generate --input openapi.yaml --output ./client --flat-structure
+```
+
+### サーバスキャフォールド生成
+
+```bash
+# 基本的なサーバスキャフォールド生成（FastAPI）
+inkly generate-server --input openapi.yaml --output ./server
+
+# Flask版サーバスキャフォールド生成
+inkly generate-server --input openapi.yaml --output ./server --framework flask
+
+# モックレスポンス付きサーバ生成
+inkly generate-server --input openapi.yaml --output ./server --mock-response
+
+# Flask版でモックレスポンス付き
+inkly generate-server --input openapi.yaml --output ./server --framework flask --mock-response
+```
+
+### モック/開発サーバ起動
+
+```bash
+# 基本的なモックサーバ起動
+inkly serve --input openapi.yaml
+
+# モックレスポンス有効化
+inkly serve --input openapi.yaml --mock
+
+# カスタムホスト・ポート
+inkly serve --input openapi.yaml --host 127.0.0.1 --port 8080
+```
+
+---
+
+## 📁 生成構成
+
+### クライアント出力
+
+```
+client/
+├── __init__.py
+├── client.py          # API クライアントクラス
+├── endpoints/
+│   ├── users.py       # 例: /users/** 用メソッド
+└── models/
+    └── user.py        # pydantic モデル
+```
+
+### サーバ出力
+
+#### FastAPI版
+
+```
+server/
+├── main.py              # FastAPI 起動スクリプト
+├── interfaces.py        # ビジネスロジックインターフェース
+├── dependencies.py      # 認証などの共通依存
+├── routes/
+│   ├── users.py         # ルーティング定義
+│   └── pets.py          # ルーティング定義
+└── models/
+    ├── requests/        # リクエストモデル
+    └── responses/       # レスポンスモデル
+```
+
+#### Flask版
+
+```
+server/
+├── main.py              # Flask 起動スクリプト
+├── app.py               # Flask アプリケーション
+├── schemas.py           # pydantic バリデーション型
+└── routes/
+    ├── users.py         # ブループリント定義
+    └── pets.py          # ブループリント定義
+```
+
+---
+
+## 🔧 CLI オプション一覧
+
+### `inkly generate` - クライアント生成
+
+```bash
+inkly generate [OPTIONS]
+
+Options:
+  -i, --input TEXT     OpenAPI 定義ファイル（.yaml/.json）[必須]
+  -o, --output TEXT    出力先ディレクトリ [必須]
+  --use-async          非同期クライアント（httpx.AsyncClient）を生成
+  --flat-structure     単一ファイルに出力
+  --help               ヘルプメッセージを表示
+```
+
+### `inkly generate-server` - サーバ生成
+
+```bash
+inkly generate-server [OPTIONS]
+
+Options:
+  -i, --input TEXT           OpenAPI 定義ファイル（.yaml/.json）[必須]
+  -o, --output TEXT          出力先ディレクトリ [必須]
+  -f, --framework [fastapi|flask]  サーバフレームワーク（デフォルト: fastapi）
+  --mock-response            OpenAPI の example を使ってモックレスポンス生成
+  --help                     ヘルプメッセージを表示
+```
+
+### `inkly serve` - モックサーバ起動
+
+```bash
+inkly serve [OPTIONS]
+
+Options:
+  -i, --input TEXT     OpenAPI 定義ファイル（.yaml/.json）[必須]
+  --host TEXT          サーバホスト（デフォルト: 0.0.0.0）
+  --port INTEGER       サーバポート（デフォルト: 8000）
+  --mock               モックレスポンスを有効にする
+  --help               ヘルプメッセージを表示
+```
+
+---
+
+## 💡 使用例
+
+### 1. 生成されたクライアントの使用
+
+```python
+from client import APIClient
+
+# クライアント初期化
+client = APIClient(base_url="https://api.example.com")
+
+# API呼び出し
+try:
+    pets = client.getpets(limit=10)
+    print(f"取得したペット: {len(pets)}")
+    
+    # 新しいペット作成
+    new_pet = client.createpet(data={
+        "name": "Buddy",
+        "status": "available"
+    })
+    print(f"作成されたペット: {new_pet}")
+    
+finally:
+    client.close()
+```
+
+### 2. 非同期クライアントの使用
+
+```python
+import asyncio
+from client import APIClient
+
+async def main():
+    client = APIClient(base_url="https://api.example.com")
+    
+    try:
+        pets = await client.getpets(limit=10)
+        print(f"取得したペット: {len(pets)}")
+    finally:
+        await client.close()
+
+asyncio.run(main())
+```
+
+### 3. 生成されたサーバの使用
+
+```python
+# server/main.py を編集してビジネスロジックを追加
+from fastapi import HTTPException
+from .routes.pets import router
+
+@router.get("/pets")
+def get_pets(limit: int = None):
+    # 実際のデータベース操作
+    pets = database.get_pets(limit=limit)
+    return pets
+
+# サーバ起動
+# python server/main.py
+```
+
+---
+
+## 🧪 動作要件
+
+* Python 3.9+
+* pydantic >= 2.x
+* httpx（クライアント）
+* fastapi（サーバ）
+* uvicorn（サーバ）
+* click（CLI）
+* rich（CLI）
+* jinja2（テンプレート）
+* pyyaml（YAML読み込み）
+
+### 4. Flask版サーバの使用
+
+```python
+# Flask版の場合（server/routes/pets.py）
+from flask import Blueprint, jsonify, request
+
+bp = Blueprint("pets", __name__)
+
+@bp.route("/pets", methods=["GET"])
+def get_pets():
+    """ペット一覧を取得"""
+    try:
+        # パラメータ取得
+        limit = request.args.get("limit")
+        tag = request.args.get("tag")
+        
+        # ビジネスロジック実装
+        pets = database.get_pets(limit=limit, tag=tag)
+        
+        return jsonify(pets)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# サーバ起動
+# python server/main.py
+```
+
+---
+
+## 📝 ライセンス
+
+MIT License
+
+---
+
+## 🤝 貢献・開発
+
+開発に参加したい方は以下のドキュメントをご覧ください：
+
+- [CONTRIBUTING.md](./CONTRIBUTING.md) - 貢献ガイドライン
+- [DEVELOPMENT.md](./DEVELOPMENT.md) - 開発者向け詳細ガイド
+
+---
+
+## 📞 サポート
+
+* [GitHub Issues](https://github.com/inkly-team/inkly/issues)
+* [GitHub Discussions](https://github.com/inkly-team/inkly/discussions)
+
+---
+
+## 🎉 謝辞
+
+このプロジェクトは以下のオープンソースプロジェクトの恩恵を受けています：
+
+* [FastAPI](https://fastapi.tiangolo.com/)
+* [Pydantic](https://pydantic-docs.helpmanual.io/)
+* [HTTPX](https://www.python-httpx.org/)
+* [Click](https://click.palletsprojects.com/)
+* [Rich](https://rich.readthedocs.io/)
+* [Jinja2](https://jinja.palletsprojects.com/)
+
+---
+
+**Inkly** で OpenAPI から型安全な Python コードを瞬時に生成し、開発を加速させましょう！ 🚀
