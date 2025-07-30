@@ -1,0 +1,80 @@
+Metadata-Version: 2.3
+Name: md2ankicard
+Version: 0.1.0
+Summary: Convert markdown files to Anki cards
+License: MIT
+Keywords: anki,markdown,flashcards,converter,cli
+Author: Andrew Romanenco
+Author-email: andrew@romanenco.com
+Requires-Python: >=3.9
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: Topic :: Education
+Classifier: Topic :: Utilities
+Classifier: Environment :: Console
+Classifier: Programming Language :: Python :: 3
+Requires-Dist: genanki (>=0.13.1,<0.14.0)
+Requires-Dist: markdown (>=3.8.2,<4.0.0)
+Description-Content-Type: text/markdown
+
+# md2ankicard
+
+**Convert Markdown notes (with images) into Anki decks.**
+
+`md2ankicard` is a command-line tool to batch-convert Markdown files into Anki `.apkg` file, preserving images and formatting.
+
+## ✨ Features
+
+- 📄 Converts each `.md` file into an Anki note (card).
+- 🖼️ Automatically includes images referenced in Markdown.
+- 🔍 Optional `--grep` to filter files by keyword (e.g. by a tag).
+- 🧠 Uses the Markdown filename as the front (question) and content as the back (answer).
+- 🗃️ Outputs a standard `.apkg` file ready to import into Anki.
+
+## 📦 Installation
+
+```bash
+pip install md2ankicard
+```
+
+Or with Poetry (for development):
+
+```bash
+git clone https://github.com/andrewromanenco/md2ankicard.git
+cd md2ankicard
+poetry install
+```
+## 🚀 Usage
+
+```bash
+md2ankicard <markdown_folder> <output.apkg> "<deck name>" [--grep <pattern>] [--verbose]
+```
+
+or if run from sources
+
+```bash
+poetry run md2ankicard PathToFilder FileName.apkg DeckName -v --grep '#SomeTag'
+```
+### Examples
+
+#### Convert all Markdown files in the 'notes' folder to an Anki deck
+`md2ankicard ./notes study.apkg "Study Notes"`
+
+#### Only include files that mention 'python'
+`md2ankicard ./notes code.apkg "Code Review" --grep "python"`
+
+#### Show detailed output during conversion
+`md2ankicard ./docs docs.apkg "Documentation" --verbose`
+
+## 🧠 How It Works
+
+- Each .md file becomes one Anki card.
+- The file name (without extension) becomes the front of the card.
+- The rendered Markdown (including images) becomes the back.
+- Images are automatically detected and embedded in the .apkg file.
+
+## 📝 License
+
+This project is licensed under the MIT License.
+

@@ -1,0 +1,36 @@
+[project]
+name = "md2ankicard"
+version = "0.1.0"
+description = "Convert markdown files to Anki cards"
+authors = [
+    {name = "Andrew Romanenco",email = "andrew@romanenco.com"}
+]
+homepage = "https://github.com/andrewromanenco/md2ankicard"
+repository = "https://github.com/andrewromanenco/md2ankicard"
+readme = "README.md"
+license = "MIT"
+keywords = ["anki", "markdown", "flashcards", "converter", "cli"]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: End Users/Desktop",
+    "Topic :: Education",
+    "Topic :: Utilities",
+    "Environment :: Console",
+    "Programming Language :: Python :: 3"
+]
+requires-python = ">=3.9"
+dependencies = [
+    "genanki (>=0.13.1,<0.14.0)",
+    "markdown (>=3.8.2,<4.0.0)"
+]
+
+[project.scripts]
+md2ankicard = "md2ankicard.cli:main"
+
+[tool.poetry]
+packages = [{include = "md2ankicard", from = "src"}]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
