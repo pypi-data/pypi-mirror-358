@@ -1,0 +1,48 @@
+Metadata-Version: 2.4
+Name: ergs-selector
+Version: 0.1.0
+Summary: Effective Range-based Feature Selection (ERGS) for Classification
+Home-page: https://github.com/yourusername/ergs-selector
+Author: Your Name
+Author-email: your@email.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: scikit-learn
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# ERGS Selector
+
+`ergs-selector` is a Python package for performing Effective Range-based Feature Selection (ERGS) for classification problems. It helps select features based on their value range separation across classes.
+
+## Installation
+
+```bash
+pip install ergs-selector
+```
+
+## Usage
+
+```python
+from ergs_selector import ERGSSelector
+
+selector = ERGSSelector(top_k=15)
+X_selected = selector.fit_transform(X, y)
+```
+
+## License
+
+MIT
