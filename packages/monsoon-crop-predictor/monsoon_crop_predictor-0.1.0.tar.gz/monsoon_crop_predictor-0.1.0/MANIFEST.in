@@ -1,0 +1,33 @@
+include README.md
+include LICENSE
+include requirements.txt
+include pyproject.toml
+include setup.cfg
+
+# Include model files
+recursive-include monsoon_crop_predictor/models/best_advanced_models *.pkl
+
+# Include configuration files
+recursive-include monsoon_crop_predictor/config *.json
+
+# Include example data files
+recursive-include examples *.csv *.json *.ipynb
+
+# Include documentation
+recursive-include docs *.rst *.py *.md
+recursive-include docs/_static *
+recursive-include docs/_templates *
+
+# Exclude development and build files
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude *.pyd
+global-exclude __pycache__
+global-exclude .git*
+global-exclude .coverage
+global-exclude .pytest_cache
+global-exclude .mypy_cache
+global-exclude .tox
+global-exclude *.egg-info
+prune build
+prune dist
