@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "proj2pdf"
+version = "0.1.0"
+authors = [
+    { name="Gordon Oh", email="gordonoh@yahoo.com.sg" },
+]
+description = "A CLI tool to convert project files to PDF"
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.7"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+
+dependencies = [
+    "nbformat>=5.7.0",
+    "nbconvert>=7.2.0",
+    "playwright>=1.39.0",
+    "markdownify>=0.11.6",
+    "weasyprint==60.1",
+    "PyPDF2>=3.0.0",
+    "jupyter>=1.0.0",
+    "Pygments>=2.17.2",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/gordonjun2/proj2pdf"
+
+[project.scripts]
+proj2pdf = "proj2pdf.cli:main" 
