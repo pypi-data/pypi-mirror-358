@@ -1,0 +1,170 @@
+%YAML 1.1
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/harp-tech/protocol/refs/heads/main/schema/device.json
+device: CurrentDriver
+whoAmI: 1282
+firmwareVersion: "0.3"
+hardwareTargets: "1.1"
+registers:
+  DigitalInputState:
+    address: 32
+    access: Event
+    type: U8
+    maskType: DigitalInputs
+    description: Reflects the state of DI digital lines
+  OutputSet: &output
+    address: 33
+    type: U16
+    access: Write
+    maskType: DigitalOutputs
+    description: Set the specified digital output lines
+  OutputClear:
+    <<: *output
+    address: 34
+    description: Clear the specified digital output lines
+  OutputToggle:
+    <<: *output
+    address: 35
+    description: Toggle the specified digital output lines
+  OutputState:
+    <<: *output
+    address: 36
+    description: Write the state of all digital output lines
+  Led0Current: &ledCurrent
+    address: 37
+    type: Float
+    access: Write
+    minValue: 0
+    maxValue: 1000
+    description: Configuration of current to drive LED 0 [0:1000] mA
+  Led1Current:
+    <<: *ledCurrent
+    address: 38
+    description: Configuration of current to drive LED 1 [0:1000] mA
+  Dac0Voltage: &dacVoltage
+    address: 39
+    type: Float
+    access: Write
+    minValue: 0
+    maxValue: 5000
+    description: Configuration of DAC 0 voltage [0:5000] mV
+  Dac1Voltage:
+    <<: *dacVoltage
+    address: 40
+    description: Configuration of DAC 1 voltage [0:5000] mV
+  LedEnable: &led
+    address: 41
+    type: U8
+    access: Write
+    maskType: LedOutputs
+    description: Enable driver on the selected output
+  LedDisable:
+    <<: *led
+    address: 42
+    description: Disable driver on the selected output
+  LedState:
+    <<: *led
+    address: 43
+    description: Control the correspondent LED output
+  Led0MaxCurrent: &ledMaxCurrent
+    address: 44
+    type: Float
+    access: Write
+    minValue: 0
+    maxValue: 1000
+    description: Configuration of current to drive LED 0 [0:1000] mA
+  Led1MaxCurrent:
+    <<: *ledMaxCurrent
+    address: 45
+    description: Configuration of current to drive LED 1 [0:1000] mA
+  PulseEnable:
+    address: 46
+    type: U8
+    access: Write
+    maskType: LedOutputs
+    description: Enables the pulse function for the specified output DACs/LEDs
+  PulseDutyCycleLed0: &pulseDutyCycle
+    address: 47
+    type: U8
+    access: Write
+    minValue: 1
+    maxValue: 100
+    description: Specifies the duty cycle of the output pulse from 1 to 100
+  PulseDutyCycleLed1:
+    <<: *pulseDutyCycle
+    address: 48
+    description: Specifies the duty cycle of the output pulse from 1 to 100
+  PulseFrequencyLed0: &pulseFrequency
+    address: 49
+    type: U8
+    access: Write
+    minValue: 1
+    description: Specifies the frequency of the output pulse in Hz
+  PulseFrequencyLed1:
+    <<: *pulseFrequency
+    address: 50
+    description: Specifies the frequency of the output pulse in Hz
+  RampLed0: &ramp
+    address: 51
+    type: U16
+    access: Write
+    minValue: 1
+    description: Specifies the ramp time of the transitions between different current/voltage values in milliseconds. The ramp will only work if the pulse function is off
+  RampLed1:
+    <<: *ramp
+    address: 52
+    description: Specifies the ramp time of the transitions between different current/voltage values in milliseconds. The ramp will only work if the pulse function is off
+  RampConfig:
+    address: 53
+    type: U8
+    access: Write
+    maskType: LedRamps
+    description: Specifies when the ramps are applied for each DAC/LED
+  Reserved0: &reserved
+    address: 54
+    access: Read
+    visibility: private
+    type: U8
+    description: Reserved
+  Reserved1:
+    <<: *reserved
+    address: 55
+  Reserved2:
+    <<: *reserved
+    address: 56
+  Reserved3:
+    <<: *reserved
+    address: 57
+  EnableEvents:
+    address: 58
+    access: Write
+    type: U8
+    maskType: CurrentDriverEvents
+    description: Specifies the active events in the device
+bitMasks:
+  DigitalInputs:
+    description: Specifies the state of port digital input lines
+    bits:
+      DI0: 0x1
+      DI1: 0x2
+  DigitalOutputs:
+    description: Specifies the state of port digital output lines
+    bits:
+      DO0: 0x1
+      DO1: 0x2
+  LedOutputs:
+    description: Specifies the state of LED driver's outputs
+    bits:
+      LED0: 0x1
+      LED1: 0x2
+  LedRamps:
+    description: Specifies the configuration of LED driver's ramps
+    bits:
+      LED0_UP: 0x1
+      LED0_DOWN: 0x2
+      LED1_UP: 0x4
+      LED1_DOWN: 0x8
+  CurrentDriverEvents:
+    description: Specifies the active events in the device.
+    bits:
+      DIs: 0x1

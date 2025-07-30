@@ -1,0 +1,1 @@
+::: harp.devices.loadcells.harpdevice

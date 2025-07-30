@@ -1,0 +1,319 @@
+%YAML 1.1
+---
+# yaml-language-server: $schema=https://harp-tech.org/draft-02/schema/device.json
+device: AnalogInput
+whoAmI: 1236
+firmwareVersion: "1.2"
+hardwareTargets: "1.0"
+registers:
+  AcquisitionState:
+    address: 32
+    access: Write
+    type: U8
+    maskType: EnableFlag
+    description: Enables the data acquisition.
+  AnalogData:
+    address: 33
+    type: S16
+    length: 4
+    access: Event
+    description: Value from a single read of all ADC channels.
+    payloadSpec:
+      Channel0:
+        offset: 0
+      Channel1:
+        offset: 1
+      Channel2:
+        offset: 2
+      Channel3:
+        offset: 3
+  DigitalInputState:
+    address: 34
+    access: Event
+    type: U8
+    maskType: DigitalInputs
+    description: State of the digital input pin 0.
+  Reserved0: &ReservedReg
+    address: 35
+    access: Read
+    visibility: private
+    type: U8
+    description: Reserved
+  Reserved1:
+    <<: *ReservedReg
+    address: 36
+  RangeAndFilter:
+    address: 37
+    access: Write
+    type: U8
+    maskType: RangeAndFilterConfig
+    description: Sets the range and LowPass filter cutoff of the ADC.
+  SamplingRate:
+    address: 38
+    access: Write
+    type: U8
+    maskType: SamplingRateMode
+    description: Sets the sampling frequency of the ADC.
+  DI0Trigger:
+    address: 39
+    access: Write
+    type: U8
+    maskType: TriggerConfig
+    description: Configuration of the digital input pin 0.
+  DO0Sync:
+    address: 40
+    access: Write
+    type: U8
+    maskType: SyncConfig
+    description: Configuration of the digital output pin 0.
+  DO0PulseWidth:
+    address: 41
+    access: Write
+    type: U8
+    minValue: 1
+    maxValue: 250
+    description: Pulse duration (ms) for the digital output pin 0. The pulse will only be emitted when DO0Sync == Pulse.
+  DigitalOutputSet: &output
+    address: 42
+    type: U8
+    access: Write
+    maskType: DigitalOutputs
+    description: Set the specified digital output lines.
+  DigitalOutputClear:
+    <<: *output
+    address: 43
+    description: Clear the specified digital output lines.
+  DigitalOutputToggle:
+    <<: *output
+    address: 44
+    description: Toggle the specified digital output lines
+  DigitalOutputState:
+    <<: *output
+    address: 45
+    access: [Write, Event]
+    description: Write the state of all digital output lines. An event will be emitted when the value of any pin was changed by a threshold event.
+  Reserved2:
+    <<: *ReservedReg
+    address: 46
+  Reserved3:
+    <<: *ReservedReg
+    address: 47
+  SyncOutput:
+    address: 48
+    access: Write
+    type: U8
+    maskType: StartSyncOutputTarget
+    description: Digital output that will be set when acquisition starts.
+  Reserved4:
+    <<: *ReservedReg
+    address: 49
+  Reserved5:
+    <<: *ReservedReg
+    address: 50
+  Reserved6:
+    <<: *ReservedReg
+    address: 51
+  Reserved7:
+    <<: *ReservedReg
+    address: 52
+  Reserved8:
+    <<: *ReservedReg
+    address: 53
+  Reserved9:
+    <<: *ReservedReg
+    address: 54
+  Reserved10:
+    <<: *ReservedReg
+    address: 55
+  Reserved11:
+    <<: *ReservedReg
+    address: 56
+  Reserved12:
+    <<: *ReservedReg
+    address: 57
+  DO0TargetChannel: &targetchannel
+    address: 58
+    access: Write
+    type: U8
+    maskType: AdcChannel
+    description: Target ADC channel that will be used to trigger a threshold event on DO0 pin.
+  DO1TargetChannel:
+    <<: *targetchannel
+    address: 59
+    description: Target ADC channel that will be used to trigger a threshold event on DO1 pin.
+  DO2TargetChannel:
+    <<: *targetchannel
+    address: 60
+    description: Target ADC channel that will be used to trigger a threshold event on DO2 pin.
+  DO3TargetChannel:
+    <<: *targetchannel
+    address: 61
+    description: Target ADC channel that will be used to trigger a threshold event on DO3 pin.
+  Reserved13:
+    <<: *ReservedReg
+    address: 62
+  Reserved14:
+    <<: *ReservedReg
+    address: 63
+  Reserved15:
+    <<: *ReservedReg
+    address: 64
+  Reserved16:
+    <<: *ReservedReg
+    address: 65
+  DO0Threshold: &thresholdvalue
+    address: 66
+    access: Write
+    type: S16
+    description: Value used to threshold an ADC read, and trigger DO0 pin.
+  DO1Threshold:
+    <<: *thresholdvalue
+    address: 67
+    description: Value used to threshold an ADC read, and trigger DO1 pin.
+  DO2Threshold:
+    <<: *thresholdvalue
+    address: 68
+    description: Value used to threshold an ADC read, and trigger DO2 pin.
+  DO3Threshold:
+    <<: *thresholdvalue
+    address: 69
+    description: Value used to threshold an ADC read, and trigger DO3 pin.
+  Reserved17:
+    <<: *ReservedReg
+    address: 70
+  Reserved18:
+    <<: *ReservedReg
+    address: 71
+  Reserved19:
+    <<: *ReservedReg
+    address: 72
+  Reserved20:
+    <<: *ReservedReg
+    address: 73
+  DO0TimeAboveThreshold: &bufferedthreshold
+    address: 74
+    access: Write
+    type: U16
+    defaultValue: 0
+    description: Time (ms) above threshold value that is required to trigger a DO0 pin event.
+  DO1TimeAboveThreshold:
+    <<: *bufferedthreshold
+    address: 75
+    description: Time (ms) above threshold value that is required to trigger a DO1 pin event.
+  DO2TimeAboveThreshold:
+    <<: *bufferedthreshold
+    address: 76
+    description: Time (ms) above threshold value that is required to trigger a DO2 pin event.
+  DO3TimeAboveThreshold:
+    <<: *bufferedthreshold
+    address: 77
+    description: Time (ms) above threshold value that is required to trigger a DO3 pin event.
+  Reserved21:
+    <<: *ReservedReg
+    address: 78
+  Reserved22:
+    <<: *ReservedReg
+    address: 79
+  Reserved23:
+    <<: *ReservedReg
+    address: 80
+  Reserved24:
+    <<: *ReservedReg
+    address: 81
+  DO0TimeBelowThreshold:
+    <<: *bufferedthreshold
+    address: 82
+    description: Time (ms) below threshold value that is required to trigger a DO0 pin event.
+  DO1TimeBelowThreshold:
+    <<: *bufferedthreshold
+    address: 83
+    description: Time (ms) below threshold value that is required to trigger a DO1 pin event.
+  DO2TimeBelowThreshold:
+    <<: *bufferedthreshold
+    address: 84
+    description: Time (ms) below threshold value that is required to trigger a DO2 pin event.
+  DO3TimeBelowThreshold:
+    <<: *bufferedthreshold
+    address: 85
+    description: Time (ms) below threshold value that is required to trigger a DO3 pin event.
+  Reserved25:
+    <<: *ReservedReg
+    address: 86
+  Reserved26:
+    <<: *ReservedReg
+    address: 87
+  Reserved27:
+    <<: *ReservedReg
+    address: 88
+  Reserved28:
+    <<: *ReservedReg
+    address: 89
+  Reserved29:
+    <<: *ReservedReg
+    address: 90
+bitMasks:
+  DigitalInputs:
+    description: Available digital input lines.
+    bits:
+      DI0: 0x1
+  DigitalOutputs:
+    description: Specifies the state of port digital output lines.
+    bits:
+      DO0: 0x1
+      DO1: 0x2
+      DO2: 0x4
+      DO3: 0x8
+      DO0Changed: 0x10
+      DO1Changed: 0x20
+      DO2Changed: 0x40
+      DO4Changed: 0x80
+groupMasks:
+  RangeAndFilterConfig:
+    description: Available settings to set the range (Volt) and LowPass filter cutoff (Hz) of the ADC.
+    values:
+      Range5VLowPass1500Hz: 0x06
+      Range5VLowPass3000Hz: 0x05
+      Range5VLowPass6000Hz: 0x04
+      Range5VLowPass10300Hz: 0x03
+      Range5VLowPass13700Hz: 0x02
+      Range5VLowPass15000Hz: 0x01
+      Range10VLowPass1500Hz: 0x16
+      Range10VLowPass3000Hz: 0x15
+      Range10VLowPass6000Hz: 0x14
+      Range10VLowPass11900Hz: 0x13
+      Range10VLowPass18500Hz: 0x12
+      Range10VLowPass22000Hz: 0x11
+  SamplingRateMode:
+    description: Available sampling frequency settings of the ADC.
+    values:
+      SamplingRate1000Hz: 0x00
+      SamplingRate2000Hz: 0x01
+  TriggerConfig:
+    description: Available configurations for when using DI0 as an acquisition trigger.
+    values:
+      None: 0
+      StartOnRisingEdge: 1
+      StartOnFallingEdge: 2
+      SampleOnRisingEdge: 3
+  SyncConfig:
+    description: Available configurations when using DO0 pin to report firmware events.
+    values:
+      None: 0
+      Heartbeat: 1
+      Pulse: 2
+  StartSyncOutputTarget:
+    description: Available digital output pins that are able to be triggered on acquisition start.
+    values:
+      None: 0
+      DO0: 1
+      DO1: 2
+      DO2: 3
+      DO3: 4
+  AdcChannel:
+    description: Available target analog channels to be targeted for threshold events.
+    values:
+      Channel0: 0
+      Channel1: 1
+      Channel2: 2
+      Channel3: 3
+      None: 8

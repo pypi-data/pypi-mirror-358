@@ -1,0 +1,106 @@
+%YAML 1.1
+---
+# yaml-language-server: $schema=https://harp-tech.org/draft-02/schema/device.json
+
+device: AudioSwitch
+whoAmI: 1248
+firmwareVersion: "1.2"
+hardwareTargets: "1.0"
+registers:
+  ControlMode:
+    address: 32
+    access: Write
+    type: U8
+    maskType: ControlSource
+    description: Configures the source to enable the board channels.
+  EnableChannels:
+    address: 33
+    access: [Write, Event]
+    type: U16
+    maskType: AudioChannels
+    description: Enables the audio output channels using a bitmask format. An event will be emitted when any of the channels are enabled. 
+  DigitalInputState:
+    address: 34
+    access: Event
+    type: U8
+    maskType: DigitalInputs
+    description: State of the digital input pins. An event will be emitted when the value of any digital input pin changes.
+  DO0State:
+    address: 35
+    access: Write
+    type: U8
+    maskType: EnableFlag
+    description: Status of the digital output pin 0.
+  Reserved0: &reserved
+    address: 36
+    access: Read
+    visibility: private
+    type: U8
+    description: Reserved for future use.
+  DI4Trigger:
+    address: 37
+    access: Write
+    type: U8
+    maskType: DI4TriggerConfig
+    description: Configuration of the digital input pin 4 functionality.
+  DO0Sync:
+    address: 38
+    access: Write
+    type: U8
+    maskType: DO0SyncConfig
+    description: Configuration of the digital output pin 0 functionality.
+  EnableEvents:
+    address: 39
+    access: Write
+    type: U8
+    maskType: AudioSwitchEvents
+    description: Specifies the active events in the device.
+bitMasks:
+  AudioChannels:
+    description: Specifies the available audio output channels.
+    bits:
+      Channel0: 0x1
+      Channel1: 0x2
+      Channel2: 0x4
+      Channel3: 0x8
+      Channel4: 0x10
+      Channel5: 0x20
+      Channel6: 0x40
+      Channel7: 0x80
+      Channel8: 0x100
+      Channel9: 0x200
+      Channel10: 0x400
+      Channel11: 0x800
+      Channel12: 0x1000
+      Channel13: 0x2000
+      Channel14: 0x4000
+      Channel15: 0x8000
+  DigitalInputs:
+    description: Specifies the state of the digital input pins.
+    bits:
+      DI0: 0x1
+      DI1: 0x2
+      DI2: 0x4
+      DI3: 0x8
+      DI4: 0x10
+  AudioSwitchEvents:
+    description: The events that can be enabled/disabled.
+    bits:
+      EnableChannels: 0x1
+      DigitalInputsState: 0x2
+groupMasks:
+  ControlSource:
+    description: Available configurations to control the board channels (host computer or digital inputs).
+    values:
+      USB: 0
+      DigitalInputs: 1
+  DI4TriggerConfig:
+    description: Available configurations for DI4. Can be used as digital input or as the MSB of the switches address when the SourceControl is configured as DigitalInputs.
+    values:
+      Input: 0
+      Address: 1
+  DO0SyncConfig:
+    description: Available configurations when using DO0 pin to report firmware events.
+    values:
+      Output: 0
+      ToggleOnChannelChange: 1

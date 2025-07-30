@@ -1,0 +1,232 @@
+%YAML 1.1
+---
+# yaml-language-server: $schema=https://harp-tech.org/draft-02/schema/device.json
+device: SyringePump
+whoAmI: 1296
+firmwareVersion: "1.0"
+hardwareTargets: "1.0"
+registers:
+  EnableMotorDriver: &enablefunctionreg
+    address: 32
+    access: Write
+    type: U8
+    maskType: EnableFlag
+    description: Enables the motor driver.
+  EnableProtocol:
+    <<: *enablefunctionreg
+    address: 33
+    description: Enables the currently defined protocol.
+  Step:
+    address: 34
+    access: [Write, Event]
+    type: U8
+    maskType: StepState
+    description: Status of the STEP motor controller pin.
+  Direction:
+    address: 35
+    access: [Write, Event]
+    type: U8
+    maskType: DirectionState
+    description: Status of the DIR motor controller pin.
+  ForwardSwitch: &switchreg
+    address: 36
+    access: Event
+    type: U8
+    maskType: ForwardSwitchState
+    description: Status of the forward limit switch.
+  ReverseSwitch:
+    <<: *switchreg
+    address: 37
+    maskType: ReverseSwitchState
+    description: Status of the reverse limit switch.
+  DigitalInputState:
+    <<: *switchreg
+    address: 38
+    maskType: DigitalInputs
+    description: Status of the digital input pin.
+  DigitalOutputSet: &output
+    address: 39
+    type: U8
+    access: Write
+    maskType: DigitalOutputs
+    description: Set the specified digital output lines.
+  DigitalOutputClear:
+    <<: *output
+    address: 40
+    description: Clear the specified digital output lines.
+  DO0Sync: &ioconfig
+    address: 41
+    type: U8
+    access: Write
+    maskType: DO0SyncConfig
+    description: Configures which signal is mimicked in the digital output 0.
+  DO1Sync:
+    << : *ioconfig
+    address: 42
+    maskType: DO1SyncConfig
+    description: Configures which signal is mimicked in the digital output 1.
+  DI0Trigger:
+    << : *ioconfig
+    address: 43
+    maskType: DI0TriggerConfig
+    description: Configures the callback function triggered when digital input is triggered.
+  StepMode:
+    address: 44
+    type: U8
+    access: Write
+    maskType: StepModeType
+    description: Sets the motor step mode from a list of available types.
+  ProtocolStepCount: &protocol
+    address: 45
+    type: U16
+    access: Write
+    minValue: 1
+    description: Sets the number of steps to be executed in the current protocol.
+  ProtocolFlowrate:
+    address: 46
+    type: Float
+    access: Write
+    visibility: private
+    minValue: 1e-10
+    description: Sets the flowrate of the protocol in ul/s.
+  ProtocolPeriod:
+    <<: *protocol
+    address: 47
+    description: Sets the period, in ms, of of each step in the protocol.
+  ProtocolVolume:
+    address: 48
+    type: Float
+    access: Write
+    visibility: private
+    minValue: 1e-10
+    description: Sets the volume to be delivered, in ul.
+  ProtocolType:
+    address: 49
+    type: U8
+    access: Write
+    visibility: private
+    maskType: PumpProtocolType
+    description: Sets the type of protocol to be executed.
+  CalibrationOffset:
+    address: 50
+    type: Float
+    access: Write
+    visibility: private
+    description: Sets the offset value of the calibration curve.
+  CalibrationSlope:
+    address: 51
+    type: Float
+    access: Write
+    visibility: private
+    description: Sets the slope value of the calibration curve.
+  EnableEvents:
+    address: 52
+    type: U8
+    access: Write
+    maskType: PumpEvents
+    description: Specifies all the active events in the device.
+  BoardType:
+    address: 53
+    type: U8
+    access: Write
+    maskType: PumpBoardType
+    description: Sets the board type.
+    visibility: private
+  Protocol:
+    address: 54
+    access: Event
+    type: U8
+    maskType: ProtocolState
+    description: Status of the protocol execution.
+  ProtocolDirection:
+    address: 55
+    type: U8
+    access: Write
+    maskType: ProtocolDirectionState
+    description: Sets the direction of the protocol execution.
+bitMasks:
+  DigitalOutputs:
+    description: The digital output lines.
+    bits:
+      DO0: 0x1
+      DO1: 0x2
+  DigitalInputs:
+    description: The state of the digital input pin.
+    bits:
+      DI0: 0x1
+  PumpEvents:
+    description: The events that can be enabled/disabled.
+    bits:
+      Step: 0x1
+      Direction: 0x2
+      ForwardSwitch: 0x4
+      ReverseSwitch: 0x8
+      DigitalInput: 0x10
+      Protocol: 0x20
+groupMasks:
+  StepState:
+    description: The state of the STEP motor controller pin.
+    values:
+      Low: 0
+      High: 1
+  DirectionState:
+    description: The state of the DIR motor controller pin.
+    values:
+      Reverse: 0
+      Forward: 1
+  ForwardSwitchState:
+    description: The state of the forward limit switch.
+    values:
+      Low: 0
+      High: 1
+  ReverseSwitchState:
+    description: The state of the reverse limit switch.
+    values:
+      Low: 0
+      High: 1
+  DO0SyncConfig:
+    description: Configures which signal is mimicked in the digital output 0.
+    values:
+      None: 0
+      SwitchState: 1
+  DO1SyncConfig:
+    description: Configures which signal is mimicked in the digital output 1.
+    values:
+      None: 0
+      Heartbeat: 1
+      Step: 2
+  DI0TriggerConfig:
+    description: Configures the function executed when digital input is triggered.
+    values:
+      None: 0
+      Step: 1
+      StartProtocol: 2
+  StepModeType:
+    description: Available step modes.
+    values:
+      Full: 0
+      Half: 1
+      Quarter: 2
+      Eighth: 3
+      Sixteenth: 4
+  PumpProtocolType:
+    description: Available protocol types.
+    values:
+      Step: 0
+      Volume: 1
+  PumpBoardType:
+    description: Available board configurations.
+    values:
+      Pump: 0
+      FishFeeder: 1
+      StepperMotor: 2
+  ProtocolState:
+    description: The state of the protocol execution.
+    values:
+      Idle: 0
+      Running: 1
+  ProtocolDirectionState:
+    description: The state of the protocol execution.
+    values:
+      Reverse: 0
+      Forward: 1

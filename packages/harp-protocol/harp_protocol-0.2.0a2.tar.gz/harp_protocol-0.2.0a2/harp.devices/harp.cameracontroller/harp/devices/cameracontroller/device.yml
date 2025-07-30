@@ -1,0 +1,187 @@
+%YAML 1.1
+---
+# yaml-language-server: $schema=https://harp-tech.org/draft-02/schema/device.json
+device: CameraController
+whoAmI: 1168
+firmwareVersion: "1.1"
+hardwareTargets: "1.0"
+registers:
+  CameraStart: &cameratarget
+    address: 32
+    type: U8
+    access: Write
+    maskType: Cameras
+    description: Starts the generation of triggers on the specified camera lines.
+  CameraStop:
+    <<: *cameratarget
+    address: 33
+    description: Stops the generation of triggers on the specified camera lines.
+  ServoEnable: &servotarget
+    address: 34
+    type: U8
+    access: Write
+    maskType: Servos
+    description: Enables servo control on the specified camera lines.
+  ServoDisable:
+    <<: *servotarget
+    address: 35
+    description: Disables servo control on the specified camera lines.
+  OutputSet: &output
+    address: 36
+    type: U8
+    access: Write
+    maskType: DigitalOutputs
+    description: Set the specified digital output lines.
+  OutputClear:
+    <<: *output
+    address: 37
+    description: Clear the specified digital output lines
+  OutputState:
+    <<: *output
+    address: 38
+    description: Write the state of all digital output lines
+  DigitalInputState:
+    address: 39
+    type: U8
+    access: Event
+    maskType: DigitalInputs
+    description: Emits an event when the state of the digital input line changes.
+  Camera0Trigger: &cameraframeevent
+    address: 40
+    type: U8
+    access: Event
+    description: Emits an event when a frame is triggered on camera 0.
+  Camera1Trigger:
+    <<: *cameraframeevent
+    address: 41
+    description: Emits an event when a frame is triggered on camera 1.
+  Camera0Sync: &syncstateevent
+    address: 42
+    type: U8
+    access: Event
+    description: Emits an event when a sync state is toggled on camera 0.
+  Camera1Sync:
+    <<: *syncstateevent
+    address: 43
+    description: Emits an event when a sync state is toggled on camera 0.
+  ServoState:
+    address: 44
+    type: U8
+    access: Read
+    maskType: Servos
+    description: Returns the current state of the servo motors.
+  Reserved0: &reserved
+    address: 45
+    type: U8
+    access: Read
+    description: Reserved for future use.
+    visibility: private
+  SyncInterval:
+    address: 46
+    type: U8
+    access: Write
+    description: Configures the interval in seconds between each sync pulse
+  Reserved1:
+    <<: *reserved
+    address: 47
+  DI0Mode:
+    address: 48
+    type: U8
+    access: Write
+    maskType: DI0ModeConfig
+    description: Configures the mode of the digital input line 0.
+  Control0Mode: &controlmode
+    address: 49
+    type: U8
+    access: Write
+    maskType: ControlModeConfig
+    description: Configures the control mode of Camera/Servo 0.
+  Camera0Frequency: &camerafrequency
+    address: 50
+    maxValue: 600
+    minValue: 1
+    type: U16
+    access: Write
+    description: Configures the frequency (Hz) of the trigger pulses on Camera 0 when using Camera mode.
+  Servo0Period: &servoperiod
+    address: 51
+    type: U16
+    access: Write
+    description: Configures the servo motor period (us) when using Servo mode (sensitive to 2 us)
+  Servo0PulseWidth: &servopulsewidth
+    address: 52
+    type: U16
+    access: Write
+    description: Configures the servo pulse width (us) when using Servo mode (sensitive to 2 us)
+  Control1Mode:
+    <<: *controlmode
+    address: 53
+    description: Configures the control mode of Camera/Servo 1.
+  Camera1Frequency:
+    <<: *camerafrequency
+    address: 54
+    description: Configures the frequency (Hz) of the trigger pulses on Camera 1 when using Camera mode.
+  Servo1Period:
+    <<: *servoperiod
+    address: 55
+    access: Write
+  Servo1PulseWidth:
+    <<: *servopulsewidth
+    address: 56
+    type: U16
+    access: Write
+  Reserved2:
+    <<: *reserved
+    address: 57
+  Reserved3:
+    <<: *reserved
+    address: 58
+  EnableEvents:
+    address: 59
+    access: Write
+    type: U8
+    maskType: CameraControllerEvents
+    description: Specifies the active events in the device.
+bitMasks:
+  Cameras:
+    description: Specifies the target camera line.
+    bits:
+      Camera0: 0x1
+      Camera1: 0x2
+  Servos:
+    description: Specifies the target servo-motor lines.
+    bits:
+      Servo0: 0x1
+      Servo1: 0x2
+  DigitalOutputs:
+    description: Available digital output lines.
+    bits:
+      Trigger0: 0x1
+      Sync0: 0x2
+      Trigger1: 0x4
+      Sync1: 0x8
+  DigitalInputs:
+    description: Available digital input lines.
+    bits:
+      DI0: 0x1
+  CameraControllerEvents:
+    description: Specifies the active events in the device.
+    bits:
+      TriggerAndSynch: {value: 0x1, description: Enables CameraTrigger and CameraSync events.}
+      DigitalInputs: {value: 0x2, description: Enables DigitalInputs}
+groupMasks:
+  DI0ModeConfig:
+    description: Specifies the operation mode of digital input line 0.
+    values:
+      HighEnablesCamera0: {value: 0, description: "When High, enables Camera0 or Servo0."}
+      HighEnablesCamera1: {value: 1, description: "When High, enables Camera1 or Servo1."}
+      HighEnablesCameraBoth: {value: 2, description: "When High, enables both Cameras or Servos."}
+      LowEnablesCamera0: {value: 3, description: "When Low, enables Camera0 or Servo0."}
+      LowEnablesCamera1: {value: 4, description: "When Low, enables Camera1 or Servo1."}
+      LowEnablesCameraBoth: {value: 5, description: "When Low, enables both Cameras or Servos."}
+      Default: {value: 6, description: "The line will function as a passive digital input."}
+  ControlModeConfig:
+    description: Specifies the operation mode of a specific output line.
+    values:
+      Camera: {value: 0, description: Enables Camera mode and it will produce the configured trigger.}
+      Servo: {value: 1, description: Enables Servo mode and it will produce the configured trigger.}
