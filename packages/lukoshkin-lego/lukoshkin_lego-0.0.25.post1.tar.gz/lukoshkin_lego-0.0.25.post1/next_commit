@@ -1,0 +1,15 @@
+Mainly about improving RedshiftData connector
+
++ Improve `RedshiftData` prototype module.
+  Now it is a working package used in some industrial projects:
+  + Allow executing a batch of connected SQLs rather than just a single query.
+  + Add error module to map execution errors to known psycopg2 errors.
+  + Wrap returned data into `RedshiftQueryResult` to allow postprocessing
+    and easiar management.
+
++ Add `ValueAccum` in 'lego/utils/accum.py' to accumulate assets from JSON-streams.
++ Allow setting Time-To-Live for the Milvus collection in MilvusDBConnector.
++ Add test for the change above.
+
+c Temporarily fix 'openai' and 'litellm' package versions.
+c Rename `read_articles` to `read_jsons` in 'lego/utils/io.py'.
