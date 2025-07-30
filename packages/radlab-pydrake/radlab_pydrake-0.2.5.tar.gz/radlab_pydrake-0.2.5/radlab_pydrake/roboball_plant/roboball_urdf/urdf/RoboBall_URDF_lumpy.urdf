@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot  name="roboball_urdf" xml:drake="https://drake.mit.edu">
+  <link  name="pitch_center">
+    <inertial>
+      <origin
+        xyz="0 0 -0.05 "
+        rpy="0 0 0" />
+      <mass
+        value="2.77934" />
+      <inertia
+        ixx="0.01841"
+        iyy="0.00754"
+        izz="0.01442" 
+        ixy = "0.0"
+        iyz = "0.0"
+        izy = "0.0"/>
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="-1.57 0 0" />
+      <geometry>
+        <mesh
+          filename="package://roboball_urdf/meshes/pitch_center.obj" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 0.647058823529412 0.125490196078431 1" />
+      </material>
+    </visual>
+    <!-- <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="-1.57 0 0" />
+      <geometry>
+        <mesh
+          filename="package://roboball_urdf/meshes/pitch_center.obj" />
+      </geometry>
+    </collision> -->
+  </link>
+  <link  name="drive_motors">
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="-1.57 0 0" />
+      <geometry>
+        <mesh
+          filename="package://roboball_urdf/meshes/drive_motors.obj" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.1 0.1 0.1 1" />
+      </material>
+    </visual>
+    <!-- <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="-1.57 0 0" />
+      <geometry>
+        <mesh
+          filename="package://roboball_urdf/meshes/drive_motors.obj" />
+      </geometry>
+    </collision> -->
+  </link>
+  <joint   name="fixed_drive_motors"
+    type="fixed">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="pitch_center" />
+    <child
+      link="drive_motors" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link  name="vn_sensor">
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="-1.57 0 0" />
+      <geometry>
+        <mesh
+          filename="package://roboball_urdf/meshes/vn_sensor.obj" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.31317 0 0 1" />
+      </material>
+    </visual>
+    <!-- <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="-1.57 0 0" />
+      <geometry>
+        <mesh
+          filename="package://roboball_urdf/meshes/vn_sensor.obj" />
+      </geometry>
+    </collision> -->
+  </link>
+  <joint  name="vn_fixed"
+    type="fixed">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="pitch_center" />
+    <child
+      link="vn_sensor" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link  name="pendulum">
+    <inertial>
+      <origin
+        xyz="0  0.0033714 -0.095"
+        rpy="0 0 0" />
+      <mass
+        value="22.03" />
+      <inertia
+        ixx="0.44235"
+        iyy="0.49888"
+        izz="0.32633"
+        ixy = "0.0"
+        iyz = "0.0"
+        izy = "0.0"  />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="-1.57 0 0" />
+      <geometry>
+        <mesh
+          filename="package://roboball_urdf/meshes/pendulum.obj" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 0.647058823529412 0.125490196078431 1" />
+      </material>
+    </visual>
+    <!-- <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="-1.57 0 0" />
+      <geometry>
+        <mesh
+          filename="package://roboball_urdf/meshes/pendulum.obj" />
+      </geometry>
+    </collision> -->
+  </link>
+  <joint name="steer"
+    type="revolute">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="pitch_center" />
+    <child
+      link="pendulum" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="-1.57"
+      upper="1.0" />
+  </joint>
+  <link  name="pendulum_shells">
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://roboball_urdf/meshes/pendulum_shells.obj" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <!-- <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://roboball_urdf/meshes/pendulum_shells.obj" />
+      </geometry>
+    </collision> -->
+  </link>
+  <joint name="fixed_shells"
+    type="fixed">
+    <origin
+      xyz="0 0 0"
+      rpy="-1.57 0 0" />
+    <parent
+      link="pendulum" />
+    <child
+      link="pendulum_shells" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link   name="pendulum_avionics">
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="-1.57 0 0" />
+      <geometry>
+        <mesh
+          filename="package://roboball_urdf/meshes/pendulum_avionics.obj" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0 0 0 1" />
+      </material>
+    </visual>
+    <!-- <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="-1.57 0 0" />
+      <geometry>
+        <mesh
+          filename="package://roboball_urdf/meshes/pendulum_avionics.obj" />
+      </geometry>
+    </collision> -->
+  </link>
+  <joint    name="fixed_pendulum_avionics"
+    type="fixed">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="pendulum" />
+    <child
+      link="pendulum_avionics" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link    name="pipe_assembly">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="16.53649" />
+      <inertia
+        ixx="1.04"
+        iyy="0.64074"
+        izz="1.04" 
+        ixy = "0.0"
+        iyz = "0.0"
+        izy = "0.0"/>
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="-1.57 0 0" />
+      <geometry>
+        <mesh
+          filename="package://roboball_urdf/meshes/pipe_assembly.obj" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 0.647058823529412 0.125490196078431 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="-1.57 0 0" />
+      <geometry>
+        <mesh
+          filename="package://roboball_urdf/meshes/pipe_assembly.obj" />
+      </geometry>
+    </collision>
+  </link>
+  <joint  name="drive"
+    type="continuous">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="pitch_center" />
+    <child
+      link="pipe_assembly" />
+    <axis
+      xyz="0 -1 0" />
+  </joint>
+  <link  name="logo_hubs">
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="-1.57 0 0" />
+      <geometry>
+        <mesh
+          filename="package://roboball_urdf/meshes/logo_hubs.obj" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="-1.57 0 0" />
+      <geometry>
+        <mesh
+          filename="package://roboball_urdf/meshes/logo_hubs.obj" />
+      </geometry>
+    </collision>
+  </link>
+  <joint  name="fixed_logo_hubs"
+    type="fixed">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="pipe_assembly" />
+    <child
+      link="logo_hubs" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link  name="tamu_logo">
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="-1.57 0 0" />
+      <geometry>
+        <mesh
+          filename="package://roboball_urdf/meshes/tamu_logo.obj" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.31373 0 0 1" />
+      </material>
+    </visual>
+    <!-- <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="-1.57 0 0" />
+      <geometry>
+        <mesh
+          filename="package://roboball_urdf/meshes/tamu_logo.obj" />
+      </geometry>
+    </collision> -->
+  </link>
+  <joint  name="logo_fixed"
+    type="fixed">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="logo_hubs" />
+    <child
+      link="tamu_logo" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link  name="bedliner">
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="-1.57 0 1.57" />
+      <geometry>
+        <mesh
+          filename="package://roboball_urdf/meshes/bedliner_lumpy.obj" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 0.24" />
+      </material>
+    </visual>
+    <collision name="bed_collision">
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <!-- <sphere 
+            radius = "0.305"/> -->
+        <mesh
+          filename="package://roboball_urdf/meshes/bedliner_lumpy.obj" />
+      </geometry>
+      <drake:proximity_properties>
+      <drake:compliant_hydroelastic/>
+      <drake:mesh_resolution_hint value="0.1"/>
+      <drake:hydroelastic_modulus value="1.8e6"/> <!--estimate from excel sheet-->
+      <drake:hunt_crossley_dissipation value="0.5"/>
+    </drake:proximity_properties> 
+    </collision>
+  </link>
+  <joint   name="beadlocked"
+    type="fixed">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="pipe_assembly" />
+    <child
+      link="bedliner" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <!-- Transmission for the actuated joint -->
+  <transmission type="SimpleTransmission" name="drive_motor">
+    <actuator name="drive"/>
+    <joint name="drive"/>
+    <mechanicalReduction>1</mechanicalReduction>
+  </transmission>
+
+  <transmission type="SimpleTransmission" name="steer_motor">
+      <actuator name="steer"/>
+      <joint name="steer"/>
+      <mechanicalReduction>1</mechanicalReduction>
+    </transmission>
+<!--Filter groups: these must exist so the pendulum doesnt collide with the interior of the pipe assembly -->
+  <!-- <drake:collision_filter_group name="pitch_col_group">
+    <drake:member link="pitch_center"/>
+    <drake:member link="vn_sensor"/>
+    <drake:member link="drive_motors"/>
+    <drake:ignored_collision_filter_group name="pend_col_group"/>
+    <drake:ignored_collision_filter_group name="shell_group"/>
+  </drake:collision_filter_group>
+
+<drake:collision_filter_group name="pend_col_group">
+    <drake:member link="pendulum"/>
+    <drake:member link="pendulum_shells"/>
+    <drake:member link="pendulum_avionics"/>
+    <drake:ignored_collision_filter_group name="shell_group"/>
+    <drake:ignored_collision_filter_group name="pitch_col_group"/>
+ 
+  </drake:collision_filter_group>
+
+
+  <drake:collision_filter_group name="shell_group">
+    <drake:member link="pipe_assembly"/>
+    <drake:member link="bedliner"/>
+    <drake:ignored_collision_filter_group name="pitch_col_group"/>
+    <drake:ignored_collision_filter_group name="logos"/>
+  </drake:collision_filter_group>
+
+  <drake:collision_filter_group name="logos">
+    <drake:member link="logo_hubs"/>
+    <drake:member link="tamu_logo"/>
+    <drake:ignored_collision_filter_group name="pitch_col_group"/>
+    <drake:ignored_collision_filter_group name="pend_col_group"/>
+  </drake:collision_filter_group> -->
+</robot>
