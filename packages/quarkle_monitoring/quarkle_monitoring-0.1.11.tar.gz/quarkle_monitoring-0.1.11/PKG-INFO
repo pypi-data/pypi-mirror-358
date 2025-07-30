@@ -1,0 +1,17 @@
+Metadata-Version: 2.4
+Name: quarkle_monitoring
+Version: 0.1.11
+Summary: Minimal shared monitoring and caching for Quarkle services
+Project-URL: Homepage, https://github.com/quarkle/quarkle-monitoring
+Project-URL: Repository, https://github.com/quarkle/quarkle-monitoring
+Author-email: Quarkle Team <dev@quarkle.ai>
+Requires-Python: >=3.8
+Requires-Dist: boto3>=1.26.0
+Requires-Dist: redis>=4.0.0
+Provides-Extra: dev
+Requires-Dist: black>=23.0.0; extra == 'dev'
+Requires-Dist: pytest-cov>=4.0.0; extra == 'dev'
+Requires-Dist: pytest>=7.0.0; extra == 'dev'
+Requires-Dist: ruff>=0.1.0; extra == 'dev'
+Provides-Extra: slack
+Requires-Dist: slack-sdk>=3.21.0; extra == 'slack'
