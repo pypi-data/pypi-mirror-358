@@ -1,0 +1,74 @@
+Metadata-Version: 2.4
+Name: jax-cgd
+Version: 1.0.3
+Summary: JAX implementation of Competitive Gradient Descent algorithms
+Author-email: Yiming Lu <luyiming925@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/Juicy-Quadro/jax-cgd
+Project-URL: Repository, https://github.com/Juicy-Quadro/jax-cgd
+Project-URL: Issues, https://github.com/Juicy-Quadro/jax-cgd/issues
+Keywords: jax,optimization,competitive gradient descent,machine learning
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: jax>=0.5.1
+Requires-Dist: jaxlib>=0.5.1
+Requires-Dist: numpy>=1.22
+Requires-Dist: flax>=0.10.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7; extra == "dev"
+Requires-Dist: black>=23; extra == "dev"
+Requires-Dist: flake8>=6; extra == "dev"
+Requires-Dist: mypy>=1; extra == "dev"
+Dynamic: license-file
+
+# JAX-CGD
+
+JAX implementation of Competitive Gradient Descent algorithms for minimax optimization problems.
+
+## Features
+
+- **ACGD (Adaptive Competitive Gradient Descent)**: An adaptive variant of competitive gradient descent with momentum
+- **BCGD (Basic Competitive Gradient Descent)**: Standard competitive gradient descent algorithm
+- **Flexible Solvers**: Support for different linear algebra solvers (CG, GMRES)
+- **JAX Integration**: Built on JAX for automatic differentiation and JIT compilation
+
+## Installation
+
+```bash
+pip install jax-cgd
+```
+
+## Algorithms
+
+### ACGD (Adaptive Competitive Gradient Descent)
+- Includes momentum and adaptive learning rates
+- Better convergence properties for complex minimax problems
+- Configurable exponential decay rate (beta) and numerical stability (eps)
+
+### BCGD (Basic Competitive Gradient Descent)
+- Standard competitive gradient descent
+- Simpler implementation for basic minimax optimization
+
+## Requirements
+
+- Python >= 3.10
+- JAX >= 0.5.1
+- NumPy
+- Flax >= 1.10.0
+
+## License
+
+MIT License
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
