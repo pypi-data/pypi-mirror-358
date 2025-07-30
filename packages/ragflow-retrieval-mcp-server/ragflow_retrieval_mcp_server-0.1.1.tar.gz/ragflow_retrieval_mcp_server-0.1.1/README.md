@@ -1,0 +1,55 @@
+# RAGFlow Retrieval MCP Server 🚀
+
+[![Python Version](https://img.shields.io/badge/python-3.10%2B-blue)]()
+[![License](https://img.shields.io/badge/license-MIT-green)]()
+
+该MCP Server用于对接RagFlow知识库系统，提供基于内容的文档检索能力。
+
+### 前置要求
+- Python 3.10+
+- RagFlow
+
+### 生产运行
+```bash
+export SERVER_HOST=http://localhost
+export SERVER_PORT=80
+export RAGFLOW_BASE_URL=http://localhost:80
+export RAGFLOW_API_KEY=<your-api-key>
+export RAGFLOW_DATASET_ID=<your-dataset-id>
+export RAGFLOW_TOP_K=10
+export RAGFLOW_SIMILARITY_THRESHOLD=0.2
+export RAGFLOW_TIMEOUT=60
+
+uvx ragflow-retrieval-mcp-server
+```
+
+## 开发调试
+```bash
+# 创建虚拟环境
+uv venv
+source .venv/bin/activate
+
+# 安装依赖
+uv pip install -e .
+
+# 运行
+uv run ragflow-retrieval-mcp-server
+```
+
+## 贡献指南 🤝
+
+欢迎通过以下方式参与贡献：
+1. Fork仓库并创建特性分支
+2. 提交清晰的commit message
+3. 发起Pull Request并描述变更内容
+
+请确保：
+✅ 更新相关文档
+✅ 保持代码风格一致
+
+## 许可证 📄
+
+本项目采用 [MIT License](LICENSE)
+
+**遇到问题？**
+请提交 [Issue](https://github.com/datahwc/ragflow-retrieval-mcp-server/issues) 或联系 data.hwc@live.com

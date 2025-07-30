@@ -1,0 +1,21 @@
+[project]
+name = "ragflow-retrieval-mcp-server"
+version = "0.1.1"
+description = "This mcp server is used to search content from the ragflow knowledge base."
+readme = "README.md"
+authors = [
+    { name = "data.hwc", email = "data.hwc@live.com" }
+]
+requires-python = ">=3.10"
+dependencies = [
+    "aiohttp>=3.11.14",
+    "mcp[cli]>=1.6.0",
+]
+
+[project.scripts]
+ragflow-retrieval-mcp-server = "ragflow_retrieval_mcp_server:main"
+ragflow-retrieval-mcp-server-sse = "ragflow_retrieval_mcp_server:main_sse"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
