@@ -1,0 +1,60 @@
+Metadata-Version: 2.4
+Name: hanifx-timelock
+Version: 6.1.1
+Summary: A secure time-lock and license-check module for Python scripts
+Home-page: https://github.com/hanifx-540/hanifx-timelock
+Author: Sajim Hanif
+Author-email: sajim4653@gmail.com
+License: MIT
+Project-URL: Bug Tracker, https://github.com/hanifx-540/hanifx-timelock/issues
+Project-URL: Source Code, https://github.com/hanifx-540/hanifx-timelock
+Project-URL: Facebook, https://facebook.com/hanifx540
+Keywords: timelock license security script protection
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.6
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Typing :: Typed
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: project-url
+Dynamic: requires-python
+Dynamic: summary
+
+# hanifx-timelock
+
+`hanifx-timelock` is a powerful Python module designed to protect your scripts with:
+
+- ⏳ **Time Lock**: Prevent your script from running before a specific date and time  
+- 🔒 **License Key Protection**: Require a valid license key to unlock the script  
+- 🧬 **File Integrity Check**: Block execution if the script file has been copied or modified  
+
+---
+
+## 🚀 Installation
+
+```bash
+pip install hanifx-timelock
+
+from hanifx_timelock import run_timelock
+
+run_timelock()
+
+# Your actual script code here
+print("Script unlocked and running...")
+
+🔑 Please enter your license key: HX-1234-ABCD
+✅ File unlocked. Running script...
+
+🚫 Invalid license key.
+
+[LOCKED] File locked. Please try again in 5 days, 3:20:10.
