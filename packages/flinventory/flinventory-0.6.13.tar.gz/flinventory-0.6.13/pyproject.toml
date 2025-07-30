@@ -1,0 +1,56 @@
+[project]
+name = "flinventory"
+version = "0.6.13"
+description = "An inventory system for self-help repair shops"
+authors = [
+    { name = "flukx", email = "flinventory-flukx@612211124.xyz" },
+]
+dependencies = [
+    "pypandoc>=1.13",
+    "python-slugify>=8.0.4",
+    "treelib>=1.7.0",
+    "pyyaml>=6.0.2",
+    "types-pyyaml>=6.0.12.20241230",
+    "pycountry>=24.6.1",
+]
+requires-python = ">=3.12"
+readme = "README.md"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Customer Service",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Database :: Database Engines/Servers",
+    "Typing :: Typed",
+]
+
+[project.license]
+text = "GPL3"
+
+[project.urls]
+Homepage = "https://codeberg.org/flukx/flinventory"
+Issues = "https://codeberg.org/flukx/flinventory/issues"
+
+[project.scripts]
+flinventory-cli = "flinventory.__main__:main"
+
+[build-system]
+requires = [
+    "pdm-backend",
+]
+build-backend = "pdm.backend"
+
+[tool.pdm]
+distribution = true
+
+[tool.pdm.build]
+includes = [
+    "flinventory/",
+    "thingtemplate_latex",
+]
+
+[tool.pdm.build.wheel-data]
+include = [
+    { path = "thingtemplate_latex" },
+]
+exclude = "tests"
