@@ -1,0 +1,71 @@
+[project]
+name = "moomoolah"
+version = "0.2.0"
+description = "MooMoolah - Personal Budget Planner"
+authors = [
+    {name = "Elias Dorneles", email = "elias.dorneles@hey.com"}
+]
+license = "MIT"
+license-files = ["LICENSE"]
+readme = "README.md"
+homepage = "https://github.com/eliasdorneles/moomoolah"
+repository = "https://github.com/eliasdorneles/moomoolah"
+keywords = ["budget", "personal-finance", "textual", "tui"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business :: Financial",
+]
+requires-python = ">=3.11"
+dependencies = [
+    "textual>=0.52.1",
+    "pydantic>=2.6.3",
+    "python-dateutil>=2.9.0",
+]
+
+[project.scripts]
+moomoolah = "moomoolah.__main__:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.2",
+    "textual-dev>=1.5.1",
+    "ipython>=8.22.1",
+    "isort>=5.13.2",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.black]
+line-length=90
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
+    "pytest-asyncio>=0.21.0",
+    "ruff>=0.12.1",
+    "textual-dev>=1.7.0",
+    "bump-my-version>=0.26.0",
+    "git-cliff>=2.6.0",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+
+[tool.bumpversion]
+current_version = "0.2.0"
+commit = false
+tag = false
+
+[[tool.bumpversion.files]]
+filename = "pyproject.toml"
+search = 'version = "{current_version}"'
+replace = 'version = "{new_version}"'
