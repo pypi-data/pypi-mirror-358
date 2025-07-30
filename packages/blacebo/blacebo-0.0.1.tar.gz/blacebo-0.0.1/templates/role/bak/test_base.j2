@@ -1,0 +1,31 @@
+{
+    "description": "Kibana for reader",
+    "kibana": [
+        {
+            "base": ["all"],
+            "feature": {
+            },
+            "spaces": [
+                "{{ space_id }}"
+            ]
+        }
+    ],
+    "elasticsearch": {
+        "cluster": [
+            "manage_own_api_key",
+            "monitor"
+        ],
+        "indices": [
+            {
+                "names": [
+                    "logs-*-do_not_remove"
+                ],
+                "privileges": [
+                    "read"
+                ]
+            }
+        ],
+        "run_as": []
+    },
+    "metadata": {}
+}

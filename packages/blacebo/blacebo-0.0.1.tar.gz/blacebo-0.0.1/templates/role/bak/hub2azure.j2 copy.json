@@ -1,0 +1,23 @@
+{
+    "description": "access azure logs and metrics via read_cross_cluster from remote",
+
+    "indices": [
+        {
+            "names": [
+                "logs-azure-{{ identifier }}",
+                "metrics-azure-{{ identifier }}"
+            ],
+            "privileges": [
+                "read",
+                "read_cross_cluster"
+            ],
+            "query": {
+                "terms": {
+                    "azure.subscription_id": [
+                        "{{ subscription_id }}"
+                    ]
+                }
+            }
+        }
+    ]
+}

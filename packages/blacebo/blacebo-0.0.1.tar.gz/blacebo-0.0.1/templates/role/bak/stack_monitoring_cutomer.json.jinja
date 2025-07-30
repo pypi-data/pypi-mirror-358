@@ -1,0 +1,25 @@
+{
+    "description": "Permission to use stack monitoring",
+    "kibana": [
+    {
+        "privileges": [
+            "reserved_monitoring"
+        ],
+        "base": [],
+        "feature": {},
+        "spaces": [
+            "*"
+        ]
+        }
+    ],
+    "elasticsearch": {
+        "cluster": [
+            "cluster:monitor/main",
+            "cluster:monitor/xpack/info",
+            "cluster:monitor/remote/info"
+        ],
+        "indices": [],
+        "run_as": []
+    },
+    "metadata": {}
+}
