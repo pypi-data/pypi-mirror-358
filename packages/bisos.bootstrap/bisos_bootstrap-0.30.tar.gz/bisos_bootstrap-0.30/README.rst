@@ -1,0 +1,199 @@
+========================================================================================================================================================================================================================================
+bisos.bootstrap: Bash scripts (Interactive Command Modules – ICM) for bootstrapping BISOS (ByStar Internet Services OS) software profiles on a virgin Linux distro or for creating fully automated KVM guests that are ByStar Platforms.
+========================================================================================================================================================================================================================================
+
+.. contents::
+   :depth: 3
+..
+
+Overview
+========
+
+Bash scripts (Interactive Command Modules – ICM) for bootstrapping BISOS
+(ByStar Internet Services OS) software profiles on a virgin Linux
+distro. Or for creating fully automated KVM guests that are ByStar
+Platforms.
+
+bx2Genesis.sh will go through a complete ByStar Platform installation on
+the local host.
+
+bxBootstrapGuest.sh will create a fully automated KVM Guest ByStar
+Platform.
+
+Package Documentation At Github
+===============================
+
+The information below is a subset of the full of documentation for this
+bisos-pip package. More complete documentation is available at:
+https://github.com/bisos-pip/bootstrap-cs
+
+Realted Resources
+=================
+
++--------------------------+------------------------------------------+
+| bisos Capabilities Panel | file:/panels/capab                       |
+|                          | ilities/_nodeBase_/fullUsagePanel-en.org |
++--------------------------+------------------------------------------+
+|                          |                                          |
++--------------------------+------------------------------------------+
+
+.. _table-of-contents:
+
+Table of Contents TOC
+=====================
+
+-  `Overview <#overview>`__
+-  `Package Documentation At
+   Github <#package-documentation-at-github>`__
+-  `Realted Resources <#realted-resources>`__
+-  `Installation <#installation>`__
+
+   -  `Installation With pip <#installation-with-pip>`__
+   -  `Installation With pipx <#installation-with-pipx>`__
+
+-  `Usage <#usage>`__
+
+   -  `bx2Genesis.sh <#bx2genesissh>`__
+   -  `bxBootstrapGuest <#bxbootstrapguest>`__
+   -  `./bin/bxHostGenGuestVagrant <#binbxhostgenguestvagrant>`__
+   -  `./bin/bxGenWithRepo <#binbxgenwithrepo>`__
+
+-  `Part of BISOS and ByStar — ByStar Internet Services Operating
+   System <#part-of-bisos-and-bystar-----bystar-internet-services-operating-system>`__
+-  `bisos.bootstrap as a Standalone Piece of
+   BISOS <#bisosbootstrap-as-a-standalone-piece-of-bisos>`__
+-  `Documentation and Blee-Panels <#documentation-and-blee-panels>`__
+
+   -  `bisos.bootstrap Blee-Panels <#bisosbootstrap-blee-panels>`__
+
+-  `Support <#support>`__
+
+Installation
+============
+
+The sources for the bisos.bootstrap pip package is maintained at:
+https://github.com/bisos-pip/bootstrap.
+
+The bisos.bootstrap pip package is available at PYPI as
+https://pypi.org/project/bisos.bootstrap
+
+You can install bisos.bootstrap with pip or pipx.
+
+Installation With pip
+---------------------
+
+If you need access to bisos.bootstrap as a python module, you can
+install it with pip:
+
+.. code:: bash
+
+   pip install bisos.bootstrap
+
+Installation With pipx
+----------------------
+
+If you only need access to bisos.bootstrap as a command on command-line,
+you can install it with pipx:
+
+.. code:: bash
+
+   pipx install bisos.bootstrap
+
+The following commands are made available:
+
+-  seedBootstrap.cs
+-  exmpl-bootstrap.cs
+
+Usage
+=====
+
+bx2Genesis.sh
+-------------
+
+On a virgin BxP-Distro, run \``sudo /usr/local/bin/bx2Genesis.sh'' and
+you will end up with a Generic BISOS Platform. Which you can then apply
+to a desired bxpCharacter.
+
+bxBootstrapGuest
+----------------
+
+On any Linux machine that has kvm in its distro, run
+/usr/local/bin/bxBootstrapGuest.sh and you will end up with a guest at
+the specified desired level (as ByStar Platforms).
+
+./bin/bxHostGenGuestVagrant
+---------------------------
+
+On any Linux Machine that has VirtualBox and Vagrant installed, run
+bxHostGenGuestVagrant and based on params and args build a VM that
+includes what is specified.
+
+The Steps are as follows:
+
+-  Create A VM
+-  In the created VM as root:
+
+   -  install python and pip
+   -  install git
+   -  pip install bisos.bootstrap
+   -  Run xxx to create user bxGenesis and add it to sudoers
+
+-  In the created VM as bxGenesis run bisos.bootstrap/bin/bxGenWithRepo
+-  Login to the VM as bxGenesis
+-  Run the post install script.
+
+./bin/bxGenWithRepo
+-------------------
+
+Does the following:
+
+-  Clone specified repo
+-  From within that repo executes specified entry point with params and
+   args. This typically involves creating an account
+
+Part of BISOS and ByStar — ByStar Internet Services Operating System
+====================================================================
+
+| Layered on top of Debian, **BISOS**: (By\* Internet Services Operating
+  System) is a unified and universal framework for developing both
+  internet services and software-service continuums that use internet
+  services. See `Bootstrapping ByStar, BISOS and
+  Blee <https://github.com/bxGenesis/start>`__ for information about
+  getting started with BISOS.
+| **BISOS** is a foundation for **The Libre-Halaal ByStar Digital
+  Ecosystem** which is described as a cure for losses of autonomy and
+  privacy in a book titled: `Nature of
+  Polyexistentials <https://github.com/bxplpc/120033>`__
+
+*bisos.bootstrap* is part of BISOS.
+
+bisos.bootstrap as a Standalone Piece of BISOS
+==============================================
+
+bisos.bootstrap is a standalone piece of BISOS. It can be used as a
+self-contained Python package separate from BISOS. Follow the
+installation and usage instructions below for your own use.
+
+Documentation and Blee-Panels
+=============================
+
+bisos.bootstrap is part of ByStar Digital Ecosystem
+http://www.by-star.net.
+
+This module's primary documentation is in the form of Blee-Panels.
+Additional information is also available in:
+http://www.by-star.net/PLPC/180047
+
+bisos.bootstrap Blee-Panels
+---------------------------
+
+bisos.bootstrap Blee-Panels are in ./panels directory. From within Blee
+and BISOS these panels are accessible under the Blee "Panels" menu.
+
+Support
+=======
+
+| For support, criticism, comments and questions; please contact the
+  author/maintainer
+| `Mohsen Banan <http://mohsen.1.banan.byname.net>`__ at:
+  http://mohsen.1.banan.byname.net/contact
