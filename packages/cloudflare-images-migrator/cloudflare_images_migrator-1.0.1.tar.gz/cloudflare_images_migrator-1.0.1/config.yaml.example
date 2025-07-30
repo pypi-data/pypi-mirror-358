@@ -1,0 +1,84 @@
+# Cloudflare Images Migration Tool Configuration
+# Copy this file to config.yaml and update with your credentials
+
+# Required: Your Cloudflare credentials
+account_id: "your_cloudflare_account_id_here"
+api_token: "your_cloudflare_api_token_here"
+
+# Optional: Migration settings
+dry_run: false          # Set to true to preview changes without making them
+backup: true            # Create backup before modifying files
+batch_size: 10          # Number of images to upload in each batch
+retry_count: 3          # Number of retries for failed uploads
+timeout: 30             # Request timeout in seconds
+
+# Optional: Tracking & Analytics settings
+show_stats: false       # Display comprehensive statistics after migration
+export_csv: ""          # Path to export migration data to CSV (e.g., "./migration-data.csv")
+tracking_db_path: "./cloudflare_images.db"  # Path to tracking database
+session_id: ""          # Custom session ID (auto-generated if empty)
+
+# Optional: Enterprise Security & Quality settings
+security_level: "enterprise"    # Security level: "standard" or "enterprise"
+optimization_level: "balanced"  # Quality level: "conservative", "balanced", or "aggressive"
+generate_security_report: false # Generate comprehensive security report
+audit_retention_days: 365      # How long to keep audit data (days)
+enable_deep_scan: true         # Enable advanced threat detection
+enable_quality_enhancement: true # Enable AI-powered image improvements
+
+# Optional: File types to process
+file_types:
+  - ".html"
+  - ".htm"
+  - ".css"
+  - ".js"
+  - ".jsx"
+  - ".ts"
+  - ".tsx"
+  - ".md"
+  - ".markdown"
+  - ".json"
+  - ".xml"
+  - ".yaml"
+  - ".yml"
+  - ".scss"
+  - ".sass"
+  - ".less"
+
+# Optional: Directories to exclude from processing
+exclude_dirs:
+  - "node_modules"
+  - ".git"
+  - ".vscode"
+  - ".idea"
+  - "__pycache__"
+  - "venv"
+  - "env"
+  - ".env"
+  - "dist"
+  - "build"
+  - "target"
+  - ".next"
+  - "coverage"
+  - ".nyc_output"
+
+# Optional: Supported image formats (don't change unless needed)
+supported_image_formats:
+  - ".png"
+  - ".jpg"
+  - ".jpeg"
+  - ".gif"
+  - ".webp"
+  - ".svg"
+  - ".bmp"
+  - ".ico"
+
+# Optional: Upload constraints
+max_file_size_mb: 10    # Maximum file size in MB (Cloudflare limit)
+
+# Optional: Advanced Configuration
+rate_limit_per_minute: 60      # API rate limiting (requests per minute)
+enable_progressive_jpeg: true  # Enable progressive JPEG for better web performance
+preserve_metadata: true       # Preserve safe EXIF metadata during processing
+enable_responsive_variants: true # Generate multiple size variants
+max_dimension: 2048           # Maximum dimension for web optimization 

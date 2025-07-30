@@ -1,0 +1,422 @@
+# Cloudflare Images Migration Tool
+
+A powerful Python tool to automatically migrate all images in a codebase to Cloudflare Images, replacing local and external image references with optimized Cloudflare URLs.
+
+## Features
+
+### 🔒 **Enterprise Security & Quality**
+- **Advanced Threat Detection**: Multi-layer security validation with malware scanning
+- **File Signature Verification**: Magic byte validation and MIME type checking  
+- **Content Security Scanning**: Deep analysis for malicious patterns and XSS threats
+- **URL Security Validation**: HTTPS enforcement and domain reputation checking
+- **EXIF Data Sanitization**: Removes potentially sensitive metadata
+- **Rate Limiting Protection**: Prevents abuse and ensures compliance
+- **Premium Image Optimization**: AI-powered quality enhancement and compression
+- **Responsive Variants**: Automatic generation of multiple image sizes
+- **Enterprise Audit Logging**: SOX, GDPR, HIPAA, PCI DSS compliance support
+
+### 📊 **Enterprise Tracking & Deduplication**
+- **Persistent Duplicate Detection**: Never re-uploads the same image across sessions
+- **Comprehensive Tracking Database**: SQLite database with full metadata storage
+- **CSV Export Support**: Export migration data for spreadsheet analysis
+- **Session Tracking**: Unique migration IDs for audit trails
+- **Cross-Session Statistics**: Performance metrics across multiple runs
+- **Multi-Level Duplicate Detection**: File hash, URL hash, and path matching
+- **Cloudflare Library Integration**: Checks existing images before uploading
+
+### 🚀 **Core Migration Features**  
+- **Enhanced Image Detection**: Finds badges, GitHub assets, CDN images, and traditional formats
+- **Multi-Format Parsing**: Supports HTML, CSS, JavaScript, TypeScript, Markdown, JSON, and more
+- **Batch Processing**: Efficiently uploads multiple images with progress tracking
+- **Smart Deduplication**: Avoids duplicate uploads using content hashing
+- **Zip Support**: Works with both directories and zip files
+- **Safe Operation**: Creates backups and supports dry-run mode
+- **Colored Logging**: Beautiful console output with progress bars
+- **Flexible Configuration**: Environment variables, config files, or command-line options
+
+## Installation
+
+1. **Clone or download this repository**
+2. **Install dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+## Prerequisites
+
+Before using the tool, you need:
+
+1. **Cloudflare Account ID**: Found in your Cloudflare dashboard
+2. **Cloudflare API Token**: Create one with Images permissions
+
+### Getting Your Credentials
+
+1. **Account ID**: 
+   - Go to [Cloudflare Dashboard](https://dash.cloudflare.com/)
+   - Select your account
+   - Find "Account ID" in the right sidebar
+
+2. **API Token**:
+   - Go to [Cloudflare API Tokens](https://dash.cloudflare.com/profile/api-tokens)
+   - Click "Create Token"
+   - Use "Custom token" template
+   - Add permissions: `Cloudflare Images:Edit`
+   - Choose your account in "Account Resources"
+
+## Usage
+
+### Basic Usage
+
+```bash
+python main.py /path/to/your/codebase --account-id YOUR_ACCOUNT_ID --api-token YOUR_API_TOKEN
+```
+
+### Tracking & Statistics
+
+```bash
+# Show comprehensive statistics
+python main.py /path/to/your/codebase --show-stats
+
+# Export migration data to CSV
+python main.py /path/to/your/codebase --export-csv ./migration-data.csv
+
+# View statistics without running migration
+python main.py --show-stats
+```
+
+### Using Environment Variables
+
+```bash
+export CLOUDFLARE_ACCOUNT_ID="your_account_id"
+export CLOUDFLARE_API_TOKEN="your_api_token"
+python main.py /path/to/your/codebase
+```
+
+### Using Configuration File
+
+Create a `config.yaml` file:
+
+```yaml
+account_id: "your_account_id"
+api_token: "your_api_token"
+dry_run: false
+backup: true
+batch_size: 10
+```
+
+Then run:
+
+```bash
+python main.py /path/to/your/codebase --config-file config.yaml
+```
+
+## Command Line Options
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| `--account-id` | Cloudflare Account ID | Required |
+| `--api-token` | Cloudflare API Token | Required |
+| `--output-dir` | Output directory for results | Auto-generated |
+| `--dry-run` | Preview changes without making them | False |
+| `--backup/--no-backup` | Create backup before modifying | True |
+| `--config-file` | Path to configuration file | None |
+| `--verbose, -v` | Enable verbose logging | False |
+| `--file-types` | Comma-separated file extensions | Auto-detected |
+| `--exclude-dirs` | Comma-separated directories to exclude | Common build dirs |
+| `--show-stats` | Display comprehensive statistics | False |
+| `--export-csv` | Export migration data to CSV file | None |
+
+## Examples
+
+### Tracking & Statistics Examples
+```bash
+# View comprehensive statistics
+python main.py --show-stats
+
+# Export migration history to CSV
+python main.py --export-csv ./my-migration-data.csv
+
+# Run migration with statistics display
+python main.py ./my-website --show-stats --verbose
+```
+
+### Dry Run (Preview Changes)
+```bash
+python main.py ./my-website --dry-run --verbose
+```
+
+### Process Specific File Types
+```bash
+python main.py ./project --file-types=".html,.css,.js"
+```
+
+### Exclude Directories
+```bash
+python main.py ./app --exclude-dirs="node_modules,dist,build"
+```
+
+### Process Zip File
+```bash
+python main.py ./website-backup.zip --output-dir ./migrated-website
+```
+
+### Enterprise Security Examples
+```bash
+# Maximum security with audit report
+python main.py ./project --security-level enterprise --generate-security-report
+
+# Premium quality optimization
+python main.py ./images --optimization-level aggressive --security-level enterprise
+
+# Compliance-focused migration with tracking
+python main.py ./app --security-level enterprise --backup --verbose --show-stats
+```
+
+## Supported File Types
+
+The tool automatically detects and processes these file types:
+
+- **Web Files**: `.html`, `.htm`, `.css`, `.js`, `.jsx`, `.ts`, `.tsx`
+- **Documentation**: `.md`, `.markdown`
+- **Configuration**: `.json`, `.xml`, `.yaml`, `.yml`
+- **Stylesheets**: `.scss`, `.sass`, `.less`
+
+## Enhanced Image Detection
+
+The tool now detects a wide variety of image types:
+
+### **Traditional Images**
+- PNG, JPEG, GIF, WebP, SVG, BMP, ICO with file extensions
+
+### **Badge Services**
+- Shield.io badges (`img.shields.io`)
+- GitHub status badges
+- NPM badges
+- Travis CI badges
+- And many more badge services
+
+### **GitHub Assets**
+- GitHub raw content (`raw.githubusercontent.com`)
+- GitHub user content (`user-images.githubusercontent.com`)
+- GitHub assets (`github.com/*/assets/`)
+
+### **CDN Images**
+- Images served from CDNs without traditional extensions
+- Image-like paths (containing 'icon', 'logo', 'banner', etc.)
+- URLs with image-like query parameters
+
+## Supported Image Formats
+
+- PNG, JPEG, GIF, WebP, SVG, BMP, ICO
+- Maximum file size: 10MB
+- Maximum dimensions: 12,000 pixels
+- Maximum area: 100 megapixels
+
+## Configuration File Format
+
+Create a `config.yaml` file with these options:
+
+```yaml
+# Required
+account_id: "your_cloudflare_account_id"
+api_token: "your_cloudflare_api_token"
+
+# Optional
+dry_run: false
+backup: true
+batch_size: 10
+retry_count: 3
+timeout: 30
+
+# File processing
+file_types:
+  - ".html"
+  - ".css"
+  - ".js"
+  - ".jsx"
+  - ".ts"
+  - ".tsx"
+  - ".md"
+  - ".json"
+
+exclude_dirs:
+  - "node_modules"
+  - ".git"
+  - "dist"
+  - "build"
+```
+
+## How It Works
+
+1. **📁 Preparation**: Extracts zip files if needed, creates backups
+2. **🔍 Enhanced Scanning**: Recursively scans files for all types of image references
+3. **🎯 Duplicate Detection**: Checks against existing Cloudflare Images and local database
+4. **🚀 Smart Upload**: Uploads only new, unique images to Cloudflare Images
+5. **📊 Tracking**: Records all metadata in persistent SQLite database
+6. **✏️ Replacement**: Replaces old references with Cloudflare URLs
+7. **📋 Comprehensive Report**: Provides detailed migration statistics and history
+
+## Tracking & Statistics
+
+### **Migration Database**
+The tool maintains a persistent SQLite database (`cloudflare_images.db`) that tracks:
+- Every image processed across all sessions
+- File metadata (size, dimensions, format, quality)
+- Upload timestamps and session IDs
+- Cloudflare URLs and variants
+- File hashes for duplicate detection
+- Performance metrics and statistics
+
+### **Statistics Display**
+Use `--show-stats` to see:
+- **Session Statistics**: Current migration metrics
+- **Total Statistics**: All-time migration history
+- **Performance Metrics**: Average upload times, success rates
+- **Duplicate Prevention**: Images skipped due to existing uploads
+- **Size Optimization**: Compression ratios and savings
+
+### **CSV Export**
+Export your migration data with `--export-csv filename.csv`:
+- Complete migration history
+- File metadata and performance metrics
+- Timestamps and session tracking
+- Cloudflare URLs and variants
+- Perfect for reporting and analysis
+
+## Output
+
+### **Enhanced Output Example**
+
+```
+15:30:45 - INFO - Starting migration of: ./my-website
+15:30:45 - INFO - ✓ Successfully connected to Cloudflare Images API
+15:30:45 - INFO - ✓ Loaded 1,250 existing Cloudflare Images for duplicate detection
+15:30:45 - INFO - ✓ Connected to tracking database (3,847 images tracked)
+15:30:45 - INFO - Created backup: ./my-website_backup
+15:30:45 - INFO - Phase 1: Enhanced scanning for image references...
+Scanning files: 100%|██████████| 150/150 [00:02<00:00, 75.0it/s]
+15:30:47 - INFO - Found 156 image references (45 unique, 111 duplicates)
+15:30:47 - INFO - Phase 2: Smart uploading with duplicate detection...
+Uploading images: 100%|██████████| 23/23 [00:15<00:00, 1.5it/s]
+15:31:02 - INFO - Upload complete: 23/23 images uploaded (100.0% success rate)
+15:31:02 - INFO - Phase 3: Replacing image references in code...
+Modifying files: 100%|██████████| 12/12 [00:01<00:00, 10.0it/s]
+
+==================================================
+Migration Summary
+==================================================
+Files processed: 150
+Images found: 156 (45 unique, 111 duplicates)
+Images uploaded: 23 (0 skipped as duplicates)
+Files modified: 12
+URLs replaced: 156
+Average file size reduction: 45.2%
+Time elapsed: 0:00:17
+
+Session Statistics:
+- New images uploaded: 23
+- Duplicate images skipped: 0
+- Security threats blocked: 0
+- Quality optimizations applied: 23
+
+Total Statistics (All Sessions):
+- Total images tracked: 3,870
+- Total migrations completed: 47
+- Total file size saved: 2.3 GB
+- Average success rate: 99.2%
+==================================================
+
+✓ Tracking data saved to: cloudflare_images.db
+✓ Migration completed successfully!
+```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **"Failed to connect to Cloudflare Images API"**
+   - Check your account ID and API token
+   - Ensure API token has Images permissions
+   - Verify internet connection
+
+2. **"Database locked" errors**
+   - Ensure no other migration processes are running
+   - Check database file permissions
+   - Consider running with `--verbose` for more details
+
+3. **"File too large" errors**
+   - Cloudflare Images has a 10MB limit per image
+   - Consider optimizing large images before migration
+
+4. **"No image references found"**
+   - Check if file types are supported
+   - Use `--verbose` to see detailed scanning logs
+   - Verify exclude directories aren't too broad
+
+5. **Duplicate detection issues**
+   - Check if images were previously uploaded with different settings
+   - Use `--show-stats` to see duplicate detection statistics
+   - Consider clearing the tracking database if needed
+
+### Advanced Troubleshooting
+
+```bash
+# View detailed statistics
+python main.py --show-stats --verbose
+
+# Export data for analysis
+python main.py --export-csv debug-data.csv
+
+# Check database status
+python main.py --show-stats  # Shows database statistics
+```
+
+### Getting Help
+
+- Use `--verbose` flag for detailed logging
+- Check the generated log file for full operation details
+- Use `--show-stats` to understand tracking database status
+- Export CSV data for external analysis
+
+## Environment Variables
+
+You can set these environment variables instead of using command-line options:
+
+- `CLOUDFLARE_ACCOUNT_ID` or `CF_ACCOUNT_ID`
+- `CLOUDFLARE_API_TOKEN` or `CF_API_TOKEN`
+
+## Security Notes
+
+- Never commit API tokens to version control
+- Use environment variables or config files with proper permissions
+- The tool only reads from source files and uploads to Cloudflare
+- Backups are created locally for safety
+- Tracking database contains metadata only, no sensitive data
+
+## Database Management
+
+The tool creates a `cloudflare_images.db` SQLite database to track:
+- All processed images and their metadata
+- Migration sessions and timestamps
+- Duplicate detection hashes
+- Performance statistics
+
+### Database Location
+- Default: `./cloudflare_images.db` in the current directory
+- Contains no sensitive data (API tokens, personal info)
+- Safe to backup and share for analysis
+
+## Contributing
+
+This tool is designed to be extensible:
+
+- Add new file type parsers in `src/parsers.py`
+- Extend configuration options in `src/config.py`
+- Add new utility functions in `src/utils.py`
+- Enhance tracking features in `src/image_tracker.py`
+
+## License
+
+This project is provided as-is for educational and practical use.
+
+---
