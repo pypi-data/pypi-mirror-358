@@ -1,0 +1,98 @@
+stages:
+- test
+- build
+- release
+
+variables:
+  DOCKER_DRIVER: overlay2
+  UV_VERSION: "0.7.13"
+  PYTHON_VERSION: "3.13"
+  BASE_LAYER: alpine
+  # GitLab CI creates a separate mountpoint for the build directory,
+  # so we need to copy instead of using hard links.
+  UV_LINK_MODE: copy
+
+# Global jobs
+test-style:
+  image: hub.eis.utoronto.ca/vss/docker/uv:$UV_VERSION-python$PYTHON_VERSION-$BASE_LAYER
+  stage: test
+  script:
+    - uvx flake8 src/mcp_server_vss/server.py
+  tags:
+    - python-3
+
+build-dist:
+  image: hub.eis.utoronto.ca/vss/docker/uv:$UV_VERSION-python$PYTHON_VERSION-$BASE_LAYER
+  stage: build
+  script:
+    - uv build
+  only:
+    - develop
+    - branches
+    - main
+    - tags
+  tags:
+   - python-3
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - dist
+
+release-dist-develop:
+  image: hub.eis.utoronto.ca/vss/docker/uv:$UV_VERSION-python$PYTHON_VERSION-$BASE_LAYER
+  stage: release
+  script:
+    - uv publish --token ${UV_PUBLISH_TOKEN} dist/*
+  dependencies:
+    - build-dist
+  only:
+    - develop
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /Version release/
+      - $CI_COMMIT_MESSAGE =~ /Homebrew formula/
+  tags:
+   - python-3
+
+release-dist-develop-local:
+  image: hub.eis.utoronto.ca/vss/docker/uv:$UV_VERSION-python$PYTHON_VERSION-$BASE_LAYER
+  stage: release
+  script:
+    - uv publish --username=gitlab-ci-token --password ${CI_JOB_TOKEN} --publish-url ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/pypi dist/*
+  dependencies:
+    - build-dist
+  only:
+    - develop
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /Version release/
+      - $CI_COMMIT_MESSAGE =~ /Homebrew formula/
+  tags:
+   - python-3
+
+# Releases
+# PEP-440 compliant version (tags)
+
+release-dist-tag:
+  stage: release
+  image: hub.eis.utoronto.ca/vss/docker/uv:$UV_VERSION-python$PYTHON_VERSION-$BASE_LAYER
+  script:
+    - uv publish --token ${UV_PUBLISH_TOKEN} dist/*
+  dependencies:
+    - build-dist
+  only:
+    - /^v\d+\.\d+\.\d+([abc]\d*)?$/
+  tags:
+   - python-3
+
+release-dist-tag-local:
+  image: hub.eis.utoronto.ca/vss/docker/uv:$UV_VERSION-python$PYTHON_VERSION-$BASE_LAYER
+  stage: release
+  script:
+    - uv publish --username=gitlab-ci-token --password ${CI_JOB_TOKEN} --publish-url ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/pypi dist/*
+  dependencies:
+    - build-dist
+  only:
+    - /^v\d+\.\d+\.\d+([abc]\d*)?$/
+  tags:
+   - python-3
