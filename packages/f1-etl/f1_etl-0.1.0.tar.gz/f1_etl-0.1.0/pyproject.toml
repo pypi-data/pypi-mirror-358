@@ -1,0 +1,18 @@
+[project]
+name = "f1-etl"
+version = "0.1.0"
+description = "This package contains an ETL pipeline for extracting, transforming, and preparing Formula 1 telemetry data for time series classification tasks, specifically designed for safety car prediction and other F1 data science applications."
+readme = "README.md"
+authors = [
+    { name = "Sean Sica", email = "23294618+seansica@users.noreply.github.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "fastf1>=3.5.3",
+    "pandas>=2.3.0",
+    "tqdm>=4.67.1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
