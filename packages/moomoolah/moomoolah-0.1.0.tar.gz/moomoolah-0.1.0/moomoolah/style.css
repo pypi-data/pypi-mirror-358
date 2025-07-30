@@ -1,0 +1,69 @@
+.forecast-title {
+  color: $primary-lighten-3;
+  border: tall $primary-lighten-2;
+  background: $primary-darken-3;
+  text-style: bold;
+  width: 100%;
+  text-align: center;
+}
+
+.history-title {
+  color: $primary-background-lighten-3;
+  border: tall $primary-background-lighten-2;
+  background: $primary-background-darken-3;
+  text-style: bold;
+  width: 100%;
+  text-align: center;
+  margin-top: 2;
+}
+
+DataTable {
+    margin-top: 1;
+}
+
+.entries-label-EXPENSE {
+  color: $warning-darken-3;
+  border: tall $warning-darken-3;
+  width: 100%;
+  text-align: center;
+}
+
+.entries-label-INCOME {
+  color: $success-darken-3;
+  margin-top: 1;
+  border: tall $success-darken-3;
+  width: 100%;
+  text-align: center;
+}
+
+UpdateEntryModal {
+  align: center middle;
+}
+
+UpdateEntryModal Grid {
+  grid-size: 2;
+  grid-columns: 1fr 2fr;
+  border: outer $warning;
+  padding: 0 3;
+  width: 60;
+  height: 32;
+}
+
+Label.modal-title {
+  color: $primary;
+  background: $warning;
+  padding-left: 2;
+  width: 60;
+}
+
+/* here we make the label the same size as input controls */
+UpdateEntryModal Grid Label {
+  height: 3;
+  content-align: right middle;
+  padding: 0 1;
+  width: 100%;
+}
+
+UpdateEntryModal RadioSet {
+  width: 100%;
+}

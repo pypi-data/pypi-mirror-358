@@ -1,0 +1,44 @@
+[project]
+name = "moomoolah"
+version = "0.1.0"
+description = "MooMoolah - Personal Budget Planner"
+authors = [
+    {name = "Elias Dorneles", email = "elias.dorneles@hey.com"}
+]
+license = {text = "Proprietary"}
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "textual>=0.52.1",
+    "pydantic>=2.6.3",
+    "python-dateutil>=2.9.0",
+]
+
+[project.scripts]
+moomoolah = "moomoolah.__main__:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.2",
+    "textual-dev>=1.5.1",
+    "ipython>=8.22.1",
+    "isort>=5.13.2",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.black]
+line-length=90
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
+    "pytest-asyncio>=0.21.0",
+    "ruff>=0.12.1",
+    "textual-dev>=1.7.0",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
