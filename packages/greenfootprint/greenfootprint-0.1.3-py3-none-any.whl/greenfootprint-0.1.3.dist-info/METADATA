@@ -1,0 +1,65 @@
+Metadata-Version: 2.4
+Name: greenfootprint
+Version: 0.1.3
+Summary: Estimate energy and carbon footprint of Python scripts
+Home-page: https://github.com/thuve-codes/greenfootprint
+Author: Thuverakan Tharumakulasooriyan
+Author-email: thuverakantharma@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENCE
+Requires-Dist: psutil
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# 🌱 greenfootprint
+
+**greenfootprint** is a lightweight Python tool that estimates the energy consumption and carbon footprint of any Python script. It helps developers measure the environmental impact of their code in terms of runtime, CPU usage, energy, and CO₂ emissions.
+
+## 🙋 About the Author
+
+**Author** – [thuve-codes](https://github.com/thuve-codes) – [LinkedIn](https://www.linkedin.com/in/thuverakan10)
+
+
+---
+
+## 📦 Features
+
+- 🔍 Analyze energy and carbon usage of a Python script
+- ⚙️ Uses runtime and CPU time to estimate watt-hours
+- 🌫️ Converts energy usage to estimated CO₂ grams
+- 📊 Simple CLI with clean output
+- 🧠 Tips to improve efficiency (coming soon)
+
+---
+
+## 🛠️ Installation & RUN
+
+```bash
+pip install greenfootprint
+
+greenfootprint examples\example_script.py
+```
+---
+
+# Sample Output
+🔍 Running analysis on: examples/example_script.py
+
+📊 Analysis Report for examples/example_script.py
+⏱️  Runtime:       2.37 seconds
+🧠 CPU Time:      2.10 seconds
+🔋 Energy Used:   0.0088 kWh
+🌫️ CO₂ Emitted:  4.16 grams
+
+✅ Your code is moderately green!
