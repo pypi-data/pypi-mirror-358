@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <script type="text/javascript" language="javascript">
+            var submitForm = function() {
+              document.getElementById("multisafepay-payment").submit();
+            };
+        </script>
+    </head>
+
+    <body style="display: none;" onload="submitForm();">
+
+    <form id="multisafepay-payment" action="{{ action_url }}" method="{{ action_method }}">
+        {% csrf_token %}
+        {{ multisafe_form.as_table() }}
+    </form>
+
+    </body>
+</html>
