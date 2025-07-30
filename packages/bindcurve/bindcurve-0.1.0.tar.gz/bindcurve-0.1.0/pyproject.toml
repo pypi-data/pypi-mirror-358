@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "bindcurve"
+version = "0.1.0"
+requires-python = ">=3.8"
+dependencies = [
+  "numpy",
+  "pandas",
+  "matplotlib",
+  "lmfit",
+]
+description = "A Python package for fitting and plotting of binding curves."
+readme = "README.md"
+authors = [
+  {name = "Jan Choutka", email = "jan.choutka@uochb.cas.cz"},
+]
+license = "MIT"
+
+
+[tool.setuptools.packages.find]
+include = ["bindcurve"]
+
+
+[tool.ruff]
+line-length = 88
+select = ["E", "F"]  # E: pycodestyle, F: pyflakes
+ignore = ["E501"]    # Example: ignore line length errors
