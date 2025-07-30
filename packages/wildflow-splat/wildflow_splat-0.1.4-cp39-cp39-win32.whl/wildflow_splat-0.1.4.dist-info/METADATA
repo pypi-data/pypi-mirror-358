@@ -1,0 +1,74 @@
+Metadata-Version: 2.4
+Name: wildflow-splat
+Version: 0.1.4
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Rust
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Multimedia :: Graphics :: 3D Modeling
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Dist: maturin>=1.0 ; extra == 'dev'
+Requires-Dist: pytest>=7.0 ; extra == 'dev'
+Provides-Extra: dev
+License-File: LICENSE
+Summary: Fast PLY point cloud processing for 3D Gaussian splatting workflows
+Keywords: ply,point-cloud,3d-gaussian-splatting,colmap,photogrammetry,computer-vision
+Author-email: Wildflow AI <info@wildflow.ai>
+License: MIT
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown; charset=UTF-8; variant=GFM
+Project-URL: repository, https://github.com/wildflowai/wildflow-splat
+Project-URL: documentation, https://docs.wildflow.ai
+
+Super hacky library to work with coral reef splats.
+
+You can swim with a few GoPros around a reef (e.g. [wildflow.ai/protocol](https://wildflow.ai/protocol)) and then turn the footage into 3D models (e.g. [wildflow.ai/demo](https://wildflow.ai/demo)) to track changes over time, run different analysis on top of it, and ultimately see which conservation/restoration methods work best.
+
+This is a bunch of primitives to process the data.
+
+# Usage
+Install with
+```
+pip install wildflow
+```
+So you can play with it from python:
+```py
+from wildflow import splat
+splat.split(...)
+```
+# Workflow
+
+## SfM workflow
+Turns images from cameras 3D point cloud and 
+
+![](/images/wildflow-3dgs-wf.svg)
+
+# Local Development
+
+This library uses Rust extensions built with Maturin. To set up locally:
+
+```bash
+# Create virtual environment
+python3 -m venv venv
+source venv/bin/activate
+
+# Install Rust (if not already installed)
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+source "$HOME/.cargo/env"
+
+# Install dependencies and build
+pip install maturin
+pip install -r requirements.txt
+maturin develop
+```
+
+After making changes to Rust code, rebuild with `maturin develop`.
+
