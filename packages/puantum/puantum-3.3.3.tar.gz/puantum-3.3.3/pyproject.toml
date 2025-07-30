@@ -1,0 +1,31 @@
+[project]
+name = "puantum"
+version = "3.3.3"
+authors = [{name = "Anonymous", email = "217687495+1xfakebit@users.noreply.github.com"}]
+description = "Python Cryptography"
+readme = {file = "readme.md", content-type = "text/markdown"}
+license = "Unlicense"
+license-files = ["license.md"]
+keywords = ["python", "cryptography", "quantum", "security"]
+
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Rust",
+  "Operating System :: OS Independent",
+  "License :: Public Domain",
+  "License :: OSI Approved :: The Unlicense (Unlicense)"
+]
+
+[project.urls]
+source = "https://github.com/1xfakebit/puantum"
+x = "https://x.com/1xfakebit"
+
+[build-system]
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
+
+[tool.maturin]
+module-name = "puantum.__internal__"
+skip-auditwheel = false
+bindings = "pyo3"
+strip = true
