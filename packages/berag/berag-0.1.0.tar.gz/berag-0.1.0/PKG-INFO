@@ -1,0 +1,47 @@
+Metadata-Version: 2.4
+Name: berag
+Version: 0.1.0
+Summary: A modular RAG pipeline library for your own data
+Home-page: https://github.com/your_github_username/berag
+Author: Besanty Ezekiel
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: openai
+Requires-Dist: chromadb
+Requires-Dist: sentence-transformers
+Requires-Dist: langchain
+Requires-Dist: tqdm
+Requires-Dist: PyYAML
+Requires-Dist: pypdf
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# 🧠 BeRAG
+
+BeRAG is a modular Python library for Retrieval-Augmented Generation (RAG) systems built from your own data.
+
+## Features
+- Load and chunk documents
+- Generate embeddings
+- Store and retrieve using vector DBs
+- Ask questions via LLMs
+
+## Installation
+```bash
+pip install berag
+```
+
+## Usage
+```python
+from berag import RAGPipeline
+rag = RAGPipeline(config="config.yaml")
+rag.ask("What is BeRAG?")
+```
