@@ -1,0 +1,57 @@
+# Example configurations for Boltz-2 predictions
+# These can be used as input_data in PredictionRequest
+
+# Single protein prediction
+single_protein:
+  sequences:
+    protein1: "MKFLVLLFNILCLFPVLAADNHGVGPQGASLFRLAKEGDPSVQGIVSNTGKILFRVVDAHKNDNHKIITNTEGSKGGKDSILGKNIELP"
+  job_name: "single_protein_example"
+
+# Protein complex
+protein_complex:
+  sequences:
+    chain_A: "MKFLVLLFNILCLFPVLAADNHGVGPQGASLFRLAKEGDPSVQGIVSNTGKILFRVVDAHKNDNHKIITNTEGSKGGKDSILGKNIELP"
+    chain_B: "ARNDCEQGHILKMFPSTWYV"
+  job_name: "complex_example"
+
+# Using FASTA files
+fasta_input:
+  sequences: ["protein.fasta"]
+  job_name: "fasta_prediction"
+
+# With custom MSA
+custom_msa:
+  sequences: ["protein.fasta"]
+  msa: ["custom_alignment.a3m"]
+  job_name: "custom_msa_prediction"
+
+# With template structure
+templated:
+  sequences: ["protein.fasta"]
+  pdb_id: "1ABC"
+  job_name: "templated_prediction"
+
+# Protein-ligand complex
+protein_ligand:
+  sequences: ["protein.fasta"]
+  ligands: ["ligand.sdf"]
+  job_name: "protein_ligand_complex"
+
+# Cyclic peptide
+cyclic_peptide:
+  sequences:
+    peptide: "CGPNGFGR"
+  is_cyclic: true
+  job_name: "cyclic_peptide"
+
+# Advanced configuration with all options
+advanced:
+  sequences: ["protein.fasta"]
+  msa: ["protein.a3m"]
+  constraints: ["constraints.txt"]
+  templates: ["template.pdb"]
+  ligands: ["ligand1.sdf", "ligand2.sdf"]
+  job_name: "advanced_prediction"
+  symmetries: ["C2"]
+  pocket_center: [10.0, 15.0, 20.0]
+  pocket_radius: 15.0 
