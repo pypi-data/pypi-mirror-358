@@ -1,0 +1,144 @@
+%YAML 1.1
+---
+# yaml-language-server: $schema=https://harp-tech.org/draft-02/schema/device.json
+device: RgbArray
+whoAmI: 1264
+firmwareVersion: "2.0"
+hardwareTargets: "1.0"
+registers:
+  LedStatus:
+    address: 32
+    type: U8
+    access: [Event, Write]
+  LedCount:
+    address: 33
+    type: U8
+    access: Write
+    maxValue: 32
+    description: The number of LEDs connected on each bus of the device.
+  RgbState:
+    address: 34
+    type: U8
+    length: 192
+    access: Write
+    description: The RGB color of each LED. [R0 G0 B0 R1 G1 B1 ...].
+  RgbBus0State:
+    address: 35
+    type: U8
+    length: 96
+    access: Write
+    description: The RGB color of each LED. [R0 G0 B0 R1 G1 B1 ...].
+  RgbBus1State:
+    address: 36
+    type: U8
+    length: 96
+    access: Write
+    description: The RGB color of each LED. [R0 G0 B0 R1 G1 B1 ...].
+  RgbOffState:
+    address: 37
+    type: U8
+    length: 3
+    access: Write
+    description: The RGB color of the LEDs when they are off.
+  Reserved0: &reserved
+    address: 38
+    type: U8
+    access: Read
+    visibility: private
+    description: Reserved for future use.
+  DI0Mode:
+    address: 39
+    type: U8
+    access: Write
+    maskType: DI0ModeConfig
+  DO0Mode:
+    address: 40
+    type: U8
+    access: Write
+    maskType: DOModeConfig
+  DO1Mode:
+    address: 41
+    type: U8
+    access: Write
+    maskType: DOModeConfig
+  Reserved1:
+    <<: *reserved
+    address: 42
+  LatchOnNextUpdate:
+    address: 43
+    type: U8
+    access: Write
+    maskType: EnableFlag
+    description: Updates the settings of the RGBs, but will queue the instruction until a valid LedStatus command.
+  DigitalInputState:
+    address: 44
+    access: Event
+    type: U8
+    maskType: DigitalInputs
+    description: Reflects the state of DI digital lines of each Port
+  OutputSet: &output
+    address: 45
+    type: U8
+    access: Write
+    maskType: DigitalOutputs
+    description: Set the specified digital output lines.
+  OutputClear:
+    <<: *output
+    address: 46
+    description: Clear the specified digital output lines
+  OutputToggle:
+    <<: *output
+    address: 47
+    description: Toggle the specified digital output lines
+  OutputState:
+    <<: *output
+    address: 48
+    description: Write the state of all digital output lines
+  DigitalOutputPulsePeriod:
+    address: 49
+    type: U16
+    access: Write
+    description: The pulse period in milliseconds for digital outputs.
+  DigitalOutputPulseCount:
+    address: 50
+    type: U8
+    access: Write
+    description: Triggers the specified number of pulses on the digital output lines.
+  EventEnable:
+    address: 51
+    type: U8
+    access: Write
+    maskType: RgbArrayEvents
+    description: Specifies the active events in the device.
+bitMasks:
+  DigitalInputs:
+    bits:
+      DI0: 0x1
+  DigitalOutputs:
+    bits:
+      DO0: {0x1, description: "Digital Output 0"}
+      DO1: {0x2, description: "Digital Output 1"}
+      DO2: {0x4, description: "Digital Output 2"}
+      DO3: {0x8, description: "Digital Output 3"}
+      DO4: {0x16, description: "Digital Output 4"}
+groupMasks:
+  DI0ModeConfig:
+    description: Specifies the operation mode of the DI0 pin.
+    values:
+      None: {0, description: "The DI0 pin functions as a passive digital input."}
+      UpdateOnRisingEdge: {1, description: "Update the LED colors when the DI0 pin transitions from low to high."}
+      UpdateOnHigh: {2, description: "Able to update RGBs when the pin is HIGH. Turn LEDs off when rising edge is detected."}
+  DOModeConfig:
+    description: Specifies the operation mode of a Digital Output pin.
+    values:
+      None: {0, description: "The pin will function as a pure digital output."}
+      PulseOnUpdate: {1, description: "A 1ms pulse will be triggered each time an RGB is updated."}
+      PulseOnLoad: {2, description: "A 1ms pulse will be triggered each time an new array is loaded RGB."}
+      ToggleOnUpdate: {3, description: "The output pin will toggle each time an RGB is updated."}
+      ToggleOnLoad: {4, description: "The output pin will toggle each time an new array is loaded RGB."}
+  RgbArrayEvents:
+    description: Available events to be enable in the board.
+    values:
+      LedStatus: 1
+      DigitalInputs: 2
+

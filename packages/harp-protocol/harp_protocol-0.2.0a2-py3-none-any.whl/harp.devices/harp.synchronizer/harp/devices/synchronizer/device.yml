@@ -1,0 +1,99 @@
+%YAML 1.1
+---
+# yaml-language-server: $schema=https://harp-tech.org/draft-02/schema/device.json
+device: Synchronizer
+whoAmI: 1104
+firmwareVersion: "1.7"
+hardwareTargets: "1.0"
+registers:
+  DigitalInputState:
+    address: 32
+    access: Event
+    type: U16
+    maskType: DigitalInputs
+    description: State of the digital input pins. An event will be emitted when the value of any digital input pin changes.
+  DigitalOutputState:
+    address: 33
+    access: Write
+    type: U8
+    maskType: DigitalOutputs
+    description: Status of the digital output pin 0.
+  DigitalInputsSamplingMode:
+    address: 34
+    access: Write
+    type: U8
+    maskType: DigitalInputsSamplingConfig
+    description: Sets the sampling mode for digital input pins.
+  DO0Config:
+    address: 35
+    access: Write
+    type: U8
+    maskType: DO0ConfigMode
+    description: Configures how the DO0 pin behaves.
+  Reserved0: &reserved
+    address: 36
+    type: U8
+    access: Read
+    description: Reserved for future use.
+    visibility: private
+  Reserved1:
+    <<: *reserved
+    address: 37
+  Reserved2:
+    <<: *reserved
+    address: 38
+  Reserved3:
+    <<: *reserved
+    address: 39
+  EnableEvents:
+    address: 40
+    type: U8
+    access: Write
+    maskType: SynchronizerEvents
+    description: Specifies all the active events in the device.
+bitMasks:
+  DigitalInputs:
+    description: Specifies the state of digital input port lines.
+    bits:
+      DI0: 0x1
+      DI1: 0x2
+      DI2: 0x3
+      DI3: 0x4
+      DI4: 0x8
+      DI5: 0x10
+      DI6: 0x20
+      DI7: 0x40
+      DI8: 0x80
+  DigitalOutputs:
+    description: Specifies the state of digital output port lines.
+    bits:
+      DO0: 0x1
+  SynchronizerEvents:
+    description: The events that can be enabled/disabled.
+    bits:
+      DigitalInputState: 0x1
+groupMasks:
+  DigitalInputsSamplingConfig:
+    description: Available modes for catching/sampling the digital inputs.
+    values:
+      None: 0
+      InputsChange: 1
+      DI0RisingEdge: 2
+      DI0FallingEdge: 3
+      Sampling100Hz: 4
+      Sampling250Hz: 5
+      Sampling500Hz: 6
+      Sampling1000Hz: 7
+      Sampling2000Hz: 8
+  DO0ConfigMode:
+    description: Available configuration for the DO0.
+    values:
+      None: 0
+      ToggleOnInputsChange: 1
+      MimicDI0: 2
+      Pulse5msOnInputsChange: 3
+      Pulse2msOnInputsChange: 4
+      Pulse1msOnInputsChange: 5
+      Pulse500usOnInputsChange: 6
+      Pulse250usOnInputsChange: 7
+      AnyInputs: 8
