@@ -1,0 +1,14 @@
+[project]
+name = "clickup-mcp"
+version = "0.1.1"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "mcp[cli]>=1.10.1",
+    "requests>=2.32.4",
+    "python-dotenv>=1.0.0",
+]
+
+[project.scripts]
+clickup-mcp = "clickup_mcp.main:main"
