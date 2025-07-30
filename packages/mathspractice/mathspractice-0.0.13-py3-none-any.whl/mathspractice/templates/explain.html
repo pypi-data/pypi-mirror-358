@@ -1,0 +1,10 @@
+{% if explain %}
+<table class="explain">
+    <caption>Explanation</caption>
+    {% for explanation in explain %}
+    <tr>
+        <td>{{ explanation }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}

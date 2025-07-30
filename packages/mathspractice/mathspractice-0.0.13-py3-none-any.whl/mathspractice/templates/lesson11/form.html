@@ -1,0 +1,22 @@
+<form method="post" action="{{ form_url|safe }}">
+    <input type="hidden" id="which" name="which" value="{{ which }}">
+    <input type="hidden" id="attempt" name="attempt" value="{{ attempt }}">
+    <input type="hidden" id="first" name="first" value="{{ first }}">
+    <input type="hidden" id="second" name="second" value="{{ second }}">
+    <input type="hidden" id="problem" name="problem" value="{{ problem }}">
+    <input type="hidden" id="now" name="now" value="{{ now }}">
+    <p class="center problem">
+    {{ problem }}
+    {% include "explain.html" %}
+    </p>
+    <table class="compact">
+        <tr>
+            <td class="center">
+                <div class="answer">
+                    <input class="right" type="text" id="answer" name="answer" autocomplete="off" autofocus>
+                </div>
+            </td>
+        </tr>
+        <tr><td colspan="3" class="center"><input type="submit" id="submit" name="Check" value="Check"></td></tr>
+    </table>
+</form>
