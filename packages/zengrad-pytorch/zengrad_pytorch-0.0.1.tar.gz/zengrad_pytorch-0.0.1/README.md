@@ -1,0 +1,34 @@
+
+## Installation
+
+To install ZenGrad, run the following command:
+
+```bash
+pip install zengrad-pytorch
+```
+
+## Implementation
+
+```python
+import torch
+from zengrad_pytorch import ZenGrad  # Custom optimizer
+
+# Define the model
+
+# Instantiate the model
+model = SimpleModel()
+
+# Define loss function
+criterion = nn.CrossEntropyLoss()
+
+# Instantiate optimizer
+optimizer = ZenGrad(model.parameters(), lr=0.01, weight_decay=1e-4, epsilon=1e-8) # <---- In This Way
+
+# Model summary (optional)
+print(model)
+
+```
+
+## License
+
+ZenGrad_pytorch is released under the [Apache License 2.0](https://github.com/XenReZ/ZenGrad-PyTorch/blob/main/LICENSE).
