@@ -1,0 +1,43 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "global_meth_package"
+version = "0.1.1"
+authors = [
+ { name="Kashina Olesya", email="kashinaolesya@inbox.ru" },
+]
+description = "Библиотека, содержащая пять методов глобальной оптимизации: метод ветвей и границ, сеточный поиск, метод Монте-Карло, имитация отжига, генетический алгоритм."
+readme = "README.md"
+requires-python = ">=3.6.0"
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+dependencies = [
+   "numpy"
+]
+keywords = ["optimization", "global", "branch and bound", "grid search", "Monte Carlo", "simulated annealing", "genetic algorithm"]
+classifiers = [
+   "Programming Language :: Python :: 3",
+   "License :: OSI Approved :: MIT License",
+   "Operating System :: OS Independent",
+]
+
+[project.optional-dependencies]
+dev = [
+   "pytest"
+]
+
+[project.urls]
+Documetation = "https://drive.google.com/drive/folders/10BLl6d3GXtyinTO8jlqDekYjo9K1A3uZ?usp=drive_link"
+
+[tool.hatch.metadata]
+allow-dirrect-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["global_meth_package"]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = ["test"]
