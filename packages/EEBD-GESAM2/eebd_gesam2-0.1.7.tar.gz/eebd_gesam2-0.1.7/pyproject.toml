@@ -1,0 +1,57 @@
+# pyproject.toml (最终安全版)
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "EEBD-GESAM2"
+version = "0.1.7"  # <-- 关键！版本号已更新为 0.1.2
+authors = [
+  { name="Yaopeng Han", email="hanyp@qibebt.ac.cn" },
+]
+description = "一个基于 SAM2 和 Tkinter 的交互式图像分割与标注工具。"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { file="LICENSE" }
+keywords = ["sam", "sam2", "segmentation", "annotation", "gui", "tkinter", "pytorch", "labelme"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Image Recognition",
+    # "Framework :: Tk",  <-- 已彻底删除此行，以确保通过验证
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+]
+
+# 👉 核心依赖项
+dependencies = [
+    "torch>=1.8",
+    "numpy",
+    "Pillow",
+    "opencv-python",
+    "appdirs>=1.4.4"
+]
+
+# 👉 项目链接
+[project.urls]
+Homepage = "https://github.com/your-username/your-repo"           # <-- 请记得修改为你的 GitHub 仓库主页
+"Bug Tracker" = "https://github.com/your-username/your-repo/issues" # <-- 请记得修改为你的 GitHub Issues 页面
+
+
+# --- Setuptools 特定配置 ---
+
+[project.scripts]
+eebd-gesam2 = "sam2_annotator.main:start"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+sam2_annotator = ["configs/*.yaml"]
