@@ -1,0 +1,26 @@
+codecov:
+  require_ci_to_pass: yes
+  token: d9e1b77b-2b79-4cce-8a48-8039a6bf20a0
+
+coverage:
+  precision: 2
+  round: down
+  range: "70...100"
+
+parsers:
+  gcov:
+    branch_detection:
+      conditional: yes
+      loop: yes
+      method: no
+      macro: no
+
+comment:
+  layout: "reach,diff,flags,files,footer"
+  behavior: default
+  require_changes: no
+
+ignore:
+  - "setup.py"
+  - "tests/"
+  - "openodia/__main__.py"
