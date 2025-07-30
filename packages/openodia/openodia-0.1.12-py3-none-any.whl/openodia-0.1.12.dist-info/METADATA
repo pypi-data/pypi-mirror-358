@@ -1,0 +1,78 @@
+Metadata-Version: 2.4
+Name: openodia
+Version: 0.1.12
+Summary: Open source Odia language tools
+Project-URL: Repository, https://github.com/soumendrak/openodia
+Project-URL: Documentation, https://openodia.soumendrak.com
+Project-URL: Issues, https://github.com/soumendrak/openodia/issues
+Author-email: Soumendra Kumar Sahoo <proud_odia@outlook.com>
+License: MIT
+License-File: LICENSE
+Keywords: github-actions,nlp,odia,packaging,pip,pypi,python,uv
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Text Processing :: Linguistic
+Requires-Python: >=3.9
+Requires-Dist: deep-translator>=1.11.4
+Requires-Dist: faker>=13.4.0
+Requires-Dist: numpy>=1.22.3
+Requires-Dist: rich>=12.2.0
+Provides-Extra: dev
+Requires-Dist: bandit>=1.7.1; extra == 'dev'
+Requires-Dist: commitizen>=2.27.1; extra == 'dev'
+Requires-Dist: mkdocs-git-revision-date-localized-plugin>=0.10.0; extra == 'dev'
+Requires-Dist: mkdocs-material>=7.3.2; extra == 'dev'
+Requires-Dist: mkdocs>=1.2.2; extra == 'dev'
+Requires-Dist: pre-commit>=2.17.0; extra == 'dev'
+Requires-Dist: pytest-cov>=3.0.0; extra == 'dev'
+Requires-Dist: pytest>=6.2.5; extra == 'dev'
+Requires-Dist: ruff>=0.1.0; extra == 'dev'
+Description-Content-Type: text/markdown
+
+![image](docs/cover-pic.png)
+
+<h4 align="center">
+  <a href="https://img.shields.io/badge/Python-3.9-blue"><img alt="python 3.9" src="https://img.shields.io/badge/Python-3.9-blue"></a>
+  <a href="https://github.com/soumendrak/openodia/actions/workflows/codecov.yml"><img alt="Code coverage" src="https://github.com/soumendrak/openodia/actions/workflows/codecov.yml/badge.svg"></a>
+  <a href="https://github.com/soumendrak/openodia/blob/main/LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>
+  <a href="https://codecov.io/gh/soumendrak/openodia"><img alt="code coverage" src="https://codecov.io/gh/soumendrak/openodia/branch/main/graph/badge.svg?token=1TOQIKGDQ2"/></a>
+  <a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fsoumendrak%2Fopenodia?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fsoumendrak%2Fopenodia.svg?type=shield" alt="license"/></a>
+  <a href="https://pepy.tech/project/openodia" alt="downloads"><img src="https://static.pepy.tech/personalized-badge/openodia?period=total&units=none&left_color=black&right_color=orange&left_text=Downloads"/></a>
+</h4>
+
+
+- `openodia` is a Python package which contains various tools on Odia language.
+- The short term goal of this package is to not make state-of-the-art methods, but to make tools which work.
+
+## Install
+
+- Please install any version of Python which is higher than or equal to Python 3.9. It should work. 
+- The library is tested in python 3.9 version.
+
+```bash
+pip install openodia
+```
+
+- If you want to directly build from the binary, please clone the repo and run `setup.py`.
+```shell
+git clone https://github.com/soumendrak/openodia.git
+python setup.py install
+```
+
+## Usage and Documentation
+
+For usage and further documentation please visit the [Documentation](https://openodia.soumendrak.com/) page. 
+
+## License
+
+<a align="center">
+<a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fsoumendrak%2Fopenodia?ref=badge_large" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fsoumendrak%2Fopenodia.svg?type=large"/></a>
+</a>
