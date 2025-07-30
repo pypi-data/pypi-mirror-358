@@ -1,0 +1,52 @@
+from importlib import metadata
+
+try:
+    __version__ = metadata.version("vaiz-sdk")
+except metadata.PackageNotFoundError:
+    __version__ = "0.0.0"
+
+from .client import VaizClient
+from .models import (
+    TaskFollower,
+    TaskPriority,
+    CustomField,
+    CreateTaskRequest,
+    EditTaskRequest,
+    Task,
+    TaskResponse,
+    BoardResponse,
+    BoardsResponse,
+    CreateBoardTypeRequest,
+    CreateBoardTypeResponse,
+    EditBoardTypeRequest,
+    EditBoardTypeResponse,
+    ProfileResponse,
+    Project,
+    ProjectsResponse,
+    ProjectResponse,
+    UploadedFile,
+    UploadFileResponse,
+)
+
+__all__ = [
+    'VaizClient',
+    'TaskFollower',
+    'TaskPriority',
+    'CustomField',
+    'CreateTaskRequest',
+    'EditTaskRequest',
+    'Task',
+    'TaskResponse',
+    'BoardResponse',
+    'BoardsResponse',
+    'CreateBoardTypeRequest',
+    'CreateBoardTypeResponse',
+    'EditBoardTypeRequest',
+    'EditBoardTypeResponse',
+    'ProfileResponse',
+    'Project',
+    'ProjectsResponse',
+    'ProjectResponse',
+    'UploadedFile',
+    'UploadFileResponse',
+]
