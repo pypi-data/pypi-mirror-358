@@ -1,0 +1,59 @@
+Metadata-Version: 2.4
+Name: reqlytics
+Version: 0.1.0
+Summary: Real-Time API Analytics Middleware for Flask and FastAPI
+Home-page: https://github.com/your-github/reqlytics-sdk
+Author: Reqlytics Team
+Author-email: kunletobi4@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: Framework :: Flask
+Classifier: Framework :: FastAPI
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Requires-Dist: requests
+Requires-Dist: fastapi
+Requires-Dist: starlette
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# README.md (simplified)
+
+# Reqlytics Python SDK
+
+Reqlytics is a real-time API analytics middleware for Flask and FastAPI.
+
+## Installation
+```bash
+pip install git+https://github.com/your-github/reqlytics-sdk.git
+```
+
+## Usage
+### Flask
+```python
+from flask import Flask
+from reqlytics import flask_analytics, flask_start_timer
+
+app = Flask(__name__)
+app.before_request(flask_start_timer)
+app.after_request(flask_analytics("your_api_key", debug=True))
+```
+
+### FastAPI
+```python
+from fastapi import FastAPI
+from reqlytics import fastapi_analytics
+
+app = FastAPI()
+app.add_middleware(fastapi_analytics, api_key="your_api_key", debug=True)
+```
+
+MIT License Â© 2025 â€“ Reqlytics Team
