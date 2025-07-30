@@ -1,0 +1,384 @@
+Metadata-Version: 2.3
+Name: pre-commit-update
+Version: 0.8.0
+Summary: Simple CLI tool and a pre-commit hook to check and update pre-commit hooks.
+License: MIT
+Author: Vojko Pribudić
+Author-email: dmanthing@gmail.com
+Maintainer: Vojko Pribudić
+Maintainer-email: dmanthing@gmail.com
+Requires-Python: >=3.9
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Web Environment
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Topic :: Software Development :: Libraries
+Requires-Dist: GitPython (>=3.1)
+Requires-Dist: click (>=8.1)
+Requires-Dist: packaging (>=24.0)
+Requires-Dist: ruamel.yaml (>=0.18)
+Requires-Dist: tomli (>=2.0.1)
+Project-URL: changelog, https://gitlab.com/vojko.pribudic.foss/pre-commit-update/-/releases
+Project-URL: issues, https://gitlab.com/vojko.pribudic.foss/pre-commit-update/-/issues
+Project-URL: source, https://gitlab.com/vojko.pribudic.foss/pre-commit-update
+Description-Content-Type: text/markdown
+
+<div align="center"><h1>pre-commit-update</h1>
+
+_One hook to manage them all..._
+
+[![Ko-Fi](https://img.shields.io/badge/Buy_me_a_coffee-F16061?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/dmanthing)
+
+![PyPI - Version](https://img.shields.io/pypi/v/pre-commit-update)
+![PePy - Downloads](https://pepy.tech/badge/pre-commit-update)
+![Gitlab Pipeline Status](https://img.shields.io/gitlab/pipeline-status/vojko.pribudic.foss%2Fpre-commit-update?branch=main&label=pipeline)
+![GitLab Issues](https://img.shields.io/gitlab/issues/open/vojko.pribudic.foss%2Fpre-commit-update)
+![GitLab Last Commit](https://img.shields.io/gitlab/last-commit/vojko.pribudic.foss%2Fpre-commit-update)
+![Coverage](https://img.shields.io/gitlab/coverage/vojko.pribudic.foss/pre-commit-update/main?job_name=tests)
+![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/pypi/pre-commit-update)
+![Python - Formatter](https://img.shields.io/badge/code%20style-black-black)
+![PyPI - License](https://img.shields.io/pypi/l/pre-commit-update?color=%23333333)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pre-commit-update)
+![Codacy grade](https://app.codacy.com/project/badge/Grade/e727532ea95341b18ffd963e77605c2b)
+
+**pre-commit-update** is a simple CLI tool and a pre-commit hook to check and update pre-commit hooks.
+</div>
+
+![Example](https://gitlab.com/vojko.pribudic.foss/pre-commit-update/-/raw/main/assets/pre-commit-update.gif)
+
+## Table of contents
+
+1. [ Reasoning ](#1-reasoning)
+2. [ Features ](#2-features)
+3. [ Installation ](#3-installation)
+4. [ Usage ](#4-usage)
+    1. [ Pipeline usage example ](#1-pipeline-usage-example)
+       1. [ GitLab job ](#a-gitlab-job)
+    2. [ pre-commit hook usage example ](#2-pre-commit-hook-usage-example)
+5. [ Configuration ](#5-configuration)
+    1. [ YAML output configuration ](#1-yaml-output-configuration)
+6. [ F.A.Q ](#6-faq)
+    1. [ New version of pre-commit-update has a bug, what should I do? ](#1-new-version-of-pre-commit-update-has-a-bug-what-should-i-do)
+    2. [ There are certain icons in the output messages, what do they mean? ](#2-there-are-certain-icons-in-the-output-messages-what-do-they-mean) 
+
+
+## 1. Reasoning
+
+`pre-commit` is a nice little tool that helps you polish your code before releasing it into the wild.
+It is fairly easy to use. A single `pre-commit-config.yaml` file can hold multiple hooks (checks) that will go through
+your code or repository and do certain checks. The problem is that the file is static and once you pin your hook versions
+after a while they get outdated.
+
+`pre-commit-update` was created because there is no easy way to update your hooks by using
+`pre-commit autoupdate` as it is not versatile enough.
+
+
+## 2. Features
+
+|                        Feature                         | pre-commit-update |            pre-commit autoupdate            |
+|:------------------------------------------------------:|:-----------------:|:-------------------------------------------:|
+|   Has dry run (checks for updates, does not update)    |        Yes        |                     No                      |
+|              Can use stable versions only              |        Yes        |                     No                      |
+|         Can exclude repo(s) from update check          |        Yes        | Workaround (updates only specified repo(s)) |
+| Can keep repo(s) (checks for updates, does not update) |        Yes        |                     No                      |
+|           Can update by hash instead of tag            |        Yes        |                     Yes                     |
+|          Can define custom tag prefix schema           |        Yes        |                     No                      |
+|            Can be used as a pre-commit hook            |        Yes        |                     No                      |
+|         Can be configured in `pyproject.toml`          |        Yes        |                     No                      |
+
+
+## 3. Installation
+
+`pre-commit-update` is available on [PyPI](https://pypi.org/project/pre-commit-update/):
+```console
+$ python -m pip install pre-commit-update
+```
+
+> [!note]
+> Please make sure that `git` is installed.
+
+
+## 4. Usage
+
+`pre-commit-update` can be used as below:
+
+```console
+$ pre-commit-update [OPTIONS]
+```
+
+```console
+  Option:                                       Short description:
+
+  -c, --config-file FILE                        Path to the configuration pyproject.toml
+                                                file  [default: None]
+  
+  -d, --dry-run / -nd, --no-dry-run             Checks for the new versions without updating
+                                                if enabled  [default: nd]
+                                                
+  -dm, --dry-run-mode [strict|warn]             Dry run mode: 'strict' prints the changes
+                                                and exits, 'warn' only prints the changes
+                                                [default: strict]
+
+  -a, --all-versions / -na, --no-all-versions   Includes the alpha/beta versions when
+                                                updating if enabled  [default: na]
+
+  -v, --verbose / -nv, --no-verbose             Displays the complete update output if
+                                                enabled  [default: nv]
+
+  -w, --warnings / -nw, --no-warnings           Displays warning messages if enabled  [default: w]
+
+  -p, --preview / -np, --no-preview             Previews the cli option values by the
+                                                overwriting order if enabled (disables the
+                                                actual cli work!)  [default: np]
+
+  -j, --jobs INTEGER                            Maximum number of worker threads to be used
+                                                for processing
+
+  -e, --exclude REPO_URL_TRIM                   Exclude specific repo(s) by the
+                                                REPO_URL_TRIM - use '*' as a wildcard
+
+  -k, --keep REPO_URL_TRIM                      Keep the version of specific repo(s) by the
+                                                REPO_URL_TRIM (still checks for the new
+                                                versions) - use '*' as a wildcard
+
+  -b, --bleeding-edge REPO_URL_TRIM             Get the latest version or commit of specific
+                                                repo(s) by the REPO_URL_TRIM - use '*' as a
+                                                wildcard
+
+  -t, --tag-prefix <REPO_URL_TRIM TEXT>...      Set the custom tag prefix for the specific
+                                                repo(s) by combining REPO_URL_TRIM with tag
+                                                prefix value
+                                                
+  -V, --version                                 Show the version and exit.
+
+  -h, --help                                    Show this message and exit.
+```
+
+Below you can find more detailed explanations of how each option works.
+
+Some of the options (`--exclude`, `--keep` and `--bleeding-edge`) use `REPO_URL_TRIM` as an argument.
+
+Example of the `REPO_URL_TRIM`: `https://github.com/ambv/black` -> `black` (you will only pass `black` as a parameter to the
+`--exclude`, `--keep` or `--bleeding-edge` option)
+
+
+- `-c, --config-file FILE` - Path to the configuration pyproject.toml file. This can be an absolute or relative path. Make
+sure that the path ends with `pyproject.toml`.
+
+
+- `-d, --dry-run / -nd, --no-dry-run` - If enabled, updates will be fetched, but they won't be applied. Useful if you are only
+curious about potential changes that would occur.
+
+
+- `-dm, --dry-run-mode [strict|warn]` - If set to `strict`, the changes will be printed and the process will exit. If set to
+`warn`, the changes will be printed but the process will not exit. This option is ignored if the `--dry-run` option is not
+enabled!
+
+
+- `-a, --all-versions / -na, --no-all-versions` - If enabled, all version tags will be checked. This may include alpha, beta
+or release candidate versions. Keep in mind that this option is not the same as `-b, --bleeding-edge`!
+
+
+- `-v, --verbose / -nv, --no-verbose` - If enabled, every detail will be printed out once the process completes. This
+does not display warnings if they are disabled (`-nw, --no-warnings`)!
+
+    > [!tip]
+    > Use the `--verbose` option if you want to see the complete update output e.g. `--keep` and `--exclude`.
+
+
+- `-w, --warnings / -nw, --no-warnings` - If enabled, various validation warnings will be displayed (mostly configuration issues)
+
+
+- `-p, --preview / -np, --no-preview` - This option excludes all other options if enabled! It is used in order to display the
+configuration priorities/overwrites between default configuration, `pyproject.toml` configuration and options passed directly
+to the cli. It also displays the final configuration and what was changed.
+
+
+- `-j, --jobs` - This option sets the maximum number of worker jobs (threads). If left blank, value used will equal to your `cpu_count + 4`
+
+
+- `-e, --exclude` - This option, if used, excludes the complete repo (along with all the hooks) from update check. That means that the given
+repo url (for the given `REPO_URL_TRIM`) will be completely skipped. You can exclude multiple repos by repeating the option multiple times
+(example: `--exclude black --exclude isort`). You can also use a wildcard `*` (example: `--exclude '*'`) in order to exclude every single repo
+from the update process. This is useful when, for example, your python version is not up-to-date, and you need time to upgrade your code before
+updating your hooks to their latest versions.
+
+    > [!important]
+    > Using a wildcard with the `--exclude` option disables the `--keep` and `--bleeding-edge` options
+  
+
+- `-k, --keep` - This option, if used, keeps the current repo version/hash (along with all the hooks). That means that the given
+repo url (for the given `REPO_URL_TRIM`) will fetch available updates and display them, but no update will take place. You can keep multiple
+repos by repeating the option multiple times (example: `--keep black --keep isort`). You can also use a wildcard `*` (example: `--keep '*'`)
+in order to keep every single repo pinned to the current version while also checking for updates.
+
+    > [!important]
+    > Using a wildcard with the `--keep` option disables the `--exclude` option
+  
+
+- `-b, --bleeding-edge` - This option, if used, gets the latest repo version/hash (whatever is more recent). That means that the given
+repo url (for the given `REPO_URL_TRIM`) will be updated to the latest tagged version **OR** latest commit, depending on which one is more recent. This
+also means that `--bleeding-edge` option **ignores** the `--all-versions` option - it will always fetch the latest update - stable or not.
+You can set multiple repos as `--bleeding-edge` by repeating the option multiple times (example: `--bleeding-edge black --bleeding-edge isort`).
+You can also use a wildcard `*` (example: `--bleeding-edge '*'`) in order to update every single repo to the latest version/hash.
+
+    > [!important]
+    > Using a wildcard with the `--bleeding-edge` option disables the `--exclude` option
+
+
+- `-t, --tag-prefix` - This option, if used, sets custom tag prefix schema for the specified repos. This is useful if your repo has custom tags for pre-commit.
+For example, if `REPO_URL_TRIM` `black` has tags as `pre-commit-tag-v0.1.1`, you can use `--tag-prefix` as `--tag-prefix black pre-commit-tag-v`.
+You can set multiple custom tag schemas for multiple repos with `--tag-prefix` option by repeating the option multiple times
+(example: `--tag-prefix black custom-version-v --tag-prefix isort another-schema-v`).
+
+    > [!important]
+    > Be careful to pass the complete prefix (for `pre-commit-tag-v0.1.1` prefix would be `pre-commit-tag-v`)
+
+
+- `-V, --version` - Displays the current version of `pre-commit-update`.
+
+
+- `-h, --help` - Displays all the available options along with the short description of each.
+
+### 1) Pipeline usage example
+#### a) GitLab job:
+
+```yaml
+pre-commit-hooks-update:
+  stage: update
+  script:
+    # install git if not present in the image
+    - pip install pre-commit-update
+    - pre-commit-update --dry-run
+  except:
+    - main
+  when: manual
+  allow_failure: true
+```
+
+> [!note]
+> This is just an example, feel free to do your own configuration
+
+### 2) pre-commit hook usage example
+
+You can also use `pre-commit-update` as a hook in your `pre-commit` hooks:
+
+```yaml
+- repo: https://gitlab.com/vojko.pribudic.foss/pre-commit-update
+  rev: v0.8.0  # Insert the latest tag here
+  hooks:
+    - id: pre-commit-update
+      # Example args (use your own configuration)
+      args: [--dry-run, --exclude, black, --keep, isort, --tag-prefix, black, custom-version-v]
+```
+
+> [!note]
+> This is just an example, feel free to do your own configuration
+
+## 5. Configuration
+
+You can configure `pre-commit-update` in your `pyproject.toml` as below (do your own configuration):
+
+Example:
+```toml
+[tool.pre-commit-update]
+dry_run = true
+dry_run_mode = "strict"
+all_versions = false
+verbose = true
+warnings = true
+preview = false
+jobs = 10
+exclude = ["isort"]
+keep = ["black"]
+bleeding_edge = ["pylint"]
+tag_prefix = [["black", "custom-tag-schema-v"]]
+```
+
+> [!note]
+> If some of the options are missing (for example `--exclude` option), `pre-commit-update`
+> will use the default value for that option (default for `--exclude` option would be an empty list).
+
+> [!important]
+> If you invoke `pre-commit-update` with any options (e.g. `pre-commit-update -d`),
+> `pyproject.toml` configuration will be **overridden**. This means that all the options passed while
+> calling `pre-commit-update` will have priority over the configuration defined inside `pyproject.toml`.
+> If you want to override boolean options, you can do so by passing the negative option value.
+> For example, given the configuration above, to override `--verbose` option from `pyproject.toml`, you
+> would invoke `pre-commit-update` with either `--no-verbose` or `-nv`.
+
+You can always check the configuration overrides (priorities) by running `pre-commit-update -p` / `pre-commit-update --preview`
+
+### 1) YAML output configuration
+
+You can configure the output of `pre-commit-update` resulting YAML in your `pyproject.toml` as below (do your own configuration):
+
+Example:
+```toml
+[tool.pre-commit-update.yaml]
+mapping = 4
+sequence = 4
+offset = 2
+```
+
+> [!note]
+> `pre-commit-update` does not directly format the resulting YAML file.
+> It is done by the `ruamel.yaml` library. You can find more information about the configuration options [here.](https://yaml.dev/doc/ruamel.yaml)
+
+> [!caution]
+> This is an experimental feature and may change in the future. Reasoning is defined [here.](https://gitlab.com/vojko.pribudic.foss/pre-commit-update/-/issues/19)
+
+## 6. F.A.Q
+
+### 1) New version of pre-commit-update has a bug, what should I do?
+
+These things do happen, unfortunately. Please report your issue(s) [here](https://gitlab.com/vojko.pribudic.foss/pre-commit-update/-/issues).
+
+If you are using `pre-commit-update` as a pre-commit hook and the previous version 
+of `pre-commit-update` worked for you, you can pin that specific version in your `.pre-commit-config.yaml` file.
+To do so, just add the following in your `.pre-commit-config.yaml` file:
+
+```yaml
+- repo: https://gitlab.com/vojko.pribudic.foss/pre-commit-update
+  rev: v0.7.0  # Version that works for you
+  hooks:
+    - id: pre-commit-update
+      args: [--keep, pre-commit-update]
+```
+
+If you are using `pre-commit-update` as a CLI, you can downgrade to the previous version by running:
+
+```console
+$ python -m pip install pre-commit-update==vX.X.X
+```
+
+Replace the `X.X.X` with the previous version that worked for you.
+
+### 2) There are certain icons in the output messages, what do they mean?
+
+`pre-commit-update` uses the following icons/text in the output messages:
+
+- `⚠`, `▲`, `[warning]` - Indicates that a message is a warning
+- `✔`, `√`, `[no-update]` - Indicates that there is no need to update the hook
+- `✘`, `×`, `[update]` - Indicates that hook needs to be updated
+- `⧣`, `≠`, `[hash]` - Indicates that the hook is using a hash instead of a tag
+- `★`, `*`, `[exclude]` - Indicates that the hook is excluded from the update process
+- `◉`, `●`, `[keep]` - Indicates that the hook will check for updates but will not be updated
+- `↯`, `±`, `[bleeding-edge]` - Indicates that the hook is using bleeding edge version/hash
+- `⇉`, `»`, `[tag-prefix]` - Indicates that the hook is using custom tag prefix schema
+
+Some terminals support the Unicode icons (first set), some support universal icons (second set) and some do not 
+support either (third set).
+
+`pre-commit-update` will fallback to whatever is supported by the terminal you use.
+
