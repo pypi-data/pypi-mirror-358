@@ -1,0 +1,43 @@
+[project]
+name = "reposnap"
+version = "0.8.0"
+description = "Generate a Markdown file with all contents of your project"
+authors = [
+    { name = "agoloborodko" }
+]
+dependencies = [
+    "pathlib>=1.0.1",
+    "pathspec>=0.12.1",
+    "gitpython>=3.1.43",
+    "urwid>=2.6.15",
+]
+readme = "README.md"
+requires-python = ">= 3.8"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+managed = true
+dev-dependencies = [
+    "pytest>=8.3.2",
+    "pre-commit>=4.2.0",
+    "pytest-cov>=6.2.1",
+    "twine>=6.1.0",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build]
+sources = ["src"]
+dev-mode-dirs = ["src"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["reposnap"]
+include = ["reposnap"]
+
+[project.scripts]
+reposnap = "reposnap.interfaces.cli:main"
+reposnap-gui = "reposnap.interfaces.gui:main"
