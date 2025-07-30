@@ -1,0 +1,38 @@
+\documentclass{standalone}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{adjustbox}
+\usepackage[utf8]{inputenc}
+\usepackage{relsize}
+\usepackage{setspace}
+\linespread{0.75}
+\setlength\parindent{0pt}
+\begin{document}
+\setlength{\fboxsep}{0pt}
+\fbox{%
+  % need sizes:
+  % width (reduce by 0.24 cm)
+  % height
+  % text primary language
+  % text secondary language
+  % image path
+  % location shortcut
+  % optional: text size (default: \relscale{1} or something guessed based on existing algorithm)
+  % optional: image height (otherwise half of entire size)
+  \begin{minipage}[t][5cm][t]{12.86cm}
+    \vspace{1mm}
+    \setlength{\parskip}{0pt}
+    \centering
+    {\relscale{3}
+      Ritzel \& Spacer
+    }
+
+    {\relscale{3.251371672424304} Sprocket \& Spacer}
+
+    \vspace*{1pt}
+    \includegraphics[height=2.5cm,keepaspectratio,width=12.86cm]{../../../../../Hobby/fahrrad/things-data/things/spacer_kassette/image.png}
+    \vspace*{-.8\baselineskip}
+    \flushright {\tiny R-L-W-2-3}
+  \end{minipage}
+}
+\end{document}

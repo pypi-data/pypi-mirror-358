@@ -1,0 +1,38 @@
+\documentclass{standalone}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{adjustbox}
+\usepackage[utf8]{inputenc}
+\usepackage{relsize}
+\usepackage{setspace}
+\linespread{0.75}
+\setlength\parindent{0pt}
+\begin{document}
+\setlength{\fboxsep}{0pt}
+\fbox{%
+  % need sizes:
+  % width (reduce by 0.24 cm)
+  % height
+  % text primary language
+  % text secondary language
+  % image path
+  % location shortcut
+  % optional: text size (default: \relscale{1} or something guessed based on existing algorithm)
+  % optional: image height (otherwise half of entire size)
+  \begin{minipage}[t][7cm][t]{17.86cm}
+    \vspace{1mm}
+    \setlength{\parskip}{0pt}
+    \centering
+    {\relscale{7.03421756053335}
+      Semi-integrierte Ahead Teile (ZS)
+    }
+
+    {\relscale{2.9032258064516125} Semi-integrated Ahead set parts}
+
+    \vspace*{1pt}
+    \includegraphics[height=3.5cm,keepaspectratio,width=17.86cm]{../../../../../Hobby/fahrrad/things-data/things/semi_integrierter_steuersatz_ahead_teile/image.jpg}
+    \vspace*{-.8\baselineskip}
+    \flushright {\tiny R-L-W-3-2}
+  \end{minipage}
+}
+\end{document}
