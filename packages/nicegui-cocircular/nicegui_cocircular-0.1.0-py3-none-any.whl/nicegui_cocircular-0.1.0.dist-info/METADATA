@@ -1,0 +1,53 @@
+Metadata-Version: 2.4
+Name: nicegui-cocircular
+Version: 0.1.0
+Summary: CoCircular
+Project-URL: homepage, https://github.com/SaitoTsutomu/nicegui-cocircular
+Author-email: Saito Tsutomu <tsutomu.saito@moai-lab.jp>
+Classifier: Development Status :: 1 - Planning
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Software Development
+Requires-Python: >=3.13
+Requires-Dist: fire>=0.7.0
+Requires-Dist: nicegui>=2.20.0
+Requires-Dist: numpy>=2.3.1
+Description-Content-Type: text/markdown
+
+# CoCircular(共円ゲーム)
+
+NiceGUIベースの共円を判定するゲームです。
+
+格子をクリックして点を配置します。4つの点が同じ円周上（共円）になったらゲームオーバーです。
+1直線上に4点並んだ場合も（半径∞の）共円とみなします。
+
+![CoCircular Screenshot](https://raw.githubusercontent.com/SaitoTsutomu/nicegui-cocircular/master/images/screenshot.png)
+
+## 遊び方
+
+- 格子をクリックして、点を置きます。共円ができたら終了です
+- 1人プレイ：何個置けるか挑戦してみましょう
+- 2人以上：共円ができたら1人負けです。ただし、共円を2つ以上作ったら1人勝ちです
+
+### 点の色
+
+- 黒：すでに置いた点です
+- 赤：現在置いた点です
+- その他の色：共円を構成する点です
+
+## 実行方法
+
+```
+% pip install nicegui-cocircular
+% cocircular
+```
+
+または
+
+```
+% uv run --with nicegui-cocircular cocircular
+```
+
+自動的にWebブラウザでアプリケーションが開き、ゲームをプレイできます。
+
