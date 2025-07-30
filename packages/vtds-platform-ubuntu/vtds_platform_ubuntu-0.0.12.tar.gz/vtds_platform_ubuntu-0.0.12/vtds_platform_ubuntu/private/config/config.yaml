@@ -1,0 +1,162 @@
+#
+# MIT License
+#
+# (C) Copyright 2025 Hewlett Packard Enterprise Development LP
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.
+#
+platform:
+  packages:
+    # You can add to this list of packages that will be installed on
+    # Virtual Blades in an overlay. This is the basic set that will be
+    # installed regardless. By specifying a non-NULL list of Virtual
+    # Blade classes, you can constrain installation of a given package
+    # to only the Virtual Blades that are instances of those
+    # classes. It is not recommended to do this to the packages listed
+    # in the base configuration because those are explicitly used by
+    # the platform layer, but this may be usefull for things used,
+    # perhaps, by a given cluster or application layer.
+    node_virtualization:
+      # List of blade classes where the packages should be
+      # installed. If this is null, then the packages will be
+      # installed everywhere. If this is empty packages will not be
+      # installed anywhere. Otherwise packages will only be installed
+      # on instances of the blade classes in this list.
+      blade_classes: null
+      # List of packages in this category.
+      packages:
+        - libvirt-daemon-system
+        - virtinst
+        - qemu-kvm
+        - libvirt-clients
+        - libguestfs-tools
+        - python3-libvirt
+        - mkisofs
+        - libvirt-dev
+        # Apache Utils allows us to have an htpasswd file for
+        # SushyTools to use. This is as good a place as any to
+        # put it.
+        - apache2-utils
+      # Preconfiguration settings supplied to debconf-set-selections to allow
+      # correct unattended installation of the above packages
+      preconfig_settings: []
+      
+      # List of services provided by these packages that should be
+      # started / enabled after installation.
+      services_enable:
+        - libvirtd
+      # List of services provided by these packages that should be
+      # stopped / disabled after installation to avoid conflicts or
+      # save resources.
+      services_disable: []
+    network_virtualization:
+      blade_classes: null
+      packages:
+        - bridge-utils
+      preconfig_settings: []
+      services_enable: []
+      services_disable: []
+    dhcp:
+      blade_classes: null
+      packages:
+        - kea
+      preconfig_settings:
+        - kea-ctrl-agent kea-ctrl-agent/make_a_choice select configured_random_password
+      services_enable: []
+      # Disable all of the Kea services until someone asks a given
+      # Virtual Blade to provide DHCP so we aren't carrying overhead /
+      # potential conflicts on nodes that aren't serving DHCP.
+      services_disable:
+        - kea-dhcp4-server
+        - kea-dhcp6-server
+        - kea-dhcp-ddns-server
+        - kea-ctrl-agent
+    python:
+      blade_classes: null
+      packages:
+        - python3.10
+      preconfig_settings: []
+      services_enable: []
+      services_disable: []
+    python_module_installation:
+      # In order to support installing python modules that are listed in
+      # the configuration for Virtual Blades as source type 'git' we
+      # need to have git installed. This applies to all blade types and
+      # will break deployment on some configurations if it is removed.
+      blade_classes: null
+      packages:
+        - python3-pip
+        - python3.10-venv
+        - git
+      preconfig_settings: []
+      services_enable: []
+      services_disable: []
+    miscelaneous_tools:
+      blade_classes: null
+      packages:
+        - iputils-ping
+        - dnsutils
+        - emacs
+        - vim
+      preconfig_settings:
+        - postfix postfix/main_mailer_type select No configuration
+      services_enable: []
+      services_disable: []
+  python:
+    # Configuration for running python on the virtual blades. The
+    # blade-venv will be shared by any layer deploy scripts that run on
+    # the virtual blade and is retrieved from the platform layer through
+    # its get_blade_venv_path() and get_blade_python_executable()
+    # methods. Set the venv path here. The API methods will use this as
+    # the basis for computing other information.
+    blade_venv_path: /root/blade-venv
+
+    # In addition to installing linux packages, we need to be able to
+    # install python modules that support functionality on the Virtual
+    # Blades. This section shows how that would be set up with an example
+    # that installs a redfish BMC emulator (sushi-tools) on the Virtual
+    # Blades. It is left to the Application layer to set this up and run
+    # it, and if you prefer not to install it, simply override 'delete'
+    # and set it to 'true' and sushy-tools will no longer be installed.
+    modules:
+      sushi-tools:
+        # Install 'sushy-tools' from a public fork on github that supports
+        # referencing VMs by name as well as by UUID. To do this, get it
+        # from the github fork, not from pypi.
+        module_name: sushy-tools
+        delete: false
+        source_type: git
+        metadata:
+          url: "https://github.com/Cray-HPE/sushy-tools-vshasta-v3.git"
+          version: With-Libvirt-By-Name
+      libvirt-python:
+        # Install 'libvirt-python' to support Sushy-Tools interactions
+        # with libvirt.
+        module_name: libvirt-python
+        delete: false
+        source_type: pypi
+        metadata:
+          version: null
+      yaml:
+        # Install 'pyyaml' as a dependency for the node deploy scripts.
+        module_name: pyyaml
+        delete: false
+        source_type: pypi
+        metadata:
+          version: null
