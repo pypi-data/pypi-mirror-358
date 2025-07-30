@@ -1,0 +1,55 @@
+"""テンプレートパッケージ"""
+
+# クライアント用テンプレート
+from .client import (
+    CLIENT_ASYNC_TEMPLATE,
+    CLIENT_SYNC_TEMPLATE,
+    ENDPOINT_ASYNC_TEMPLATE,
+    ENDPOINT_SYNC_TEMPLATE,
+)
+
+# FastAPIサーバー用テンプレート
+from .server import (
+    SERVER_DEPENDENCIES_TEMPLATE,
+    SERVER_INTERFACES_TEMPLATE,
+    SERVER_MAIN_TEMPLATE,
+    SERVER_REQUEST_MODEL_TEMPLATE,
+    SERVER_RESPONSE_MODEL_TEMPLATE,
+    SERVER_ROUTE_TEMPLATE,
+)
+
+# Flask/Cloud Functions用テンプレート
+from .flask import (
+    FLASK_ENUM_TEMPLATE,
+    FLASK_MODEL_TEMPLATE,
+    FLASK_SERVICE_INTERFACE_TEMPLATE,
+)
+
+# モデル用テンプレート
+from .models import MODEL_TEMPLATE
+
+# モックサーバー用テンプレート
+from .mock import MOCK_SERVER_TEMPLATE
+
+__all__ = [
+    # Client templates
+    "CLIENT_ASYNC_TEMPLATE",
+    "CLIENT_SYNC_TEMPLATE",
+    "ENDPOINT_ASYNC_TEMPLATE",
+    "ENDPOINT_SYNC_TEMPLATE",
+    # Server templates
+    "SERVER_DEPENDENCIES_TEMPLATE",
+    "SERVER_INTERFACES_TEMPLATE",
+    "SERVER_MAIN_TEMPLATE",
+    "SERVER_REQUEST_MODEL_TEMPLATE",
+    "SERVER_RESPONSE_MODEL_TEMPLATE",
+    "SERVER_ROUTE_TEMPLATE",
+    # Flask templates
+    "FLASK_ENUM_TEMPLATE",
+    "FLASK_MODEL_TEMPLATE",
+    "FLASK_SERVICE_INTERFACE_TEMPLATE",
+    # Model templates
+    "MODEL_TEMPLATE",
+    # Mock server templates
+    "MOCK_SERVER_TEMPLATE",
+]
