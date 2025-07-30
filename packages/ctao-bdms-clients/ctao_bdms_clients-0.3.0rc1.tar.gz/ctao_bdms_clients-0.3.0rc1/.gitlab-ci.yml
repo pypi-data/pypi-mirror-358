@@ -1,0 +1,60 @@
+include:
+  - project: 'cta-computing/dpps/aiv/dpps-aiv-toolkit'
+    ref: 1e9b640800ac73c215ce59df01330085d05b335e
+    file: 'ci-functions.yml'
+  - "aiv-config.yml"
+
+
+variables:
+  CHART_LOCATION: chart
+  CHART_NAME: bdms
+  CHART_EXTRA_VALUES: "--set dev.client_image_tag=${DOCKER_TAG} --set acada_ingest.image.tag=${DOCKER_TAG}"
+  DOCKER_IMAGE_CONTEXT: '${CI_PROJECT_DIR}'
+  RUCIO_VERSION: "35.4.1"
+  RUCIO_TAG: "release-${RUCIO_VERSION}"
+
+stages:
+  - prepare
+  - lint
+  - build
+  - sign
+  - tests
+  - sonarqube
+  - publish
+  - report
+  - changelog
+
+k8s-integration-tests:
+  # override from toolkit to add .env file with CI secrets
+  script:
+    - echo -e "MINIO_ACCESS_KEY=$MINIO_ACCESS_KEY\nMINIO_SECRET_KEY=$MINIO_SECRET_KEY\n" > .env
+    - ${MAKE} test-chart 2>&1 | tee test-output.log
+
+k8s-integration-tests-with-upgrade:
+  extends: k8s-integration-tests
+  script:
+    - echo -e "MINIO_ACCESS_KEY=$MINIO_ACCESS_KEY\nMINIO_SECRET_KEY=$MINIO_SECRET_KEY\n" > .env
+    - ${MAKE} test-chart 2>&1 | tee test-output.log
+    - find -name Chart.lock -delete
+    # seconds test, upgrades current cluster
+    - ${MAKE} test-chart 2>&1 | tee test-output.log
+
+
+build:
+  variables:
+    CI_HARBOR_REGISTRY_IMAGE: '${HARBOR_HOST}/dpps/bdms-client:${DOCKER_TAG}'
+    KANIKO_EXTRA_ARGS: --build-arg RUCIO_TAG=${RUCIO_TAG}
+
+build-ingestion-daemon:
+  extends: build
+  variables:
+    CI_HARBOR_REGISTRY_IMAGE: '${HARBOR_HOST}/dpps/bdms-ingestion-daemon:${DOCKER_TAG}'
+    KANIKO_EXTRA_ARGS: --build-arg RUCIO_TAG=${RUCIO_TAG}
+
+hadolint:
+  rules:
+    - when: never
+
+sign:
+  rules:
+    - when: never
