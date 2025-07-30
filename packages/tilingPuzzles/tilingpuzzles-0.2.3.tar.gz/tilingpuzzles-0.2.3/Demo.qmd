@@ -1,0 +1,49 @@
+---
+title: finden einer Lösung
+jupyter: python3
+---
+
+
+
+```{python}
+from tilingpuzzles.games.stone import Stone
+from tilingpuzzles.games.komino import Komino
+
+# Degree of the stones
+# k=5 => Pentomino
+k=6
+
+# The Universe of the Coverage problem
+U="""
+#######
+#######
+  ###
+#######
+#######
+  ###
+  ######
+  #######
+  #######
+"""
+
+U=Stone.from_string(U)
+
+assert len(U)%k==0
+
+display(U)
+
+komi=Komino(U,k=k)
+# limits: number of times a stone of a certain shape can be used.
+komi.find_solution(limits=1)
+```
+
+# Count Solutions 
+Calculate the number of Solutions if every Stone can be used a unlimited amount of time
+
+
+```{python}
+
+komi.count_solutions(limits=None,progressLevel=0)
+
+```
+

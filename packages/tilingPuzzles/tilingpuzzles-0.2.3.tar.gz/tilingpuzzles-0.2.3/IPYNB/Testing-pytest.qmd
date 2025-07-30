@@ -1,0 +1,108 @@
+---
+title: Object Testing
+jupyter: python3
+---
+
+```{python}
+# Test the package
+! pip install numpy
+! pytest
+
+```
+
+```{python}
+# Create package    
+! python setup.py sdist
+
+# Install package
+! pip install dist/tillingpuzzles-0.1.0.tar.gz
+```
+
+```{python}
+from tilingPuzzles.games.tile import Tile
+
+t=Tile(0,0)
+t
+
+{t}
+```
+
+```{python}
+from tilingPuzzles.games.stone import Stone
+
+
+S=[]
+
+k=set()
+
+for i in range(5):
+    k.add((i,i**2))
+    S.append(frozenset(k))
+
+S.sort()
+
+S
+
+S[1]  | S[2]
+```
+
+```{python}
+import numpy as np
+tuple((1,0))
+```
+
+```{python}
+
+from tilingPuzzles.games.tile import Tile
+
+
+tps=[(i,i+1) for i in range(5)]
+
+
+list(map(Tile,tps))
+
+```
+
+
+
+```{python}
+
+srcDir="tilingPuzzles"
+dstDir="test"
+
+template=""""
+
+from {obj_path} import {object}
+
+def {object}_test():
+    assert false, "object test not defined"
+    pass
+
+"""
+
+
+
+
+
+```
+
+```{python}
+class MyTuple(tuple):
+    def __new__(cls, iterable):
+        # Call the tuple constructor to create a new instance
+        return super(MyTuple, cls).__new__(cls, iterable)
+    
+    def __init__(self, iterable):
+        # Initialization (for immutable types, doesn't change the instance)
+        print(f"MyTuple initialized with values: {iterable}")
+    
+    def custom_method(self):
+        # Example of a custom method
+        return sum(self)
+
+# Usage
+my_tuple = MyTuple([1, 2, 3, 4])
+print(my_tuple)                # Output: (1, 2, 3, 4)
+print(my_tuple.custom_method())  # Output: 10
+```
+

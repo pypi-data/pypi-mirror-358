@@ -1,0 +1,48 @@
+---
+jupyter: python3
+---
+
+```{python}
+
+%load_ext autoreload
+%autoreload 2
+
+from tilingPuzzles.games.komino import Komino
+from tilingPuzzles.solvers.komino import KominoSolverLimited
+from tilingPuzzles.games.stone import Stone
+
+#from tilingPuzzles.
+
+from logging import info
+
+
+
+
+N=10
+
+for k in range(3,5):
+    komino,stonesAllowed=Komino.generate(N,k)
+
+    solver=KominoSolverLimited(komino,stonesAllowed)
+    solution = solver.get_solution_viz()
+    info(f"{solution = }")
+    assert solution
+
+    res=set()
+    for st in solver.solution:
+        res |= st
+    res = Stone(res)
+    assert res == komino.T
+```
+
+```{python}
+from tilingPuzzles.games.stone import Stone
+#s=Stone({(3, 20), (4, 20), (4, 19), (4, 18), (4, 17), (4, 16), (4, 15), (4, 14), (4, 13), (4, 12), (4, 11), (4, 10), (4, 9), (4, 8), (4, 21), (4, 22), (4, 23), (4, 24), (4, 25), (4, 26), (4, 27), (4, 28), (4, 29), (4, 30), (4, 31), (4, 32)})
+
+s=Stone({(1,1),(0, 7), (0, 8), (0, 9), (0, 10)})
+s.display()
+```
+
+```{python}
+"v".strip()
+```
