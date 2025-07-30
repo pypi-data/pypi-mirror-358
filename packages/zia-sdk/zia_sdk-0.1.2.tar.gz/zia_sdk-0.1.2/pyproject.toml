@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "zia-sdk"
+version = "0.1.2"
+description = "ZIA SDK Python Package"
+authors = ["Toby <toby@thomas.red>"]
+packages = [
+    { include = "zia"}
+]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<4.0"
+requests = "^2.32.4"
+aiohttp = "^3.12.13"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
