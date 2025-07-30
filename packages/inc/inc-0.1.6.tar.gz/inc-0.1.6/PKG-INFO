@@ -1,0 +1,91 @@
+Metadata-Version: 2.4
+Name: inc
+Version: 0.1.6
+Summary: install new computer
+Keywords: python
+Author-email: joamatab <4514346+joamatab@users.noreply.github.com>
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Operating System :: OS Independent
+License-File: LICENSE
+Requires-Dist: typer
+Requires-Dist: pre-commit ; extra == "dev"
+Requires-Dist: pytest ; extra == "dev"
+Requires-Dist: pytest-cov ; extra == "dev"
+Requires-Dist: pytest_regressions ; extra == "dev"
+Requires-Dist: autodoc_pydantic ; extra == "docs"
+Requires-Dist: jupyter-book>=0.15.1,<1.1 ; extra == "docs"
+Requires-Dist: tbump ; extra == "maintainer"
+Requires-Dist: towncrier ; extra == "maintainer"
+Requires-Dist: ruff ; extra == "maintainer"
+Provides-Extra: dev
+Provides-Extra: docs
+Provides-Extra: maintainer
+
+# Install new computer (inc) 0.1.6
+
+Install basic software for different operating systems:
+
+[See documentation](https://install-new-computer.readthedocs.io/en/latest/)
+
+## Installation for users
+
+```
+pip install inc
+```
+
+## Installation for developers
+
+Copy-paste these 3 lines into a terminal. For example `bash install mac.mk` will run the macOs installer
+
+```
+git clone https://github.com/joamatab/install_new_computer.git ~/install_new_computer
+cd install_new_computer/bash
+bash install mac
+```
+
+where you can replace mac.mk by any of the supported OS:
+
+- arch
+- centos
+- fedora
+- mac
+- ubuntu
+
+This install the specific `install` section of the Makefile for the selected distro.
+
+To install specific sections of each Makefile you can also run
+
+```
+bash install centos desktop
+```
+
+For MacOs type this into a terminal
+
+```
+xcode-select --install
+```
+
+
+## Usage
+
+```
+inc --help
+```
+
+Links:
+
+- [my dotfiles wiki](https://github.com/joamatab/dotfiles/wiki)
+- [my dotfiles](https://github.com/joamatab/dotfiles)
+- [mac CLI](https://github.com/guarinogabriel/mac-cli)
+- https://github.com/jaywcjlove/awesome-mac.git
+- https://www.stuartellis.name/articles/mac-setup/
+- https://dotfiles.github.io/
+- https://github.com/atomantic/dotfiles
+- https://sourabhbajaj.com/mac-setup/
+- https://github.com/gotbletu
+- https://lukesmith.xyz/
+- http://www.openvim.com/tutorial.html
+
