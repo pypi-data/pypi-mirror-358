@@ -1,0 +1,55 @@
+Metadata-Version: 2.1
+Name: rtf_tokenize
+Version: 1.0.1
+Summary: Simple RTF tokenizer
+Home-page: https://github.com/benoit-pierre/rtf_tokenize
+Author: Benoit Pierre
+Author-email: benoit.pierre@gmail.com
+License: GNU General Public License v2 or later (GPLv2+)
+Project-URL: Source Code, https://github.com/benoit-pierre/rtf_tokenize
+Project-URL: Issue Tracker, https://github.com/benoit-pierre/rtf_tokenize/issues
+Keywords: plover
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Provides-Extra: test
+Requires-Dist: pytest>=3.0.1; extra == "test"
+
+# RTF Tokenize
+
+A simple RTF tokenizer.
+
+API:
+
+``` python
+# Init:
+from rtf_tokenize import RtfTokenizer
+tokenizer = RtfTokenizer(rtf_string)
+# Get next token (return `None` on end of string):
+token = tokenizer.next_token()
+# Rewind a token (next call to `next_token` will return it):
+tokenizer.rewind_token(token)
+# Current location (last tokenized, irrespective of rewound tokens):
+position = tokenizer.lnum, tokenizer.cnum
+```
+
+
+## Release history
+
+### 1.0.1
+
+* add copy of LICENSE.txt to distribution
+
+### 1.0.0
+
+* first public release
