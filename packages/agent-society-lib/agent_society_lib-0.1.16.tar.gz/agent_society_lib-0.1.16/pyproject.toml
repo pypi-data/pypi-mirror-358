@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agent-society-lib"
+version = "0.1.16"
+authors = [
+  { name = "Agent Society" }
+]
+description = "A Python Library that integrates with the agent-society server"
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.12.8"
+dependencies = [
+    "pytest",
+    "jinja2",
+    "redis",
+    "chromadb==0.5.0",
+    "pika",
+    "langchain",
+    "langchain-openai",
+    "langchain-groq",
+    "langchain-google-genai",
+    "openai>=1.58.1",
+    "numpy>=1.26.4,<2.0.0"
+]  # For example
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent"
+]
