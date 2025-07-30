@@ -1,0 +1,36 @@
+[build-system]
+requires = ["flit_core >=3.11,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "triodos_fund_analyzer"
+authors = [{name = "Jan", email = "152862650+j-haacker@users.noreply.github.com"}]
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+dynamic = ["version", "description"]
+requires-python = ">= 3.10"
+dependencies= [
+  "cbsodata",
+  "matplotlib",
+  "numpy",
+  "openpyxl",
+  "pandas",
+  "streamlit",
+]
+
+[project.optional-dependencies]
+dev = ["flit", "ruff"]
+notebooks = ["ipykernel"]
+
+[project.urls]
+Home = "https://github.com/j-haacker/triodos-fund-analyzer"
+
+[project.scripts]
+plot-funds = "triodos_fund_analyzer:cli"
+
+[tool.ruff.lint]
+select = ["E", "F"]
+
+[tool.poetry]
+version = "0.1.dev1"
