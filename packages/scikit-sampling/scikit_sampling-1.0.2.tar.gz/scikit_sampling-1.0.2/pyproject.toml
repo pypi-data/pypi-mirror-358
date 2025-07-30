@@ -1,0 +1,73 @@
+[project]
+name = "scikit-sampling"
+license = "MIT"
+license-files = ["LICENSE"]
+readme = "README.md"
+version = "1.0.2"
+requires-python = ">=3.10"
+description = "A set of python modules for dataset sampling"
+authors = [
+  {name = "Leonardo Moraes", email = "leomaurodesenv@users.noreply.github.com"}
+]
+classifiers=[
+  "Intended Audience :: Science/Research",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python",
+  "Topic :: Scientific/Engineering",
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+]
+
+dependencies = [
+    "scipy>=1.15.0,<2",
+]
+
+[project.urls]
+homepage = "https://github.com/leomaurodesenv/scikit-sampling"
+source = "https://github.com/leomaurodesenv/scikit-sampling"
+tracker = "https://github.com/leomaurodesenv/scikit-sampling/issues"
+
+[project.optional-dependencies]
+build = [
+    "setuptools>=80.9.0,<90",
+    "uv>=0.7.12,<0.8",
+    "python-semantic-release~=10.0",
+]
+
+[dependency-groups]
+dev = [
+    "commitizen>=4.8.3,<5",
+    "pre-commit>=4.2.0,<5",
+    "pytest>=8.4.1,<9",
+    "pytest-cov>=6.2.1,<7",
+]
+
+[tool.pytest.ini_options]
+pythonpath = [
+  "."
+]
+addopts = "--cov=sksampling --cov-report term-missing"
+
+[build-system]
+requires = ["setuptools>=80.9.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.semantic_release]
+build_command = """
+  uv lock --offline
+  git add uv.lock
+  uv build
+"""
+
+[tool.semantic_release.branches.main]
+match = "(main|master)"
+prerelease = false
+
+[tool.semantic_release.branches.feature]
+match = "feat/.+"
+prerelease = true
+prerelease_token = "alpha"
