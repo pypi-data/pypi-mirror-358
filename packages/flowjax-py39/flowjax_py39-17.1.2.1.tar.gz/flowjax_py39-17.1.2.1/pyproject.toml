@@ -1,0 +1,63 @@
+[build-system]
+requires = ["uv_build>=0.5.0"]
+build-backend = "uv_build"
+
+[project]
+authors = [{ name = "Joshua Chen", email = "joshuawchen@icloud.com" }]
+
+dependencies = [
+  "jax>=0.4.16",
+  "equinox<=0.11.10",
+  "jaxtyping",
+  "paramax_py39>=0.0.3.1",
+  "tqdm",
+  "optax",
+]
+description = "Easy to use distributions, bijections and normalizing flows in JAX, forked for Python 3.9 compatability"
+
+keywords = ["jax", "neural-networks", "equinox"]
+license = { file = "LICENSE" }
+name = "flowjax_py39"
+readme = "README.md"
+requires-python = ">=3.9"
+version = "17.1.2.1"
+
+[project.urls]
+repository = "https://github.com/joshuawchen/flowjax_py39" 
+documentation = "https://danielward27.github.io/flowjax/index.html"
+
+[project.optional-dependencies]
+dev = [
+  "pytest",
+  "beartype",
+  "ruff",
+  "sphinx <8.2",              # TODO due to https://github.com/tox-dev/sphinx-autodoc-typehints/issues/523
+  "sphinx-book-theme",
+  "sphinx-copybutton",
+  "sphinx-autodoc-typehints",
+  "nbsphinx",
+  "ipython",
+  "numpyro",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+addopts = "--jaxtyping-packages=flowjax,beartype.beartype(conf=beartype.BeartypeConf(strategy=beartype.BeartypeStrategy.On))"
+
+[tool.ruff]
+include = ["*.py", "*.pyi", "**/pyproject.toml", "*.ipynb"]
+
+[tool.ruff.lint]
+select = ["E", "F", "B", "D", "COM", "I", "UP", "TRY004", "RET", "PT", "FBT"]
+ignore = ["D102", "D105", "D107", "B028", "COM812", "F722"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["D"]
+"*.ipynb" = ["D"]
+"__init__.py" = ["D"]
+
+[tool.uv_build]
+src_dir = "src"
