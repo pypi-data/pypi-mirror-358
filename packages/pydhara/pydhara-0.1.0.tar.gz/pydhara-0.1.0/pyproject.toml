@@ -1,0 +1,27 @@
+[project]
+name = "pydhara"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Mayank Thakur", email = "mackv210w@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "loguru>=0.7.3",
+    "msgspec>=0.19.0",
+    "pyzmq>=26.4.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.entry-points."operators"]
+IncrementingTickGenerator = "pydhara.catalog.operators.basic:IncrementingTickGenerator"
+DataPrintOperator = "pydhara.catalog.operators.basic:DataPrintOperator"
+JsonStreamer = "pydhara.catalog.operators.benchmark:JsonStreamer"
+JsonSink = "pydhara.catalog.operators.benchmark:JsonSink"
+
+[project.entry-points."message_streams"]
+ZMQBasicReaderWriterMessageStream = "pydhara.zmq.message_stream:ZMQBasicReaderWriterMessageStream"
