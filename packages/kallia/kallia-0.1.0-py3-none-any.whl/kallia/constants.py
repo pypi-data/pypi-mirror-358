@@ -1,0 +1,3 @@
+VERSION = "0.1.0"
+APP_NAME = "Kallia"
+SUPPORTED_FILE_FORMATS = ["pdf"]

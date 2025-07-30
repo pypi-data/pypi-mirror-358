@@ -1,0 +1,277 @@
+Metadata-Version: 2.4
+Name: kallia
+Version: 0.1.0
+Summary: Semantic Document Processing Library
+Author-email: CK <hickwong@gmail.com>
+Maintainer-email: CK <hickwong@gmail.com>
+License-Expression: Apache-2.0
+Project-URL: Homepage, https://github.com/kallia-project/kallia
+Project-URL: Issues, https://github.com/kallia-project/kallia/issues
+Keywords: document-processing,semantic-chunking,document-analysis,text-processing,machine-learning
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Text Processing :: General
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: fastapi[standard]==0.115.14
+Requires-Dist: docling==2.38.1
+Requires-Dist: rapidocr-onnxruntime==1.4.4
+Requires-Dist: opencv-python-headless==4.11.0.86
+Dynamic: license-file
+
+# Kallia
+
+**Semantic Document Processing Library**
+
+Kallia is a FastAPI-based document processing service that converts documents into intelligent semantic chunks. The library specializes in extracting meaningful content segments from documents while preserving context and semantic relationships.
+
+## 🚀 Features
+
+- **Document-to-Markdown Conversion**: Standardized processing pipeline for consistent output
+- **Semantic Chunking**: Intelligent content segmentation that respects document structure and meaning
+- **PDF Support**: Currently supports PDF documents with extensible architecture for additional formats
+- **RESTful API**: Clean, well-documented API interface with comprehensive error handling
+- **Configurable Processing**: Adjustable parameters for temperature, token limits, and page selection
+- **Docker Ready**: Containerized deployment with Docker and docker-compose support
+- **Vision-Language Model Integration**: Leverages advanced AI models for content understanding
+
+## 📋 Prerequisites
+
+- Python 3.11 or higher
+- Docker (optional, for containerized deployment)
+- Access to a compatible language model API (OpenRouter, Ollama, etc.)
+
+## 🛠️ Installation
+
+### Local Development Setup
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/kallia-project/kallia.git
+   cd kallia
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Configure environment variables**
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   Edit `.env` with your configuration:
+
+   ```env
+   API_KEY=your_api_key_here
+   BASE_URL=https://openrouter.ai/api/v1
+   MODEL=qwen/qwen2.5-vl-32b-instruct
+   ```
+
+4. **Run the application**
+   ```bash
+   fastapi run kallia/main.py --port 8000
+   ```
+
+### Docker Deployment
+
+1. **Using Docker Compose (Recommended)**
+
+   ```bash
+   docker-compose up -d
+   ```
+
+2. **Manual Docker Build**
+   ```bash
+   docker build -t kallia-project/kallia:0.1.0 .
+   docker run -p 8000:80 -e API_KEY=ollama -e BASE_URL=http://localhost:11434/v1 -e MODEL=qwen2.5vl:32b kallia-project/kallia:0.1.0
+   ```
+
+## ⚙️ Configuration
+
+### Environment Variables
+
+| Variable   | Description                              | Example                     |
+| ---------- | ---------------------------------------- | --------------------------- |
+| `API_KEY`  | API key for your language model provider | `ollama`                    |
+| `BASE_URL` | Base URL for the API endpoint            | `http://localhost:11434/v1` |
+| `MODEL`    | Model identifier to use                  | `qwen2.5vl:32b`             |
+
+### Supported Providers
+
+- **OpenRouter**: Use OpenRouter API for access to various models
+- **Ollama**: Local model deployment with Ollama
+- **Custom Endpoints**: Any OpenAI-compatible API endpoint
+
+## 📖 Usage
+
+### API Endpoint
+
+**POST** `/chunks`
+
+Converts a document into semantic chunks with concise summaries.
+
+#### Request Body
+
+```json
+{
+  "url": "https://example.com/document.pdf",
+  "page_number": 1,
+  "temperature": 0.0,
+  "max_tokens": 8192
+}
+```
+
+#### Parameters
+
+- `url` (string, required): URL to the document to process
+- `page_number` (integer, optional): Specific page to process (default: 1)
+- `temperature` (float, optional): Model temperature for processing (default: 0.0)
+- `max_tokens` (integer, optional): Maximum tokens for processing (default: 8192)
+
+#### Response
+
+```json
+{
+  "chunks": [
+    {
+      "original_text": "Original document content...",
+      "concise_summary": "Concise summary of the content..."
+    }
+  ]
+}
+```
+
+### Example Usage
+
+#### cURL
+
+```bash
+curl -X POST "http://localhost:8000/chunks" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://example.com/document.pdf",
+    "page_number": 1,
+    "temperature": 0.0,
+    "max_tokens": 4096
+  }'
+```
+
+#### Python
+
+```python
+import requests
+
+response = requests.post(
+    "http://localhost:8000/chunks",
+    json={
+        "url": "https://example.com/document.pdf",
+        "page_number": 1,
+        "temperature": 0.0,
+        "max_tokens": 4096
+    }
+)
+
+chunks = response.json()["chunks"]
+for chunk in chunks:
+    print(f"Summary: {chunk['concise_summary']}")
+    print(f"Original: {chunk['original_text']}")
+```
+
+## 🏗️ Project Structure
+
+```
+kallia/
+├── kallia/
+│   ├── __init__.py
+│   ├── main.py              # FastAPI application entry point
+│   ├── models.py            # Pydantic models for API
+│   ├── constants.py         # Application constants
+│   ├── documents.py         # Document processing logic
+│   ├── chunker.py           # Semantic chunking implementation
+│   ├── utils.py             # Utility functions
+│   ├── logger.py            # Logging configuration
+│   ├── settings.py          # Application settings
+│   ├── exceptions.py        # Custom exceptions
+│   ├── messages.py          # Message handling
+│   ├── prompts.py           # AI model prompts
+│   ├── image_caption_serializer.py
+│   └── unordered_list_serializer.py
+├── requirements.txt         # Python dependencies
+├── Dockerfile              # Docker container configuration
+├── docker-compose.yml      # Docker Compose setup
+├── .env.example           # Environment variables template
+└── README.md              # This file
+```
+
+## 🔧 Development
+
+### Code Style
+
+The project follows Python best practices and uses:
+
+- FastAPI for web framework
+- Pydantic for data validation
+- Structured logging
+- Comprehensive error handling
+
+## 📦 Dependencies
+
+### Core Dependencies
+
+- **FastAPI**: Modern, fast web framework for building APIs
+- **Docling**: Document processing and conversion library
+- **RapidOCR**: OCR capabilities for text extraction
+- **OpenCV**: Computer vision library for image processing
+
+### Full Dependency List
+
+See `requirements.txt` for complete dependency specifications:
+
+- `fastapi[standard]==0.115.14`
+- `docling==2.38.1`
+- `rapidocr-onnxruntime==1.4.4`
+- `opencv-python-headless==4.11.0.86`
+
+## 🚨 Error Handling
+
+The API provides comprehensive error handling with appropriate HTTP status codes:
+
+- **400 Bad Request**: Invalid parameters or unsupported file format
+- **500 Internal Server Error**: Processing errors
+- **503 Service Unavailable**: External service connectivity issues
+
+## 📄 License
+
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
+
+## 👨‍💻 Author
+
+**CK**
+
+- GitHub: [@kallia-project](https://github.com/kallia-project/kallia)
+
+## 🔗 Links
+
+- [GitHub Repository](https://github.com/kallia-project/kallia)
+- [Issues](https://github.com/kallia-project/kallia/issues)
+
+## 📈 Version
+
+Current version: **0.1.0**
+
+---
+
+Built with ❤️ for intelligent document processing
