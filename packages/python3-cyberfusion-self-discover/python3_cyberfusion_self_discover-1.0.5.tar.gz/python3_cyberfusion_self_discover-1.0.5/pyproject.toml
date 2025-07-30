@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "python3-cyberfusion-self-discover"
+version = "1.0.5"
+description = "self-discover serves autodiscover (Outlook) and autoconfig (Thunderbird) XML files for mail auto-configuration."
+readme = "README.md"
+authors = [
+    { name = "Cyberfusion", email = "support@cyberfusion.io" },
+]
+dependencies = [
+    "fastapi==0.92.0",
+    "uvicorn==0.17.6",
+    "defusedxml==0.7.1",
+    "pydantic==1.10.4",
+]
+
+[project.urls]
+"Source" = "https://github.com/CyberfusionIO/python3-cyberfusion-self-discover"
