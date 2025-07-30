@@ -1,0 +1,55 @@
+Metadata-Version: 2.1
+Name: NcpSemApi
+Version: 1.3.31900
+Summary: Python API of the NCP secure enterprise management server
+Home-page: https://ncp-e.com
+Author: NCP engineering GmbH
+Author-email: info@ncp-e.com
+License: Proprietary
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: Other/Proprietary License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Provides-Extra: azure-support
+Requires-Dist: msal ; extra == 'azure-support'
+Requires-Dist: requests ; extra == 'azure-support'
+Provides-Extra: ldap-support
+Requires-Dist: ldap3 ; extra == 'ldap-support'
+Provides-Extra: okta-support
+Requires-Dist: okta ; extra == 'okta-support'
+
+NcpSemApi is a python interface to access the REST-API of the NCP Secure Enterprise Management Server (SEM).
+
+To use this API you need a running SEM (at least Version 6.0) accessable via network from the machine running this Python-API.
+
+To activate the REST-API of your SEM, edit ```[sem-install-dir]/etc/sentinel.conf``` and set ```sem-nginx = true;```.
+
+You may configure the ports in ```[sem-install-dir]/etc/nginx/admmgm.conf```.
+
+You may want to restart the SEM-Service after doing that configuration.
+
+The documentation of the SEM-REST-API and this python-API-bindings can be viewed by a webbroser accessing the previously configurated port.
+
+# Changelog
+
+## [1.3]
+### Added
+- UI-Wizard class that can be used from the web-interface to create interactive dialogs.
+- Function to import scripts from the SEM as python modules.
+- Examples and doc strings in the azure and okta apis.
+
+### Changed
+- Minimal python version is now 3.9.
+- Sem attribute 'scripts' is renamed to 'semScripts', to match the documentation.
+- Find-calls return the complete object, instead of only the id. This can be deactivated setting the option "returnValues" to "false" in the find call, should only the id be needed.
+
+### Removed
+- paging parameters in queries (no longer needed).
+
+## [1.2]
+### Added
+- Support for inherited templates
+
+### Changed
+- Minimal python version is now 3.7.
