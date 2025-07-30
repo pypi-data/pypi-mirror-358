@@ -1,0 +1,33 @@
+[build-system]
+requires = ["hatchling>=1.18"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pyw-logger"
+version = "0.0.0.post3" 
+description = "Structured and colorful logging helpers (placeholder)"
+authors = [{name = "pythonWoods"}]
+license = {text = "MIT"}
+requires-python = ">=3.9"
+dependencies = [
+"pyw-core>=0.0.0",
+"rich>=13",
+"structlog>=24"
+]
+
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Typing :: Typed",
+]
+
+[project.urls]
+Homepage      = "https://github.com/pythonWoods/pyw-logger"
+Documentation = "https://pythonwoods.dev/docs/pyw-logger/latest/"
+Issues        = "https://github.com/pythonWoods/pyw-logger/issues"
+Changelog     = "https://github.com/pythonWoods/pyw-logger/releases"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pyw"]
