@@ -1,0 +1,39 @@
+# pyproject.toml
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "custom-pyvi"
+version = "1.0.7" # Bạn có thể tăng phiên bản sau mỗi lần build lại
+authors = [
+  { name="Chill4Share", email="chill4share@gmail.com" },
+]
+description = "Một phiên bản tùy chỉnh của ViTokenizer để xử lý Tiếng Việt hiệu quả cho các dự án cụ thể."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { file="LICENSE" }
+keywords = ["vi-tokenizer", "vietnamese nlp", "word segmentation", "custom"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Text Processing :: Linguistic",
+]
+
+# Liệt kê các thư viện mà custom-pyvi của bạn phụ thuộc vào để hoạt động
+dependencies = [
+    "scikit-learn",
+    "sklearn-crfsuite",
+]
+
+
+# [THÊM MỚI] Chỉ dẫn cho setuptools để gói cả các file không phải là code
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.package-data]
+custom_pyvi = ["models/*"]
