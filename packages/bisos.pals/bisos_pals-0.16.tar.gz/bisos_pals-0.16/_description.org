@@ -1,0 +1,149 @@
+#+title: bisos.bals: Possession Assertible Libre Services
+
+* Overview
+*bisos.pals (*Possession Assertible Libre Services*) is a python package which is
+used to manage abstrations of ByStar Autonomy Assertable Internet Services BPOs
+
+
+bisos.pals is part of PyCS-BISOS-Framework. BISOS is part of ByStar /(By*)/.
+
+The *Libre-Halaal ByStar Digital Ecosystem* (/By* DE/) is an interdisciplinary, and
+ethics-oriented non-proprietary digital ecosystem which challenges the existing
+proprietary American digital ecosystem while operating concurrently alongside
+it. On a global scale, By* provide Internet Application Services which preserve
+autonomy and privacy of the individual. *BISOS*: (/By* Internet Services Operating
+System/) layered on top of Debian, is a unified and universal framework for
+developing both internet services and software-service continuums that use
+internet services. BISOS is a layer on top of Debian. *Blee*: (/BISOS Libre-Halaal
+Emacs Environment/) is a layer on top of Emacs and BISOS, which creates a
+comprehensive integrated usage and development environment. Blee and BISOS are
+fully integrated. See the "*Nature of Polyexistentials*" book for the bigger
+picture of how all of ByStar fits together.
+
+For bootstraping BISOS, Blee and ByStar; you can start at: https://github.com/bxgenesis/start
+
+
+* Table of Contents     :TOC:
+- [[#overview][Overview]]
+- [[#bisos-possession-assertable-libre-services-pals][BISOS Possession Assertable Libre Services (PALS)]]
+- [[#installation][Installation]]
+  - [[#with-pip][With pip]]
+  - [[#with-pipx][With pipx]]
+- [[#usage][Usage]]
+  - [[#locally-system-command-line][Locally (system command-line)]]
+  - [[#remotely-as-a-service][Remotely (as a service)]]
+- [[#support][Support]]
+- [[#documentation][Documentation]]
+
+* BISOS Possession Assertable Libre Services (PALS)
+
+Based on capabilities of BPOs and the capabilities of service-side
+profiled Debian packages, we can now create Libre Services.
+
+BISOS Libre Services can be thought of four parts:
+
+1. Libre-Halaal software of the services (usually a Debian Package)
+
+2. Configuration information for the software for the service (often as
+   a repo of a PALS-BPO)
+
+3. Names and numbers for binding of services (as a repo of a PAAI-BPO)
+
+4. Service owner data (in the form of one or more BPOs)
+
+This model provides for portability and transferability of Libre
+Services between network abodes. For example, a Libre Service at a
+provider can be transferred to its owner to be self-hosted.
+
+There are some similarities between PALS-BPO and container
+virtualization (Docker and Kubernetes). PALS-BPOs include comprehensive
+information for construction of services and these can be mapped to
+container virtualization. However, at this time BISOS does not use
+container virtualization, as it is redundant. BISOS uses BPOs to create
+and recreate Kernel-based Virtual Machines (KVM) inside of which
+PALS-BPOs are deployed.
+
+Self-hosting is the practice of running and maintaining a Libre Service
+under one's own full control at one's own premise. BISOS Possession
+Assertable Libre Services (PALS) can be initially self-hosted and then
+transferred to a Libre Service provider. PALS can also be initially
+externally hosted and then become self-hosted on demand. The concept of
+"transferability" between network abodes is well supported in BISOS.
+
+
+* Installation
+
+The sources for the  bisos.facter pip package is maintained at:
+https://github.com/bisos-pip/facter.
+
+The bisos.facter pip package is available at PYPI as
+https://pypi.org/project/bisos.facter
+
+You can install bisos.facter with pip or pipx.
+
+** With pip
+
+If you need access to bisos.facter as a python module, you can install it with pip:
+
+#+begin_src bash
+pip install bisos.facter
+#+end_src
+
+** With pipx
+
+If you only need access to bisos.facter on command-line, you can install it with pipx:
+
+#+begin_src bash
+pipx install bisos.facter
+#+end_src
+
+The following commands are made available:
+- facter.cs
+- roInv-facter.cs
+- roPerf-facter.cs
+
+These are all one file with 3 names. _roInv-facter.cs_ and _roPerf-facter.cs_ are sym-links to _facter.cs_
+
+* Usage
+
+** Locally (system command-line)
+
+=facter.cs= does the equivalent of facter.
+
+#+begin_src bash
+bin/facter.cs
+#+end_src
+
+** Remotely (as a service)
+
+You can also  run
+
+
+*** Performer
+
+Invoke performer as:
+
+#+begin_src bash
+bin/roPerf-facter.cs
+#+end_src
+
+*** Invoker
+
+#+begin_src bash
+bin/roInv-facter.cs
+#+end_src
+
+* Support
+
+For support, criticism, comments and questions; please contact the
+author/maintainer\\
+[[http://mohsen.1.banan.byname.net][Mohsen Banan]] at:
+[[http://mohsen.1.banan.byname.net/contact]]
+
+* Documentation
+
+Part of ByStar Digital Ecosystem [[http://www.by-star.net]].
+
+This module's primary documentation is in
+[[http://www.by-star.net/PLPC/180047]]
+
