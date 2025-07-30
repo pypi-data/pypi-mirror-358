@@ -1,0 +1,392 @@
+Metadata-Version: 2.4
+Name: pydatamax
+Version: 0.1.16.post2
+Summary: A library for parsing and converting various file formats.
+Home-page: https://github.com/Hi-Dolphin/datamax
+Author: ccy
+Author-email: cy.kron@foxmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: oss2<3.0.0,>=2.19.1
+Requires-Dist: aliyun-python-sdk-core<3.0.0,>=2.16.0
+Requires-Dist: aliyun-python-sdk-kms<3.0.0,>=2.16.5
+Requires-Dist: crcmod<2.0.0,>=1.7
+Requires-Dist: langdetect<2.0.0,>=1.0.9
+Requires-Dist: loguru<1.0.0,>=0.7.3
+Requires-Dist: python-docx<2.0.0,>=1.1.2
+Requires-Dist: python-dotenv<2.0.0,>=1.1.0
+Requires-Dist: pymupdf<2.0.0,>=1.26.0
+Requires-Dist: pypdf<6.0.0,>=5.5.0
+Requires-Dist: openpyxl<4.0.0,>=3.1.5
+Requires-Dist: pandas<3.0.0,>=2.2.3
+Requires-Dist: numpy<3.0.0,>=2.2.6
+Requires-Dist: requests<3.0.0,>=2.32.3
+Requires-Dist: tqdm<5.0.0,>=4.67.1
+Requires-Dist: pydantic<3.0.0,>=2.11.5
+Requires-Dist: pydantic-settings<3.0.0,>=2.9.1
+Requires-Dist: python-magic<1.0.0,>=0.4.27
+Requires-Dist: PyYAML<7.0.0,>=6.0.2
+Requires-Dist: Pillow<12.0.0,>=11.2.1
+Requires-Dist: packaging<25.0,>=24.2
+Requires-Dist: beautifulsoup4<5.0.0,>=4.13.4
+Requires-Dist: minio<8.0.0,>=7.2.15
+Requires-Dist: openai<2.0.0,>=1.82.0
+Requires-Dist: jionlp<2.0.0,>=1.5.23
+Requires-Dist: chardet<6.0.0,>=5.2.0
+Requires-Dist: python-pptx<2.0.0,>=1.0.2
+Requires-Dist: tiktoken<1.0.0,>=0.9.0
+Requires-Dist: markitdown<1.0.0,>=0.1.1
+Requires-Dist: xlrd<3.0.0,>=2.0.1
+Requires-Dist: tabulate<1.0.0,>=0.9.0
+Requires-Dist: unstructured<1.0.0,>=0.17.2
+Requires-Dist: markdown<4.0.0,>=3.8
+Requires-Dist: langchain<1.0.0,>=0.3.0
+Requires-Dist: langchain-community<1.0.0,>=0.3.0
+Requires-Dist: ebooklib==0.19
+Requires-Dist: setuptools
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# DataMax
+
+<div align="center">
+
+[中文](README_zh.md) | **English**
+
+[![PyPI version](https://badge.fury.io/py/pydatamax.svg)](https://badge.fury.io/py/pydatamax) [![Python](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+</div>
+
+A powerful multi-format file parsing, data cleaning, and AI annotation toolkit.
+
+## ✨ Core Features
+
+- 🔄 **Multi-format Support**: PDF, DOCX/DOC, PPT/PPTX, XLS/XLSX, HTML, EPUB, TXT, images, and more
+- 🧹 **Intelligent Cleaning**: Three-layer cleaning process with anomaly detection, privacy protection, and text filtering
+- 🤖 **AI Annotation**: LLM-based automatic data annotation and pre-labeling
+- ⚡ **Batch Processing**: Efficient multi-file parallel processing
+- 🎯 **Easy Integration**: Clean API design, ready to use out of the box
+
+## 🚀 Quick Start
+
+### Installation
+
+```bash
+pip install pydatamax
+```
+
+### Basic Usage
+
+```python
+from datamax import DataMax
+
+# Parse a single file
+dm = DataMax(file_path="document.pdf")
+data = dm.get_data()
+
+# Batch processing
+dm = DataMax(file_path=["file1.docx", "file2.pdf"])
+data = dm.get_data()
+
+# Data cleaning
+cleaned_data = dm.clean_data(method_list=["abnormal", "private", "filter"])
+
+# AI annotation
+qa_data = dm.get_pre_label(
+    api_key="sk-xxx",
+    base_url="https://api.provider.com/v1",
+    model_name="model-name",
+    chunk_size=500,        # 文本块大小
+    chunk_overlap=100,     # 重叠长度
+    question_number=5,     # 每块生成问题数
+    max_workers=5          # 并发数
+)
+dm.save_label_data(qa_data)
+```
+
+## 📖 Detailed Documentation
+
+### File Parsing
+
+#### Supported Formats
+
+| Format | Extensions | Special Features |
+|--------|------------|------------------|
+| Documents | `.pdf`, `.docx`, `.doc` | OCR support, Markdown conversion |
+| Spreadsheets | `.xlsx`, `.xls` | Structured data extraction |
+| Presentations | `.pptx`, `.ppt` | Slide content extraction |
+| Web | `.html`, `.epub` | Tag parsing |
+| Images | `.jpg`, `.png`, `.jpeg` | OCR text recognition |
+| Text | `.txt` | Automatic encoding detection |
+
+#### Advanced Features
+
+```python
+# Advanced PDF parsing (requires MinerU)
+dm = DataMax(file_path="complex.pdf", use_mineru=True)
+
+# Word to Markdown conversion
+dm = DataMax(file_path="document.docx", to_markdown=True)
+
+# Image OCR
+dm = DataMax(file_path="image.jpg", use_ocr=True)
+```
+### Batch Processing
+```python
+# Parse multiple files in batch
+dm = DataMax(
+    file_path=["file1.pdf", "file2.docx"],
+    use_mineru=True
+)
+data = dm.get_data()
+```
+
+### Cache parsed results
+```python
+# Cache parsed results to avoid repeated parsing
+dm = DataMax(
+    file_path=["file1.pdf", "file2.docx"],
+    ttl=3600  # Cache duration in seconds, default 3600s, 0 means no caching
+)
+data = dm.get_data()
+```
+
+### Data Cleaning
+## Exception Handling
+
+- remove_abnormal_chars Remove abnormal characters from text
+- remove_html_tags Remove HTML tags
+- convert_newlines Convert \r to \n and merge multiple \n into single \n
+- single_space Convert multiple spaces (more than 2) to single space
+- tabs_to_spaces Convert tabs to 4 spaces
+- remove_invisible_chars Remove invisible ASCII characters
+- simplify_chinese Convert traditional Chinese to simplified Chinese
+
+## Text Filtering
+
+- filter_by_word_repetition Filter by word repetition rate
+- filter_by_char_count Filter by character count
+- filter_by_numeric_content Filter by numeric content ratio
+
+## Privacy Desensitization
+
+- replace_ip
+- replace_email
+- replace_customer_number Clean hotline numbers like 4008-123-123
+- replace_bank_id
+- replace_phone_number
+- replace_qq
+- replace_id_card
+
+
+
+```python
+# Three cleaning modes
+dm.clean_data(method_list=[
+    "abnormal",  # Anomaly data processing
+    "private",   # Privacy information masking
+    "filter"     # Text filtering and normalization
+])
+
+# Custom cleaning mode
+from datamax.utils.data_cleaner import TextFilter, PrivacyDesensitization, AbnormalCleaner
+dm = DataMax(
+    file_path=r"C:\Users\cykro\Desktop\HongKongDevMachine.txt"
+)
+parsed_data = dm.get_data().get('content')
+# 1. Text filtering
+tf = TextFilter(parsed_data=parsed_data)
+    # Word repetition filtering - default threshold is 0.6 (max 60% of characters can be repeated)
+tf_bool = tf.filter_by_word_repetition(threshold=0.6)
+if tf_bool:
+    print("Text passed word repetition filtering")
+else:
+    print("Text failed word repetition filtering")
+    
+# Character count filtering - default min_chars=30 (minimum 30 chars), max_chars=500000 (maximum 500000 chars)
+tf_bool = tf.filter_by_char_count(min_chars=30, max_chars=500000)
+if tf_bool:
+    print("Text passed character count filtering")
+else:
+    print("Text failed character count filtering")
+
+# Numeric content filtering - default threshold=0.6 (max 60% of characters can be digits)
+tf_bool = tf.filter_by_numeric_content(threshold=0.6)
+if tf_bool:
+    print("Text passed numeric ratio filtering")
+else:
+    print("Text failed numeric ratio filtering")
+
+# 2. Privacy desensitization
+pd = PrivacyDesensitization(parsed_data=parsed_data)
+res = pd.replace_ip(
+    token="MyIP"
+)
+print(res)
+
+# 3. Abnormal character cleaning
+ac = AbnormalCleaner(parsed_data=parsed_data)
+res = ac.remove_abnormal_chars()
+res = ac.remove_html_tags()
+res = ac.convert_newlines()
+res = ac.single_space()
+res = ac.tabs_to_spaces()
+res = ac.remove_invisible_chars()
+res = ac.simplify_chinese()
+print(res)
+```
+# Text Segmentation
+```python
+dm.split_data(
+    chunk_size=500,      # Chunk size
+    chunk_overlap=100,    # Overlap length
+    use_langchain=True   # Use LangChain for text segmentation
+)
+
+# When use_langchain is False, use custom segmentation method
+# Using 。！？ as separators, consecutive separators will be merged
+# chunk_size strictly limits the string length
+for chunk in parser.split_data(chunk_size=500, chunk_overlap=100, use_langchain=False).get("content"):
+    print(chunk)
+```
+
+### AI Annotation
+
+```python
+# Custom annotation tasks
+qa_data = dm.get_pre_label(
+    api_key="sk-xxx",
+    base_url="https://api.provider.com/v1",
+    model_name="model-name",
+    chunk_size=500,        # Text chunk size
+    chunk_overlap=100,     # Overlap length
+    question_number=5,     # Questions per chunk
+    max_workers=5          # Concurrency
+)
+```
+
+## ⚙️ Environment Setup
+
+### Optional Dependencies
+
+#### LibreOffice (DOC file support)
+
+**Ubuntu/Debian:**
+```bash
+sudo apt-get install libreoffice
+```
+
+**Windows:**
+1. Download and install [LibreOffice](https://www.libreoffice.org/download/)
+2. Add to environment variables: `C:\Program Files\LibreOffice\program`
+
+#### MinerU (Advanced PDF parsing)
+
+```bash
+# Create virtual environment
+conda create -n mineru python=3.10
+conda activate mineru
+
+# Install MinerU
+pip install -U "magic-pdf[full]" --extra-index-url https://wheels.myhloli.com
+```
+
+For detailed configuration, please refer to [MinerU Documentation](https://github.com/opendatalab/MinerU)
+
+## 🛠️ Development
+
+### Local Installation
+
+```bash
+git clone https://github.com/Hi-Dolphin/datamax.git
+cd datamax
+pip install -r requirements.txt
+python setup.py install
+```
+
+### Developer Mode
+
+For developers who want to contribute to the project or make modifications, we recommend using developer mode for a better development experience.
+
+#### Setup Developer Mode
+
+```bash
+# Clone the repository
+git clone https://github.com/Hi-Dolphin/datamax.git
+cd datamax
+
+# Create virtual environment (recommended)
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install in developer mode
+pip install -e .
+```
+
+#### Benefits of Developer Mode
+
+- **Live Updates**: Changes to source code are immediately reflected without reinstallation
+- **Easy Testing**: Test your modifications instantly
+- **Debugging**: Better debugging experience with direct access to source code
+- **Development Workflow**: Seamless integration with your development environment
+
+#### Development Commands
+
+```bash
+# Run tests
+pytest
+
+# Install development dependencies
+pip install -r requirements-dev.txt  # if available
+
+# Check code style
+flake8 datamax/
+black datamax/
+
+# Build package
+python setup.py sdist bdist_wheel
+```
+
+#### Making Changes
+
+After installing in developer mode, you can:
+
+1. Edit source code in the `datamax/` directory
+2. Changes are automatically available when you import the module
+3. Test your changes immediately without reinstalling
+4. Submit pull requests with your improvements
+
+## 📋 System Requirements
+
+- Python >= 3.10
+- Supports Windows, macOS, Linux
+
+## 🤝 Contributing
+
+Issues and Pull Requests are welcome!
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+## 📞 Contact Us
+
+- 📧 Email: cy.kron@foxmail.com
+- 🐛 Issues: [GitHub Issues](https://github.com/Hi-Dolphin/datamax/issues)
+- 📚 Documentation: [Project Homepage](https://github.com/Hi-Dolphin/datamax)
+
+---
+
+⭐ If this project helps you, please give us a star!
