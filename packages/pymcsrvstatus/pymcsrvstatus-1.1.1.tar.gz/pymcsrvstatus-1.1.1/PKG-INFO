@@ -1,0 +1,51 @@
+Metadata-Version: 2.4
+Name: pymcsrvstatus
+Version: 1.1.1
+Summary: An async API wrapper for the mcsrvstat.us API.
+Project-URL: Homepage, https://c.csw.im/cswimr/pymcsrvstatus
+Project-URL: Issues, https://c.csw.im/cswimr/pymcsrvstatus/issues
+Project-URL: Source Archive, https://c.csw.im/cswimr/pymcsrvstatus/archive/16b55cb4483c8ef0fd03b326b7406979c2a84e90.tar.gz
+Author-email: cswimr <seaswimmertehfsh@gmail.com>
+License-Expression: MPL-2.0
+License-File: LICENSE.md
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Requires-Python: >=3.9
+Requires-Dist: aiohttp>=3.12.13
+Requires-Dist: pydantic>=2.11.7
+Description-Content-Type: text/markdown
+
+# pymcsrvstatus
+
+[<img alt="Discord" src="https://img.shields.io/discord/1070058354925383681?logo=discord&color=%235661f6&style=plastic">](https://discord.gg/eMUMe77Yb8)
+[<img alt="Actions Status" src="https://c.csw.im/cswimr/pymcsrvstatus/badges/workflows/actions.yaml/badge.svg?style=plastic">](https://c.csw.im/cswimr/pymcsrvstatus/actions?workflow=actions.yaml)
+[<img alt="PyPI - Version" src="https://img.shields.io/pypi/v/pymcsrvstatus?style=plastic">](https://pypi.org/project/pymcsrvstatus/)
+[<img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/pymcsrvstatus?style=plastic">](https://pypi.org/project/pymcsrvstatus/)
+[<img alt="PyPI - License" src="https://img.shields.io/pypi/l/pymcsrvstatus?style=plastic">](https://c.csw.im/cswimr/pymcsrvstatus/src/tag/v1.1.1/LICENSE.md)  
+
+A simple async API wrapper for the [mcsrvstat.us](https://api.mcsrvstat.us") API.
+
+## Usage
+
+```python
+from pymcsrvstatus import check_if_online, fetch, get_icon_url
+import asyncio
+
+async def example(address: str) -> None:
+    if await check_if_online(address, extra_user_agent="pymcsrvstatus example"):
+        print("Hypixel is online!")
+    else:
+        print("Hypixel is offline!")
+
+    status = await fetch(address, extra_user_agent="pymcsrvstatus example")
+    assert status.online is True
+    print(status.protocol) # Protocol(version=47, name="1.8.9")
+    print(status.version) # "Requires MC 1.8 / 1.21"
+    print(status.players) # Players(online=33812, max=200000, players=None)
+
+    print(get_icon_url(address)) # https://api.mcsrvstat.us/icon/hypixel.net
+
+asyncio.run(example(address="hypixel.net"))
+```
