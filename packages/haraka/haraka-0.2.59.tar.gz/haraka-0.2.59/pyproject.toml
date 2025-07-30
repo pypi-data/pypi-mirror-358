@@ -1,0 +1,48 @@
+[build-system]
+requires      = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name            = "haraka"
+version         = "0.2.59"  # Incremented version
+description     = "Reusable post-generation helper for Cookiecutter micro-service templates"
+readme          = "README.md"
+license         = {text = "MIT"}
+authors         = [{name = "Will Burks", email = "will@example.com"}]
+requires-python = ">=3.9"
+dependencies = [
+  "pathspec==0.10.3",
+  "PyYAML==6.0.1",
+  "wcwidth==0.2.5",
+  "fastapi==0.115.14"
+]
+
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Intended Audience :: Developers",
+  "Topic :: Software Development :: Build Tools",
+]
+
+[project.urls]
+Homepage = "https://github.com/wjb-dev/comet-postgen"
+Source   = "https://github.com/wjb-dev/comet-postgen"
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+[tool.setuptools.package-data]
+"haraka.utils.manifests" = ["*.yml"]
+
+[tool.setuptools]
+include-package-data = true
+
+[project.optional-dependencies]
+gen = [
+    "pathspec==0.10.3",
+    "PyYAML==6.0.1",
+    "wcwidth==0.2.5",
+]
+PyFast = [
+    "fastapi==0.115.14",
+]
