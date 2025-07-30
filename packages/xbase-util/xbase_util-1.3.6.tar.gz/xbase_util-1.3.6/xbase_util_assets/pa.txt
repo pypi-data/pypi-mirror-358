@@ -1,0 +1,11 @@
+search index=idx_pa AND NOT informational AND  sourcetype="pan:threat"
+| rex field=_raw "THREAT,(?P<LOG_TYPE>.+?),.*?,(?P<THREAT_TIME>.*?),(?P<SIP>.*?),(?P<DIP>.*?),(?:.*?,.*?,.*?){7},(?P<S_PORT>.*?),(?P<D_PORT>.*?),.*?,.*?,.*?,(?P<PROTOCOL>.*?),(?P<DENY_METHOD>.*?),(?P<THREAT_SUMMARY>.*?),(?P<SEVERITY>medium|high|critical|low),"
+| eval RAW_BAK=_raw | rex mode=sed field=_raw "s/.*?,\w{8}-\w{4}-\w{4}-\w{4}-\w{12},/start_ama_flag,/g"
+| rex field=_raw "start_ama_flag,.*?,.*?,(?<XFF_IP>.*?),"
+| eval _raw=RAW_BAK | table THREAT_TIME,SIP,S_PORT,XFF_IP,DIP,D_PORT,PROTOCOL,DENY_METHOD,THREAT_SUMMARY,SEVERITY
+| where XFF_IP!="" and XFF_IP!="0.0.0.0"
+| eval ATTACK_IP=mvappend(SIP,XFF_IP)
+| mvexpand ATTACK_IP
+| search DENY_METHOD="reset-both" OR DENY_METHOD="reset-server"OR DENY_METHOD="reset-client"
+| eval THREAT_TIME=strftime(strptime(THREAT_TIME, "%Y/%m/%d %H:%M:%S"), "%Y-%m-%d %H:%M:%S")
+| table THREAT_TIME,SIP,S_PORT,DIP,D_PORT,XFF_IP,PROTOCOL,DENY_METHOD,THREAT_SUMMARY,SEVERITY
