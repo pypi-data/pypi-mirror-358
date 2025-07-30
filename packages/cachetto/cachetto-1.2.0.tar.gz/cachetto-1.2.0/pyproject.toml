@@ -1,0 +1,57 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cachetto"
+version = "1.2.0"
+description = "Disk-based caching for functions returning pickleable objects and pandas DataFrames, plain and simple."
+readme = "README.md"
+authors = [
+    { name = "agustin", email = "agustin.piqueres@gmail.com" }
+]
+license = "MIT"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "pandas[parquet]>=1.5.3",
+]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.16.1",
+    "pandas-stubs>=2.2.3.250527",
+    "pre-commit>=4.2.0",
+    "pytest>=8.3.5",
+    "pytest-benchmark[histogram]>=5.1.0",
+    "pytest-cov>=6.1.1",
+    "ruff>=0.11.11",
+]
+
+[project.urls]
+Homepage = "https://github.com/plaguss/cachetto/"
+Source = "https://github.com/plaguss/cachetto/"
+
+[tool.ruff]
+line-length = 88
+exclude = ["docs"]
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "C", "B"]
+ignore = ["E501", "B905", "B008"]
+extend-select = ["RUF022"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
