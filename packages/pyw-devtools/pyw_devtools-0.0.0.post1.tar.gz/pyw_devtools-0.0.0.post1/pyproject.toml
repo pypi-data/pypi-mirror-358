@@ -1,0 +1,35 @@
+[build-system]
+requires = ["hatchling>=1.18"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pyw-devtools"
+version = "0.0.0.post1"
+description = "Developer bundle (logger, fs, cli, secret) (placeholder)"
+authors = [{name = "pythonWoods"}]
+license = {text = "MIT"}
+requires-python = ">=3.9"
+dependencies = [
+"pyw-core>=0.0.0",
+"pyw-devtools>=0.0.0",
+"pyw-fs>=0.0.0",
+"pyw-secret>=0.0.0",
+"pyw-cli>=0.0.0"
+]
+
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Typing :: Typed",
+]
+
+[project.urls]
+Homepage      = "https://github.com/pythonWoods/pyw-devtools"
+Documentation = "https://pythonwoods.dev/docs/pyw-devtools/latest/"
+Issues        = "https://github.com/pythonWoods/pyw-devtools/issues"
+Changelog     = "https://github.com/pythonWoods/pyw-devtools/releases"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pyw"]
