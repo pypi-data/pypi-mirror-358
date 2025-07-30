@@ -1,0 +1,71 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qbox-factor-client"
+version = "0.1.4"
+description = "Python client for the QBox Factor API - query market factor data easily"
+authors = [{ name = "QBox Team", email = "dev@qbox.ai" }]
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.8"
+keywords = ["finance", "factor", "api", "client", "quantitative", "market-data"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Financial and Insurance Industry",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business :: Financial",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+# Core dependencies for client usage
+dependencies = [
+    "httpx>=0.24.0",
+    "pandas>=1.5.0",
+]
+
+[project.optional-dependencies]
+# Additional analysis tools
+analysis = [
+    "numpy>=1.21.0",
+    "matplotlib>=3.5.0",
+    "seaborn>=0.11.0",
+]
+
+# Development tools for client development
+dev = [
+    "pytest>=7.0.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "mypy>=1.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/qbox-team/qbox-factor-api"
+Documentation = "https://github.com/qbox-team/qbox-factor-api/blob/main/docs/qbox_factor_client_guide.md"
+Repository = "https://github.com/qbox-team/qbox-factor-api"
+Issues = "https://github.com/qbox-team/qbox-factor-api/issues"
+
+# Only include the client code
+[tool.setuptools.packages.find]
+include = ["qbox_factor_client*"]
+exclude = ["app*", "tests*", "examples*", "docs*"]
+
+[tool.setuptools.package-data]
+"qbox_factor_client" = ["py.typed"]
+
+[tool.black]
+line-length = 88
+target-version = ['py39']
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88 
