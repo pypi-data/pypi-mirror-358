@@ -1,0 +1,19 @@
+# Simple function
+panga greet(name):
+    onetsa("Moni,", name, "!")
+
+# Function with return
+panga add(a, b):
+    bweza a + b
+
+# Mathematical function
+panga circle_area(radius):
+    bweza 3.14159 * mphamvu(radius, 2)
+
+# Recursive function
+panga factorial(n):
+    ngati n wafanana 1:
+        bweza 1
+    sizoona:
+        bweza n * factorial(n - 1)
+onetsa(circle_area(5))

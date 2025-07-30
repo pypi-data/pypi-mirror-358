@@ -1,0 +1,93 @@
+# Test file for kaundula (dictionary) functionality
+
+onetsa("=== Kaundula (Dictionary) Test ===")
+
+# Create a dictionary with initial data
+ika munthu = kaundula("dzina", "Jakesh", "zaka", 25, "malo", "Malawi")
+onetsa("Initial kaundula:", munthu)
+onetsa("Type:", mtundu(munthu))
+
+# Test dictionary methods
+onetsa("\n=== Dictionary Methods Test ===")
+
+# Add new key-value pair
+munthu.ika_pa("ntchito", "programmer")
+onetsa("After ika_pa (add job):", munthu)
+
+# Get values
+ika dzina = munthu.peza("dzina")
+ika zaka = munthu.peza("zaka")
+onetsa("Name (peza):", dzina)
+onetsa("Age (peza):", zaka)
+
+# Get with default value
+ika chilengedwe = munthu.peza_kapena("chilengedwe", "palibe")
+ika ntchito = munthu.peza_kapena("ntchito", "unknown")
+onetsa("Character (with default):", chilengedwe)
+onetsa("Job (existing key):", ntchito)
+
+# Check if key exists
+ngati munthu.ali_nacho("dzina"):
+    onetsa("Has 'dzina' key: zoona")
+sizoona:
+    onetsa("Has 'dzina' key: zabodza")
+
+ngati munthu.ali_nacho("banja"):
+    onetsa("Has 'banja' key: zoona")
+sizoona:
+    onetsa("Has 'banja' key: zabodza")
+
+# Get all keys, values, and items
+ika makiyi_onse = munthu.makiyi()
+ika mavalu_onse = munthu.mavalu()
+ika zonse_pamodzi = munthu.zonse()
+
+onetsa("\nAll keys (makiyi):", makiyi_onse)
+onetsa("All values (mavalu):", mavalu_onse)
+onetsa("All items (zonse):", zonse_pamodzi)
+
+# Copy dictionary
+ika kopita = munthu.kopani()
+onetsa("\nCopied dictionary:", kopita)
+
+# Modify original to show they're separate
+munthu.ika_pa("banja", "ayi")
+onetsa("Original after modification:", munthu)
+onetsa("Copy (unchanged):", kopita)
+
+# Create another dictionary and merge
+ika ziwonjezera = kaundula("sukulu", "university", "masukulu", "Computer Science")
+onetsa("\nAdditional data:", ziwonjezera)
+
+munthu.sanjirani(ziwonjezera)
+onetsa("After sanjirani (merge):", munthu)
+
+# Iterate through dictionary
+onetsa("\n=== Iteration Test ===")
+bwereza pair mu munthu.zonse():
+    ika key = pair[0]
+    ika value = pair[1]
+    onetsa("Key:", key, "-> Value:", value)
+
+# Remove item
+ika removed = munthu.chotsa_pa("banja")
+onetsa("\nRemoved item:", removed)
+onetsa("Dictionary after removal:", munthu)
+
+# Test indexing
+onetsa("\n=== Indexing Test ===")
+ika dzina_direct = munthu["dzina"]
+onetsa("Direct access to 'dzina':", dzina_direct)
+
+# Set value directly
+munthu["banja"] = "zoona"
+onetsa("After setting 'banja' directly:", munthu)
+
+# Clear all
+ika test_dict = kaundula("a", 1, "b", 2, "c", 3)
+onetsa("\nTest dictionary before clear:", test_dict)
+test_dict.chotsani_zonse()
+onetsa("After chotsani_zonse (clear):", test_dict)
+
+onetsa("\n=== Kaundula Tests Complete! ===")
+

@@ -1,0 +1,153 @@
+# Chi Programming Language - Dictionary Operations Demo
+# Demonstrates all Chi dictionary operations from COMPLETE_FEATURES_OVERVIEW.txt
+
+onetsa("============================================")
+onetsa("     Chi Dictionary Operations Demo")
+onetsa("============================================")
+onetsa("")
+
+# ===== 1. CREATING DICTIONARIES =====
+onetsa("=== 1. CREATING DICTIONARIES ===")
+
+# Function syntax
+ika student = kaundula("name", "Jakesh", "age", 25, "grade", "A")
+onetsa("Student (function syntax):", student)
+
+# Literal syntax
+ika teacher = {"name": "Mrs. Banda", "subject": "Chi Programming", "years": 5}
+onetsa("Teacher (literal syntax):", teacher)
+
+# Empty dictionary
+ika empty_dict = kaundula()
+onetsa("Empty dictionary:", empty_dict)
+
+onetsa("")
+
+# ===== 2. DICTIONARY METHODS =====
+onetsa("=== 2. DICTIONARY METHODS ===")
+
+# ika_pa - Set key-value pair
+student.ika_pa("school", "Chi University")
+onetsa("After adding school:", student)
+
+# peza - Get value by key
+ika student_name = student.peza("name")
+onetsa("Student name:", student_name)
+
+# peza_kapena - Get value with default
+ika student_email = student.peza_kapena("email", "no-email@example.com")
+onetsa("Student email (with default):", student_email)
+
+# ali_nacho - Check if key exists
+ika has_age = student.ali_nacho("age")
+ika has_phone = student.ali_nacho("phone")
+onetsa("Has age:", has_age)
+onetsa("Has phone:", has_phone)
+
+onetsa("")
+
+# ===== 3. DICTIONARY ACCESS =====
+onetsa("=== 3. DICTIONARY ACCESS ===")
+
+# Bracket notation for reading
+ika teacher_subject = teacher["subject"]
+onetsa("Teacher subject:", teacher_subject)
+
+# Method access for reading
+ika teacher_name = teacher.peza("name")
+onetsa("Teacher name:", teacher_name)
+
+onetsa("")
+
+# ===== 4. GETTING KEYS, VALUES, AND ITEMS =====
+onetsa("=== 4. GETTING KEYS, VALUES, AND ITEMS ===")
+
+# makiyi - Get all keys
+ika student_keys = student.makiyi()
+onetsa("Student keys:", student_keys)
+
+# mavalu - Get all values
+ika student_values = student.mavalu()
+onetsa("Student values:", student_values)
+
+# zonse - Get all key-value pairs
+ika student_items = student.zonse()
+onetsa("Student items:", student_items)
+
+onetsa("")
+
+# ===== 5. COPYING AND MERGING =====
+onetsa("=== 5. COPYING AND MERGING ===")
+
+# kopani - Copy dictionary
+ika student_copy = student.kopani()
+onetsa("Student copy:", student_copy)
+
+# sanjirani - Merge dictionaries
+ika contact_info = {"email": "jakesh@chi.edu", "phone": "123-456-7890"}
+student_copy.sanjirani(contact_info)
+onetsa("After merging contact info:", student_copy)
+
+onetsa("")
+
+# ===== 6. REMOVING ITEMS =====
+onetsa("=== 6. REMOVING ITEMS ===")
+
+# chotsa_pa - Remove and return value
+ika removed_grade = student.chotsa_pa("grade")
+onetsa("Removed grade:", removed_grade)
+onetsa("Student after removing grade:", student)
+
+# Add it back for demo
+student.ika_pa("grade", "A+")
+onetsa("Student with updated grade:", student)
+
+onetsa("")
+
+# ===== 7. MIXED DATA TYPES =====
+onetsa("=== 7. MIXED DATA TYPES ===")
+
+ika complex_dict = kaundula("text", "Hello Chi", "number", 42, "boolean", zoona, "list", ndandanda(1, 2, 3), "null_value", palibe)
+onetsa("Complex dictionary:", complex_dict)
+
+# Access different types
+onetsa("Text value:", complex_dict.peza("text"))
+onetsa("Number value:", complex_dict.peza("number"))
+onetsa("Boolean value:", complex_dict.peza("boolean"))
+onetsa("List value:", complex_dict.peza("list"))
+onetsa("Null value:", complex_dict.peza("null_value"))
+
+onetsa("")
+
+# ===== 8. NESTED DICTIONARIES =====
+onetsa("=== 8. NESTED DICTIONARIES ===")
+
+ika school = kaundula("name", "Chi Programming Academy", "location", kaundula("city", "Lilongwe", "country", "Malawi"), "students", ndandanda(kaundula("name", "Alice", "grade", "A"), kaundula("name", "Bob", "grade", "B+")))
+
+onetsa("School info:", school)
+onetsa("School location:", school.peza("location"))
+onetsa("First student:", school.peza("students")[0])
+
+onetsa("")
+
+# ===== 9. ITERATION THROUGH DICTIONARIES =====
+onetsa("=== 9. ITERATION THROUGH DICTIONARIES ===")
+
+onetsa("Iterating through student keys:")
+bwereza key mu student.makiyi():
+    ika value = student.peza(key)
+    onetsa("-", key, ":", value)
+
+onetsa("")
+
+# ===== 10. CLEAR DICTIONARY =====
+onetsa("=== 10. CLEAR DICTIONARY ===")
+
+# chotsani_zonse - Clear all items
+ika temp_dict = kaundula("a", 1, "b", 2, "c", 3)
+onetsa("Before clearing:", temp_dict)
+temp_dict.chotsani_zonse()
+onetsa("After clearing:", temp_dict)
+
+onetsa("")
+onetsa("✅ Dictionary operations demonstration complete!")

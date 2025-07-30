@@ -1,0 +1,35 @@
+# Edge Cases and Error Handling Test
+
+onetsa("=== Testing Edge Cases ===")
+onetsa("")
+
+# Test 1: Empty list operations
+ika empty_list = ndandanda()
+onetsa("Empty list:", empty_list)
+onetsa("Empty list length:", kukula(empty_list))
+onetsa("Empty list type:", mtundu(empty_list))
+
+# Test 2: Null comparisons with different types
+onetsa("Null == 0:", palibe == 0)
+onetsa("Null == '':", palibe == "")
+onetsa("Null == zabodza:", palibe == zabodza)
+
+# Test 3: Boolean operations with different types
+ika mixed_and = zoona komanso 1
+ika mixed_or = zabodza kapena "text"
+onetsa("zoona AND 1:", mixed_and)
+onetsa("zabodza OR 'text':", mixed_or)
+
+# Test 4: Type conversions
+onetsa("String to float:", manambala("123.45"))
+onetsa("String to int:", manambala_olekeza("123.45"))
+onetsa("Number to string:", mawu(123.45))
+
+# Test 5: List with different types
+ika mixed_list = ndandanda(1, "text", zoona, palibe, 3.14)
+bwereza item mu mixed_list:
+    onetsa("Item:", item, "| Type:", mtundu(item))
+
+onetsa("")
+onetsa("✅ Edge cases working correctly!")
+

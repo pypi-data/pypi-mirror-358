@@ -1,0 +1,84 @@
+# Test file for Chichewa file operations
+
+onetsa("=== File Operations Test ===")
+
+# Test 1: Simple file writing and reading
+onetsa("1. Testing simple file write and read:")
+
+# Write content to a file
+ika success = lemba_mu_file("test_file.txt", "Moni! Ichi ndi file ya chi language.")
+onetsa("File written successfully:", success)
+
+# Read the entire file content
+ika content = werenga_zonse("test_file.txt")
+onetsa("File content:", content)
+
+# Test 2: Check if file exists
+onetsa("\n2. Testing file existence check:")
+ika exists = pezani_file("test_file.txt")
+onetsa("File exists:", exists)
+
+ika missing_exists = pezani_file("missing_file.txt")
+onetsa("Missing file exists:", missing_exists)
+
+# Test 3: Advanced file operations with file object
+onetsa("\n3. Testing file object operations:")
+
+# Open file for reading
+ika file = tsegula("test_file.txt", "werenga")
+onetsa("File object:", file)
+onetsa("File type:", mtundu(file))
+
+# Read content using file object
+ika file_content = file.werenga()
+onetsa("Content from file object:", file_content)
+
+# Close the file
+file.tseka()
+onetsa("File closed")
+
+# Test 4: Writing with file object
+onetsa("\n4. Testing file writing with file object:")
+
+# Open file for writing
+ika write_file = tsegula("output_file.txt", "lemba")
+
+# Write multiple lines
+write_file.lemba("Line 1: Moni dziko!")
+write_file.lemba_mzere("Line 2: Ichi ndi mzere wachiwiri")
+write_file.lemba_mzere("Line 3: Chi language ikulimbana!")
+
+# Close the writing file
+write_file.tseka()
+
+# Read back the written content
+ika written_content = werenga_zonse("output_file.txt")
+onetsa("Written content:")
+onetsa(written_content)
+
+# Test 5: Reading lines
+onetsa("\n5. Testing line reading:")
+ika line_file = tsegula("output_file.txt", "werenga")
+ika lines = line_file.werenga_mizere()
+onetsa("All lines:", lines)
+onetsa("Number of lines:", kukula(lines))
+
+# Print each line
+bwereza i mu lines:
+    onetsa("Line:", i)
+
+line_file.tseka()
+
+# Test 6: Append mode
+onetsa("\n6. Testing append mode:")
+ika append_file = tsegula("output_file.txt", "wonjezera")
+append_file.lemba_mzere("Line 4: Wonjezera ndi append mode!")
+append_file.tseka()
+
+# Read the updated content
+ika final_content = werenga_zonse("output_file.txt")
+onetsa("Final content with appended line:")
+onetsa(final_content)
+
+onetsa("\n=== File Operations Test Complete! ===")
+

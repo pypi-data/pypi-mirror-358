@@ -1,0 +1,38 @@
+onetsa("=== Comprehensive Chichewa Operators Test ===")
+
+ika x = 5
+ika y = 10
+ika truth = zoona
+ika falsehood = zabodza
+
+# Test comparison operators (Chichewa)
+onetsa("Comparison operators:")
+onetsa("x wafanana 5:", x wafanana 5)        # equal
+onetsa("x wasiyana y:", x wasiyana y)        # not equal
+onetsa("x wachepa y:", x wachepa y)          # less than
+onetsa("y wapambana x:", y wapambana x)      # greater than
+onetsa("x wachepetsedwa 5:", x wachepetsedwa 5)  # less than or equal
+onetsa("y wafananitsa 10:", y wafananitsa 10)    # greater than or equal
+
+# Test logical operators (Chichewa)
+onetsa("\nLogical operators:")
+onetsa("truth komanso truth:", truth komanso truth)    # and
+onetsa("truth kapena falsehood:", truth kapena falsehood)  # or
+onetsa("osati falsehood:", osati falsehood)             # not
+onetsa("osati truth:", osati truth)                     # not
+
+# Test in conditionals
+onetsa("\nIn conditionals:")
+ngati x wafanana 5 komanso y wapambana 8 chita
+    onetsa("Complex condition with Chichewa operators works!")
+
+ngati osati falsehood chita
+    onetsa("NOT operator in conditional works!")
+
+# Test in loops
+onetsa("\nIn loops:")
+ika numbers = ndandanda(1, 5, 10, 15)
+bwereza num mu numbers chita
+    ngati num wapambana 5 komanso num wachepetsedwa 15 chita
+        onetsa("Number", num, "is between 5 and 15")
+

@@ -1,0 +1,52 @@
+# Test file for try-except-finally (kuyesera-zakanika-pomaliza) functionality
+
+# Basic try-except
+kuyesera:
+    ika nambala = manambala_olekeza("abc")  # This will cause an error
+    onetsa("Zinachitika bwino")
+zakanika:
+    onetsa("Kuli vuto - zinachitika zolakwika!")
+
+# Try-except with exception variable capture
+kuyesera:
+    ika nambala = manambala_olekeza("xyz")  # This will cause an error
+    onetsa("Zinachitika bwino")
+zakanika chifukwa vuto:
+    onetsa("Vuto lilichonse:", vuto)
+
+# Try-except with specific exception type
+kuyesera:
+    ika nambala = manambala_olekeza("123invalid")  # This will cause an error
+    onetsa("Zinachitika bwino")
+zakanika ValueError chifukwa vuto:
+    onetsa("Vuto la ValueError:", vuto)
+
+# Try-except-finally
+kuyesera:
+    ika nambala = manambala_olekeza("456")
+    onetsa("Nambala ndi:", nambala)
+zakanika chifukwa vuto:
+    onetsa("Panali vuto:", vuto)
+pomaliza:
+    onetsa("Ichi chimachitika nthawi zonse")
+
+# Multiple except blocks
+kuyesera:
+    ika x = mawu("test")
+    ika y = manambala_olekeza(x)  # This will cause ValueError
+zakanika ValueError chifukwa vuto:
+    onetsa("ValueError yaoneka:", vuto)
+zakanika RuntimeError chifukwa vuto:
+    onetsa("RuntimeError yaoneka:", vuto)
+zakanika chifukwa vuto:
+    onetsa("Vuto lina lilichonse:", vuto)
+pomaliza:
+    onetsa("Kumaliza - zinachitika bwino!")
+
+# Successful execution with finally block
+kuyesera:
+    ika nambala = manambala_olekeza("789")
+    onetsa("Nambala ndi bwino:", nambala)
+pomaliza:
+    onetsa("Choyamba finally block chimachitika ngakhale mutanthauzo ulibe")
+

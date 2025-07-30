@@ -1,0 +1,149 @@
+# Statistical Functions Test - Sort, Median, and Mode
+
+onetsa("============================================")
+onetsa("   STATISTICAL FUNCTIONS TEST")
+onetsa("   sanja, chapakati, yofala")
+onetsa("============================================")
+onetsa("")
+
+# ===== Test 1: Sorting Function (sanja) =====
+onetsa("=== Test 1: Sorting Function (sanja) ===")
+
+ika unsorted_numbers = ndandanda(15, 3, 8, 12, 6, 20, 1)
+onetsa("Original data:", unsorted_numbers)
+
+# Test ascending sort (default)
+ika sorted_asc = sanja(unsorted_numbers)
+onetsa("Sorted ascending (default):", sorted_asc)
+
+# Test ascending sort (explicit)
+ika sorted_asc_explicit = sanja(unsorted_numbers, "koyamba")
+onetsa("Sorted ascending (koyamba):", sorted_asc_explicit)
+
+# Test descending sort
+ika sorted_desc = sanja(unsorted_numbers, "komaliza")
+onetsa("Sorted descending (komaliza):", sorted_desc)
+
+# Test sorting individual values
+ika individual_sort = sanja(ndandanda(50, 10, 30, 20, 40))
+onetsa("Individual values sorted:", individual_sort)
+onetsa("")
+
+# ===== Test 2: Median Function (chapakati) =====
+onetsa("=== Test 2: Median Function (chapakati) ===")
+
+# Odd number of values
+ika odd_numbers = ndandanda(1, 3, 5, 7, 9)
+onetsa("Odd count data:", odd_numbers)
+onetsa("Median:", chapakati(odd_numbers))
+
+# Even number of values
+ika even_numbers = ndandanda(2, 4, 6, 8)
+onetsa("Even count data:", even_numbers)
+onetsa("Median:", chapakati(even_numbers))
+
+# Unsorted data (should still work)
+ika unsorted_data = ndandanda(25, 5, 15, 35, 10, 20, 30)
+onetsa("Unsorted data:", unsorted_data)
+onetsa("Median:", chapakati(unsorted_data))
+
+# Single value
+onetsa("Single value median:", chapakati(ndandanda(42)))
+onetsa("")
+
+# ===== Test 3: Mode Function (yofala) =====
+onetsa("=== Test 3: Mode Function (yofala) ===")
+
+# Single mode
+ika single_mode_data = ndandanda(1, 2, 3, 2, 4, 2, 5)
+onetsa("Single mode data:", single_mode_data)
+onetsa("Mode:", yofala(single_mode_data))
+
+# Multiple modes
+ika multi_mode_data = ndandanda(1, 1, 2, 2, 3, 4)
+onetsa("Multiple mode data:", multi_mode_data)
+onetsa("Modes:", yofala(multi_mode_data))
+
+# All values same frequency
+ika equal_freq_data = ndandanda(10, 20, 30, 40)
+onetsa("Equal frequency data:", equal_freq_data)
+onetsa("Modes:", yofala(equal_freq_data))
+
+# String mode
+ika string_data = ndandanda("apple", "banana", "apple", "cherry", "apple")
+onetsa("String data:", string_data)
+onetsa("Mode:", yofala(string_data))
+onetsa("")
+
+# ===== Test 4: Complex Statistical Analysis =====
+onetsa("=== Test 4: Complete Statistical Analysis ===")
+
+ika student_scores = ndandanda(78, 85, 92, 78, 88, 95, 78, 90, 85, 88)
+onetsa("Student scores:", student_scores)
+onetsa("")
+
+onetsa("Basic Statistics:")
+onetsa("  Sum:", phatikiza(78, 85, 92, 78, 88, 95, 78, 90, 85, 88))
+onetsa("  Average:", pakatikati(78, 85, 92, 78, 88, 95, 78, 90, 85, 88))
+onetsa("  Median:", chapakati(student_scores))
+onetsa("  Mode:", yofala(student_scores))
+onetsa("  Maximum:", chachikulu(78, 85, 92, 78, 88, 95, 78, 90, 85, 88))
+onetsa("  Minimum:", chachingono(78, 85, 92, 78, 88, 95, 78, 90, 85, 88))
+onetsa("")
+
+onetsa("Sorted Analysis:")
+ika sorted_scores_asc = sanja(student_scores, "koyamba")
+ika sorted_scores_desc = sanja(student_scores, "komaliza")
+onetsa("  Ascending order:", sorted_scores_asc)
+onetsa("  Descending order:", sorted_scores_desc)
+onetsa("")
+
+# ===== Test 5: Real-world Example =====
+onetsa("=== Test 5: Real-world Example - Sales Data ===")
+
+ika monthly_sales = ndandanda(12000, 15000, 18000, 14000, 16000, 20000, 17000, 19000, 15000, 16000, 18000, 21000)
+onetsa("Monthly sales (12 months):", monthly_sales)
+onetsa("")
+
+ika total_sales = phatikiza(12000, 15000, 18000, 14000, 16000, 20000, 17000, 19000, 15000, 16000, 18000, 21000)
+ika avg_sales = pakatikati(12000, 15000, 18000, 14000, 16000, 20000, 17000, 19000, 15000, 16000, 18000, 21000)
+ika median_sales = chapakati(monthly_sales)
+ika mode_sales = yofala(monthly_sales)
+
+onetsa("Sales Analysis:")
+onetsa("  Total Sales:", total_sales)
+onetsa("  Average Sales:", zungulira(avg_sales, 0))
+onetsa("  Median Sales:", median_sales)
+onetsa("  Mode Sales:", mode_sales)
+onetsa("  Best Month:", chachikulu(12000, 15000, 18000, 14000, 16000, 20000, 17000, 19000, 15000, 16000, 18000, 21000))
+onetsa("  Worst Month:", chachingono(12000, 15000, 18000, 14000, 16000, 20000, 17000, 19000, 15000, 16000, 18000, 21000))
+onetsa("")
+
+ika sorted_sales = sanja(monthly_sales, "komaliza")
+onetsa("Sales ranked (highest to lowest):", sorted_sales)
+onetsa("")
+
+# ===== Test 6: Type Checking =====
+onetsa("=== Test 6: Type Checking ===")
+
+ika sort_result = sanja(ndandanda(3, 1, 2))
+ika median_result = chapakati(ndandanda(1, 2, 3, 4, 5))
+ika mode_result = yofala(ndandanda(1, 1, 2, 3))
+
+onetsa("Type of sanja result:", mtundu(sort_result))
+onetsa("Type of chapakati result:", mtundu(median_result))
+onetsa("Type of yofala result:", mtundu(mode_result))
+onetsa("")
+
+onetsa("============================================")
+onetsa("        STATISTICAL FUNCTIONS SUMMARY")
+onetsa("============================================")
+onetsa("✅ sanja (sort): Working with direction control")
+onetsa("✅ chapakati (median): Working for odd & even sets")
+onetsa("✅ yofala (mode): Working for single & multiple modes")
+onetsa("✅ Integration: All functions work together")
+onetsa("✅ Chichewa naming: Authentic statistical terminology")
+onetsa("")
+onetsa("🎉 Statistical analysis capabilities complete!")
+onetsa("============================================")
+

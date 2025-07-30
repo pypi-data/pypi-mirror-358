@@ -1,0 +1,127 @@
+# Chi Programming Language - Mathematical Operations Reference
+# This file demonstrates all available mathematical operations with examples
+
+onetsa("============================================")
+onetsa("  CHI MATHEMATICAL OPERATIONS REFERENCE")
+onetsa("============================================")
+onetsa("")
+
+onetsa("=== BASIC ARITHMETIC OPERATORS ===")
+onetsa("+ (Addition):        5 + 3 =", 5 + 3)
+onetsa("- (Subtraction):     8 - 2 =", 8 - 2)
+onetsa("* (Multiplication):  4 * 7 =", 4 * 7)
+onetsa("/ (Division):        15 / 3 =", 15 / 3)
+onetsa("")
+
+onetsa("=== ADVANCED ARITHMETIC OPERATORS ===")
+onetsa("** (Power):          2 ** 4 =", 2 ** 4)
+onetsa("% (Modulo):          17 % 5 =", 17 % 5)
+onetsa("")
+
+onetsa("=== MATHEMATICAL FUNCTIONS (Chichewa Names) ===")
+onetsa("")
+
+onetsa("1. mphamvu(base, exponent) - Power Function")
+onetsa("   Example: mphamvu(3, 4) =", mphamvu(3, 4))
+onetsa("   Meaning: 'strength/power' in Chichewa")
+onetsa("")
+
+onetsa("2. chotsalira(dividend, divisor) - Modulo Function")
+onetsa("   Example: chotsalira(23, 7) =", chotsalira(23, 7))
+onetsa("   Meaning: 'remainder' in Chichewa")
+onetsa("")
+
+onetsa("3. muzu(number) - Square Root Function")
+onetsa("   Example: muzu(36) =", muzu(36))
+onetsa("   Meaning: 'root' in Chichewa")
+onetsa("")
+
+onetsa("4. chopanda(number) - Absolute Value Function")
+onetsa("   Example: chopanda(-15) =", chopanda(-15))
+onetsa("   Meaning: 'without sign' in Chichewa")
+onetsa("")
+
+onetsa("5. pansi(number) - Floor Function")
+onetsa("   Example: pansi(4.8) =", pansi(4.8))
+onetsa("   Meaning: 'down/below' in Chichewa")
+onetsa("")
+
+onetsa("6. pamwamba(number) - Ceiling Function")
+onetsa("   Example: pamwamba(4.2) =", pamwamba(4.2))
+onetsa("   Meaning: 'up/above' in Chichewa")
+onetsa("")
+
+onetsa("7. zungulira(number, digits) - Round Function")
+onetsa("   Example: zungulira(3.14159, 2) =", zungulira(3.14159, 2))
+onetsa("   Meaning: 'to go around' in Chichewa")
+onetsa("")
+
+onetsa("8. phatikiza(...args) - Sum Function")
+onetsa("   Example: phatikiza(1, 2, 3, 4, 5) =", phatikiza(1, 2, 3, 4, 5))
+onetsa("   Meaning: 'to add together' in Chichewa")
+onetsa("")
+
+onetsa("9. pakatikati(...args) - Average Function")
+onetsa("   Example: pakatikati(10, 20, 30, 40) =", pakatikati(10, 20, 30, 40))
+onetsa("   Meaning: 'in the middle' in Chichewa")
+onetsa("")
+
+onetsa("10. chachikulu(...args) - Maximum Function")
+onetsa("   Example: chachikulu(5, 12, 8, 15, 3) =", chachikulu(5, 12, 8, 15, 3))
+onetsa("   Meaning: 'the biggest' in Chichewa")
+onetsa("")
+
+onetsa("11. chachingono(...args) - Minimum Function")
+onetsa("   Example: chachingono(5, 12, 8, 15, 3) =", chachingono(5, 12, 8, 15, 3))
+onetsa("   Meaning: 'the smallest' in Chichewa")
+onetsa("")
+
+onetsa("=== OPERATOR PRECEDENCE (Highest to Lowest) ===")
+onetsa("1. Parentheses: ( )")
+onetsa("2. Power: **")
+onetsa("3. Multiplication, Division, Modulo: *, /, %")
+onetsa("4. Addition, Subtraction: +, -")
+onetsa("")
+onetsa("Examples:")
+onetsa("2 + 3 * 4 =", 2 + 3 * 4, "(multiplication first)")
+onetsa("(2 + 3) * 4 =", (2 + 3) * 4, "(parentheses first)")
+onetsa("2 ** 3 * 4 =", 2 ** 3 * 4, "(power first)")
+onetsa("")
+
+onetsa("=== MATHEMATICAL TYPES ===")
+ika int_val = pansi(5.7)
+ika float_val = muzu(16)
+onetsa("Integer result:", int_val, "| Type:", mtundu(int_val))
+onetsa("Float result:", float_val, "| Type:", mtundu(float_val))
+onetsa("")
+
+onetsa("=== COMMON USE CASES ===")
+onetsa("")
+onetsa("Area of circle: π * r²")
+ika radius = 5
+ika pi = 3.14159
+ika area = pi * mphamvu(radius, 2)
+onetsa("Example: radius=5, area =", area)
+onetsa("")
+
+onetsa("Pythagorean theorem: c = √(a² + b²)")
+ika a = 3
+ika b = 4
+ika c = muzu(mphamvu(a, 2) + mphamvu(b, 2))
+onetsa("Example: a=3, b=4, c =", c)
+onetsa("")
+
+onetsa("Check if number is even:")
+ika number = 42
+ika remainder = chotsalira(number, 2)
+ngati remainder == 0:
+    onetsa(number, "is even")
+sizoona:
+    onetsa(number, "is odd")
+onetsa("")
+
+onetsa("============================================")
+onetsa("Chi supports comprehensive mathematical")
+onetsa("operations with Chichewa function names!")
+onetsa("============================================")
+

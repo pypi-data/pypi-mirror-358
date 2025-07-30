@@ -1,0 +1,23 @@
+# Test funsani (input) function
+onetsa("=== Testing funsani() - Input Function ===")
+
+# Basic input without prompt
+onetsa("Enter your name:")
+ika name = funsani()
+onetsa("Hello,", name)
+
+# Input with prompt
+ika age = funsani("Enter your age: ")
+onetsa("You are", age, "years old")
+
+# Input for numbers (currently as strings)
+ika favorite_number = funsani("What's your favorite number? ")
+onetsa("Your favorite number is:", favorite_number)
+
+# Multiple inputs
+ika city = funsani("Enter your city: ")
+ika country = funsani("Enter your country: ")
+onetsa("You live in", city, ",", country)
+
+onetsa("=== funsani() function working! ===")
+

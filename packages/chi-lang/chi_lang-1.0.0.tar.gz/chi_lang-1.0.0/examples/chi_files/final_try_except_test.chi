@@ -1,0 +1,87 @@
+# Final comprehensive test for Chichewa try-except-finally functionality
+
+onetsa("=== Chichewa Exception Handling Test ===")
+onetsa()
+
+# Test 1: Basic try-except
+onetsa("1. Basic try-except:")
+kuyesera:
+    ika nambala = manambala_olekeza("invalid")
+zakanika:
+    onetsa("   ✓ Caught basic exception")
+
+# Test 2: Exception variable capture
+onetsa("2. Exception variable capture:")
+kuyesera:
+    ika x = manambala_olekeza("abc123")
+zakanika chifukwa error:
+    onetsa("   ✓ Captured exception:", error)
+
+# Test 3: Chichewa number problem (ValueError)
+onetsa("3. Chichewa vuto_la_nambala:")
+kuyesera:
+    ika num = manambala_olekeza("xyz")
+zakanika vuto_la_nambala chifukwa ve:
+    onetsa("   ✓ Caught number problem:", ve)
+
+# Test 4: Chichewa division problem (ZeroDivisionError)
+onetsa("4. Chichewa vuto_la_kugawa:")
+kuyesera:
+    ika result = 42 / 0
+zakanika vuto_la_kugawa chifukwa zde:
+    onetsa("   ✓ Caught division problem:", zde)
+
+# Test 5: Chichewa list problem (IndexError)
+onetsa("5. Chichewa vuto_la_ndandanda:")
+kuyesera:
+    ika mylist = ndandanda(1, 2, 3)
+    ika item = mylist[10]
+zakanika vuto_la_ndandanda chifukwa le:
+    onetsa("   ✓ Caught list problem:", le)
+
+# Test 6: Try-except-finally
+onetsa("6. Try-except-finally:")
+kuyesera:
+    ika x = manambala_olekeza("456")
+    onetsa("   Success! Number is:", x)
+zakanika chifukwa e:
+    onetsa("   Error occurred:", e)
+pomaliza:
+    onetsa("   ✓ Finally block executed")
+
+# Test 7: Multiple except blocks
+onetsa("7. Multiple except blocks:")
+kuyesera:
+    ika bad_num = manambala_olekeza("not_a_number")
+zakanika vuto_la_nambala chifukwa ve:
+    onetsa("   ✓ Number problem handled:", ve)
+zakanika vuto_la_mtundu chifukwa te:
+    onetsa("   Type problem handled:", te)
+zakanika chifukwa any_error:
+    onetsa("   Any other problem handled:", any_error)
+pomaliza:
+    onetsa("   ✓ Cleanup completed")
+
+# Test 8: Try-finally (no exception)
+onetsa("8. Try-finally (no exception):")
+kuyesera:
+    ika valid = manambala_olekeza("789")
+    onetsa("   Valid number:", valid)
+pomaliza:
+    onetsa("   ✓ Finally block always runs")
+
+# Test 9: Generic exception catching
+onetsa("9. Generic exception catching:")
+kuyesera:
+    ika division = 100 / 0
+zakanika vuto_lililonse chifukwa general:
+    onetsa("   ✓ Caught any problem:", general)
+
+onetsa()
+onetsa("=== All Chichewa Exception Tests Passed! ===")
+onetsa("✓ kuyesera (try)")
+onetsa("✓ zakanika (except)")
+onetsa("✓ pomaliza (finally)")
+onetsa("✓ chifukwa (as)")
+onetsa("✓ All Chichewa exception types work perfectly!")
+

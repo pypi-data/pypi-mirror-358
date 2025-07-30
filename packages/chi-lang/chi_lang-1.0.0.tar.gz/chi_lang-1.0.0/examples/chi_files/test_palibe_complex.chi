@@ -1,0 +1,36 @@
+# Test null handling in complex scenarios
+
+# Test null in nested conditions
+ika user_data = palibe
+ika default_name = "Guest"
+
+onetsa("Testing null in nested scenarios:")
+ngati user_data == palibe:
+    onetsa("User data is null, using default name:", default_name)
+sizoona:
+    onetsa("User data exists:", user_data)
+
+# Test null in list operations
+ika mixed_list = ndandanda("apple", palibe, "banana", palibe, "cherry")
+onetsa("Mixed list with nulls:", mixed_list)
+
+# Count non-null items
+ika count = 0
+bwereza item mu mixed_list:
+    ngati item != palibe:
+        ika count = count + 1
+
+onetsa("Non-null items count:", count)
+
+# Test null assignment patterns
+ika config = palibe
+ngati config == palibe:
+    ika config = "default_config"
+    onetsa("Config was null, set to default:", config)
+
+# Test null in multiple assignment
+ika a = palibe
+ika b = palibe
+ika c = "value"
+onetsa("Multiple assignments with null:", a, b, c)
+

@@ -1,0 +1,34 @@
+onetsa("=== ndandanda List with Indexing Capability ===")
+
+ika fruits = ndandanda("apple", "banana", "cherry", "date", "elderberry")
+onetsa("Full list:", fruits)
+
+onetsa("\n--- Positive Indexing ---")
+onetsa("Index 0 (first):", fruits[0])
+onetsa("Index 2 (third):", fruits[2])
+onetsa("Index 4 (last):", fruits[4])
+
+onetsa("\n--- Negative Indexing ---")
+onetsa("Index -1 (last):", fruits[-1])
+onetsa("Index -2 (second last):", fruits[-2])
+onetsa("Index -5 (first):", fruits[-5])
+
+onetsa("\n--- Mathematical Operations with Indexed Values ---")
+ika numbers = ndandanda(10, 20, 30, 40, 50)
+onetsa("Numbers list:", numbers)
+ika result = numbers[0] + numbers[1] * numbers[2]
+onetsa("numbers[0] + numbers[1] * numbers[2] =", result)
+
+onetsa("\n--- Using Indexing in Loops ---")
+ika i = 0
+yesani i < 3:
+    onetsa("Position", i, "contains:", fruits[i])
+    ika i = i + 1
+
+onetsa("\n--- Mixed Data Types ---")
+ika mixed = ndandanda("text", 42, "another", -17)
+onetsa("Mixed list:", mixed)
+onetsa("String at index 0:", mixed[0])
+onetsa("Number at index 1:", mixed[1])
+onetsa("Negative number at index -1:", mixed[-1])
+

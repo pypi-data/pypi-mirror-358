@@ -1,0 +1,83 @@
+# Chi Programming Language - Operators Demo
+# Demonstrates all Chi operators from COMPLETE_FEATURES_OVERVIEW.txt
+
+onetsa("============================================")
+onetsa("         Chi Operators Demonstration")
+onetsa("============================================")
+onetsa("")
+
+# ===== 1. ARITHMETIC OPERATORS =====
+onetsa("=== 1. ARITHMETIC OPERATORS ===")
+ika a = 15
+ika b = 4
+
+onetsa("a =", a, ", b =", b)
+onetsa("Addition: a + b =", a + b)
+onetsa("Subtraction: a - b =", a - b)
+onetsa("Multiplication: a * b =", a * b)
+onetsa("Division: a / b =", a / b)
+onetsa("Power: a ** b =", a ** b)
+onetsa("Modulo: a % b =", a % b)
+onetsa("")
+
+# ===== 2. CHICHEWA COMPARISON OPERATORS =====
+onetsa("=== 2. CHICHEWA COMPARISON OPERATORS ===")
+ika x = 10
+ika y = 5
+
+onetsa("x =", x, ", y =", y)
+onetsa("wafanana (==): x wafanana y =", x wafanana y)
+onetsa("wasiyana (!=): x wasiyana y =", x wasiyana y)
+onetsa("wapambana (>): x wapambana y =", x wapambana y)
+onetsa("wachepa (<): x wachepa y =", x wachepa y)
+onetsa("wafananitsa (>=): x wafananitsa y =", x wafananitsa y)
+onetsa("wachepetsedwa (<=): x wachepetsedwa y =", x wachepetsedwa y)
+onetsa("")
+
+# ===== 3. CHICHEWA LOGICAL OPERATORS =====
+onetsa("=== 3. CHICHEWA LOGICAL OPERATORS ===")
+ika condition1 = zoona
+ika condition2 = zabodza
+
+onetsa("condition1 =", condition1, ", condition2 =", condition2)
+onetsa("komanso (AND): condition1 komanso condition2 =", condition1 komanso condition2)
+onetsa("kapena (OR): condition1 kapena condition2 =", condition1 kapena condition2)
+onetsa("osati (NOT): osati condition1 =", osati condition1)
+onetsa("osati (NOT): osati condition2 =", osati condition2)
+onetsa("")
+
+# ===== 4. COMPLEX EXPRESSIONS =====
+onetsa("=== 4. COMPLEX EXPRESSIONS ===")
+ika result1 = (10 + 5) * 2
+onetsa("(10 + 5) * 2 =", result1)
+
+ika result2 = 2 ** 3 + 4 * 5
+onetsa("2 ** 3 + 4 * 5 =", result2)
+
+ika complex_logic = (x wapambana y) komanso (x wafananitsa 10)
+onetsa("(x > y) AND (x >= 10) =", complex_logic)
+onetsa("")
+
+# ===== 5. PRACTICAL OPERATOR USAGE =====
+onetsa("=== 5. PRACTICAL OPERATOR USAGE ===")
+
+# Age checking
+ika age = 20
+ika is_adult = age wafananitsa 18
+onetsa("Age:", age, "| Is adult:", is_adult)
+
+# Grade calculation
+ika score = 85
+ika pass_grade = score wafananitsa 60
+ika excellent = score wafananitsa 90
+onetsa("Score:", score, "| Passed:", pass_grade, "| Excellent:", excellent)
+
+# Temperature range checking
+ika temperature = 25
+ika comfortable = (temperature wafananitsa 20) komanso (temperature wachepetsedwa 30)
+onetsa("Temperature:", temperature, "| Comfortable:", comfortable)
+
+onetsa("")
+onetsa("✅ All Chi operators working perfectly!")
+onetsa("✅ Arithmetic, Comparison, and Logical operators!")
+onetsa("============================================")

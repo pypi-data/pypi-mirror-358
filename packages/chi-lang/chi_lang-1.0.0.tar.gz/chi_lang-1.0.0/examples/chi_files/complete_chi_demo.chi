@@ -1,0 +1,239 @@
+# Chi Programming Language - Complete Feature Demonstration
+# This file showcases all current capabilities of the Chi language
+
+onetsa("============================================")
+onetsa("    Chi Programming Language Demo")
+onetsa("    Featuring All Current Capabilities")
+onetsa("============================================")
+onetsa("")
+
+# ===== DATA TYPES DEMONSTRATION =====
+onetsa("=== DATA TYPES ===")
+
+# Strings (mawu)
+ika greeting = "Moni, dziko!"
+ika converted_string = mawu(42)
+onetsa("String:", greeting, "| Type:", mtundu(greeting))
+onetsa("Converted string:", converted_string, "| Type:", mtundu(converted_string))
+
+# Numbers (manambala & manambala_olekeza)
+ika decimal = 42.75
+ika whole_number = manambala_olekeza(42.9)
+onetsa("Float:", decimal, "| Type:", mtundu(decimal))
+onetsa("Integer:", whole_number, "| Type:", mtundu(whole_number))
+
+# Booleans (yankho)
+ika truth = zoona
+ika falsehood = zabodza
+onetsa("True value:", truth, "| Type:", mtundu(truth))
+onetsa("False value:", falsehood, "| Type:", mtundu(falsehood))
+
+# Null values (palibe)
+ika empty_value = palibe
+onetsa("Null value:", empty_value, "| Type:", mtundu(empty_value))
+
+# Lists (ndandanda)
+ika mixed_list = ndandanda(1, "text", zoona, palibe, 42.5)
+onetsa("List:", mixed_list, "| Type:", mtundu(mixed_list))
+onetsa("List length:", kukula(mixed_list))
+onetsa("")
+
+# ===== OPERATORS DEMONSTRATION =====
+onetsa("=== OPERATORS ===")
+
+# Arithmetic
+ika a = 15
+ika b = 4
+onetsa("Arithmetic with", a, "and", b, ":")
+onetsa("  Addition:", a + b)
+onetsa("  Subtraction:", a - b)
+onetsa("  Multiplication:", a * b)
+onetsa("  Division:", a / b)
+
+# Comparison (Chichewa operators)
+onetsa("Comparisons:")
+onetsa("  wapambana (>):", a wapambana b, "| Type:", mtundu(a wapambana b))
+onetsa("  wachepa (<):", a wachepa b)
+onetsa("  wafanana (==):", a wafanana b)
+onetsa("  wasiyana (!=):", a wasiyana b)
+onetsa("  wafananitsa (>=):", a wafananitsa b)
+onetsa("  wachepetsedwa (<=):", a wachepetsedwa b)
+
+# Logical operators
+onetsa("Logical operations:")
+onetsa("  zoona komanso zabodza:", zoona komanso zabodza)
+onetsa("  zoona kapena zabodza:", zoona kapena zabodza)
+onetsa("  osati zoona:", osati zoona)
+onetsa("")
+
+# ===== CONTROL STRUCTURES =====
+onetsa("=== CONTROL STRUCTURES ===")
+
+# If-elif-else
+ika age = 22
+onetsa("Age classification for age", age, ":")
+ngati age wachepa 13:
+    onetsa("  Category: Child")
+kapena_ngati age wachepa 20:
+    onetsa("  Category: Teenager")
+sizoona:
+    onetsa("  Category: Adult")
+
+# While loop
+onetsa("Counting with while loop:")
+ika counter = 1
+yesani counter wafananitsa 3:
+    onetsa("  Count:", counter)
+    ika counter = counter + 1
+
+# For loop with different data types
+ika sample_data = ndandanda("apple", 42, zoona, palibe, "banana")
+onetsa("Iterating through mixed data:")
+bwereza item mu sample_data:
+    onetsa("  Item:", item, "| Type:", mtundu(item))
+onetsa("")
+
+# ===== LIST OPERATIONS =====
+onetsa("=== LIST OPERATIONS ===")
+
+ika fruits = ndandanda("apple", "banana", "cherry")
+onetsa("Original fruits:", fruits)
+
+# Add items
+fruits.onjezera("orange")
+onetsa("After onjezera (append):", fruits)
+
+# Insert item
+fruits.lowetsa(1, "mango")
+onetsa("After lowetsa (insert) at position 1:", fruits)
+
+# Count and find
+ika apple_count = fruits.werengera("apple")
+ika banana_position = fruits.funafuna("banana")
+onetsa("Count of 'apple':", apple_count)
+onetsa("Position of 'banana':", banana_position)
+
+# Remove item
+fruits.chotsa("cherry")
+onetsa("After chotsa (remove) 'cherry':", fruits)
+
+# Pop item
+ika removed = fruits.tulutsa(0)
+onetsa("Removed item:", removed)
+onetsa("Final fruits list:", fruits)
+onetsa("")
+
+# ===== NULL HANDLING =====
+onetsa("=== NULL HANDLING ===")
+
+ika user_data = palibe
+ika default_name = "Anonymous User"
+
+onetsa("Testing null handling:")
+ngati user_data == palibe:
+    ika final_name = default_name
+    onetsa("  User data is null, using default:", final_name)
+sizoona:
+    ika final_name = user_data
+    onetsa("  Using user data:", final_name)
+
+# Null in calculations
+ika scores = ndandanda(85, palibe, 92, 78, palibe, 95)
+ika total_score = 0
+ika valid_scores = 0
+
+onetsa("Processing scores with null values:")
+bwereza score mu scores:
+    ngati score == palibe:
+        onetsa("  Found null score, skipping...")
+    sizoona:
+        ika total_score = total_score + score
+        ika valid_scores = valid_scores + 1
+        onetsa("  Valid score:", score)
+
+ika average = total_score / valid_scores
+onetsa("  Total:", total_score, "| Count:", valid_scores, "| Average:", average)
+onetsa("")
+
+# ===== TYPE CHECKING SYSTEM =====
+onetsa("=== TYPE CHECKING SYSTEM ===")
+
+ika type_samples = ndandanda("hello", 42.5, manambala_olekeza(42), zoona, palibe, ndandanda(1, 2, 3))
+
+onetsa("Chichewa type system demonstration:")
+bwereza sample mu type_samples:
+    ika sample_type = mtundu(sample)
+    onetsa("  Value:", sample, "| Type (Chichewa):", sample_type)
+
+onetsa("")
+onetsa("Type name meanings:")
+onetsa("  - mawu: string")
+onetsa("  - manambala: float number")
+onetsa("  - manambala_olekeza: integer")
+onetsa("  - yankho: boolean")
+onetsa("  - palibe_mtundu: null type")
+onetsa("  - ndandanda: list")
+onetsa("")
+
+# ===== ADVANCED FEATURES =====
+onetsa("=== ADVANCED FEATURES ===")
+
+# Complex expressions
+ika complex_result = (10 + 5) * 2 wapambana 25 komanso zoona
+onetsa("Complex expression result:", complex_result, "| Type:", mtundu(complex_result))
+
+# List indexing
+ika numbers = ndandanda(10, 20, 30, 40, 50)
+ika first = numbers[0]
+ika last = numbers[kukula(numbers) - 1]
+onetsa("First element:", first, "| Last element:", last)
+
+# Type conversion chain
+ika original = 42.7
+ika as_string = mawu(original)
+ika back_to_float = manambala(as_string)
+ika as_int = manambala_olekeza(original)
+
+onetsa("Type conversion chain:")
+onetsa("  Original:", original, "(", mtundu(original), ")")
+onetsa("  As string:", as_string, "(", mtundu(as_string), ")")
+onetsa("  Back to float:", back_to_float, "(", mtundu(back_to_float), ")")
+onetsa("  As integer:", as_int, "(", mtundu(as_int), ")")
+onetsa("")
+
+# ===== PRACTICAL EXAMPLE =====
+onetsa("=== PRACTICAL EXAMPLE ===")
+onetsa("Student Grade Management System:")
+
+ika students = ndandanda("Alice", "Bob", "Charlie", "Diana")
+ika grades = ndandanda(85, 92, palibe, 78)
+
+bwereza i mu ndandanda(0, 1, 2, 3):
+    ika student = students[i]
+    ika grade = grades[i]
+    
+    onetsa("Student:", student)
+    ngati grade == palibe:
+        onetsa("  Grade: Not available")
+        onetsa("  Status: Incomplete")
+    sizoona:
+        ngati grade wafananitsa 80:
+            onetsa("  Grade:", grade, "- Excellent!")
+        kapena_ngati grade wafananitsa 70:
+            onetsa("  Grade:", grade, "- Good")
+        sizoona:
+            onetsa("  Grade:", grade, "- Needs improvement")
+
+onetsa("")
+onetsa("============================================")
+onetsa("    Demo Complete!")
+onetsa("    Chi language supports:")
+onetsa("    ✓ Complete data types")
+onetsa("    ✓ Chichewa operators")
+onetsa("    ✓ Control structures")
+onetsa("    ✓ List operations")
+onetsa("    ✓ Null handling")
+onetsa("    ✓ Type checking")
+onetsa("    ✓ Cultural authenticity")
+onetsa("============================================")
+

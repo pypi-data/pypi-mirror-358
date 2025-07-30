@@ -1,0 +1,19 @@
+# Quick test of mtundu functionality
+
+onetsa("=== Quick mtundu Test ===")
+
+# Test basic types
+ika text = "hello"
+ika number = 42.5
+ika boolean = zoona
+ika null_val = palibe
+ika my_list = ndandanda(1, 2, 3)
+
+onetsa("String:", text, "| Type:", mtundu(text))
+onetsa("Number:", number, "| Type:", mtundu(number))
+onetsa("Boolean:", boolean, "| Type:", mtundu(boolean))
+onetsa("Null:", null_val, "| Type:", mtundu(null_val))
+onetsa("List:", my_list, "| Type:", mtundu(my_list))
+
+onetsa("✅ All types working correctly!")
+

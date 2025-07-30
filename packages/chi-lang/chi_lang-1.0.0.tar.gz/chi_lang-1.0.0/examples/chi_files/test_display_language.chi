@@ -1,0 +1,55 @@
+# Test to check what displays in English vs Chichewa
+
+onetsa("=== Checking Display Languages ===")
+onetsa("")
+
+# Test booleans
+ika true_val = zoona
+ika false_val = zabodza
+onetsa("True value:", true_val)
+onetsa("False value:", false_val)
+onetsa("")
+
+# Test null
+ika null_val = palibe
+onetsa("Null value:", null_val)
+onetsa("")
+
+# Test numbers
+ika number = 42.5
+onetsa("Number:", number)
+onetsa("")
+
+# Test strings
+ika text = "mawu"
+onetsa("String:", text)
+onetsa("")
+
+# Test lists
+ika my_list = ndandanda(1, 2, 3)
+onetsa("List:", my_list)
+onetsa("")
+
+# Test boolean operations results
+ika comparison_result = 5 wapambana 3
+onetsa("Comparison result (5 > 3):", comparison_result)
+onetsa("")
+
+ika logical_and = zoona komanso zabodza
+ika logical_or = zoona kapena zabodza
+onetsa("Logical AND result:", logical_and)
+onetsa("Logical OR result:", logical_or)
+onetsa("")
+
+# Test not operation
+ika negation = osati zoona
+onetsa("NOT true:", negation)
+onetsa("")
+
+# Test list with mixed types
+ika mixed = ndandanda(zoona, zabodza, palibe, "text", 42)
+onetsa("Mixed list:", mixed)
+onetsa("")
+
+onetsa("=== Check if any values show English instead of Chichewa ===")
+

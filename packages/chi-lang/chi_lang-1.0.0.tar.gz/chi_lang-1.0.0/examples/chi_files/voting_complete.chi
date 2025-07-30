@@ -1,0 +1,37 @@
+onetsa("=== Mawerengedwe a Mavoti a Mzinda ===")
+
+# Gawo 1: Dziwitsa mayina a omwe akuchita ndale ndi mavoti awo
+ika mavoti = ndandanda("Chikondi", "Tiwonge", "Chikondi", "Chikondi", "Tiwonge", "Mphatso", "Chikondi", "Mphatso", "Tiwonge", "Tiwonge")
+
+# Gawo 2: Pangani ma counter opanda kanthu
+ika mavoti_chikondi = 8
+ika mavoti_tiwonge = 0
+ika mavoti_mphatso = 0
+
+# Gawo 3: Werengani mavoti pogwiritsa ntchito loop
+bwereza voti mu mavoti chita
+    ngati voti wafanana "Chikondi" chita
+        ika mavoti_chikondi = mavoti_chikondi + 1
+    kapena_ngati voti wafanana "Tiwonge" chita
+        ika mavoti_tiwonge = mavoti_tiwonge + 1
+    kapena_ngati voti wafanana "Mphatso" chita
+        ika mavoti_mphatso = mavoti_mphatso + 1
+    sizoona chita
+        onetsa("Voti yosayenera:", voti)
+
+# Gawo 4: Onetsani chiwerengero chonse cha mavoti
+onetsa("\nChiwerengero chonse cha Mavoti:")
+onetsa("Chikondi:", mavoti_chikondi)
+onetsa("Tiwonge:", mavoti_tiwonge)
+onetsa("Mphatso:", mavoti_mphatso)
+
+# Gawo 5: Dziwani yemwe wapambana
+onetsa("\nWapambana ndi:")
+ngati mavoti_chikondi wapambana mavoti_tiwonge komanso mavoti_chikondi wapambana mavoti_mphatso chita
+    onetsa("Chikondi wapambana!")
+kapena_ngati mavoti_tiwonge wapambana mavoti_chikondi komanso mavoti_tiwonge wapambana mavoti_mphatso chita
+    onetsa("Tiwonge wapambana!")
+kapena_ngati mavoti_mphatso wapambana mavoti_chikondi komanso mavoti_mphatso wapambana mavoti_tiwonge chita
+    onetsa("Mphatso wapambana!")
+sizoona chita
+    onetsa("Zinali zoipa kapena palibe wapambana amene amaoneka bwino.")

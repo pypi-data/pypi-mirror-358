@@ -1,0 +1,23 @@
+ika mylist = ndandanda("apple", "banana", "cherry")
+onetsa("Original list:", mylist)
+
+# Test Chichewa methods
+mylist.onjezera("date")
+onetsa("After onjezera (append):", mylist)
+
+mylist.lowetsa(1, "orange")
+onetsa("After lowetsa (insert):", mylist)
+
+ika index_of_banana = mylist.funafuna("banana")
+onetsa("Index of banana (funafuna):", index_of_banana)
+
+ika count_of_apple = mylist.werengera("apple")
+onetsa("Count of apple (werengera):", count_of_apple)
+
+ika removed_item = mylist.tulutsa()
+onetsa("Popped item (tulutsa):", removed_item)
+onetsa("After tulutsa (pop):", mylist)
+
+mylist.chotsa("orange")
+onetsa("After chotsa (remove):", mylist)
+

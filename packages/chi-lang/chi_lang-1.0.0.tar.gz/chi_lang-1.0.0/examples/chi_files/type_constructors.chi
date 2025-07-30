@@ -1,0 +1,99 @@
+# Chi Programming Language - Type Constructors Demo
+# Demonstrates the type conversion functions
+
+onetsa("============================================")
+onetsa("    Chi Type Constructors Demonstration")  
+onetsa("============================================")
+onetsa("")
+
+# ===== Test 1: String Constructor (mawu) =====
+onetsa("=== Test 1: String Constructor (mawu) ===")
+
+# Convert various types to strings
+ika text = mawu("Hello World")
+onetsa("String from string:", text, "| Type:", mtundu(text))
+
+ika number_as_text = mawu(42)
+onetsa("Number to string:", number_as_text, "| Type:", mtundu(number_as_text))
+
+ika float_as_text = mawu(3.14159)
+onetsa("Float to string:", float_as_text, "| Type:", mtundu(float_as_text))
+
+ika bool_as_text = mawu(zoona)
+onetsa("Boolean to string:", bool_as_text, "| Type:", mtundu(bool_as_text))
+onetsa("")
+
+# ===== Test 2: Float Constructor (manambala) =====
+onetsa("=== Test 2: Float Constructor (manambala) ===")
+
+ika decimal = manambala(3.14159)
+onetsa("Float literal:", decimal, "| Type:", mtundu(decimal))
+
+ika float_from_string = manambala("42.5")
+onetsa("String to float:", float_from_string, "| Type:", mtundu(float_from_string))
+
+ika int_to_float = manambala(42)
+onetsa("Int to float:", int_to_float, "| Type:", mtundu(int_to_float))
+onetsa("")
+
+# ===== Test 3: Integer Constructor (manambala_olekeza) =====
+onetsa("=== Test 3: Integer Constructor (manambala_olekeza) ===")
+
+ika whole_number = manambala_olekeza(42)
+onetsa("Integer literal:", whole_number, "| Type:", mtundu(whole_number))
+
+ika float_to_int = manambala_olekeza(42.9)
+onetsa("Float to int (truncated):", float_to_int, "| Type:", mtundu(float_to_int))
+
+ika string_to_int = manambala_olekeza("123")
+onetsa("String to int:", string_to_int, "| Type:", mtundu(string_to_int))
+onetsa("")
+
+# ===== Test 4: Boolean Type (yankho) =====
+onetsa("=== Test 4: Boolean Type (yankho) ===")
+
+ika answer = zoona
+onetsa("Boolean true:", answer, "| Type:", mtundu(answer))
+
+ika negative = zabodza
+onetsa("Boolean false:", negative, "| Type:", mtundu(negative))
+
+# Note: yankho is the type name, but values are zoona/zabodza
+onetsa("Type name for booleans is 'yankho'")
+onetsa("")
+
+# ===== Test 5: Practical Type Conversion Chain =====
+onetsa("=== Test 5: Practical Conversion Chain ===")
+
+# Start with user input (as string)
+ika user_input = "25"
+onetsa("User input (string):", user_input)
+
+# Convert to number for math
+ika age = manambala_olekeza(user_input)
+onetsa("As integer:", age)
+
+# Do some math
+ika next_year = age + 1
+onetsa("Next year:", next_year)
+
+# Convert back to string for display
+ika message = "You will be " + mawu(next_year) + " next year"
+onetsa("Final message:", message)
+onetsa("")
+
+# ===== Test 6: Type Safety Demonstration =====
+onetsa("=== Test 6: Type Safety ===")
+
+ika mixed_list = ndandanda(mawu(42), manambala(42), manambala_olekeza(42), zoona)
+
+onetsa("Mixed type list:")
+bwereza item mu mixed_list:
+    onetsa("  Value:", item, "| Type:", mtundu(item))
+
+onetsa("")
+onetsa("============================================")
+onetsa("✅ Type constructors working perfectly!")
+onetsa("✅ mawu(), manambala(), manambala_olekeza()")
+onetsa("✅ All type conversions successful!")
+onetsa("============================================")

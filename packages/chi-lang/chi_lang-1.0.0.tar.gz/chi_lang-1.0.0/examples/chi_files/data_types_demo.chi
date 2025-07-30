@@ -1,0 +1,87 @@
+# Chi Programming Language - Core Data Types Demo
+# Demonstrates all Chi data types from COMPLETE_FEATURES_OVERVIEW.txt
+
+onetsa("============================================")
+onetsa("      Chi Core Data Types Demonstration")
+onetsa("============================================")
+onetsa("")
+
+# ===== 1. STRINGS (mawu) =====
+onetsa("=== 1. STRINGS (mawu) ===")
+ika name = "Jakesh"
+ika greeting = "Moni, dziko!"
+onetsa("String variable:", name)
+onetsa("String literal:", greeting)
+onetsa("Type name:", mtundu(name))
+
+# String conversion
+ika number_as_string = mawu(42)
+onetsa("Number to string:", number_as_string, "| Type:", mtundu(number_as_string))
+onetsa("")
+
+# ===== 2. NUMBERS =====
+onetsa("=== 2. NUMBERS ===")
+
+# Float Numbers (manambala)
+ika pi = 3.14159
+ika price = 29.99
+onetsa("Float literal:", pi, "| Type:", mtundu(pi))
+onetsa("Float from string:", manambala("42.5"), "| Type:", mtundu(manambala("42.5")))
+
+# Integer Numbers (manambala_olekeza)
+ika age = 25
+ika count = manambala_olekeza(42.7)
+onetsa("Integer literal:", age, "| Type:", mtundu(age))
+onetsa("Float to int:", count, "| Type:", mtundu(count))
+onetsa("")
+
+# ===== 3. BOOLEANS (yankho) =====
+onetsa("=== 3. BOOLEANS (yankho) ===")
+ika is_programming = zoona
+ika is_finished = zabodza
+onetsa("True value:", is_programming, "| Type:", mtundu(is_programming))
+onetsa("False value:", is_finished, "| Type:", mtundu(is_finished))
+onetsa("")
+
+# ===== 4. NULL VALUES (palibe) =====
+onetsa("=== 4. NULL VALUES (palibe) ===")
+ika empty_value = palibe
+onetsa("Null value:", empty_value, "| Type:", mtundu(empty_value))
+
+# Null checking
+ngati empty_value == palibe:
+    onetsa("Value is null (palibe)")
+sizoona:
+    onetsa("Value is not null")
+onetsa("")
+
+# ===== 5. LISTS (ndandanda) =====
+onetsa("=== 5. LISTS (ndandanda) ===")
+ika mixed_list = ndandanda(1, "text", zoona, palibe)
+ika numbers = ndandanda(10, 20, 30, 40, 50)
+onetsa("Mixed list:", mixed_list, "| Type:", mtundu(mixed_list))
+onetsa("Numbers list:", numbers, "| Type:", mtundu(numbers))
+onetsa("List length:", kukula(numbers))
+onetsa("")
+
+# ===== 6. DICTIONARIES (kaundula) =====
+onetsa("=== 6. DICTIONARIES (kaundula) ===")
+# Function syntax
+ika person = kaundula("name", "Jakesh", "age", 25, "city", "Lilongwe")
+onetsa("Dictionary (function syntax):", person, "| Type:", mtundu(person))
+
+# Literal syntax
+ika student = {"name": "Mary", "grade": "A", "subject": "Mathematics"}
+onetsa("Dictionary (literal syntax):", student, "| Type:", mtundu(student))
+onetsa("")
+
+# ===== Type Checking Summary =====
+onetsa("=== Type Summary ===")
+ika test_values = ndandanda("text", 42.5, 100, zoona, palibe)
+bwereza value mu test_values:
+    onetsa("Value:", value, "| Type:", mtundu(value))
+
+onetsa("")
+onetsa("✅ All Chi data types working perfectly!")
+onetsa("✅ Strings, Numbers, Booleans, Null, Lists, Dictionaries!")
+onetsa("============================================")

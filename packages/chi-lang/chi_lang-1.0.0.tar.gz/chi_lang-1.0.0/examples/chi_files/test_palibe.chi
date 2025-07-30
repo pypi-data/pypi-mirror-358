@@ -1,0 +1,32 @@
+# Test script to verify palibe (null/None) functionality
+ika value1 = palibe
+ika value2 = palibe  
+ika value3 = "chakudya"
+
+# Test displaying null values
+onetsa("Testing palibe values:")
+onetsa(value1)
+onetsa(value2)
+onetsa(value3)
+
+# Test null comparisons
+onetsa("Testing null comparisons:")
+ngati value1 == palibe:
+    onetsa("value1 is palibe (correct)")
+
+ngati value2 == palibe:
+    onetsa("value2 is palibe (correct)")
+
+ngati value3 != palibe:
+    onetsa("value3 is not palibe (correct)")
+
+# Test assigning null to variables
+ika test_var = "something"
+onetsa("Before setting to palibe:", test_var)
+ika test_var = palibe
+onetsa("After setting to palibe:", test_var)
+
+# Test null in list
+ika my_list = ndandanda(1, palibe, "test", palibe, 42)
+onetsa("List with null values:", my_list)
+

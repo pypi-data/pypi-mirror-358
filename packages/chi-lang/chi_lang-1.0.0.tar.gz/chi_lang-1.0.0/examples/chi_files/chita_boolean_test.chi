@@ -1,0 +1,22 @@
+onetsa("=== Comprehensive Chi Test: chita + booleans ===")
+
+ika truth = zoona
+ika falsehood = zabodza
+
+# Boolean with chita
+ngati truth chita
+    onetsa("Boolean with chita:", truth)
+    
+# Boolean comparison with chita
+ika x = 5
+bwereza i mu ndandanda(1, 2, 3) chita
+    ika is_equal = i == 2
+    ngati is_equal chita
+        onetsa("Found equal using chita:", is_equal)
+    
+# Mixed usage
+ngati x == 5:
+    onetsa("Using colon, x is 5")
+    ngati truth chita
+        onetsa("Nested chita inside colon block")
+

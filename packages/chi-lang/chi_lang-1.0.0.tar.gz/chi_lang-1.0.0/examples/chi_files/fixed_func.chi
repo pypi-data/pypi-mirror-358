@@ -1,0 +1,27 @@
+# Fixed function examples
+
+# Simple function
+panga greet(name):
+    onetsa("Moni,", name, "!")
+
+# Function with return
+panga add(a, b):
+    bweza a + b
+
+# Mathematical function
+panga circle_area(radius):
+    bweza 3.14159 * mphamvu(radius, 2)
+
+# Fixed recursive function
+panga factorial(n):
+    ngati n wafanana 1:  # Changed from wafananitsa to wafanana (== instead of >=)
+        bweza 1
+    sizoona:
+        bweza n * factorial(n - 1)
+
+onetsa("Testing functions:")
+greet("Jakesh")
+onetsa("5 + 3 =", add(5, 3))
+onetsa("Circle area (radius=2):", circle_area(2))
+onetsa("Factorial of 5:", factorial(5))
+

@@ -1,0 +1,51 @@
+# Test type conversion functions
+onetsa("=== Testing Type Conversion Functions ===")
+
+# Test converting input to numbers
+ika text_age = funsani("Enter your age: ")
+onetsa("You entered (as text):", text_age)
+
+ika age_number = manambala_olekeza(text_age)
+onetsa("Converted to integer:", age_number)
+
+# Test math with converted number
+ika next_year = age_number + 1
+onetsa("Next year you'll be:", next_year)
+
+# Test float conversion
+ika price_text = "29.99"
+onetsa("Price as text:", price_text)
+
+ika price = manambala(price_text)
+onetsa("Price as float:", price)
+
+ika tax = price * 0.1
+onetsa("Tax (10%):", tax)
+
+# Test converting numbers back to text
+ika total = price + tax
+onetsa("Total as number:", total)
+
+ika total_text = mawu(total)
+onetsa("Total as text:", total_text)
+
+# Test with boolean conversion to string
+ika is_expensive = price > 20.0
+onetsa("Is expensive (boolean):", is_expensive)
+
+ika expensive_text = mawu(is_expensive)
+onetsa("Is expensive (as text):", expensive_text)
+
+# Test multiple conversions
+ika number_text = "42"
+ika as_int = manambala_olekeza(number_text)
+ika as_float = manambala(number_text)
+ika back_to_text = mawu(as_int)
+
+onetsa("Original text:", number_text)
+onetsa("As integer:", as_int)
+onetsa("As float:", as_float)
+onetsa("Back to text:", back_to_text)
+
+onetsa("=== Type conversions working! ===")
+

@@ -1,0 +1,62 @@
+# Comprehensive test of Chichewa list methods
+# All methods are now in Chichewa - no more English!
+
+onetsa("=== Chi Programming Language - Chichewa List Methods ===")
+
+# Create a list using ndandanda function  
+ika myfruits = ndandanda("mango", "banana", "orange")
+onetsa("Original list:", myfruits)
+
+# Test onjezera (append) - Add to end
+myfruits.onjezera("apple")
+onetsa("After onjezera('apple'):", myfruits)
+
+# Test lowetsa (insert) - Insert at specific position
+myfruits.lowetsa(0, "pineapple") 
+onetsa("After lowetsa(0, 'pineapple'):", myfruits)
+
+myfruits.lowetsa(3, "grape")
+onetsa("After lowetsa(3, 'grape'):", myfruits)
+
+# Test funafuna (index) - Find position of item
+ika banana_position = myfruits.funafuna("banana")
+onetsa("Position of 'banana' (funafuna):", banana_position)
+
+ika apple_position = myfruits.funafuna("apple")
+onetsa("Position of 'apple' (funafuna):", apple_position)
+
+# Test werengera (count) - Count occurrences
+ika apple_count = myfruits.werengera("apple")
+onetsa("Count of 'apple' (werengera):", apple_count)
+
+ika mango_count = myfruits.werengera("mango")
+onetsa("Count of 'mango' (werengera):", mango_count)
+
+# Test tulutsa (pop) - Remove and return item
+ika last_fruit = myfruits.tulutsa()
+onetsa("Removed last fruit (tulutsa):", last_fruit)
+onetsa("List after tulutsa():", myfruits)
+
+ika first_fruit = myfruits.tulutsa(0)
+onetsa("Removed first fruit (tulutsa(0)):", first_fruit)
+onetsa("List after tulutsa(0):", myfruits)
+
+# Test chotsa (remove) - Remove by value
+myfruits.chotsa("grape")
+onetsa("After chotsa('grape'):", myfruits)
+
+# Show indexing still works with negative indices
+ika last_item = myfruits[-1]
+onetsa("Last item using negative index [-1]:", last_item)
+
+ika second_last = myfruits[-2]
+onetsa("Second last item using negative index [-2]:", second_last)
+
+# Show loop iteration still works
+onetsa("\nAll remaining fruits:")
+bwereza fruit mu myfruits:
+    onetsa("- ", fruit)
+
+onetsa("\n=== All Chichewa list methods working perfectly! ===")
+onetsa("English methods removed - everything is now in Chichewa!")
+

@@ -1,0 +1,140 @@
+# Translated from Python to Chi
+# Original file: example22.py
+
+
+
+
+# Example Python file bwereza translation testing
+
+panga greet(name):
+    onetsa("Hello,", name, "!")
+
+panga calculate_area(radius):
+    ika pi = 3.14159
+    bweza pi * radius ** 2
+
+panga factorial(n):
+    ngati n == 1:
+        bweza 1
+    sizoona:
+        bweza n * factorial(n - 1)
+
+panga analyze_data(numbers):
+    ika total = phatikiza(numbers)
+    ika average = total / kukula(numbers)
+    ika maximum = chachikulu(numbers)
+    ika minimum = chachingono(numbers)
+    onetsa("Data Analysis:")
+    onetsa("  Total:", total)
+    onetsa("  Average:", average)
+    onetsa("  Maximum:", maximum)
+    onetsa("  Minimum:", minimum)
+    
+    bweza average
+
+# Test the functions
+greet("Jakesh")
+ika area = calculate_area(5)
+onetsa("Circle area:", area)
+
+ika data = ndandanda(85, 92, 78, 95, 88)
+ika avg = analyze_data(data)
+onetsa("Factorial of 5:", factorial(5))
+
+onetsa(data)
+
+# Open with mode (returns ChiFile object)
+ika f = open("output.txt", "r")  # Modes: __STRING_2__, __STRING_3__, __STRING_4__
+onetsa(f)
+# Line operations
+#bwereza i mu ndandanda(1,2,3,4) chita
+#    f.lemba_mzere(__STRING_0__+mawu(i))      # Write line
+#onetsa(f.werenga_mizere())
+ika line = f.werenga()       # Read line
+onetsa(line)
+ika mizere = f.werenga_mizere()  # Read all lines as ndandanda
+onetsa(mizere)
+# Cleanup
+f.tseka()                   # Close file
+kuyesera:
+    lemba_mu_file("missing1.txt", "read")
+    onetsa(werenga_zonse("f.txt"))
+zakanika vuto_lililonse chifukwa vuto:
+    onetsa("File error:",vuto)
+
+
+# cholera_monitor.chi
+# =============================
+# Corrected version without using eval()
+
+onetsa("=== Cholera Case Entry System ===")
+
+# Data collection (unchanged)
+ika dzina = funsani("Tchulani dzina la wodwala: ")
+ika dera = funsani("Tchulani dera la wodwala: ")
+ika zaka = manambala_olekeza(funsani("Tchulani zaka: "))
+ika chiwerengero = manambala_olekeza(funsani("Matenda angati ali naye?: "))
+
+# Create and save record (unchanged)
+ika record = kaundula("dzina", dzina, "dera", dera, "zaka", zaka, "matenda", chiwerengero)
+lemba_mu_file("zolowetsa.txt", mawu(record) + "\n")
+
+# Improved dictionary parsing function using new string methods
+panga koperani_dict(mawu_dict):
+    ika result = kaundula()
+    ika clean = mawu_dict.chotsani_mimpata()
+    ika pairs = clean.dulani(1, -1).gawani(",")  # Remove {} and split
+
+    bwereza pair mu pairs chita
+        ika key_value = pair.gawani(":")
+        ngati kukula(key_value) == 2:
+            ika key = key_value[0].chotsani_mimpata().dulani(1, -1)  # Remove quotes
+            ika value = key_value[1].chotsani_mimpata()
+            # Convert numeric values
+            ngati value.ali_nacho("."):
+                ika value = manambala(value)
+            sizoona:
+                kuyesera:
+                    ika value = manambala_olekeza(value)
+                zakanika vuto_lililonse chifukwa vuto:
+                    ika v = 0  # Keep as string
+            result.ika_pa(key, value)
+    onetsa(result)
+    bweza result
+
+# Risk analysis
+onetsa("=== Lipoti la Chiopsezo cha Cholera ===")
+
+kuyesera:
+    ika fayilo = open("zolowetsa.txt", "r")
+    ika mizere = fayilo.werenga_mizere()
+    onetsa(mizere)
+    fayilo.tseka()
+
+    ika maderawo = ndandanda()
+    ika ziwerengero = ndandanda()
+    onetsa(mizere)
+    bwereza mzere mu mizere chita
+        ngati mzere != "\n":
+            kuyesera:
+                ika parsed = koperani_dict(mzere)
+                maderawo.onjezera(parsed["dera"])
+                ziwerengero.onjezera(parsed["matenda"])
+            zakanika vuto_lililonse chifukwa vuto:
+                onetsa(vuto)
+
+    # Rest of the analysis remains the same...
+    ngati kukula(ziwerengero) > 0:
+        ika risk = pakatikati(ziwerengero)
+        onetsa("Chiopsezo cha cholera mu dera lino: ", risk)
+        ngati risk > 5:
+            onetsa("CHENJEZO: Chiopsezo chapamwamba!")
+        sizoona:
+            onetsa("Chiopsezo ndi chotsika.")
+    sizoona:
+        onetsa("Palibe data yopezeka.")
+        
+zakanika:
+    onetsa("Fayilo ya zolowetsa siyikupezeka. Pangani zolowetsa zoyamba kaye.")
+
+onetsa("=== Mapeto a Pulogalamu ===")

@@ -1,0 +1,183 @@
+# Chi Programming Language - List Operations Demo
+# Demonstrates all Chi list operations from COMPLETE_FEATURES_OVERVIEW.txt
+# Chi Programming Language 
+# Basic list operations that work
+
+onetsa("============================================")
+onetsa("        Chi Simple List Demonstration")
+onetsa("============================================")
+onetsa("")
+
+# Basic list creation and indexing
+ika fruits = ndandanda("apple", "banana", "cherry", "date")
+onetsa("Fruits list:", fruits)
+onetsa("First fruit:", fruits[0])
+onetsa("Last fruit:", fruits[-1])
+onetsa("List length:", kukula(fruits))
+onetsa("")
+
+# List iteration
+onetsa("All fruits:")
+bwereza fruit mu fruits:
+    onetsa("- ", fruit)
+onetsa("")
+
+# Basic list methods that work
+ika numbers = ndandanda(1, 2, 3)
+onetsa("Numbers before:", numbers)
+numbers.onjezera(4)
+onetsa("After onjezera(4):", numbers)
+
+# Simple list processing
+ika total = 0
+bwereza num mu numbers:
+    ika total = total + num
+onetsa("Sum of numbers:", total)
+
+onetsa("")
+onetsa("✅ Basic list operations working!")
+
+onetsa("============================================")
+onetsa("        Chi List Operations Demonstration")
+onetsa("============================================")
+onetsa("")
+
+# ===== 1. CREATING LISTS =====
+onetsa("=== 1. CREATING LISTS ===")
+ika empty_list = ndandanda()
+ika numbers = ndandanda(10, 20, 30, 40, 50)
+ika fruits = ndandanda("apple", "banana", "cherry", "date")
+ika mixed = ndandanda(1, "text", zoona, palibe)
+
+onetsa("Empty list:", empty_list, "| Length:", kukula(empty_list))
+onetsa("Numbers:", numbers, "| Length:", kukula(numbers))
+onetsa("Fruits:", fruits, "| Length:", kukula(fruits))
+onetsa("Mixed types:", mixed, "| Length:", kukula(mixed))
+onetsa("")
+
+# ===== 2. LIST INDEXING =====
+onetsa("=== 2. LIST INDEXING ===")
+onetsa("Fruits list:", fruits)
+onetsa("First fruit (index 0):", fruits[0])
+onetsa("Second fruit (index 1):", fruits[1])
+onetsa("Last fruit (index -1):", fruits[-1])
+onetsa("Second to last (index -2):", fruits[-2])
+onetsa("")
+
+# ===== 3. CHICHEWA LIST METHODS =====
+onetsa("=== 3. CHICHEWA LIST METHODS ===")
+
+# onjezera (append)
+ika my_list = ndandanda("one", "two")
+onetsa("Original list:", my_list)
+my_list.onjezera("three")
+onetsa("After onjezera('three'):", my_list)
+
+# lowetsa (insert)
+my_list.lowetsa(1, "inserted")
+onetsa("After lowetsa(1, 'inserted'):", my_list)
+
+# werengera (count)
+ika count_list = ndandanda("a", "b", "a", "c", "a")
+ika count_a = count_list.werengera("a")
+onetsa("List:", count_list)
+onetsa("Count of 'a' (werengera):", count_a)
+
+# funafuna (find index)
+ika search_list = ndandanda("red", "green", "blue", "yellow")
+ika blue_index = search_list.funafuna("blue")
+onetsa("List:", search_list)
+onetsa("Index of 'blue' (funafuna):", blue_index)
+
+# chotsa (remove)
+search_list.chotsa("green")
+onetsa("After chotsa('green'):", search_list)
+
+# tulutsa (pop)
+ika popped = search_list.tulutsa()
+onetsa("Popped item (tulutsa):", popped)
+onetsa("List after pop:", search_list)
+
+# tulutsa with index
+ika popped_at_index = search_list.tulutsa(0)
+onetsa("Popped at index 0:", popped_at_index)
+onetsa("List after pop(0):", search_list)
+onetsa("")
+
+# ===== 4. LIST ITERATION =====
+onetsa("=== 4. LIST ITERATION ===")
+ika colors = ndandanda("red", "green", "blue", "yellow", "purple")
+onetsa("Iterating through colors:")
+bwereza color mu colors:
+    onetsa("- Color:", color)
+onetsa("")
+
+# ===== 5. LIST PROCESSING EXAMPLES =====
+onetsa("=== 5. LIST PROCESSING EXAMPLES ===")
+
+# Sum of numbers
+ika number_list = ndandanda(5, 10, 15, 20, 25)
+ika total = 0
+onetsa("Numbers:", number_list)
+bwereza num mu number_list:
+    ika total = total + num
+onetsa("Sum of all numbers:", total)
+
+# Finding maximum in list
+ika scores = ndandanda(85, 92, 78, 96, 88)
+ika max_score = 0
+onetsa("Scores:", scores)
+bwereza score mu scores:
+    ngati score wapambana max_score:
+        ika max_score = score
+onetsa("Highest score:", max_score)
+
+# Filtering even numbers
+ika all_numbers = ndandanda(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+ika even_numbers = ndandanda()
+onetsa("All numbers:", all_numbers)
+bwereza num mu all_numbers:
+    ngati num % 2 wafanana 0:
+        even_numbers.onjezera(num)
+onetsa("Even numbers:", even_numbers)
+onetsa("")
+
+# ===== 6. PRACTICAL LIST USAGE =====
+onetsa("=== 6. PRACTICAL LIST USAGE ===")
+
+# Shopping list management
+ika shopping_list = ndandanda("bread", "milk", "eggs")
+onetsa("Initial shopping list:", shopping_list)
+
+# Add items
+shopping_list.onjezera("cheese")
+shopping_list.onjezera("butter")
+onetsa("After adding items:", shopping_list)
+
+# Check if item exists (using loop since ali_nacho is for dictionaries only)
+ika has_milk = zabodza
+bwereza item mu shopping_list:
+    ngati item wafanana "milk":
+        ika has_milk = zoona
+        leka
+onetsa("Has milk in list:", has_milk)
+
+# Remove completed items
+shopping_list.chotsa("bread")
+onetsa("After buying bread:", shopping_list)
+
+# Student grades management
+ika student_names = ndandanda("Alice", "Bob", "Charlie", "Diana")
+ika student_grades = ndandanda(85, 92, 78, 88)
+onetsa("")
+onetsa("Student Grade Report:")
+ika i = 0
+bwereza name mu student_names:
+    ika grade = student_grades[i]
+    onetsa("Student:", name, "| Grade:", grade)
+    ika i = i + 1
+
+onetsa("")
+onetsa("✅ All Chi list operations working perfectly!")
+onetsa("✅ Creation, indexing, methods, iteration, processing!")
+onetsa("============================================")

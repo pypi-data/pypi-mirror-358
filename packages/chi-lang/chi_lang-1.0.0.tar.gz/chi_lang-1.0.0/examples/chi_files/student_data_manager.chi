@@ -1,0 +1,85 @@
+# Student Data Management System using File Operations
+
+onetsa("=== Student Data Management System ===")
+
+# Create student data
+ika students = ndandanda({"name": "Chisomo", "age": 20, "grade": 85},{"name": "Mphatso", "age": 19, "grade": 92},{"name": "Thandiwe", "age": 21, "grade": 78})
+
+# Function to save student data to file
+panga save_students(student_list, filename):
+    ika file = tsegula(filename, "lemba")
+    file.lemba_mzere("Student Data Report")
+    file.lemba_mzere("=====================")
+    file.lemba_mzere("")
+    
+    bwereza student mu student_list:
+        ika line = "Name: " + student["name"] + ", Age: " + mawu(student["age"]) + ", Grade: " + mawu(student["grade"])
+        file.lemba_mzere(line)
+    
+    file.lemba_mzere("")
+    file.lemba_mzere("Total students: " + mawu(kukula(student_list)))
+    file.tseka()
+    bweza zoona
+
+# Function to load and display student data
+panga load_and_display_students(filename):
+    ngati pezani_file(filename):
+        onetsa("Loading student data from file...")
+        ika content = werenga_zonse(filename)
+        onetsa(content)
+        bweza zoona
+    sizoona:
+        onetsa("File not found!")
+        bweza zabodza
+
+# Function to add student to existing file
+panga add_student_to_file(filename, name, age, grade):
+    ika file = tsegula(filename, "wonjezera")
+    ika new_student = "Name: " + name + ", Age: " + mawu(age) + ", Grade: " + mawu(grade)
+    file.lemba_mzere(new_student)
+    file.tseka()
+    bweza zoona
+
+# Save initial student data
+onetsa("Saving initial student data...")
+save_students(students, "students.txt")
+
+# Load and display the data
+onetsa("\nDisplaying saved student data:")
+load_and_display_students("students.txt")
+
+# Add a new student
+onetsa("\nAdding new student...")
+add_student_to_file("students.txt", "Kondwani", 22, 88)
+
+# Display updated data
+onetsa("\nDisplaying updated student data:")
+load_and_display_students("students.txt")
+
+# Create a summary report
+onetsa("\nCreating summary report...")
+ika report_file = tsegula("student_summary.txt", "lemba")
+report_file.lemba_mzere("STUDENT PERFORMANCE SUMMARY")
+report_file.lemba_mzere("=============================")
+report_file.lemba_mzere("")
+
+# Calculate statistics (using file data simulation)
+ika all_grades = ndandanda(85, 92, 78, 88)
+ika average_grade = pakatikati(all_grades)
+ika highest_grade = chachikulu(all_grades)
+ika lowest_grade = chachingono(all_grades)
+
+report_file.lemba_mzere("Average Grade: " + mawu(zungulira(average_grade, 2)))
+report_file.lemba_mzere("Highest Grade: " + mawu(highest_grade))
+report_file.lemba_mzere("Lowest Grade: " + mawu(lowest_grade))
+report_file.lemba_mzere("Total Students: 4")
+
+report_file.tseka()
+
+onetsa("Summary report created!")
+onetsa("\nSummary report content:")
+ika summary = werenga_zonse("student_summary.txt")
+onetsa(summary)
+
+onetsa("\n=== Student Data Management Complete! ===")
+

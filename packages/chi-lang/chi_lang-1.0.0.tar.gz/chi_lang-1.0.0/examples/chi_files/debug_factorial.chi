@@ -1,0 +1,25 @@
+# Debug factorial function
+
+onetsa("Testing factorial function step by step")
+
+panga factorial(n):
+    onetsa("Called factorial with n =", n)
+    onetsa("Checking if", n, "wafananitsa 1:")
+    ngati n wafananitsa 1:
+        onetsa("n is less than or equal to 1, returning 1")
+        bweza 1
+    sizoona:
+        onetsa("n is greater than 1, calculating n * factorial(n-1)")
+        ika next_val = n - 1
+        onetsa("Calling factorial with", next_val)
+        ika recursive_result = factorial(next_val)
+        ika final_result = n * recursive_result
+        onetsa("Result:", n, "*", recursive_result, "=", final_result)
+        bweza final_result
+
+onetsa("Testing factorial(3):")
+onetsa(factorial(3))
+onetsa("")
+onetsa("Testing factorial(5):")
+onetsa(factorial(5))
+

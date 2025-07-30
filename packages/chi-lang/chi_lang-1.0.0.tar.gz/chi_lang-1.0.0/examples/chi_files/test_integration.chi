@@ -1,0 +1,28 @@
+onetsa("=== Integration Test: ndandanda + Indexing + Chi Features ===")
+
+ika numbers = ndandanda(5, 10, 15, 20, 25)
+onetsa("Numbers:", numbers)
+
+ika target = 15
+ika found = zabodza
+
+bwereza num mu numbers:
+    ngati num == target:
+        ika found = zoona
+
+ngati found:
+    onetsa("Found", target, "in the list!")
+    onetsa("It's at position 2:", numbers[2])
+sizoona:
+    onetsa("Not found")
+
+ika sum = numbers[0] + numbers[-1]
+onetsa("First + Last =", sum)
+
+ngati numbers[1] > numbers[0]:
+    onetsa("Second element is greater than first")
+
+ika conditional_list = ndandanda("small", "medium", "large")
+ika size_index = 1
+onetsa("Selected size:", conditional_list[size_index])
+

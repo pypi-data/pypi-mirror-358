@@ -1,0 +1,13 @@
+include README.md
+include LICENSE
+include pyproject.toml
+recursive-include chi *.py
+recursive-include chi/docs *.md *.txt
+recursive-include examples *.chi *.md
+recursive-include examples/chi_files *.chi
+graft examples
+global-exclude *.pyc
+global-exclude */__pycache__/*
+global-exclude */temp_trash/*
+global-exclude */build/*
+global-exclude */.git/*

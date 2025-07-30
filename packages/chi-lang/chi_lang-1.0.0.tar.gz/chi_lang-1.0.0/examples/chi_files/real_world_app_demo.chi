@@ -1,0 +1,300 @@
+# Chi Programming Language - Real World Application Demo
+# Student Grade Management System - Complete application example
+
+onetsa("============================================")
+onetsa("   Chi Student Grade Management System")
+onetsa("============================================")
+onetsa("")
+
+# ===== 1. INITIALIZE DATA STRUCTURES =====
+onetsa("=== 1. INITIALIZING SYSTEM ===")
+
+# Students database using dictionary
+ika students = kaundula()
+
+# Grade categories and weights
+ika grade_weights = kaundula("homework", 0.3, "quizzes", 0.2, "midterm", 0.2, "final", 0.3)
+
+# Grade scale
+ika grade_scale = kaundula("A", 90, "B", 80, "C", 70, "D", 60, "F", 0)
+
+onetsa("✅ Grade management system initialized")
+onetsa("Grade weights:", grade_weights)
+onetsa("")
+
+# ===== 2. STUDENT REGISTRATION FUNCTION =====
+onetsa("=== 2. STUDENT REGISTRATION ===")
+
+panga register_student(student_id, name, email):
+    ika student_data = kaundula("name", name, "email", email, "grades", kaundula("homework", ndandanda(), "quizzes", ndandanda(), "midterm", palibe, "final", palibe), "final_grade", palibe)
+    students.ika_pa(student_id, student_data)
+    bweza student_data
+
+# Register some students
+ika student1 = register_student("S001", "Alice Banda", "alice@chi.edu")
+ika student2 = register_student("S002", "Bob Phiri", "bob@chi.edu")
+ika student3 = register_student("S003", "Carol Mwanza", "carol@chi.edu")
+
+onetsa("Registered students:")
+bwereza student_id mu students.makiyi():
+    ika student = students.peza(student_id)
+    onetsa("-", student_id, ":", student.peza("name"))
+
+onetsa("")
+
+# ===== 3. GRADE ENTRY FUNCTIONS =====
+onetsa("=== 3. GRADE ENTRY ===")
+
+panga add_homework_grade(student_id, grade):
+    kuyesera:
+        ika student = students.peza(student_id)
+        ika homework_grades = student.peza("grades").peza("homework")
+        homework_grades.onjezera(grade)
+        onetsa("✅ Added homework grade", grade, "for", student.peza("name"))
+        bweza zoona
+    zakanika chifukwa error:
+        onetsa("❌ Error adding grade:", error)
+        bweza zabodza
+
+panga add_quiz_grade(student_id, grade):
+    kuyesera:
+        ika student = students.peza(student_id)
+        ika quiz_grades = student.peza("grades").peza("quizzes")
+        quiz_grades.onjezera(grade)
+        onetsa("✅ Added quiz grade", grade, "for", student.peza("name"))
+        bweza zoona
+    zakanika chifukwa error:
+        onetsa("❌ Error adding quiz grade:", error)
+        bweza zabodza
+
+panga set_exam_grade(student_id, exam_type, grade):
+    kuyesera:
+        ika student = students.peza(student_id)
+        student.peza("grades").ika_pa(exam_type, grade)
+        onetsa("✅ Set", exam_type, "grade", grade, "for", student.peza("name"))
+        bweza zoona
+    zakanika chifukwa error:
+        onetsa("❌ Error setting exam grade:", error)
+        bweza zabodza
+
+# Add sample grades
+add_homework_grade("S001", 95)
+add_homework_grade("S001", 87)
+add_homework_grade("S001", 92)
+
+add_quiz_grade("S001", 88)
+add_quiz_grade("S001", 91)
+
+set_exam_grade("S001", "midterm", 85)
+set_exam_grade("S001", "final", 89)
+
+# Add grades for other students
+add_homework_grade("S002", 78)
+add_homework_grade("S002", 82)
+add_quiz_grade("S002", 80)
+set_exam_grade("S002", "midterm", 77)
+set_exam_grade("S002", "final", 81)
+
+onetsa("")
+
+# ===== 4. GRADE CALCULATION FUNCTIONS =====
+onetsa("=== 4. GRADE CALCULATIONS ===")
+
+panga calculate_average(grades):
+    ngati kukula(grades) == 0:
+        bweza 0
+    ika total = 0
+    bwereza grade mu grades:
+        ika total = total + grade
+    bweza total / kukula(grades)
+
+panga calculate_final_grade(student_id):
+    kuyesera:
+        ika student = students.peza(student_id)
+        ika grades = student.peza("grades")
+        
+        # Calculate component averages
+        ika homework_avg = calculate_average(grades.peza("homework"))
+        ika quiz_avg = calculate_average(grades.peza("quizzes"))
+        ika midterm_grade = grades.peza_kapena("midterm", 0)
+        ika final_grade = grades.peza_kapena("final", 0)
+        
+        # Calculate weighted final grade
+        ika weighted_grade = homework_avg * grade_weights.peza("homework") + quiz_avg * grade_weights.peza("quizzes") + midterm_grade * grade_weights.peza("midterm") + final_grade * grade_weights.peza("final")
+        
+        # Store final grade
+        student.ika_pa("final_grade", weighted_grade)
+        
+        bweza weighted_grade
+    zakanika chifukwa error:
+        onetsa("❌ Error calculating final grade:", error)
+        bweza 0
+
+panga get_letter_grade(numeric_grade):
+    ngati numeric_grade wafananitsa grade_scale.peza("A"):
+        bweza "A"
+    kapena_ngati numeric_grade wafananitsa grade_scale.peza("B"):
+        bweza "B"
+    kapena_ngati numeric_grade wafananitsa grade_scale.peza("C"):
+        bweza "C"
+    kapena_ngati numeric_grade wafananitsa grade_scale.peza("D"):
+        bweza "D"
+    sizoona:
+        bweza "F"
+
+# Calculate final grades for all students
+onetsa("Calculating final grades...")
+bwereza student_id mu students.makiyi():
+    ika final_grade = calculate_final_grade(student_id)
+    ika letter_grade = get_letter_grade(final_grade)
+    ika student = students.peza(student_id)
+    onetsa("-", student.peza("name"), ":", zungulira(final_grade, 2), "(", letter_grade, ")")
+
+onetsa("")
+
+# ===== 5. REPORTING FUNCTIONS =====
+onetsa("=== 5. STUDENT REPORTS ===")
+
+panga generate_student_report(student_id):
+    kuyesera:
+        ika student = students.peza(student_id)
+        ika grades = student.peza("grades")
+        
+        onetsa("📊 STUDENT REPORT")
+        onetsa("Name:", student.peza("name"))
+        onetsa("Email:", student.peza("email"))
+        onetsa("Student ID:", student_id)
+        onetsa("")
+        
+        onetsa("📝 GRADE BREAKDOWN:")
+        
+        # Homework grades
+        ika homework_grades = grades.peza("homework")
+        ngati kukula(homework_grades) wapambana 0:
+            ika hw_avg = calculate_average(homework_grades)
+            onetsa("Homework Average:", zungulira(hw_avg, 2), "(" + mawu(kukula(homework_grades)) + " assignments)")
+        sizoona:
+            onetsa("Homework: No grades entered")
+        
+        # Quiz grades
+        ika quiz_grades = grades.peza("quizzes")
+        ngati kukula(quiz_grades) wapambana 0:
+            ika quiz_avg = calculate_average(quiz_grades)
+            onetsa("Quiz Average:", zungulira(quiz_avg, 2), "(" + mawu(kukula(quiz_grades)) + " quizzes)")
+        sizoona:
+            onetsa("Quizzes: No grades entered")
+        
+        # Exam grades
+        ika midterm = grades.peza_kapena("midterm", palibe)
+        ngati midterm != palibe:
+            onetsa("Midterm Exam:", midterm)
+        sizoona:
+            onetsa("Midterm Exam: Not taken")
+            
+        ika final_exam = grades.peza_kapena("final", palibe)
+        ngati final_exam != palibe:
+            onetsa("Final Exam:", final_exam)
+        sizoona:
+            onetsa("Final Exam: Not taken")
+        
+        # Final grade
+        ika final_grade = student.peza_kapena("final_grade", palibe)
+        ngati final_grade != palibe:
+            ika letter = get_letter_grade(final_grade)
+            onetsa("")
+            onetsa("🎯 FINAL GRADE:", zungulira(final_grade, 2), "(", letter, ")")
+        sizoona:
+            onetsa("")
+            onetsa("🎯 FINAL GRADE: Not calculated")
+        
+        onetsa("=" * 40)
+        bweza zoona
+        
+    zakanika chifukwa error:
+        onetsa("❌ Error generating report:", error)
+        bweza zabodza
+
+# Generate reports for all students
+bwereza student_id mu students.makiyi():
+    generate_student_report(student_id)
+    onetsa("")
+
+# ===== 6. CLASS STATISTICS =====
+onetsa("=== 6. CLASS STATISTICS ===")
+
+panga generate_class_statistics():
+    ika all_grades = ndandanda()
+    ika grade_distribution = kaundula("A", 0, "B", 0, "C", 0, "D", 0, "F", 0)
+    
+    bwereza student_id mu students.makiyi():
+        ika student = students.peza(student_id)
+        ika final_grade = student.peza_kapena("final_grade", palibe)
+        
+        ngati final_grade != palibe:
+            all_grades.onjezera(final_grade)
+            ika letter = get_letter_grade(final_grade)
+            ika current_count = grade_distribution.peza(letter)
+            grade_distribution.ika_pa(letter, current_count + 1)
+    
+    ngati kukula(all_grades) wapambana 0:
+        ika class_average = calculate_average(all_grades)
+        ika highest_grade = chachikulu(all_grades)
+        ika lowest_grade = chachingono(all_grades)
+        
+        onetsa("📈 CLASS STATISTICS")
+        onetsa("Total Students:", kukula(students.makiyi()))
+        onetsa("Students with Grades:", kukula(all_grades))
+        onetsa("Class Average:", zungulira(class_average, 2))
+        onetsa("Highest Grade:", zungulira(highest_grade, 2))
+        onetsa("Lowest Grade:", zungulira(lowest_grade, 2))
+        onetsa("")
+        onetsa("📊 GRADE DISTRIBUTION:")
+        
+        bwereza letter mu ndandanda("A", "B", "C", "D", "F"):
+            ika count = grade_distribution.peza(letter)
+            onetsa("-", letter, ":", count, "students")
+    sizoona:
+        onetsa("No final grades calculated yet.")
+
+generate_class_statistics()
+
+onetsa("")
+
+# ===== 7. DATA PERSISTENCE =====
+onetsa("=== 7. DATA EXPORT ===")
+
+panga export_grades_to_file():
+    kuyesera:
+        ika export_content = "Chi Grade Management System Export\n"
+        ika export_content = export_content + "Generated on: " + mawu(pakatikati(1, 2, 3)) + "\n\n"
+        
+        bwereza student_id mu students.makiyi():
+            ika student = students.peza(student_id)
+            ika final_grade = student.peza_kapena("final_grade", 0)
+            ika letter_grade = get_letter_grade(final_grade)
+            
+            ika student_line = student_id + "," + student.peza("name") + "," + student.peza("email") + "," + mawu(zungulira(final_grade, 2)) + "," + letter_grade + "\n"
+            ika export_content = export_content + student_line
+        
+        lemba_mu_file("grade_export.csv", export_content)
+        onetsa("✅ Grades exported to grade_export.csv")
+        bweza zoona
+        
+    zakanika chifukwa error:
+        onetsa("❌ Error exporting grades:", error)
+        bweza zabodza
+
+export_grades_to_file()
+
+onetsa("")
+onetsa("============================================")
+onetsa("✅ Student Grade Management System Demo Complete!")
+onetsa("Features demonstrated:")
+onetsa("- Data structures (dictionaries, lists)")
+onetsa("- Functions with parameters and return values")
+onetsa("- Exception handling")
+onetsa("- File operations")
+onetsa("- Mathematical calculations")
+onetsa("- Control structures")
+onetsa("- Real-world application architecture")
+onetsa("============================================")

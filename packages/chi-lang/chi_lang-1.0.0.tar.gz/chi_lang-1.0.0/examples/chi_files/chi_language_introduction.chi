@@ -1,0 +1,189 @@
+# ===================================================================
+# CHI PROGRAMMING LANGUAGE - Complete Introduction Guide
+# ===================================================================
+# Chi is a Chichewa-inspired programming language with intuitive syntax
+# Run this file with: ./chi examples/chi_language_introduction.chi
+# ===================================================================
+
+onetsa("🔥 Welcome to Chi Programming Language! 🔥")
+onetsa("")
+
+# ===================================================================
+# 1. VARIABLES & DATA TYPES
+# ===================================================================
+onetsa("=== 1. Variables & Data Types ===")
+
+# Variable declaration using 'ika'
+ika name = "Jakesh"
+ika age = 25
+ika height = 5.8
+ika is_student = zoona  # true
+ika is_working = zabodza  # false
+
+onetsa("Variables created:")
+onetsa("Name:", name)
+onetsa("Age:", age)
+onetsa("Height:", height)
+onetsa("Is student:", is_student)
+onetsa("Is working:", is_working)
+onetsa("")
+
+# ===================================================================
+# 2. CHICHEWA COMPARISON OPERATORS
+# ===================================================================
+onetsa("=== 2. Chichewa Comparison Operators ===")
+
+ika x = 10
+ika y = 20
+
+# Equality operators
+ika equal_test = x wafanana 10      # wafanana = equals (==)
+ika not_equal_test = x wasiyana y    # wasiyana = not equal (!=)
+
+# Comparison operators
+ika less_test = x wachepa y          # wachepa = less than (<)
+ika greater_test = y wapambana x     # wapambana = greater than (>)
+ika less_equal_test = x wachepetsedwa 10    # wachepetsedwa = less than or equal (<=)
+ika greater_equal_test = y wafananitsa 20   # wafananitsa = greater than or equal (>=)
+
+onetsa("x wafanana 10:", equal_test)
+onetsa("x wasiyana y:", not_equal_test)
+onetsa("x wachepa y:", less_test)
+onetsa("y wapambana x:", greater_test)
+onetsa("x wachepetsedwa 10:", less_equal_test)
+onetsa("y wafananitsa 20:", greater_equal_test)
+onetsa("")
+
+# ===================================================================
+# 3. CHICHEWA LOGICAL OPERATORS
+# ===================================================================
+onetsa("=== 3. Chichewa Logical Operators ===")
+
+ika truth = zoona
+ika falsehood = zabodza
+
+# Logical operators
+ika and_result = truth komanso truth      # komanso = and
+ika or_result = truth kapena falsehood    # kapena = or
+ika not_result = osati falsehood          # osati = not
+
+onetsa("truth komanso truth:", and_result)
+onetsa("truth kapena falsehood:", or_result)
+onetsa("osati falsehood:", not_result)
+onetsa("")
+
+# ===================================================================
+# 4. CONDITIONAL STATEMENTS (IF-ELIF-ELSE)
+# ===================================================================
+onetsa("=== 4. Conditional Statements ===")
+
+ika score = 85
+
+# Full if-elif-else chain using Chichewa keywords
+ngati score wafananitsa 90 chita
+    onetsa("Grade: A+ (Excellent!)")
+kapena_ngati score wafananitsa 80 chita
+    onetsa("Grade: A (Very Good!)")
+kapena_ngati score wafananitsa 70 chita
+    onetsa("Grade: B (Good)")
+kapena_ngati score wafananitsa 60 chita
+    onetsa("Grade: C (Average)")
+sizoona chita
+    onetsa("Grade: F (Need Improvement)")
+
+# Complex conditions
+ika temperature = 25
+ika is_sunny = zoona
+
+ngati temperature wapambana 20 komanso is_sunny chita
+    onetsa("Perfect weather for going outside!")
+sizoona chita
+    onetsa("Maybe stay indoors today.")
+
+onetsa("")
+
+# ===================================================================
+# 5. LOOPS
+# ===================================================================
+onetsa("=== 5. Loops ===")
+
+# While loop using 'yesani'
+onetsa("While loop counting:")
+ika counter = 1
+yesani counter wachepetsedwa 3 chita
+    onetsa("Count:", counter)
+    ika counter = counter + 1
+
+# For loop using 'bwereza' and 'mu'
+onetsa("For loop with list:")
+ika numbers = ndandanda(1, 2, 3, 4, 5)
+bwereza num mu numbers chita
+    ika squared = num * num
+    onetsa("Square of", num, "is", squared)
+
+onetsa("")
+
+# ===================================================================
+# 6. DATA STRUCTURES
+# ===================================================================
+onetsa("=== 6. Data Structures ===")
+
+# Lists using ndandanda
+ika fruits = ndandanda("apple", "banana", "orange")
+ika mixed_list = ndandanda(1, "hello", zoona, 3.14)
+
+onetsa("Fruits list:")
+bwereza fruit mu fruits chita
+    onetsa("- ", fruit)
+
+onetsa("Mixed data types:")
+bwereza item mu mixed_list chita
+    onetsa("Item:", item)
+
+onetsa("")
+
+# ===================================================================
+# 7. COMPLEX EXAMPLES
+# ===================================================================
+onetsa("=== 7. Complex Examples ===")
+
+# Age categorization with complex logic
+ika person_age = 25
+ika has_license = zoona
+ika has_experience = zabodza
+
+ngati person_age wafananitsa 18 komanso has_license chita
+    ngati person_age wachepa 25 komanso osati has_experience chita
+        onetsa("Young driver - be careful!")
+    kapena_ngati person_age wafananitsa 25 komanso person_age wachepa 65 chita
+        onetsa("Experienced adult driver")
+    sizoona chita
+        onetsa("Senior driver")
+sizoona chita
+    onetsa("Cannot drive - need license or minimum age")
+
+# Grade calculator
+onetsa("\nGrade Calculator:")
+ika subjects = ndandanda(85, 92, 78, 88, 95)
+ika total = 0
+ika count = 0
+
+bwereza grade mu subjects chita
+    ika total = total + grade
+    ika count = count + 1
+
+ika average = total / count
+onetsa("Average grade:", average)
+
+ngati average wafananitsa 90 chita
+    onetsa("Outstanding performance!")
+kapena_ngati average wafananitsa 80 chita
+    onetsa("Great job!")
+kapena_ngati average wafananitsa 70 chita
+    onetsa("Good work!")
+sizoona chita
+    onetsa("Keep practicing!")
+
+onetsa("")
+onetsa("🎉 End of Chi Language Introduction! 🎉")
+

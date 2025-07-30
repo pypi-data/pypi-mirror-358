@@ -1,0 +1,92 @@
+# ==========================
+# CHICHEWA ACCOUNTING LEDGER
+# ==========================
+
+onetsa("=== LEDGER SYSTEM (MAWERENGEDWE A NDALAMA) ===")
+
+# Zosunga ndalama
+ika ledger = ndandanda()
+
+# === ADD ENTRY ===
+panga onjezani_zolemba():
+    ika mtundu = funsani("Lowetsani mtundu (income/expense): ")
+    ika dzina = funsani("Dzina la ndalama izi: ")
+    ika kuchuluka = manambala(funsani("Kuchuluka kwa ndalama: "))
+
+    ika zolemba = kaundula("mtundu", mtundu, "dzina", dzina, "kuchuluka", kuchuluka)
+    ledger.onjezera(zolemba)
+    onetsa("Zolemba zawonjezedwa bwino.")
+
+# === SHOW SUMMARY ===
+panga onetsani_zonse():
+    onetsa("== ZOLEMBEDWA ZONSE ==")
+    bwereza zolemba mu ledger:
+        onetsa("- ", zolemba.peza("mtundu"), ":", zolemba.peza("dzina"), " - ", zolemba.peza("kuchuluka"))
+        onetsa(70)
+    onetsa(80)
+    ika total_in = 0
+    ika total_out = 0
+    onetsa(100000000000)
+    bwereza zolemba mu ledger:
+        ngati zolemba.peza("mtundu") wafanana "income":
+            ika total_in = total_in + manambala(zolemba.peza("kuchuluka"))
+        ngati zolemba.peza("mtundu") wafanana "expense":
+            ika total_out = total_out + manambala(zolemba.peza("kuchuluka"))
+    onetsa(200000000)
+    ika balance = total_in - total_out
+    onetsa("Total Income: ", total_in)
+    onetsa("Total Expense: ", total_out)
+    onetsa("BALANCE: ", balance)
+
+# === SAVE TO FILE ===
+panga sungani_mufayilo():
+    onetsa("File save functionality is disabled for this demo.")
+
+# === LOAD FROM FILE ===
+panga werengani_fayilo():
+    onetsa("File load functionality is disabled for this demo.")
+
+# === MENU LOOP ===
+panga menu():
+    yesani zoona:
+        onetsa("\n1. Onjezani zolemba")
+        onetsa("2. Onetsani zonse")
+        onetsa("3. Sungani mu fayilo")
+        onetsa("4. Werengani kuchokera mu fayilo")
+        onetsa("5. Tulukani\n")
+
+        ika chisankho = funsani("Sankhani 1-5: ")
+
+        ngati chisankho wafanana "1":
+            onjezani_zolemba()
+        kapena_ngati chisankho wafanana "2":
+            onetsani_zonse()
+        kapena_ngati chisankho wafanana "3":
+            sungani_mufayilo()
+        kapena_ngati chisankho wafanana "4":
+            werengani_fayilo()
+        kapena_ngati chisankho wafanana "5":
+            onetsa("Tikutulukani... Zikomo!")
+            leka
+        sizoona:
+            onetsa("Sankhani yolakwika.")
+
+# Show initial state
+
+onetsani_zonse()
+
+# Add some test data
+ika test_entry1 = kaundula("mtundu", "income", "dzina", "Salary", "kuchuluka", 5000)
+ledger.onjezera(test_entry1)
+
+ika test_entry2 = kaundula("mtundu", "expense", "dzina", "Rent", "kuchuluka", 1200)
+ledger.onjezera(test_entry2)
+
+onetsa("\n=== After adding test data ===")
+onetsani_zonse()
+yesani zoona:
+    menu()
+    onetsani_zonse()
+    leka
+
+onetsa("\n=== Business.chi is working successfully! ===")

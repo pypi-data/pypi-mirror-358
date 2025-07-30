@@ -1,0 +1,101 @@
+# Chi Programming Language - Simple Calculator
+# A practical example demonstrating various Chi features
+
+onetsa("============================================")
+onetsa("        Chi Simple Calculator")
+onetsa("============================================")
+onetsa("")
+
+# Get user input
+onetsa("=== Chi Calculator Demo ===")
+ika num1_text = funsani("Enter first number: ")
+ika num2_text = funsani("Enter second number: ")
+
+# Convert to numbers
+ika num1 = manambala(num1_text)
+ika num2 = manambala(num2_text)
+
+onetsa("")
+onetsa("Numbers entered:")
+onetsa("First number:", num1)
+onetsa("Second number:", num2)
+onetsa("")
+
+# ===== Basic Operations =====
+onetsa("=== Basic Operations ===")
+ika sum = num1 + num2
+ika difference = num1 - num2
+ika product = num1 * num2
+ika quotient = num1 / num2
+
+onetsa("Addition:", num1, "+", num2, "=", sum)
+onetsa("Subtraction:", num1, "-", num2, "=", difference)
+onetsa("Multiplication:", num1, "*", num2, "=", product)
+onetsa("Division:", num1, "/", num2, "=", quotient)
+onetsa("")
+
+# ===== Advanced Operations =====
+onetsa("=== Advanced Operations ===")
+ika power = mphamvu(num1, num2)
+ika sqrt1 = muzu(chopanda(num1))
+ika sqrt2 = muzu(chopanda(num2))
+
+onetsa("Power:", num1, "^", num2, "=", power)
+onetsa("Square root of", chopanda(num1), "=", sqrt1)
+onetsa("Square root of", chopanda(num2), "=", sqrt2)
+onetsa("")
+
+# ===== Statistical Operations =====
+onetsa("=== Statistical Operations ===")
+ika numbers = ndandanda(num1, num2)
+ika maximum = chachikulu(num1, num2)
+ika minimum = chachingono(num1, num2)
+ika average = pakatikati(num1, num2)
+
+onetsa("Maximum:", maximum)
+onetsa("Minimum:", minimum)
+onetsa("Average:", average)
+onetsa("")
+
+# ===== Comparison Operations =====
+onetsa("=== Comparison Results ===")
+ngati num1 wapambana num2:
+    onetsa(num1, "is greater than", num2)
+kapena_ngati num1 wachepa num2:
+    onetsa(num1, "is less than", num2)
+sizoona:
+    onetsa(num1, "is equal to", num2)
+
+ngati num1 wafanana manambala_olekeza(num1):
+    onetsa(num1, "is a whole number")
+sizoona:
+    onetsa(num1, "has decimal places")
+
+ngati num2 wafanana manambala_olekeza(num2):
+    onetsa(num2, "is a whole number")
+sizoona:
+    onetsa(num2, "has decimal places")
+
+onetsa("")
+
+# ===== Results Summary =====
+onetsa("=== Results Summary ===")
+ika results = ndandanda(sum, difference, product, quotient, power, average)
+onetsa("All results:", results)
+onetsa("Number of operations performed:", kukula(results))
+
+# Check for special cases
+ngati num2 wafanana 0:
+    onetsa("Warning: Division by zero attempted!")
+
+ngati num1 wachepa 0:
+    onetsa("Note: First number is negative")
+
+ngati num2 wachepa 0:
+    onetsa("Note: Second number is negative")
+
+onetsa("")
+onetsa("============================================")
+onetsa("✅ Calculator completed successfully!")
+onetsa("✅ All Chi features demonstrated!")
+onetsa("============================================")

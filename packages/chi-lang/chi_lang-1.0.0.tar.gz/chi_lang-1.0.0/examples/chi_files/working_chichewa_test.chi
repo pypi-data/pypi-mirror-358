@@ -1,0 +1,61 @@
+onetsa("=== Complete Chichewa Operators Test ===")
+
+# Test basic variables
+ika x = 5
+ika y = 10
+ika truth = zoona
+ika falsehood = zabodza
+
+# Test comparison operators
+ika result1 = x wafanana 5
+ika result2 = x wasiyana y
+ika result3 = x wachepa y
+ika result4 = y wapambana x
+ika result5 = x wachepetsedwa 5
+ika result6 = y wafananitsa 10
+
+onetsa("Comparison operators work!")
+
+# Test logical operators
+ika and_result = truth komanso truth
+ika or_result = truth kapena falsehood
+ika not_result = osati falsehood
+
+onetsa("Logical operators work!")
+
+# Test if-elif-else with kapena_ngati
+ika score = 85
+
+ngati score wafananitsa 90 chita
+    onetsa("Grade: A (Excellent!)")
+kapena_ngati score wafananitsa 80 chita
+    onetsa("Grade: B (Good job!)")
+kapena_ngati score wafananitsa 70 chita
+    onetsa("Grade: C (Not bad)")
+sizoona chita
+    onetsa("Grade: F (Need improvement)")
+
+# Test complex conditions
+ngati x wafanana 5 komanso y wapambana 8 chita
+    onetsa("Complex condition 1: Both conditions true")
+
+ngati x wasiyana 10 kapena y wafanana 10 chita
+    onetsa("Complex condition 2: At least one condition true")
+
+ngati osati falsehood komanso truth chita
+    onetsa("Complex condition 3: NOT and AND working together")
+
+# Test all comparison operators in elif chain
+ika test_val = 7
+
+ngati test_val wachepa 5 chita
+    onetsa("Value is less than 5")
+kapena_ngati test_val wafanana 5 chita
+    onetsa("Value equals 5")
+kapena_ngati test_val wachepa 10 komanso test_val wapambana 5 chita
+    onetsa("Value is between 5 and 10")
+sizoona chita
+    onetsa("Value is 10 or greater")
+
+onetsa("All Chichewa operators working correctly!")
+

@@ -1,0 +1,57 @@
+# Test loop control - leka (break) and pitilizani (continue)
+onetsa("=== Testing Loop Control - leka & pitilizani ===")
+
+# Test 1: Break in while loop
+onetsa("Test 1: While loop with leka (break)")
+ika counter = 1
+yesani counter wachepa 10:
+    onetsa("Counter:", counter)
+    ngati counter wafanana 5:
+        onetsa("Breaking at 5!")
+        leka
+    ika counter = counter + 1
+
+onetsa("Finished while loop")
+
+# Test 2: Continue in while loop  
+onetsa("\nTest 2: While loop with pitilizani (continue)")
+ika i = 0
+yesani i wachepa 8:
+    ika i = i + 1
+    ngati i wafanana 3 kapena i wafanana 6:
+        onetsa("Skipping", i)
+        pitilizani
+    onetsa("Processing", i)
+
+# Test 3: Break in for loop
+onetsa("\nTest 3: For loop with leka (break)")
+ika numbers = ndandanda(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+bwereza num mu numbers:
+    ngati num wafanana 6:
+        onetsa("Breaking at", num)
+        leka
+    onetsa("Number:", num)
+
+# Test 4: Continue in for loop
+onetsa("\nTest 4: For loop with pitilizani (continue)")
+ika fruits = ndandanda("apple", "banana", "cherry", "date", "elderberry")
+bwereza fruit mu fruits:
+    ngati fruit wafanana "cherry" kapena fruit wafanana "date":
+        onetsa("Skipping", fruit)
+        pitilizani
+    onetsa("Processing", fruit)
+
+# Test 5: Mixed break and continue with input
+onetsa("\nTest 5: Interactive loop (enter 'quit' to break, 'skip' to continue)")
+yesani zoona:
+    ika user_input = funsani("Enter command (quit/skip/other): ")
+    ngati user_input wafanana "quit":
+        onetsa("Goodbye!")
+        leka
+    ngati user_input wafanana "skip":
+        onetsa("Skipping this iteration...")
+        pitilizani
+    onetsa("You entered:", user_input)
+
+onetsa("=== Loop control tests completed! ===")
+
