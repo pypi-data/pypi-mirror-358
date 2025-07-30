@@ -1,0 +1,57 @@
+Metadata-Version: 2.4
+Name: datamintapi
+Version: 0.0
+Summary: Transitional package - use 'datamint' instead
+Author-email: Datamint Team <support@datamint.com>
+License: MIT
+Project-URL: Homepage, https://github.com/datamint/datamint-python
+Project-URL: Repository, https://github.com/datamint/datamint-python
+Project-URL: Documentation, https://docs.datamint.com
+Classifier: Development Status :: 7 - Inactive
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+
+# datamintapi - Transitional Package
+
+⚠️ **This package is deprecated and should not be used for new projects.**
+
+## Purpose
+
+This package exists for two reasons:
+1. **Name Protection**: Prevent malicious name squatting of the `datamintapi` namespace
+2. **Migration Aid**: Help existing users transition to the correct `datamint` package
+
+## Migration Instructions
+
+If you're currently using `datamintapi`, please migrate to `datamint`:
+
+```bash
+# Remove old package
+pip uninstall datamintapi
+
+# Install correct package
+pip install datamint
+```
+
+Then update your code:
+
+```python
+# Old (deprecated)
+import datamintapi
+
+# New (correct)
+import datamint
+```
+
+## About Datamint
+
+- **Official Package**: https://pypi.org/project/datamint/
+- **GitHub**: https://github.com/SonanceAI/datamint-python-api
