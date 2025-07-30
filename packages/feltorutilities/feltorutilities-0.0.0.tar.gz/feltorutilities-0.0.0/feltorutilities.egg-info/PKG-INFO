@@ -1,0 +1,133 @@
+Metadata-Version: 2.4
+Name: feltorutilities
+Version: 0.0.0
+Summary: Utilities for the setup and analysis of 3d feltor simulations
+Author-email: Matthias Wiesenberger <mattwi@fysik.dtu.dk>
+License: MIT License
+        
+        Copyright (c) 2021 Technical University of Denmark
+        Author: Matthias Wiesenberger
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Source, https://github.com/mwiesenberger/feltorutilities
+Project-URL: Tracker, https://github.com/mwiesenberger/feltorutilities/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Utilities
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: scipy>=1.10.0
+Requires-Dist: numpy>=1.24.0
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
+Provides-Extra: lint
+Requires-Dist: ruff; extra == "lint"
+Provides-Extra: jupyter
+Requires-Dist: jupyterlab>=4.3.5; extra == "jupyter"
+Requires-Dist: matplotlib>=3.10.1; extra == "jupyter"
+Requires-Dist: netcdf4>=1.7.2; extra == "jupyter"
+Requires-Dist: numpy>=2.2.3; extra == "jupyter"
+Requires-Dist: scipy>=1.15.2; extra == "jupyter"
+Requires-Dist: simplesimdb>=1.1.1; extra == "jupyter"
+Requires-Dist: magneticfielddb>=0.1.1; extra == "jupyter"
+Dynamic: license-file
+
+# Utilities for feltor simulations
+
+The goal of this package is to provide utilities for the setup and run
+ of 3d feltor simulations.
+
+It consists of
+ - a Python module `feltorutilities` containing parameter functions and utilities to
+convert from dimensional to dimensionless parameters and back.
+ - Jupyter notebooks guiding the generation of suitable input parameters for both the feltor and the thermal feltor codes.
+
+
+[![LICENSE : MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+## Installation
+### Python module
+The python package `feltorutilities` can be locally installed via
+```bash
+git clone https://github.com/mwiesenberger/feltorutilities
+cd feltorutilities
+pip install -e .
+```
+
+### Jupyter notebooks
+The notebooks depend on the `pandas` and `numpy` packages and the `simplesimdb` and `pyfeltor` module.
+The other dependency is the [Feltor](https://github.com/feltor-dev/feltor) code repository.
+Follow the quick-start guide to install.
+It is recommended to keep Feltor and this repository next to each other.
+If not, you will need to set the `FELTOR_PATH` environment variable in order for
+`feltor.sh`, `job.sh` and `feltordiag.sh` to work.
+
+Lastly, we need jupyter to run the notebooks.
+
+## Usage
+### A plasma formulary
+
+First, a list of plasma formulas is provided. These functions can be called as
+```python
+import feltorutilities as fp
+fp.rho_s( B_0, m_i, T_e)
+# or
+parameters = {"B_0" : 0.7, "m_i" : fp.deuteron_mass, "T_e" : 0.07}
+fp.rho_s( **parameters)
+```
+To get a list of available functions type
+
+```python
+function_names = fp.quantities()
+```
+
+A utility function is provided that lets you compute a collection of quantities
+from given parameters at once, e.g.
+
+```python
+parameters = {"B_0" : 0.7, "m_i" : fp.deuteron_mass, "T_e" : 0.07}
+values = parameters2quantities( parameters, ["rho_s", "c_s", "omega_0_inv"])
+```
+
+Second we provide a utility function that inverts given numerical (dimensionless) parameters
+back to the corresponding physical (dimensional) ones. This is useful in analysing
+simulation data where only the numerical values are stored.
+For example:
+```python
+physical = {"R" : 0.6}
+numerical = {"mu" : -2.72e-4,"tau":1,"beta":4.11e-4,"resistivity" : 3.81e-5,"R_0" : 91.94}
+numerical2physical( numerical, physical)
+# now physical contains R, m_i, T_e, n_0, B_0, T_i)
+```
+
+### Feltor simulation setup
+This package contains two folders `feltor` and `thermal` that are intended to serve as templates to start your own project for the corresponding feltor codes.
+In order to setup a Feltor simulation you need to
+- First, decide if you want to run a isothermal, 2-species Feltor simulation  or a thermal, multispecies simulation. In the first case copy the `feltor` folder to a new repository, in the second one use the `thermal` folder
+- If necessary adapt the `FELTOR_PATH` variable to the feltor C++ repository as described above in all `*.sh` files. The explanation for the structure of these files can be found in the `simplesimdb` package.
+- Run the jupyter notebook in the folder and follow the instructions in the file
+- Once you generated satisfactory input parameters, either manually copy them or load them in the `generate_data.py` script. The idea for this script is to use the `simplesimdb` package to automatically generate submit scripts on a HPC cluster such that the simulation is automatically restarted if necessary and/or parameter studies are possible.
+
+## Author
+Matthias Wiesenberger
