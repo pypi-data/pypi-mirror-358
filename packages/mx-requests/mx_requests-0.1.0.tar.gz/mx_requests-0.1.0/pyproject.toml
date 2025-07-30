@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mx_requests"
+version = "0.1.0"
+description = "Drop-in requests replacement using MontgomeryNX proxy"
+authors = [
+  { name="Scott Montgomery", email="section31nx@users.noreply.github.com" }
+]
+license = { text = "MIT" }
+readme = "README.md"
+dependencies = ["requests"]
+requires-python = ">=3.7"
+
+[tool.setuptools]
+py-modules = ["mx_requests"]
