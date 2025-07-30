@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pipecat-ai-flows"
+version = "0.0.18"
+description = "Conversation Flow management for Pipecat AI applications"
+license = { text = "BSD 2-Clause License" }
+readme = "README.md"
+requires-python = ">=3.10"
+keywords = ["pipecat", "conversation", "flows", "state machine", "ai", "llm"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: BSD License",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Communications :: Conferencing",
+    "Topic :: Multimedia :: Sound/Audio",
+]
+dependencies = [
+    "pipecat-ai>=0.0.73",
+    "loguru~=0.7.2",
+    "docstring_parser~=0.16"
+]
+
+[project.urls]
+Source = "https://github.com/pipecat-ai/pipecat-flows"
+Website = "https://www.pipecat.ai"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+
+[tool.ruff]
+exclude = [".git", "*_pb2.py"]
+line-length = 100
+
+[tool.ruff.lint]
+select = [
+    "D", # Docstring rules
+    "I", # Import rules
+]
+
+[tool.ruff.pydocstyle]
+convention = "google"
