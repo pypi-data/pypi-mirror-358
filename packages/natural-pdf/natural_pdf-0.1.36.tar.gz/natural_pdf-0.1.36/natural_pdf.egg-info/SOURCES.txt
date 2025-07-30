@@ -1,0 +1,846 @@
+.gitignore
+.pre-commit-config.yaml
+01-execute_notebooks.py
+02-run_all_tutorials.sh
+CLAUDE.md
+LICENSE
+MANIFEST.in
+README.md
+audit_packaging.py
+check_run_md.sh
+mkdocs.yml
+noxfile.py
+publish.sh
+pyproject.toml
+sample-screen.png
+test_install.sh
+uv.lock
+.cursor/rules/analysis_framework.mdc
+.cursor/rules/coding-style.mdc
+.cursor/rules/edit-md-instead-of-ipynb.mdc
+.cursor/rules/minimal-comments.mdc
+.cursor/rules/natural-pdf-overview.mdc
+.cursor/rules/user-friendly-library-code.mdc
+.github/workflows/docs.yml
+bad_pdf_analysis/1A4PPW1_The arabic text/1A4PPW1_analysis.md
+bad_pdf_analysis/1A4PPW1_The arabic text/analysis/1A4PPW1/analysis_summary.json
+bad_pdf_analysis/1A4PPW1_The arabic text/analysis/1A4PPW1/page_1.png
+bad_pdf_analysis/1A4PPW1_The arabic text/analysis/1A4PPW1/page_1_all_elements_inspect.txt
+bad_pdf_analysis/1A4PPW1_The arabic text/analysis/1A4PPW1/page_1_all_regions.txt
+bad_pdf_analysis/1A4PPW1_The arabic text/analysis/1A4PPW1/page_1_describe.txt
+bad_pdf_analysis/1A4PPW1_The arabic text/analysis/1A4PPW1/page_1_table.json
+bad_pdf_analysis/1A4PPW1_The arabic text/analysis/1A4PPW1/page_1_text.txt
+bad_pdf_analysis/1A4PPW1_The arabic text/analysis/1A4PPW1/page_1_yolo_regions.txt
+bad_pdf_analysis/1A4PPW1_The arabic text/detailed_analysis_final/1A4PPW1_The arabic text_detailed_analysis.md
+bad_pdf_analysis/1A4PPW1_The arabic text/detailed_analysis_final/detailed_analysis_results.json
+bad_pdf_analysis/1A4PPW1_The arabic text/detailed_analysis_final/page_1.png
+bad_pdf_analysis/1A4PPW1_The arabic text/detailed_analysis_final/page_11.png
+bad_pdf_analysis/2EAOEvb_The text_ without beeing divided in 2 columns and /2EAOEvb_analysis.md
+bad_pdf_analysis/2EAOEvb_The text_ without beeing divided in 2 columns and /analysis/2EAOEvb/analysis_summary.json
+bad_pdf_analysis/2EAOEvb_The text_ without beeing divided in 2 columns and /analysis/2EAOEvb/page_1.png
+bad_pdf_analysis/2EAOEvb_The text_ without beeing divided in 2 columns and /analysis/2EAOEvb/page_1_all_elements_inspect.txt
+bad_pdf_analysis/2EAOEvb_The text_ without beeing divided in 2 columns and /analysis/2EAOEvb/page_1_all_regions.txt
+bad_pdf_analysis/2EAOEvb_The text_ without beeing divided in 2 columns and /analysis/2EAOEvb/page_1_describe.txt
+bad_pdf_analysis/2EAOEvb_The text_ without beeing divided in 2 columns and /analysis/2EAOEvb/page_1_text.txt
+bad_pdf_analysis/2EAOEvb_The text_ without beeing divided in 2 columns and /analysis/2EAOEvb/page_1_yolo_regions.txt
+bad_pdf_analysis/2EAOEvb_The text_ without beeing divided in 2 columns and /detailed_analysis_final/2EAOEvb_The text_ without beeing divided in 2 columns and _detailed_analysis.md
+bad_pdf_analysis/2EAOEvb_The text_ without beeing divided in 2 columns and /detailed_analysis_final/detailed_analysis_results.json
+bad_pdf_analysis/2EAOEvb_The text_ without beeing divided in 2 columns and /detailed_analysis_final/page_1.png
+bad_pdf_analysis/2EAOEvb_The text_ without beeing divided in 2 columns and /detailed_analysis_final/page_98.png
+bad_pdf_analysis/Focus/analysis_summary.json
+bad_pdf_analysis/Focus/page_1.png
+bad_pdf_analysis/Focus/page_1_all_elements_inspect.txt
+bad_pdf_analysis/Focus/page_1_describe.txt
+bad_pdf_analysis/Focus/page_1_regions_inspect.txt
+bad_pdf_analysis/Focus/page_1_table.json
+bad_pdf_analysis/Focus/page_1_text.txt
+bad_pdf_analysis/Gx9jayj_A CSV of all the complaints_ officers and details/Gx9jayj_analysis.md
+bad_pdf_analysis/Gx9jayj_A CSV of all the complaints_ officers and details/analysis/Gx9jayj/analysis_summary.json
+bad_pdf_analysis/Gx9jayj_A CSV of all the complaints_ officers and details/analysis/Gx9jayj/page_1.png
+bad_pdf_analysis/Gx9jayj_A CSV of all the complaints_ officers and details/analysis/Gx9jayj/page_1_all_elements_inspect.txt
+bad_pdf_analysis/Gx9jayj_A CSV of all the complaints_ officers and details/analysis/Gx9jayj/page_1_all_regions.txt
+bad_pdf_analysis/Gx9jayj_A CSV of all the complaints_ officers and details/analysis/Gx9jayj/page_1_describe.txt
+bad_pdf_analysis/Gx9jayj_A CSV of all the complaints_ officers and details/analysis/Gx9jayj/page_1_table.json
+bad_pdf_analysis/Gx9jayj_A CSV of all the complaints_ officers and details/analysis/Gx9jayj/page_1_text.txt
+bad_pdf_analysis/Gx9jayj_A CSV of all the complaints_ officers and details/analysis/Gx9jayj/page_1_yolo_regions.txt
+bad_pdf_analysis/GxpvezO_The table in Nepali on page 30 _in between the tex/GxpvezO_analysis.md
+bad_pdf_analysis/GxpvezO_The table in Nepali on page 30 _in between the tex/analysis/GxpvezO/analysis_summary.json
+bad_pdf_analysis/GxpvezO_The table in Nepali on page 30 _in between the tex/analysis/GxpvezO/page_1.png
+bad_pdf_analysis/GxpvezO_The table in Nepali on page 30 _in between the tex/analysis/GxpvezO/page_1_all_elements_inspect.txt
+bad_pdf_analysis/GxpvezO_The table in Nepali on page 30 _in between the tex/analysis/GxpvezO/page_1_all_regions.txt
+bad_pdf_analysis/GxpvezO_The table in Nepali on page 30 _in between the tex/analysis/GxpvezO/page_1_describe.txt
+bad_pdf_analysis/GxpvezO_The table in Nepali on page 30 _in between the tex/analysis/GxpvezO/page_1_table.json
+bad_pdf_analysis/GxpvezO_The table in Nepali on page 30 _in between the tex/analysis/GxpvezO/page_1_tatr_layout.txt
+bad_pdf_analysis/GxpvezO_The table in Nepali on page 30 _in between the tex/analysis/GxpvezO/page_1_tatr_regions.txt
+bad_pdf_analysis/GxpvezO_The table in Nepali on page 30 _in between the tex/analysis/GxpvezO/page_1_text.txt
+bad_pdf_analysis/GxpvezO_The table in Nepali on page 30 _in between the tex/analysis/GxpvezO/page_1_yolo_regions.txt
+bad_pdf_analysis/GxpvezO_The table in Nepali on page 30 _in between the tex/detailed_analysis_final/GxpvezO_The table in Nepali on page 30 _in between the tex_detailed_analysis.md
+bad_pdf_analysis/GxpvezO_The table in Nepali on page 30 _in between the tex/detailed_analysis_final/detailed_analysis_results.json
+bad_pdf_analysis/GxpvezO_The table in Nepali on page 30 _in between the tex/detailed_analysis_final/page_30.png
+bad_pdf_analysis/GxpvezO_The table in Nepali on page 30 _in between the tex/enhanced_analysis_10/GxpvezO_The table in Nepali on page 30 _in between the tex_enhanced_analysis.md
+bad_pdf_analysis/GxpvezO_The table in Nepali on page 30 _in between the tex/enhanced_analysis_10/analysis_results.json
+bad_pdf_analysis/GxpvezO_The table in Nepali on page 30 _in between the tex/enhanced_analysis_10/page_30.png
+bad_pdf_analysis/J9lKd7Y_Table in Slovenian _e.g. on page 80_./J9lKd7Y_analysis.md
+bad_pdf_analysis/J9lKd7Y_Table in Slovenian _e.g. on page 80_./analysis/J9lKd7Y/analysis_summary.json
+bad_pdf_analysis/J9lKd7Y_Table in Slovenian _e.g. on page 80_./analysis/J9lKd7Y/page_1.png
+bad_pdf_analysis/J9lKd7Y_Table in Slovenian _e.g. on page 80_./analysis/J9lKd7Y/page_1_all_elements_inspect.txt
+bad_pdf_analysis/J9lKd7Y_Table in Slovenian _e.g. on page 80_./analysis/J9lKd7Y/page_1_all_regions.txt
+bad_pdf_analysis/J9lKd7Y_Table in Slovenian _e.g. on page 80_./analysis/J9lKd7Y/page_1_describe.txt
+bad_pdf_analysis/J9lKd7Y_Table in Slovenian _e.g. on page 80_./analysis/J9lKd7Y/page_1_table.json
+bad_pdf_analysis/J9lKd7Y_Table in Slovenian _e.g. on page 80_./analysis/J9lKd7Y/page_1_text.txt
+bad_pdf_analysis/J9lKd7Y_Table in Slovenian _e.g. on page 80_./analysis/J9lKd7Y/page_1_yolo_regions.txt
+bad_pdf_analysis/J9lKd7Y_Table in Slovenian _e.g. on page 80_./detailed_analysis_final/J9lKd7Y_Table in Slovenian _e.g. on page 80_._detailed_analysis.md
+bad_pdf_analysis/J9lKd7Y_Table in Slovenian _e.g. on page 80_./detailed_analysis_final/detailed_analysis_results.json
+bad_pdf_analysis/J9lKd7Y_Table in Slovenian _e.g. on page 80_./detailed_analysis_final/page_80.png
+bad_pdf_analysis/J9lKd7Y_Table in Slovenian _e.g. on page 80_./enhanced_analysis_10/J9lKd7Y_Table in Slovenian _e.g. on page 80_._enhanced_analysis.md
+bad_pdf_analysis/J9lKd7Y_Table in Slovenian _e.g. on page 80_./enhanced_analysis_10/analysis_results.json
+bad_pdf_analysis/J9lKd7Y_Table in Slovenian _e.g. on page 80_./enhanced_analysis_10/page_80.png
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/J9px44R_analysis.md
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/analysis/J9px44R/analysis_summary.json
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/analysis/J9px44R/page_1.png
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/analysis/J9px44R/page_1_all_elements_inspect.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/analysis/J9px44R/page_1_describe.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/analysis/J9px44R/page_1_table.json
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/analysis/J9px44R/page_1_text.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/analysis_summary.json
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_1.png
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_10.png
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_10_all_elements_inspect.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_10_all_regions.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_10_describe.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_10_tatr_layout.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_10_tatr_regions.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_1_all_elements_inspect.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_1_describe.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_1_table.json
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_1_text.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_2.png
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_2_all_elements_inspect.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_2_all_regions.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_2_describe.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_2_tatr_layout.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_2_tatr_regions.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_3.png
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_3_all_elements_inspect.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_3_all_regions.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_3_describe.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_3_tatr_layout.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_3_tatr_regions.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_3_text.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_3_yolo_regions.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_4.png
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_4_all_elements_inspect.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_4_all_regions.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_4_describe.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_4_tatr_layout.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_4_tatr_regions.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_5.png
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_5_all_elements_inspect.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_5_all_regions.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_5_describe.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_5_table.json
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_5_text.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_5_yolo_regions.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_6.png
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_6_all_elements_inspect.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_6_all_regions.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_6_describe.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_6_table.json
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_6_tatr_layout.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_6_tatr_regions.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_6_text.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_6_yolo_regions.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_7.png
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_7_all_elements_inspect.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_7_all_regions.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_7_describe.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_7_table.json
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_7_tatr_layout.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_7_tatr_regions.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_7_text.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_7_yolo_regions.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_8.png
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_8_all_elements_inspect.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_8_all_regions.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_8_describe.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_8_table.json
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_8_tatr_layout.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_8_tatr_regions.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_8_text.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_8_yolo_regions.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_9.png
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_9_all_elements_inspect.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_9_all_regions.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_9_describe.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_9_table.json
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_9_tatr_layout.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_9_tatr_regions.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_9_text.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis/J9px44R/page_9_yolo_regions.txt
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis_final/J9px44R_Tables of Senate office expenditures_detailed_analysis.md
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis_final/detailed_analysis_results.json
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis_final/page_1.png
+bad_pdf_analysis/J9px44R_Tables of Senate office expenditures/detailed_analysis_final/page_1489.png
+bad_pdf_analysis/NplKG2O_Try to see if natural-pdf can process non-standard/NplKG2O_analysis.md
+bad_pdf_analysis/NplKG2O_Try to see if natural-pdf can process non-standard/analysis/NplKG2O/analysis_summary.json
+bad_pdf_analysis/NplKG2O_Try to see if natural-pdf can process non-standard/analysis/NplKG2O/page_1.png
+bad_pdf_analysis/NplKG2O_Try to see if natural-pdf can process non-standard/analysis/NplKG2O/page_1_all_elements_inspect.txt
+bad_pdf_analysis/NplKG2O_Try to see if natural-pdf can process non-standard/analysis/NplKG2O/page_1_all_regions.txt
+bad_pdf_analysis/NplKG2O_Try to see if natural-pdf can process non-standard/analysis/NplKG2O/page_1_describe.txt
+bad_pdf_analysis/NplKG2O_Try to see if natural-pdf can process non-standard/analysis/NplKG2O/page_1_tatr_layout.txt
+bad_pdf_analysis/NplKG2O_Try to see if natural-pdf can process non-standard/analysis/NplKG2O/page_1_tatr_regions.txt
+bad_pdf_analysis/NplKG2O_Try to see if natural-pdf can process non-standard/analysis/NplKG2O/page_1_text.txt
+bad_pdf_analysis/NplKG2O_Try to see if natural-pdf can process non-standard/analysis/NplKG2O/page_1_yolo_regions.txt
+bad_pdf_analysis/NplKG2O_Try to see if natural-pdf can process non-standard/enhanced_analysis_10/NplKG2O_Try to see if natural-pdf can process non-standard_enhanced_analysis.md
+bad_pdf_analysis/NplKG2O_Try to see if natural-pdf can process non-standard/enhanced_analysis_10/analysis_results.json
+bad_pdf_analysis/NplKG2O_Try to see if natural-pdf can process non-standard/enhanced_analysis_10/page_1.png
+bad_pdf_analysis/OD49rjM_Just being able to make sense of any of it. It_s b/OD49rjM_analysis.md
+bad_pdf_analysis/OD49rjM_Just being able to make sense of any of it. It_s b/analysis/OD49rjM/analysis_summary.json
+bad_pdf_analysis/OD49rjM_Just being able to make sense of any of it. It_s b/analysis/OD49rjM/page_1.png
+bad_pdf_analysis/OD49rjM_Just being able to make sense of any of it. It_s b/analysis/OD49rjM/page_1_all_elements_inspect.txt
+bad_pdf_analysis/OD49rjM_Just being able to make sense of any of it. It_s b/analysis/OD49rjM/page_1_all_regions.txt
+bad_pdf_analysis/OD49rjM_Just being able to make sense of any of it. It_s b/analysis/OD49rjM/page_1_describe.txt
+bad_pdf_analysis/OD49rjM_Just being able to make sense of any of it. It_s b/analysis/OD49rjM/page_1_table.json
+bad_pdf_analysis/OD49rjM_Just being able to make sense of any of it. It_s b/analysis/OD49rjM/page_1_text.txt
+bad_pdf_analysis/OD49rjM_Just being able to make sense of any of it. It_s b/analysis/OD49rjM/page_1_yolo_regions.txt
+bad_pdf_analysis/OD49rjM_Just being able to make sense of any of it. It_s b/detailed_analysis_final/OD49rjM_Just being able to make sense of any of it. It_s b_detailed_analysis.md
+bad_pdf_analysis/OD49rjM_Just being able to make sense of any of it. It_s b/detailed_analysis_final/detailed_analysis_results.json
+bad_pdf_analysis/OD49rjM_Just being able to make sense of any of it. It_s b/detailed_analysis_final/page_1.png
+bad_pdf_analysis/OD49rjM_Just being able to make sense of any of it. It_s b/detailed_analysis_final/page_17303.png
+bad_pdf_analysis/ODX1DW8_The large table on page 179/ODX1DW8_analysis.md
+bad_pdf_analysis/ODX1DW8_The large table on page 179/analysis/ODX1DW8/analysis_summary.json
+bad_pdf_analysis/ODX1DW8_The large table on page 179/analysis/ODX1DW8/page_1.png
+bad_pdf_analysis/ODX1DW8_The large table on page 179/analysis/ODX1DW8/page_1_all_elements_inspect.txt
+bad_pdf_analysis/ODX1DW8_The large table on page 179/analysis/ODX1DW8/page_1_all_regions.txt
+bad_pdf_analysis/ODX1DW8_The large table on page 179/analysis/ODX1DW8/page_1_describe.txt
+bad_pdf_analysis/ODX1DW8_The large table on page 179/analysis/ODX1DW8/page_1_tatr_layout.txt
+bad_pdf_analysis/ODX1DW8_The large table on page 179/analysis/ODX1DW8/page_1_tatr_regions.txt
+bad_pdf_analysis/ODX1DW8_The large table on page 179/analysis/ODX1DW8/page_1_text.txt
+bad_pdf_analysis/ODX1DW8_The large table on page 179/enhanced_analysis/ODX1DW8_enhanced_analysis.md
+bad_pdf_analysis/ODX1DW8_The large table on page 179/enhanced_analysis/enhanced_analysis_results.json
+bad_pdf_analysis/ODX1DW8_The large table on page 179/enhanced_analysis/page_178.png
+bad_pdf_analysis/ODX1DW8_The large table on page 179/enhanced_analysis/page_179.png
+bad_pdf_analysis/ODX1DW8_The large table on page 179/enhanced_analysis/page_180.png
+bad_pdf_analysis/ODXl8aR_0. ISO code of the business_ business name_ contac/ODXl8aR_analysis.md
+bad_pdf_analysis/ODXl8aR_0. ISO code of the business_ business name_ contac/analysis/ODXl8aR/analysis_summary.json
+bad_pdf_analysis/ODXl8aR_0. ISO code of the business_ business name_ contac/analysis/ODXl8aR/page_1.png
+bad_pdf_analysis/ODXl8aR_0. ISO code of the business_ business name_ contac/analysis/ODXl8aR/page_1_all_elements_inspect.txt
+bad_pdf_analysis/ODXl8aR_0. ISO code of the business_ business name_ contac/analysis/ODXl8aR/page_1_all_regions.txt
+bad_pdf_analysis/ODXl8aR_0. ISO code of the business_ business name_ contac/analysis/ODXl8aR/page_1_describe.txt
+bad_pdf_analysis/ODXl8aR_0. ISO code of the business_ business name_ contac/analysis/ODXl8aR/page_1_table.json
+bad_pdf_analysis/ODXl8aR_0. ISO code of the business_ business name_ contac/analysis/ODXl8aR/page_1_tatr_layout.txt
+bad_pdf_analysis/ODXl8aR_0. ISO code of the business_ business name_ contac/analysis/ODXl8aR/page_1_tatr_regions.txt
+bad_pdf_analysis/ODXl8aR_0. ISO code of the business_ business name_ contac/analysis/ODXl8aR/page_1_text.txt
+bad_pdf_analysis/ODXl8aR_0. ISO code of the business_ business name_ contac/analysis/ODXl8aR/page_1_yolo_regions.txt
+bad_pdf_analysis/ODXl8aR_0. ISO code of the business_ business name_ contac/detailed_analysis_final/ODXl8aR_0. ISO code of the business_ business name_ contac_detailed_analysis.md
+bad_pdf_analysis/ODXl8aR_0. ISO code of the business_ business name_ contac/detailed_analysis_final/detailed_analysis_results.json
+bad_pdf_analysis/ODXl8aR_0. ISO code of the business_ business name_ contac/detailed_analysis_final/page_1.png
+bad_pdf_analysis/ODXl8aR_0. ISO code of the business_ business name_ contac/detailed_analysis_final/page_55.png
+bad_pdf_analysis/Pd1KBb1_the data table _of election results_/Pd1KBb1_analysis.md
+bad_pdf_analysis/Pd1KBb1_the data table _of election results_/analysis/Pd1KBb1/analysis_summary.json
+bad_pdf_analysis/Pd1KBb1_the data table _of election results_/analysis/Pd1KBb1/page_1.png
+bad_pdf_analysis/Pd1KBb1_the data table _of election results_/analysis/Pd1KBb1/page_1_all_elements_inspect.txt
+bad_pdf_analysis/Pd1KBb1_the data table _of election results_/analysis/Pd1KBb1/page_1_all_regions.txt
+bad_pdf_analysis/Pd1KBb1_the data table _of election results_/analysis/Pd1KBb1/page_1_describe.txt
+bad_pdf_analysis/Pd1KBb1_the data table _of election results_/analysis/Pd1KBb1/page_1_table.json
+bad_pdf_analysis/Pd1KBb1_the data table _of election results_/analysis/Pd1KBb1/page_1_tatr_layout.txt
+bad_pdf_analysis/Pd1KBb1_the data table _of election results_/analysis/Pd1KBb1/page_1_tatr_regions.txt
+bad_pdf_analysis/Pd1KBb1_the data table _of election results_/analysis/Pd1KBb1/page_1_text.txt
+bad_pdf_analysis/Pd1KBb1_the data table _of election results_/analysis/Pd1KBb1/page_1_yolo_regions.txt
+bad_pdf_analysis/Pd1KBb1_the data table _of election results_/detailed_analysis_final/Pd1KBb1_the data table _of election results__detailed_analysis.md
+bad_pdf_analysis/Pd1KBb1_the data table _of election results_/detailed_analysis_final/detailed_analysis_results.json
+bad_pdf_analysis/Pd1KBb1_the data table _of election results_/detailed_analysis_final/page_1.png
+bad_pdf_analysis/Pd9WVDb_We want a spreadsheet showing all the columns sepa/Pd9WVDb_analysis.md
+bad_pdf_analysis/Pd9WVDb_We want a spreadsheet showing all the columns sepa/analysis/Pd9WVDb/analysis_summary.json
+bad_pdf_analysis/Pd9WVDb_We want a spreadsheet showing all the columns sepa/analysis/Pd9WVDb/page_1.png
+bad_pdf_analysis/Pd9WVDb_We want a spreadsheet showing all the columns sepa/analysis/Pd9WVDb/page_1_all_elements_inspect.txt
+bad_pdf_analysis/Pd9WVDb_We want a spreadsheet showing all the columns sepa/analysis/Pd9WVDb/page_1_all_regions.txt
+bad_pdf_analysis/Pd9WVDb_We want a spreadsheet showing all the columns sepa/analysis/Pd9WVDb/page_1_describe.txt
+bad_pdf_analysis/Pd9WVDb_We want a spreadsheet showing all the columns sepa/analysis/Pd9WVDb/page_1_table.json
+bad_pdf_analysis/Pd9WVDb_We want a spreadsheet showing all the columns sepa/analysis/Pd9WVDb/page_1_text.txt
+bad_pdf_analysis/Pd9WVDb_We want a spreadsheet showing all the columns sepa/analysis/Pd9WVDb/page_1_yolo_regions.txt
+bad_pdf_analysis/Pd9WVDb_We want a spreadsheet showing all the columns sepa/detailed_analysis_final/Pd9WVDb_We want a spreadsheet showing all the columns sepa_detailed_analysis.md
+bad_pdf_analysis/Pd9WVDb_We want a spreadsheet showing all the columns sepa/detailed_analysis_final/detailed_analysis_results.json
+bad_pdf_analysis/Pd9WVDb_We want a spreadsheet showing all the columns sepa/detailed_analysis_final/page_1.png
+bad_pdf_analysis/Pd9WVDb_We want a spreadsheet showing all the columns sepa/detailed_analysis_final/page_12454.png
+bad_pdf_analysis/Xxogz9j_This bad PDF is one of the pinnacles of Japanese F/Xxogz9j_analysis.md
+bad_pdf_analysis/Xxogz9j_This bad PDF is one of the pinnacles of Japanese F/analysis/Xxogz9j/analysis_summary.json
+bad_pdf_analysis/Xxogz9j_This bad PDF is one of the pinnacles of Japanese F/analysis/Xxogz9j/page_1.png
+bad_pdf_analysis/Xxogz9j_This bad PDF is one of the pinnacles of Japanese F/analysis/Xxogz9j/page_1_all_elements_inspect.txt
+bad_pdf_analysis/Xxogz9j_This bad PDF is one of the pinnacles of Japanese F/analysis/Xxogz9j/page_1_all_regions.txt
+bad_pdf_analysis/Xxogz9j_This bad PDF is one of the pinnacles of Japanese F/analysis/Xxogz9j/page_1_describe.txt
+bad_pdf_analysis/Xxogz9j_This bad PDF is one of the pinnacles of Japanese F/analysis/Xxogz9j/page_1_yolo_regions.txt
+bad_pdf_analysis/Y5G72LB_We are trying to get specific information such as /Y5G72LB_analysis.md
+bad_pdf_analysis/Y5G72LB_We are trying to get specific information such as /analysis/Y5G72LB/analysis_summary.json
+bad_pdf_analysis/Y5G72LB_We are trying to get specific information such as /analysis/Y5G72LB/page_1.png
+bad_pdf_analysis/Y5G72LB_We are trying to get specific information such as /analysis/Y5G72LB/page_1_all_elements_inspect.txt
+bad_pdf_analysis/Y5G72LB_We are trying to get specific information such as /analysis/Y5G72LB/page_1_all_regions.txt
+bad_pdf_analysis/Y5G72LB_We are trying to get specific information such as /analysis/Y5G72LB/page_1_describe.txt
+bad_pdf_analysis/Y5G72LB_We are trying to get specific information such as /analysis/Y5G72LB/page_1_table.json
+bad_pdf_analysis/Y5G72LB_We are trying to get specific information such as /analysis/Y5G72LB/page_1_text.txt
+bad_pdf_analysis/Y5G72LB_We are trying to get specific information such as /analysis/Y5G72LB/page_1_yolo_regions.txt
+bad_pdf_analysis/Y5G72LB_We are trying to get specific information such as /detailed_analysis_final/Y5G72LB_We are trying to get specific information such as _detailed_analysis.md
+bad_pdf_analysis/Y5G72LB_We are trying to get specific information such as /detailed_analysis_final/detailed_analysis_results.json
+bad_pdf_analysis/Y5G72LB_We are trying to get specific information such as /detailed_analysis_final/page_1.png
+bad_pdf_analysis/Y5G72LB_We are trying to get specific information such as /detailed_analysis_final/page_11.png
+bad_pdf_analysis/b5eVqGg_Math formulas in Russian _e.g. on page 181__/b5eVqGg_analysis.md
+bad_pdf_analysis/b5eVqGg_Math formulas in Russian _e.g. on page 181__/analysis/b5eVqGg/analysis_summary.json
+bad_pdf_analysis/b5eVqGg_Math formulas in Russian _e.g. on page 181__/analysis/b5eVqGg/page_1.png
+bad_pdf_analysis/b5eVqGg_Math formulas in Russian _e.g. on page 181__/analysis/b5eVqGg/page_1_all_elements_inspect.txt
+bad_pdf_analysis/b5eVqGg_Math formulas in Russian _e.g. on page 181__/analysis/b5eVqGg/page_1_all_regions.txt
+bad_pdf_analysis/b5eVqGg_Math formulas in Russian _e.g. on page 181__/analysis/b5eVqGg/page_1_describe.txt
+bad_pdf_analysis/b5eVqGg_Math formulas in Russian _e.g. on page 181__/analysis/b5eVqGg/page_1_tatr_layout.txt
+bad_pdf_analysis/b5eVqGg_Math formulas in Russian _e.g. on page 181__/analysis/b5eVqGg/page_1_tatr_regions.txt
+bad_pdf_analysis/b5eVqGg_Math formulas in Russian _e.g. on page 181__/analysis/b5eVqGg/page_1_text.txt
+bad_pdf_analysis/b5eVqGg_Math formulas in Russian _e.g. on page 181__/analysis/b5eVqGg/page_1_yolo_regions.txt
+bad_pdf_analysis/b5eVqGg_Math formulas in Russian _e.g. on page 181__/detailed_analysis_final/b5eVqGg_Math formulas in Russian _e.g. on page 181___detailed_analysis.md
+bad_pdf_analysis/b5eVqGg_Math formulas in Russian _e.g. on page 181__/detailed_analysis_final/detailed_analysis_results.json
+bad_pdf_analysis/b5eVqGg_Math formulas in Russian _e.g. on page 181__/detailed_analysis_final/page_181.png
+bad_pdf_analysis/b5eVqGg_Math formulas in Russian _e.g. on page 181__/enhanced_analysis_10/analysis_results.json
+bad_pdf_analysis/b5eVqGg_Math formulas in Russian _e.g. on page 181__/enhanced_analysis_10/b5eVqGg_Math formulas in Russian _e.g. on page 181___enhanced_analysis.md
+bad_pdf_analysis/b5eVqGg_Math formulas in Russian _e.g. on page 181__/enhanced_analysis_10/page_181.png
+bad_pdf_analysis/eqQ4N7q_election results data table/eqQ4N7q_analysis.md
+bad_pdf_analysis/eqQ4N7q_election results data table/analysis/eqQ4N7q/analysis_summary.json
+bad_pdf_analysis/eqQ4N7q_election results data table/analysis/eqQ4N7q/page_1.png
+bad_pdf_analysis/eqQ4N7q_election results data table/analysis/eqQ4N7q/page_1_all_elements_inspect.txt
+bad_pdf_analysis/eqQ4N7q_election results data table/analysis/eqQ4N7q/page_1_all_regions.txt
+bad_pdf_analysis/eqQ4N7q_election results data table/analysis/eqQ4N7q/page_1_describe.txt
+bad_pdf_analysis/eqQ4N7q_election results data table/analysis/eqQ4N7q/page_1_table.json
+bad_pdf_analysis/eqQ4N7q_election results data table/analysis/eqQ4N7q/page_1_tatr_layout.txt
+bad_pdf_analysis/eqQ4N7q_election results data table/analysis/eqQ4N7q/page_1_tatr_regions.txt
+bad_pdf_analysis/eqQ4N7q_election results data table/analysis/eqQ4N7q/page_1_text.txt
+bad_pdf_analysis/eqQ4N7q_election results data table/analysis/eqQ4N7q/page_1_yolo_regions.txt
+bad_pdf_analysis/eqQ4N7q_election results data table/detailed_analysis_final/detailed_analysis_results.json
+bad_pdf_analysis/eqQ4N7q_election results data table/detailed_analysis_final/eqQ4N7q_election results data table_detailed_analysis.md
+bad_pdf_analysis/eqQ4N7q_election results data table/detailed_analysis_final/page_1.png
+bad_pdf_analysis/eqQ4NoQ_data table/eqQ4NoQ_analysis.md
+bad_pdf_analysis/eqQ4NoQ_data table/analysis/eqQ4NoQ/analysis_summary.json
+bad_pdf_analysis/eqQ4NoQ_data table/analysis/eqQ4NoQ/page_1.png
+bad_pdf_analysis/eqQ4NoQ_data table/analysis/eqQ4NoQ/page_1_all_elements_inspect.txt
+bad_pdf_analysis/eqQ4NoQ_data table/analysis/eqQ4NoQ/page_1_all_regions.txt
+bad_pdf_analysis/eqQ4NoQ_data table/analysis/eqQ4NoQ/page_1_describe.txt
+bad_pdf_analysis/eqQ4NoQ_data table/analysis/eqQ4NoQ/page_1_table.json
+bad_pdf_analysis/eqQ4NoQ_data table/analysis/eqQ4NoQ/page_1_tatr_layout.txt
+bad_pdf_analysis/eqQ4NoQ_data table/analysis/eqQ4NoQ/page_1_tatr_regions.txt
+bad_pdf_analysis/eqQ4NoQ_data table/analysis/eqQ4NoQ/page_1_text.txt
+bad_pdf_analysis/eqQ4NoQ_data table/analysis/eqQ4NoQ/page_1_yolo_regions.txt
+bad_pdf_analysis/eqQ4NoQ_data table/detailed_analysis_final/detailed_analysis_results.json
+bad_pdf_analysis/eqQ4NoQ_data table/detailed_analysis_final/eqQ4NoQ_data table_detailed_analysis.md
+bad_pdf_analysis/eqQ4NoQ_data table/detailed_analysis_final/page_1.png
+bad_pdf_analysis/eqrZ5yq_The long table _Annex 6_ spanning across pages fro/eqrZ5yq_analysis.md
+bad_pdf_analysis/eqrZ5yq_The long table _Annex 6_ spanning across pages fro/analysis/eqrZ5yq/analysis_summary.json
+bad_pdf_analysis/eqrZ5yq_The long table _Annex 6_ spanning across pages fro/analysis/eqrZ5yq/page_1.png
+bad_pdf_analysis/eqrZ5yq_The long table _Annex 6_ spanning across pages fro/analysis/eqrZ5yq/page_1_all_elements_inspect.txt
+bad_pdf_analysis/eqrZ5yq_The long table _Annex 6_ spanning across pages fro/analysis/eqrZ5yq/page_1_all_regions.txt
+bad_pdf_analysis/eqrZ5yq_The long table _Annex 6_ spanning across pages fro/analysis/eqrZ5yq/page_1_describe.txt
+bad_pdf_analysis/eqrZ5yq_The long table _Annex 6_ spanning across pages fro/analysis/eqrZ5yq/page_1_table.json
+bad_pdf_analysis/eqrZ5yq_The long table _Annex 6_ spanning across pages fro/analysis/eqrZ5yq/page_1_text.txt
+bad_pdf_analysis/eqrZ5yq_The long table _Annex 6_ spanning across pages fro/analysis/eqrZ5yq/page_1_yolo_regions.txt
+bad_pdf_analysis/eqrZ5yq_The long table _Annex 6_ spanning across pages fro/enhanced_analysis/enhanced_analysis_results.json
+bad_pdf_analysis/eqrZ5yq_The long table _Annex 6_ spanning across pages fro/enhanced_analysis/eqrZ5yq_enhanced_analysis.md
+bad_pdf_analysis/eqrZ5yq_The long table _Annex 6_ spanning across pages fro/enhanced_analysis/page_89.png
+bad_pdf_analysis/eqrZ5yq_The long table _Annex 6_ spanning across pages fro/enhanced_analysis/page_90.png
+bad_pdf_analysis/eqrZ5yq_The long table _Annex 6_ spanning across pages fro/enhanced_analysis/page_91.png
+bad_pdf_analysis/eqrZ5yq_The long table _Annex 6_ spanning across pages fro/enhanced_analysis/page_92.png
+bad_pdf_analysis/eqrZZbq_The categorize chart _E1_ on page 4_ The chart_tab/eqrZZbq_analysis.md
+bad_pdf_analysis/eqrZZbq_The categorize chart _E1_ on page 4_ The chart_tab/analysis/eqrZZbq/analysis_summary.json
+bad_pdf_analysis/eqrZZbq_The categorize chart _E1_ on page 4_ The chart_tab/analysis/eqrZZbq/page_1.png
+bad_pdf_analysis/eqrZZbq_The categorize chart _E1_ on page 4_ The chart_tab/analysis/eqrZZbq/page_1_all_elements_inspect.txt
+bad_pdf_analysis/eqrZZbq_The categorize chart _E1_ on page 4_ The chart_tab/analysis/eqrZZbq/page_1_all_regions.txt
+bad_pdf_analysis/eqrZZbq_The categorize chart _E1_ on page 4_ The chart_tab/analysis/eqrZZbq/page_1_describe.txt
+bad_pdf_analysis/eqrZZbq_The categorize chart _E1_ on page 4_ The chart_tab/analysis/eqrZZbq/page_1_table.json
+bad_pdf_analysis/eqrZZbq_The categorize chart _E1_ on page 4_ The chart_tab/analysis/eqrZZbq/page_1_tatr_layout.txt
+bad_pdf_analysis/eqrZZbq_The categorize chart _E1_ on page 4_ The chart_tab/analysis/eqrZZbq/page_1_tatr_regions.txt
+bad_pdf_analysis/eqrZZbq_The categorize chart _E1_ on page 4_ The chart_tab/analysis/eqrZZbq/page_1_text.txt
+bad_pdf_analysis/eqrZZbq_The categorize chart _E1_ on page 4_ The chart_tab/analysis/eqrZZbq/page_1_yolo_regions.txt
+bad_pdf_analysis/eqrZZbq_The categorize chart _E1_ on page 4_ The chart_tab/enhanced_analysis_10/analysis_results.json
+bad_pdf_analysis/eqrZZbq_The categorize chart _E1_ on page 4_ The chart_tab/enhanced_analysis_10/eqrZZbq_The categorize chart _E1_ on page 4_ The chart_tab_enhanced_analysis.md
+bad_pdf_analysis/eqrZZbq_The categorize chart _E1_ on page 4_ The chart_tab/enhanced_analysis_10/page_4.png
+bad_pdf_analysis/ja6EqV1_A spreadsheet of use of force records__/ja6EqV1_analysis.md
+bad_pdf_analysis/ja6EqV1_A spreadsheet of use of force records__/analysis/ja6EqV1/analysis_summary.json
+bad_pdf_analysis/ja6EqV1_A spreadsheet of use of force records__/analysis/ja6EqV1/page_1.png
+bad_pdf_analysis/ja6EqV1_A spreadsheet of use of force records__/analysis/ja6EqV1/page_1_all_elements_inspect.txt
+bad_pdf_analysis/ja6EqV1_A spreadsheet of use of force records__/analysis/ja6EqV1/page_1_describe.txt
+bad_pdf_analysis/ja6EqV1_A spreadsheet of use of force records__/analysis/ja6EqV1/page_1_table.json
+bad_pdf_analysis/ja6EqV1_A spreadsheet of use of force records__/analysis/ja6EqV1/page_1_text.txt
+bad_pdf_analysis/lbODDK6_The text in Ethiopian./lbODDK6_analysis.md
+bad_pdf_analysis/lbODDK6_The text in Ethiopian./analysis/lbODDK6/analysis_summary.json
+bad_pdf_analysis/lbODDK6_The text in Ethiopian./analysis/lbODDK6/page_1.png
+bad_pdf_analysis/lbODDK6_The text in Ethiopian./analysis/lbODDK6/page_1_all_elements_inspect.txt
+bad_pdf_analysis/lbODDK6_The text in Ethiopian./analysis/lbODDK6/page_1_all_regions.txt
+bad_pdf_analysis/lbODDK6_The text in Ethiopian./analysis/lbODDK6/page_1_describe.txt
+bad_pdf_analysis/lbODDK6_The text in Ethiopian./analysis/lbODDK6/page_1_table.json
+bad_pdf_analysis/lbODDK6_The text in Ethiopian./analysis/lbODDK6/page_1_text.txt
+bad_pdf_analysis/lbODDK6_The text in Ethiopian./analysis/lbODDK6/page_1_yolo_regions.txt
+bad_pdf_analysis/lbODDK6_The text in Ethiopian./detailed_analysis_final/detailed_analysis_results.json
+bad_pdf_analysis/lbODDK6_The text in Ethiopian./detailed_analysis_final/lbODDK6_The text in Ethiopian._detailed_analysis.md
+bad_pdf_analysis/lbODDK6_The text in Ethiopian./detailed_analysis_final/page_1.png
+bad_pdf_analysis/lbODDK6_The text in Ethiopian./detailed_analysis_final/page_32.png
+bad_pdf_analysis/lbODqev_Large wide tables in Serbian _from page 63 and on_/lbODqev_analysis.md
+bad_pdf_analysis/lbODqev_Large wide tables in Serbian _from page 63 and on_/analysis/lbODqev/analysis_summary.json
+bad_pdf_analysis/lbODqev_Large wide tables in Serbian _from page 63 and on_/analysis/lbODqev/page_1.png
+bad_pdf_analysis/lbODqev_Large wide tables in Serbian _from page 63 and on_/analysis/lbODqev/page_1_all_elements_inspect.txt
+bad_pdf_analysis/lbODqev_Large wide tables in Serbian _from page 63 and on_/analysis/lbODqev/page_1_all_regions.txt
+bad_pdf_analysis/lbODqev_Large wide tables in Serbian _from page 63 and on_/analysis/lbODqev/page_1_describe.txt
+bad_pdf_analysis/lbODqev_Large wide tables in Serbian _from page 63 and on_/analysis/lbODqev/page_1_table.json
+bad_pdf_analysis/lbODqev_Large wide tables in Serbian _from page 63 and on_/analysis/lbODqev/page_1_tatr_layout.txt
+bad_pdf_analysis/lbODqev_Large wide tables in Serbian _from page 63 and on_/analysis/lbODqev/page_1_tatr_regions.txt
+bad_pdf_analysis/lbODqev_Large wide tables in Serbian _from page 63 and on_/analysis/lbODqev/page_1_text.txt
+bad_pdf_analysis/lbODqev_Large wide tables in Serbian _from page 63 and on_/analysis/lbODqev/page_1_yolo_regions.txt
+bad_pdf_analysis/lbODqev_Large wide tables in Serbian _from page 63 and on_/detailed_analysis_final/detailed_analysis_results.json
+bad_pdf_analysis/lbODqev_Large wide tables in Serbian _from page 63 and on_/detailed_analysis_final/lbODqev_Large wide tables in Serbian _from page 63 and on__detailed_analysis.md
+bad_pdf_analysis/lbODqev_Large wide tables in Serbian _from page 63 and on_/detailed_analysis_final/page_63.png
+bad_pdf_analysis/lbODqev_Large wide tables in Serbian _from page 63 and on_/enhanced_analysis_10/analysis_results.json
+bad_pdf_analysis/lbODqev_Large wide tables in Serbian _from page 63 and on_/enhanced_analysis_10/lbODqev_Large wide tables in Serbian _from page 63 and on__enhanced_analysis.md
+bad_pdf_analysis/lbODqev_Large wide tables in Serbian _from page 63 and on_/enhanced_analysis_10/page_63.png
+bad_pdf_analysis/lbODqev_Large wide tables in Serbian _from page 63 and on_/enhanced_analysis_10/page_64.png
+bad_pdf_analysis/lbODqev_Large wide tables in Serbian _from page 63 and on_/enhanced_analysis_10/page_65.png
+bad_pdf_analysis/obR1XQb_Animal-related 911 calls and their descriptions fo/obR1XQb_analysis.md
+bad_pdf_analysis/obR1XQb_Animal-related 911 calls and their descriptions fo/analysis/obR1XQb/analysis_summary.json
+bad_pdf_analysis/obR1XQb_Animal-related 911 calls and their descriptions fo/analysis/obR1XQb/page_1.png
+bad_pdf_analysis/obR1XQb_Animal-related 911 calls and their descriptions fo/analysis/obR1XQb/page_1_all_elements_inspect.txt
+bad_pdf_analysis/obR1XQb_Animal-related 911 calls and their descriptions fo/analysis/obR1XQb/page_1_all_regions.txt
+bad_pdf_analysis/obR1XQb_Animal-related 911 calls and their descriptions fo/analysis/obR1XQb/page_1_describe.txt
+bad_pdf_analysis/obR1XQb_Animal-related 911 calls and their descriptions fo/analysis/obR1XQb/page_1_table.json
+bad_pdf_analysis/obR1XQb_Animal-related 911 calls and their descriptions fo/analysis/obR1XQb/page_1_tatr_layout.txt
+bad_pdf_analysis/obR1XQb_Animal-related 911 calls and their descriptions fo/analysis/obR1XQb/page_1_tatr_regions.txt
+bad_pdf_analysis/obR1XQb_Animal-related 911 calls and their descriptions fo/analysis/obR1XQb/page_1_text.txt
+bad_pdf_analysis/obR1XQb_Animal-related 911 calls and their descriptions fo/analysis/obR1XQb/page_1_yolo_regions.txt
+bad_pdf_analysis/obR6Dxb_Large table that spans across pages in Serbian _e./obR6Dxb_analysis.md
+bad_pdf_analysis/obR6Dxb_Large table that spans across pages in Serbian _e./analysis/obR6Dxb/analysis_summary.json
+bad_pdf_analysis/obR6Dxb_Large table that spans across pages in Serbian _e./analysis/obR6Dxb/page_1.png
+bad_pdf_analysis/obR6Dxb_Large table that spans across pages in Serbian _e./analysis/obR6Dxb/page_1_all_elements_inspect.txt
+bad_pdf_analysis/obR6Dxb_Large table that spans across pages in Serbian _e./analysis/obR6Dxb/page_1_all_regions.txt
+bad_pdf_analysis/obR6Dxb_Large table that spans across pages in Serbian _e./analysis/obR6Dxb/page_1_describe.txt
+bad_pdf_analysis/obR6Dxb_Large table that spans across pages in Serbian _e./analysis/obR6Dxb/page_1_table.json
+bad_pdf_analysis/obR6Dxb_Large table that spans across pages in Serbian _e./analysis/obR6Dxb/page_1_tatr_layout.txt
+bad_pdf_analysis/obR6Dxb_Large table that spans across pages in Serbian _e./analysis/obR6Dxb/page_1_tatr_regions.txt
+bad_pdf_analysis/obR6Dxb_Large table that spans across pages in Serbian _e./analysis/obR6Dxb/page_1_text.txt
+bad_pdf_analysis/obR6Dxb_Large table that spans across pages in Serbian _e./analysis/obR6Dxb/page_1_yolo_regions.txt
+bad_pdf_analysis/obR6Dxb_Large table that spans across pages in Serbian _e./detailed_analysis_final/detailed_analysis_results.json
+bad_pdf_analysis/obR6Dxb_Large table that spans across pages in Serbian _e./detailed_analysis_final/obR6Dxb_Large table that spans across pages in Serbian _e._detailed_analysis.md
+bad_pdf_analysis/obR6Dxb_Large table that spans across pages in Serbian _e./detailed_analysis_final/page_1.png
+bad_pdf_analysis/obR6Dxb_Large table that spans across pages in Serbian _e./detailed_analysis_final/page_60.png
+bad_pdf_analysis/obR6Dxb_Large table that spans across pages in Serbian _e./enhanced_analysis_10/analysis_results.json
+bad_pdf_analysis/obR6Dxb_Large table that spans across pages in Serbian _e./enhanced_analysis_10/obR6Dxb_Large table that spans across pages in Serbian _e._enhanced_analysis.md
+bad_pdf_analysis/obR6Dxb_Large table that spans across pages in Serbian _e./enhanced_analysis_10/page_1.png
+bad_pdf_analysis/obR6Dxb_Large table that spans across pages in Serbian _e./enhanced_analysis_10/page_2.png
+bad_pdf_analysis/obR6Dxb_Large table that spans across pages in Serbian _e./enhanced_analysis_10/page_3.png
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/obe1Vq5_analysis.md
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/analysis/obe1Vq5/analysis_summary.json
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/analysis/obe1Vq5/page_1.png
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/analysis/obe1Vq5/page_1_all_elements_inspect.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/analysis/obe1Vq5/page_1_all_regions.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/analysis/obe1Vq5/page_1_describe.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/analysis/obe1Vq5/page_1_table.json
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/analysis/obe1Vq5/page_1_tatr_layout.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/analysis/obe1Vq5/page_1_tatr_regions.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/analysis/obe1Vq5/page_1_text.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/analysis/obe1Vq5/page_1_yolo_regions.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/analysis_summary.json
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_1.png
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_1_all_elements_inspect.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_1_all_regions.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_1_describe.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_1_table.json
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_1_tatr_layout.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_1_tatr_regions.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_1_text.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_1_yolo_regions.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_2.png
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_2_all_elements_inspect.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_2_all_regions.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_2_describe.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_2_table.json
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_2_tatr_layout.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_2_tatr_regions.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_2_text.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_2_yolo_regions.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_3.png
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_3_all_elements_inspect.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_3_all_regions.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_3_describe.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_3_table.json
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_3_tatr_layout.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_3_tatr_regions.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_3_text.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_3_yolo_regions.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_4.png
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_4_all_elements_inspect.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_4_all_regions.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_4_describe.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_4_table.json
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_4_tatr_layout.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_4_tatr_regions.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_4_text.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_4_yolo_regions.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_5.png
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_5_all_elements_inspect.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_5_all_regions.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_5_describe.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_5_table.json
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_5_text.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis/obe1Vq5/page_5_yolo_regions.txt
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis_final/detailed_analysis_results.json
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis_final/obe1Vq5_MARKED UP text -- underline and strikethu__for bon_detailed_analysis.md
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/detailed_analysis_final/page_1.png
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/enhanced_analysis_10/analysis_results.json
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/enhanced_analysis_10/obe1Vq5_MARKED UP text -- underline and strikethu__for bon_enhanced_analysis.md
+bad_pdf_analysis/obe1Vq5_MARKED UP text -- underline and strikethu__for bon/enhanced_analysis_10/page_1.png
+bad_pdf_analysis/obeW0bN_The data table/obeW0bN_analysis.md
+bad_pdf_analysis/obeW0bN_The data table/analysis/obeW0bN/analysis_summary.json
+bad_pdf_analysis/obeW0bN_The data table/analysis/obeW0bN/page_1.png
+bad_pdf_analysis/obeW0bN_The data table/analysis/obeW0bN/page_1_all_elements_inspect.txt
+bad_pdf_analysis/obeW0bN_The data table/analysis/obeW0bN/page_1_all_regions.txt
+bad_pdf_analysis/obeW0bN_The data table/analysis/obeW0bN/page_1_describe.txt
+bad_pdf_analysis/obeW0bN_The data table/analysis/obeW0bN/page_1_table.json
+bad_pdf_analysis/obeW0bN_The data table/analysis/obeW0bN/page_1_text.txt
+bad_pdf_analysis/obeW0bN_The data table/analysis/obeW0bN/page_1_yolo_regions.txt
+bad_pdf_analysis/ober4db_The graph and table on page 180 and 181/ober4db_analysis.md
+bad_pdf_analysis/ober4db_The graph and table on page 180 and 181/analysis/ober4db/analysis_summary.json
+bad_pdf_analysis/ober4db_The graph and table on page 180 and 181/analysis/ober4db/page_1.png
+bad_pdf_analysis/ober4db_The graph and table on page 180 and 181/analysis/ober4db/page_1_all_elements_inspect.txt
+bad_pdf_analysis/ober4db_The graph and table on page 180 and 181/analysis/ober4db/page_1_all_regions.txt
+bad_pdf_analysis/ober4db_The graph and table on page 180 and 181/analysis/ober4db/page_1_describe.txt
+bad_pdf_analysis/ober4db_The graph and table on page 180 and 181/analysis/ober4db/page_1_table.json
+bad_pdf_analysis/ober4db_The graph and table on page 180 and 181/analysis/ober4db/page_1_text.txt
+bad_pdf_analysis/ober4db_The graph and table on page 180 and 181/analysis/ober4db/page_1_yolo_regions.txt
+bad_pdf_analysis/ober4db_The graph and table on page 180 and 181/enhanced_analysis_10/analysis_results.json
+bad_pdf_analysis/ober4db_The graph and table on page 180 and 181/enhanced_analysis_10/ober4db_The graph and table on page 180 and 181_enhanced_analysis.md
+bad_pdf_analysis/ober4db_The graph and table on page 180 and 181/enhanced_analysis_10/page_180.png
+bad_pdf_analysis/ober4db_The graph and table on page 180 and 181/enhanced_analysis_10/page_181.png
+bad_pdf_analysis/oberryX_The survery question table_ such as the one on pag/oberryX_analysis.md
+bad_pdf_analysis/oberryX_The survery question table_ such as the one on pag/analysis/oberryX/analysis_summary.json
+bad_pdf_analysis/oberryX_The survery question table_ such as the one on pag/analysis/oberryX/page_1.png
+bad_pdf_analysis/oberryX_The survery question table_ such as the one on pag/analysis/oberryX/page_1_all_elements_inspect.txt
+bad_pdf_analysis/oberryX_The survery question table_ such as the one on pag/analysis/oberryX/page_1_all_regions.txt
+bad_pdf_analysis/oberryX_The survery question table_ such as the one on pag/analysis/oberryX/page_1_describe.txt
+bad_pdf_analysis/oberryX_The survery question table_ such as the one on pag/analysis/oberryX/page_1_table.json
+bad_pdf_analysis/oberryX_The survery question table_ such as the one on pag/analysis/oberryX/page_1_text.txt
+bad_pdf_analysis/oberryX_The survery question table_ such as the one on pag/analysis/oberryX/page_1_yolo_regions.txt
+bad_pdf_analysis/oberryX_The survery question table_ such as the one on pag/enhanced_analysis_10/analysis_results.json
+bad_pdf_analysis/oberryX_The survery question table_ such as the one on pag/enhanced_analysis_10/oberryX_The survery question table_ such as the one on pag_enhanced_analysis.md
+bad_pdf_analysis/oberryX_The survery question table_ such as the one on pag/enhanced_analysis_10/page_1.png
+bad_pdf_analysis/pbDb4PP_This PDF is titled _Creating a Regional Circulatin/pbDb4PP_analysis.md
+bad_pdf_analysis/pbDb4PP_This PDF is titled _Creating a Regional Circulatin/analysis/pbDb4PP/analysis_summary.json
+bad_pdf_analysis/pbDb4PP_This PDF is titled _Creating a Regional Circulatin/analysis/pbDb4PP/page_1.png
+bad_pdf_analysis/pbDb4PP_This PDF is titled _Creating a Regional Circulatin/analysis/pbDb4PP/page_1_all_elements_inspect.txt
+bad_pdf_analysis/pbDb4PP_This PDF is titled _Creating a Regional Circulatin/analysis/pbDb4PP/page_1_all_regions.txt
+bad_pdf_analysis/pbDb4PP_This PDF is titled _Creating a Regional Circulatin/analysis/pbDb4PP/page_1_describe.txt
+bad_pdf_analysis/pbDb4PP_This PDF is titled _Creating a Regional Circulatin/analysis/pbDb4PP/page_1_table.json
+bad_pdf_analysis/pbDb4PP_This PDF is titled _Creating a Regional Circulatin/analysis/pbDb4PP/page_1_text.txt
+bad_pdf_analysis/pbDb4PP_This PDF is titled _Creating a Regional Circulatin/analysis/pbDb4PP/page_1_yolo_regions.txt
+bad_pdf_analysis/q4DXYk8_The disciplinary log table/q4DXYk8_analysis.md
+bad_pdf_analysis/q4DXYk8_The disciplinary log table/analysis/q4DXYk8/analysis_summary.json
+bad_pdf_analysis/q4DXYk8_The disciplinary log table/analysis/q4DXYk8/page_1.png
+bad_pdf_analysis/q4DXYk8_The disciplinary log table/analysis/q4DXYk8/page_1_all_elements_inspect.txt
+bad_pdf_analysis/q4DXYk8_The disciplinary log table/analysis/q4DXYk8/page_1_all_regions.txt
+bad_pdf_analysis/q4DXYk8_The disciplinary log table/analysis/q4DXYk8/page_1_describe.txt
+bad_pdf_analysis/q4DXYk8_The disciplinary log table/analysis/q4DXYk8/page_1_tatr_layout.txt
+bad_pdf_analysis/q4DXYk8_The disciplinary log table/analysis/q4DXYk8/page_1_tatr_regions.txt
+bad_pdf_analysis/q4DXYk8_The disciplinary log table/analysis/q4DXYk8/page_1_text.txt
+bad_pdf_analysis/q4DXYk8_The disciplinary log table/analysis/q4DXYk8/page_1_yolo_regions.txt
+bad_pdf_analysis/q4DXYk8_The disciplinary log table/detailed_analysis_final/detailed_analysis_results.json
+bad_pdf_analysis/q4DXYk8_The disciplinary log table/detailed_analysis_final/page_1.png
+bad_pdf_analysis/q4DXYk8_The disciplinary log table/detailed_analysis_final/q4DXYk8_The disciplinary log table_detailed_analysis.md
+bad_pdf_analysis/zxyRByM_Tables_ Have never managed to get other python lib/zxyRByM_analysis.md
+bad_pdf_analysis/zxyRByM_Tables_ Have never managed to get other python lib/analysis/zxyRByM/analysis_summary.json
+bad_pdf_analysis/zxyRByM_Tables_ Have never managed to get other python lib/analysis/zxyRByM/page_1.png
+bad_pdf_analysis/zxyRByM_Tables_ Have never managed to get other python lib/analysis/zxyRByM/page_1_all_elements_inspect.txt
+bad_pdf_analysis/zxyRByM_Tables_ Have never managed to get other python lib/analysis/zxyRByM/page_1_all_regions.txt
+bad_pdf_analysis/zxyRByM_Tables_ Have never managed to get other python lib/analysis/zxyRByM/page_1_describe.txt
+bad_pdf_analysis/zxyRByM_Tables_ Have never managed to get other python lib/analysis/zxyRByM/page_1_table.json
+bad_pdf_analysis/zxyRByM_Tables_ Have never managed to get other python lib/analysis/zxyRByM/page_1_tatr_layout.txt
+bad_pdf_analysis/zxyRByM_Tables_ Have never managed to get other python lib/analysis/zxyRByM/page_1_tatr_regions.txt
+bad_pdf_analysis/zxyRByM_Tables_ Have never managed to get other python lib/analysis/zxyRByM/page_1_text.txt
+bad_pdf_analysis/zxyRByM_Tables_ Have never managed to get other python lib/analysis/zxyRByM/page_1_yolo_regions.txt
+bad_pdf_analysis/zxyRByM_Tables_ Have never managed to get other python lib/detailed_analysis_final/detailed_analysis_results.json
+bad_pdf_analysis/zxyRByM_Tables_ Have never managed to get other python lib/detailed_analysis_final/page_1.png
+bad_pdf_analysis/zxyRByM_Tables_ Have never managed to get other python lib/detailed_analysis_final/page_6.png
+bad_pdf_analysis/zxyRByM_Tables_ Have never managed to get other python lib/detailed_analysis_final/zxyRByM_Tables_ Have never managed to get other python lib_detailed_analysis.md
+docs/index.md
+docs/api/index.md
+docs/assets/favicon.png
+docs/assets/favicon.svg
+docs/assets/logo.svg
+docs/assets/sample-screen.png
+docs/assets/social-preview.png
+docs/assets/social-preview.svg
+docs/assets/javascripts/custom.js
+docs/assets/stylesheets/custom.css
+docs/categorizing-documents/index.md
+docs/data-extraction/index.md
+docs/describe/index.ipynb
+docs/describe/index.md
+docs/document-qa/index.ipynb
+docs/document-qa/index.md
+docs/element-selection/index.ipynb
+docs/element-selection/index.md
+docs/extracting-clean-text/index.ipynb
+docs/extracting-clean-text/index.md
+docs/finetuning/index.md
+docs/fix-messy-tables/index.ipynb
+docs/fix-messy-tables/index.md
+docs/fix-messy-tables/table_1.csv
+docs/fix-messy-tables/table_2.csv
+docs/fix-messy-tables/table_3.csv
+docs/installation/index.md
+docs/interactive-widget/index.ipynb
+docs/interactive-widget/index.md
+docs/layout-analysis/index.ipynb
+docs/layout-analysis/index.md
+docs/loops-and-groups/index.ipynb
+docs/loops-and-groups/index.md
+docs/ocr/index.md
+docs/ocr-tool/index.html
+docs/ocr-tool/words.txt
+docs/ocr-tool/css/style.css
+docs/ocr-tool/js/app.js
+docs/ocr-tool/js/vendor/FileSaver.min.js
+docs/ocr-tool/js/vendor/babel.min.js
+docs/ocr-tool/js/vendor/hooks.umd.js
+docs/ocr-tool/js/vendor/htm-preact.umd.min.js
+docs/ocr-tool/js/vendor/htm.umd.min.js
+docs/ocr-tool/js/vendor/jszip.min.js
+docs/ocr-tool/js/vendor/preact.umd.min.js
+docs/ocr-tool/js/vendor/react-dom.development.js
+docs/ocr-tool/js/vendor/react.development.js
+docs/pdf-navigation/index.ipynb
+docs/pdf-navigation/index.md
+docs/process-forms-and-invoices/extracted_form_data.csv
+docs/process-forms-and-invoices/index.ipynb
+docs/process-forms-and-invoices/index.md
+docs/quick-reference/index.ipynb
+docs/quick-reference/index.md
+docs/reflowing-pages/index.ipynb
+docs/reflowing-pages/index.md
+docs/regions/index.ipynb
+docs/regions/index.md
+docs/tables/index.ipynb
+docs/tables/index.md
+docs/text-analysis/index.ipynb
+docs/text-analysis/index.md
+docs/text-extraction/index.ipynb
+docs/tutorials/01-loading-and-extraction.ipynb
+docs/tutorials/01-loading-and-extraction.md
+docs/tutorials/02-finding-elements.ipynb
+docs/tutorials/02-finding-elements.md
+docs/tutorials/03-extracting-blocks.ipynb
+docs/tutorials/03-extracting-blocks.md
+docs/tutorials/04-table-extraction.ipynb
+docs/tutorials/04-table-extraction.md
+docs/tutorials/05-excluding-content.ipynb
+docs/tutorials/05-excluding-content.md
+docs/tutorials/06-document-qa.ipynb
+docs/tutorials/06-document-qa.md
+docs/tutorials/07-layout-analysis.ipynb
+docs/tutorials/07-layout-analysis.md
+docs/tutorials/07-working-with-regions.ipynb
+docs/tutorials/07-working-with-regions.md
+docs/tutorials/08-spatial-navigation.ipynb
+docs/tutorials/08-spatial-navigation.md
+docs/tutorials/09-section-extraction.ipynb
+docs/tutorials/09-section-extraction.md
+docs/tutorials/10-form-field-extraction.ipynb
+docs/tutorials/10-form-field-extraction.md
+docs/tutorials/11-enhanced-table-processing.ipynb
+docs/tutorials/11-enhanced-table-processing.md
+docs/tutorials/12-ocr-integration.ipynb
+docs/tutorials/12-ocr-integration.md
+docs/tutorials/13-semantic-search.ipynb
+docs/tutorials/13-semantic-search.md
+docs/tutorials/14-categorizing-documents.ipynb
+docs/tutorials/14-categorizing-documents.md
+docs/visual-debugging/index.ipynb
+docs/visual-debugging/index.md
+docs/visual-debugging/region.png
+natural_pdf/__init__.py
+natural_pdf/cli.py
+natural_pdf.egg-info/PKG-INFO
+natural_pdf.egg-info/SOURCES.txt
+natural_pdf.egg-info/dependency_links.txt
+natural_pdf.egg-info/entry_points.txt
+natural_pdf.egg-info/requires.txt
+natural_pdf.egg-info/top_level.txt
+natural_pdf/analyzers/__init__.py
+natural_pdf/analyzers/guides.py
+natural_pdf/analyzers/shape_detection_mixin.py
+natural_pdf/analyzers/text_options.py
+natural_pdf/analyzers/text_structure.py
+natural_pdf/analyzers/utils.py
+natural_pdf/analyzers/layout/__init__.py
+natural_pdf/analyzers/layout/base.py
+natural_pdf/analyzers/layout/docling.py
+natural_pdf/analyzers/layout/gemini.py
+natural_pdf/analyzers/layout/layout_analyzer.py
+natural_pdf/analyzers/layout/layout_manager.py
+natural_pdf/analyzers/layout/layout_options.py
+natural_pdf/analyzers/layout/paddle.py
+natural_pdf/analyzers/layout/pdfplumber_table_finder.py
+natural_pdf/analyzers/layout/surya.py
+natural_pdf/analyzers/layout/table_structure_utils.py
+natural_pdf/analyzers/layout/tatr.py
+natural_pdf/analyzers/layout/yolo.py
+natural_pdf/classification/manager.py
+natural_pdf/classification/mixin.py
+natural_pdf/classification/results.py
+natural_pdf/collections/mixins.py
+natural_pdf/collections/pdf_collection.py
+natural_pdf/core/__init__.py
+natural_pdf/core/element_manager.py
+natural_pdf/core/highlighting_service.py
+natural_pdf/core/page.py
+natural_pdf/core/pdf.py
+natural_pdf/describe/__init__.py
+natural_pdf/describe/base.py
+natural_pdf/describe/elements.py
+natural_pdf/describe/mixin.py
+natural_pdf/describe/summary.py
+natural_pdf/elements/__init__.py
+natural_pdf/elements/base.py
+natural_pdf/elements/collections.py
+natural_pdf/elements/image.py
+natural_pdf/elements/line.py
+natural_pdf/elements/rect.py
+natural_pdf/elements/region.py
+natural_pdf/elements/text.py
+natural_pdf/export/mixin.py
+natural_pdf/exporters/__init__.py
+natural_pdf/exporters/base.py
+natural_pdf/exporters/hocr.py
+natural_pdf/exporters/hocr_font.py
+natural_pdf/exporters/original_pdf.py
+natural_pdf/exporters/paddleocr.py
+natural_pdf/exporters/searchable_pdf.py
+natural_pdf/exporters/data/__init__.py
+natural_pdf/exporters/data/pdf.ttf
+natural_pdf/exporters/data/sRGB.icc
+natural_pdf/extraction/manager.py
+natural_pdf/extraction/mixin.py
+natural_pdf/extraction/result.py
+natural_pdf/flows/__init__.py
+natural_pdf/flows/collections.py
+natural_pdf/flows/element.py
+natural_pdf/flows/flow.py
+natural_pdf/flows/region.py
+natural_pdf/ocr/__init__.py
+natural_pdf/ocr/engine.py
+natural_pdf/ocr/engine_doctr.py
+natural_pdf/ocr/engine_easyocr.py
+natural_pdf/ocr/engine_paddle.py
+natural_pdf/ocr/engine_surya.py
+natural_pdf/ocr/ocr_factory.py
+natural_pdf/ocr/ocr_manager.py
+natural_pdf/ocr/ocr_options.py
+natural_pdf/ocr/utils.py
+natural_pdf/qa/__init__.py
+natural_pdf/qa/document_qa.py
+natural_pdf/qa/qa_result.py
+natural_pdf/search/__init__.py
+natural_pdf/search/lancedb_search_service.py
+natural_pdf/search/numpy_search_service.py
+natural_pdf/search/search_options.py
+natural_pdf/search/search_service_protocol.py
+natural_pdf/search/searchable_mixin.py
+natural_pdf/selectors/__init__.py
+natural_pdf/selectors/parser.py
+natural_pdf/tables/__init__.py
+natural_pdf/tables/result.py
+natural_pdf/templates/__init__.py
+natural_pdf/templates/finetune/fine_tune_paddleocr.md
+natural_pdf/templates/spa/index.html
+natural_pdf/templates/spa/words.txt
+natural_pdf/templates/spa/css/style.css
+natural_pdf/templates/spa/js/app.js
+natural_pdf/utils/__init__.py
+natural_pdf/utils/bidi_mirror.py
+natural_pdf/utils/debug.py
+natural_pdf/utils/highlighting.py
+natural_pdf/utils/identifiers.py
+natural_pdf/utils/locks.py
+natural_pdf/utils/packaging.py
+natural_pdf/utils/reading_order.py
+natural_pdf/utils/text_extraction.py
+natural_pdf/utils/visualization.py
+natural_pdf/widgets/__init__.py
+natural_pdf/widgets/viewer.py
+optimization/memory_comparison.py
+optimization/pdf_analyzer.py
+optimization/performance_analysis.py
+optimization/test_cleanup_methods.py
+optimization/test_memory_fix.py
+optimization/performance_results/image_heavy_snapshots.csv
+optimization/performance_results/image_heavy_snapshots.json
+optimization/performance_results/text_heavy_snapshots.csv
+optimization/performance_results/text_heavy_snapshots.json
+pdfs/.gitkeep
+pdfs/01-practice.pdf
+pdfs/0500000US42001.pdf
+pdfs/0500000US42007.pdf
+pdfs/1107231007033739008.pdf
+pdfs/2014 Statistics.pdf
+pdfs/2019 Statistics.pdf
+pdfs/30.pdf
+pdfs/Atlanta_Public_Schools_GA_sample.pdf
+pdfs/July 2023 N4 Temp Logs.pdf
+pdfs/anexo_edital_6604_1743480-table.pdf
+pdfs/appendix_fy2026.pdf
+pdfs/arabic.pdf
+pdfs/cia-doc.pdf
+pdfs/geometry.pdf
+pdfs/hebrew-table.pdf
+pdfs/image.png
+pdfs/image.png.pdf
+pdfs/multi-page-table.pdf
+pdfs/multicolumn.pdf
+pdfs/needs-ocr.pdf
+pdfs/red.pdf
+pdfs/shapes-and-text.pdf
+pdfs/tiny-ocr-2.pdf
+pdfs/tiny-ocr-3.pdf
+pdfs/tiny-ocr-small.jpg
+pdfs/tiny-ocr-wide.jpg
+pdfs/tiny-ocr.pdf
+pdfs/tiny-text-tables.pdf
+pdfs/tiny.pdf
+pdfs/types-of-type.pdf
+pdfs/word-counter.pdf
+tests/conftest.py
+tests/test_arabic_performance.py
+tests/test_arabic_real_world.py
+tests/test_document_qa.py
+tests/test_guides.py
+tests/test_guides_integration.py
+tests/test_highlight_detection.py
+tests/test_loading_original.py
+tests/test_optional_deps.py
+tests/test_strikethrough_detection.py
+tests/test_tiny_text_tables.py
+tests/test_tiny_text_tables_table.py
+tests/test_tutorials.py
+tests/test_underline_detection.py
+tests/exporters/test_paddleocr_exporter.py
+tests/test_core/test_containment_geometry.py
+tests/test_core/test_elements.py
+tests/test_core/test_loading.py
+tests/test_core/test_spatial.py
+tests/test_core/test_text_extraction.py
+tests/test_core/test_text_layer.py
+todo/bad_pdf_analysis.md
+todo/evaluation.md
+tools/bad_pdf_eval/IMPROVEMENTS_SUMMARY.md
+tools/bad_pdf_eval/LLM_NaturalPDF_CheatSheet.md
+tools/bad_pdf_eval/LLM_NaturalPDF_Workflows.md
+tools/bad_pdf_eval/README.md
+tools/bad_pdf_eval/__init__.py
+tools/bad_pdf_eval/analyser.py
+tools/bad_pdf_eval/collate_summaries.py
+tools/bad_pdf_eval/compile_attempts_markdown.py
+tools/bad_pdf_eval/eval_suite.py
+tools/bad_pdf_eval/evaluate_quality.py
+tools/bad_pdf_eval/export_enrichment_csv.py
+tools/bad_pdf_eval/extraction_decision_tree.md
+tools/bad_pdf_eval/llm_enrich.py
+tools/bad_pdf_eval/llm_enrich_with_retry.py
+tools/bad_pdf_eval/reporter.py
+tools/bad_pdf_eval/utils.py
