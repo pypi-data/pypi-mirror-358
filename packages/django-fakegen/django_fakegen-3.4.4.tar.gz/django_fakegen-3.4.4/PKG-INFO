@@ -1,0 +1,202 @@
+Metadata-Version: 2.4
+Name: django-fakegen
+Version: 3.4.4
+Summary: 🎭 Intelligent test data generation for Django applications with advanced field introspection
+Home-page: https://github.com/your-username/django-fakegen
+Author: Mezo
+Author-email: motazfawzy73@gmail.com
+Maintainer: Mezo
+Maintainer-email: motazfawzy73@gmail.com
+License: MIT
+Project-URL: Homepage, https://github.com/Moataz0000/django_fakegen
+Project-URL: Documentation, https://github.com/Moataz0000/django_fakegen
+Project-URL: Source Code, https://github.com/Moataz0000/django_fakegen
+Project-URL: Bug Reports, https://github.com/your-username/django-fakegen/issues
+Keywords: django,faker,test-data,fixtures,mock-data,development,testing,database,seeding,generation,fake-data,sample-data,demo-data,populate
+Platform: any
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: System Administrators
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Software Development :: Testing
+Classifier: Topic :: Database
+Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content
+Classifier: Framework :: Django
+Classifier: Framework :: Django :: 4.2
+Classifier: Framework :: Django :: 5.0
+Classifier: Framework :: Django :: 5.1
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Operating System :: OS Independent
+Classifier: Operating System :: POSIX
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: MacOS
+Classifier: Environment :: Web Environment
+Classifier: Environment :: Console
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: Django<6.0,>=4.2
+Requires-Dist: Faker>=20.0.0
+Requires-Dist: python-dateutil>=2.8.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-django>=4.5.0; extra == "dev"
+Requires-Dist: black>=22.0.0; extra == "dev"
+Requires-Dist: flake8>=5.0.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Provides-Extra: performance
+Requires-Dist: numpy>=1.21.0; extra == "performance"
+Requires-Dist: pandas>=1.3.0; extra == "performance"
+Provides-Extra: docs
+Requires-Dist: sphinx>=5.0.0; extra == "docs"
+Requires-Dist: sphinx-rtd-theme>=1.0.0; extra == "docs"
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: maintainer
+Dynamic: maintainer-email
+Dynamic: platform
+Dynamic: project-url
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# django-fakegen
+
+A Django package for generating smart fake data for your models. It leverages [Faker](https://faker.readthedocs.io/) to automatically populate Django models with realistic data, supporting a wide range of field types, including relations.
+
+[![GitHub](https://img.shields.io/badge/GitHub-django--fakegen-blue?logo=github)](https://github.com/Moataz0000/django_fakegen)
+
+---
+
+## Features
+- Generate fake data for any Django model, including related fields
+- Supports bulk generation
+- Customizable via field overrides
+- CLI integration via Django management command
+
+## Installation
+
+```bash
+pip install django-fakegen
+```
+
+Add `django_fakegen` to your `INSTALLED_APPS` if needed (not strictly required for management command usage).
+
+**Example:**
+
+```python
+# settings.py
+
+INSTALLED_APPS = [
+    # ...
+    'django_fakegen',
+    # ...
+]
+```
+
+## Usage
+
+### Command Line
+
+Generate 10 fake instances for a model:
+
+```bash
+python manage.py fakegen app_label.ModelName
+```
+
+Generate a custom number of instances:
+
+```bash
+python manage.py fakegen app_label.ModelName --count 50
+```
+
+### Programmatic Usage
+
+You can use the registry directly in your code:
+
+```python
+from django_fakegen.registry import registry
+
+# Generate a single instance
+instance = registry.generate_instance(MyModel)
+
+# Generate multiple instances
+instances = registry.bulk_generate('app_label.ModelName', count=20)
+```
+
+## Supported Fields
+
+django-fakegen supports the following Django field types:
+
+| Field Type           | Generator Behavior                                  |
+|---------------------|-----------------------------------------------------|
+| CharField           | Title-like string, respects `max_length`             |
+| TextField           | Realistic text, up to 250 chars                     |
+| IntegerField        | Random integer (0-100)                              |
+| PositiveIntegerField| Random integer (0-100)                              |
+| FloatField          | Random float (5 digits left, 2 right)               |
+| BooleanField        | Random boolean                                      |
+| DateTimeField       | Random datetime (this year)                         |
+| DateField           | Random date (this year)                             |
+| TimeField           | Random time                                         |
+| EmailField          | Random email address                                |
+| ForeignKey          | Random related instance                             |
+| OneToOneField       | Random related instance                             |
+| ManyToManyField     | List of 3 random related instances                  |
+
+## Example
+
+Suppose you have a model:
+
+```python
+from django.db import models
+
+class Author(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+
+class Book(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    published = models.BooleanField()
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+```
+
+You can generate fake data for `Book` (and related `Author`) with:
+
+```bash
+python manage.py fakegen myapp.Book --count 5
+```
+
+Or programmatically:
+
+```python
+from django_fakegen.registry import registry
+books = registry.bulk_generate('myapp.Book', count=5)
+```
+
+## Extending
+
+You can add your own field generators by subclassing `BaseFieldGenerator` and adding them to the registry.
+
+## Contributing
+
+Contributions are welcome! If you'd like to help improve `django-fakegen`, please open an issue or submit a pull request on [GitHub](https://github.com/Moataz0000/django_fakegen).
+
+## License
+
+MIT
