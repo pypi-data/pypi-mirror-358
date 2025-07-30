@@ -1,0 +1,39 @@
+
+site_name: AIREloom Docs
+site_url: https://utsmok.github.io/aireloom/
+repo_url: https://github.com/utsmok/aireloom/
+site_author: S. Mok
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+
+nav:
+  - Home: index.md
+  - API Reference:
+    - Client: client.md
+    - Session: session.md
+    - Configuration: config.md
+    - Resources:
+      - Research Products: resources/research_products.md
+      - Projects: resources/projects.md
+      - Organizations: resources/organizations.md
+      - Data Sources: resources/data_sources.md
+      - Scholix: resources/scholix.md
+    - Models: models.md
+watch:
+  - src/aireloom
