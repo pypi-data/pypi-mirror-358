@@ -1,0 +1,250 @@
+Metadata-Version: 2.4
+Name: runsawa
+Version: 0.1.0
+Summary: A simple library for running loops concurrently with progress.
+Project-URL: Homepage, https://github.com/orasik/runsawa
+Project-URL: Bug Tracker, https://github.com/orasik/runsawa/issues
+Project-URL: Documentation, https://github.com/orasik/runsawa#readme
+Project-URL: Source Code, https://github.com/orasik/runsawa
+Author-email: Oras Al-Kubaisi <code@oras.me>
+License: MIT License
+        
+        Copyright (c) 2024 Oras Al-Kubaisi
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+License-File: LICENSE
+Keywords: async,concurrent,parallel,performance,progress,threading
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: System :: Systems Administration
+Requires-Python: >=3.8
+Requires-Dist: requests
+Requires-Dist: tqdm
+Provides-Extra: dev
+Requires-Dist: black; extra == 'dev'
+Requires-Dist: build; extra == 'dev'
+Requires-Dist: coverage; extra == 'dev'
+Requires-Dist: flake8; extra == 'dev'
+Requires-Dist: mypy; extra == 'dev'
+Requires-Dist: pytest; extra == 'dev'
+Requires-Dist: twine; extra == 'dev'
+Provides-Extra: test
+Requires-Dist: coverage; extra == 'test'
+Requires-Dist: pytest; extra == 'test'
+Description-Content-Type: text/markdown
+
+# Run Sawa
+
+A simple Python library for running functions concurrently with progress tracking. Perfect for speeding up I/O-bound operations like API calls, file processing, or any task that can benefit from parallel execution.
+
+`Sawa` is Arabic slang for `together`.
+
+## Features
+
+- **Concurrent Execution**: Uses ThreadPoolExecutor for parallel processing
+- **Progress Tracking**: Built-in progress bar with tqdm
+- **Error Handling**: Graceful handling of individual task failures
+- **Configurable Workers**: Adjust the number of concurrent workers
+- **Simple API**: Easy-to-use generator-based interface
+- **Python 3.8+**: Compatible with modern Python versions
+
+## Installation
+
+### From PyPI (recommended)
+
+```bash
+pip install runsawa
+```
+
+### From Source
+
+```bash
+git clone https://github.com/orasik/runsawa.git
+cd runsawa
+pip install -e .
+```
+
+## Quick Start
+
+```python
+from runsawa import runsawa
+
+# Basic usage - parallel processing with progress bar
+def process_item(item):
+    # Your processing logic here
+    return item * 2
+
+# Process items concurrently
+for result in runsawa(process_item, range(100), workers=10):
+    print(result)
+```
+
+## Usage Examples
+
+### Example 1: CPU-bound Tasks
+
+```python
+import time
+from runsawa import runsawa
+
+def compute_task(n):
+    time.sleep(0.001)  # Simulate computation
+    return n * n
+
+# Sequential vs Parallel comparison
+items = range(1000)
+
+# With runsawa (parallel)
+results = list(runsawa(compute_task, items, workers=20))
+```
+
+### Example 2: API Calls (I/O-bound)
+
+```python
+import requests
+from runsawa import runsawa
+
+def fetch_post(post_id):
+    response = requests.get(f"https://jsonplaceholder.typicode.com/posts/{post_id}")
+    return response.json()
+
+# Fetch multiple posts concurrently
+post_ids = range(1, 51)
+posts = list(runsawa(fetch_post, post_ids, workers=15))
+```
+
+### Example 3: File Processing
+
+```python
+from runsawa import runsawa
+import json
+
+def process_file(filename):
+    with open(filename, 'r') as f:
+        data = json.load(f)
+    # Process the data...
+    return len(data)
+
+files = ['data1.json', 'data2.json', 'data3.json']
+results = list(runsawa(process_file, files, workers=3))
+```
+
+## API Reference
+
+### `runsawa(func, iterable, workers=5)`
+
+Runs a function concurrently on an iterable with progress tracking.
+
+**Parameters:**
+- `func` (callable): The function to apply to each item in the iterable
+- `iterable` (iterable): The items to process
+- `workers` (int, optional): Number of concurrent workers. Default is 5
+
+**Returns:**
+- Generator yielding results as they complete
+
+**Example:**
+```python
+from runsawa import runsawa
+
+def square(x):
+    return x ** 2
+
+results = list(runsawa(square, range(10), workers=3))
+```
+
+## Performance
+
+Run Sawa is particularly effective for I/O-bound tasks. Here's a typical performance comparison:
+
+```python
+# Sequential processing: 45.2 seconds
+# With runsawa (15 workers): 3.8 seconds
+# Speedup: ~12x faster for API calls
+```
+
+The actual speedup depends on:
+- Task type (I/O-bound tasks see better improvements)
+- Network latency (for API calls)
+- Number of workers vs available resources
+- Task complexity
+
+
+### Running Tests
+
+```bash
+# Run all tests
+python -m pytest tests/
+
+# Run specific test file
+python -m unittest tests.test_sawa
+
+# Run tests with coverage
+pip install coverage
+coverage run -m pytest tests/
+coverage report
+```
+
+### Running Examples
+
+```bash
+# Basic example
+python example.py
+
+# API example (requires internet connection)
+python api_example.py
+```
+
+## Limitations
+
+- **Threading Model**: Uses ThreadPoolExecutor, which is ideal for I/O-bound tasks but limited by Python's GIL for CPU-bound tasks
+- **Memory Usage**: Converts input iterable to a list, which may consume significant memory for very large datasets
+- **Result Order**: Results are yielded as they complete, not necessarily in input order
+- **Error Handling**: Individual task failures are logged but don't stop the overall execution
+- **Dependencies**: Requires `tqdm` for progress bars and `requests` for HTTP examples
+
+## Use Cases
+
+**Ideal for:**
+- API calls and web scraping
+- File I/O operations
+- Database queries
+- Network requests
+- Image processing (I/O operations)
+
+**Less ideal for:**
+- Pure CPU-bound mathematical computations (consider `multiprocessing` instead)
+- Very large datasets that don't fit in memory
+- Tasks requiring strict result ordering
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
