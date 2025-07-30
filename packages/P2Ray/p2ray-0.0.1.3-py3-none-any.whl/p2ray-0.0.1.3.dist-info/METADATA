@@ -1,0 +1,229 @@
+Metadata-Version: 2.4
+Name: P2Ray
+Version: 0.0.1.3
+Summary: A V2ray vpn Client with a focus on config managment
+Author-email: Parsa Roshanak <parsaroshanak@gmail.com>
+License: LICENSE
+Project-URL: Homepage, https://github.com/iparsw/P2Ray
+Project-URL: Bug Tracker, https://github.com/yourname/iparsw/P2Ray
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: emoji>=2.14.1
+Requires-Dist: Pillow>=11.2.1
+Requires-Dist: pyperclip>=1.9.0
+Requires-Dist: qrcode>=8.2
+Requires-Dist: Requests>=2.32.4
+Requires-Dist: tabulate>=0.9.0
+Requires-Dist: appdirs>=1.4.4
+Dynamic: license-file
+
+## P2Ray
+
+A powerful, user-friendly command-line manager for V2Ray configurations.
+Parse, store, test, share, and connect to VLESS, VMess, Shadowsocks, and Trojan servers—all from a single interactive CLI.
+
+---
+
+### 🚀 Features
+
+* **Protocol Support**: VLESS, VMess, Shadowsocks (SS), Trojan
+* **Parsing & Storage**: Import server URIs, track metadata (added time, ping count, last latency, working count, usage times, custom IDs & remarks)
+* **Interactive Listing**: Tabulated view with sorting, filtering, aliases, ANSI‐colored, underlined hot-keys
+* **Protocol-Level Tests**: Ping (via `v2ray-core`) and download‐speed tests through a local SOCKS5 inbound
+* **Connection Management**: Launch V2Ray subprocess, toggle Windows system proxy, reconnect automatically after tests
+* **Share & QR Code**: Reconstruct URIs or export all URIs to `.txt`; generate QR codes with clipboard copy
+* **Archiving**: Move configs between active and archive DBs, with forced ID‐conflict resolution
+* **Extensible CLI**: Add, remove, edit, archive, unarchive, test single/all, connect, toggle proxy—all with one-letter aliases
+
+---
+
+## 📦 Installation
+
+```bash
+pip install P2Ray
+```
+
+*Requires*
+
+* Python 3.10+
+* [v2ray-core](https://github.com/v2fly/v2ray-core) in your `PATH`
+* Windows 10+ for system-proxy toggling
+* Optional (for speed tests): `requests[socks]`
+
+---
+
+## 🎬 Quickstart
+
+```bash
+# Run the interactive CLI
+python -m P2Ray
+# — or, if you’ve added `p2ray.bat` to your PATH:
+p2ray
+```
+
+Upon launch, you’ll see a pseudo-graphic menu:
+
+```
++------------------------------------------+
+|                                          |
+|           P2Ray Config Manager           |
+|                                          |
+|  1.Connect                               |
+|  2.Disconnect                            |
+|  3.Toggle Sys Proxy                      |
+|  ──────────────────                      |
+|  4.List Configs        View configs      |
+|  5.Test All            Latency test all  |
+|  6.Add Configs         Import URIs       |
+|  7.Share               Share URI by ID   |
+|  8.Share All           Share All URIs    |
+|  9.Log Con             Log connection    |
+|  ──────────────────                      |
+|  10.Archive Config     Archive Config    |
+|  11.Unarchive          Unrchive Config   |
+|  12.List Archive                         |
+|  13.Remove Config      Delete by ID      |
+|  ──────────────────                      |
+|  14.Test Ping                            |
+|  15.Test Speed                           |
+|  0. Exit                                 |
+|                                          |
++------------------------------------------+
+[h3] System Proxy: Set
+```
+
+Type the number or its **underlined** alias letter (e.g. `l` for **L**ist, `c` for **C**onnect), then press Enter.
+
+---
+
+## 🔧 CLI Commands
+
+### 1. Add Configs
+
+Loop‐mode import:
+
+```
+6        ← Number for Add Configs
+uri: vless://…#Remark  
+id : myserver  
+uri: q   ← finish (quite the loop)
+```
+
+### 2. List Configs
+
+Interactive table with commands at the bottom.
+
+In Main Menu
+```
+4  ← Number for List Configs
+or
+l  ← Alias letter for List Configs
+```
+In the List Menu
+```
+(list) › sort lp        ← sort by Last Ping  (or s lp)
+(list) › reverse        ← toggle order       (or r)
+(list) › export my.csv  
+(list) › share 3  
+(list) › remove 5  
+(list) › archive 7  
+(list) › unarchive 2  
+(list) › edit 4, remark, New Remark  
+(list) › test 3  
+(list) › connect 3  
+(list) › toggle         ← toggle system proxy  
+(list) › q              ← back to main menu  
+```
+
+### 3. Share / Share All
+
+* **Share**: copy URI of one config to clipboard + show QR
+* **Share All**: export every URI to `all_uris.txt`
+
+### 4. Test All
+
+Ping every stored server via `v2ray-core` and log results.
+
+### 5. Connect / Toggle Proxy
+
+* **Connect**: spawn a `v2ray` subprocess with local SOCKS5 on port 1081
+* **Toggle Proxy**: flip Windows system proxy between “Clear” and “127.0.0.1:1081”
+
+---
+
+## ⚙️ Configuration Storage
+
+* **Active DB**: `config_db.json` in current working directory
+* **Archive DB**: `archive_db.json`
+* Each entry stores full parsed fields + metadata:
+
+  ```json
+  {
+    "type": "vless",
+    "address": "example.com",
+    "port": 443,
+    "params": { "security":["tls"], ... },
+    "remark": "My Server",
+    "added": 1625078400.0,
+    "ping_count": 3,
+    "last_ping": 1625082000.0,
+    "last_latency": 74.2,
+    "working_count": 5,
+    "working_times": [ ... ],
+    "id": "srv1",
+    "parsed": { /* full parse structure */ }
+  }
+  ```
+
+---
+
+## 📖 Examples
+
+```bash
+# Import a batch, then list & sort by speed
+$ p2ray
+...
+|  4.List Configs        View configs      |
+|  5.Test All            Latency test all  |
+|  6.Add Configs         Import URIs       |
+|  7.Share               Share URI by ID   |
+...
+> 1
+uri: vless://uuid@host:port?encryption=none#FastServer
+id : fast1
+uri: ss://YWVzLTI1Ni1jZmI6pass@ss.example:443#SS-1
+id : ss1
+uri: q
+
+> 4
+[list shows two servers]
+(list) › sort lp
+(list) › test 1
+```
+
+---
+
+## 🛠️ Advanced
+
+* **Custom v2ray path**:
+
+  ```python
+  app = CLIApp(db_path="mydb.json", v2ray_binary="C:\\v2ray\\v2ray.exe")
+  ```
+* **Force‐archive with ID collision**:
+
+  ```python
+  mgr.move_config("srv1", arc_mgr, force=True)
+  ```
+* **Speed testing**:
+  Downloads 1 MiB over SOCKS5 using `requests[socks]`.
+
+---
+
+## 📂 Repository & PyPI
+
+* GitHub: [https://github.com/iparsw/P2Ray](https://github.com/iparsw/P2Ray)
+* PyPI: `pip install P2Ray`
+
+Contributions and issues are welcome!
