@@ -1,0 +1,101 @@
+Metadata-Version: 2.4
+Name: memra
+Version: 0.2.3
+Summary: Declarative framework for enterprise workflows with MCP integration - Client SDK
+Home-page: https://github.com/memra/memra-sdk
+Author: Memra
+Author-email: Memra <support@memra.com>
+License: MIT
+Project-URL: Homepage, https://memra.co
+Project-URL: Repository, https://github.com/memra-platform/memra-sdk
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: pydantic>=1.8.0
+Requires-Dist: httpx>=0.24.0
+Requires-Dist: typing-extensions>=4.0.0
+Requires-Dist: aiohttp>=3.8.0
+Requires-Dist: aiohttp-cors>=0.7.0
+Provides-Extra: dev
+Requires-Dist: pytest>=6.0; extra == "dev"
+Requires-Dist: pytest-asyncio; extra == "dev"
+Requires-Dist: black; extra == "dev"
+Requires-Dist: flake8; extra == "dev"
+Provides-Extra: mcp
+Requires-Dist: psycopg2-binary>=2.9.0; extra == "mcp"
+Dynamic: author
+Dynamic: home-page
+Dynamic: requires-python
+
+# Memra SDK
+
+The core Memra framework for building AI-powered business workflows.
+
+## Installation
+
+```bash
+pip install memra
+```
+
+## Quick Start
+
+```python
+from memra import Agent, Department, LLM, ExecutionEngine
+
+# Define an agent
+agent = Agent(
+    role="Data Analyst",
+    job="Analyze customer data",
+    llm=LLM(model="llama-3.2-11b-vision-preview"),
+    sops=["Load data", "Perform analysis", "Generate report"],
+    output_key="analysis_result"
+)
+
+# Create a department
+department = Department(
+    name="Analytics",
+    mission="Provide data insights",
+    agents=[agent],
+    workflow_order=["Data Analyst"]
+)
+
+# Execute the workflow
+engine = ExecutionEngine()
+result = engine.execute_department(department, {"data": "customer_data.csv"})
+```
+
+## Core Components
+
+### Agent
+An AI worker that performs specific tasks using LLMs and tools.
+
+### Department
+A team of agents working together to accomplish a mission.
+
+### ExecutionEngine
+Orchestrates the execution of departments and their workflows.
+
+### LLM
+Configuration for language models used by agents.
+
+## Examples
+
+See the `examples/` directory for basic usage examples:
+- `simple_text_to_sql.py` - Basic text-to-SQL conversion
+- `ask_questions.py` - Simple question answering
+
+## Documentation
+
+For detailed documentation, visit [docs.memra.co](https://docs.memra.co)
+
+## License
+
+MIT License - see LICENSE file for details. 
