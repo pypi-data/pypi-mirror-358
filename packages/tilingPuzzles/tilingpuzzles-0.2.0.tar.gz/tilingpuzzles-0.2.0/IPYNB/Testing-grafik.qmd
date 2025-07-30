@@ -1,0 +1,244 @@
+---
+jupyter: python3
+---
+
+```{python}
+! which python
+```
+
+```{python}
+import sys
+sys.path.insert(0, '.')
+
+from tilingPuzzles.games.stone import Stone
+from tilingPuzzles.visualize.visualize import Visualize
+
+def vibetest():
+    s=Stone(((1,2),(2,2),(2,3),(2,4),(3,4)))
+    Visualize.draw_stone(stone=s)
+
+    pass
+
+vibetest()
+```
+
+```{python}
+from tilingPuzzles.games.komino import Komino
+import inspect
+
+print( inspect.getfile(Komino.__module__))
+
+G,stones=Komino.generate(200,5,True)
+
+
+G.T.display()
+
+
+for stone in stones[:3]:
+    stone.display()
+```
+
+```{python}
+from tilingPuzzles.games.stone import Stone
+from tilingPuzzles.visualize.visualize import Visualize
+
+vz=Visualize()
+s1=Stone([(i,i+1) for i in range(10)])
+
+for i in range(20):
+    s1=s1.shift(1,0)
+
+    for tile in s1:
+        vz.add_stone(Stone((tile,)))
+
+vz.get_nth_color(1)
+```
+
+```{python}
+
+from tilingPuzzles.games.komino import Komino
+
+k,sol=Komino.generate(100,5,True)
+
+vz=Visualize()
+for stone in sol:
+    vz.add_stone(stone)
+
+
+```
+
+```{python}
+
+A= Stone(((1,2),(3,4)))
+
+B=A.shift(1,3) | A.shift(2,4)
+B=Stone(B)
+C=B.shift(-1,0) | B.shift(-2,0)
+C = C | A.shift(-3,0)
+
+
+vz=Visualize()
+
+vz.add_stone(A)
+vz.add_stone(B)
+vz.add_stone(C)
+```
+
+```{python}
+
+from tilingPuzzles.visualize.visualize import Visualize
+from tilingPuzzles.games.stone import Stone
+
+
+s=Stone(((0,0),(3,3),(9,2)))
+
+
+for i in range(4):
+    s= Stone( s | s.outer_bound() )
+
+
+ob=s.outer_bound()
+ib=s.inner_bound()
+
+vz=Visualize()
+
+vz.add_stone(s)
+vz.add_stone(ob)
+vz.add_stone(ib)
+```
+
+```{python}
+
+from tilingPuzzles.visualize.visualize import Visualize
+from tilingPuzzles.games.stone import Stone
+import matplotlib.pyplot as plt
+
+
+s=Stone(((0,0),(3,3),(9,2)))
+
+
+for i in range(4):
+    s= Stone( s | s.outer_bound() )
+
+
+inner_points=list(s.inner_bound())
+
+c=inner_points[3]
+
+
+subStones=s.get_k_stone_on_tile(c)
+
+print(f"{len(subStones) = }")
+
+for sub in subStones:
+    vz=Visualize()
+    vz.add_stone(s)
+    vz.add_stone(sub)
+    plt.show()
+```
+
+```{python}
+
+from tilingPuzzles.visualize.visualize import Visualize
+from tilingPuzzles.games.stone import Stone
+from tilingPuzzles.games.tile import Tile
+import matplotlib.pyplot as plt
+
+
+s=Stone(((0,0),(3,3),(9,2)))
+
+
+for i in range(4):
+    s= Stone( s | s.outer_bound() )
+
+
+inner_points=list(s.inner_bound())
+
+c=Tile((6,4)) #inner_points[3]
+
+
+subStones=s.get_k_stone_on_tile(c)
+
+print(f"{len(subStones) = }")
+
+for sub in list(subStones)[:5]:
+    vz=Visualize()
+    vz.add_stone(s)
+    vz.add_stone(sub)
+    plt.show()
+    #break
+```
+
+```{python}
+vz.update_stones(())
+```
+
+```{python}
+
+from tilingPuzzles.logUtils.callGraph import GTracker
+
+
+@GTracker.track_calls
+def flip(n):
+    if n<=2:
+        return 1
+    
+    return flip(n-1)+flup(n-2)
+
+@GTracker.track_calls
+def flup(n):
+    return n
+
+flip(10)
+
+GTracker.render()
+```
+
+```{python}
+
+GTracker.clear()
+@GTracker.track_calls
+def B(n,k):
+    if k==1:
+        return 1
+    if k==n:
+        return 1
+    
+    return B(n-1,k-1)+B(n-1,k)
+
+#(a+b)^(n-1)
+B(10,5)
+GTracker.render()
+```
+
+
+```{python}
+%load_ext autoreload
+%autoreload 2
+
+from tilingPuzzles.games.komino import Komino
+from tilingPuzzles.solvers.komino import KominoSolverLimited
+from tilingPuzzles.games.stone import Stone
+
+from logging import info
+
+
+
+
+N=10
+
+for k in range(2,4):
+    komino,stonesAllowed=Komino.generate(N,k)
+
+    solver=KominoSolverLimited(komino,stonesAllowed)
+    solution = solver.get_solution_viz()
+    info(f"{solution = }")
+    assert solution
+
+    res=set()
+    for st in solver.solution:
+        res |= st
+    res = Stone(res)
+    assert res == komino.T
+```
+
