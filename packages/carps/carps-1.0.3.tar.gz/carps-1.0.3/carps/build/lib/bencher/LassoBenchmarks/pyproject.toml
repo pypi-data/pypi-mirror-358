@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "lassobenchmarks"
+version = "0.1.0"
+description = ""
+authors = ["Leonard Papenmeier <leonard.papenmeier@gmail.com>"]
+readme = "README.md"
+packages = [
+    { include = "lassobenchmarks", from = "." }
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+bencherscaffold = "^0.3.1"
+LassoBench = { git = "https://github.com/ksehic/LassoBench.git#egg=LassoBench" }
+gpy = "1.13.1"
+torch = { version = "^2.2.0", source = "torch" }
+setuptools = "^78.1.0"
+celer = { version = "0.7.4" }
+
+[[tool.poetry.source]]
+name = "torch"
+url = "https://download.pytorch.org/whl/cpu"
+priority = "explicit"
+
+[tool.poetry.scripts]
+start-benchmark-service = "lassobenchmarks.main:serve"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

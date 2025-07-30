@@ -1,0 +1,60 @@
+name: Update scaffold
+
+on: workflow_dispatch
+
+jobs:
+  update-scaffold-version:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: sudo apt-get install -y git curl g++ build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python3-openssl python3-dev
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install python version
+        uses: gabrielfalcao/pyenv-action@v18
+        with:
+          default: 3.11
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+
+      - name: Lock all subprojects
+        run: |
+          for dir in *; do \
+            if [ -d "$dir" ]; then \
+              echo "Processing $dir"; \
+              if [ -f "$dir/.python-version" ]; then \
+                cd $dir && \
+                pyenv install $(cat .python-version) || echo "pyenv already installed version $(cat .python-version)" && \
+                PATH="$PYENV_ROOT/shims:$PATH" poetry env use $(cat .python-version) && \
+                cd ..; \
+              fi; \
+              cd $dir && \
+              poetry cache clear pypi --all && \
+              poetry update --lock --no-cache bencherscaffold -v && \
+              git add poetry.lock && \
+              if [ -f "$dir/.python-version" ]; then \
+                poetry env use system; \
+              fi; \
+              cd $GITHUB_WORKSPACE; \
+            fi; \
+          done
+
+      - name: Commit if changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -am "Update scaffold version"
+          git push
+        

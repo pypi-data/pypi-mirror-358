@@ -1,0 +1,151 @@
+name: Docker Build
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 0 * * 1-5'
+  workflow_run:
+    workflows: ["Update scaffold"]
+    types:
+      - completed
+
+env:
+  TEST_TAG: ${{ secrets.DOCKERHUB_USERNAME }}/bencher:test
+  LATEST_TAG: ${{ secrets.DOCKERHUB_USERNAME }}/bencher:latest
+
+jobs:
+  build-test-docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          path: bencher
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: pip cache for docker
+        uses: actions/cache@v3
+        with:
+          path: pip-build-cache
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/poetry.lock') }}
+
+      - name: poetry cache for docker
+        uses: actions/cache@v3
+        with:
+          path: poetry-build-cache
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/pyproject.toml') }}
+
+      - name: inject poetry cache
+        uses: reproducible-containers/buildkit-cache-dance@v2.1.2
+        with:
+          cache-source: poetry-build-cache
+          cache-target: /root/.cache/pypoetry
+
+      - name: inject pip cache
+        uses: reproducible-containers/buildkit-cache-dance@v2.1.2
+        with:
+          cache-source: pip-build-cache
+          cache-target: /root/.cache/pip
+
+      - name: Build and export to Docker
+        uses: docker/build-push-action@v5
+        with:
+          context: bencher
+          load: true
+          tags: ${{ env.TEST_TAG }}
+          cache-from: type=gha
+          cache-to: type=gha
+          build-args: |
+            CACHEBUST=${{ github.sha }}
+
+      - name: Run Docker container
+        run: |
+          cd bencher
+          docker run -d -p 50051:50051 ${{ env.TEST_TAG }}
+
+      - name: Checkout bencherclient code
+        uses: actions/checkout@v4
+        with:
+          repository: 'LeoIV/bencherclient'
+          ref: 'master'
+          path: bencherclient
+
+      - name: Checkout python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+
+      - name: Install dependencies
+        run: |
+          cd bencherclient
+          poetry install --with dev --no-root
+
+      - name: Run bencherclient
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 10
+          max_attempts: 5
+          command: |
+            cd bencherclient
+            # run the client, print /opt/bencher.err if it fails
+            poetry run python3 run_all_benchmarks.py || {
+              echo "Bencherclient run failed."
+              # print the error log
+              docker exec ${{ env.TEST_TAG }} cat /opt/bencher.err
+              exit 1
+            }
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        if: ${{ github.event_name != 'schedule' }}
+        with:
+          context: bencher
+          push: true
+          tags: ${{ env.LATEST_TAG }}
+          cache-from: type=gha
+          cache-to: type=gha
+          build-args: |
+            CACHEBUST=${{ github.sha }}
+
+  build-test-singularity:
+    runs-on: ubuntu-latest
+    needs: build-test-docker
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+      - uses: eWaterCycle/setup-apptainer@v2
+        with:
+          apptainer-version: 1.4.0
+      - name: build singularity container
+        env:
+          SINGULARITY_DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          SINGULARITY_DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: |
+          apptainer build --sandbox bencher.sif container.sdef
+          if [ $? -ne 0 ]; then
+            echo "Singularity build failed."
+            exit 1
+          fi
+      - name: start singularity instance
+        run: |
+          # start instance
+          apptainer instance start bencher.sif bencher
+      - name: run bencherclient
+        run: |
+          apptainer run instance://bencher python /opt/bencherclient/run_all_benchmarks.py

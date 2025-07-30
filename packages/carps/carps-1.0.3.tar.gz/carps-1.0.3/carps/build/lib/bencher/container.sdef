@@ -1,0 +1,42 @@
+Bootstrap: docker
+From: gaunab/bencher:latest
+Namespace:
+Stage: build
+
+%environment
+    export LANG=C.UTF-8
+    export PATH="/root/.local/bin:$PATH"
+    export POETRY_VIRTUALENVS_PATH=/opt/virtualenvs
+    export POETRY_HOME=/opt/poetry
+
+%post
+    apt update -y
+    apt install git curl -y
+
+    cd /opt
+    export POETRY_VIRTUALENVS_PATH=/opt/virtualenvs
+    export POETRY_HOME=/opt/poetry
+    curl -sSL https://install.python-poetry.org | python3.11 -
+    export PATH="/opt/poetry/bin:$PATH"
+
+    cd /opt
+    git clone --depth 1 https://github.com/LeoIV/bencherclient.git
+    cd bencherclient
+    poetry install --no-root --with dev
+
+    # remove build dependencies
+    apt remove git curl -y
+    apt autoremove -y
+
+    # clean up
+    rm -rf /var/lib/apt/lists/*
+    rm -rf /root/.cache/pip/*
+    rm -rf /root/.cache/pypoetry/*
+
+%startscript
+    bash -c "python3.11 /entrypoint.py"
+
+%runscript
+    echo "Container was created"
+    echo "Arguments received: $*"
+    bash -c "PATH='/opt/poetry/bin:$PATH' cd /opt/bencherclient && PATH='/opt/poetry/bin:$PATH' poetry run $*"

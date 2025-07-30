@@ -1,0 +1,39 @@
+Package: yahpogym
+Type: Package
+Title: Interface to the YAHPO Gym python module
+Version: 1.0.2
+Authors@R:
+    c(
+        person(
+            given = "Florian",
+            family = "Pfisterer",
+            role = c("cre", "aut"),
+            email = "florian.pfisterer@stat.uni-muenchen.de"
+        ),
+        person(
+            given = "Lennart",
+            family = "Schneider",
+            role = "aut",
+            email = "lennart.sch@web.de"
+        ))
+Description:
+    Exposes YAHPO Gym's objective function and parameter space for R.
+License: Apache License (== 2.0)
+Encoding: UTF-8
+Depends:
+    R (>= 3.5)
+Imports:
+    bbotk (>= 1.0.0),
+    checkmate (>= 2.0.0),
+    mlr3misc (>= 0.1.1),
+    paradox (>= 1.0.0),
+    reticulate (>= 1.10),
+    data.table,
+    R6
+Suggests:
+    testthat,
+    withr,
+    future
+RoxygenNote: 7.3.2
+Config/testthat/edition: 3
+Config/testthat/parallel: true
