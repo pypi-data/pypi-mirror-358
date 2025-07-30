@@ -1,0 +1,1 @@
+import{o as r,q as c,k as s,O as i,D as h,G as p,E as d}from"./DvQPdglG.mjs";function u(o,t,f){r&&c();var n=o,a,e;s(()=>{a!==(a=t())&&(e&&(d(e),e=null),a&&(e=h(()=>f(n,a))))},i),r&&(n=p)}export{u as c};
