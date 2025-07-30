@@ -1,0 +1,60 @@
+Metadata-Version: 2.1
+Name: calendar_event_engine
+Version: 0.1.4
+Summary: 
+Author: Ezequiel Valencia
+Requires-Python: >=3.10,<4.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: aiohttp (>=3.10.10,<4.0.0)
+Requires-Dist: beautifulsoup4 (>=4.13.4,<5.0.0)
+Requires-Dist: geopy (>=2.4.1,<3.0.0)
+Requires-Dist: google-api-python-client (>=2.127.0,<3.0.0)
+Requires-Dist: google-auth-httplib2 (>=0.2.0,<0.3.0)
+Requires-Dist: google-auth-oauthlib (>=1.2.0,<2.0.0)
+Requires-Dist: gql (==3.5.0)
+Requires-Dist: icalendar (>=6.0.1,<7.0.0)
+Requires-Dist: pandas (>=2.2.3,<3.0.0)
+Requires-Dist: pydantic (>=2.7.0,<3.0.0)
+Requires-Dist: pytest (>=8.2.2,<9.0.0)
+Requires-Dist: requests (>=2.31.0,<3.0.0)
+Requires-Dist: requests-toolbelt (>=1.0.0,<2.0.0)
+Requires-Dist: slack_sdk (>=3.32.0,<4.0.0)
+Requires-Dist: tenacity (>=8.2.3,<9.0.0)
+Requires-Dist: validators (>=0.34.0,<0.35.0)
+Description-Content-Type: text/markdown
+
+# EventScraper
+
+A project dedicated to scrapping events and posting them on 
+different platforms for searching. Unbinding posted events from any single platform to help illuminate what is locally happening.
+
+Can be imported as a library in a python script or used
+directly through a docker container.
+
+## Docker (Recommended Method)
+#### [Docker Image](https://hub.docker.com/repository/docker/avocadomoon/event-scraper/general)
+#### Env Variables
+Mobilizon Related Variables:
+- MOBILIZON_ENDPOINT: Graphql endpoint for your mobilizon instance
+
+- MOBILIZON_EMAIL: User email
+
+- MOBILIZON_PASSWORD: User password
+
+OS Related Variables:
+- USER_ID: User process ID for running the application
+
+- GROUP_ID: Group process ID for running the application
+
+Misc:
+- RUNNER_SUBMISSION_JSON_PATH: Remote submission file that tells where to publish and what group packages to use for sources.
+
+- SLACK_WEBHOOK: Slack token to give notifications on how the scraping process is going and whether any maintenance is required.
+
+---
+#### Docker Volumes
+/app/config:[HOST DIR] -- The files needed within this config folder are "token.json" if you happen to use the Google Calendar scraper. Please follow instructions on the wiki page to create this "token.json" file.
+
