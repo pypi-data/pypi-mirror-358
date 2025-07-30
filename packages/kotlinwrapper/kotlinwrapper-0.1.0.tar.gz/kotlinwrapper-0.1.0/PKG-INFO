@@ -1,0 +1,994 @@
+Metadata-Version: 2.4
+Name: kotlinwrapper
+Version: 0.1.0
+Summary: A Python wrapper library named kotlinwrapper
+Author: Your Name
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: requires-python
+Dynamic: summary
+
+
+
+        val radioGroup = findViewById<RadioGroup>(R.id.radioGroup)
+        val clearBtn = findViewById<Button>(R.id.clearBtn)
+        val wifi = findViewById<RadioButton>(R.id.wifi)
+        val bluetooth = findViewById<RadioButton>(R.id.bluetooth)
+
+        bluetooth.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                Toast.makeText(this, "Bluetooth turned on", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        wifi.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                Toast.makeText(this, "Wi-Fi turned ON", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        clearBtn.setOnClickListener {
+            radioGroup.clearCheck()
+            Toast.makeText(this, "Selection Cleared", Toast.LENGTH_SHORT).show()
+        }
+    
+<RadioGroup android:id="@+id/radioGroup" ...>
+
+    <RadioButton android:id="@+id/wifi" ... />
+
+    <RadioButton android:id="@+id/bluetooth" ... />
+
+    <RadioButton android:id="@+id/airplane" ... />
+
+</RadioGroup>
+
+<Button android:id="@+id/clearBtn" ... />
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------
+val radioGroup = findViewById<RadioGroup>(R.id.radioGroup)
+        val clearBtn = findViewById<Button>(R.id.clearBtn)
+
+        radioGroup.setOnCheckedChangeListener { _, checkedId ->
+            val message = when (checkedId) {
+                R.id.wifi -> "Wi-Fi turned ON"
+                R.id.bluetooth -> "Bluetooth turned ON"
+                R.id.airplane -> "Airplane Mode turned ON"
+                else -> ""
+            }
+
+                if (message.isNotEmpty()){
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+            }
+            
+        }
+
+clearBtn.setOnClickListener {
+            radioGroup.clearCheck()
+            Toast.makeText(this, "Selection Cleared", Toast.LENGTH_SHORT).show()
+        }
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+button7.setOnClickListener {
+            val firstName = editTextText5.text.toString()
+            val lastName = editTextText6.text.toString()
+            val birthDate = editTextText7.text.toString()
+            val country = editTextText8.text.toString()
+
+            val message = "Name: $firstName $lastName\nBirthdate: $birthDate\nCountry: $country"
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        }
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+val usernameEditText = findViewById<EditText>(R.id.editTextText10)
+        val passwordEditText = findViewById<EditText>(R.id.editTextTextPassword)
+        val submitButton = findViewById<Button>(R.id.button8)
+
+        submitButton.setOnClickListener {
+
+            val username = usernameEditText.text.toString()
+            val password = passwordEditText.text.toString()
+
+            if (username.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Please enter all fields.", Toast.LENGTH_SHORT).show()
+            } else {
+                val dialog = AlertDialog.Builder(this)
+                    .setTitle("Login Success")
+                    .setMessage("Welcome, $username!")
+                    .setPositiveButton("OK", null)
+                    .create()
+                dialog.show()
+            }
+        }
+
+
+
+--------------------------------------------------------------------------------------------------------------------------
+        val btn = findViewById<Button>(R.id.btn)
+        btn.setOnClickListener{
+            Intent(this,SecondActivity::class.java).also{
+                startActivity(it)
+
+            }
+        }
+
+        val back = findViewById<Button>(R.id.back)
+        back.setOnClickListener{
+            finish()
+        }
+        val next = findViewById<Button>(R.id.next)
+        next.setOnClickListener{
+            Intent(this,ThirdActivity::class.java).also{
+                startActivity(it)
+            }
+        }
+
+
+-------------------------------------------------------------------------------------------------------------------------
+
+        send.setOnClickListener {
+            val nameText = name.text.toString()
+            val ageText = age.text.toString()
+            Intent(this, MainActivity2::class.java).also {
+                it.putExtra("name", nameText)
+                it.putExtra("age", ageText)
+                startActivity(it)
+            }
+        }
+
+        val displayText = findViewById<TextView>(R.id.displayText)
+        val name  = intent.getStringExtra("name")
+        val age = intent.getStringExtra(("age"))
+        displayText.text = "Name :$name\nage:$age"
+--------------------------------------------------------------------------------------------------------------------------
+#drawable --> new ---> vector asset
+
+
+custom_icon.xml :----
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_checked="true" android:drawable="@drawable/outline_arrow_downward_alt_24"/>
+    <item android:state_checked="false" android:drawable="@drawable/outline_arrow_upward_alt_24"/>
+
+
+</selector>
+
+
+EACH button :------
+android:button="@drawable/custom_icon"
+---------------------------------------------------------------------------------------------------------------
+
+Custom Toast :---
+
+class MainActivity : AppCompatActivity() 
+{
+
+    // ✅ Reusable custom toast function
+    private fun showCustomToast(message: String, imageResId: Int) 
+    {
+        // Inflate custom_toast.xml
+        val layout = layoutInflater.inflate(R.layout.custom_toast, null)
+
+        // Get views from custom layout
+        val toastText = layout.findViewById<TextView>(R.id.toast_text)
+        val toastIcon = layout.findViewById<ImageView>(R.id.toast_icon)
+
+        // Set message and image
+        toastText.text = message
+        toastIcon.setImageResource(imageResId)
+
+        // Build and show toast
+        Toast(applicationContext).apply 
+        {
+            duration = Toast.LENGTH_SHORT
+            view = layout
+            show()
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) 
+    {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // Example usage — call this wherever needed
+        val button = findViewById<Button>(R.id.showToastButton)
+        button.setOnClickListener 
+        {
+            showCustomToast("Hello, Anurag!", R.drawable.images)  // 🔁 Use your drawable image
+        }
+    }
+}
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+res/menu/app_bar_menu.xml
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/miSettings"
+        android:title="Settings"
+        android:icon="@drawable/ic_settings"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/miAddContact"
+        android:title="Add Contact"
+        android:icon="@drawable/ic_settings"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/miSettings"
+        android:title="Settings"
+        android:icon="@drawable/ic_settings"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/miSettings"
+        android:title="Settings"
+        android:icon="@drawable/ic_settings"
+        app:showAsAction="ifRoom" />
+</menu>
+
+
+
+MainActivity.kt
+
+
+package com.example.myapplication
+
+import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+    }
+
+    // Inflate the menu
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.app_bar_menu, menu)
+        return true
+    }
+
+    // Handle item clicks
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.miAddContact -> {
+                Toast.makeText(this, "You clicked on Add Contact", Toast.LENGTH_SHORT).show()
+            }
+            R.id.miFavorites -> {
+                Toast.makeText(this, "You clicked on Favorites", Toast.LENGTH_SHORT).show()
+            }
+            R.id.miSettings -> {
+                Toast.makeText(this, "You clicked on Settings", Toast.LENGTH_SHORT).show()
+            }
+            R.id.miClose -> {
+                finish() // Closes the activity
+            }
+            R.id.miFeedback -> {
+                Toast.makeText(this, "You clicked on Feedback", Toast.LENGTH_SHORT).show()
+            }
+        }
+        return true
+    }
+}
+---------------------------------------------------------------------------------------------------------------------------------------
+package com.example.myapplication
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
+
+class MainActivity : AppCompatActivity() {
+
+    private fun showCustomToast(message: String) {
+        val layout = layoutInflater.inflate(R.layout.custom_toast, null)
+        val toastText = layout.findViewById<TextView>(R.id.toast_text)
+        toastText.text = message
+
+        Toast(applicationContext).apply {
+            duration = Toast.LENGTH_SHORT
+            view = layout
+            show()
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val num1 = findViewById<EditText>(R.id.num1)
+        val num2 = findViewById<EditText>(R.id.num2)
+
+        val btnAdd = findViewById<Button>(R.id.btnAdd)
+        val btnSub = findViewById<Button>(R.id.btnSub)
+        val btnMul = findViewById<Button>(R.id.btnMul)
+        val btnDiv = findViewById<Button>(R.id.btnDiv)
+
+        fun getNumbers(): Pair<Double, Double>? {
+            val a = num1.text.toString()
+            val b = num2.text.toString()
+            if (a.isEmpty() || b.isEmpty()) {
+                showCustomToast("Please enter both numbers")
+                return null
+            }
+            return Pair(a.toDouble(), b.toDouble())
+        }
+
+        btnAdd.setOnClickListener {
+            getNumbers()?.let {
+                val result = it.first + it.second
+                showCustomToast("Result: $result")
+            }
+        }
+
+        btnSub.setOnClickListener {
+            getNumbers()?.let {
+                val result = it.first - it.second
+                showCustomToast("Result: $result")
+            }
+        }
+
+        btnMul.setOnClickListener {
+            getNumbers()?.let {
+                val result = it.first * it.second
+                showCustomToast("Result: $result")
+            }
+        }
+
+        btnDiv.setOnClickListener {
+            getNumbers()?.let {
+                if (it.second == 0.0) {
+                    showCustomToast("Cannot divide by 0")
+                } else {
+                    val result = it.first / it.second
+                    showCustomToast("Result: $result")
+                }
+            }
+        }
+    }
+}
+
+
+
+-------------------------------------------------------
+package com.example.myapplication
+
+import android.os.Bundle
+import android.view.View
+import android.widget.Button
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // Button for add contact dialog
+        val btnDialog1 = findViewById<Button>(R.id.btnDialog1)
+        btnDialog1.setOnClickListener {
+            val addContactDialog = AlertDialog.Builder(this)
+                .setTitle("Add contact")
+                .setMessage("Do you want to add Mr. Poop to your contacts list?")
+                .setIcon(R.drawable.ic_add_contact)
+                .setPositiveButton("Yes") { _, _ ->
+                    Toast.makeText(this, "You added Mr. Poop to your contact list", Toast.LENGTH_SHORT).show()
+                }
+                .setNegativeButton("No") { _, _ ->
+                    Toast.makeText(this, "You didn't add Mr. Poop to your contact list", Toast.LENGTH_SHORT).show()
+                }
+                .create()
+
+            addContactDialog.show()
+        }
+
+        // Button for single-choice dialog
+        val btnDialog2 = findViewById<Button>(R.id.btnDialog2)
+        btnDialog2.setOnClickListener {
+            val options = arrayOf("First Item", "Second Item", "Third Item")
+
+            val singleChoiceDialog = AlertDialog.Builder(this)
+                .setTitle("Choose one of these options")
+                .setSingleChoiceItems(options, 0) { _, i ->
+                    Toast.makeText(this, "You clicked on ${options[i]}", Toast.LENGTH_SHORT).show()
+                }
+                .setPositiveButton("Accept") { _, _ ->
+                    Toast.makeText(this, "You accepted the SingleChoiceDialog", Toast.LENGTH_SHORT).show()
+                }
+                .setNegativeButton("Decline") { _, _ ->
+                    Toast.makeText(this, "You declined the SingleChoiceDialog", Toast.LENGTH_SHORT).show()
+                }
+                .create()
+
+            singleChoiceDialog.show()
+        }
+    }
+}
+
+
+<Button
+    android:id="@+id/btnDialog1"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Add Contact Dialog"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    android:layout_margin="16dp" />
+
+<Button
+    android:id="@+id/btnDialog2"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Single Choice Dialog"
+    app:layout_constraintTop_toBottomOf="@id/btnDialog1"
+    app:layout_constraintStart_toStartOf="parent"
+    android:layout_margin="16dp" />
+
+--------------------------------------------------------------------
+spinner
+
+res/values/strings.xml
+
+<resources>
+    <string name="app_name">MyApplication</string>
+
+    <!-- String array used to fill Spinner items -->
+    <string-array name="months">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
+</resources>
+
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:padding="16dp">
+
+    <!-- Spinner dropdown to show month list -->
+    <Spinner
+        android:id="@+id/spMonths"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/months" <!-- Link string-array from strings.xml -->
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+package com.example.myapplication
+
+import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
+import android.widget.Spinner
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // 1. Get reference to Spinner from layout
+        val spMonths = findViewById<Spinner>(R.id.spMonths)
+
+        // 2. Set listener to detect item selection from spinner
+        spMonths.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+
+            // This method is called when an item is selected
+            override fun onItemSelected(
+                parent: AdapterView<*>?,  // Spinner view
+                view: View?,              // Row view (not used here)
+                position: Int,            // Index of selected item
+                id: Long                  // Row ID (not used here)
+            ) {
+                // Get selected item text using position
+                val selectedMonth = parent?.getItemAtPosition(position).toString()
+
+                // Show a toast message
+                Toast.makeText(this@MainActivity, "You selected $selectedMonth", Toast.LENGTH_LONG).show()
+            }
+
+            // This method is called if nothing is selected (optional)
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Optional: You can leave this blank or add default action
+            }
+        }
+    }
+}
+-------------------------------------------------------------------------------------------------------------------------------------
+package com.example.myapplication
+
+import android.os.Bundle
+import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // Create fragment instances
+        val firstFragment = FirstFragment()
+        val secondFragment = SecondFragment()
+
+        // Set initial fragment to FirstFragment
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.flFragment, firstFragment)
+            commit()
+        }
+
+        // Find buttons from layout
+        val btnFragment1 = findViewById<Button>(R.id.btnFragment1)
+        val btnFragment2 = findViewById<Button>(R.id.btnFragment2)
+
+        // Set listener for Fragment1 button
+        btnFragment1.setOnClickListener {
+            supportFragmentManager.beginTransaction().apply {
+                replace(R.id.flFragment, firstFragment)
+                commit()
+            }
+        }
+
+        // Set listener for Fragment2 button
+        btnFragment2.setOnClickListener {
+            supportFragmentManager.beginTransaction().apply {
+                replace(R.id.flFragment, secondFragment)
+                commit()
+            }
+        }
+    }
+}
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <!-- Button to load FirstFragment -->
+    <Button
+        android:id="@+id/btnFragment1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="First Fragment"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="16dp" />
+
+    <!-- Button to load SecondFragment -->
+    <Button
+        android:id="@+id/btnFragment2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Second Fragment"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp" />
+
+    <!-- FrameLayout container to load fragments -->
+    <FrameLayout
+        android:id="@+id/flFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/btnFragment1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+FirstFragment.kt
+
+package com.example.myapplication
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+
+class FirstFragment : Fragment() {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate layout for FirstFragment
+        return inflater.inflate(R.layout.fragment_first, container, false)
+    }
+}
+
+SecondFragment.kt
+
+package com.example.myapplication
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+
+class SecondFragment : Fragment() {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate layout for SecondFragment
+        return inflater.inflate(R.layout.fragment_second, container, false)
+    }
+}
+
+fragment_first.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFE4B5">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="This is First Fragment"
+        android:layout_gravity="center"
+        android:textSize="18sp"/>
+</FrameLayout>
+
+
+fragment_second.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#AFEEEE">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="This is Second Fragment"
+        android:layout_gravity="center"
+        android:textSize="18sp"/>
+</FrameLayout>
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+DBHelper.kt
+package com.example.myapplication
+
+import android.content.ContentValues
+import android.content.Context
+import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteOpenHelper
+
+class DBHelper(context: Context) :
+    SQLiteOpenHelper(context, "UserDB", null, 1) {
+
+    override fun onCreate(db: SQLiteDatabase?) {
+        // Table with ID, Name, and Age
+        db?.execSQL("CREATE TABLE users(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, age INTEGER)")
+    }
+
+    override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
+        // Drops table if exists and recreates it
+        db?.execSQL("DROP TABLE IF EXISTS users")
+        onCreate(db)
+    }
+
+    // Insert user into table
+    fun insertUser(name: String, age: Int): Boolean {
+        val db = writableDatabase
+        val values = ContentValues()
+        values.put("name", name)
+        values.put("age", age)
+        val result = db.insert("users", null, values)
+        return result != -1L
+    }
+
+    // Read all users
+    fun getAllUsers(): String {
+        val db = readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM users", null)
+        val buffer = StringBuffer()
+        while (cursor.moveToNext()) {
+            buffer.append("ID: ${cursor.getInt(0)}\n")
+            buffer.append("Name: ${cursor.getString(1)}\n")
+            buffer.append("Age: ${cursor.getInt(2)}\n\n")
+        }
+        cursor.close()
+        return buffer.toString()
+    }
+
+    // Update user by ID
+    fun updateUser(id: Int, name: String, age: Int): Boolean {
+        val db = writableDatabase
+        val values = ContentValues()
+        values.put("name", name)
+        values.put("age", age)
+        val result = db.update("users", values, "id=?", arrayOf(id.toString()))
+        return result > 0
+    }
+
+    // Delete user by ID
+    fun deleteUser(id: Int): Boolean {
+        val db = writableDatabase
+        val result = db.delete("users", "id=?", arrayOf(id.toString()))
+        return result > 0
+    }
+}
+
+
+
+Activity_xml
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <EditText
+            android:id="@+id/editId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter ID (for Update/Delete)"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/editName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Name" />
+
+        <EditText
+            android:id="@+id/editAge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Age"
+            android:inputType="number" />
+
+        <Button
+            android:id="@+id/btnInsert"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Insert" />
+
+        <Button
+            android:id="@+id/btnView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View All" />
+
+        <Button
+            android:id="@+id/btnUpdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Update" />
+
+        <Button
+            android:id="@+id/btnDelete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delete" />
+    </LinearLayout>
+</ScrollView>
+
+
+
+
+MainActivity
+package com.example.myapplication
+
+import android.os.Bundle
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
+
+class MainActivity : AppCompatActivity() {
+
+    lateinit var dbHelper: DBHelper
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        dbHelper = DBHelper(this)
+
+        val idInput = findViewById<EditText>(R.id.editId)
+        val nameInput = findViewById<EditText>(R.id.editName)
+        val ageInput = findViewById<EditText>(R.id.editAge)
+        val insertBtn = findViewById<Button>(R.id.btnInsert)
+        val viewBtn = findViewById<Button>(R.id.btnView)
+        val updateBtn = findViewById<Button>(R.id.btnUpdate)
+        val deleteBtn = findViewById<Button>(R.id.btnDelete)
+
+        // INSERT button click
+        insertBtn.setOnClickListener {
+            val name = nameInput.text.toString()
+            val age = ageInput.text.toString().toIntOrNull()
+            if (name.isNotEmpty() && age != null) {
+                val success = dbHelper.insertUser(name, age)
+                Toast.makeText(this, if (success) "Inserted" else "Failed", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Fill valid name and age", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // VIEW button click
+        viewBtn.setOnClickListener {
+            val result = dbHelper.getAllUsers()
+            showMessage("All Users", result)
+        }
+
+        // UPDATE button click
+        updateBtn.setOnClickListener {
+            val id = idInput.text.toString().toIntOrNull()
+            val name = nameInput.text.toString()
+            val age = ageInput.text.toString().toIntOrNull()
+            if (id != null && name.isNotEmpty() && age != null) {
+                val success = dbHelper.updateUser(id, name, age)
+                Toast.makeText(this, if (success) "Updated" else "Failed", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Fill valid ID, name, and age", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // DELETE button click
+        deleteBtn.setOnClickListener {
+            val id = idInput.text.toString().toIntOrNull()
+            if (id != null) {
+                val success = dbHelper.deleteUser(id)
+                Toast.makeText(this, if (success) "Deleted" else "Failed", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Enter valid ID", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    // Helper to show result in dialog
+    private fun showMessage(title: String, message: String) {
+        val dialog = android.app.AlertDialog.Builder(this)
+        dialog.setTitle(title)
+        dialog.setMessage(message)
+        dialog.setPositiveButton("OK", null)
+        dialog.show()
+    }
+}
+
+
+-----------------------------------------------------------------------------------------------------------
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <!-- Horizontal ProgressBar (initially hidden) -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:max="100"
+        android:progress="0"
+        android:visibility="gone"
+        android:progressTint="@android:color/holo_blue_light"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <!-- Start Button -->
+    <Button
+        android:id="@+id/startButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Progress"
+        app:layout_constraintTop_toBottomOf="@id/progressBar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="20dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+package com.example.myapplication
+
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.view.View
+import android.widget.Button
+import android.widget.ProgressBar
+import androidx.appcompat.app.AppCompatActivity
+
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var progressBar: ProgressBar
+    private lateinit var startButton: Button
+
+    private var progressStatus = 0 // Track current progress
+    private val handler = Handler(Looper.getMainLooper()) // UI thread handler
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // Link XML views to Kotlin variables
+        progressBar = findViewById(R.id.progressBar)
+        startButton = findViewById(R.id.startButton)
+
+        // Set up button click listener
+        startButton.setOnClickListener {
+            progressBar.visibility = View.VISIBLE // Show progress bar
+            progressBar.progress = 0 // Reset progress
+            progressStatus = 0
+
+            // Start background thread to simulate progress
+            Thread {
+                while (progressStatus < 100) {
+                    progressStatus += 1
+
+                    // Update progress on UI thread
+                    handler.post {
+                        progressBar.progress = progressStatus
+                    }
+
+                    Thread.sleep(50) // Simulate work (delay)
+                }
+            }.start()
+        }
+    }
+}
+------------------------------------------------------------------------------------------------------------
