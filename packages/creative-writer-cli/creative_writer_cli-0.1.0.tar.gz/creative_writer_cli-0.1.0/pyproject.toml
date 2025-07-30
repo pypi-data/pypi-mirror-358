@@ -1,0 +1,36 @@
+[project]
+name = "creative-writer-cli"
+version = "0.1.0"
+description = "A minimalistic CLI tool for creative writing project management."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Daniel Wieser", email = "your.email@example.com" } # Replace with actual author info
+]
+keywords = ["cli", "writing", "project-management", "creative"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License", # Assuming MIT based on LICENSE file
+    "Operating System :: OS Independent",
+    "Environment :: Console",
+    "Intended Audience :: End Users/Desktop",
+    "Topic :: Text Processing :: General",
+]
+dependencies = [
+    "markdown-it-py==3.0.0",
+    "mdurl==0.1.2",
+    "prompt_toolkit==3.0.51",
+    "Pygments==2.19.2",
+    "questionary==2.1.0",
+    "rich==14.0.0",
+    "wcwidth==0.2.13",
+    "requests",
+]
+
+[project.scripts]
+creative-writer = "creative_writer_cli.cli:main" # New entry point
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
