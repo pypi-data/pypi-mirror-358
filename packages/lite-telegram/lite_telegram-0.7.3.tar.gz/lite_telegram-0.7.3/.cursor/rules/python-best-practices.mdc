@@ -1,0 +1,96 @@
+---
+description: 
+globs: *.py
+alwaysApply: false
+---
+---
+name: Python Best Practices
+description: A comprehensive guide for general Python development, emphasizing PEP 8, typing, docstrings, and robust code structure.
+alwaysApply: true
+---
+
+# General Python Best Practices
+
+## 1. Code Style and Formatting (PEP 8)
+
+- **Adherence to PEP 8:** All Python code should strictly follow the PEP 8 style guide. This includes, but is not limited to:
+    - Using 4 spaces for indentation.
+    - Limiting line length to 79-99 characters.
+    - Using `snake_case` for variable and function names.
+    - Using `PascalCase` for class names.
+    - Placing imports at the top of the file, grouped into standard library, third-party, and local application imports.
+- **Automated Formatting:** Employ tools like `black` for consistent and automatic code formatting. When suggesting code, assume `black` will be used.
+
+## 2. Typing and Docstrings
+
+- **Type Hinting:** All function signatures, including method arguments and return values, must include type hints. This improves code clarity and allows for static analysis.
+    ```python
+    def greet(name: str) -> str:
+        return f"Hello, {name}"
+    ```
+- **Docstrings:** Every module, function, class, and method should have a clear and concise docstring. Follow the [Google Python Style Guide](mdc:https:/google.github.io/styleguide/pyguide.html#3.8-comments-and-docstrings) for docstring format.
+    ```python
+    def calculate_area(radius: float) -> float:
+        """Calculates the area of a circle.
+
+        Args:
+            radius: The radius of the circle.
+
+        Returns:
+            The area of the circle.
+        """
+        return 3.14159 * radius**2
+    ```
+
+## 3. Error Handling
+
+- **Specific Exceptions:** Catch specific exceptions rather than using a bare `except:` block. This prevents masking unexpected errors.
+    ```python
+    # Good
+    try:
+        # some code
+    except FileNotFoundError:
+        # handle specific error
+
+    # Bad
+    try:
+        # some code
+    except:
+        # too broad
+        pass
+    ```
+- **Custom Exceptions:** For application-specific errors, define custom exception classes.
+## 4. Code Structure and Organization
+
+- **Modularity:** Keep functions and classes small and focused on a single responsibility.
+- **Project Layout:** Adhere to a standard project structure:
+    ```
+    project-name/
+        src/
+            project_name/
+                __init__.py
+                main.py
+                ...
+        tests/
+            __init__.py
+            test_main.py
+            ...
+        .gitignore
+        pyproject.toml
+        README.md
+    ```
+- **Imports:** Use absolute imports whenever possible. For example, `from my_project.utils import helper` is preferred over `from .utils import helper`.
+
+## 5. Modern Python Practices
+
+- **f-strings:** Use f-strings for string formatting.
+- **Context Managers (`with` statement):** Use the `with` statement for resource management (e.g., file handling) to ensure resources are properly closed.
+- **List Comprehensions:** Prefer list comprehensions for creating lists from other iterables for their conciseness and readability.
+
+## 6. Testing
+
+- **Unit Tests:** All new functionality should be accompanied by unit tests.
+- **Framework:** Use the `pytest` framework for writing tests.
+- **Assertions:** Write clear and descriptive assertions.
+
+By integrating this rule into your Cursor workflow, you can leverage the power of AI to consistently generate high-quality Python code that aligns with established best practices. This not only improves the immediate quality of your code but also fosters a more maintainable and collaborative development environment.
