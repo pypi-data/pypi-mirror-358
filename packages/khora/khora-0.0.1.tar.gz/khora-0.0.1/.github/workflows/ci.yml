@@ -1,0 +1,74 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  PYTHON_VERSION: "3.12"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v3
+      with:
+        version: "latest"
+
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+
+    - name: Install dependencies
+      run: |
+        uv pip install --system -e ".[dev]"
+
+    - name: Install Playwright browsers
+      run: |
+        playwright install chromium
+        playwright install-deps
+
+    - name: Run linting
+      run: |
+        black --check src tests
+        isort --check-only src tests
+        ruff check src tests
+
+    - name: Run type checking
+      run: |
+        mypy src
+
+    - name: Run tests
+      run: |
+        pytest tests/unit -v
+
+  build-docker:
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        load: true
+        push: false
+        tags: khora:latest
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+    - name: Run Docker image tests
+      run: |
+        docker run --rm khora:latest python -c "import khora; print(khora.__version__)"
