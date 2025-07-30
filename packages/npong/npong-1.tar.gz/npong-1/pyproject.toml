@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools >= 80.9.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "npong"
+version = "1"
+requires-python = ">=3.13.3"
+dependencies = ['windows-curses ; platform_system == "Windows"']  # only because windows is troublesome
+keywords = [
+  "pong",
+  "game",
+  "ncurses",
+  "curses",
+]
+classifiers = [
+  "Development Status :: 6 - Mature",
+  # "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Environment :: Console :: Curses",
+  "Topic :: Games/Entertainment :: Arcade",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Education",
+  "Intended Audience :: End Users/Desktop",
+  "Intended Audience :: Other Audience",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: Implementation :: CPython",
+]
+authors = [
+  {name = "Jacobus Burger", email = "therealjacoburger@gmail.com"},
+]
+maintainers = [
+  {name = "Jacobus Burger", email = "therealjacoburger@gmail.com"},
+]
+description = "Pong in Python, now with curses!"
+readme = "README.md"
+license = "MIT"
+
+[project.urls]
+Repository = "https://github.com/LordUbuntu/pong-ncurses"
+
+[project.scripts]
+pong = "npong.__main__:main"
