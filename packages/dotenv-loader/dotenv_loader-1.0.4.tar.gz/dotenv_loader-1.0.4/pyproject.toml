@@ -1,0 +1,59 @@
+[project]
+name = "dotenv-loader"
+version = "1.0.4"
+description = "Flexible and secure .env loader for Python projects with support for environment switching, nested project structures, and external configuration directories."
+authors = [{name="Vladyslav Kozlovskyy", email="dbdevelop@gmail.com"}]
+readme = "README.md"
+license = {text = "MIT"}
+dependencies = ["python-dotenv>=1.1.1"]
+requires-python = ">=3.9"
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: Implementation :: PyPy",
+  "Operating System :: OS Independent",
+  "Environment :: Console",
+  "Topic :: Software Development :: Libraries :: Python Modules"
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project.urls]
+"Homepage" = "https://dbdeveloper.github.io/dotenv-loader/"
+"Repository" = "https://github.com/dbdeveloper/dotenv-loader"
+"Bug Tracker" = "https://github.com/dbdeveloper/dotenv-loader/issues"
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "flake8",
+    "mypy",
+    "build",
+    "twine",
+    "pytest",
+    "pytest-cov",
+    "coverage",
+    "codecov"
+]
+test = [
+    "pytest",
+    "pytest-cov",
+    "coverage"
+]
+
+[tool.setuptools]
+license-files = ["LICENSE"]
+
