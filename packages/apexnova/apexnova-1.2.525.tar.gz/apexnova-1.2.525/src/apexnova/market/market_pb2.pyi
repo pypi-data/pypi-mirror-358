@@ -1,0 +1,568 @@
+from google.protobuf import timestamp_pb2 as _timestamp_pb2
+from google.protobuf.internal import enum_type_wrapper as _enum_type_wrapper
+from google.protobuf import descriptor as _descriptor
+from google.protobuf import message as _message
+from collections.abc import Mapping as _Mapping
+from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
+
+DESCRIPTOR: _descriptor.FileDescriptor
+
+class Country(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    COUNTRY_UNSPECIFIED: _ClassVar[Country]
+    COUNTRY_USA: _ClassVar[Country]
+    COUNTRY_CANADA: _ClassVar[Country]
+    COUNTRY_UK: _ClassVar[Country]
+    COUNTRY_GERMANY: _ClassVar[Country]
+    COUNTRY_FRANCE: _ClassVar[Country]
+    COUNTRY_ITALY: _ClassVar[Country]
+    COUNTRY_SPAIN: _ClassVar[Country]
+    COUNTRY_NETHERLANDS: _ClassVar[Country]
+    COUNTRY_SWITZERLAND: _ClassVar[Country]
+    COUNTRY_SWEDEN: _ClassVar[Country]
+    COUNTRY_NORWAY: _ClassVar[Country]
+    COUNTRY_DENMARK: _ClassVar[Country]
+    COUNTRY_JAPAN: _ClassVar[Country]
+    COUNTRY_CHINA: _ClassVar[Country]
+    COUNTRY_HONG_KONG: _ClassVar[Country]
+    COUNTRY_SOUTH_KOREA: _ClassVar[Country]
+    COUNTRY_SINGAPORE: _ClassVar[Country]
+    COUNTRY_INDIA: _ClassVar[Country]
+    COUNTRY_AUSTRALIA: _ClassVar[Country]
+    COUNTRY_NEW_ZEALAND: _ClassVar[Country]
+    COUNTRY_BRAZIL: _ClassVar[Country]
+    COUNTRY_MEXICO: _ClassVar[Country]
+    COUNTRY_ARGENTINA: _ClassVar[Country]
+    COUNTRY_CHILE: _ClassVar[Country]
+    COUNTRY_RUSSIA: _ClassVar[Country]
+    COUNTRY_SOUTH_AFRICA: _ClassVar[Country]
+    COUNTRY_ISRAEL: _ClassVar[Country]
+    COUNTRY_TURKEY: _ClassVar[Country]
+    COUNTRY_SAUDI_ARABIA: _ClassVar[Country]
+    COUNTRY_UAE: _ClassVar[Country]
+    COUNTRY_TAIWAN: _ClassVar[Country]
+    COUNTRY_THAILAND: _ClassVar[Country]
+    COUNTRY_MALAYSIA: _ClassVar[Country]
+    COUNTRY_INDONESIA: _ClassVar[Country]
+    COUNTRY_PHILIPPINES: _ClassVar[Country]
+    COUNTRY_VIETNAM: _ClassVar[Country]
+    COUNTRY_OTHER: _ClassVar[Country]
+
+class Currency(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    CURRENCY_UNSPECIFIED: _ClassVar[Currency]
+    CURRENCY_USD: _ClassVar[Currency]
+    CURRENCY_EUR: _ClassVar[Currency]
+    CURRENCY_GBP: _ClassVar[Currency]
+    CURRENCY_CAD: _ClassVar[Currency]
+    CURRENCY_JPY: _ClassVar[Currency]
+    CURRENCY_CNY: _ClassVar[Currency]
+    CURRENCY_HKD: _ClassVar[Currency]
+    CURRENCY_AUD: _ClassVar[Currency]
+    CURRENCY_CHF: _ClassVar[Currency]
+    CURRENCY_SEK: _ClassVar[Currency]
+    CURRENCY_NOK: _ClassVar[Currency]
+    CURRENCY_DKK: _ClassVar[Currency]
+    CURRENCY_NZD: _ClassVar[Currency]
+    CURRENCY_SGD: _ClassVar[Currency]
+    CURRENCY_KRW: _ClassVar[Currency]
+    CURRENCY_INR: _ClassVar[Currency]
+    CURRENCY_BRL: _ClassVar[Currency]
+    CURRENCY_MXN: _ClassVar[Currency]
+    CURRENCY_RUB: _ClassVar[Currency]
+    CURRENCY_ZAR: _ClassVar[Currency]
+    CURRENCY_TRY: _ClassVar[Currency]
+    CURRENCY_ILS: _ClassVar[Currency]
+    CURRENCY_SAR: _ClassVar[Currency]
+    CURRENCY_AED: _ClassVar[Currency]
+    CURRENCY_TWD: _ClassVar[Currency]
+    CURRENCY_THB: _ClassVar[Currency]
+    CURRENCY_MYR: _ClassVar[Currency]
+    CURRENCY_IDR: _ClassVar[Currency]
+    CURRENCY_PHP: _ClassVar[Currency]
+    CURRENCY_VND: _ClassVar[Currency]
+    CURRENCY_PLN: _ClassVar[Currency]
+    CURRENCY_CZK: _ClassVar[Currency]
+    CURRENCY_HUF: _ClassVar[Currency]
+    CURRENCY_RON: _ClassVar[Currency]
+    CURRENCY_HRK: _ClassVar[Currency]
+    CURRENCY_BGN: _ClassVar[Currency]
+    CURRENCY_ARS: _ClassVar[Currency]
+    CURRENCY_CLP: _ClassVar[Currency]
+    CURRENCY_COP: _ClassVar[Currency]
+    CURRENCY_PEN: _ClassVar[Currency]
+    CURRENCY_OTHER: _ClassVar[Currency]
+
+class Sector(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    SECTOR_UNSPECIFIED: _ClassVar[Sector]
+    SECTOR_BASIC_MATERIALS: _ClassVar[Sector]
+    SECTOR_COMMUNICATION_SERVICES: _ClassVar[Sector]
+    SECTOR_CONSUMER_CYCLICAL: _ClassVar[Sector]
+    SECTOR_CONSUMER_DEFENSIVE: _ClassVar[Sector]
+    SECTOR_ENERGY: _ClassVar[Sector]
+    SECTOR_FINANCIAL_SERVICES: _ClassVar[Sector]
+    SECTOR_HEALTHCARE: _ClassVar[Sector]
+    SECTOR_INDUSTRIALS: _ClassVar[Sector]
+    SECTOR_REAL_ESTATE: _ClassVar[Sector]
+    SECTOR_TECHNOLOGY: _ClassVar[Sector]
+    SECTOR_UTILITIES: _ClassVar[Sector]
+
+class ReportingPeriod(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    REPORTING_PERIOD_UNSPECIFIED: _ClassVar[ReportingPeriod]
+    REPORTING_PERIOD_ANNUAL: _ClassVar[ReportingPeriod]
+    REPORTING_PERIOD_Q1: _ClassVar[ReportingPeriod]
+    REPORTING_PERIOD_Q2: _ClassVar[ReportingPeriod]
+    REPORTING_PERIOD_Q3: _ClassVar[ReportingPeriod]
+    REPORTING_PERIOD_Q4: _ClassVar[ReportingPeriod]
+    REPORTING_PERIOD_QUARTER: _ClassVar[ReportingPeriod]
+
+class StockExchange(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    STOCK_EXCHANGE_UNSPECIFIED: _ClassVar[StockExchange]
+    STOCK_EXCHANGE_NYSE: _ClassVar[StockExchange]
+    STOCK_EXCHANGE_NASDAQ: _ClassVar[StockExchange]
+    STOCK_EXCHANGE_OTHER: _ClassVar[StockExchange]
+
+class FiscalYear(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    FISCAL_YEAR_UNSPECIFIED: _ClassVar[FiscalYear]
+    FISCAL_YEAR_2015: _ClassVar[FiscalYear]
+    FISCAL_YEAR_2016: _ClassVar[FiscalYear]
+    FISCAL_YEAR_2017: _ClassVar[FiscalYear]
+    FISCAL_YEAR_2018: _ClassVar[FiscalYear]
+    FISCAL_YEAR_2019: _ClassVar[FiscalYear]
+    FISCAL_YEAR_2020: _ClassVar[FiscalYear]
+    FISCAL_YEAR_2021: _ClassVar[FiscalYear]
+    FISCAL_YEAR_2022: _ClassVar[FiscalYear]
+    FISCAL_YEAR_2023: _ClassVar[FiscalYear]
+    FISCAL_YEAR_2024: _ClassVar[FiscalYear]
+    FISCAL_YEAR_2025: _ClassVar[FiscalYear]
+COUNTRY_UNSPECIFIED: Country
+COUNTRY_USA: Country
+COUNTRY_CANADA: Country
+COUNTRY_UK: Country
+COUNTRY_GERMANY: Country
+COUNTRY_FRANCE: Country
+COUNTRY_ITALY: Country
+COUNTRY_SPAIN: Country
+COUNTRY_NETHERLANDS: Country
+COUNTRY_SWITZERLAND: Country
+COUNTRY_SWEDEN: Country
+COUNTRY_NORWAY: Country
+COUNTRY_DENMARK: Country
+COUNTRY_JAPAN: Country
+COUNTRY_CHINA: Country
+COUNTRY_HONG_KONG: Country
+COUNTRY_SOUTH_KOREA: Country
+COUNTRY_SINGAPORE: Country
+COUNTRY_INDIA: Country
+COUNTRY_AUSTRALIA: Country
+COUNTRY_NEW_ZEALAND: Country
+COUNTRY_BRAZIL: Country
+COUNTRY_MEXICO: Country
+COUNTRY_ARGENTINA: Country
+COUNTRY_CHILE: Country
+COUNTRY_RUSSIA: Country
+COUNTRY_SOUTH_AFRICA: Country
+COUNTRY_ISRAEL: Country
+COUNTRY_TURKEY: Country
+COUNTRY_SAUDI_ARABIA: Country
+COUNTRY_UAE: Country
+COUNTRY_TAIWAN: Country
+COUNTRY_THAILAND: Country
+COUNTRY_MALAYSIA: Country
+COUNTRY_INDONESIA: Country
+COUNTRY_PHILIPPINES: Country
+COUNTRY_VIETNAM: Country
+COUNTRY_OTHER: Country
+CURRENCY_UNSPECIFIED: Currency
+CURRENCY_USD: Currency
+CURRENCY_EUR: Currency
+CURRENCY_GBP: Currency
+CURRENCY_CAD: Currency
+CURRENCY_JPY: Currency
+CURRENCY_CNY: Currency
+CURRENCY_HKD: Currency
+CURRENCY_AUD: Currency
+CURRENCY_CHF: Currency
+CURRENCY_SEK: Currency
+CURRENCY_NOK: Currency
+CURRENCY_DKK: Currency
+CURRENCY_NZD: Currency
+CURRENCY_SGD: Currency
+CURRENCY_KRW: Currency
+CURRENCY_INR: Currency
+CURRENCY_BRL: Currency
+CURRENCY_MXN: Currency
+CURRENCY_RUB: Currency
+CURRENCY_ZAR: Currency
+CURRENCY_TRY: Currency
+CURRENCY_ILS: Currency
+CURRENCY_SAR: Currency
+CURRENCY_AED: Currency
+CURRENCY_TWD: Currency
+CURRENCY_THB: Currency
+CURRENCY_MYR: Currency
+CURRENCY_IDR: Currency
+CURRENCY_PHP: Currency
+CURRENCY_VND: Currency
+CURRENCY_PLN: Currency
+CURRENCY_CZK: Currency
+CURRENCY_HUF: Currency
+CURRENCY_RON: Currency
+CURRENCY_HRK: Currency
+CURRENCY_BGN: Currency
+CURRENCY_ARS: Currency
+CURRENCY_CLP: Currency
+CURRENCY_COP: Currency
+CURRENCY_PEN: Currency
+CURRENCY_OTHER: Currency
+SECTOR_UNSPECIFIED: Sector
+SECTOR_BASIC_MATERIALS: Sector
+SECTOR_COMMUNICATION_SERVICES: Sector
+SECTOR_CONSUMER_CYCLICAL: Sector
+SECTOR_CONSUMER_DEFENSIVE: Sector
+SECTOR_ENERGY: Sector
+SECTOR_FINANCIAL_SERVICES: Sector
+SECTOR_HEALTHCARE: Sector
+SECTOR_INDUSTRIALS: Sector
+SECTOR_REAL_ESTATE: Sector
+SECTOR_TECHNOLOGY: Sector
+SECTOR_UTILITIES: Sector
+REPORTING_PERIOD_UNSPECIFIED: ReportingPeriod
+REPORTING_PERIOD_ANNUAL: ReportingPeriod
+REPORTING_PERIOD_Q1: ReportingPeriod
+REPORTING_PERIOD_Q2: ReportingPeriod
+REPORTING_PERIOD_Q3: ReportingPeriod
+REPORTING_PERIOD_Q4: ReportingPeriod
+REPORTING_PERIOD_QUARTER: ReportingPeriod
+STOCK_EXCHANGE_UNSPECIFIED: StockExchange
+STOCK_EXCHANGE_NYSE: StockExchange
+STOCK_EXCHANGE_NASDAQ: StockExchange
+STOCK_EXCHANGE_OTHER: StockExchange
+FISCAL_YEAR_UNSPECIFIED: FiscalYear
+FISCAL_YEAR_2015: FiscalYear
+FISCAL_YEAR_2016: FiscalYear
+FISCAL_YEAR_2017: FiscalYear
+FISCAL_YEAR_2018: FiscalYear
+FISCAL_YEAR_2019: FiscalYear
+FISCAL_YEAR_2020: FiscalYear
+FISCAL_YEAR_2021: FiscalYear
+FISCAL_YEAR_2022: FiscalYear
+FISCAL_YEAR_2023: FiscalYear
+FISCAL_YEAR_2024: FiscalYear
+FISCAL_YEAR_2025: FiscalYear
+
+class QuoteInfo(_message.Message):
+    __slots__ = ("volume", "day_low", "day_high", "open", "close")
+    VOLUME_FIELD_NUMBER: _ClassVar[int]
+    DAY_LOW_FIELD_NUMBER: _ClassVar[int]
+    DAY_HIGH_FIELD_NUMBER: _ClassVar[int]
+    OPEN_FIELD_NUMBER: _ClassVar[int]
+    CLOSE_FIELD_NUMBER: _ClassVar[int]
+    volume: int
+    day_low: float
+    day_high: float
+    open: float
+    close: float
+    def __init__(self, volume: _Optional[int] = ..., day_low: _Optional[float] = ..., day_high: _Optional[float] = ..., open: _Optional[float] = ..., close: _Optional[float] = ...) -> None: ...
+
+class Stock(_message.Message):
+    __slots__ = ("company_name", "symbol", "exchange", "country", "currency", "sector", "image_url", "cik", "isin", "cusip")
+    COMPANY_NAME_FIELD_NUMBER: _ClassVar[int]
+    SYMBOL_FIELD_NUMBER: _ClassVar[int]
+    EXCHANGE_FIELD_NUMBER: _ClassVar[int]
+    COUNTRY_FIELD_NUMBER: _ClassVar[int]
+    CURRENCY_FIELD_NUMBER: _ClassVar[int]
+    SECTOR_FIELD_NUMBER: _ClassVar[int]
+    IMAGE_URL_FIELD_NUMBER: _ClassVar[int]
+    CIK_FIELD_NUMBER: _ClassVar[int]
+    ISIN_FIELD_NUMBER: _ClassVar[int]
+    CUSIP_FIELD_NUMBER: _ClassVar[int]
+    company_name: str
+    symbol: str
+    exchange: StockExchange
+    country: Country
+    currency: Currency
+    sector: Sector
+    image_url: str
+    cik: str
+    isin: str
+    cusip: str
+    def __init__(self, company_name: _Optional[str] = ..., symbol: _Optional[str] = ..., exchange: _Optional[_Union[StockExchange, str]] = ..., country: _Optional[_Union[Country, str]] = ..., currency: _Optional[_Union[Currency, str]] = ..., sector: _Optional[_Union[Sector, str]] = ..., image_url: _Optional[str] = ..., cik: _Optional[str] = ..., isin: _Optional[str] = ..., cusip: _Optional[str] = ...) -> None: ...
+
+class BalanceSheetStatement(_message.Message):
+    __slots__ = ("fiscal_year", "period", "filing_date", "cash_equivalents", "short_term_investments", "cash_short_term_investments", "net_receivables", "accounts_receivables", "other_receivables", "inventory", "prepaids", "other_current_assets", "total_current_assets", "property_plant_equipment_net", "goodwill", "intangible_assets", "goodwill_intangible_assets", "long_term_investments", "tax_assets", "other_non_current_assets", "total_non_current_assets", "other_assets", "total_assets", "total_payables", "account_payables", "other_payables", "accrued_expenses", "short_term_debt", "capital_lease_obligations_current", "tax_payables", "deferred_revenue", "other_current_liabilities", "total_current_liabilities", "long_term_debt", "deferred_revenue_non_current", "deferred_tax_liabilities_non_current", "other_non_current_liabilities", "total_non_current_liabilities", "other_liabilities", "capital_lease_obligations", "total_liabilities", "treasury_stock", "preferred_stock", "common_stock", "retained_earnings", "additional_paid_capital", "accumulated_other_comprehensive_income_loss", "other_total_stockholders_equity", "total_stockholders_equity", "total_equity", "minority_interest", "total_liabilities_total_equity", "total_investments", "total_debt", "net_debt")
+    FISCAL_YEAR_FIELD_NUMBER: _ClassVar[int]
+    PERIOD_FIELD_NUMBER: _ClassVar[int]
+    FILING_DATE_FIELD_NUMBER: _ClassVar[int]
+    CASH_EQUIVALENTS_FIELD_NUMBER: _ClassVar[int]
+    SHORT_TERM_INVESTMENTS_FIELD_NUMBER: _ClassVar[int]
+    CASH_SHORT_TERM_INVESTMENTS_FIELD_NUMBER: _ClassVar[int]
+    NET_RECEIVABLES_FIELD_NUMBER: _ClassVar[int]
+    ACCOUNTS_RECEIVABLES_FIELD_NUMBER: _ClassVar[int]
+    OTHER_RECEIVABLES_FIELD_NUMBER: _ClassVar[int]
+    INVENTORY_FIELD_NUMBER: _ClassVar[int]
+    PREPAIDS_FIELD_NUMBER: _ClassVar[int]
+    OTHER_CURRENT_ASSETS_FIELD_NUMBER: _ClassVar[int]
+    TOTAL_CURRENT_ASSETS_FIELD_NUMBER: _ClassVar[int]
+    PROPERTY_PLANT_EQUIPMENT_NET_FIELD_NUMBER: _ClassVar[int]
+    GOODWILL_FIELD_NUMBER: _ClassVar[int]
+    INTANGIBLE_ASSETS_FIELD_NUMBER: _ClassVar[int]
+    GOODWILL_INTANGIBLE_ASSETS_FIELD_NUMBER: _ClassVar[int]
+    LONG_TERM_INVESTMENTS_FIELD_NUMBER: _ClassVar[int]
+    TAX_ASSETS_FIELD_NUMBER: _ClassVar[int]
+    OTHER_NON_CURRENT_ASSETS_FIELD_NUMBER: _ClassVar[int]
+    TOTAL_NON_CURRENT_ASSETS_FIELD_NUMBER: _ClassVar[int]
+    OTHER_ASSETS_FIELD_NUMBER: _ClassVar[int]
+    TOTAL_ASSETS_FIELD_NUMBER: _ClassVar[int]
+    TOTAL_PAYABLES_FIELD_NUMBER: _ClassVar[int]
+    ACCOUNT_PAYABLES_FIELD_NUMBER: _ClassVar[int]
+    OTHER_PAYABLES_FIELD_NUMBER: _ClassVar[int]
+    ACCRUED_EXPENSES_FIELD_NUMBER: _ClassVar[int]
+    SHORT_TERM_DEBT_FIELD_NUMBER: _ClassVar[int]
+    CAPITAL_LEASE_OBLIGATIONS_CURRENT_FIELD_NUMBER: _ClassVar[int]
+    TAX_PAYABLES_FIELD_NUMBER: _ClassVar[int]
+    DEFERRED_REVENUE_FIELD_NUMBER: _ClassVar[int]
+    OTHER_CURRENT_LIABILITIES_FIELD_NUMBER: _ClassVar[int]
+    TOTAL_CURRENT_LIABILITIES_FIELD_NUMBER: _ClassVar[int]
+    LONG_TERM_DEBT_FIELD_NUMBER: _ClassVar[int]
+    DEFERRED_REVENUE_NON_CURRENT_FIELD_NUMBER: _ClassVar[int]
+    DEFERRED_TAX_LIABILITIES_NON_CURRENT_FIELD_NUMBER: _ClassVar[int]
+    OTHER_NON_CURRENT_LIABILITIES_FIELD_NUMBER: _ClassVar[int]
+    TOTAL_NON_CURRENT_LIABILITIES_FIELD_NUMBER: _ClassVar[int]
+    OTHER_LIABILITIES_FIELD_NUMBER: _ClassVar[int]
+    CAPITAL_LEASE_OBLIGATIONS_FIELD_NUMBER: _ClassVar[int]
+    TOTAL_LIABILITIES_FIELD_NUMBER: _ClassVar[int]
+    TREASURY_STOCK_FIELD_NUMBER: _ClassVar[int]
+    PREFERRED_STOCK_FIELD_NUMBER: _ClassVar[int]
+    COMMON_STOCK_FIELD_NUMBER: _ClassVar[int]
+    RETAINED_EARNINGS_FIELD_NUMBER: _ClassVar[int]
+    ADDITIONAL_PAID_CAPITAL_FIELD_NUMBER: _ClassVar[int]
+    ACCUMULATED_OTHER_COMPREHENSIVE_INCOME_LOSS_FIELD_NUMBER: _ClassVar[int]
+    OTHER_TOTAL_STOCKHOLDERS_EQUITY_FIELD_NUMBER: _ClassVar[int]
+    TOTAL_STOCKHOLDERS_EQUITY_FIELD_NUMBER: _ClassVar[int]
+    TOTAL_EQUITY_FIELD_NUMBER: _ClassVar[int]
+    MINORITY_INTEREST_FIELD_NUMBER: _ClassVar[int]
+    TOTAL_LIABILITIES_TOTAL_EQUITY_FIELD_NUMBER: _ClassVar[int]
+    TOTAL_INVESTMENTS_FIELD_NUMBER: _ClassVar[int]
+    TOTAL_DEBT_FIELD_NUMBER: _ClassVar[int]
+    NET_DEBT_FIELD_NUMBER: _ClassVar[int]
+    fiscal_year: FiscalYear
+    period: ReportingPeriod
+    filing_date: _timestamp_pb2.Timestamp
+    cash_equivalents: int
+    short_term_investments: int
+    cash_short_term_investments: int
+    net_receivables: int
+    accounts_receivables: int
+    other_receivables: int
+    inventory: int
+    prepaids: int
+    other_current_assets: int
+    total_current_assets: int
+    property_plant_equipment_net: int
+    goodwill: int
+    intangible_assets: int
+    goodwill_intangible_assets: int
+    long_term_investments: int
+    tax_assets: int
+    other_non_current_assets: int
+    total_non_current_assets: int
+    other_assets: int
+    total_assets: int
+    total_payables: int
+    account_payables: int
+    other_payables: int
+    accrued_expenses: int
+    short_term_debt: int
+    capital_lease_obligations_current: int
+    tax_payables: int
+    deferred_revenue: int
+    other_current_liabilities: int
+    total_current_liabilities: int
+    long_term_debt: int
+    deferred_revenue_non_current: int
+    deferred_tax_liabilities_non_current: int
+    other_non_current_liabilities: int
+    total_non_current_liabilities: int
+    other_liabilities: int
+    capital_lease_obligations: int
+    total_liabilities: int
+    treasury_stock: int
+    preferred_stock: int
+    common_stock: int
+    retained_earnings: int
+    additional_paid_capital: int
+    accumulated_other_comprehensive_income_loss: int
+    other_total_stockholders_equity: int
+    total_stockholders_equity: int
+    total_equity: int
+    minority_interest: int
+    total_liabilities_total_equity: int
+    total_investments: int
+    total_debt: int
+    net_debt: int
+    def __init__(self, fiscal_year: _Optional[_Union[FiscalYear, str]] = ..., period: _Optional[_Union[ReportingPeriod, str]] = ..., filing_date: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., cash_equivalents: _Optional[int] = ..., short_term_investments: _Optional[int] = ..., cash_short_term_investments: _Optional[int] = ..., net_receivables: _Optional[int] = ..., accounts_receivables: _Optional[int] = ..., other_receivables: _Optional[int] = ..., inventory: _Optional[int] = ..., prepaids: _Optional[int] = ..., other_current_assets: _Optional[int] = ..., total_current_assets: _Optional[int] = ..., property_plant_equipment_net: _Optional[int] = ..., goodwill: _Optional[int] = ..., intangible_assets: _Optional[int] = ..., goodwill_intangible_assets: _Optional[int] = ..., long_term_investments: _Optional[int] = ..., tax_assets: _Optional[int] = ..., other_non_current_assets: _Optional[int] = ..., total_non_current_assets: _Optional[int] = ..., other_assets: _Optional[int] = ..., total_assets: _Optional[int] = ..., total_payables: _Optional[int] = ..., account_payables: _Optional[int] = ..., other_payables: _Optional[int] = ..., accrued_expenses: _Optional[int] = ..., short_term_debt: _Optional[int] = ..., capital_lease_obligations_current: _Optional[int] = ..., tax_payables: _Optional[int] = ..., deferred_revenue: _Optional[int] = ..., other_current_liabilities: _Optional[int] = ..., total_current_liabilities: _Optional[int] = ..., long_term_debt: _Optional[int] = ..., deferred_revenue_non_current: _Optional[int] = ..., deferred_tax_liabilities_non_current: _Optional[int] = ..., other_non_current_liabilities: _Optional[int] = ..., total_non_current_liabilities: _Optional[int] = ..., other_liabilities: _Optional[int] = ..., capital_lease_obligations: _Optional[int] = ..., total_liabilities: _Optional[int] = ..., treasury_stock: _Optional[int] = ..., preferred_stock: _Optional[int] = ..., common_stock: _Optional[int] = ..., retained_earnings: _Optional[int] = ..., additional_paid_capital: _Optional[int] = ..., accumulated_other_comprehensive_income_loss: _Optional[int] = ..., other_total_stockholders_equity: _Optional[int] = ..., total_stockholders_equity: _Optional[int] = ..., total_equity: _Optional[int] = ..., minority_interest: _Optional[int] = ..., total_liabilities_total_equity: _Optional[int] = ..., total_investments: _Optional[int] = ..., total_debt: _Optional[int] = ..., net_debt: _Optional[int] = ...) -> None: ...
+
+class CashflowStatement(_message.Message):
+    __slots__ = ("fiscal_year", "period", "filing_date", "net_income", "depreciation_amortization", "deferred_income_tax", "stock_based_compensation", "change_working_capital", "accounts_receivables", "inventory", "accounts_payables", "other_working_capital", "other_non_cash_items", "net_cash_operating_activities", "investments_property_plant_equipment", "acquisitions_net", "purchases_investments", "sales_maturities_investments", "other_investing_activities", "net_cash_investing_activities", "net_debt_issuance", "long_term_net_debt_issuance", "short_term_net_debt_issuance", "net_stock_issuance", "net_common_stock_issuance", "common_stock_issuance", "common_stock_repurchased", "net_preferred_stock_issuance", "net_dividends_paid", "common_dividends_paid", "preferred_dividends_paid", "other_financing_activities", "net_cash_financing_activities", "effect_forex_changes_cash", "net_change_cash", "cash_end_period", "cash_beginning_period", "operating_cash_flow", "capital_expenditure", "free_cash_flow", "income_taxes_paid", "interest_paid")
+    FISCAL_YEAR_FIELD_NUMBER: _ClassVar[int]
+    PERIOD_FIELD_NUMBER: _ClassVar[int]
+    FILING_DATE_FIELD_NUMBER: _ClassVar[int]
+    NET_INCOME_FIELD_NUMBER: _ClassVar[int]
+    DEPRECIATION_AMORTIZATION_FIELD_NUMBER: _ClassVar[int]
+    DEFERRED_INCOME_TAX_FIELD_NUMBER: _ClassVar[int]
+    STOCK_BASED_COMPENSATION_FIELD_NUMBER: _ClassVar[int]
+    CHANGE_WORKING_CAPITAL_FIELD_NUMBER: _ClassVar[int]
+    ACCOUNTS_RECEIVABLES_FIELD_NUMBER: _ClassVar[int]
+    INVENTORY_FIELD_NUMBER: _ClassVar[int]
+    ACCOUNTS_PAYABLES_FIELD_NUMBER: _ClassVar[int]
+    OTHER_WORKING_CAPITAL_FIELD_NUMBER: _ClassVar[int]
+    OTHER_NON_CASH_ITEMS_FIELD_NUMBER: _ClassVar[int]
+    NET_CASH_OPERATING_ACTIVITIES_FIELD_NUMBER: _ClassVar[int]
+    INVESTMENTS_PROPERTY_PLANT_EQUIPMENT_FIELD_NUMBER: _ClassVar[int]
+    ACQUISITIONS_NET_FIELD_NUMBER: _ClassVar[int]
+    PURCHASES_INVESTMENTS_FIELD_NUMBER: _ClassVar[int]
+    SALES_MATURITIES_INVESTMENTS_FIELD_NUMBER: _ClassVar[int]
+    OTHER_INVESTING_ACTIVITIES_FIELD_NUMBER: _ClassVar[int]
+    NET_CASH_INVESTING_ACTIVITIES_FIELD_NUMBER: _ClassVar[int]
+    NET_DEBT_ISSUANCE_FIELD_NUMBER: _ClassVar[int]
+    LONG_TERM_NET_DEBT_ISSUANCE_FIELD_NUMBER: _ClassVar[int]
+    SHORT_TERM_NET_DEBT_ISSUANCE_FIELD_NUMBER: _ClassVar[int]
+    NET_STOCK_ISSUANCE_FIELD_NUMBER: _ClassVar[int]
+    NET_COMMON_STOCK_ISSUANCE_FIELD_NUMBER: _ClassVar[int]
+    COMMON_STOCK_ISSUANCE_FIELD_NUMBER: _ClassVar[int]
+    COMMON_STOCK_REPURCHASED_FIELD_NUMBER: _ClassVar[int]
+    NET_PREFERRED_STOCK_ISSUANCE_FIELD_NUMBER: _ClassVar[int]
+    NET_DIVIDENDS_PAID_FIELD_NUMBER: _ClassVar[int]
+    COMMON_DIVIDENDS_PAID_FIELD_NUMBER: _ClassVar[int]
+    PREFERRED_DIVIDENDS_PAID_FIELD_NUMBER: _ClassVar[int]
+    OTHER_FINANCING_ACTIVITIES_FIELD_NUMBER: _ClassVar[int]
+    NET_CASH_FINANCING_ACTIVITIES_FIELD_NUMBER: _ClassVar[int]
+    EFFECT_FOREX_CHANGES_CASH_FIELD_NUMBER: _ClassVar[int]
+    NET_CHANGE_CASH_FIELD_NUMBER: _ClassVar[int]
+    CASH_END_PERIOD_FIELD_NUMBER: _ClassVar[int]
+    CASH_BEGINNING_PERIOD_FIELD_NUMBER: _ClassVar[int]
+    OPERATING_CASH_FLOW_FIELD_NUMBER: _ClassVar[int]
+    CAPITAL_EXPENDITURE_FIELD_NUMBER: _ClassVar[int]
+    FREE_CASH_FLOW_FIELD_NUMBER: _ClassVar[int]
+    INCOME_TAXES_PAID_FIELD_NUMBER: _ClassVar[int]
+    INTEREST_PAID_FIELD_NUMBER: _ClassVar[int]
+    fiscal_year: FiscalYear
+    period: ReportingPeriod
+    filing_date: _timestamp_pb2.Timestamp
+    net_income: int
+    depreciation_amortization: int
+    deferred_income_tax: int
+    stock_based_compensation: int
+    change_working_capital: int
+    accounts_receivables: int
+    inventory: int
+    accounts_payables: int
+    other_working_capital: int
+    other_non_cash_items: int
+    net_cash_operating_activities: int
+    investments_property_plant_equipment: int
+    acquisitions_net: int
+    purchases_investments: int
+    sales_maturities_investments: int
+    other_investing_activities: int
+    net_cash_investing_activities: int
+    net_debt_issuance: int
+    long_term_net_debt_issuance: int
+    short_term_net_debt_issuance: int
+    net_stock_issuance: int
+    net_common_stock_issuance: int
+    common_stock_issuance: int
+    common_stock_repurchased: int
+    net_preferred_stock_issuance: int
+    net_dividends_paid: int
+    common_dividends_paid: int
+    preferred_dividends_paid: int
+    other_financing_activities: int
+    net_cash_financing_activities: int
+    effect_forex_changes_cash: int
+    net_change_cash: int
+    cash_end_period: int
+    cash_beginning_period: int
+    operating_cash_flow: int
+    capital_expenditure: int
+    free_cash_flow: int
+    income_taxes_paid: int
+    interest_paid: int
+    def __init__(self, fiscal_year: _Optional[_Union[FiscalYear, str]] = ..., period: _Optional[_Union[ReportingPeriod, str]] = ..., filing_date: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., net_income: _Optional[int] = ..., depreciation_amortization: _Optional[int] = ..., deferred_income_tax: _Optional[int] = ..., stock_based_compensation: _Optional[int] = ..., change_working_capital: _Optional[int] = ..., accounts_receivables: _Optional[int] = ..., inventory: _Optional[int] = ..., accounts_payables: _Optional[int] = ..., other_working_capital: _Optional[int] = ..., other_non_cash_items: _Optional[int] = ..., net_cash_operating_activities: _Optional[int] = ..., investments_property_plant_equipment: _Optional[int] = ..., acquisitions_net: _Optional[int] = ..., purchases_investments: _Optional[int] = ..., sales_maturities_investments: _Optional[int] = ..., other_investing_activities: _Optional[int] = ..., net_cash_investing_activities: _Optional[int] = ..., net_debt_issuance: _Optional[int] = ..., long_term_net_debt_issuance: _Optional[int] = ..., short_term_net_debt_issuance: _Optional[int] = ..., net_stock_issuance: _Optional[int] = ..., net_common_stock_issuance: _Optional[int] = ..., common_stock_issuance: _Optional[int] = ..., common_stock_repurchased: _Optional[int] = ..., net_preferred_stock_issuance: _Optional[int] = ..., net_dividends_paid: _Optional[int] = ..., common_dividends_paid: _Optional[int] = ..., preferred_dividends_paid: _Optional[int] = ..., other_financing_activities: _Optional[int] = ..., net_cash_financing_activities: _Optional[int] = ..., effect_forex_changes_cash: _Optional[int] = ..., net_change_cash: _Optional[int] = ..., cash_end_period: _Optional[int] = ..., cash_beginning_period: _Optional[int] = ..., operating_cash_flow: _Optional[int] = ..., capital_expenditure: _Optional[int] = ..., free_cash_flow: _Optional[int] = ..., income_taxes_paid: _Optional[int] = ..., interest_paid: _Optional[int] = ...) -> None: ...
+
+class IncomeStatement(_message.Message):
+    __slots__ = ("fiscal_year", "period", "filing_date", "revenue", "cost_revenue", "gross_profit", "research_development_expenses", "general_administrative_expenses", "selling_marketing_expenses", "selling_general_administrative_expenses", "other_expenses", "operating_expenses", "cost_expenses", "net_interest_income", "interest_income", "interest_expense", "depreciation_amortization", "ebitda", "ebit", "non_operating_income_excluding_interest", "operating_income", "total_other_income_expenses_net", "income_before_tax", "income_tax_expense", "net_income_continuing_operations", "net_income_discontinued_operations", "other_adjustments_net_income", "net_income", "net_income_deductions", "bottom_line_net_income", "eps", "eps_diluted", "weighted_average_shs_out", "weighted_average_shs_out_dil")
+    FISCAL_YEAR_FIELD_NUMBER: _ClassVar[int]
+    PERIOD_FIELD_NUMBER: _ClassVar[int]
+    FILING_DATE_FIELD_NUMBER: _ClassVar[int]
+    REVENUE_FIELD_NUMBER: _ClassVar[int]
+    COST_REVENUE_FIELD_NUMBER: _ClassVar[int]
+    GROSS_PROFIT_FIELD_NUMBER: _ClassVar[int]
+    RESEARCH_DEVELOPMENT_EXPENSES_FIELD_NUMBER: _ClassVar[int]
+    GENERAL_ADMINISTRATIVE_EXPENSES_FIELD_NUMBER: _ClassVar[int]
+    SELLING_MARKETING_EXPENSES_FIELD_NUMBER: _ClassVar[int]
+    SELLING_GENERAL_ADMINISTRATIVE_EXPENSES_FIELD_NUMBER: _ClassVar[int]
+    OTHER_EXPENSES_FIELD_NUMBER: _ClassVar[int]
+    OPERATING_EXPENSES_FIELD_NUMBER: _ClassVar[int]
+    COST_EXPENSES_FIELD_NUMBER: _ClassVar[int]
+    NET_INTEREST_INCOME_FIELD_NUMBER: _ClassVar[int]
+    INTEREST_INCOME_FIELD_NUMBER: _ClassVar[int]
+    INTEREST_EXPENSE_FIELD_NUMBER: _ClassVar[int]
+    DEPRECIATION_AMORTIZATION_FIELD_NUMBER: _ClassVar[int]
+    EBITDA_FIELD_NUMBER: _ClassVar[int]
+    EBIT_FIELD_NUMBER: _ClassVar[int]
+    NON_OPERATING_INCOME_EXCLUDING_INTEREST_FIELD_NUMBER: _ClassVar[int]
+    OPERATING_INCOME_FIELD_NUMBER: _ClassVar[int]
+    TOTAL_OTHER_INCOME_EXPENSES_NET_FIELD_NUMBER: _ClassVar[int]
+    INCOME_BEFORE_TAX_FIELD_NUMBER: _ClassVar[int]
+    INCOME_TAX_EXPENSE_FIELD_NUMBER: _ClassVar[int]
+    NET_INCOME_CONTINUING_OPERATIONS_FIELD_NUMBER: _ClassVar[int]
+    NET_INCOME_DISCONTINUED_OPERATIONS_FIELD_NUMBER: _ClassVar[int]
+    OTHER_ADJUSTMENTS_NET_INCOME_FIELD_NUMBER: _ClassVar[int]
+    NET_INCOME_FIELD_NUMBER: _ClassVar[int]
+    NET_INCOME_DEDUCTIONS_FIELD_NUMBER: _ClassVar[int]
+    BOTTOM_LINE_NET_INCOME_FIELD_NUMBER: _ClassVar[int]
+    EPS_FIELD_NUMBER: _ClassVar[int]
+    EPS_DILUTED_FIELD_NUMBER: _ClassVar[int]
+    WEIGHTED_AVERAGE_SHS_OUT_FIELD_NUMBER: _ClassVar[int]
+    WEIGHTED_AVERAGE_SHS_OUT_DIL_FIELD_NUMBER: _ClassVar[int]
+    fiscal_year: FiscalYear
+    period: ReportingPeriod
+    filing_date: _timestamp_pb2.Timestamp
+    revenue: int
+    cost_revenue: int
+    gross_profit: int
+    research_development_expenses: int
+    general_administrative_expenses: int
+    selling_marketing_expenses: int
+    selling_general_administrative_expenses: int
+    other_expenses: int
+    operating_expenses: int
+    cost_expenses: int
+    net_interest_income: int
+    interest_income: int
+    interest_expense: int
+    depreciation_amortization: int
+    ebitda: int
+    ebit: int
+    non_operating_income_excluding_interest: int
+    operating_income: int
+    total_other_income_expenses_net: int
+    income_before_tax: int
+    income_tax_expense: int
+    net_income_continuing_operations: int
+    net_income_discontinued_operations: int
+    other_adjustments_net_income: int
+    net_income: int
+    net_income_deductions: int
+    bottom_line_net_income: int
+    eps: float
+    eps_diluted: float
+    weighted_average_shs_out: int
+    weighted_average_shs_out_dil: int
+    def __init__(self, fiscal_year: _Optional[_Union[FiscalYear, str]] = ..., period: _Optional[_Union[ReportingPeriod, str]] = ..., filing_date: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., revenue: _Optional[int] = ..., cost_revenue: _Optional[int] = ..., gross_profit: _Optional[int] = ..., research_development_expenses: _Optional[int] = ..., general_administrative_expenses: _Optional[int] = ..., selling_marketing_expenses: _Optional[int] = ..., selling_general_administrative_expenses: _Optional[int] = ..., other_expenses: _Optional[int] = ..., operating_expenses: _Optional[int] = ..., cost_expenses: _Optional[int] = ..., net_interest_income: _Optional[int] = ..., interest_income: _Optional[int] = ..., interest_expense: _Optional[int] = ..., depreciation_amortization: _Optional[int] = ..., ebitda: _Optional[int] = ..., ebit: _Optional[int] = ..., non_operating_income_excluding_interest: _Optional[int] = ..., operating_income: _Optional[int] = ..., total_other_income_expenses_net: _Optional[int] = ..., income_before_tax: _Optional[int] = ..., income_tax_expense: _Optional[int] = ..., net_income_continuing_operations: _Optional[int] = ..., net_income_discontinued_operations: _Optional[int] = ..., other_adjustments_net_income: _Optional[int] = ..., net_income: _Optional[int] = ..., net_income_deductions: _Optional[int] = ..., bottom_line_net_income: _Optional[int] = ..., eps: _Optional[float] = ..., eps_diluted: _Optional[float] = ..., weighted_average_shs_out: _Optional[int] = ..., weighted_average_shs_out_dil: _Optional[int] = ...) -> None: ...
