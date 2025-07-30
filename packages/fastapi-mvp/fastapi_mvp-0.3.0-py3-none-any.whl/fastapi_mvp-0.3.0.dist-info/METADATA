@@ -1,0 +1,40 @@
+Metadata-Version: 2.3
+Name: fastapi-mvp
+Version: 0.3.0
+Summary: Create FastAPI MVP in 5-10 minutes
+License: MIT
+Author: siberianbearofficial
+Requires-Python: >=3.12
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: aiobotocore (==2.17.0)
+Requires-Dist: aiocache (>=0.12.3,<0.13.0)
+Requires-Dist: aiofiles (>=24.1.0,<25.0.0)
+Requires-Dist: boto3 (==1.35.93)
+Requires-Dist: fastapi (>=0.115.11,<0.116.0)
+Requires-Dist: motor (>=3.7.1,<4.0.0)
+Requires-Dist: prometheus-client (>=0.21.1,<0.22.0)
+Requires-Dist: prometheus-fastapi-instrumentator (>=7.1.0,<8.0.0)
+Requires-Dist: pydantic-settings (>=2.8.1,<3.0.0)
+Requires-Dist: pydantic[email] (>=2.11.2,<3.0.0)
+Requires-Dist: python-dotenv (>=1.1.1,<2.0.0)
+Requires-Dist: tenacity (>=9.1.2,<10.0.0)
+Requires-Dist: uvicorn (>=0.34.0,<0.35.0)
+Description-Content-Type: text/markdown
+
+# FastAPI MVP
+
+Библиотека, ускоряющая разработку API
+
+## Основной стек
+- FastAPI — для создания эндпоинтов и сваггера.
+- Pydantic — для описания всех моделей (входные данные, ответы, сущности и пр.).
+- MongoDB — для хранения данных без фиксированной схемы.
+- S3 — для хранения объектов сырыми байтами.
+
+## Основной принцип
+"Минимум кода — максимум функциональности"
+
+Каждый API создаётся за 5-10 минут с помощью декораторов и автоматически генерируемых CRUD-эндпоинтов.
+
