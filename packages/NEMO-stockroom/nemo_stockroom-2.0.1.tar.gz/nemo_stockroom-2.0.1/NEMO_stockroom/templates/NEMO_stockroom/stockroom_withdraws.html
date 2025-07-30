@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_tags_and_filters %}
+{% load stockroom_custom_tags_and_filters %}
+{% block title %}Stockroom Withdrawals{% endblock %}
+{% block extrahead %}
+    <script type="text/javascript" src="{% static "datetimepicker/bootstrap-datetimepicker.js" %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static "datetimepicker/bootstrap-datetimepicker.css" %}" />
+{% endblock %}
+{% block content %}
+    <h1>Stockroom Withdrawals</h1>
+    <form id="stockroom_withdrawal_form"
+          action="{% url 'display_withdraws' %}"
+          class="form-horizontal"
+          role="form"
+          style="margin-top: 20px"
+          method="get">
+        <input type="hidden" name="csv" id="csv_export" value="" />
+        <div class="form-group">
+            <label class="control-label col-md-2" for="month_list">View charges during</label>
+            <div class="col-md-2">
+                <select id="month_list"
+                        class="form-control"
+                        style="margin-right: 5px"
+                        onchange="set_dates_from_month(this.value)">
+                    <option selected></option>
+                    {% for month in month_list %}<option>{{ month|date:"F, Y" }}</option>{% endfor %}
+                </select>
+            </div>
+            <div class="control-label col-md-1" style="padding-left: 0;padding-right: 0">
+                <label for="start_date" class="text-center" style="width: 100%">or between</label>
+            </div>
+            <div class="col-md-2">
+                <input type="text"
+                       id="start_date"
+                       name="start"
+                       class="form-control text-center"
+                       placeholder="Choose a date"
+                       value="{{ start_date.date|input_date_format }}">
+            </div>
+            <div class="control-label col-sm-1">
+                <label for="end_date" class="text-center" style="width: 100%">and</label>
+            </div>
+            <div class="col-md-2">
+                <input type="text"
+                       id="end_date"
+                       name="end"
+                       class="form-control text-center"
+                       placeholder="Choose a date"
+                       value="{{ end_date.date|input_date_format }}">
+            </div>
+            <div class="col-md-2">
+                <button id="date_filter_button" type="submit" class="btn btn-success">Filter Dates</button>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2" for="user_search_box">User:</label>
+            <div class="col-md-3">
+                <input id="user_search_box" class="form-control" placeholder="{{ selected_user|default_if_none:"" }}">
+                <input id="stockroom_withdrawals_user_id" name="stockroom_withdrawals_user_id" type="hidden" />
+            </div>
+            <div class="col-md-1">
+                <button id="user_search_submit" type="submit" class="btn btn-success">Search</button>
+            </div>
+            <div class="col-md-1">
+                <button id="user_reset_button"
+                        type="button"
+                        onclick="location.href='{% url 'display_withdraws' %}'"
+                        class="btn btn-info">Reset</button>
+            </div>
+            <div class="col-md-1">
+                {% button style="margin-left: 15px" type="export" onclick="$('#csv_export').val('true');this.form.submit();" value="Export" %}
+            </div>
+        </div>
+    </form>
+    <br>
+    <br>
+    <br>
+    <h3>Withdrawals</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Item</th>
+                <th>Price</th>
+                <th>Qty</th>
+                <th>Project</th>
+                <th>Account</th>
+                <th>Date Fulfilled</th>
+                <th>Date of Request</th>
+                <th>Order Fulfilled By</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cw in consumable_withdraws %}
+                <tr class="consumable_withdraw_row_{{ cw.id }}">
+                    <td>{{ cw.customer }}</td>
+                    <td>{{ cw.consumable }}</td>
+                    <td>
+                        {% if rates and rates|get_item:cw.consumable.name %}{{ rates|get_item:cw.consumable.name|safe }}{% endif %}
+                    </td>
+                    <td>{{ cw.quantity }}</td>
+                    <td>{{ cw.project }}</td>
+                    <td>{{ cw.project.account.name }}</td>
+                    <td>{{ cw.date }}</td>
+                    <td>{{ cw|get_request_date }}</td>
+                    <td>{{ cw.merchant.first_name }} {{ cw.merchant.last_name }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="7">
+                        {% if start_date or end_date %}
+                            No requests for stockroom items exist
+                            {% if start_date and end_date %}
+                                between {{ start_date }} and {{ end_date }}
+                            {% elif start_date %}
+                                after {{ start_date }}
+                            {% else %}
+                                before {{ end_date }}
+                            {% endif %}
+                            .
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <script>
+		// Search button
+        $('#user_search_submit').prop("disabled", true);
+        $('#user_search_box').autocomplete('user_set', enable_button_from_search, {% json_search_base_with_extra_fields user_set %}).focus();
+        function enable_button_from_search(jquery_event, search_selection)
+		{
+			$('#stockroom_withdrawals_user_id').val(search_selection.id);
+			$('#user_search_submit').prop("disabled", false);
+		}
+
+        // Date selection
+        const js_date_format = "{{ date_input_js_format }}";
+		function validate_charge(url, button, row)
+		{
+			$(button).hide();
+			$(row).addClass('success-highlight');
+			let failure_dialog = ajax_failure_callback("Unable to validate charge");
+			ajax_post(url, undefined, undefined, failure_dialog);
+		}
+
+		let start_date_jq = $('#start_date');
+		let end_date_jq = $('#end_date');
+		start_date_jq.datetimepicker({format: js_date_format});
+		end_date_jq.datetimepicker({format: js_date_format});
+
+		function set_dates_from_month(month_input)
+		{
+			let month = moment(month_input, "MMMM, YYYY");
+			let firstOfMonth = month.startOf('month').format(js_date_format);
+			let lastOfMonth = month.endOf('month').format(js_date_format);
+
+			start_date_jq.val(firstOfMonth);
+			end_date_jq.val(lastOfMonth);
+		}
+
+		function set_dropdown_selected()
+		{
+			if ('{{ start_date|default_if_none:'' }}' && '{{ end_date|default_if_none:'' }}')
+			{
+				let start = moment('{{ start_date.date|input_date_format }}', js_date_format);
+				let end = moment('{{ end_date.date|input_date_format }}', js_date_format);
+				if (start.month() === end.month() && start.year() === end.year() && start.day() === start.startOf('month').day() && end.day() === end.endOf('month').day())
+				{
+					let month = start.format("MMMM, YYYY");
+					$('#month_list').val(month)
+				}
+			}
+		}
+
+        window.addEventListener("load", set_dropdown_selected)
+	
+    </script>
+{% endblock %}
