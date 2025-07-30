@@ -1,0 +1,56 @@
+Metadata-Version: 2.4
+Name: vectors2vrt
+Version: 0.3
+Summary: Generate a VRT file from GIS vector sources
+Home-page: https://github.com/fgregg/vectors2vrt
+License: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: License :: OSI Approved :: MIT License
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: gdal==3.8.4
+Requires-Dist: click
+Provides-Extra: dev
+Requires-Dist: black; extra == "dev"
+Requires-Dist: isort; extra == "dev"
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license
+Dynamic: license-file
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# `vectors2vrt`
+
+## Usage
+```console
+Usage: vectors2vrt [OPTIONS] [INPUT_FILES]...
+
+  Create a VRT file from vector inputs. Will pick up latitude and longitude
+  columns from CSV files if and only if the field names are labeled "lat" and
+  "lng".
+
+  example:
+     vectors2vrt A.geojson B.sqlite -o output.vrt
+
+Options:
+  -o, --output TEXT  Path to the output VRT file or '-' to write to stdout
+                     [required]
+  --help             Show this message and exit.
+```
+
+## Installation
+
+Requires GDAL to be installed on your system.
+
+```console
+> pip install vectors2vrt
+```
+
+if you upgrade your GDAL you will need to re-install.
