@@ -1,0 +1,13 @@
+include README.md
+include LICENSE
+include requirements.txt
+include setup.py
+include setup.cfg
+include pyproject.toml
+recursive-include nolink_connector *.py
+recursive-include examples *.py *.js *.sql
+recursive-include bin *
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+recursive-exclude * *.so
+recursive-exclude * .DS_Store
