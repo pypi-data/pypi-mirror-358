@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dvars"
+description = "Response spectra calculations for earthquake engineering"
+keywords = ["response spectra", "earthquake engineering"]
+readme = {file = "README.md", content-type = "text/markdown"}
+authors = [
+    { name = "Pavel Zacherle", email = "zapa@ipe.muni.cz" },
+]
+license = "MIT"
+license-files = ["LICENCE.txt","AUTHORS.txt"]
+requires-python = ">=3.9"
+dynamic = ["version"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: C",
+    "Topic :: Scientific/Engineering",
+    "Intended Audience :: Developers",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: Microsoft :: Windows",
+]
+dependencies = [
+    "numpy",
+    "matplotlib",
+]
+
+[project.urls]
+Repository = "https://github.com/ipemu/dvars.git"
+Issues = "https://github.com/ipemu/dvars/issues"
+
+[tool.setuptools.dynamic]
+version = {attr = "dvars.__version__"}
+
+#[tool.distutils.bdist_wheel]
+#plat-name = "win_amd64"
+#plat-name = "win32"
+#plat-name = "linux_x86_64"
+
+[tool.setuptools]
+#ext-modules = [
+#    {name = "libdars", sources = ["libsrc/dars.c", "libsrc/roesset_quake.c"]}
+#]
+include-package-data = true
+zip-safe = false
+
+[tool.setuptools.packages.find]
+include = ["dvars","dvars.dars"]
+#where = ["."]  # list of folders that contain the packages (["."] by default)
+#namespaces = true  # to enable scanning PEP 420 namespaces (true by default)
+#include = ["dvars*"]  # package names should match these glob patterns (["*"] by default)
+#https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
+
+#[tool.setuptools.package-data]
+#"dvars.dars" = ["libdars*.so"]
+
+
+
