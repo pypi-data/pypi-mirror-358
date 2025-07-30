@@ -1,0 +1,40 @@
+Metadata-Version: 2.4
+Name: ics_to_sms
+Version: 0.1
+Summary: Send an SMS for each alarm found in an ICS file.
+Author-email: Julien Palard <julien@palard.fr>
+Description-Content-Type: text/markdown
+License-Expression: MIT
+License-File: LICENSE
+Requires-Dist: requests
+Requires-Dist: ics
+Requires-Dist: tox ; extra == "dev"
+Requires-Dist: pylint ; extra == "dev"
+Requires-Dist: mypy ; extra == "dev"
+Requires-Dist: isort ; extra == "dev"
+Requires-Dist: black ; extra == "dev"
+Requires-Dist: types-requests ; extra == "dev"
+Project-URL: Home, https://git.afpy.org/mdk/ics_to_sms
+Provides-Extra: dev
+
+# ICS to SMS
+
+Can be used from command line, I like [passwordstore](https://www.passwordstore.org/) so I'd use:
+
+    python ics_to_sms.py --ics-url 'https://framagenda.org/.../?export' --ics-username mdk --ics-password "$(pass framagenda)" --free-user "$(pass free/sms-api-id)" --free-api-key "$(pass free/sms-api-key)"
+
+
+It can also be configured using a toml file like:
+
+    python ics_to_sms.py --config config.toml
+
+with `config.toml` containing:
+
+```toml
+ics_url = "https://..."
+ics_username = "mdk"
+ics_passwordstore = "redacted for my privacy"
+free_user = "..."
+free_api_key = "..."
+```
+
