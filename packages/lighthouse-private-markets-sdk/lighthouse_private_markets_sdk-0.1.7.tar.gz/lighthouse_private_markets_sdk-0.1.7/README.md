@@ -1,0 +1,217 @@
+# Lighthouse API Client (Python)
+
+Lighthouse is an AI-powered platform that automates the entire venture capital deal flow cycle—from sourcing to due diligence. Our platform empowers investors with real-time insights and seamless workflows, helping VCs identify and evaluate high-potential startups more efficiently. Visit us at [https://trylighthouse.vc](https://trylighthouse.vc) to learn more.
+
+## Installation
+
+### Using pip:
+```bash
+pip install lighthouse-private-markets-sdk
+```
+
+## Quick Start
+
+### Importing and Initialization
+```python
+from lighthouse import Lighthouse
+
+# Initialize the client
+lighthouse = Lighthouse('your-api-key')
+```
+
+### Fetching Startups
+```python
+def get_startups():
+    try:
+        response = lighthouse.from_('startups').select('*').limit(10).execute()
+        if response.error:
+            raise Exception(response.error)
+        print("Startups:", response.data)
+    except Exception as err:
+        print("Error:", err)
+
+get_startups()
+```
+
+## Common Query Examples
+
+### Select Single Record
+```python
+# Get a specific startup
+response = lighthouse.from_('startups').select('*').eq('id', 123).single().execute()
+```
+
+### Filter Records
+```python
+# Get all startups valued over $1M
+response = lighthouse.from_('startups').select('name, valuation').gte('valuation', 1000000).order('valuation', desc=True).execute()
+```
+
+### Select with Relationships
+```python
+# Get startups with their founders
+response = lighthouse.from_('startups').select('name, founders (name, role)').execute()
+```
+
+### Pagination
+```python
+# Get 10 records with offset
+response = lighthouse.from_('startups').select('*').range(0, 9).execute()
+```
+
+### Full Text Search
+```python
+# Search startups by name
+response = lighthouse.from_('startups').select('*').fts('name', 'tech').execute()
+```
+
+f
+### Query Building
+
+The Lighthouse client uses a builder pattern for constructing queries. The typical flow is:
+
+1. Start with `from_()` to specify the table
+2. Use `select()` to specify columns
+3. Add filters and modifiers
+4. Call `execute()` to run the query
+
+### Core Classes
+
+#### Lighthouse
+The main client class.
+- `from_(table: str)`: Start building a query for the specified table
+
+#### LighthouseSelectQuery
+Intermediate query builder after `from_()` but before `select()`.
+- `select(*columns: str)`: Choose specific columns to return
+
+#### LighthouseFilterQuery
+The main query builder with all filter methods.
+
+### Available Methods
+
+#### Basic Filters
+- `select(*columns: str)`: Choose specific fields to return
+- `single()`: Request a single record
+- `maybe_single()`: Retrieve at most one row from the result
+- `eq(column: str, value: Any)`: Equal to filter
+- `neq(column: str, value: Any)`: Not equal to filter
+- `gt(column: str, value: Any)`: Greater than filter
+- `lt(column: str, value: Any)`: Less than filter
+- `gte(column: str, value: Any)`: Greater than or equal to filter
+- `lte(column: str, value: Any)`: Less than or equal to filter
+- `is_(column: str, value: Any)`: 'IS' filter
+- `in_(column: str, values: Iterable[Any])`: 'IN' filter for array of values
+
+#### Text Search
+- `like(column: str, pattern: str)`: Pattern matching (case sensitive)
+- `ilike(column: str, pattern: str)`: Pattern matching (case insensitive)
+- `like_all_of(column: str, pattern: str)`: Match all patterns
+- `like_any_of(column: str, pattern: str)`: Match any pattern
+- `ilike_all_of(column: str, pattern: str)`: Match all patterns (case insensitive)
+- `ilike_any_of(column: str, pattern: str)`: Match any pattern (case insensitive)
+
+#### Full Text Search
+- `fts(column: str, query: Any)`: Full text search
+- `plfts(column: str, query: Any)`: Plain full text search
+- `phfts(column: str, query: Any)`: Phrase full text search
+- `wfts(column: str, query: Any)`: Websearch full text search
+
+#### Array/JSON Operations
+- `contains(column: str, value: Union[Iterable[Any], str, Dict[Any, Any]])`: Check if array/json contains value
+- `contained_by(column: str, value: Union[Iterable[Any], str, Dict[Any, Any]])`: Check if contained by value
+- `overlaps(column: str, values: Iterable[Any])`: Overlaps with values
+- `cs(column: str, values: Iterable[Any])`: Contains filter (shorthand)
+- `cd(column: str, values: Iterable[Any])`: Contained by filter (shorthand)
+- `ov(column: str, value: Iterable[Any])`: Overlaps filter (shorthand)
+
+#### Range Operations
+- `sl(column: str, range: Tuple[int, int])`: Strictly left of range
+- `sr(column: str, range: Tuple[int, int])`: Strictly right of range
+- `nxl(column: str, range: Tuple[int, int])`: Not extending left of range
+- `nxr(column: str, range: Tuple[int, int])`: Not extending right of range
+- `adj(column: str, range: Tuple[int, int])`: Adjacent to range
+- `range_gt(column: str, range: Tuple[int, int])`: Greater than range
+- `range_gte(column: str, range: Tuple[int, int])`: Greater than or equal to range
+- `range_lt(column: str, range: Tuple[int, int])`: Less than range
+- `range_lte(column: str, range: Tuple[int, int])`: Less than or equal to range
+- `range_adjacent(column: str, range: Tuple[int, int])`: Adjacent to range
+
+#### Result Modification
+- `order(column: str, desc: bool = False, nullsfirst: bool = False, foreign_table: Optional[str] = None)`: Sort results
+- `limit(size: int, foreign_table: Optional[str] = None)`: Limit number of rows
+- `range(start: int, end: int, foreign_table: Optional[str] = None)`: Get a range of rows
+- `offset(size: int)`: Set the starting row index
+
+#### Logical Operations
+- `not_()`: Negate the next filter
+- `or_(filters: str, reference_table: Optional[str] = None)`: OR condition
+- `match(query: Dict[str, Any])`: Match multiple columns
+- `filter(column: str, operator: str, criteria: str)`: Apply a custom filter
+
+#### Output Format
+- `csv()`: Return results as CSV
+- `explain(analyze: bool = False, verbose: bool = False, settings: bool = False, buffers: bool = False, wal: bool = False, format: Literal["text", "json"] = "text")`: Get query explanation
+
+#### Execution
+- `execute() -> APIResponse[_ReturnT]`: Execute the query and return results
+
+### Examples
+
+```python
+# Complex query example
+response = (lighthouse.from_('startups')
+    .select('name, valuation, founders')
+    .gte('valuation', 1000000)
+    .ilike('name', '%tech%')
+    .order('valuation', desc=True)
+    .limit(10)
+    .execute())
+
+# Full text search
+response = (lighthouse.from_('startups')
+    .select('*')
+    .fts('description', 'artificial intelligence')
+    .execute())
+
+# Array operations
+response = (lighthouse.from_('startups')
+    .select('*')
+    .contains('tags', ['AI', 'ML'])
+    .execute())
+
+# Range operations
+response = (lighthouse.from_('funding_rounds')
+    .select('*')
+    .range_gte('amount', (1000000, 5000000))
+    .execute())
+```
+
+## Error Handling
+```python
+try:
+    response = lighthouse.from_('startups').select('*').execute()
+except Exception as e:
+    print(e)
+
+
+# Process your data
+print(response.data)
+```
+
+## Best Practices
+
+1. Always check for errors before using data
+2. Use try/except blocks for error handling
+3. Limit your selections to required fields only
+4. Use pagination for large datasets
+5. Cache results when appropriate
+
+## Support
+
+- 📧 Email: hello@trylighthouse.vc
+
+## License
+
+MIT License - see the [LICENSE](LICENSE) file for details.
+
