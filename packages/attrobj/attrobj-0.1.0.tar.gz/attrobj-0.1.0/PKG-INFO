@@ -1,0 +1,48 @@
+Metadata-Version: 2.4
+Name: attrobj
+Version: 0.1.0
+Summary: A dictionary manipulator that enables attribute-style access to dictionary items.
+Home-page: https://github.com/fswair/custom_builtins
+Author: Mert Sirakaya
+License: MIT
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license
+Dynamic: requires-python
+Dynamic: summary
+
+# attrobj
+
+A dictionary manipulator that enables attribute-style access to dictionary items.  
+Also, supports nested dictionaries and value filtering via predicates.
+
+## Example
+
+```python
+from attrobj import Object
+
+foo = Object({"quake": {"mw": "3.7"}})
+bar = Object({"quake": {"ml": "3.9"}})
+
+print("first quake:", foo.quake.any(["mw", "ml", "md"], key=True))  # {'mw': 3.7}
+print("second quake:", bar.quake.any(["mw", "ml", "md"], key=True))  # {'ml': 3.9}
+
+foo.haskey("quake")  # True
+foo.only()  # Filters out None values
+foo.only(lambda k, v: k[:2] == "is")  # Filters keys starting with 'is'
+
+info = Object({"quake": {"magnitude": 3.9}})
+print(info.quake.magnitude)  # 3.9
+```
