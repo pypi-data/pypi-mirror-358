@@ -1,0 +1,102 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "yeonjae-universal-notion-sync"
+version = "1.0.1"
+description = "Universal Notion synchronization service for development data and documentation"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "CodePing.AI Team", email = "contact@codeping.ai"}
+]
+keywords = ["notion", "sync", "api", "database", "automation", "integration", "workspace"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License", 
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    "Topic :: Office/Business :: Groupware",
+    "Topic :: Database :: Database Engines/Servers",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "requests>=2.28.0",
+    "pydantic>=2.0.0",
+    "typing-extensions>=4.0.0; python_version<'3.10'",
+    "python-dateutil>=2.8.0",
+]
+
+[project.optional-dependencies]
+async = [
+    "aiohttp>=3.8.0",
+    "asyncio-throttle>=1.0.2",
+]
+validation = [
+    "jsonschema>=4.17.0",
+    "cerberus>=1.3.4",
+]
+celery = [
+    "celery>=5.2.0",
+    "redis>=4.3.0",
+]
+all = [
+    "aiohttp>=3.8.0",
+    "asyncio-throttle>=1.0.2",
+    "jsonschema>=4.17.0", 
+    "cerberus>=1.3.4",
+    "celery>=5.2.0",
+    "redis>=4.3.0",
+]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-mock>=3.10.0",
+    "responses>=0.23.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/yeonjae-work/universal-modules"
+Repository = "https://github.com/yeonjae-work/universal-modules"
+Issues = "https://github.com/yeonjae-work/universal-modules/issues"
+Changelog = "https://github.com/yeonjae-work/universal-modules/blob/main/packages/yeonjae-universal-notion-sync/CHANGELOG.md"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"*" = ["py.typed"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+asyncio_mode = "auto"
