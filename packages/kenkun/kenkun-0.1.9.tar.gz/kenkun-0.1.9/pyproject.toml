@@ -1,0 +1,48 @@
+[project]
+name = "kenkun"
+version = "0.1.9"
+description = "A cli ui to generate projects in python."
+readme = "README.md"
+requires-python = ">=3.12"
+license = {text = "MIT License"}
+keywords = ["cli", "ui", "project", "generator", "python"]
+
+urls = { Homepage = "https://github.com/sylvioazevedo/kenkun" }
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",    
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Topic :: Software Development :: Build Tools",
+]
+
+dependencies = [        
+    "jinja2"
+]
+
+authors = [
+    { name = "Sylvio Ximenez de Azevedo Neto", email = "sylvioazevedo@gmail.com" }
+]
+
+[build-system]
+requires = [    
+    "setuptools>=61.0",    
+    "wheel"
+]
+build-backend = "setuptools.build_meta"
+
+[project.scripts]
+kk = "kenkun.__init__:main"
+
+
+[tool.setuptools]
+include-package-data = true
+
+[options]
+package_dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
