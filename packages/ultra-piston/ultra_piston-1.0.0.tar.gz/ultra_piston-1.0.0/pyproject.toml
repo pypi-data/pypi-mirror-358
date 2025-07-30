@@ -1,0 +1,106 @@
+[project]
+name = "ultra-piston"
+version = "1.0.0"
+authors = [
+  { name="Jiggly Balls", email="jigglyballs9000@gmail.com" },
+]
+description = "An all-in-one API wrapper for the Piston API in Python"
+readme = "README.md"
+requires-python = ">=3.11"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Framework :: Pydantic",
+    "Framework :: Pydantic :: 2",
+    "Framework :: Pytest",
+    "Framework :: Sphinx",
+    "Natural Language :: English",
+    "Operating System :: MacOS",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX",
+    "Operating System :: Unix",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Documentation :: Sphinx",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Text Processing :: Markup :: reStructuredText",
+    "Topic :: Utilities",
+    "Typing :: Typed"
+]
+dependencies = [
+    "aiocache>=0.12.3",
+    "httpx>=0.28.1",
+    "pydantic>=2.11.7",
+]
+
+[project.urls]
+Source = "https://github.com/Jiggly-Balls/ultra-piston"
+Documentation = "https://game-state.readthedocs.io/en/latest/index.html"
+Issues = "https://github.com/Jiggly-Balls/ultra-piston/issues"
+Stars = "https://github.com/Jiggly-Balls/ultra-piston/stargazers"
+
+[dependency-groups]
+dev = [
+    "basedpyright>=1.29.4",
+    "furo>=2024.8.6",
+    "isort>=6.0.1",
+    "numpydoc>=1.8.0",
+    "pytest>=8.4.1",
+    "pytest-asyncio>=1.0.0",
+    "ruff>=0.11.13",
+    "setuptools>=80.9.0",
+    "sphinx==8.2.3",
+    "sphinx-autobuild>=2024.10.3",
+    "sphinx-autodoc-typehints>=3.2.0",
+    "twine>=6.1.0",
+    "wheel>=0.45.1",
+]
+
+[tool.isort]
+multi_line_output = 3
+include_trailing_comma = true
+
+[tool.ruff]
+line-length = 79
+lint.extend-select = ["ANN"]
+lint.ignore = ["ANN401"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+docstring-code-format = true
+docstring-code-line-length = 72
+
+[tool.basedpyright]
+exclude = [
+    "**/node_modules",
+    "**/__pycache__",
+    "**/.*",
+    "test*.py",
+    "venv/",
+    "build/",
+    "dist/",
+    "local/",
+    "examples/",
+    "docs/",
+    "lib_testing/",
+    "tests/",
+]
+reportImportCycles = false
+reportUnnecessaryIsInstance = false
+reportImplicitStringConcatenation = false
+reportUnusedCallResult = false
+reportMissingTypeStubs = false
+reportAssignmentType = false
+reportRedeclaration = false
+reportAny = false
+reportExplicitAny = false
+reportUnknownVariableType = false
+reportDeprecated = false
+reportImplicitOverride = false
+reportUnusedParameter = false
+reportIncompatibleVariableOverride = false
+reportPossiblyUnboundVariable = false
