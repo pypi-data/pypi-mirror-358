@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>pydmt.builders package &#8212; pydmt Documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=a1a6d8bb"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pydmt.core package" href="pydmt.core.html" />
+    <link rel="prev" title="pydmt.api package" href="pydmt.api.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="pydmt-builders-package">
+<h1>pydmt.builders package<a class="headerlink" href="#pydmt-builders-package" title="Link to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+</section>
+<section id="module-pydmt.builders.apt">
+<span id="pydmt-builders-apt-module"></span><h2>pydmt.builders.apt module<a class="headerlink" href="#module-pydmt.builders.apt" title="Link to this heading">¶</a></h2>
+<p>This is a module that will install OS packages for you.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pydmt.builders.apt.BuilderApt">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydmt.builders.apt.</span></span><span class="sig-name descname"><span class="pre">BuilderApt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">packages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">packages_remove</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/builders/apt.html#BuilderApt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.builders.apt.BuilderApt" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pydmt.api.html#pydmt.api.one_source_one_target.OneSourceOneTarget" title="pydmt.api.one_source_one_target.OneSourceOneTarget"><code class="xref py py-class docutils literal notranslate"><span class="pre">OneSourceOneTarget</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.builders.apt.BuilderApt.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/pydmt/builders/apt.html#BuilderApt.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.builders.apt.BuilderApt.build" title="Link to this definition">¶</a></dt>
+<dd><p>this method actually does the building
+Just do whatever you want here. Options are:
+- Write pure python code
+- Call native code
+- Call external programs
+- A combination of the above
+If there are any problems then throw an exception.
+Try not to segfault the interpreter in this method…:)</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pydmt.builders.gem">
+<span id="pydmt-builders-gem-module"></span><h2>pydmt.builders.gem module<a class="headerlink" href="#module-pydmt.builders.gem" title="Link to this heading">¶</a></h2>
+<p>This module installs gem modules</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pydmt.builders.gem.Installer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydmt.builders.gem.</span></span><span class="sig-name descname"><span class="pre">Installer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/builders/gem.html#Installer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.builders.gem.Installer" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pydmt.api.html#pydmt.api.one_source_one_target.OneSourceOneTarget" title="pydmt.api.one_source_one_target.OneSourceOneTarget"><code class="xref py py-class docutils literal notranslate"><span class="pre">OneSourceOneTarget</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.builders.gem.Installer.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/pydmt/builders/gem.html#Installer.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.builders.gem.Installer.build" title="Link to this definition">¶</a></dt>
+<dd><p>this method actually does the building
+Just do whatever you want here. Options are:
+- Write pure python code
+- Call native code
+- Call external programs
+- A combination of the above
+If there are any problems then throw an exception.
+Try not to segfault the interpreter in this method…:)</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pydmt.builders.make">
+<span id="pydmt-builders-make-module"></span><h2>pydmt.builders.make module<a class="headerlink" href="#module-pydmt.builders.make" title="Link to this heading">¶</a></h2>
+<p>This module runs make</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pydmt.builders.make.BuilderMake">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydmt.builders.make.</span></span><span class="sig-name descname"><span class="pre">BuilderMake</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/builders/make.html#BuilderMake"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.builders.make.BuilderMake" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pydmt.api.html#pydmt.api.one_source_one_target.OneSourceOneTarget" title="pydmt.api.one_source_one_target.OneSourceOneTarget"><code class="xref py py-class docutils literal notranslate"><span class="pre">OneSourceOneTarget</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.builders.make.BuilderMake.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/pydmt/builders/make.html#BuilderMake.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.builders.make.BuilderMake.build" title="Link to this definition">¶</a></dt>
+<dd><p>this method actually does the building
+Just do whatever you want here. Options are:
+- Write pure python code
+- Call native code
+- Call external programs
+- A combination of the above
+If there are any problems then throw an exception.
+Try not to segfault the interpreter in this method…:)</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pydmt.builders.mako">
+<span id="pydmt-builders-mako-module"></span><h2>pydmt.builders.mako module<a class="headerlink" href="#module-pydmt.builders.mako" title="Link to this heading">¶</a></h2>
+<p>mako.py</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pydmt.builders.mako.BuilderMako">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydmt.builders.mako.</span></span><span class="sig-name descname"><span class="pre">BuilderMako</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">object</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_files</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snipplet_files</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/builders/mako.html#BuilderMako"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.builders.mako.BuilderMako" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pydmt.api.html#pydmt.api.builder.Builder" title="pydmt.api.builder.Builder"><code class="xref py py-class docutils literal notranslate"><span class="pre">Builder</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.builders.mako.BuilderMako.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/builders/mako.html#BuilderMako.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.builders.mako.BuilderMako.build" title="Link to this definition">¶</a></dt>
+<dd><p>this method actually does the building
+Just do whatever you want here. Options are:
+- Write pure python code
+- Call native code
+- Call external programs
+- A combination of the above
+If there are any problems then throw an exception.
+Try not to segfault the interpreter in this method…:)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.builders.mako.BuilderMako.get_sources">
+<span class="sig-name descname"><span class="pre">get_sources</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pydmt.api.html#pydmt.api.builder.Node" title="pydmt.api.builder.Node"><span class="pre">Node</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/pydmt/builders/mako.html#BuilderMako.get_sources"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.builders.mako.BuilderMako.get_sources" title="Link to this definition">¶</a></dt>
+<dd><p>return the name of the source files for this builder
+If the builder takes a whole folder the list all the filers in that folder.
+If a built takes all the .py files in a folder then list those.
+In the current implementation this method is not really that important because
+it is not used to calculate the signature of the input to the build.
+The &#64;get_signature method is use for that.
+In the future the get_signature method will go away.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.builders.mako.BuilderMako.get_targets">
+<span class="sig-name descname"><span class="pre">get_targets</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pydmt.api.html#pydmt.api.builder.Node" title="pydmt.api.builder.Node"><span class="pre">Node</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/pydmt/builders/mako.html#BuilderMako.get_targets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.builders.mako.BuilderMako.get_targets" title="Link to this definition">¶</a></dt>
+<dd><p>return list of targets</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.builders.mako.BuilderMako.yield_results">
+<span class="sig-name descname"><span class="pre">yield_results</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Generator</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/pydmt/builders/mako.html#BuilderMako.yield_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.builders.mako.BuilderMako.yield_results" title="Link to this definition">¶</a></dt>
+<dd><p>Return the signatures and names of results
+:return:</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydmt.builders.mako.print_exception">
+<span class="sig-prename descclassname"><span class="pre">pydmt.builders.mako.</span></span><span class="sig-name descname"><span class="pre">print_exception</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/builders/mako.html#print_exception"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.builders.mako.print_exception" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pydmt.builders.mako.print_full_exception">
+<span class="sig-prename descclassname"><span class="pre">pydmt.builders.mako.</span></span><span class="sig-name descname"><span class="pre">print_full_exception</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/builders/mako.html#print_full_exception"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.builders.mako.print_full_exception" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-pydmt.builders.npm">
+<span id="pydmt-builders-npm-module"></span><h2>pydmt.builders.npm module<a class="headerlink" href="#module-pydmt.builders.npm" title="Link to this heading">¶</a></h2>
+<p>This module installs npm packages</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pydmt.builders.npm.Installer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydmt.builders.npm.</span></span><span class="sig-name descname"><span class="pre">Installer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/builders/npm.html#Installer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.builders.npm.Installer" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pydmt.api.html#pydmt.api.one_source_one_target.OneSourceOneTarget" title="pydmt.api.one_source_one_target.OneSourceOneTarget"><code class="xref py py-class docutils literal notranslate"><span class="pre">OneSourceOneTarget</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.builders.npm.Installer.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/pydmt/builders/npm.html#Installer.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.builders.npm.Installer.build" title="Link to this definition">¶</a></dt>
+<dd><p>this method actually does the building
+Just do whatever you want here. Options are:
+- Write pure python code
+- Call native code
+- Call external programs
+- A combination of the above
+If there are any problems then throw an exception.
+Try not to segfault the interpreter in this method…:)</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pydmt.builders.reqs">
+<span id="pydmt-builders-reqs-module"></span><h2>pydmt.builders.reqs module<a class="headerlink" href="#module-pydmt.builders.reqs" title="Link to this heading">¶</a></h2>
+<p>Install requirements</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pydmt.builders.reqs.BuilderReqs">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydmt.builders.reqs.</span></span><span class="sig-name descname"><span class="pre">BuilderReqs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/builders/reqs.html#BuilderReqs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.builders.reqs.BuilderReqs" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pydmt.api.html#pydmt.api.one_source_one_target.OneSourceOneTarget" title="pydmt.api.one_source_one_target.OneSourceOneTarget"><code class="xref py py-class docutils literal notranslate"><span class="pre">OneSourceOneTarget</span></code></a></p>
+<p>This is a review of how to build a python virtual environment:
+# create the virtualenv
+virtualenv [folder]
+# activate it
+source [folder]/bin/activate
+# install packages from file
+pip install -r requirements.txt
+# OR
+python -m pip install -r requirements.txt
+# OR if you want to install a list of packages:
+pip install -r [list of packages]
+# OR
+python -m pip install [list of packages]</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.builders.reqs.BuilderReqs.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/pydmt/builders/reqs.html#BuilderReqs.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.builders.reqs.BuilderReqs.build" title="Link to this definition">¶</a></dt>
+<dd><p>If we check if there is a “requirements.txt” file with frozen requirements
+and install it if there is.</p>
+<p>If we do not have a frozen requirements we install from config/{python|bootstrap}.py
+Why do we do this in two stages? What’s wrong with doing this in one stage?
+Because importing python.py may fail because of prereqs that python.py
+needs. In this case the user specifies these prereqs in bootstrap.py</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pydmt.builders.sphinx">
+<span id="pydmt-builders-sphinx-module"></span><h2>pydmt.builders.sphinx module<a class="headerlink" href="#module-pydmt.builders.sphinx" title="Link to this heading">¶</a></h2>
+<p>This is the module which is in charge of running sphinx to generate
+automatic documentation.</p>
+<p>TODO
+maybe call sphinx programatically and this way we would not have
+to set the PYTHONPATH and get better integration with sphinx?</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pydmt.builders.sphinx.BuilderSphinx">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydmt.builders.sphinx.</span></span><span class="sig-name descname"><span class="pre">BuilderSphinx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'sphinx'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'docs'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/builders/sphinx.html#BuilderSphinx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.builders.sphinx.BuilderSphinx" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pydmt.api.html#pydmt.api.builder.Builder" title="pydmt.api.builder.Builder"><code class="xref py py-class docutils literal notranslate"><span class="pre">Builder</span></code></a></p>
+<p>This is review of how to build a sphinx documentation:
+- if you want documentation for the code you need to run “sphinx-apidoc”
+- it will generate files that describe every sub package in your package.
+- after this you run “sphinx-build”
+- “sphinx-quickstart” is not needed unless you are starting a new project.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.builders.sphinx.BuilderSphinx.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/pydmt/builders/sphinx.html#BuilderSphinx.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.builders.sphinx.BuilderSphinx.build" title="Link to this definition">¶</a></dt>
+<dd><p>this method actually does the building
+Just do whatever you want here. Options are:
+- Write pure python code
+- Call native code
+- Call external programs
+- A combination of the above
+If there are any problems then throw an exception.
+Try not to segfault the interpreter in this method…:)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.builders.sphinx.BuilderSphinx.get_sources">
+<span class="sig-name descname"><span class="pre">get_sources</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pydmt.api.html#pydmt.api.builder.Node" title="pydmt.api.builder.Node"><span class="pre">Node</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/pydmt/builders/sphinx.html#BuilderSphinx.get_sources"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.builders.sphinx.BuilderSphinx.get_sources" title="Link to this definition">¶</a></dt>
+<dd><p>return the name of the source files for this builder
+If the builder takes a whole folder the list all the filers in that folder.
+If a built takes all the .py files in a folder then list those.
+In the current implementation this method is not really that important because
+it is not used to calculate the signature of the input to the build.
+The &#64;get_signature method is use for that.
+In the future the get_signature method will go away.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.builders.sphinx.BuilderSphinx.get_targets">
+<span class="sig-name descname"><span class="pre">get_targets</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="pydmt.api.html#pydmt.api.builder.Node" title="pydmt.api.builder.Node"><span class="pre">Node</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/pydmt/builders/sphinx.html#BuilderSphinx.get_targets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.builders.sphinx.BuilderSphinx.get_targets" title="Link to this definition">¶</a></dt>
+<dd><p>return list of targets</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.builders.sphinx.BuilderSphinx.yield_results">
+<span class="sig-name descname"><span class="pre">yield_results</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Generator</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/pydmt/builders/sphinx.html#BuilderSphinx.yield_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.builders.sphinx.BuilderSphinx.yield_results" title="Link to this definition">¶</a></dt>
+<dd><p>Return the signatures and names of results
+:return:</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pydmt.builders.venv">
+<span id="pydmt-builders-venv-module"></span><h2>pydmt.builders.venv module<a class="headerlink" href="#module-pydmt.builders.venv" title="Link to this heading">¶</a></h2>
+<p>This module builds python virtual envrionments</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pydmt.builders.venv.BuilderVenv">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydmt.builders.venv.</span></span><span class="sig-name descname"><span class="pre">BuilderVenv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/builders/venv.html#BuilderVenv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.builders.venv.BuilderVenv" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pydmt.api.html#pydmt.api.one_source_one_target.OneSourceOneTarget" title="pydmt.api.one_source_one_target.OneSourceOneTarget"><code class="xref py py-class docutils literal notranslate"><span class="pre">OneSourceOneTarget</span></code></a></p>
+<p>This is a review of how to build a python virtual environment:
+# create the virtualenv
+virtualenv [folder]
+# activate it
+source [folder]/bin/activate
+# install package
+pip install -r requirements.txt</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.builders.venv.BuilderVenv.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/pydmt/builders/venv.html#BuilderVenv.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.builders.venv.BuilderVenv.build" title="Link to this definition">¶</a></dt>
+<dd><p>this method actually does the building
+Just do whatever you want here. Options are:
+- Write pure python code
+- Call native code
+- Call external programs
+- A combination of the above
+If there are any problems then throw an exception.
+Try not to segfault the interpreter in this method…:)</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pydmt.builders.yaml">
+<span id="pydmt-builders-yaml-module"></span><h2>pydmt.builders.yaml module<a class="headerlink" href="#module-pydmt.builders.yaml" title="Link to this heading">¶</a></h2>
+<p>yaml.py</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pydmt.builders.yaml.BuilderYaml">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pydmt.builders.yaml.</span></span><span class="sig-name descname"><span class="pre">BuilderYaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/builders/yaml.html#BuilderYaml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.builders.yaml.BuilderYaml" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pydmt.api.html#pydmt.api.one_source_one_target.OneSourceOneTarget" title="pydmt.api.one_source_one_target.OneSourceOneTarget"><code class="xref py py-class docutils literal notranslate"><span class="pre">OneSourceOneTarget</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pydmt.builders.yaml.BuilderYaml.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pydmt/builders/yaml.html#BuilderYaml.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pydmt.builders.yaml.BuilderYaml.build" title="Link to this definition">¶</a></dt>
+<dd><p>this method actually does the building
+Just do whatever you want here. Options are:
+- Write pure python code
+- Call native code
+- Call external programs
+- A combination of the above
+If there are any problems then throw an exception.
+Try not to segfault the interpreter in this method…:)</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pydmt.builders">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pydmt.builders" title="Link to this heading">¶</a></h2>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">pydmt</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">src</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="pydmt.html">pydmt package</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">src</a><ul>
+  <li><a href="pydmt.html">pydmt package</a><ul>
+      <li>Previous: <a href="pydmt.api.html" title="previous chapter">pydmt.api package</a></li>
+      <li>Next: <a href="pydmt.core.html" title="next chapter">pydmt.core package</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Mark Veltzer.
+      
+      |
+      <a href="_sources/pydmt.builders.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

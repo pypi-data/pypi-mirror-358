@@ -1,0 +1,43 @@
+Not used
+setup_requires
+	what is required to run python setup.py for this package.
+	these things may not be required for running.
+
+Used:
+config_requires
+	what is required for the config/*.py subfolder.
+dev_requires
+	what is required for a person to maintain this product.
+	stuff that is neede for build or test should not be present
+	in this list only.
+make_requires
+	what is required for the Makefile to function.
+	this is currently take to mean "build_requires"
+	which means what is needed for both make and pydmt
+	but this really needs to be separated into
+	"pydmt_requires" and "make_requires"
+	curreny everything is in "make_requires"
+install_requires
+	what is required on the target system to install this package
+	(may or may not be needed for runtime)
+test_requires
+	what is required to do testing, coverage anaysis.
+
+future things which are not yet implemented:
+run_requires
+	what is needed to run the code locally or at the target machine
+pydmt_requires
+	packages that pydmt needs to run
+build_requires
+	what is neede for the build which is not covered by 'make_requires'
+	and 'pydmt_requires'.
+	example of this is "pydmt" itself which is needed to run the entire build.
+
+examples of specific modules
+pydmt -> make_requires
+	it seems that we don't need pydmt at all because in workflow integration
+	we install it as part of a "bootstrap" phase.
+	But really we do need it as part of our build tools because we don't
+	always work as a workflow.
+	We didn't feel the problem so actutely because we had pydmt installed
+	as part of the system/user python and not the virtual env python.

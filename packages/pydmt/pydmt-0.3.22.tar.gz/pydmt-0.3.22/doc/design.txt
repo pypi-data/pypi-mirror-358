@@ -1,0 +1,88 @@
+The idea of pydmt is the cache. pydmt handles a cache of files
+that are generated for you, pulling them out of the cache when
+needed.
+
+Lets see an example.
+
+You specify a build rule (make syntax):
+
+	foo.o: foo.c
+		g++ -O3 -Werror -o foo.o foo.c
+
+	signature: version of g++, flags, content foo.c, the text "foo.o", all dependencies of foo.c
+
+	outputs: [ foo.o ] (list)
+
+How will pydmt handle that?
+
+when you run build pydmt will recalculate the signature
+and see if in it's cache he has a file with that name.
+
+If there is a file with that name then in that file is a list of blobs with their names that will be extracted
+and placed in the right place (foo.o).
+
+if not it will run the rule. After the rule is run then it will collect the files
+into the cache.
+
+How will it know which files to collect? The rule will state which files are to be collected
+or state that the files need to be found out automatically by various means (scanning a folder
+after the rule is run and collecting everything that is in it).
+
+Can I depend on all the outputs of a rule which has multiple unknown outputs?
+Yes. In that case in this case you will depend on the concatenation of all of the outputs.
+
+Questions:
+	Will running the rule create the real output files or the cache files?
+	The answer is it create the real files and NOT the cache files.
+	Reasons:
+	- when doing gcc -o [foo.o] and gcc -o [bar.o] actual different
+	content is created. Yes! the name of the file gets inserted into the output.
+	There are many builders like that.
+	- there are builders, like documentation builders, that create multiple files
+	and where you cannot specify the exact file names that will be created (maybe
+	you specify only a folder name). for these you can't even force them to put
+	the output into the cache.
+	- sometimes, like the case of the documentation builders, one builder has multiple
+	outputs and even a list of outputs which is not known in advance and must be
+	recalculated when running the builder. This prevents any idea of putting the
+	outputs directly into the cache.
+
+
+What if a builder creates more than one file?
+	examples:
+		creating a directory full of htmls from a folder of files.
+		splitting a text file in two (according to some predicate on each line).
+	answer:
+	That is ok. If the builder knows which files it creates it will specify them through
+	an API which will enable other builders to depend on them.
+	If the builder does know which files it creates it can specify an output folder
+	for instance that will be scanned after the builder runs and every file will be taken
+	as output.
+	
+How will the outputs of a builder be stored?
+	as a list of refs. For instance if a builder has two outputs: foo.txt and bar.txt
+	and if the builders signature is X then the output will be in 
+	.pydmt/objects/X
+	where the content of X is:
+	foo.txt [hash of foo.txt]
+	bar.txt [hash of bar.txt]
+	This allows for each builder to have a list of outputs and not just one.
+
+What if it is not a file but an object in S3? http url?
+We will leave it to later.
+
+Dependencies? How do you specify them?
+	The answer is two ways:
+	1. Specify a file you depend on. In this case pydmt will find the builder that has this file
+	specified as output.
+	The answer is that each builder has a list of file names that it produces
+	A new builder can depend on one or more of them.
+	You don't need to say which builder you depend on, although you can
+
+What if a rule does not know which files it is building?
+	We need an API for this.
+	In this `
+
+What about the name of the output file(s)? Should they be part of the checksum
+of the builder?
+	Think about it.

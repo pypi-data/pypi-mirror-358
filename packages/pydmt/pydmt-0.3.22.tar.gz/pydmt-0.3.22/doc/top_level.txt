@@ -1,0 +1,15 @@
+Question:
+	Is it ok to define a builder as taking a list of inputs and producing outputs?
+	What are inputs? Just files? Should we not abstract this away so they could
+	be s3 blobs? database sets?
+
+	If we do abstract the inputs and outputs away, can a builder state what type of
+	inputs it gets? Restring them? For instance, if a builder just runs a compiler,
+	and the compiler cannot read from a socket or from s3 and only can read
+	from a file on the dist can that builder declare that it can only get inputs
+	of type FileName? Is that ok? Will it be enforced at run time or compile
+	time?
+
+Answers:
+	All inputs will inherit from input and all outputs will inherit from
+	output and input and output will in inherit from ingredient.
