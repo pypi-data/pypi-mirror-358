@@ -1,0 +1,254 @@
+Metadata-Version: 2.4
+Name: openchain-telco-sbom-validator
+Version: 0.3.1
+Summary: Validator against versions 1.0 and 1.1 of the OpenChain Telco SBOM Guide
+Home-page: https://github.com/OpenChain-Project/Telco-WG/tree/main/tools/openchain_telco_sbom_validator
+Author: Gergely Csatari, Marc-Etienne Vargenau
+Author-email: gergely.csatari@nokia.com, marc-etienne.vargenau@nokia.com
+Project-URL: Bug Tracker, https://github.com/OpenChain-Project/Telco-WG/issues
+Project-URL: repository, https://github.com/OpenChain-Project/Telco-WG/
+Classifier: Development Status :: 1 - Planning
+Classifier: Topic :: Software Development
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: Communications :: Telephony
+Classifier: Topic :: Communications
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: spdx-tools>=0.8.3
+Requires-Dist: requests>=2.32.4
+Requires-Dist: prettytable>=3.16.0
+Requires-Dist: packageurl-python>=0.17.1
+Requires-Dist: ntia-conformance-checker>=3.2.0
+Requires-Dist: validators>=0.35.0
+Dynamic: license-file
+
+# openchain-telco-sbom-validator
+
+A script to validate SBOMs against
+the [OpenChain Telco SBOM Guide](https://github.com/OpenChain-Project/Telco-WG/blob/main/OpenChain-Telco-SBOM-Guide_EN.md).
+
+What is new in version 0.3.1:
+* new option `--noassertion` will list fields that have value NOASSERTION,
+* implement the strict mode for tool name and version (presence of "-"),
+* the option `--strict-url-check` now checks the PackageDownloadLocation instead of the PackageHomePage.
+
+What is new in version 0.3.0:
+* you can validate recursively SBOMs linked by SPDX Relationships,
+* you can validate against version 1.0 or 1.1 of the Guide (default is 1.1),
+* you can check only MANDATORY fields or MANDATORY and RECOMMENDED fields (default is MANDATORY only).
+
+# Installation
+
+To install from [PyPI](https://pypi.org/project/openchain-telco-sbom-validator/), issue `pip3 install openchain-telco-sbom-validator`
+or `pipx install openchain-telco-sbom-validator`.
+
+# Manual installation
+
+This script is written in Python and uses a `requirements.txt` to list its dependencies. To install Python on an Ubuntu
+environment run `sudo apt install python3-pip`.
+
+It is usually a good practice to install Python dependencies to a Python virtual environment. To be able to manage
+virtual environments you need to install `venv` with `sudo apt install python3-venv`.
+
+If you do not have a virtual environment you can create it with `python3 -m venv .env`,
+if you already have a virtual environment start it with `. .env/bin/activate`.
+
+
+# Usage
+
+## From command line
+
+```
+usage: openchain-telco-sbom-validator [-h] [-v] [--debug] [--nr-of-errors NR_OF_ERRORS] [--strict-purl-check]
+[--strict-url-check] [--strict] [-r] [--reference-logic REFERENCE_LOGIC] [--guide-version {1.0,1.1}] [--noassertion] [input]
+
+A script to validate an SPDX file against the OpenChain Telco SBOM Guide (version 1.0 or 1.1).
+
+positional arguments:
+  input                 The input SPDX file.
+
+options:
+  -h, --help            Shows this help message and exits.
+  -v, --version         Prints version and exits.
+  --debug               Prints debug logs.
+  --nr-of-errors NR_OF_ERRORS
+                        Sets a limit on the number of errors displayed.
+  --strict-purl-check   Runs a strict check on the given purls. The default behaviour is to run a non-strict purl check
+                        meaning that it is not checked if the purl is translating to a downloadable URL.
+  --strict-url-check    Runs a strict check on the URLs of the PackageHomepages. Strict check means that the validator
+                        checks also if the given URL can be accessed. The default behaviour is to run a non-strict URL
+                        check, meaning that it is not checked if the URL points to a valid page. Strict URL check
+                        requires access to the internet and takes some time.
+  --strict              Checks for both MANDATORY and RECOMMENDED fields. Default is to check MANDATORY fields only.
+  -r, --recursive       Validate recursively. Same as “--reference-logic checksum-all”.
+  --reference-logic REFERENCE_LOGIC
+                        Defines the logic how the referenced files are accessible. If not added, the referenced files
+                        will not be investigated. Built-in supported logics are “none” (no linked files are
+                        investigated), “checksum-all” (externalrefs are identified by their checksum), “yocto-all”
+                        (all externalrefs are investigated) and “yocto-contains-only” (only those files are investigated
+                        which are in CONTAINS relationships). It is possible to register more reference logics in
+                        library mode.
+  --guide-version {1.0,1.1}
+                        Defines the version of the OpenChain Telco SBOM Guide to use as a basis for the
+                        validation. Possible values are 1.0 and 1.1, default value is 1.1.
+  --noassertion         Lists fields with value NOASSERTION.
+
+## As a library
+
+The main functionality of the library can be acessed from the `Validator` class of the
+`openchain_telco_sbom_validator.validator` package. There are two support packages for building CLI tools around the
+validator what is in the `cli` package of the `openchain_telco_sbom_validator` package.
+
+```
+# import things
+
+from openchain_telco_sbom_validator import cli
+from openchain_telco_sbom_validator import reporter
+from openchain_telco_sbom_validator.validator import Validator
+
+def main():
+    # Instantiate a validator
+
+    myValidator = Validator()
+
+    # Do validate
+    result, problems = myValidator.validate(filePath,          # path to the SPDX file as a string
+                                            strict_purl_check, # If strict purl check is needed
+                                            strict_url_check)  # if strict URL check is needed
+
+    # Print results in an uniform way
+
+    exitCode = reporter.reportCli(result,        # Result received from the validator
+                                  problems,      # List of problems from the validator
+                                  nr_of_errors,  # Number of errors to display
+                                  input)         # Name of the SPDX file
+
+    # Exit
+    sys.exit(exitCode)
+
+
+```
+
+### Extensibility
+
+#### Command line arguments
+
+It is possible to add additional CLI arguments if needed for example:
+
+```
+    myArguments = cli.AdditionalArguments()
+    myArguments.addArgument("--test",                    # The actual argument
+                            "store_true",                # Option as it is required by argparse
+                            "Help description of test")  # Help text to display
+
+    args = cli.parseArguments(myArguments)
+
+    if args.test:
+      pass # Do something here
+```
+
+#### Additional checks
+
+It is possible to add additional checks both on global and on package level.
+
+```
+    # Import in addition of the previous imports
+    from openchain_telco_sbom_validator.validator import FunctionRegistry
+
+    myValidator = Validator()
+
+    # Instantiate the function registry
+    functions = FunctionRegistry()
+
+    # Register a global check. This will be executed only once for one SBOM
+    functions.registerGlobal(checkJustLog)
+
+    # Register a Package chack. This will be executed for every Packages in the SBOM
+    functions.registerPackage(checkJustLogPackage)
+
+    result, problems = myValidator.validate(filePath,
+                                            strict_purl_check,
+                                            strict_url_check,
+                                            functions)         # Provide the function registry to the validate function
+
+  # The functions have to be defined
+def checkJustLog(problems: Problems, doc: Document): # Signature is important!
+    logger = logging.getLogger(__name__)
+    logger.debug("Hello world!")
+
+def checkJustLogPackage(problems: Problems, package: Package): # Signature is important!
+    logger = logging.getLogger(__name__)
+    logger.debug("Hello package world!")
+
+
+```
+
+#### Referring logics
+
+Referring SPDX files is based on URLs what assues that all the SBOMs are always public. This is not always the case,
+therefore the validator provides a possibility to resolve the references in a local disk. This resolution can be
+different depending on the tool generated the SBOMs. It is possible to register referring logics to the validator using
+its `addReferringLogics(name, function)` method the function will get a `Document` from `spdx_tools.spdx.model.document`
+what is the parsed SPDX model of the currently validated document and a string with the location of the currently
+validated document. The function is expected to return a list of file locations with all the referred SPDX files.
+Each of these files will be validated as well. The referring logic can be triggered by adding the name of the function
+to the `referringLogic` parameter of the `validate()` function of the `Validator` class.
+
+# License
+
+This software is Copyright Nokia and is licensed under the Apache 2.0 license.
+
+# Issues and contributions
+
+In case of any issues please create a GitHub issue, while also any contributions are warmly welcome in the form of
+GitHub merge requests.
+
+
+Licensed under the Apache License 2.0
+SPDX-License-Identifier: Apache-2.0
+
+Apache License
+Version 2.0, January 2004
+http://www.apache.org/licenses/
+
+TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+    1. Definitions.
+
+        "License" shall mean the terms and conditions for use, reproduction, and distribution as defined by Sections 1 through 9 of this document.
+
+        "Licensor" shall mean the copyright owner or entity authorized by the copyright owner that is granting the License.
+
+        "Legal Entity" shall mean the union of the acting entity and all other entities that control, are controlled by, or are under common control with that entity. For the purposes of this definition, "control" means (i) the power, direct or indirect, to cause the direction or management of such entity, whether by contract or otherwise, or (ii) ownership of fifty percent (50%) or more of the outstanding shares, or (iii) beneficial ownership of such entity.
+
+        "You" (or "Your") shall mean an individual or Legal Entity exercising permissions granted by this License.
+
+        "Source" form shall mean the preferred form for making modifications, including but not limited to software source code, documentation source, and configuration files.
+
+        "Object" form shall mean any form resulting from mechanical transformation or translation of a Source form, including but not limited to compiled object code, generated documentation, and conversions to other media types.
+
+        "Work" shall mean the work of authorship, whether in Source or Object form, made available under the License, as indicated by a copyright notice that is included in or attached to the work (an example is provided in the Appendix below).
+
+        "Derivative Works" shall mean any work, whether in Source or Object form, that is based on (or derived from) the Work and for which the editorial revisions, annotations, elaborations, or other modifications represent, as a whole, an original work of authorship. For the purposes of this License, Derivative Works shall not include works that remain separable from, or merely link (or bind by name) to the interfaces of, the Work and Derivative Works thereof.
+
+        "Contribution" shall mean any work of authorship, including the original version of the Work and any modifications or additions to that Work or Derivative Works thereof, that is intentionally submitted to Licensor for inclusion in the Work by the copyright owner or by an individual or Legal Entity authorized to submit on behalf of the copyright owner. For the purposes of this definition, "submitted" means any form of electronic, verbal, or written communication sent to the Licensor or its representatives, including but not limited to communication on electronic mailing lists, source code control systems, and issue tracking systems that are managed by, or on behalf of, the Licensor for the purpose of discussing and improving the Work, but excluding communication that is conspicuously marked or otherwise designated in writing by the copyright owner as "Not a Contribution."
+
+        "Contributor" shall mean Licensor and any individual or Legal Entity on behalf of whom a Contribution has been received by Licensor and subsequently incorporated within the Work.
+    2. Grant of Copyright License. Subject to the terms and conditions of this License, each Contributor hereby grants to You a perpetual, worldwide, non-exclusive, no-charge, royalty-free, irrevocable copyright license to reproduce, prepare Derivative Works of, publicly display, publicly perform, sublicense, and distribute the Work and such Derivative Works in Source or Object form.
+    3. Grant of Patent License. Subject to the terms and conditions of this License, each Contributor hereby grants to You a perpetual, worldwide, non-exclusive, no-charge, royalty-free, irrevocable (except as stated in this section) patent license to make, have made, use, offer to sell, sell, import, and otherwise transfer the Work, where such license applies only to those patent claims licensable by such Contributor that are necessarily infringed by their Contribution(s) alone or by combination of their Contribution(s) with the Work to which such Contribution(s) was submitted. If You institute patent litigation against any entity (including a cross-claim or counterclaim in a lawsuit) alleging that the Work or a Contribution incorporated within the Work constitutes direct or contributory patent infringement, then any patent licenses granted to You under this License for that Work shall terminate as of the date such litigation is filed.
+    4. Redistribution. You may reproduce and distribute copies of the Work or Derivative Works thereof in any medium, with or without modifications, and in Source or Object form, provided that You meet the following conditions:
+        (a) You must give any other recipients of the Work or Derivative Works a copy of this License; and
+        (b) You must cause any modified files to carry prominent notices stating that You changed the files; and
+        (c) You must retain, in the Source form of any Derivative Works that You distribute, all copyright, patent, trademark, and attribution notices from the Source form of the Work, excluding those notices that do not pertain to any part of the Derivative Works; and
+        (d) If the Work includes a "NOTICE" text file as part of its distribution, then any Derivative Works that You distribute must include a readable copy of the attribution notices contained within such NOTICE file, excluding those notices that do not pertain to any part of the Derivative Works, in at least one of the following places: within a NOTICE text file distributed as part of the Derivative Works; within the Source form or documentation, if provided along with the Derivative Works; or, within a display generated by the Derivative Works, if and wherever such third-party notices normally appear. The contents of the NOTICE file are for informational purposes only and do not modify the License. You may add Your own attribution notices within Derivative Works that You distribute, alongside or as an addendum to the NOTICE text from the Work, provided that such additional attribution notices cannot be construed as modifying the License.
+
+    You may add Your own copyright statement to Your modifications and may provide additional or different license terms and conditions for use, reproduction, or distribution of Your modifications, or for any such Derivative Works as a whole, provided Your use, reproduction, and distribution of the Work otherwise complies with the conditions stated in this License.
+    5. Submission of Contributions. Unless You explicitly state otherwise, any Contribution intentionally submitted for inclusion in the Work by You to the Licensor shall be under the terms and conditions of this License, without any additional terms or conditions. Notwithstanding the above, nothing herein shall supersede or modify the terms of any separate license agreement you may have executed with Licensor regarding such Contributions.
+    6. Trademarks. This License does not grant permission to use the trade names, trademarks, service marks, or product names of the Licensor, except as required for reasonable and customary use in describing the origin of the Work and reproducing the content of the NOTICE file.
+    7. Disclaimer of Warranty. Unless required by applicable law or agreed to in writing, Licensor provides the Work (and each Contributor provides its Contributions) on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied, including, without limitation, any warranties or conditions of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE. You are solely responsible for determining the appropriateness of using or redistributing the Work and assume any risks associated with Your exercise of permissions under this License.
+    8. Limitation of Liability. In no event and under no legal theory, whether in tort (including negligence), contract, or otherwise, unless required by applicable law (such as deliberate and grossly negligent acts) or agreed to in writing, shall any Contributor be liable to You for damages, including any direct, indirect, special, incidental, or consequential damages of any character arising as a result of this License or out of the use or inability to use the Work (including but not limited to damages for loss of goodwill, work stoppage, computer failure or malfunction, or any and all other commercial damages or losses), even if such Contributor has been advised of the possibility of such damages.
+    9. Accepting Warranty or Additional Liability. While redistributing the Work or Derivative Works thereof, You may choose to offer, and charge a fee for, acceptance of support, warranty, indemnity, or other liability obligations and/or rights consistent with this License. However, in accepting such obligations, You may act only on Your own behalf and on Your sole responsibility, not on behalf of any other Contributor, and only if You agree to indemnify, defend, and hold each Contributor harmless for any liability incurred by, or claims asserted against, such Contributor by reason of your accepting any such warranty or additional liability.
