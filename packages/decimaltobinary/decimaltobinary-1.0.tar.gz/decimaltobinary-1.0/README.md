@@ -1,0 +1,1 @@
+Press key Q to exit. If you press a number, that will make a binary number. Example: Press 9, will be 1001
