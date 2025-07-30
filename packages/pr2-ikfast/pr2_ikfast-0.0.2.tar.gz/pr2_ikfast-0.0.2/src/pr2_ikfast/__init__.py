@@ -1,0 +1,60 @@
+from pr2_ikfast.ikLeft import leftIK
+from pr2_ikfast.ikRight import rightIK
+from typing import List, Callable, Optional
+import numpy as np
+from dataclasses import dataclass
+
+
+# lowest level IK solver for the left arm
+
+
+def solve_left_ik(trans: List[float], rot: List[float], free_vals: List[float]):
+    return leftIK(rot, trans, free_vals)
+
+
+def solve_right_ik(trans: List[float], rot: List[float], free_vals: List[float]):
+    return rightIK(rot, trans, free_vals)
+
+
+# More convenient interface for the left arm IK solver
+
+
+@dataclass
+class UniformSampler:
+    n_size: int = 72
+    lb: float = -np.pi
+    ub: float = np.pi
+
+    def __call__(self) -> np.ndarray:
+        return np.random.uniform(self.lb, self.ub, size=(self.n_size,))
+
+
+def solve_ik(
+    trans: List[float],
+    rot: List[List[float]],
+    torso_value: float,
+    is_rarm: bool,
+    lb: Optional[np.ndarray],
+    ub: Optional[np.ndarray],
+    sampler: Optional[Callable[[], np.ndarray]] = None,
+    predicate: Optional[Callable[[np.ndarray], bool]] = None,
+    ) -> Optional[np.ndarray]:
+
+    # use -0.051, because original cpp code is compiled wrt baes_footprint
+    trans_modif = [trans[0], trans[1], trans[2] - 0.051]
+
+    if sampler is None:
+        sampler = UniformSampler()
+    fn = solve_right_ik if is_rarm else solve_left_ik
+    upper_arm_roll_joint_vals = sampler()
+    for val2 in upper_arm_roll_joint_vals:
+        free_vals = [torso_value, val2]
+        retall = fn(trans_modif, rot, free_vals)
+        if retall is None:
+            continue
+        if lb is not None and ub is not None:
+            for ret in retall:
+                if np.all(ret[1:] >= lb) and np.all(ret[1:] <= ub):
+                    if predicate is None or predicate(ret[1:]):
+                        return ret[1:]
+    return None
