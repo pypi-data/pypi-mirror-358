@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "mapper",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "gamepad_mapper.gamepad",
+            "args": [
+                "--name", "debug",
+                "--map"
+            ]
+        },
+        {
+            "name": "example",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "examples/example.py"
+        }
+    ]
+}
