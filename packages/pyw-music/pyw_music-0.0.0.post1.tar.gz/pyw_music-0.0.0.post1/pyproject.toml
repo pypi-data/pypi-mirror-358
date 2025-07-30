@@ -1,0 +1,34 @@
+[build-system]
+requires = ["hatchling>=1.18"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pyw-music"
+version = "0.0.0.post1"
+description = "Music processing bundle (music21 + musicparser)"
+dependencies = [
+"pyw-core>=0.0.0",
+"pyw-musicparser>=0.0.0",
+"pyw-music21>=0.0.0"]
+authors = [{name = "pythonWoods"}]
+license = {text = "MIT"}
+requires-python = ">=3.9"
+readme = "README.md"
+
+
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Typing :: Typed",
+]
+
+[project.urls]
+Homepage      = "https://github.com/pythonWoods/pyw-music"
+Documentation = "https://pythonwoods.dev/docs/pyw-music/latest/"
+Issues        = "https://github.com/pythonWoods/pyw-music/issues"
+Changelog     = "https://github.com/pythonWoods/pyw-music/releases"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pyw"]
