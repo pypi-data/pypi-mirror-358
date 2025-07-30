@@ -1,0 +1,91 @@
+Metadata-Version: 2.4
+Name: alterx
+Version: 0.0.3
+Summary: A powerful file processing toolkit for batch transformations of HTML, JSON, TOML, XML, and YAML files
+Author: Jet-Logic
+Project-URL: Homepage, https://github.com/jet-logic/alterx
+Project-URL: Documentation, https://github.com/jet-logic/alterx
+Project-URL: Repository, https://github.com/jet-logic/alterx
+Project-URL: Issues, https://github.com/jet-logic/alterx/issues
+Project-URL: Changelog, https://github.com/jet-logic/alterx/releases
+Keywords: html,json,toml,xml,yaml,transformation,processing,batch
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: System Administrators
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Text Processing :: Markup :: HTML
+Classifier: Topic :: Text Processing :: Markup :: XML
+Classifier: Topic :: Utilities
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: lxml>=4.9.0
+Requires-Dist: tomlkit>=0.11.0
+Requires-Dist: PyYAML>=6.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0; extra == "dev"
+Requires-Dist: black>=23.0; extra == "dev"
+Requires-Dist: flake8>=6.0; extra == "dev"
+Requires-Dist: mypy; extra == "dev"
+
+# AlterX - The File Transformation Toolkit
+
+<!-- [![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/) -->
+<!-- [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE) -->
+
+[![Python Version](https://img.shields.io/badge/python-3.8%2B-blue)](https://www.python.org/)
+[![Tests Status](https://github.com/jet-logic/alterx/actions/workflows/tests.yml/badge.svg)](https://github.com/jet-logic/alterx/actions)
+[![PyPI version fury.io](https://badge.fury.io/py/alterx.svg)](https://pypi.python.org/pypi/alterx/)
+
+AlterX is a powerful command-line tool for batch processing and transforming files in various formats. It provides a consistent framework for modifying HTML, JSON, TOML, XML, and YAML files with custom Python logic.
+
+## Features
+
+- **Multi-format support**: Process HTML, JSON, TOML, XML, and YAML files
+- **Extension system**: Define transformations in Python scripts
+- **Smart modification**: Only changes files that need updates
+- **Batch processing**: Recursively process entire directories
+- **Dry run mode**: Test changes before applying them
+- **Comprehensive logging**: Detailed output about modifications
+
+## ☕ Support
+
+If you find this project helpful, consider supporting me:
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/B0B01E8SY7)
+
+## Installation
+
+```bash
+pip install alterx
+```
+
+## Quick Start
+
+1. Create a processing script (e.g., `transform.py`):
+
+```python
+def init(app):
+    app.defs['VERSION'] = "2.0.0"
+
+def process(doc, file_info, app):
+    if 'version' in doc:
+        doc['version'] = app.defs['VERSION']
+        return True
+```
+
+2. Run AlterX:
+
+```bash
+# Process JSON files
+alterx json -x transform.py path/to/files
+```
+
+### Example Use Cases Shown
+
+- [JSON](Example-json.md) Updating API URLs across multiple JSON config files
+- [TOML](Example-toml.md) Maintaining consistent Python project TOML files
+- [HTML](Example-html.md) Standardizing HTML documents (adding missing tags, accessibility improvements)
+- [XML](Example-xml.md) Processing XML sitemaps (adding/removing URLs, updating dates)
+- [YAML](Example-yaml.md) Managing Kubernetes YAML manifests (adding labels, updating image tags)
