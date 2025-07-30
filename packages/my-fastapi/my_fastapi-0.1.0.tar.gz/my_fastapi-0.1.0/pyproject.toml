@@ -1,0 +1,27 @@
+[project]
+name = "my-fastapi"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "lee gyu yeol-mac",email = "i1004gy@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.10"
+
+dependencies = [
+    "fastapi (>=0.115.14,<0.116.0)",
+    "uvicorn[standard] (>=0.35.0,<0.36.0)",
+    "httpx (>=0.28.1,<0.29.0)",
+    "click (>=8.2.1,<9.0.0)",
+    "setuptools (>=80.9.0,<81.0.0)",
+    "wheel (>=0.45.1,<0.46.0)"
+]
+[tool.poetry]
+packages = [{include = "./my_openapi_fetcher"}]
+
+[tool.poetry.scripts]
+"run-openapi-fetcher" = "my_openapi_fetcher.cli:main"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
