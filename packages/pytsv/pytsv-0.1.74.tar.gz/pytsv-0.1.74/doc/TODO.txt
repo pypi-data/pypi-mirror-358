@@ -1,0 +1,20 @@
+- pytsv_csv_to_tsv does not work well because the csvreader that it
+	uses uses 'ascii' instead of 'utf-8'. fix this.
+- TsvReader does not have a "header=True" property that I can pass
+	at construction that can be used to skip the first line.
+- move this whole package to use pytconf instead of click.
+	as part of this unify all utils to one executable.
+- move this package to pydmt.
+- do progress report for most of the utilities here.
+    measure the size of the file using a function and do progress.
+    allow to turn off this behaviour.
+- write python app to check multiple tsv files in parallel.
+	add it to pytsv.
+	have an option for it to leave a stamp for files which are correct.
+- better naming convention for all of the scripts in this package.
+    Gather them into groups.
+- add ability to do concatenation of tsv files according to key
+- add tsv writer that knows how to write by column names.
+    It may even emit a "# column1 column2 ..." header if the user wants.
+- add the option in csv_to_tsv and tsv_to_csv to have filtering (for instance
+	encoding, removing of special characters and so forth).

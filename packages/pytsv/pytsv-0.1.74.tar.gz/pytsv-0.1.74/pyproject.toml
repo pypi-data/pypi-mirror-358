@@ -1,0 +1,59 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pytsv"
+version = "0.1.74"
+requires-python = ">=3.12"
+authors = [
+	{ name = "Mark Veltzer", email = "mark.veltzer@gmail.com" }
+]
+maintainers = [
+	{ name = "Mark Veltzer", email = "mark.veltzer@gmail.com" }
+]
+description = "Pytsv is a the Swiss army knife for TSV files"
+readme = "README.md"
+license = "MIT"
+keywords=[
+    "python",
+    "tsv",
+    "format",
+    "csv",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Utilities",
+    "License :: OSI Approved :: MIT License",
+]
+dependencies = [
+    "pytconf",
+    "tqdm",
+    "pyanyzip",
+    "numpy",
+    "pandas",
+    "pylogconf",
+    "attrs",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/veltzer/pytsv"
+"Bug Tracker" = "https://github.com/veltzer/pytsv/issues"
+"Documentation" = "https://veltzer.github.io/pytsv"
+"Download" = "https://pypi.org/project/pytsv/"
+"Repository" = "https://github.com/veltzer/pytsv"
+
+[project.scripts]
+pytsv = "pytsv.main:main"
+
+[tool.ruff]
+line-length = 130
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
