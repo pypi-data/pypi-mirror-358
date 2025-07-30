@@ -1,0 +1,30 @@
+[project]
+name = "openvector_dev"
+version = "0.1.13"
+description = ""
+authors = [
+    {name = "p00ler",email = "liveitspain@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "qdrant-client (>=1.14.3,<2.0.0)",
+    "aiohttp (>=3.12.13,<4.0.0)",
+    "google-genai[aiohttp] (>=1.21.1,<2.0.0)",
+    "redis (>=6.2.0,<7.0.0)",
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4.1"
+pytest-asyncio = "^1.0.0"
+pytest-cov = "^6.2.1"
+
+[tool.poetry]
+packages = [
+  { include = "lein_vector", from = "src" }
+]
