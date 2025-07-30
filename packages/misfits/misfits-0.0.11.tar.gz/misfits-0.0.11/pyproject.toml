@@ -1,0 +1,43 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "misfits"
+version = "0.0.11"
+authors = [
+    { name="Giuseppe Dilillo", email="peppedilillo@gmail.com" },
+]
+description = "A FITS table viewer for the terminal."
+keywords = ["FITS", "Flexible Image Transport System", "Astrophysics"]
+readme = "README.md"
+license = {file = "LICENSE.txt"}
+requires-python = ">=3.11"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "astropy == 7.1.0",
+    "pandas == 2.3.0",
+    "textual == 3.5.0",
+    "terminaltexteffects == 0.12.0",
+    "click == 8.2.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "textual-dev>=1.5",
+    "black>=24.8",
+    "isort>=5.13",
+    "mypy>=1.11",
+    "ipython>=8.27",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/peppedilillo/misfits"
+
+[project.scripts]
+misfits = 'misfits.app:main'
