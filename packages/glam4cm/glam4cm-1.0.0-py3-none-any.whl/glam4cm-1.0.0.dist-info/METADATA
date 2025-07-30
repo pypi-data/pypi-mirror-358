@@ -1,0 +1,87 @@
+Metadata-Version: 2.4
+Name: glam4cm
+Version: 1.0.0
+Summary: Graph Neural Networks and Language Models Trainer (Separate or combined) for conceptual models
+Author-email: Syed Juned Ali <syed.juned.ali@tuwien.ac.at>
+License: MIT License
+        
+        Copyright (c) 2025 Syed Juned Ali
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Homepage, https://github.com/junaidiiith/glam4cm
+Project-URL: Issues, https://github.com/junaidiiith/glam4cm/issues
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: langchain-text-splitters
+Requires-Dist: scikit-learn
+Requires-Dist: scipy
+Requires-Dist: torch
+Requires-Dist: numpy
+Requires-Dist: transformers
+Requires-Dist: sentence-transformers
+Requires-Dist: tqdm
+Requires-Dist: networkx
+Requires-Dist: torch_geometric
+Requires-Dist: pandas
+Requires-Dist: tensorboardX
+Requires-Dist: xmltodict
+Requires-Dist: fasttext
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: black; extra == "dev"
+Dynamic: license-file
+
+# glam4cm
+
+The data in this archive is derived from the user-contributed content on the
+Cooking Stack Exchange website (https://cooking.stackexchange.com/), used under
+CC-BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0/).
+
+The original data dump can be downloaded from:
+https://archive.org/download/stackexchange/cooking.stackexchange.com.7z
+and details about the dump obtained from:
+https://archive.org/details/stackexchange
+
+We distribute two files, under CC-BY-SA 3.0:
+
+ - cooking.stackexchange.txt, which contains all question titles and
+   their associated tags (one question per line, tags are prefixed by
+   the string "__label__") ;
+
+ - cooking.stackexchange.id, which contains the corresponding row IDs,
+   from the original data dump.
+
+
+Node classification
+  Language Model
+    Freezing parameters
+    Effect of attributes
+    Effect of edge information
+    Edge of partial node type information
+
+  GNN
+    GCNConv, SAGEConv, GATConv
+    Random Node Embeddings
+    Bert Node Embeddings
+    Finetuned Node Embeddings
+    Random Edge Embeddings
+    Bert Edge Embeddings
+    Finetuned Edge Embeddings
