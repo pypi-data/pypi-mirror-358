@@ -1,0 +1,37 @@
+[build-system]
+requires = [
+    "setuptools >= 49.2.0",
+    "wheel",
+    "versioneer-518",
+]
+build-backend = "setuptools.build_meta"
+
+[tool.pyright]
+include = ["pdpipe"]
+exclude = ["**/node_modules",
+    "**/__pycache__",
+]
+venvPath = "/users/shaypalachy/.pyenv/versions/"
+venv = "py3"
+
+reportMissingImports = true
+reportMissingTypeStubs = false
+reportGeneralTypeIssues = false
+
+pythonVersion = "3.8"
+pythonPlatform = "Linux"
+
+# pylint currently ignores this. See .pylintrc
+[tool.pylint]
+    [tool.pylint."MASTER"]
+    ignore = ["CVS"]
+    ignore-paths = ["build/", "dev/", "dist/", "docs/", "notebooks/", "tests/"]
+    load-plugins = [
+        "pylint.extensions.docparams"
+    ]
+    py-version = [3, 10]
+    recursive = false
+    reports = false
+    score = true
+    suggestion-mode = true
+    unsafe-load-any-extension = false
