@@ -1,0 +1,57 @@
+[project]
+name = "orange-fastcoref-plugin"
+version = "0.1.1"
+description = "FastCoRef coreference resolution plugin for Orange3"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastcoref>=2.1.6",
+    "orange3>=3.39.0",
+    "orange3-network>=1.10.1",
+    "orange3-text>=1.16.3",
+    "pyqt6",
+    "pyqt6-tools>=6.4.2.3.3",
+    "spacy>=3.8.7",
+]
+authors = [{name = "Karel Kroeze", email = "k.a.kroeze@utwente.nl"}]
+keywords = [
+    "orange3 add-on",
+    "coreference resolution",
+    "coref",
+    "lingmess",
+    "fastcoref",
+    "natural language processing",
+    "text mining",
+]
+license = "GPL-3.0-or-later"
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Environment :: Plugins",
+    "Natural Language :: English",
+    "Natural Language :: Dutch",
+    "Programming Language :: Python :: 3.11"
+]
+
+
+[project.urls]
+homepage = "https://github.com/bdsi-utwente/orange-fastcoref-plugin"
+source = "https://github.com/bdsi-utwente/orange-fastcoref-plugin.git"
+issues = "https://github.com/bdsi-utwente/orange-fastcoref-plugin/issues"
+based_on = "https://github.com/shon-otmazgin/fastcoref"
+
+
+[project.entry-points."orange3.addon"]
+"FastCoRef" = "fastcoref"
+
+[project.entry-points."orange.widgets"]
+"Coreference Resolution" = "fastcoref.widgets"
+
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"fastcoref" = "orangecontrib/fastcoref" }
+include-package-data = true
