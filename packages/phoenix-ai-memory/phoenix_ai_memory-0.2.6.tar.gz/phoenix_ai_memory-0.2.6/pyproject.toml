@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "phoenix-ai-memory"
+version = "0.2.6"
+description = "Pluggable memory layer for Agentic AI frameworks"
+authors = ["Singtel AI CoE <ai.coe@singtel.com>"]
+license = "Apache-2.0"
+readme = "README.md"
+packages = [{include = "phoenix_ai_memory"}]
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.13"
+langmem = {version="^0.0", optional = true}
+
+[tool.poetry.extras]
+langmem = ["langmem"]
+
+all = ["langmem"]
+
+[tool.poetry.plugins."phoenix_ai_memory.stores"]
+in_memory = "phoenix_ai_memory.memory.adapters.in_memory_store:InMemoryStore"
+langmem = "phoenix_ai_memory.memory.adapters.langmem_store:LangMemStore"
