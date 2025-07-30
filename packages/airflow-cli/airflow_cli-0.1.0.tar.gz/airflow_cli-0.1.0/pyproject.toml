@@ -1,0 +1,27 @@
+[project]
+name = "airflow-cli"
+version = "0.1.0"
+description = "CLI para facilitar o setup de Airflow com Docker."
+readme = "README.md"
+requires-python = ">=3.7"
+license = {text = "MIT"}
+authors = [{ name="LEMA-UFPB", email="ufpb.lema@gmail.com" }]
+dependencies = [
+  "simple-term-menu>=1.0.0",
+  "requests>=2.25.0",
+  "flake8>=4.0.0",
+  "pyyaml>=5.4.0"
+]
+
+[project.scripts]
+airflow-cli = "airflow_cli.cli:main"
+
+[tool.setuptools]
+packages = ["airflow_cli"]
+
+[tool.setuptools.package-data]
+airflow_cli = ["docker-compose.yml"]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"

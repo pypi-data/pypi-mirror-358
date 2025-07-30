@@ -1,0 +1,381 @@
+Metadata-Version: 2.4
+Name: airflow-cli
+Version: 0.1.0
+Summary: CLI para facilitar o setup de Airflow com Docker.
+Author-email: LEMA-UFPB <ufpb.lema@gmail.com>
+License: MIT
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: simple-term-menu>=1.0.0
+Requires-Dist: requests>=2.25.0
+Requires-Dist: flake8>=4.0.0
+Requires-Dist: pyyaml>=5.4.0
+Dynamic: license-file
+
+# Airflow Docker Helper
+
+A command-line tool to facilitate the setup of Apache Airflow using Docker and enable local DAG development and testing.
+
+## Features
+
+- 🚀 Quick Airflow setup with Docker Compose
+- 🔧 Local DAG development and testing
+- 📦 Pre-configured Docker environment
+- 🛠️ CLI interface for common Airflow operations
+- 🧪 Testing utilities for DAG validation
+
+## Prerequisites
+
+- Python 3.7+
+- Docker and Docker Compose
+- Git
+
+## Installation
+
+### From PyPI (Recommended)
+
+```bash
+pip install airflow-cli
+```
+
+### From Source
+
+```bash
+git clone https://gitlab.lema.ufpb.br/back-end/lema-ufpb/airflow-docker-helper.git
+cd airflow-docker-helper
+pip install -e .
+```
+
+### Development Installation
+
+```bash
+git clone https://gitlab.lema.ufpb.br/back-end/lema-ufpb/airflow-docker-helper.git
+cd airflow-docker-helper
+pip install -e ".[dev]"
+```
+
+## Quick Start
+
+### 1. Start Airflow Environment
+
+```bash
+airflow-cli up
+```
+
+This command will:
+- Check Docker installation and environment
+- Download the latest docker-compose.yml from LEMA UFPB repository
+- Start Airflow services with Docker Compose
+
+### 2. Access Airflow UI
+
+Open your browser and navigate to http://localhost:8080
+
+Default credentials:
+- Username: `airflow`
+- Password: `airflow`
+
+### 3. Stop Airflow Environment
+
+```bash
+airflow-cli down
+```
+
+## Usage
+
+### Available Commands
+
+```bash
+# Start Docker environment
+airflow-cli up
+
+# Stop Docker environment  
+airflow-cli down
+
+# Run Airflow DAG inside Docker
+airflow-cli run-dag
+
+# Run flake8 linter on DAGs
+airflow-cli fix-code
+
+# Show help
+airflow-cli --help
+```
+
+### DAG Development
+
+1. Place your DAG files in the `dags/` directory
+2. The directory is automatically mounted to the Airflow container
+3. Changes are reflected immediately (no restart required)
+
+Expected DAG structure for `run-dag` command:
+```
+project/
+├── dags/
+│   └── my_dag/
+│       ├── config.yml
+│       └── dag.py
+└── docker-compose.yml
+```
+
+Example `config.yml`:
+```yaml
+args:
+  id: "my_dag_id"
+```
+
+### Testing DAGs
+
+#### Run a DAG inside Docker
+```bash
+airflow-cli run-dag
+```
+
+This command will:
+- Look for DAG configuration files in `dags/*/config.yml`
+- Execute the DAG inside the running Airflow container
+
+#### Validate DAG syntax with flake8
+```bash
+airflow-cli fix-code
+```
+
+This will run flake8 linter on the `dags/` folder to check for Python syntax issues.
+
+## Configuration
+
+### Environment Variables
+
+Create a `.env` file in your project root:
+
+```env
+# Airflow Configuration
+AIRFLOW_VERSION=2.7.0
+AIRFLOW_UID=50000
+AIRFLOW_GID=0
+
+# Database
+POSTGRES_USER=airflow
+POSTGRES_PASSWORD=airflow
+POSTGRES_DB=airflow
+
+# Airflow Core
+AIRFLOW__CORE__EXECUTOR=CeleryExecutor
+AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION=true
+AIRFLOW__CORE__LOAD_EXAMPLES=false
+
+# Webserver
+AIRFLOW__WEBSERVER__EXPOSE_CONFIG=true
+```
+
+### Docker Compose Source
+
+The tool automatically downloads the `docker-compose.yml` from:
+```
+https://gitlab.lema.ufpb.br/hub/airflow/-/raw/main/docker-compose.yml
+```
+
+This ensures you're always using the latest configuration from the LEMA UFPB Airflow repository.
+
+## Development
+
+### Setting up Development Environment
+
+```bash
+# Clone the repository
+git clone https://gitlab.lema.ufpb.br/back-end/lema-ufpb/airflow-docker-helper.git
+cd airflow-docker-helper
+
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install in development mode
+pip install -e ".[dev]"
+
+# Install pre-commit hooks
+pre-commit install
+```
+
+### Building from Source
+
+```bash
+# Build wheel
+python -m build
+
+# Install built package
+pip install dist/airflow_docker_helper-*.whl
+```
+
+### Running Tests
+
+```bash
+# Run all tests
+pytest
+
+# Run with coverage
+pytest --cov=airflow_docker_helper
+
+# Run specific test file
+pytest tests/test_cli.py
+
+# Run with verbose output
+pytest -v
+```
+
+### Code Quality
+
+```bash
+# Format code
+black airflow_docker_helper/
+
+# Sort imports
+isort airflow_docker_helper/
+
+# Lint code
+flake8 airflow_docker_helper/
+
+# Type checking
+mypy airflow_docker_helper/
+```
+
+## Troubleshooting
+
+### Common Issues
+
+#### Permission Errors
+```bash
+# Fix permissions for Airflow directories
+sudo chown -R $(id -u):$(id -g) dags/ logs/ plugins/
+```
+
+#### Port Already in Use
+```bash
+# Check what's using port 8080
+lsof -i :8080
+
+# Use different port
+AIRFLOW_WEBSERVER_PORT=8081 airflow-helper start
+```
+
+#### Database Connection Issues
+```bash
+# Reset database
+airflow-helper clean
+airflow-helper init
+```
+
+#### DAG Import Errors
+```bash
+# Check DAG syntax
+airflow-helper validate-dags
+
+# View detailed logs
+airflow-helper logs scheduler
+```
+
+### Getting Help
+
+```bash
+# Show help for main command
+airflow-helper --help
+
+# Show help for specific command
+airflow-helper init --help
+```
+
+## Examples
+
+### Example DAG
+
+```python
+from datetime import datetime, timedelta
+from airflow import DAG
+from airflow.operators.python import PythonOperator
+
+default_args = {
+    'owner': 'data-team',
+    'depends_on_past': False,
+    'start_date': datetime(2023, 1, 1),
+    'email_on_failure': False,
+    'email_on_retry': False,
+    'retries': 1,
+    'retry_delay': timedelta(minutes=5),
+}
+
+dag = DAG(
+    'example_pipeline',
+    default_args=default_args,
+    description='An example data pipeline',
+    schedule_interval=timedelta(days=1),
+    catchup=False,
+    tags=['example', 'tutorial'],
+)
+
+def extract_data():
+    print("Extracting data...")
+    return "data_extracted"
+
+def transform_data():
+    print("Transforming data...")
+    return "data_transformed"
+
+def load_data():
+    print("Loading data...")
+    return "data_loaded"
+
+extract_task = PythonOperator(
+    task_id='extract',
+    python_callable=extract_data,
+    dag=dag,
+)
+
+transform_task = PythonOperator(
+    task_id='transform',
+    python_callable=transform_data,
+    dag=dag,
+)
+
+load_task = PythonOperator(
+    task_id='load',
+    python_callable=load_data,
+    dag=dag,
+)
+
+extract_task >> transform_task >> load_task
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Merge Request
+
+### Development Guidelines
+
+- Follow PEP 8 style guide
+- Add tests for new features
+- Update documentation
+- Ensure all tests pass
+- Use meaningful commit messages
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Support
+
+- 📧 Email: [your-email@ufpb.br]
+- 🐛 Issues: [GitLab Issues](https://gitlab.lema.ufpb.br/back-end/lema-ufpb/airflow-docker-helper/-/issues)
+- 📖 Documentation: [Wiki](https://gitlab.lema.ufpb.br/back-end/lema-ufpb/airflow-docker-helper/-/wikis/home)
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for a list of changes and version history.
+
+---
+
+Made with ❤️ by the LEMA UFPB team
