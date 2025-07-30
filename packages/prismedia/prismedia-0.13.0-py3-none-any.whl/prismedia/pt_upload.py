@@ -1,0 +1,401 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+import os
+import mimetypes
+import json
+import logging
+import sys
+import datetime
+import pytz
+from os.path import splitext, basename, abspath
+from tzlocal import get_localzone
+
+from configparser import RawConfigParser
+from requests_oauthlib import OAuth2Session
+from oauthlib.oauth2 import LegacyApplicationClient
+from requests_toolbelt import MultipartEncoder, MultipartEncoderMonitor
+from clint.textui.progress import Bar as ProgressBar
+
+from . import utils
+logger = logging.getLogger('Prismedia')
+
+PEERTUBE_SECRETS_FILE = 'peertube_secret'
+PEERTUBE_PRIVACY = {
+    "public": 1,
+    "unlisted": 2,
+    "private": 3
+}
+
+
+def get_authenticated_service(secret):
+    peertube_url = str(secret.get('peertube', 'peertube_url')).rstrip("/")
+
+    oauth_client = LegacyApplicationClient(
+        client_id=str(secret.get('peertube', 'client_id'))
+    )
+    try:
+        oauth = OAuth2Session(client=oauth_client)
+        oauth.fetch_token(
+            token_url=str(peertube_url + '/api/v1/users/token'),
+            # lower as peertube does not store uppercase for pseudo
+            username=str(secret.get('peertube', 'username').lower()),
+            password=str(secret.get('peertube', 'password')),
+            client_id=str(secret.get('peertube', 'client_id')),
+            client_secret=str(secret.get('peertube', 'client_secret'))
+        )
+    except Exception as e:
+        if hasattr(e, 'message'):
+            logger.critical("Peertube: " + str(e.message))
+            exit(1)
+        else:
+            logger.critical("Peertube: " + str(e))
+            exit(1)
+    return oauth
+
+
+def get_default_channel(user_info):
+    return user_info['videoChannels'][0]['id']
+
+
+def get_channel_by_name(user_info, options):
+    for channel in user_info["videoChannels"]:
+        if channel['displayName'] == options.get('--channel'):
+            return channel['id']
+
+
+def convert_peertube_date(date):
+    date = datetime.datetime.strptime(date, '%Y-%m-%dT%H:%M:%S')
+    tz = get_localzone()
+    tz = pytz.timezone(str(tz))
+    return tz.localize(date).isoformat()
+
+
+def create_channel(oauth, url, options):
+    template = ('Peertube: Channel %s does not exist, creating it.')
+    logger.info(template % (str(options.get('--channel'))))
+    channel_name = utils.cleanString(str(options.get('--channel')))
+    # Peertube allows 20 chars max for channel name
+    channel_name = channel_name[:19]
+    data = '{"name":"' + channel_name + '", \
+            "displayName":"' + options.get('--channel') + '", \
+            "description":null, \
+            "support":null}'
+
+    headers = {
+        'Content-Type': "application/json; charset=UTF-8"
+    }
+    try:
+        response = oauth.post(url + "/api/v1/video-channels/",
+                              data=data.encode('utf-8'),
+                              headers=headers)
+    except Exception as e:
+        if hasattr(e, 'message'):
+            logger.error("Peertube: " + str(e.message))
+        else:
+            logger.error("Peertube: " + str(e))
+    if response is not None:
+        if response.status_code == 200:
+            jresponse = response.json()
+            jresponse = jresponse['videoChannel']
+            return jresponse['id']
+        if response.status_code == 409:
+            logger.critical('Peertube: It seems there is a conflict with an existing channel named '
+                          + channel_name + '.'
+                          ' Please beware Peertube internal name is compiled from 20 firsts characters of channel name.'
+                          ' Also note that channel name are not case sensitive (no uppercase nor accent)'
+                          ' Please check your channel name and retry.')
+            exit(1)
+        else:
+            logger.critical(('Peertube: Creating channel failed with an unexpected response: '
+                           '%s') % response)
+            exit(1)
+
+
+def get_default_playlist(user_info):
+    return user_info['videoChannels'][0]['id']
+
+
+def get_playlist_by_name(oauth, url, username, options):
+    start = 0
+    user_playlists = json.loads(oauth.get(
+        url+"/api/v1/accounts/"+username+"/video-playlists?start="+str(start)+"&count=100").content)
+    total = user_playlists["total"]
+    data = user_playlists["data"]
+    # We need to iterate on pagination as peertube returns max 100 playlists (see #41)
+    while start < total:
+        for playlist in data:
+            if playlist['displayName'] == options.get('--playlist'):
+                return playlist['id']
+        start = start + 100
+        user_playlists = json.loads(oauth.get(
+            url+"/api/v1/accounts/"+username+"/video-playlists?start="+str(start)+"&count=100").content)
+        data = user_playlists["data"]
+
+
+def create_playlist(oauth, url, options, channel):
+    template = ('Peertube: Playlist %s does not exist, creating it.')
+    logger.info(template % (str(options.get('--playlist'))))
+    # We use files for form-data Content
+    # see https://requests.readthedocs.io/en/latest/user/quickstart/#post-a-multipart-encoded-file
+    # None is used to mute "filename" field
+    files = {'displayName': (None, str(options.get('--playlist'))),
+             'privacy': (None, "1"),
+             'description': (None, "null"),
+             'videoChannelId': (None, str(channel)),
+             'thumbnailfile': (None, "null")}
+    try:
+        response = oauth.post(url + "/api/v1/video-playlists/",
+                       files=files)
+    except Exception as e:
+        if hasattr(e, 'message'):
+            logger.error("Peertube: " + str(e.message))
+        else:
+            logger.error("Peertube: " + str(e))
+    if response is not None:
+        if response.status_code == 200:
+            jresponse = response.json()
+            jresponse = jresponse['videoPlaylist']
+            return jresponse['id']
+        else:
+            logger.critical(('Peertube: Creating the playlist failed with an unexpected response: '
+                           '%s') % response)
+            exit(1)
+
+
+def set_playlist(oauth, url, video_id, playlist_id):
+    logger.info('Peertube: add video to playlist.')
+    data = '{"videoId":"' + str(video_id) + '"}'
+
+    headers = {
+        'Content-Type': "application/json"
+    }
+    try:
+        response = oauth.post(url + "/api/v1/video-playlists/"+str(playlist_id)+"/videos",
+                              data=data,
+                              headers=headers)
+    except Exception as e:
+        if hasattr(e, 'message'):
+            logger.error("Peertube: " + str(e.message))
+        else:
+            logger.error("Peertube: " + str(e))
+    if response is not None:
+        if response.status_code == 200:
+            logger.info('Peertube: Video is successfully added to the playlist.')
+        else:
+            logger.critical(('Peertube: Configuring the playlist failed with an unexpected response: '
+                           '%s') % response)
+            exit(1)
+
+
+def upload_video(oauth, secret, options):
+
+    def get_userinfo():
+        return json.loads(oauth.get(url+"/api/v1/users/me").content)
+
+    def get_file(path):
+        mimetypes.init()
+        return (basename(path), open(abspath(path), 'rb'),
+                mimetypes.types_map[splitext(path)[1]])
+
+    path = options.get('--file')
+    url = str(secret.get('peertube', 'peertube_url')).rstrip('/')
+    user_info = get_userinfo()
+    username = str(secret.get('peertube', 'username').lower())
+
+    # We need to transform fields into tuple to deal with tags as
+    # MultipartEncoder does not support list refer
+    # https://github.com/requests/toolbelt/issues/190 and
+    # https://github.com/requests/toolbelt/issues/205
+    fields = [
+        ("name", options.get('--name') or splitext(basename(options.get('--file')))[0]),
+        ("licence", "1"),
+        ("description", options.get('--description')  or "default description"),
+        ("nsfw", str(int(options.get('--nsfw')) or "0")),
+        ("videofile", get_file(path))
+    ]
+
+    if options.get('--tags'):
+        tags = options.get('--tags').split(',')
+        tag_number = 0
+        for strtag in tags:
+            tag_number = tag_number + 1
+            # Empty tag crashes Peertube, so skip them
+            if strtag == "":
+                continue
+            # Tag more than 30 chars crashes Peertube, so skip tags
+            if len(strtag) >= 30:
+                logger.warning("Peertube: Sorry, Peertube does not support tag with more than 30 characters, please reduce tag: " + strtag)
+                logger.warning("Peertube: Meanwhile, this tag will be skipped")
+                continue
+            # Peertube supports only 5 tags at the moment
+            if tag_number > 5:
+                logger.warning("Peertube: Sorry, Peertube support 5 tags max, additional tag will be skipped")
+                logger.warning("Peertube: Skipping tag " + strtag)
+                continue
+            fields.append(("tags[]", strtag))
+
+    if options.get('--category'):
+        fields.append(("category", str(utils.getCategory(options.get('--category'), 'peertube'))))
+    else:
+        # if no category, set default to 2 (Films)
+        fields.append(("category", "2"))
+
+    if options.get('--language'):
+        fields.append(("language", str(utils.getLanguage(options.get('--language'), "peertube"))))
+    else:
+        # if no language, set default to 1 (English)
+        fields.append(("language", "en"))
+
+    if options.get('--disable-comments'):
+        fields.append(("commentsEnabled", "0"))
+    else:
+        fields.append(("commentsEnabled", "1"))
+
+    privacy = None
+    if options.get('--privacy'):
+        privacy = options.get('--privacy').lower()
+
+    # If peertubeAt exists, use instead of publishAt
+    if options.get('--peertubeAt'):
+        publishAt = options.get('--peertubeAt')
+    elif options.get('--publishAt'):
+        publishAt = options.get('--publishAt')
+
+    if 'publishAt' in locals():
+        publishAt = convert_peertube_date(publishAt)
+        fields.append(("scheduleUpdate[updateAt]", publishAt))
+        fields.append(("scheduleUpdate[privacy]", str(PEERTUBE_PRIVACY["public"])))
+        fields.append(("privacy", str(PEERTUBE_PRIVACY["private"])))
+    else:
+        fields.append(("privacy", str(PEERTUBE_PRIVACY[privacy or "private"])))
+
+    # Set originalDate except if the user force no originalDate
+    if options.get('--originalDate'):
+        originalDate = convert_peertube_date(options.get('--originalDate'))
+        fields.append(("originallyPublishedAt", originalDate))
+
+    if options.get('--thumbnail'):
+        fields.append(("thumbnailfile", get_file(options.get('--thumbnail'))))
+        fields.append(("previewfile", get_file(options.get('--thumbnail'))))
+
+    if options.get('--channel'):
+        channel_id = get_channel_by_name(user_info, options)
+        if not channel_id and options.get('--channelCreate'):
+            channel_id = create_channel(oauth, url, options)
+        elif not channel_id:
+            logger.warning("Peertube: Channel `" + options.get('--channel') + "` is unknown, using default channel.")
+            channel_id = get_default_channel(user_info)
+    else:
+        channel_id = get_default_channel(user_info)
+
+    fields.append(("channelId", str(channel_id)))
+
+    if options.get('--playlist'):
+        playlist_id = get_playlist_by_name(oauth, url, username, options)
+        if not playlist_id and options.get('--playlistCreate'):
+            playlist_id = create_playlist(oauth, url, options, channel_id)
+        elif not playlist_id:
+            logger.critical("Peertube: Playlist `" + options.get('--playlist') + "` does not exist, please set --playlistCreate"
+                            " if you want to create it")
+            exit(1)
+
+    logger_stdout = None
+    if options.get('--url-only') or options.get('--batch'):
+        logger_stdout = logging.getLogger('stdoutlogs')
+
+    encoder = MultipartEncoder(fields)
+    if options.get('--quiet'):
+        multipart_data = encoder
+    else:
+        progress_callback = create_callback(encoder, options.get('--progress'))
+        multipart_data = MultipartEncoderMonitor(encoder, progress_callback)
+
+    headers = {
+        'Content-Type': multipart_data.content_type
+    }
+    response = oauth.post(url + "/api/v1/videos/upload",
+                          data=multipart_data,
+                          headers=headers)
+
+    if response is not None:
+        if response.status_code == 200:
+            jresponse = response.json()
+            jresponse = jresponse['video']
+            uuid = jresponse['uuid']
+            video_id = str(jresponse['id'])
+
+            logger.info('Peertube: Video was successfully uploaded.')
+            template = 'Peertube: Watch it at %s/videos/watch/%s.'
+            logger.info(template % (url, uuid))
+            template_stdout = '%s/videos/watch/%s'
+            if options.get('--url-only'):
+                logger_stdout.info(template_stdout % (url, uuid))
+            elif options.get('--batch'):
+                logger_stdout.info("Peertube: " + template_stdout % (url, uuid))
+            # Upload is successful we may set playlist
+            if options.get('--playlist'):
+                set_playlist(oauth, url, video_id, playlist_id)
+        else:
+            logger.critical(('Peertube: The upload failed with an unexpected response: '
+                           '%s') % response)
+            exit(1)
+
+
+upload_finished = False
+def create_callback(encoder, progress_type):
+    upload_size_MB = encoder.len * (1 / (1024 * 1024))
+
+    if progress_type is None or "percentage" in progress_type.lower():
+        progress_lambda = lambda x: int((x / encoder.len) * 100) # Default to percentage
+    elif "bigfile" in progress_type.lower():
+        progress_lambda = lambda x: x * (1 / (1024 * 1024)) # MB
+    elif "accurate" in progress_type.lower():
+        progress_lambda = lambda x: x * (1 / (1024)) # kB
+    else:
+        # Should not happen outside of development when adding partly a progress type
+        logger.critical("Peertube: Unknown progress type `" + progress_type + "`")
+        exit(1)
+
+    bar = ProgressBar(expected_size=progress_lambda(encoder.len), label=f"Peertube upload progress ({upload_size_MB:.2f}MB) ", filled_char='=')
+
+    def callback(monitor):
+        # We want the condition to capture the varible from the parent scope, not a local variable that is created after
+        global upload_finished
+        progress = progress_lambda(monitor.bytes_read)
+
+        bar.show(progress)
+
+        if monitor.bytes_read == encoder.len:
+            if not upload_finished:
+                # We get two time in the callback with both bytes equals, skip the first
+                upload_finished = True
+            else:
+                # Print a blank line to not (partly) override the progress bar
+                print()
+                logger.info("Peertube: Upload finish, Processing…")
+
+    return callback
+
+
+def run(options):
+    secret = RawConfigParser()
+    try:
+        if options.get('--credentialsdir') :
+            secret.read(os.path.join(options.get('--credentialsdir'), PEERTUBE_SECRETS_FILE))
+        else :
+            secret.read(PEERTUBE_SECRETS_FILE)
+    except Exception as e:
+        logger.critical("Peertube: Error loading " + str(PEERTUBE_SECRETS_FILE) + ": " + str(e))
+        exit(1)
+    insecure_transport = secret.get('peertube', 'OAUTHLIB_INSECURE_TRANSPORT')
+    os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = insecure_transport
+    oauth = get_authenticated_service(secret)
+    try:
+        logger.info('Peertube: Uploading video...')
+        upload_video(oauth, secret, options)
+    except Exception as e:
+        if hasattr(e, 'message'):
+            logger.error("Peertube: " + str(e.message))
+        else:
+            logger.error("Peertube: " + str(e))
