@@ -1,0 +1,35 @@
+[project]
+name = "evaltree"
+version = "0.1.1"
+description = "Toolbox for comparative clustering evaluation of WGS pipelines for bacterial routine surveillance"
+authors = [
+    { name = "jg-pereira", email = "joana.vgpereira@gmail.com" }
+]
+readme = "README.md"
+license = { text = "GPL-3.0-only" }
+requires-python = ">=3.10"
+
+dependencies = [
+    "pandas<=2.3.0",
+    "plotly<=5.24.1",
+    "pytest<=8.4.0",
+    "kaleido<=0.2.1",
+    "scikit-learn<=1.7.0",
+    "scipy<=1.15.2",
+    "statsmodels<=0.14.4"
+]
+
+[project.urls]
+Repository = "https://github.com/jg-pereira/CENTAUR/tree/main/EvalTree"
+
+[project.scripts]
+evaltree = "evaltree.EvalTree:main"
+
+[tool.poetry]
+packages = [{ include = "evaltree", from = "src" }]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
