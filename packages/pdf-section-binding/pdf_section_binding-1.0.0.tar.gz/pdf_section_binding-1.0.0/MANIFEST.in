@@ -1,0 +1,15 @@
+include README.md
+include LICENSE
+include pyproject.toml
+include requirements.txt
+recursive-include src/pdf_section_binding *.py
+recursive-include tests *.py
+include tests/test-data/.gitkeep
+
+# Exclude moved utility files from distribution
+exclude src/demo.py
+exclude src/section_binding.py
+exclude src/test_section_binding.py
+exclude src/create_test_pdf.py
+exclude src/example_usage.py
+exclude src/add_page_numbers.py
