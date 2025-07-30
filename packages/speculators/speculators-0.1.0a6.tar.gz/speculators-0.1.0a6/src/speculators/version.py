@@ -1,0 +1,6 @@
+version = "0.1.0a6"
+build_type = "nightly"
+build_iteration = "6"
+git_commit = "de9be4d2126cef847790d49d518c8dfbff6489a8"
+git_branch = "main"
+git_last_tag = "v0.0.1"
