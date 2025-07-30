@@ -1,0 +1,719 @@
+package com.example.a1_activity_lifecycle
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.util.Log
+
+class MainActivity : AppCompatActivity() {
+
+   val tag = "ActivityLifecycle"
+   override fun onCreate(savedInstanceState: Bundle?) {
+       super.onCreate(savedInstanceState)
+       setContentView(R.layout.activity_main)
+       Log.d(tag, "On Create Called")
+   }
+
+   override fun onStart() {
+       super.onStart()
+       Log.d(tag, "On Start Called")
+   }
+
+   override fun onResume() {
+       super.onResume()
+       Log.d(tag, "On Resume Called")
+   }
+
+   override fun onPause(){
+       super.onPause()
+       Log.d(tag,"OnPause Called")
+
+   }
+
+   override fun onDestroy() {
+       super.onDestroy()
+       Log.d(tag,"Ondestroy Called")
+   }
+
+   override fun onStop() {
+       super.onStop()
+       Log.d(tag,"OnStop Called")
+   }
+
+
+}
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+   xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
+   android:orientation="vertical"
+   android:gravity="center"
+  >
+
+   <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Lifecycle Example"
+       android:textSize="24sp"
+       android:textColor="@android:color/holo_blue_dark"></TextView>
+
+</LinearLayout>
+
+Widgets are the UI elements you use in Android apps. Examples include:
+TextView – to display text
+
+
+EditText – for user input
+
+
+Button – to perform an action
+
+
+ImageView, CheckBox, RadioButton, etc.
+
+
+UI development means placing these widgets inside layout containers like LinearLayout, RelativeLayout, or ConstraintLayout to build screens.
+
+
+
+
+
+package com.example.a3_android_widgets
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.*
+
+class MainActivity : AppCompatActivity() {
+   override fun onCreate(savedInstanceState: Bundle?) {
+       super.onCreate(savedInstanceState)
+       setContentView(R.layout.activity_main)
+
+       val inputName= findViewById<EditText>(R.id.editTextName)
+       val showButton=findViewById<Button>(R.id.buttonShow)
+       val resultText=findViewById<TextView>(R.id.textViewResult)
+
+       showButton.setOnClickListener{
+           val name= inputName.text.toString()
+           resultText.text="Hello,$name!"
+
+       }
+   }
+}
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
+   android:padding="16dp"
+   android:orientation="vertical"
+   android:gravity="center"
+   >
+
+   <TextView
+       android:id="@+id/textViewResult"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Enter your name below:"
+       android:textSize="18sp"
+        />
+
+   <EditText
+       android:id="@+id/editTextName"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:hint="Type your name" />
+
+   <Button
+       android:id="@+id/buttonShow"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Say Hello"
+       android:layout_marginTop="16dp" />
+
+
+</LinearLayout>
+
+package com.example.a5_workingwithbuttons
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.*
+
+class MainActivity : AppCompatActivity() {
+   override fun onCreate(savedInstanceState: Bundle?) {
+       super.onCreate(savedInstanceState)
+       setContentView(R.layout.activity_main)
+
+       val myButton=findViewById<Button>(R.id.mybutton)
+       val myTextView=findViewById<TextView>(R.id.mytextview)
+
+       myButton.setOnClickListener{
+           myTextView.text= "Button Clicked!"
+       }
+   }
+}
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
+   android:padding="16dp"
+   android:orientation="vertical"
+   android:gravity="center"
+   >
+
+   <Button
+       android:id="@+id/mybutton"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Click Me"/>
+
+   <TextView
+       android:id="@+id/mytextview"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text=""
+       android:textSize="18sp"
+       android:layout_marginTop="20dp"
+       android:textColor="@android:color/holo_green_dark"
+        />
+
+</LinearLayout>
+
+package com.example.myapplication(6th one,textview)
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.TextView
+
+class MainActivity : AppCompatActivity() {
+   override fun onCreate(savedInstanceState: Bundle?) {
+       super.onCreate(savedInstanceState)
+       setContentView(R.layout.activity_main)
+
+       val dynamicText = findViewById<TextView>(R.id.textDynamic)
+
+       // Change the text dynamically from code
+       dynamicText.text = "This text was set in Kotlin code!"
+   }
+}
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
+   android:padding="16dp"
+   android:orientation="vertical"
+   android:gravity="center">
+
+   <TextView
+       android:id="@+id/textStatic"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Welcome to TextView Demo"
+       android:textSize="20sp"
+       android:textStyle="bold"
+       android:textColor="@android:color/holo_blue_dark"
+       android:layout_marginBottom="24dp"/>
+
+   <TextView
+       android:id="@+id/textDynamic"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Initial Text"
+       android:textSize="18sp"
+       android:textColor="@android:color/holo_green_dark"/>
+</LinearLayout>
+
+package com.example.a7_edittext
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.*
+
+class MainActivity : AppCompatActivity() {
+   override fun onCreate(savedInstanceState: Bundle?) {
+       super.onCreate(savedInstanceState)
+       setContentView(R.layout.activity_main)
+
+       val editTextName = findViewById<EditText>(R.id.editTextName)
+       val buttonShow = findViewById<Button>(R.id.buttonShow)
+       val textViewResult = findViewById<TextView>(R.id.textViewResult)
+      
+       buttonShow.setOnClickListener {
+           val name = editTextName.text.toString()
+           textViewResult.text = "Hello, $name!"
+       }
+
+   }
+}
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
+   android:orientation="vertical"
+   android:padding="16dp">
+
+   <EditText
+       android:id="@+id/editTextName"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:hint="Enter your name" />
+
+   <Button
+       android:id="@+id/buttonShow"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Show Name"
+       android:layout_marginTop="16dp" />
+
+   <TextView
+       android:id="@+id/textViewResult"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Your name will appear here"
+       android:layout_marginTop="16dp" />
+</LinearLayout>
+
+package com.example.a9_toast
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.*
+
+class MainActivity : AppCompatActivity() {
+   override fun onCreate(savedInstanceState: Bundle?) {
+       super.onCreate(savedInstanceState)
+       setContentView(R.layout.activity_main)
+
+       val buttonToast = findViewById<Button>(R.id.buttonShowToast)
+
+       buttonToast.setOnClickListener{
+           Toast.makeText(this,"Hello from toast", Toast.LENGTH_SHORT).show()
+       }
+
+
+
+   }
+}
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
+   android:gravity="center"
+   android:orientation="vertical"
+   android:padding="24dp">
+
+   <Button
+       android:id="@+id/buttonShowToast"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Show Toast" />
+</LinearLayout>
+
+package com.example.a12_checkbox
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.*
+
+class MainActivity : AppCompatActivity() {
+   override fun onCreate(savedInstanceState: Bundle?) {
+       super.onCreate(savedInstanceState)
+       setContentView(R.layout.activity_main)
+
+       val checkbox = findViewById<CheckBox>(R.id.checkboxAndroid)
+       val button = findViewById<Button>(R.id.buttonCheck)
+
+       button.setOnClickListener {
+           if (checkbox.isChecked) {
+               Toast.makeText(this, "You love android", Toast.LENGTH_SHORT).show()
+           } else {
+               Toast.makeText(this,"You dont love android",Toast.LENGTH_SHORT).show()
+           }
+       }
+   }
+
+}
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
+   android:orientation="vertical"
+   android:padding="16dp">
+
+   <CheckBox
+       android:id="@+id/checkboxAndroid"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="I love Android" />
+
+   <Button
+       android:id="@+id/buttonCheck"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Check Status"
+       android:layout_marginTop="16dp" />
+</LinearLayout>
+
+package com.example.a13_customcheckbox
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.*
+
+class MainActivity : AppCompatActivity() {
+   override fun onCreate(savedInstanceState: Bundle?) {
+       super.onCreate(savedInstanceState)
+       setContentView(R.layout.activity_main)
+
+       val checkBox=findViewById<CheckBox>(R.id.customCheckbox)
+
+       checkBox.setOnCheckedChangeListener{_, isChecked ->
+           Toast.makeText(this,if(isChecked) "Checked" else "Unchecked", Toast.LENGTH_SHORT).show()
+
+
+       }
+
+
+   }
+}
+
+
+
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
+   android:orientation="vertical"
+   android:padding="24dp">
+
+   <CheckBox
+       android:id="@+id/customCheckbox"
+       android:layout_width="326dp"
+       android:layout_height="399dp"
+       android:button="@drawable/custom_checkbox"
+       android:text="I agree to terms and conditions"
+       android:textSize="18sp" />
+</LinearLayout>
+
+
+
+
+
+
+custom_checkbox.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+   <item android:drawable="@drawable/ic_baseline_star_24" android:state_checked="true" />
+   <item android:drawable="@drawable/ic_baseline_star_border_24" android:state_checked="false" />
+</selector>
+
+package com.example.a14_radio_button
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.*
+
+class MainActivity : AppCompatActivity() {
+   override fun onCreate(savedInstanceState: Bundle?) {
+       super.onCreate(savedInstanceState)
+       setContentView(R.layout.activity_main)
+
+       val radioGroup = findViewById<RadioGroup>(R.id.radioGroup)
+       val btnSubmit = findViewById<Button>(R.id.btn_submit)
+
+       btnSubmit.setOnClickListener {
+           val selectedId = radioGroup.checkedRadioButtonId
+
+           if (selectedId != -1) {
+               val selectedRadio = findViewById<RadioButton>(selectedId)
+               val gender = selectedRadio.text.toString()
+               Toast.makeText(this, "Selected: $gender", Toast.LENGTH_SHORT).show()
+           } else {
+               Toast.makeText(this, "Please select a gender", Toast.LENGTH_SHORT).show()
+           }
+       }
+
+   }
+}
+
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
+   android:orientation="vertical"
+   android:padding="16dp">
+
+   <RadioGroup
+       android:id="@+id/radioGroup"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content">
+
+       <RadioButton
+           android:id="@+id/radio_male"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Male" />
+
+       <RadioButton
+           android:id="@+id/radio_female"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Female" />
+
+       <RadioButton
+           android:id="@+id/radio_other"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Other" />
+   </RadioGroup>
+
+   <Button
+       android:id="@+id/btn_submit"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Submit" />
+</LinearLayout>
+
+package com.example.a171_custom_radiobutton
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.RadioGroup
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+   override fun onCreate(savedInstanceState: Bundle?) {
+       super.onCreate(savedInstanceState)
+       setContentView(R.layout.activity_main)
+
+       val radiogroup= findViewById<RadioGroup>(R.id.radioGroup)
+
+       radiogroup.setOnCheckedChangeListener{_,checkedId->
+       val selected=when(checkedId){
+           R.id.radio1->"I love Sweet!"
+           R.id.radio2->"I love Spicy!"
+           R.id.radio3->"I love Sour!"
+           else->""
+
+
+
+       }
+           Toast.makeText(this,"Selected: $selected",Toast.LENGTH_SHORT).show()
+       }
+
+   }
+}
+
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
+   android:orientation="vertical"
+   android:padding="24dp">
+
+   <RadioGroup
+       android:id="@+id/radioGroup"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content">
+
+   <RadioButton
+       android:id="@+id/radio1"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:button="@drawable/custom_radio_selector"
+       android:text="I love Sweet!" />
+
+   <RadioButton
+       android:id="@+id/radio2"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:button="@drawable/custom_radio_selector"
+       android:text="I love Spicy!" />
+
+   <RadioButton
+       android:id="@+id/radio3"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:button="@drawable/custom_radio_selector"
+       android:text="I love Sour!" />
+   </RadioGroup>
+
+
+
+</LinearLayout>
+
+
+
+Custom radio selector
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+   <item android:drawable="@drawable/ic_baseline_favorite_24" android:state_checked="true" />
+   <item android:drawable="@drawable/ic_baseline_favorite_border_24" android:state_checked="false" />
+
+</selector>
+
+package com.example.a18_alert_dialogue
+
+import android.content.DialogInterface
+import android.os.Bundle
+import android.support.v7.app.AlertDialog
+import android.support.v7.app.AppCompatActivity
+import android.widget.*
+
+
+class MainActivity : AppCompatActivity() {
+
+   lateinit var btnShowDialog: Button
+
+   override fun onCreate(savedInstanceState: Bundle?) {
+       super.onCreate(savedInstanceState)
+       setContentView(R.layout.activity_main)
+
+       btnShowDialog = findViewById(R.id.btnShowDialog)
+
+       btnShowDialog.setOnClickListener {
+           showAlertDialog()
+       }
+   }
+
+   private fun showAlertDialog() {
+       val builder = AlertDialog.Builder(this)
+       builder.setTitle("Confirmation")
+       builder.setMessage("Do you want to continue?")
+
+       builder.setPositiveButton("Yes") { dialog, _ ->
+           Toast.makeText(this, "You clicked Yes", Toast.LENGTH_SHORT).show()
+           dialog.dismiss()
+       }
+
+       builder.setNegativeButton("No") { dialog, _ ->
+           Toast.makeText(this, "You clicked No", Toast.LENGTH_SHORT).show()
+           dialog.dismiss()
+       }
+
+       builder.setNeutralButton("Cancel") { dialog, _ ->
+           Toast.makeText(this, "You clicked Cancel", Toast.LENGTH_SHORT).show()
+           dialog.dismiss()
+       }
+
+       val dialog = builder.create()
+       dialog.show()
+   }
+}
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
+   android:gravity="center"
+   android:orientation="vertical"
+   android:padding="16dp">
+
+   <Button
+       android:id="@+id/btnShowDialog"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Show Alert Dialog" />
+</LinearLayout>
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
+   android:padding="16dp">
+
+   <!-- Title TextView -->
+   <TextView
+       android:id="@+id/titleText"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="You people are so petty and tiny!"
+       android:textSize="24sp"
+       android:textStyle="bold"
+       android:layout_centerHorizontal="true" />
+
+   <!-- Image below the title -->
+   <ImageView
+       android:id="@+id/logoImage"
+       android:layout_width="200dp"
+       android:layout_height="200dp"
+       android:src="@drawable/img"
+       android:adjustViewBounds="true"
+       android:contentDescription="Thor"
+       android:layout_below="@id/titleText"
+       android:layout_centerHorizontal="true"
+       android:layout_marginTop="20dp" />
+
+   <!-- Button to the left -->
+   <Button
+       android:id="@+id/leftButton"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_below="@id/logoImage"
+       android:layout_alignParentStart="true"
+       android:layout_marginTop="30dp"
+       android:text="You are a god of what?" />
+
+   <!-- Button to the right -->
+   <Button
+       android:id="@+id/rightButton"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="I agree with you!"
+       android:layout_below="@id/logoImage"
+       android:layout_alignParentEnd="true"
+       android:layout_marginTop="30dp" />
+
+</RelativeLayout>
+
+package com.example.a22_relative_layout
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.*
+
+class MainActivity : AppCompatActivity() {
+   override fun onCreate(savedInstanceState: Bundle?) {
+       super.onCreate(savedInstanceState)
+       setContentView(R.layout.activity_main)
+
+
+       val leftButton=findViewById<Button>(R.id.leftButton)
+       val rightButton=findViewById<Button>(R.id.rightButton)
+
+       leftButton.setOnClickListener{
+           Toast.makeText(this,"Thunderrrrr!",Toast.LENGTH_SHORT).show()
+       }
+
+       rightButton.setOnClickListener{
+           Toast.makeText(this,"Because that's what heroes do!",Toast.LENGTH_SHORT).show()
+       }
+
+
+
+   }
+}
+
+
