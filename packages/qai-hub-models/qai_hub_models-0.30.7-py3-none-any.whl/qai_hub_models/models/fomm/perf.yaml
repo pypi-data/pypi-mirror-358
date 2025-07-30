@@ -1,0 +1,138 @@
+supported_devices:
+- Snapdragon 8 Elite QRD
+- Snapdragon X Elite CRD
+- Samsung Galaxy S24
+- Samsung Galaxy S24 Ultra
+- Samsung Galaxy S24+
+- Samsung Galaxy S23
+- Samsung Galaxy S23 Ultra
+- Samsung Galaxy S23+
+- Samsung Galaxy S22 5G
+- Samsung Galaxy S22 Ultra 5G
+- Samsung Galaxy S22+ 5G
+- Samsung Galaxy Tab S8
+- Xiaomi 12
+- Xiaomi 12 Pro
+- Samsung Galaxy S21
+- Samsung Galaxy S21 Ultra
+- Samsung Galaxy S21+
+- Snapdragon X Plus 8-Core CRD
+supported_chipsets:
+- qualcomm-snapdragon-8-elite
+- qualcomm-snapdragon-x-elite
+- qualcomm-snapdragon-8gen3
+- qualcomm-snapdragon-8gen2
+- qualcomm-snapdragon-8gen1
+- qualcomm-snapdragon-888
+- qualcomm-snapdragon-x-plus-8-core
+precisions:
+  float:
+    components:
+      FOMMDetector:
+        universal_assets:
+          onnx: mnoxv49pn
+        performance_metrics:
+          Samsung Galaxy S23:
+            onnx:
+              job_id: jp1ylwznp
+              job_status: Passed
+              inference_time_milliseconds: 4.739
+              estimated_peak_memory_range_mb:
+                min: 0
+                max: 69
+              primary_compute_unit: NPU
+              layer_counts:
+                total: 56
+                npu: 56
+          Samsung Galaxy S24:
+            onnx:
+              job_id: j570wlrng
+              job_status: Passed
+              inference_time_milliseconds: 3.559
+              estimated_peak_memory_range_mb:
+                min: 0
+                max: 24
+              primary_compute_unit: NPU
+              layer_counts:
+                total: 56
+                npu: 56
+          Snapdragon 8 Elite QRD:
+            onnx:
+              job_id: jpxnj6o85
+              job_status: Passed
+              inference_time_milliseconds: 3.845
+              estimated_peak_memory_range_mb:
+                min: 1
+                max: 17
+              primary_compute_unit: NPU
+              layer_counts:
+                total: 56
+                npu: 56
+          Snapdragon X Elite CRD:
+            onnx:
+              job_id: jgnlymvj5
+              job_status: Passed
+              inference_time_milliseconds: 4.96
+              estimated_peak_memory_range_mb:
+                min: 28
+                max: 28
+              primary_compute_unit: NPU
+              layer_counts:
+                total: 56
+                npu: 56
+      FOMMGenerator:
+        universal_assets:
+          onnx: mqev8y5km
+        performance_metrics:
+          Samsung Galaxy S23:
+            onnx:
+              job_id: jgde9q165
+              job_status: Passed
+              inference_time_milliseconds: 26.888
+              estimated_peak_memory_range_mb:
+                min: 0
+                max: 226
+              primary_compute_unit: NPU
+              layer_counts:
+                total: 150
+                npu: 138
+                cpu: 12
+          Samsung Galaxy S24:
+            onnx:
+              job_id: jp4kodr2g
+              job_status: Passed
+              inference_time_milliseconds: 18.754
+              estimated_peak_memory_range_mb:
+                min: 18
+                max: 74
+              primary_compute_unit: NPU
+              layer_counts:
+                total: 150
+                npu: 138
+                cpu: 12
+          Snapdragon 8 Elite QRD:
+            onnx:
+              job_id: j5mq26x7p
+              job_status: Passed
+              inference_time_milliseconds: 18.545
+              estimated_peak_memory_range_mb:
+                min: 4
+                max: 72
+              primary_compute_unit: NPU
+              layer_counts:
+                total: 150
+                npu: 138
+                cpu: 12
+          Snapdragon X Elite CRD:
+            onnx:
+              job_id: jpr8q23k5
+              job_status: Passed
+              inference_time_milliseconds: 24.832
+              estimated_peak_memory_range_mb:
+                min: 88
+                max: 88
+              primary_compute_unit: NPU
+              layer_counts:
+                total: 150
+                npu: 138
+                cpu: 12
