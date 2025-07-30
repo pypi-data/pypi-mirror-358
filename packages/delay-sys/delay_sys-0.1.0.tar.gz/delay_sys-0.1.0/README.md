@@ -1,0 +1,156 @@
+# delay_sys
+
+A Python library for discretizing continuous-time transfer functions with time delays.
+
+## Overview
+
+`delay_sys` provides utilities for converting continuous-time control systems to discrete-time while incorporating deadtime delays. The library is built on top of the `python-control` package and offers a simple interface for system discretization with configurable delay handling.
+
+## Installation
+
+### Using pip
+```bash
+pip install delay_sys
+```
+
+### Using uv (recommended for development)
+```bash
+git clone https://github.com/jamestjsp/delay_sys.git
+cd delay_sys
+uv sync
+```
+
+For development installation with pip:
+```bash
+git clone https://github.com/jamestjsp/delay_sys.git
+cd delay_sys
+pip install -e .
+```
+
+## Command-line Interface
+
+The package includes a demonstration command that shows step response comparison:
+
+```bash
+# Run the demonstration
+uv run delay_sys
+```
+
+This will:
+- Create a first-order continuous system G(s) = 1/(5s + 1)
+- Discretize it with sampling time h = 0.5 minutes
+- Add a deadtime of 2.0 minutes
+- Display both systems and plot their step responses
+
+## Quick Start
+
+```python
+import control as ct
+import delay_sys
+
+# Create a continuous-time transfer function
+G = ct.tf([1], [1, 2, 1])  # 1/(s^2 + 2s + 1)
+
+# Discretize with sampling time and deadtime
+Gd = delay_sys.system(
+    continuous_sys=G,
+    sample_time=0.1,
+    deadtime=0.3,
+    method='zoh'
+)
+
+print(Gd)
+```
+
+## API Reference
+
+### `system(continuous_sys, sample_time, deadtime=0.0, method='zoh')`
+
+Discretizes a continuous-time transfer function and adds a time delay.
+
+**Parameters:**
+- `continuous_sys` (control.TransferFunction): The continuous-time LTI system to be discretized and delayed
+- `sample_time` (float): The sampling period for discretization. Must be positive
+- `deadtime` (float, optional): Deadtime in the same units as `sample_time`. Defaults to 0.0
+- `method` (str, optional): Discretization method ('zoh', 'tustin', etc.). Defaults to 'zoh'
+
+**Returns:**
+- `control.TransferFunction`: A discrete-time transfer function with the specified delay
+
+**Raises:**
+- `ValueError`: If `sample_time` is not positive or `deadtime` is negative
+- `TypeError`: If the input system is not continuous-time
+- `NotImplementedError`: If the system is not SISO
+
+## Examples
+
+### Basic Discretization
+```python
+import control as ct
+import delay_sys
+
+# First-order system
+G = ct.tf([2], [1, 3])
+Gd = delay_sys.system(G, sample_time=0.1)
+```
+
+### With Deadtime
+```python
+# Add 0.5 second deadtime
+Gd_delayed = delay_sys.system(G, sample_time=0.1, deadtime=0.5)
+```
+
+### Different Discretization Methods
+```python
+# Using Tustin (bilinear) method
+Gd_tustin = delay_sys.system(G, sample_time=0.1, method='tustin')
+```
+
+## Features
+
+- **Multiple discretization methods**: Supports all methods available in `python-control`
+- **Integer delay handling**: Automatically rounds deadtime to nearest integer number of samples
+- **Input validation**: Comprehensive error checking for invalid parameters
+- **SISO systems**: Currently supports Single-Input Single-Output systems
+
+## Requirements
+
+- Python >= 3.8
+- control >= 0.9.0
+- numpy >= 1.19.0
+- matplotlib >= 3.0.0
+
+## Development
+
+### Using uv (recommended)
+```bash
+# Clone and setup
+git clone https://github.com/jamestjsp/delay_sys.git
+cd delay_sys
+
+# Install dependencies and run
+uv run delay_sys
+
+# Run with specific Python files
+uv run python -c "import delay_sys; print(delay_sys.system.__doc__)"
+```
+
+### Traditional development setup
+```bash
+pip install -e .
+python -m delay_sys
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
