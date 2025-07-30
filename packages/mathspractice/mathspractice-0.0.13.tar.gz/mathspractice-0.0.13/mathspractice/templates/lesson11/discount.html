@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1><a class="button" href="{{ url_for('lesson11.index') }}">{% block title %}Lesson 11 - Discount{% endblock %}</a></h1>
+{% endblock %}
+
+{% block content %}
+    <h1><a class="button" href="{{ form_url|safe }}">Discount</a></h1>
+    {% include 'stats.html' %}
+    {% include 'lesson11/form.html' %}
+{% endblock %}

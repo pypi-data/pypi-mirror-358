@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1><a class="button" href="{{ url_for('lesson11.index') }}">{% block title %}Lesson 11{% endblock %}</a></h1>
+{% endblock %}
+
+{% block content %}
+
+    <h1><a class="button" href="{{ url_for('lesson11.tips') }}">Tips</a></h1>
+    {% set lesson = 'lesson11' %}
+    {% set section = 'tips' %}
+    {% include 'stats.html' %}
+
+    <h1><a class="button" href="{{ url_for('lesson11.discount') }}">Discount</a></h1>
+    {% set lesson = 'lesson11' %}
+    {% set section = 'discount' %}
+    {% include 'stats.html' %}
+
+    <h1><a class="button" href="{{ url_for('lesson11.income_tax') }}">Income Tax</a></h1>
+    {% set lesson = 'lesson11' %}
+    {% set section = 'income_tax' %}
+    {% include 'stats.html' %}
+
+{% endblock %}
