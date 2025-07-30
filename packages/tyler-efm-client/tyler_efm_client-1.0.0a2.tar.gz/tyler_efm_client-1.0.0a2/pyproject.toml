@@ -1,0 +1,68 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tyler-efm-client"
+version = "1.0.0a2"
+description = "Python SDK for Tyler Technologies Electronic Filing Manager (EFM) Services"
+readme = "README.md"
+license = "MIT"
+authors = [
+    {name = "Tyler Technologies ECF Integration Team", email = "ecf-support@tylertech.com"}
+]
+maintainers = [
+    {name = "Tyler Technologies ECF Integration Team", email = "ecf-support@tylertech.com"}
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10", 
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    "Topic :: Office/Business :: Financial",
+    "Topic :: System :: Networking"
+]
+keywords = [
+    "tyler", "efm", "ecf", "electronic-filing", "court-filing",
+    "soap", "ws-security", "legal", "court", "filing"
+]
+dependencies = [
+    "requests>=2.25.0",
+    "cryptography>=3.4.0",
+    "lxml>=4.6.0"
+]
+requires-python = ">=3.9"
+
+[project.urls]
+Homepage = "https://github.com/tyler-technologies/cj-esol-efm-client-python"
+Documentation = "https://github.com/tyler-technologies/cj-esol-efm-client-python#readme"
+Repository = "https://github.com/tyler-technologies/cj-esol-efm-client-python.git"
+"Bug Reports" = "https://github.com/tyler-technologies/cj-esol-efm-client-python/issues"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0.0",
+    "pytest-cov>=2.10.0", 
+    "black>=21.0.0",
+    "flake8>=3.8.0",
+    "mypy>=0.812"
+]
+
+[tool.black]
+line-length = 100
+target-version = ['py38']
+
+[tool.setuptools]
+packages = ["tyler_efm_client"]
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true

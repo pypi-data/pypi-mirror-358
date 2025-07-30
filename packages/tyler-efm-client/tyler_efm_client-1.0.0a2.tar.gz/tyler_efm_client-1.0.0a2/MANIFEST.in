@@ -1,0 +1,19 @@
+# Include only essential package files
+include README.md
+include LICENSE
+include requirements.txt
+include pyproject.toml
+
+# Include only the main package
+recursive-include tyler_efm_client *.py
+
+# Exclude everything else
+prune samples
+prune examples
+prune docs
+prune tests
+exclude .gitignore
+exclude *.py
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+recursive-exclude * .DS_Store
