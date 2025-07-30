@@ -1,0 +1,7 @@
+# MANIFEST.in
+# Ensure config files are included in the package distribution
+
+include src/diagram_to_iac/config.yaml
+include src/diagram_to_iac/*.yaml
+recursive-include src/diagram_to_iac *.yaml
+recursive-include src/diagram_to_iac *.yml
