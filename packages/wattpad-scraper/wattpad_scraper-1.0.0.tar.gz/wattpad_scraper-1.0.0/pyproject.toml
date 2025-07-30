@@ -1,0 +1,20 @@
+[project]
+name = "wattpad-scraper"
+version = "1.0.0"
+description = "Automagically download any Wattpad book as an EPUB file. (new Wattpad update supported)"
+readme = "README.md"
+authors = [
+  { name="fen", email="notfenixi0@proton.me" },
+]
+requires-python = ">=3.12"
+dependencies = [
+    "beautifulsoup4>=4.13.4",
+    "colorama>=0.4.6",
+    "ebooklib>=0.19",
+    "pygments>=2.19.2",
+    "pytest>=8.4.1",
+    "requests>=2.32.3",
+]
+
+[project.scripts]
+wattpad-scraper = "wattpad_scraper.cli:main"
