@@ -1,0 +1,112 @@
+Metadata-Version: 2.4
+Name: pyeqx
+Version: 0.7.17
+Summary: Python library for interacting with Spark, Azure, Minio, and other data sources.
+Author: ESBM Cronus
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: adlfs>=2024.2.0
+Requires-Dist: azure-identity>=1.13.0
+Requires-Dist: azure-storage-blob>=12.16.0
+Requires-Dist: azure-storage-file-datalake>=12.11.0
+Requires-Dist: azure-storage-queue>=12.6.0
+Requires-Dist: delta-spark<3.3.0,>=3.2.0
+Requires-Dist: minio>=7.2.3
+Requires-Dist: numpy>=1.26.0
+Requires-Dist: pandas>=2.2.0
+Requires-Dist: psycopg2-binary>=2.9.9
+Requires-Dist: pymssql>=2.2.11
+Requires-Dist: pyspark>=3.5.3
+Requires-Dist: requests>=2.30.0
+Requires-Dist: tenacity>=8.2.1
+Requires-Dist: pyeqx-common>=0.1.0
+Provides-Extra: dev
+Requires-Dist: black; extra == "dev"
+Requires-Dist: ruff; extra == "dev"
+Requires-Dist: build; extra == "dev"
+Requires-Dist: twine; extra == "dev"
+Requires-Dist: python-dotenv; extra == "dev"
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: pytest-cov; extra == "dev"
+Requires-Dist: pytest-mock; extra == "dev"
+Requires-Dist: pytest-watch; extra == "dev"
+
+# esbm-dis-dfts-pyeqx-core
+
+Spark: `3.5.3`
+
+## pre-requisites
+
+to setup virtual environment to execute unit tests, it has to setup virtual env and install dependencies
+
+```bash
+# setup virtual env
+python3.12 -m venv .venv
+
+# activate virtual env
+source .venv/bin/activate
+
+# install dependencies
+pip install delta-spark pyspark pandas retrying minio requests
+
+# install dependencies (If you want to publish)
+pip install twine
+```
+
+## tests
+
+to execute unit test run this command at root of the project
+
+```bash
+python3 -m unittest discover test -p "**.py"
+
+# or
+
+pytest
+```
+
+## build
+
+```bash
+python3 -m pip install --upgrade build
+python3 -m build
+```
+
+## publish to testpypi
+
+```bash
+python3 -m twine upload --repository testpypi dist/*
+```
+
+## publish to pypi
+
+```bash
+python3 -m twine upload dist/*
+
+# specific config for pypi
+python3 -m twine upload --config-file .pypirc dist/*
+```
+
+## publish to gitlab
+
+```bash
+python3 -m twine upload --repository-url https://gitlab.com/api/v4/projects/<project_id>/packages/pypi/ --username gitlab-ci-token --password <access_token> dist/*
+
+# Replace <project_id> with the ID of your GitLab project
+```
+
+## install from gitlab
+
+```bash
+#install from pypi
+pip install pyeqx-core
+
+#install from testpypi
+pip install -i https://test.pypi.org/simple/ pyeqx-core
+
+# install from gitlab
+pip install datadriven-core --index-url https://__token__:<access_token>@gitlab.com/api/v4/projects/<project_id>/packages/pypi/simple
+pip install pyeqx-core --index-url https://__token__:<access_token>@gitlab.com/api/v4/projects/<project_id>/packages/pypi/simple
+# Replace <project_id> with the ID of your GitLab project
+```
