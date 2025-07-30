@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "producteca"
+version = "1.0.0"
+description = ""
+authors = ["Chroma Agency, Matias Rivera <mrivera@chroma.agency>"]
+readme = "README.md"
+
+[tool.poetry.scripts]
+generate_html_coverage = 'scripts:generate_html_coverage'
+get_coverage = 'scripts:get_coverage'
+test = 'scripts:test'
+main = 'logseek:main'
+
+[tool.poetry.dependencies]
+python = "^3.13"
+requests = "^2.32.3"
+coverage = "^7.6.3"
+pydantic = "^2.11.7"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
