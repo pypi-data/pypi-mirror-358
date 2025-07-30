@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "python3-cyberfusion-pagerduty-voys-webhook"
+version = "1.1.2"
+description = "Webhook server to dynamically route Voys calls to on-call PagerDuty users."
+readme = "README.md"
+authors = [
+    { name = "Cyberfusion", email = "support@cyberfusion.io" },
+]
+dependencies = [
+    "fastapi==0.92.0",
+    "requests==2.28.1",
+    "pydantic==1.10.4",
+]
+
+[project.urls]
+"Source" = "https://github.com/CyberfusionIO/python3-cyberfusion-pagerduty-voys-webhook"
