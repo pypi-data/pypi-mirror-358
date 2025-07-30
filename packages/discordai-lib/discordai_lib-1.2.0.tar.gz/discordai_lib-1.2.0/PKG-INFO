@@ -1,0 +1,218 @@
+Metadata-Version: 2.1
+Name: discordai-lib
+Version: 1.2.0
+Summary: Easy AI integration for Discord bots using Pollination.ai
+Home-page: https://github.com/VyeronServices/discordai-lib
+Author: VyeronServices
+Author-email: vyeronservices.official@gmail.com
+Project-URL: Bug Reports, https://github.com/VyeronServices/discordai-lib/issues
+Project-URL: Source, https://github.com/VyeronServices/discordai-lib
+Project-URL: Documentation, https://github.com/VyeronServices/discordai-lib#readme
+Project-URL: Discord Support, https://discord.gg/zsBNWvDu96
+Keywords: discord,bot,ai,pollination,deepseek,grok,openai,chatbot,image generation
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Communications :: Chat
+Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: aiohttp>=3.8.0
+Requires-Dist: discord.py>=2.3.0; extra == "discord"
+Requires-Dist: pytest
+Requires-Dist: pytest-asyncio
+Requires-Dist: twine
+Requires-Dist: discord-py
+Provides-Extra: discord
+Requires-Dist: discord.py>=2.3.0; extra == "discord"
+
+# Discord AI Library - Pollination.ai Integration
+
+🤖 **Easy AI integration for Discord bots using Pollination.ai**
+
+A simple, powerful Python library that lets you add AI capabilities to your Discord bot with just a few lines of code. Supports text generation and image creation using Pollination.ai's free API.
+
+## ✨ Features
+
+- 🧠 **Multiple AI Models**: DeepSeek V3, xAI Grok 3 Mini, OpenAI GPT-4.1
+- 🎨 **Image Generation**: High-quality images using Flux model (no watermarks)
+- ⚡ **Easy Setup**: Just 3 lines of code to get started
+- 🔧 **Customizable**: Custom commands, prefixes, and slash commands
+- 🎛️ **Flexible Modes**: Text-only, image-only, or both
+- 🚀 **Async/Await**: Fully asynchronous for optimal performance
+
+## 📦 Installation
+
+```bash
+pip install discord-ai-pollination
+```
+
+## 🚀 Quick Start
+
+```python
+import discord
+from discord.ext import commands
+import discordailib
+```
+
+## 🎮 Available Commands
+
+Once configured, your bot automatically gets these commands:
+
+### Text Commands
+- `!aichat <prompt>` - Chat with AI
+- `/aichat <prompt>` - Slash command version
+
+### Image Commands  
+- `!aiimage <prompt>` - Generate AI images
+- `/aiimage <prompt>` - Slash command version
+
+## ⚙️ Configuration Options
+
+### AI Models
+```python
+from discordailib import AIModel
+
+# Available models:
+AIModel.DEEPSEEK  # DeepSeek V3 (Default)
+AIModel.GROK      # xAI Grok 3 Mini  
+AIModel.OPENAI    # OpenAI GPT-4.1
+```
+
+### AI Features
+```python
+from discordailib import AIFeature
+
+AIFeature.TEXT_ONLY   # Only text AI (Default)
+AIFeature.IMAGE_ONLY  # Only image generation
+AIFeature.ALL         # Both text and images
+```
+
+### Full Configuration Example
+```python
+import discord
+from discord.ext import commands
+import discordailib
+```
+
+## 🔧 Advanced Usage
+
+### Custom AI Generation
+```python
+# Custom text generation
+response = await ai.custom_text_generation("Hello AI!", "gpt-4.1")
+
+# Custom image generation
+image_url = await ai.custom_image_generation(
+    prompt="A beautiful sunset",
+    width=1024,
+    height=1024,
+    style="artistic"
+)
+```
+
+### Bot Information
+```python
+# Get current AI configuration
+config = ai.get_model_info()
+print(config)
+# Output: {
+#     'model': 'deepseek-v3',
+#     'features': 'all', 
+#     'prefix': '!',
+#     'slash_commands': True,
+#     'text_enabled': True,
+#     'image_enabled': True
+# }
+```
+
+## 📋 Complete Example
+
+```python
+import discord
+from discord.ext import commands
+import discordailib
+```
+
+# Bot setup
+intents = discord.Intents.default()
+intents.message_content = True
+bot = commands.Bot(command_prefix='!', intents=intents)
+
+# AI setup
+ai = DiscordAI(
+    bot=bot,
+    model=AIModel.DEEPSEEK,
+    aifeature=AIFeature.ALL,
+    prefix="!",
+    slash=True
+)
+
+@bot.event
+async def on_ready():
+    print(f'{bot.user} is ready with AI capabilities!')
+    print(f'Configuration: {ai.get_model_info()}')
+
+# Additional custom command
+@bot.command(name="aihelp")
+async def ai_help(ctx):
+    embed = discord.Embed(
+        title="🤖 AI Bot Commands",
+        description="Available AI commands:",
+        color=0x00ff00
+    )
+    embed.add_field(name="!aichat <prompt>", value="Chat with AI", inline=False)
+    embed.add_field(name="!aiimage <prompt>", value="Generate images", inline=False)
+    await ctx.send(embed=embed)
+
+bot.run('YOUR_DISCORD_BOT_TOKEN')
+```
+
+## 🔑 API Key (Optional)
+
+While Pollination.ai offers free access, you can optionally provide an API key for enhanced features:
+
+```python
+ai = DiscordAI(
+    bot=bot,
+    api_key="your_pollination_api_key"
+)
+```
+
+## 📚 Requirements
+
+- Python 3.8+
+- discord.py 2.3.0+
+- aiohttp 3.8.0+
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🆘 Support
+
+- 📖 [Documentation](https://github.com/yourusername/discord-ai-pollination)
+- 🐛 [Bug Reports](https://github.com/yourusername/discord-ai-pollination/issues)
+- 💬 [Discord Support Server](https://discord.gg/zsBNWvDu96)
+- 📧 Email: vyeronservices.official@gmail.com
+
+## 🙏 Acknowledgments
+
+- [Pollination.ai](https://pollinations.ai) for providing free AI APIs
+- [Discord.py](https://discordpy.readthedocs.io/) for the excellent Discord library
+
+---
+
+**Made with ❤️ for the Discord developer community**
