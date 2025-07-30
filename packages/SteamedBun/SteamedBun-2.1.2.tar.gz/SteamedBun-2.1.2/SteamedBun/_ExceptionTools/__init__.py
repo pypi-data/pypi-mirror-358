@@ -1,0 +1,7 @@
+"""
+@Author: 虾仁 (chocolate)
+@Email: neihanshenshou@163.com
+@File: __init__.py
+@Time: 2023/12/22 19:57
+"""
+from .ExceptionCatch import hook_exceptions
