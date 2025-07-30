@@ -1,0 +1,57 @@
+[tool.poetry]
+name = "mw-python-sdk"
+version = "0.0.93"
+description = "ModelWhale Python SDK"
+authors = ["ModelWhale Developers <dev@heywhale.com>"]
+readme = "README.md"
+packages = [{ include = "mw_python_sdk", from = "src" }]
+homepage = "https://github.com/Kesci/mw-python-sdk"
+repository = "https://github.com/Kesci/mw-python-sdk"
+documentation = "https://github.com/Kesci/mw-python-sdk"
+keywords = []
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+
+[tool.poetry.dependencies]
+python = ">=3.10, <4.0"
+PyJWT = "*"
+requests = "*"
+boto3 = "^1.38.39"
+tqdm = "*"
+requests_unixsocket = "*"
+sseclient-py = "*"
+python-dotenv = "*"
+typer = "*"
+toml = "*"
+
+[tool.poetry.extras]
+test = ["pytest"]
+llm = [
+    'openai',
+    'fastapi',
+    'uvicorn',
+    'vllm',
+    'transformers',
+    'aiohttp',
+    'tqdm',
+    'pandas',
+    'matplotlib',
+    'pytz',
+    'pynvml',
+    'netifaces',
+]
+fs = ["fsspec"]
+
+[tool.poetry.scripts]
+mwcli = "mw_python_sdk.bin.mwcli:app"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = ["tests"]
