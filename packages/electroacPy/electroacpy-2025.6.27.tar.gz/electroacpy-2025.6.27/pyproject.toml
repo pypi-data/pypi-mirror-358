@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "electroacPy"
+version = "2025.06.27"
+authors = [
+  { name="Tom Munoz", email="munozt@outlook.fr" },
+]
+description = "Package for electro-acoustics with LEM/BEM approach."
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = ["numpy", "pandas", "pyarrow", "matplotlib",
+            "tqdm", "numba", "meshio", "scipy", "pyvista",
+            "pyuff", "gmsh", "plotly", "siphash24",
+]
+
+
+[tool.hatch.build]
+include = [
+    "electroacPy/**",  # Include all files under electroacPy
+    "generalToolbox/**",  # Include all files under generalToolbox
+    "bempp_cl/**"  # Include all files under bempp
+]
