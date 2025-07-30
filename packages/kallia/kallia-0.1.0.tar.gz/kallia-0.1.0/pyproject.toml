@@ -1,0 +1,42 @@
+[project]
+name = "kallia"
+version = "0.1.0"
+description = "Semantic Document Processing Library"
+readme = "README.md"
+license = "Apache-2.0"
+authors = [
+    {name = "CK", email = "hickwong@gmail.com"}
+]
+maintainers = [
+    {name = "CK", email = "hickwong@gmail.com"}
+]
+keywords = [
+    "document-processing",
+    "semantic-chunking",
+    "document-analysis",
+    "text-processing",
+    "machine-learning"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Text Processing :: General",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent"
+]
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi[standard]==0.115.14",
+    "docling==2.38.1",
+    "rapidocr-onnxruntime==1.4.4",
+    "opencv-python-headless==4.11.0.86"
+]
+
+[project.urls]
+Homepage = "https://github.com/kallia-project/kallia"
+Issues = "https://github.com/kallia-project/kallia/issues"
