@@ -1,0 +1,138 @@
+Metadata-Version: 2.3
+Name: mdbub
+Version: 0.3.12
+Summary: Terminal-first interactive mindmap CLI tool with extended markdown support
+License: Apache-2.0
+Keywords: cli,terminal,mindmap,markdown,productivity,tui
+Author: dudash
+Author-email: jason.dudash@gmail.com
+Requires-Python: >=3.9,<3.14
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Office/Business
+Classifier: Topic :: Software Development :: Documentation
+Classifier: Topic :: Text Processing :: Markup :: Markdown
+Classifier: Topic :: Utilities
+Requires-Dist: click (>=8.0.0,<8.2)
+Requires-Dist: markdown (>=3.8,<4.0)
+Requires-Dist: markdown-it-py (>=3.0.0,<4.0.0)
+Requires-Dist: packaging (>=25.0,<26.0)
+Requires-Dist: platformdirs (>=4.3.8,<5.0.0)
+Requires-Dist: prompt-toolkit (>=3.0.51,<4.0.0)
+Requires-Dist: pyyaml (>=6.0.2,<7.0.0)
+Requires-Dist: requests (>=2.32.3,<3.0.0)
+Requires-Dist: rich (>=14.0.0,<15.0.0)
+Requires-Dist: rich-click (>=1.8.9,<2.0.0)
+Requires-Dist: ruamel-yaml (>=0.18.10,<0.19.0)
+Requires-Dist: tomli (>=2.2.1,<3.0.0)
+Requires-Dist: typer (>=0.15.4,<0.16.0)
+Project-URL: Documentation, https://github.com/collabinator/mdbubbles/blob/main/README.md
+Project-URL: Homepage, https://github.com/collabinator/mdbubbles
+Project-URL: Repository, https://github.com/collabinator/mdbubbles
+Description-Content-Type: text/markdown
+
+
+# 🧠 mdbub
+
+> A mindmap tool for your terminal.
+> Fast. Fluid. Keyboard-native. Built for thinkers who live in the CLI.
+
+---
+
+## 🚀 What is `mdbub`?
+
+`mdbub` lets you build and manage mindmaps directly in your terminal. It's designed for speed-of-thought capture, with two streamlined modes: one for lightning-fast inline edits, and one for full-screen TUI visual editing.
+
+Unlike plain Markdown, `mdbub` lets you *structure* your ideas—navigate, fold, tag, and rework them instantly, using only your keyboard.
+
+---
+
+## 🧨 Killer Features
+
+- **Quick Mode**: Instant mini-editor for rapid note capture.
+- **Edit Mode**: Full-screen terminal interface for folding, searching, tagging.
+- **Keyboard-native UX**: Everything is hotkey driven. Customize to your liking.
+- **Pipe Mode (coming soon)**: Interoperable with the rest of your CLI stack.
+- **Zero-mouse flow**: It's not just fast. It feels *alive* under your fingertips.
+
+---
+
+## 💡 Example
+
+```bash
+mdbub tech_idea.mdbub
+```
+
+It looks like this:
+
+```
+【AI-Driven Co...】 > 【Core Concept】 > 【Voice Intera...】
+● Voice Interaction should be two-way
+└─ No children
+```
+Just start typing to edit the label on a node; or hit **enter** to add a sibling; or hit **tab** to add a child.
+
+If you add an id in the text, like this: `[id:design/api]`, you can comeback later directly to that node with a deeplink: `mdbub tech_idea.mdbub#design/api`
+
+While you work:
+- Add inline `#tags` to make them easier to find or filter
+- Add inline `@key:value` maps to track metadata of nodes
+- Add inline `[id:something]` ids to later link
+
+## 🛠 Installation
+
+### Quick Install (coming soon)
+```bash
+# PyPI (all platforms)
+pip install mdbub
+# or
+pipx install mdbub
+
+# Homebrew (macOS)
+brew install mdbub  # (when available in Homebrew Core)
+
+# Chocolatey (Windows)
+choco install mdbub  # (when available)
+```
+
+### Early Access
+While we work on getting into the main package repositories, you can install via:
+
+```bash
+# Development version
+pip install git+https://github.com/collabinator/mdbubbles.git
+```
+---
+
+## 🤝 Contribute
+
+Want to help shape the future of CLI-based structured thinking?
+
+- [Open issues](https://github.com/collabinator/mdbubbles/issues)
+- [Start a discussion](https://github.com/collabinator/mdbubbles/discussions)
+- [Follow the roadmap](https://github.com/collabinator/mdbubbles/projects)
+
+---
+
+## 🧠 Built for Thinkers
+
+`mdbub` is for people who think in trees.
+Who sketch in lists.
+Who live in the terminal.
+And who know that a good idea starts fast—and needs space to grow.
+
+
+
+## License
+This project is licensed under the Apache License 2.0 - see the [LICENSE](./LICENSE) file for details.
+
