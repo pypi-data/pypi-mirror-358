@@ -1,0 +1,1241 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "Pipeline Configuration",
+  "type": "object",
+  "title": "Pipeline Configuration",
+  "description": "Pipeline configuration for the AI Portifolio.",
+  "default": {},
+  "examples": [
+    {
+      "fileFormatVersion": 1,
+      "packageType": "full",
+      "dataFlowPipelineInfo": {
+        "packageId": "0ca7fefe-ada4-4ca9-ae0a-a71b5f43bd6",
+        "projectName": "Temperature Forecast Example",
+        "dataFlowPipelineVersion": "1.0.0",
+        "author": "Mathilda",
+        "description": "Temperature forecast from 3 features: pressure, temperature, density.",
+        "createdOn": "2021-04-29T09:57:16.692Z"
+      },
+      "dataFlowPipeline": {
+        "pipelineInputs": [
+          {
+            "name": "temperature",
+            "topic": "ie/d/j/simatic/v1/s7c1/dp/r/BozokiAir/default:temperature",
+            "type": "Double",
+            "schema": ""
+          },
+          {
+            "name": "pressure",
+            "type": "Double"
+          },
+          {
+            "name": "density",
+            "type": "Double"
+          }
+        ],
+        "pipelineOutputs": [
+          {
+            "name": "predictedTemperatureValues",
+            "type": "DoubleArray",
+            "topic": "plc01/j/dp/weather:forecast",
+            "schema": ""
+          }
+        ],
+        "pipelineParameters": [
+          {
+            "name": "windowing",
+            "type": "String",
+            "defaultValue": "{\"window_size\": 300, \"step_size\": 300}",
+            "valueTopic": "/some/magical/topic",
+            "topicBased": true
+          }
+        ],
+        "components": [
+          {
+            "name": "aggregator",
+            "description": "Aggregates inputs and vectorize",
+            "version": "1.0.1",
+            "runtime": {
+              "type": "python",
+              "version": "3.10"
+            },
+            "replicas": 1,
+            "hwType": "CPU",
+            "entrypoint": "aggregator.py",
+            "inputType": [
+              {
+                "name": "temperature",
+                "type": "Double"
+              },
+              {
+                "name": "pressure",
+                "type": "Double"
+              },
+              {
+                "name": "density",
+                "type": "Double"
+              }
+            ],
+            "outputType": [
+              {
+                "name": "weatherArray",
+                "type": "DoubleArray[60]"
+              }
+            ]
+          },
+          {
+            "name": "preprocessor",
+            "version": "1.0.1",
+            "runtime": {
+              "type": "python",
+              "version": "3.8"
+            },
+            "replicas": 1,
+            "hwType": "CPU",
+            "entrypoint": "preprocessor.py",
+            "inputType": [
+              {
+                "name": "weatherArray",
+                "type": "DoubleArray[60]",
+                "batchSize": 20,
+                "batchTime": 10
+              }
+            ],
+            "outputType": [
+              {
+                "name": "vector1",
+                "type": "DoubleArray[15]",
+                "batchSize": 20,
+                "batchTime": 10
+              }
+            ],
+            "parameters": [
+              {
+                "name": "param1",
+                "type": "Double"
+              },
+              {
+                "name": "param2",
+                "type": "json"
+              }
+            ]
+          },
+          {
+            "name": "AImodel",
+            "version": "1.0.1",
+            "runtime": {
+              "type": "ONNX",
+              "version": "1.0"
+            },
+            "framework": "Tensor Flow Keras",
+            "replicas": 1,
+            "hwType": "CPU",
+            "entrypoint": "model.onnx",
+            "inputType": [
+              {
+                "name": "vector1",
+                "type": "DoubleArray[60]"
+              },
+              {
+                "name": "weatherArray",
+                "type": "DoubleArray[60]"
+              }
+            ],
+            "outputType": [
+              {
+                "name": "temperatureForecast",
+                "type": "DoubleArray[15]"
+              }
+            ]
+          },
+          {
+            "name": "postprocessor",
+            "version": "1.0.1",
+            "runtime": {
+              "type": "python",
+              "version": "3.8"
+            },
+            "replicas": 1,
+            "hwType": "CPU",
+            "entrypoint": "postprocess.py",
+            "inputType": [
+              {
+                "name": "temperatureForecast",
+                "type": "DoubleArray[15]"
+              }
+            ],
+            "outputType": [
+              {
+                "name": "predictedTemperatureValues",
+                "type": "DoubleArray[15]"
+              }
+            ]
+          }
+        ],
+        "pipelineDag": [
+          {
+            "source": "Databus.temperature",
+            "target": "aggregator.temperature"
+          },
+          {
+            "source": "Databus.pressure",
+            "target": "aggregator.pressure"
+          },
+          {
+            "source": "Databus.density",
+            "target": "aggregator.density"
+          },
+          {
+            "source": "aggregator.weatherArray",
+            "target": "preprocessor.weatherArray"
+          },
+          {
+            "source": "preprocessor.vector1",
+            "target": "AImodel.vector1"
+          },
+          {
+            "source": "aggregator.vector2",
+            "target": "AImodel.vector2"
+          },
+          {
+            "source": "AImodel.temperatureForecast",
+            "target": "postprocessor.temperatureForecast"
+          },
+          {
+            "source": "postprocessor.predictedTemperatureValues",
+            "target": "Databus.predictedTemperatureValues"
+          }
+        ]
+      }
+    }
+  ],
+  "required": ["fileFormatVersion", "dataFlowPipelineInfo", "dataFlowPipeline"],
+  "properties": {
+    "fileFormatVersion": {
+      "$id": "#/properties/fileFormatVersion",
+      "type": "string",
+      "title": "fileFormatVersion",
+      "description": "Configuration file format version",
+      "examples": [1]
+    },
+    "packageType": {
+      "$id": "#/properties/dataFlowPipelineInfo/properties/packageType",
+      "type": "string",
+      "title": "Package type",
+      "description": "Pipeline package type",
+      "default": "",
+      "examples": ["full"]
+    },
+    "if": {
+      "properties": {
+        "packageType": {
+          "const": "delta"
+        }
+      }
+    },
+    "then": {
+      "required": ["originVersion"]
+    },
+    "originVersion": {
+      "$id": "#/properties/dataFlowPipelineInfo/properties/packageType/properties/originVersion",
+      "type": "string",
+      "title": "Origin version",
+      "description": "Version of the origin edge package",
+      "default": "",
+      "examples": ["1.0.0"]
+    },
+    "dataFlowPipelineInfo": {
+      "$id": "#/properties/dataFlowPipelineInfo",
+      "type": "object",
+      "title": "Pipeline definition",
+      "description": "Pipeline information",
+      "default": {},
+      "examples": [
+        {
+          "projectName": "Temperature Forecast Example",
+          "dataFlowPipelineVersion": "1.0.0",
+          "author": "Mathilda",
+          "description": "Temperature forecast from 3 features: pressure, temperature, density.",
+          "createdOn": "2021-04-29T09:57:16.692Z"
+        }
+      ],
+      "required": [
+        "projectName",
+        "dataFlowPipelineVersion",
+        "author",
+        "description",
+        "createdOn"
+      ],
+      "properties": {
+        "packageId": {
+          "$id": "#/properties/dataFlowPipelineInfo/properties/packageId",
+          "type": "string",
+          "title": "Package UUID",
+          "description": "Package UUID",
+          "default": "",
+          "examples": ["0ca7fefe-ada4-4ca9-ae0a-a71b5f43bd6"]
+        },
+        "projectName": {
+          "$id": "#/properties/dataFlowPipelineInfo/properties/projectName",
+          "type": "string",
+          "title": "Project Name",
+          "description": "Project name",
+          "default": "",
+          "examples": ["Temperature Forecast Example"]
+        },
+        "dataFlowPipelineVersion": {
+          "$id": "#/properties/dataFlowPipelineInfo/properties/dataFlowPipelineVersion",
+          "type": "string",
+          "title": "Pipeline Project Version",
+          "description": "Pipeline project version",
+          "default": "",
+          "examples": ["1.0.0"]
+        },
+        "author": {
+          "$id": "#/properties/dataFlowPipelineInfo/properties/author",
+          "type": "string",
+          "title": "Pipeline author name",
+          "description": "Pipeline author name",
+          "default": "",
+          "examples": ["Mathilda"]
+        },
+        "description": {
+          "$id": "#/properties/dataFlowPipelineInfo/properties/description",
+          "type": "string",
+          "title": "Pipeline description",
+          "description": "Pipeline description",
+          "default": "",
+          "examples": [
+            "Temperature forecast from 3 features: pressure, temperature, density."
+          ]
+        },
+        "createdOn": {
+          "$id": "#/properties/dataFlowPipelineInfo/properties/createdOn",
+          "type": "string",
+          "title": "Creation date",
+          "description": "Pipeline creation ISO datetime",
+          "default": "",
+          "examples": ["2021-04-29T09:57:16.692Z"]
+        },
+        "additionalProperties": false
+      }
+    },
+    "dataFlowPipeline": {
+      "$id": "#/properties/dataFlowPipeline",
+      "type": "object",
+      "title": "Pipeline Description",
+      "description": "Pipeline definition detailement",
+      "default": {},
+      "examples": [
+        {
+          "pipelineInputs": [
+            {
+              "name": "temperature",
+              "topic": "ie/d/j/simatic/v1/s7c1/dp/r/BozokiAir/default:temperature",
+              "type": "Double",
+              "schema": ""
+            },
+            {
+              "name": "pressure",
+              "type": "Double"
+            },
+            {
+              "name": "density",
+              "type": "Double"
+            }
+          ],
+          "pipelineOutputs": [
+            {
+              "name": "predictedTemperatureValues",
+              "type": "DoubleArray",
+              "topic": "plc01/j/dp/weather:forecast",
+              "schema": ""
+            }
+          ],
+          "pipelineParameters": [
+            {
+              "name": "windowing",
+              "type": "String",
+              "defaultValue": "{\"window_size\": 300, \"step_size\": 300}",
+              "valueTopic": "/some/magical/topic",
+              "topicBased": true
+            }
+          ],
+          "components": [
+            {
+              "name": "aggregator",
+              "description": "Aggregates inputs and vectorize",
+              "version": "1.0.1",
+              "runtime": {
+                "type": "python",
+                "version": "3.10"
+              },
+              "replicas": 1,
+              "hwType": "CPU",
+              "entrypoint": "aggregator.py",
+              "inputType": [
+                {
+                  "name": "temperature",
+                  "type": "Double"
+                },
+                {
+                  "name": "pressure",
+                  "type": "Double"
+                },
+                {
+                  "name": "density",
+                  "type": "Double"
+                }
+              ],
+              "outputType": [
+                {
+                  "name": "weatherArray",
+                  "type": "DoubleArray[60]"
+                }
+              ]
+            },
+            {
+              "name": "preprocessor",
+              "version": "1.0.1",
+              "runtime": {
+                "type": "python",
+                "version": "3.8"
+              },
+              "replicas": 1,
+              "hwType": "CPU",
+              "entrypoint": "preprocessor.py",
+              "inputType": [
+                {
+                  "name": "weatherArray",
+                  "type": "DoubleArray[60]",
+                  "batchSize": 20,
+                  "batchTime": 10
+                }
+              ],
+              "outputType": [
+                {
+                  "name": "vector1",
+                  "type": "DoubleArray[15]",
+                  "batchSize": 20,
+                  "batchTime": 10
+                }
+              ],
+              "parameters": [
+                {
+                  "name": "param1",
+                  "type": "Double"
+                },
+                {
+                  "name": "param2",
+                  "type": "json"
+                }
+              ]
+            },
+            {
+              "name": "AImodel",
+              "version": "1.0.1",
+              "runtime": {
+                "type": "ONNX",
+                "version": "1.0"
+              },
+              "framework": "Tensor Flow Keras",
+              "replicas": 1,
+              "hwType": "CPU",
+              "entrypoint": "model.onnx",
+              "inputType": [
+                {
+                  "name": "vector1",
+                  "type": "DoubleArray[60]"
+                },
+                {
+                  "name": "weatherArray",
+                  "type": "DoubleArray[60]"
+                }
+              ],
+              "outputType": [
+                {
+                  "name": "temperatureForecast",
+                  "type": "DoubleArray[15]"
+                }
+              ]
+            },
+            {
+              "name": "postprocessor",
+              "version": "1.0.1",
+              "runtime": {
+                "type": "python",
+                "version": "3.7"
+              },
+              "replicas": 1,
+              "hwType": "CPU",
+              "entrypoint": "postprocess.py",
+              "inputType": [
+                {
+                  "name": "temperatureForecast",
+                  "type": "DoubleArray[15]"
+                }
+              ],
+              "outputType": [
+                {
+                  "name": "predictedTemperatureValues",
+                  "type": "DoubleArray[15]"
+                }
+              ]
+            }
+          ],
+          "pipelineDag": [
+            {
+              "source": "Databus.temperature",
+              "target": "aggregator.temperature"
+            },
+            {
+              "source": "Databus.pressure",
+              "target": "aggregator.pressure"
+            },
+            {
+              "source": "Databus.density",
+              "target": "aggregator.density"
+            },
+            {
+              "source": "aggregator.weatherArray",
+              "target": "preprocessor.weatherArray"
+            },
+            {
+              "source": "preprocessor.vector1",
+              "target": "AImodel.vector1"
+            },
+            {
+              "source": "aggregator.vector2",
+              "target": "AImodel.vector2"
+            },
+            {
+              "source": "AImodel.temperatureForecast",
+              "target": "postprocessor.temperatureForecast"
+            },
+            {
+              "source": "postprocessor.predictedTemperatureValues",
+              "target": "Databus.predictedTemperatureValues"
+            }
+          ]
+        }
+      ],
+      "required": [
+        "pipelineInputs",
+        "pipelineOutputs",
+        "components",
+        "pipelineDag"
+      ],
+      "properties": {
+        "pipelineInputs": {
+          "$id": "#/properties/dataFlowPipeline/properties/pipelineInputs",
+          "type": "array",
+          "title": "Pipeline Input List",
+          "description": "Pipeline source data list. External variables/features",
+          "default": [],
+          "examples": [
+            [
+              {
+                "name": "temperature",
+                "topic": "ie/d/j/simatic/v1/s7c1/dp/r/BozokiAir/default:temperature",
+                "type": "Double",
+                "schema": ""
+              },
+              {
+                "name": "pressure",
+                "type": "Double"
+              }
+            ]
+          ],
+          "additionalItems": false,
+          "items": {
+            "$id": "#/properties/dataFlowPipeline/properties/pipelineInputs/items",
+            "anyOf": [
+              {
+                "$id": "#/properties/dataFlowPipeline/properties/pipelineInputs/items/anyOf/0",
+                "type": "object",
+                "title": "Variable details",
+                "description": "Variable/feature detailement.",
+                "default": {},
+                "examples": [
+                  {
+                    "name": "temperature",
+                    "topic": "ie/d/j/simatic/v1/s7c1/dp/r/BozokiAir/default:temperature",
+                    "type": "Double",
+                    "schema": ""
+                  }
+                ],
+                "required": ["name", "type"],
+                "properties": {
+                  "name": {
+                    "$id": "#/properties/dataFlowPipeline/properties/pipelineInputs/items/anyOf/0/properties/name",
+                    "type": "string",
+                    "title": "Variable Name",
+                    "description": "Variable/feature name used on the pipeline",
+                    "default": "",
+                    "examples": ["temperature"]
+                  },
+                  "topic": {
+                    "$id": "#/properties/dataFlowPipeline/properties/pipelineInputs/items/anyOf/0/properties/topic",
+                    "type": "string",
+                    "title": "Databus Topic",
+                    "description": "(optional) When defined previously, the topic can be informed without using the AI Datalink metadata.",
+                    "default": "",
+                    "examples": [
+                      "ie/d/j/simatic/v1/s7c1/dp/r/BozokiAir/default:temperature"
+                    ]
+                  },
+                  "type": {
+                    "$id": "#/properties/dataFlowPipeline/properties/pipelineInputs/items/anyOf/0/properties/type",
+                    "type": "string",
+                    "title": "Variable type",
+                    "description": "Variable/feature type.",
+                    "default": "",
+                    "examples": ["Json", "Double", "Integer", "String"]
+                  },
+                  "schema": {
+                    "$id": "#/properties/dataFlowPipeline/properties/pipelineInputs/items/anyOf/0/properties/schema",
+                    "type": "string",
+                    "title": "Variable Schema",
+                    "description": "(optional) json schema to process. #Feature to be detailed.",
+                    "default": "",
+                    "examples": [""]
+                  }
+                },
+                "additionalProperties": false
+              }
+            ]
+          }
+        },
+        "pipelineOutputs": {
+          "$id": "#/properties/dataFlowPipeline/properties/pipelineOutputs",
+          "type": "array",
+          "title": "Pipeline variables outputs",
+          "description": "Variables/prediction outputs",
+          "default": [],
+          "examples": [
+            [
+              {
+                "name": "predictedTemperatureValues",
+                "type": "DoubleArray",
+                "topic": "plc01/j/dp/weather:forecast",
+                "schema": ""
+              }
+            ]
+          ],
+          "additionalItems": false,
+          "items": {
+            "$id": "#/properties/dataFlowPipeline/properties/pipelineOutputs/items",
+            "anyOf": [
+              {
+                "$id": "#/properties/dataFlowPipeline/properties/pipelineOutputs/items/anyOf/0",
+                "type": "object",
+                "title": "Output detail",
+                "description": "Variable/prediction pipeline output to external apps.",
+                "default": {},
+                "examples": [
+                  {
+                    "name": "predictedTemperatureValues",
+                    "type": "DoubleArray",
+                    "topic": "plc01/j/dp/weather:forecast",
+                    "schema": ""
+                  }
+                ],
+                "required": ["name", "type"],
+                "properties": {
+                  "name": {
+                    "$id": "#/properties/dataFlowPipeline/properties/pipelineOutputs/items/anyOf/0/properties/name",
+                    "type": "string",
+                    "title": "Variable name",
+                    "description": "Name of the variable, used as refence internally",
+                    "default": "",
+                    "examples": ["predictedTemperatureValues"]
+                  },
+                  "type": {
+                    "$id": "#/properties/dataFlowPipeline/properties/pipelineOutputs/items/anyOf/0/properties/type",
+                    "type": "string",
+                    "title": "Variable type",
+                    "description": "Variable type",
+                    "default": "",
+                    "examples": ["DoubleArray"]
+                  },
+                  "topic": {
+                    "$id": "#/properties/dataFlowPipeline/properties/pipelineOutputs/items/anyOf/0/properties/topic",
+                    "type": "string",
+                    "title": "Output topic",
+                    "description": "(optional) Write output to topic on databus",
+                    "default": "",
+                    "examples": ["plc01/j/dp/weather:forecast"]
+                  },
+                  "metric": {
+                    "$id": "#/properties/dataFlowPipeline/properties/pipelineOutputs/items/anyOf/0/properties/metric",
+                    "type": "boolean",
+                    "title": "Flag for metrics set to True",
+                    "description": "(optional) Write output to topic on databus",
+                    "default": "",
+                    "examples": [true, false]
+                  },
+                  "schema": {
+                    "$id": "#/properties/dataFlowPipeline/properties/pipelineOutputs/items/anyOf/0/properties/schema",
+                    "type": "string",
+                    "title": "Variable Schema",
+                    "description": "(optional) json schema to process. #Feature to be detailed.",
+                    "default": "",
+                    "examples": [""]
+                  }
+                },
+                "additionalProperties": false
+              }
+            ]
+          }
+        },
+        "pipelineParameters": {
+          "$id": "#/properties/dataFlowPipeline/properties/pipelineParameters",
+          "type": "array",
+          "title": "Adjustable pipeline parameters",
+          "description": "Adjustable pipelinemarameters to adapt model execution to the changes.",
+          "default": [],
+          "examples": [
+            [
+              {
+                "name": "windowing",
+                "type": "String",
+                "defaultValue": "{\"window_size\": 300, \"step_size\": 300}",
+                "valueTopic": "/some/magical/topic",
+                "topicBased": true
+              }
+            ]
+          ],
+          "additionalItems": false,
+          "items": {
+            "$id": "#/properties/dataFlowPipeline/properties/pipelineParameters/items",
+            "anyOf": [
+              {
+                "$id": "#/properties/dataFlowPipeline/properties/pipelineParameters/items/anyOf/0",
+                "type": "object",
+                "title": "Output detail",
+                "description": "Variable/prediction pipeline output to external apps.",
+                "default": {},
+                "examples": [
+                  {
+                    "name": "windowing",
+                    "type": "String",
+                    "defaultValue": "{\"window_size\": 300, \"step_size\": 300}"
+                  }
+                ],
+                "required": ["name", "type", "defaultValue"],
+                "properties": {
+                  "name": {
+                    "$id": "#/properties/dataFlowPipeline/properties/pipelineParameters/items/anyOf/0/properties/name",
+                    "type": "string",
+                    "title": "Parameter name",
+                    "description": "Name of the variable, used as refence internally",
+                    "default": "",
+                    "examples": ["windowing"]
+                  },
+                  "type": {
+                    "$id": "#/properties/dataFlowPipeline/properties/pipelineParameters/items/anyOf/0/properties/type",
+                    "type": "string",
+                    "title": "Parameter type",
+                    "description": "Parameter type",
+                    "default": "",
+                    "examples": ["String"]
+                  },
+                  "defaultValue": {
+                    "$id": "#/properties/dataFlowPipeline/properties/pipelineParameters/items/anyOf/0/properties/defaultValue",
+                    "type": ["string", "boolean", "number"],
+                    "title": "Parameter Reset Value",
+                    "description": "Parameter Reset Value",
+                    "default": "",
+                    "examples": ["{\"window_size\": 300, \"step_size\": 300}"]
+                  },
+                  "topicBased": {
+                    "$id": "#/properties/dataFlowPipeline/properties/pipelineParameters/items/anyOf/0/properties/topicBased",
+                    "type": "boolean",
+                    "title": "Parameter update is topic based or not",
+                    "description": "(optional) True if parameter update is topic based",
+                    "default": "",
+                    "examples": [true, false]
+                  },
+                  "valueTopic": {
+                    "$id": "#/properties/dataFlowPipeline/properties/pipelineParameters/items/anyOf/0/properties/valueTopic",
+                    "type": ["string", "null"],
+                    "title": "Topic for Parameter Value update",
+                    "description": "(optional) Topic name if 'topicBased' property is True",
+                    "default": "",
+                    "examples": ["/some/magical/topic"]
+                  }
+                },
+                "additionalProperties": false
+              }
+            ]
+          }
+        },
+        "components": {
+          "$id": "#/properties/dataFlowPipeline/properties/components",
+          "type": "array",
+          "title": "Pipeline Component List",
+          "description": "Pipeline component list",
+          "default": [],
+          "examples": [
+            [
+              {
+                "name": "aggregator",
+                "description": "Aggregates inputs and vectorize",
+                "version": "1.0.1",
+                "runtime": {
+                  "type": "python",
+                  "version": "3.10"
+                },
+                "replicas": 1,
+                "hwType": "CPU",
+                "entrypoint": "aggregator.py",
+                "inputType": [
+                  {
+                    "name": "temperature",
+                    "type": "Double"
+                  },
+                  {
+                    "name": "pressure",
+                    "type": "Double"
+                  },
+                  {
+                    "name": "density",
+                    "type": "Double"
+                  }
+                ],
+                "outputType": [
+                  {
+                    "name": "weatherArray",
+                    "type": "DoubleArray[60]"
+                  }
+                ]
+              },
+              {
+                "name": "preprocessor",
+                "version": "1.0.1",
+                "runtime": {
+                  "type": "python",
+                  "version": "3.7"
+                },
+                "replicas": 1,
+                "hwType": "CPU",
+                "entrypoint": "preprocessor.py",
+                "inputType": [
+                  {
+                    "name": "weatherArray",
+                    "type": "DoubleArray[60]",
+                    "batchSize": 20,
+                    "batchTime": 10
+                  }
+                ],
+                "outputType": [
+                  {
+                    "name": "vector1",
+                    "type": "DoubleArray[15]",
+                    "batchSize": 20,
+                    "batchTime": 10
+                  }
+                ],
+                "parameters": [
+                  {
+                    "name": "param1",
+                    "type": "Double"
+                  },
+                  {
+                    "name": "param2",
+                    "type": "json"
+                  }
+                ]
+              }
+            ]
+          ],
+          "additionalItems": false,
+          "items": {
+            "$id": "#/properties/dataFlowPipeline/properties/components/items",
+            "anyOf": [
+              {
+                "$id": "#/properties/dataFlowPipeline/properties/components/items/anyOf/0",
+                "type": "object",
+                "title": "Pipeline Component Detail",
+                "description": "Pipeline component detail",
+                "default": {},
+                "examples": [
+                  {
+                    "name": "aggregator",
+                    "description": "Aggregates inputs and vectorize",
+                    "version": "1.0.1",
+                    "runtime": {
+                      "type": "python",
+                      "version": "3.10"
+                    },
+                    "replicas": 1,
+                    "hwType": "CPU",
+                    "entrypoint": "aggregator.py",
+                    "inputType": [
+                      {
+                        "name": "temperature",
+                        "type": "Double"
+                      },
+                      {
+                        "name": "pressure",
+                        "type": "Double"
+                      },
+                      {
+                        "name": "density",
+                        "type": "Double"
+                      }
+                    ],
+                    "outputType": [
+                      {
+                        "name": "weatherArray",
+                        "type": "DoubleArray[60]"
+                      }
+                    ]
+                  }
+                ],
+                "required": [
+                  "name",
+                  "version",
+                  "runtime",
+                  "hwType",
+                  "entrypoint",
+                  "inputType",
+                  "outputType"
+                ],
+                "properties": {
+                  "name": {
+                    "$id": "#/properties/dataFlowPipeline/properties/components/items/anyOf/0/properties/name",
+                    "type": "string",
+                    "title": "Componenent name",
+                    "description": "Component name",
+                    "default": "",
+                    "examples": ["aggregator"]
+                  },
+                  "description": {
+                    "$id": "#/properties/dataFlowPipeline/properties/components/items/anyOf/0/properties/description",
+                    "type": ["string", "null"],
+                    "title": "Component description",
+                    "description": "Pipeline component description",
+                    "default": "",
+                    "examples": ["Aggregates inputs and vectorize"]
+                  },
+                  "version": {
+                    "$id": "#/properties/dataFlowPipeline/properties/components/items/anyOf/0/properties/version",
+                    "type": "string",
+                    "title": "Component Version",
+                    "description": "Pipeline component version",
+                    "default": "",
+                    "examples": ["1.0.1"]
+                  },
+                  "runtime": {
+                    "$id": "#/properties/dataFlowPipeline/properties/components/items/anyOf/0/properties/runtime",
+                    "type": "object",
+                    "title": "The runtime schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": {},
+                    "examples": [
+                      {
+                        "type": "python",
+                        "version": "3.10"
+                      }
+                    ],
+                    "required": ["type", "version"],
+                    "properties": {
+                      "type": {
+                        "$id": "#/properties/dataFlowPipeline/properties/components/items/anyOf/0/properties/runtime/properties/type",
+                        "type": "string",
+                        "title": "Runtime Type",
+                        "description": "Indicates the runtime which shall be used to execute the component",
+                        "default": "",
+                        "enum": ["python", "gpuruntime"],
+                        "examples": ["python"]
+                      },
+                      "version": {
+                        "$id": "#/properties/dataFlowPipeline/properties/components/items/anyOf/0/properties/runtime/properties/version",
+                        "type": "string",
+                        "title": "Runtime Version",
+                        "description": "Indicates the runtime version",
+                        "default": "",
+                        "examples": ["3.8", "3.10"]
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "replicas": {
+                    "$id": "#/properties/dataFlowPipeline/properties/components/items/anyOf/0/properties/replicas",
+                    "type": "integer",
+                    "title": "Recomended parallel processes",
+                    "description": "Indicates the number of parallel process. #TBD",
+                    "default": 1,
+                    "examples": [1]
+                  },
+                  "hwType": {
+                    "$id": "#/properties/dataFlowPipeline/properties/components/items/anyOf/0/properties/hwType",
+                    "type": "string",
+                    "title": "Hardware type",
+                    "description": "Hardware type target to run the model.",
+                    "default": "",
+                    "enum": ["CPU", "GPU"],
+                    "examples": ["CPU", "GPU", "TPU"]
+                  },
+                  "entrypoint": {
+                    "$id": "#/properties/dataFlowPipeline/properties/components/items/anyOf/0/properties/entrypoint",
+                    "type": "string",
+                    "title": "Main model/script file",
+                    "description": "Main model/script file name to import on the AI Runtime",
+                    "default": "",
+                    "examples": ["aggregator.py", "model1.onnx"]
+                  },
+                  "batch": {
+                      "$id": "#/properties/dataFlowPipeline/properties/components/items/anyOf/0/properties/batch",
+                      "type": "object",
+                      "title": "Batch processing",
+                      "description": "Indicates if the component is batch processing",
+                      "default": {
+                          "inputBatch": "Yes",
+                          "outputBatch": "No"
+                      },
+                      "examples": [
+                          {
+                              "inputBatch": "Yes",
+                              "outputBatch": "No"
+                          }
+                      ],
+                      "required": [
+                          "inputBatch",
+                          "outputBatch"
+                      ],
+                      "properties": {
+                          "inputBatch": {
+                              "$id": "#/properties/dataFlowPipeline/properties/components/items/anyOf/0/properties/batch/properties/inputBatch",
+                              "type": "string",
+                              "title": "Input Batch",
+                              "description": "Indicates if the input is batch processing",
+                              "default": "No",
+                              "examples": [
+                                  "Yes"
+                              ]
+                          },
+                          "outputBatch": {
+                              "$id": "#/properties/dataFlowPipeline/properties/components/items/anyOf/0/properties/batch/properties/outputBatch",
+                              "type": "string",
+                              "title": "Output Batch",
+                              "description": "Indicates if the output is batch processing",
+                              "default": "No",
+                              "examples": [
+                                  "Yes"
+                              ]
+                          }
+                      }
+                  },
+                  "inputType": {
+                    "$id": "#/properties/dataFlowPipeline/properties/components/items/anyOf/0/properties/inputType",
+                    "type": "array",
+                    "title": "Script/Model Input list",
+                    "description": "Script/Model input and type list",
+                    "default": [],
+                    "examples": [
+                      [
+                        {
+                          "name": "temperature",
+                          "type": "Double"
+                        },
+                        {
+                          "name": "pressure",
+                          "type": "Double"
+                        }
+                      ]
+                    ],
+                    "additionalItems": false,
+                    "items": {
+                      "$id": "#/properties/dataFlowPipeline/properties/components/items/anyOf/0/properties/inputType/items",
+                      "anyOf": [
+                        {
+                          "$id": "#/properties/dataFlowPipeline/properties/components/items/anyOf/0/properties/inputType/items/anyOf/0",
+                          "type": "object",
+                          "title": "Variable Details",
+                          "description": "Variable/feature detailment",
+                          "default": {},
+                          "examples": [
+                            {
+                              "name": "temperature",
+                              "type": "Double"
+                            }
+                          ],
+                          "required": ["name", "type"],
+                          "properties": {
+                            "name": {
+                              "$id": "#/properties/dataFlowPipeline/properties/components/items/anyOf/0/properties/inputType/items/anyOf/0/properties/name",
+                              "type": "string",
+                              "title": "Variable name",
+                              "description": "Input variable name",
+                              "default": "",
+                              "examples": ["temperature"]
+                            },
+                            "type": {
+                              "$id": "#/properties/dataFlowPipeline/properties/components/items/anyOf/0/properties/inputType/items/anyOf/0/properties/type",
+                              "type": "string",
+                              "title": "Variable type",
+                              "description": "Input variable type",
+                              "default": "",
+                              "examples": [
+                                "Double",
+                                "Integer",
+                                "DoubleArray[15]"
+                              ]
+                            },
+                            "batchSize": {
+                              "$id": "#/properties/dataFlowPipeline/properties/components/items/anyOf/1/properties/outputType/items/anyOf/0/properties/batchSize",
+                              "type": "integer",
+                              "title": "Batch Size",
+                              "description": "Accumulate the values generating vectors. #TBD",
+                              "default": 0,
+                              "examples": [20]
+                            },
+                            "batchTime": {
+                              "$id": "#/properties/dataFlowPipeline/properties/components/items/anyOf/1/properties/outputType/items/anyOf/0/properties/batchTime",
+                              "type": "integer",
+                              "title": "Batch Time",
+                              "description": "Maximum time accumulating values in miliseconds. #TBD",
+                              "default": 0,
+                              "examples": [10]
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      ]
+                    }
+                  },
+                  "outputType": {
+                    "$id": "#/properties/dataFlowPipeline/properties/components/items/anyOf/2/properties/outputType",
+                    "type": "array",
+                    "title": "Component Output List",
+                    "description": "Component output list",
+                    "default": [],
+                    "examples": [
+                      [
+                        {
+                          "name": "temperatureForecast",
+                          "type": "DoubleArray[15]"
+                        }
+                      ]
+                    ],
+                    "additionalItems": false,
+                    "items": {
+                      "$id": "#/properties/dataFlowPipeline/properties/components/items/anyOf/2/properties/outputType/items",
+                      "anyOf": [
+                        {
+                          "$id": "#/properties/dataFlowPipeline/properties/components/items/anyOf/2/properties/outputType/items/anyOf/0",
+                          "type": "object",
+                          "title": "Output Object",
+                          "description": "Output Detail",
+                          "default": {},
+                          "examples": [
+                            {
+                              "name": "temperatureForecast",
+                              "type": "DoubleArray[15]"
+                            }
+                          ],
+                          "required": ["name", "type"],
+                          "properties": {
+                            "name": {
+                              "$id": "#/properties/dataFlowPipeline/properties/components/items/anyOf/2/properties/outputType/items/anyOf/0/properties/name",
+                              "type": "string",
+                              "title": "Output Name",
+                              "description": "Output name",
+                              "default": "",
+                              "examples": ["temperatureForecast"]
+                            },
+                            "type": {
+                              "$id": "#/properties/dataFlowPipeline/properties/components/items/anyOf/2/properties/outputType/items/anyOf/0/properties/type",
+                              "type": "string",
+                              "title": "Output Type",
+                              "description": "Output type",
+                              "default": "",
+                              "examples": ["DoubleArray[15]"]
+                            },
+                            "metric": {
+                              "$id": "#/properties/dataFlowPipeline/properties/components/items/anyOf/2/properties/outputType/items/anyOf/0/properties/metric",
+                              "type": "boolean",
+                              "title": "Flag for metrics set to True",
+                              "description": "(optional) Write output to topic on databus",
+                              "default": false,
+                              "examples": [true, false]
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      ]
+                    }
+                  }
+                },
+                "additionalProperties": false
+              }
+            ]
+          }
+        },
+        "pipelineDag": {
+          "$id": "#/properties/dataFlowPipeline/properties/pipelineDag",
+          "type": "array",
+          "title": "Pipeline Description",
+          "description": "Pipeline description. Directed Acyclic Graph",
+          "default": [],
+          "examples": [
+            [
+              {
+                "source": "Databus.temperature",
+                "target": "aggregator.temperature"
+              },
+              {
+                "source": "Databus.pressure",
+                "target": "aggregator.pressure"
+              }
+            ]
+          ],
+          "additionalItems": false,
+          "items": {
+            "$id": "#/properties/dataFlowPipeline/properties/pipelineDag/items",
+            "anyOf": [
+              {
+                "$id": "#/properties/dataFlowPipeline/properties/pipelineDag/items/anyOf/0",
+                "type": "object",
+                "title": "Pipeline link",
+                "description": "Link between source and target, defining the pipeline data flow. Syntax: {component}.{variable}",
+                "default": {},
+                "examples": [
+                  {
+                    "source": "Databus.temperature",
+                    "target": "aggregator.temperature"
+                  }
+                ],
+                "required": ["source", "target"],
+                "properties": {
+                  "source": {
+                    "$id": "#/properties/dataFlowPipeline/properties/pipelineDag/items/anyOf/0/properties/source",
+                    "type": "string",
+                    "title": "Variable Source",
+                    "description": "Variable source. Can be a pipeline input or a previous component output.",
+                    "default": "",
+                    "examples": ["Databus.temperature"]
+                  },
+                  "target": {
+                    "$id": "#/properties/dataFlowPipeline/properties/pipelineDag/items/anyOf/0/properties/target",
+                    "type": "string",
+                    "title": "Variable Target",
+                    "description": "Variable target. Can be the next component output or pipeline output.",
+                    "default": "",
+                    "examples": ["aggregator.temperature"]
+                  }
+                },
+                "additionalProperties": false
+              }
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

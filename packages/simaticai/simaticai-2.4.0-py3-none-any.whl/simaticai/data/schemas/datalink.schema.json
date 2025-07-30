@@ -1,0 +1,161 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "#/properties/datalink_metadata",
+    "type": "object",
+    "title": "Datalink Metadata",
+    "description": "Describes the minimal content on the Datalink Metadata file.",
+    "default": {},
+    "examples": [
+        {
+            "fileFormatVersion": 1,
+            "id": "70aa432a-8dcb-4015-8b68-b3ad0ae7a62a",
+            "version": "0.0.1",
+            "createdOn": "2021-03-16T09:57:16.692Z",
+            "inputs": [
+                {
+                    "name": "temperature",
+                    "mapping": "ie/d/j/simatic/v1/s7c1/dp/r/BozokiAir/default:BozokiAir_DB_temperature",
+                    "type": "Real"
+                },
+                {
+                    "name": "pressure",
+                    "mapping": "ie/d/j/simatic/v1/s7c1/dp/r/BozokiAir/default:BozokiAir_DB_pressure",
+                    "type": "Real"
+                },
+                {
+                    "name": "density",
+                    "mapping": "ie/d/j/simatic/v1/s7c1/dp/r/BozokiAir/default:BozokiAir_DB_density",
+                    "type": "Real"
+                }
+            ]
+        }
+    ],
+    "required": [
+        "fileFormatVersion",
+        "id",
+        "version",
+        "createdOn",
+        "inputs"
+    ],
+    "properties": {
+        "fileFormatVersion": {
+            "$id": "#/properties/fileFormatVersion",
+            "type": "string",
+            "title": "fileFormatVersion",
+            "description": "Configuration file format version",
+            "examples": [
+                1
+            ]
+        },
+        "id": {
+            "$id": "#/properties/id",
+            "type": "string",
+            "title": "id",
+            "description": "Dataset id",
+            "default": "",
+            "examples": [
+                "70aa432a-8dcb-4015-8b68-b3ad0ae7a62a"
+            ]
+        },
+        "version": {
+            "$id": "#/properties/version",
+            "type": "string",
+            "title": "version",
+            "description": "Dataset version",
+            "default": "",
+            "examples": [
+                "0.0.1"
+            ]
+        },
+        "createdOn": {
+            "$id": "#/properties/createdOn",
+            "type": "string",
+            "title": "createdOn",
+            "description": "Dataset creation ISO datetime ",
+            "default": "",
+            "examples": [
+                "2021-03-16T09:57:16.692Z"
+            ]
+        },
+        "inputs": {
+            "$id": "#/properties/inputs",
+            "type": "array",
+            "title": "inputs",
+            "description": "Dataset variable list, commonly are the predicted model input/features",
+            "default": [],
+            "examples": [
+                [
+                    {
+                        "name": "temperature",
+                        "mapping": "ie/d/j/simatic/v1/s7c1/dp/r/BozokiAir/default:BozokiAir_DB_temperature",
+                        "type": "Real"
+                    },
+                    {
+                        "name": "pressure",
+                        "mapping": "ie/d/j/simatic/v1/s7c1/dp/r/BozokiAir/default:BozokiAir_DB_pressure",
+                        "type": "Real"
+                    }
+                ]
+            ],
+            "additionalItems": true,
+            "items": {
+                "$id": "#/properties/inputs/items",
+                "anyOf": [
+                    {
+                        "$id": "#/properties/inputs/items/anyOf/0",
+                        "type": "object",
+                        "title": "variable detail",
+                        "description": "Specify the variables information, how it links with the Databus",
+                        "default": {},
+                        "examples": [
+                            {
+                                "name": "temperature",
+                                "mapping": "ie/d/j/simatic/v1/s7c1/dp/r/BozokiAir/default:BozokiAir_DB_temperature",
+                                "type": "Real"
+                            }
+                        ],
+                        "required": [
+                            "name",
+                            "mapping",
+                            "type"
+                        ],
+                        "properties": {
+                            "name": {
+                                "$id": "#/properties/inputs/items/anyOf/0/properties/name",
+                                "type": "string",
+                                "title": "variable name",
+                                "description": "Name of the variable",
+                                "default": "",
+                                "examples": [
+                                    "temperature"
+                                ]
+                            },
+                            "mapping": {
+                                "$id": "#/properties/inputs/items/anyOf/0/properties/mapping",
+                                "type": "string",
+                                "title": "databusTopic",
+                                "description": "Topic associated with the variable on Databus",
+                                "default": "",
+                                "examples": [
+                                    "ie/d/j/simatic/v1/s7c1/dp/r/BozokiAir/default:BozokiAir_DB_temperature"
+                                ]
+                            },
+                            "type": {
+                                "$id": "#/properties/inputs/items/anyOf/0/properties/type",
+                                "type": "string",
+                                "title": "variable type",
+                                "description": "Type of the variable",
+                                "default": "",
+                                "examples": [
+                                    "Real","Integer", "String"
+                                ]
+                            }
+                        },
+                        "additionalProperties": true
+                    }
+                ]
+            }
+        }
+    },
+    "additionalProperties": true
+}
