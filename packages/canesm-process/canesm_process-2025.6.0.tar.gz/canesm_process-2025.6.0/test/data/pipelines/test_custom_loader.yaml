@@ -1,0 +1,32 @@
+setup:
+  output_directories:
+    monthly: "diags/monthly"
+    timing: "diags/timing"
+
+  canesm_version: "6.0"
+  file_format: "netcdf4"
+
+  stages:
+    - monthly
+    - timing
+
+
+# test to replace the loader with no options
+monthly:
+  variables:
+    - GT:
+        loader: mymodule.load_ccc
+
+
+# more general loader replacement that also test source replacement, inclusion of variable from prior stage
+timing:
+  reuse: monthly
+  variables:
+    - timing:
+        source: "{input}/timing.output"
+        loader: 
+          function: mymodule.load_timing
+          args: [source]
+          kwargs:
+            engine: csv
+        
