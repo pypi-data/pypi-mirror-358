@@ -1,0 +1,55 @@
+Metadata-Version: 2.4
+Name: cutted
+Version: 0.3.2
+Summary: AI-powered audio editor controllable via natural language.
+Author-email: simon0302010 <simon0302010@gmail.com>
+License-Expression: GPL-3.0
+Project-URL: Homepage, https://github.com/simon0302010/Cutted
+Requires-Python: <=3.13,>=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: customtkinter
+Requires-Dist: matplotlib
+Requires-Dist: numpy
+Requires-Dist: pydub
+Requires-Dist: pygame
+Requires-Dist: google-genai
+Requires-Dist: python-dotenv
+Provides-Extra: whisper
+Requires-Dist: whisper-timestamped; extra == "whisper"
+Dynamic: license-file
+
+![PyPI](https://img.shields.io/pypi/v/cutted?color=blue)
+![PyPI - License](https://img.shields.io/pypi/l/lyriks-video)
+![Hackatime](https://hackatime-badge.hackclub.com/U08HC7N4JJW/Cutted)
+
+# Cutted
+
+AI-powered audio editor controlled by natural language 🚀
+
+Let AI handle your audio editing with simple commands:
+- Automatically detect quiet or loud parts
+- Transcribe audio (if Whisper is installed)
+- Cut, trim, or adjust volume for specific segments
+
+## Installation
+
+1. **Install system dependencies (e.g., FFmpeg).**  
+2. **Install Cutted**  
+```bash
+pip install cutted
+```
+**With Whisper support**  
+```bash
+pip install cutted[whisper]
+```
+  
+## Usage
+
+1. **Launch the app:**  
+   ```bash
+   python -m cutted
+   ```
+2. **Load an audio file** (MP3, WAV, etc.)  
+3. **Play, Cut, Undo** – all from the GUI or with text commands ✂️
+4. **Export** as MP3 or WAV  
