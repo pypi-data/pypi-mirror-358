@@ -1,0 +1,41 @@
+Metadata-Version: 2.3
+Name: oauth-userdb
+Version: 1.0.5
+Summary: 
+Author: Jimming Cheng
+Author-email: jimming@gmail.com
+Requires-Python: >=3.9,<4.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Dist: oauthlib (>=3.3.1,<4.0.0)
+Requires-Dist: pyjwt (>=2.10.1,<3.0.0)
+Requires-Dist: requests (>=2.32.4,<3.0.0)
+Description-Content-Type: text/markdown
+
+# oauth_userdb
+OAuth User Database
+
+
+## Versions
+
+### 1.0.4
+
+- include client_id/client_secret in refresh request
+
+### 1.0.3
+
+- avoid writing null refresh_token if server does not include refresh_token in refresh request
+
+### 1.0.2
+
+- fix refresh token flow
+
+### 1.0.1
+
+- make scope an optional return type, make redirect_url an optional param (kwarg)
+
+
