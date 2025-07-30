@@ -1,0 +1,30 @@
+[CDF-24930] 🤖 Transformation profiler try2 (#1661)
+
+# Description
+
+Stacked on #1653 #1655 #1660 #1664 
+
+In the migration work, we need to have a simple way of understanding the
+data flow of a project. This profiling command gives a quick overview.
+
+
+![image](https://github.com/user-attachments/assets/6273dd7c-8f56-4077-8ee5-6d04d624cbe7)
+
+# Todo - tests
+
+## Changelog
+
+- [x] Patch
+- [ ] Minor
+- [ ] Skip
+
+## cdf
+
+### Added
+
+- [alpha] `cdf profile transformations` profiling all transformations
+that writes to a given destination.
+
+## templates
+
+No changes.
