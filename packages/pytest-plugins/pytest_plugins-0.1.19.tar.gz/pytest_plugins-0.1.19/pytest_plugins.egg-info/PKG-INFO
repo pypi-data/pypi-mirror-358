@@ -1,0 +1,97 @@
+Metadata-Version: 2.4
+Name: pytest-plugins
+Version: 0.1.19
+Summary: A Python package for managing pytest plugins.
+Home-page: https://github.com/aviz92/pytest-plugins
+Author: Avi Zaguri
+Author-email: 
+Project-URL: Repository, https://github.com/aviz92/pytest-plugins
+Classifier: Framework :: Pytest
+Classifier: Programming Language :: Python
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: setuptools
+Requires-Dist: wheel
+Requires-Dist: dotenv
+Requires-Dist: colorlog
+Requires-Dist: pytest
+Requires-Dist: pytest-rerunfailures
+Requires-Dist: custom_python_logger
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: project-url
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# pytest-plugins
+An advanced pytest plugin designed for Python projects, offering robust features and utilities to enhance the testing workflow. <br>
+It includes improved `conftest.py` fixtures, automated test result reporting, detailed logging, and seamless integration with external tools for a streamlined and efficient testing experience.
+
+---
+
+## 🚀 Features
+- ✅ **better-report**: Enhanced test result tracking and structured JSON reporting. 
+generate `execution_results.json`, `test_results.json`, and `test_report`.md under `tests/results_output/` directory.
+  - flags:
+    - `--better-report`: Enable the better report feature.
+    - `--traceback`: Include detailed traceback information in the report.
+    - `--md-report`: Generate a Markdown report of the test results.
+    - `--pr-number`: Include a pull request number in the report for better traceability.
+    - `--mr-number`: Include a merge request number in the report for better traceability.
+    - `--add-parameters`: Add the test parameters as fields to the test results.
+<br> <br>
+- ✅ **maxfail-streak**: Stop test execution after a configurable number of consecutive failures.
+    - flags:
+      - `--maxfail-streak=N`: Stop test execution after `N` consecutive failures.
+<br> <br>
+- ✅ **fail2skip**: Change failing tests to skipped, allowing for better test management and reporting.
+- flags:
+  - `--fail2skip`: Enable the fail2skip feature.
+    - `@pytest.mark.fail2skip`: Decorator to mark tests that should be skipped on failure.
+
+---
+
+## 📦 Installation
+```bash
+pip install pytest-plugins
+```
+
+---
+
+### 🔧 Usage
+- pytest-better-report
+  - pytest --better-report
+  - pytest --better-report --pr-number=123
+- pytest-maxfail-streak
+  - pytest --maxfail-streak=3
+    - for using without a streak, use the built-in `--maxfail` option
+- pytest-fail2skip
+  - pytest --fail2skip # must add `@pytest.mark.fail2skip` decorator to the test function
+
+or use the `pytest.ini` configuration file to set default values for these plugins.
+
+```ini
+[pytest]
+addopts = --better-report --pr-number=123 --maxfail-streak=3 --fail2skip
+```
+
+---
+
+## 🤝 Contributing
+If you have a helpful tool, pattern, or improvement to suggest:
+Fork the repo <br>
+Create a new branch <br>
+Submit a pull request <br>
+I welcome additions that promote clean, productive, and maintainable development. <br>
+
+---
+
+## 🙏 Thanks
+Thanks for exploring this repository! <br>
+Happy coding! <br>
