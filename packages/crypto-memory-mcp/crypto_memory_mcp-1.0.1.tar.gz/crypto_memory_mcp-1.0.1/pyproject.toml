@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "crypto-memory-mcp"
+version = "1.0.1"
+description = "A Memory-Enhanced MCP Server for Cryptocurrency Analysis using mem0"
+authors = [
+    {name = "Crypto Memory MCP", email = "crypto@example.com"}
+]
+dependencies = [
+    "mcp>=1.0.0",
+    "mem0ai>=0.1.0",
+    "pydantic>=2.0.0",
+    "aiohttp>=3.8.0",
+    "python-dotenv>=1.0.0",
+]
+requires-python = ">=3.8"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+crypto-memory-mcp = "crypto_memory_mcp.__main__:cli_main"
+
+[project.urls]
+Homepage = "https://github.com/crypto-memory-mcp"
+Repository = "https://github.com/crypto-memory-mcp.git"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-dir]
+"" = "src"

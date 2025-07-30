@@ -1,0 +1,257 @@
+Metadata-Version: 2.4
+Name: crypto-memory-mcp
+Version: 1.0.1
+Summary: A Memory-Enhanced MCP Server for Cryptocurrency Analysis using mem0
+Home-page: https://github.com/crypto-memory-mcp
+Author: Crypto Memory MCP
+Author-email: Crypto Memory MCP <crypto@example.com>
+License: MIT
+Project-URL: Homepage, https://github.com/crypto-memory-mcp
+Project-URL: Repository, https://github.com/crypto-memory-mcp.git
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: mcp>=1.0.0
+Requires-Dist: mem0ai>=0.1.0
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: aiohttp>=3.8.0
+Requires-Dist: python-dotenv>=1.0.0
+Dynamic: author
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-python
+
+# Crypto Memory MCP Server
+
+A Memory-Enhanced MCP Server for Cryptocurrency Analysis that solves the context window limitation problem when analyzing multiple cryptocurrencies.
+
+## 🎯 Problem Solved
+
+When analyzing multiple cryptocurrencies with AI models, the context window gets filled up with tool calls and data, causing the AI to "forget" previous analysis. This MCP server provides persistent memory storage using [mem0](https://docs.mem0.ai/) to maintain analysis history across sessions.
+
+## ✨ Features
+
+- **🧠 Persistent Memory**: Store cryptocurrency analysis using mem0's advanced memory system
+- **🔍 Smart Retrieval**: Search and retrieve previous analysis by symbol, type, or natural language queries  
+- **📊 Multi-Symbol Comparison**: Compare analysis across multiple cryptocurrencies without losing context
+- **📈 Analysis Categorization**: Organize analysis by type (technical, fundamental, sentiment, etc.)
+- **📋 Memory Statistics**: Track your analysis history and memory usage
+- **🗑️ Memory Management**: Clean up old or irrelevant analysis data
+
+## 🚀 Installation
+
+```bash
+pip install crypto-memory-mcp
+```
+
+Or install from source:
+
+```bash
+git clone <repository-url>
+cd crypto-memory-mcp
+pip install -e .
+```
+
+## ⚙️ Configuration
+
+### Quick VS Code Setup
+
+1. **Install the package**:
+   ```bash
+   pip install crypto-memory-mcp
+   ```
+
+2. **Get your OpenAI API key** from https://platform.openai.com/api-keys
+
+3. **Add to VS Code settings** (`Ctrl+,` → search "claude mcp" → "Edit in settings.json"):
+   
+   **For Windows:**
+   ```json
+   {
+     "claude.mcpServers": {
+       "crypto-memory": {
+         "command": "python",
+         "args": ["-m", "crypto_memory_mcp"],
+         "env": {
+           "OPENAI_API_KEY": "your_openai_api_key_here"
+         }
+       }
+     }
+   }
+   ```
+   
+   **For Linux/macOS:**
+   ```json
+   {
+     "claude.mcpServers": {
+       "crypto-memory": {
+         "command": "crypto-memory-mcp",
+         "env": {
+           "OPENAI_API_KEY": "your_openai_api_key_here"
+         }
+       }
+     }
+   }
+   ```
+
+4. **Restart VS Code** and start using persistent memory for crypto analysis!
+
+📖 **Detailed setup guide**: See [VSCODE_SETUP.md](VSCODE_SETUP.md) for complete configuration instructions.
+
+### General MCP Configuration
+
+For other MCP clients, add to your configuration:
+
+```json
+{
+  "mcpServers": {
+    "crypto-memory": {
+      "command": "crypto-memory-mcp",
+      "env": {
+        "OPENAI_API_KEY": "your_openai_api_key_here"
+      }
+    }
+  }
+}
+```
+
+## 🛠️ Available Tools
+
+### 1. `store_crypto_analysis`
+Store cryptocurrency analysis in persistent memory.
+
+**Parameters:**
+- `symbol`: Cryptocurrency symbol (e.g., "BTCUSDT")
+- `analysis_type`: Type of analysis ("technical", "fundamental", "price_action", etc.)
+- `data`: JSON string containing analysis data
+- `summary`: Brief summary of the analysis
+- `metadata`: Optional JSON string with additional metadata
+
+### 2. `retrieve_crypto_analysis`
+Retrieve stored cryptocurrency analysis from memory.
+
+**Parameters:**
+- `symbol`: Optional symbol to filter by
+- `analysis_type`: Optional analysis type to filter by
+- `limit`: Maximum number of results (default: 10)
+
+### 3. `compare_crypto_symbols`
+Compare analysis across multiple cryptocurrency symbols.
+
+**Parameters:**
+- `symbols`: Comma-separated list of symbols (e.g., "BTCUSDT,ETHUSDT,ADAUSDT")
+- `analysis_type`: Optional analysis type to focus on
+
+### 4. `search_crypto_insights`
+Search for specific insights across all stored analysis.
+
+**Parameters:**
+- `query`: Natural language search query (e.g., "bullish trends", "resistance levels")
+- `limit`: Maximum number of results (default: 5)
+
+### 5. `get_memory_stats`
+Get statistics about stored cryptocurrency analysis memories.
+
+### 6. `delete_crypto_analysis`
+Delete stored analysis for a specific symbol.
+
+**Parameters:**
+- `symbol`: Cryptocurrency symbol to delete analysis for
+- `analysis_type`: Optional specific analysis type to delete
+
+## 📋 Usage Examples
+
+### Basic Workflow
+
+1. **Analyze a cryptocurrency** using your Binance MCP server
+2. **Store the analysis** using `store_crypto_analysis`
+3. **Analyze another cryptocurrency**
+4. **Compare them** using `compare_crypto_symbols` or retrieve previous analysis with `retrieve_crypto_analysis`
+
+### Example Analysis Storage
+
+```json
+{
+  "symbol": "BTCUSDT",
+  "analysis_type": "technical",
+  "data": "{\"price\": 45000, \"rsi\": 65, \"macd\": \"bullish\", \"support\": 44000, \"resistance\": 47000}",
+  "summary": "Bitcoin showing bullish momentum with RSI at 65, MACD crossover confirmed. Strong support at $44k.",
+  "metadata": "{\"timeframe\": \"4h\", \"confidence\": 0.8}"
+}
+```
+
+### Example Multi-Symbol Comparison
+
+```json
+{
+  "symbols": "BTCUSDT,ETHUSDT,ADAUSDT,SOLUSDT",
+  "analysis_type": "technical"
+}
+```
+
+## 🔧 Integration with Binance MCP
+
+This memory server is designed to work alongside your existing Binance MCP server:
+
+1. **Use Binance MCP** for real-time data and trading operations
+2. **Use Crypto Memory MCP** to store and retrieve analysis results
+3. **AI can now analyze multiple cryptocurrencies** without losing context
+
+## 🤝 Workflow Integration
+
+```
+1. AI calls Binance MCP → Get BTCUSDT data
+2. AI analyzes data → Technical analysis complete  
+3. AI calls Memory MCP → Store analysis
+4. AI calls Binance MCP → Get ETHUSDT data
+5. AI analyzes data → Technical analysis complete
+6. AI calls Memory MCP → Store analysis  
+7. AI calls Memory MCP → Compare BTCUSDT vs ETHUSDT
+8. AI provides comprehensive comparison without losing previous analysis
+```
+
+## 🧠 Memory Features
+
+- **Semantic Search**: Find analysis by meaning, not just keywords
+- **Temporal Tracking**: Maintain analysis timeline and history
+- **Metadata Support**: Rich context and categorization
+- **Efficient Storage**: Optimized for cryptocurrency analysis patterns
+
+## 📊 Benefits
+
+- ✅ **No More Context Loss**: AI retains all previous analysis
+- ✅ **Faster Analysis**: Retrieve instead of re-calculating  
+- ✅ **Better Comparisons**: Compare multiple cryptocurrencies easily
+- ✅ **Analysis History**: Track analysis over time
+- ✅ **Improved Insights**: Search across all stored analysis for patterns
+
+## 🔐 Privacy & Security
+
+- All data stored locally by default (depending on mem0 configuration)
+- No sensitive trading keys required
+- Analysis data can be encrypted
+- User isolation supported
+
+## 🛠️ Technical Details
+
+- Built with [MCP (Model Context Protocol)](https://github.com/modelcontextprotocol)
+- Uses [mem0](https://docs.mem0.ai/) for advanced memory management
+- Async/await support for high performance
+- Comprehensive error handling and validation
+
+## 📈 Roadmap
+
+- [ ] Advanced analysis templates
+- [ ] Integration with more data sources
+- [ ] Analysis export/import functionality
+- [ ] Advanced search filters
+- [ ] Analysis trend detection
+- [ ] Automated memory cleanup
+
+## 🤝 Contributing
+
+Contributions welcome! Please read our contributing guidelines and submit pull requests.
+
+## 📄 License
+
+MIT License - see LICENSE file for details.
