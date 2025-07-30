@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "venvexec"
+version = "0.1.0"
+description = "Run commands always inside a central virtual environment"
+authors = [{ name = "kkyian", email = "kkyian@icloud.com" }]
+readme = "README.md"
+requires-python = ">=3.7"
+
+[project.scripts]
+venvexec = "venvexec.__main__:main"
