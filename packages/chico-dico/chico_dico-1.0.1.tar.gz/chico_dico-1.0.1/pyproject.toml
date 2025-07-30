@@ -1,0 +1,49 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "chico_dico"
+version = "1.0.1"
+description = "chico dico magic"
+readme = "README.md"
+keywords = [
+  "poker",
+  "magic"
+]
+license = { text = "Apache-2.0" }
+authors = [
+  { name = "luochang" },
+  { email = "luochang212@gmail.com" },
+]
+requires-python = ">=3.8"
+dependencies = [
+  "gradio",
+  "click",
+]
+classifiers = [
+  "License :: OSI Approved :: Apache Software License",
+  "Operating System :: MacOS",
+  "Operating System :: Microsoft :: Windows",
+  "Operating System :: Unix",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Mathematics",
+]
+
+[tool.setuptools.package-data]
+chico_dico = ["images/*.png", "images/*.jpg"]
+
+[project.scripts]
+chico = "chico_dico.chico:webui"
+dico = "chico_dico.dico:webui"
+
+[project.urls]
+repository = "https://github.com/luochang212/chico-dico-magic"
+bug-tracker = "https://github.com/luochang212/chico-dico-magic/issues"
+documentation = "https://luochang212.github.io/posts/chico_dico_magic"
