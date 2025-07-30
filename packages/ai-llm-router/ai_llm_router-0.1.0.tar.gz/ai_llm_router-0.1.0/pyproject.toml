@@ -1,0 +1,93 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai-llm-router"
+version = "0.1.0"
+description = "Intelligent routing of LLM API calls across multiple providers with automatic fallbacks, cost optimization, and monitoring"
+readme = "docs/README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Sherin Joseph", email = "sherin.joseph2217@gmail.com"}
+]
+maintainers = [
+    {name = "Sherin Joseph", email = "sherin.joseph2217@gmail.com"}
+]
+keywords = ["llm", "ai", "router", "openai", "anthropic", "api", "fallback", "cost-optimization"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "aiohttp>=3.8.0",
+    "openai>=1.0.0",
+    "anthropic>=0.7.0",
+    "pydantic>=2.0.0",
+    "redis>=4.0.0",
+    "prometheus-client>=0.16.0",
+    "click>=8.0.0",
+    "rich>=13.0.0",
+    "tenacity>=8.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0",
+    "pre-commit>=3.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Sherin-SEF-AI/llm-router"
+Documentation = "https://github.com/Sherin-SEF-AI/llm-router#readme"
+Repository = "https://github.com/Sherin-SEF-AI/llm-router"
+Issues = "https://github.com/Sherin-SEF-AI/llm-router/issues"
+Changelog = "https://github.com/Sherin-SEF-AI/llm-router/blob/main/CHANGELOG.md"
+"Bug Tracker" = "https://github.com/Sherin-SEF-AI/llm-router/issues"
+LinkedIn = "https://www.linkedin.com/in/sherin-roy-deepmost/"
+
+[project.scripts]
+ai-llm-router = "llm_router.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["llm_router*"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --cov=llm_router --cov-report=term-missing"
+asyncio_mode = "auto" 
