@@ -1,0 +1,76 @@
+Metadata-Version: 2.4
+Name: syndrilla
+Version: 2025.7.1
+Summary: A PyTorch-based numerical simulator for decoders in quantum error correction.
+Project-URL: Homepage, https://github.com/UNARY-Lab/syndrilla
+Project-URL: Issues, https://github.com/UNARY-Lab/syndrilla/issues
+Author-email: Yanzhang Zhu <yanzhang.zhu@ucf.edu>, Di Wu <di.wu@ucf.edu>
+License: MIT License
+        
+        Copyright (c) 2025 UNARY Lab
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+License-File: LICENSE
+Classifier: Programming Language :: Python
+Requires-Python: >=3.9
+Requires-Dist: loguru
+Requires-Dist: numpy
+Requires-Dist: pyfiglet
+Requires-Dist: pyyaml
+Requires-Dist: scipy
+Requires-Dist: torch>=2.0
+Requires-Dist: yamlordereddictloader
+Description-Content-Type: text/markdown
+
+# Syndrilla
+A PyTorch-based numerical simulator for decoders in quantum error correction.
+
+## Installation
+Before installation, git clone this GitHub [repo](https://github.com/UNARY-Lab/syndrilla).
+
+### Option 1: pip installation (python>=3.9)
+In the root directory of the repo, run following commands.
+1. ```conda create --name syndrilla python```
+2. ```conda activate syndrilla```
+3. ```pip install syndrilla```
+4. ```syndrilla -h``` to validate installation
+5. You can run ```syndrilla``` in *any* directory.
+
+### Option 2: source installation
+In the root directory of the repo, run following commands.
+1. ```conda create --name syndrilla python```
+2. ```conda activate syndrilla```
+3. ```conda install -c conda-forge pyyaml yamlordereddictloader pytest loguru numpy scipy pyfiglet pynvml```
+4. Install [PyTorch 2.x](https://pytorch.org/)
+5. ```python3 -m pip install -e . --no-deps```
+6. ```pytest``` to validate installation
+7. You can *only* run ```syndrilla``` in root directory.
+
+### Option 3: verifiable installation (with restricted python version)
+In the root directory of the repo, run following commands.
+1. ```conda create --name syndrilla python=3.10```
+2. ```conda activate syndrilla```
+3. ```conda install -c conda-forge pyyaml yamlordereddictloader pytest loguru numpy scipy pyfiglet pynvml```
+4. Install [PyTorch 2.x](https://pytorch.org/)
+5. ```python3 -m pip install -e . --no-deps```
+6. ```pytest``` to validate installation
+7. ```pip install -U bposd``` to install BPOSD
+8. ```python tests/validate_bposd.py``` to validate against [BPOSD](https://github.com/quantumgizmos/bp_osd)
+9. You can *only* run ```syndrilla``` in root directory.
+
