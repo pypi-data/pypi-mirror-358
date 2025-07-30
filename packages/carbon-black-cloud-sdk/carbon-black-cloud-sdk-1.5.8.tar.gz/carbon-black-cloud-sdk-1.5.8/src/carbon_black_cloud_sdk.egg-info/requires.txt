@@ -1,0 +1,24 @@
+requests
+pyyaml
+python-dateutil
+schema
+solrq
+validators
+jsonschema
+boto3
+
+[:platform_system == "Darwin"]
+keyring
+
+[:python_version < "3.11"]
+backports-datetime-fromisoformat==2.0.1
+
+[test]
+pytest==7.2.1
+pymox==1.0.0
+coverage==6.5.0
+flake8==5.0.4
+flake8-colors==0.1.9
+flake8-docstrings==1.7.0
+pre-commit>=2.15.0
+requests-mock==1.10.0
