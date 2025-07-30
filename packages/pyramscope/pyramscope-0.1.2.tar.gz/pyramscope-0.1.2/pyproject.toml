@@ -1,0 +1,15 @@
+[build-system]
+requires = ["pybind11", "scikit-build-core"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "pyramscope"
+version = "0.1.2"  # Aumenta la versión cada vez que subas
+description = "Memory inspection tools for Python via C++"
+readme = "README.md"  # Esto hace que PyPI lea y muestre el README
+authors = [{ name = "Juan Jara", email = "juanignaciojara505@gmail.com" }]
+requires-python = ">=3.7"
+
+[tool.scikit-build]
+wheel.packages = ["pyramscope"]
+
