@@ -1,0 +1,46 @@
+digraph memory_graph {
+	node [shape=plaintext]
+	node138305577042688 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#60a5ff" PORT="table">
+    <TR><TD BORDER="0"> </TD></TR>
+</TABLE>
+> xlabel=dict]
+	node138305572919808 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="#60a5ff" PORT="table">
+    <TR><TD BORDER="1" STYLE="ROUNDED"> n </TD><TD BORDER="1"> 4 </TD></TR>
+</TABLE>
+> xlabel=dict]
+	node138305572920256 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="#60a5ff" PORT="table">
+    <TR><TD BORDER="1" STYLE="ROUNDED"> n </TD><TD BORDER="1"> 3 </TD></TR>
+</TABLE>
+> xlabel=dict]
+	node138305572921408 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="#60a5ff" PORT="table">
+    <TR><TD BORDER="1" STYLE="ROUNDED"> n </TD><TD BORDER="1"> 2 </TD></TR>
+</TABLE>
+> xlabel=dict]
+	node138305572921280 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="#60a5ff" PORT="table">
+    <TR><TD BORDER="1" STYLE="ROUNDED"> n </TD><TD BORDER="1"> 1 </TD></TR>
+</TABLE>
+> xlabel=dict]
+	node138305572920192 [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="#60a5ff" PORT="table">
+    <TR><TD BORDER="1" STYLE="ROUNDED"> n </TD><TD BORDER="1"> 0 </TD></TR>
+</TABLE>
+> xlabel=dict]
+	node138305572781136 [label=<
+<TABLE BORDER="3" CELLBORDER="1" CELLSPACING="5" CELLPADDING="0" BGCOLOR="khaki" PORT="table">
+    <TR><TD BORDER="1" STYLE="ROUNDED"> 0: &lt;module&gt; </TD><TD BORDER="1" STYLE="ROUNDED"> 1: factorial </TD><TD BORDER="1" STYLE="ROUNDED"> 2: factorial </TD><TD BORDER="1" STYLE="ROUNDED"> 3: factorial </TD><TD BORDER="1" STYLE="ROUNDED"> 4: factorial </TD><TD BORDER="1" STYLE="ROUNDED"> 5: factorial </TD></TR>
+    <TR><TD BORDER="1" PORT="ref0"> </TD><TD BORDER="1" PORT="ref1"> </TD><TD BORDER="1" PORT="ref2"> </TD><TD BORDER="1" PORT="ref3"> </TD><TD BORDER="1" PORT="ref4"> </TD><TD BORDER="1" PORT="ref5"> </TD></TR>
+</TABLE>
+> xlabel=call_stack]
+	node138305572781136:ref0 -> node138305577042688:table [style=solid]
+	node138305572781136:ref1 -> node138305572919808:table [style=solid]
+	node138305572781136:ref2 -> node138305572920256:table [style=solid]
+	node138305572781136:ref3 -> node138305572921408:table [style=solid]
+	node138305572781136:ref4 -> node138305572921280:table [style=solid]
+	node138305572781136:ref5 -> node138305572920192:table [style=solid]
+subgraph { rank=same; node138305577042688 -> node138305572919808 -> node138305572920256 -> node138305572921408 -> node138305572921280 -> node138305572920192[weight=10, style=invis]; }
+}
