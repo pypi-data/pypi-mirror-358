@@ -1,0 +1,123 @@
+name: Build and publish Python wheels with maturin
+
+on:
+  push:
+    tags:
+      - 'v*'  # Trigger on version tags like v0.1.0
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        # Only x86_64 platforms since your code uses x86_64 specific instructions
+        include:
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+            python-version: '3.10'
+          # - os: ubuntu-latest
+          #   target: x86_64-unknown-linux-gnu
+          #   python-version: '3.11'
+          # - os: ubuntu-latest
+          #   target: x86_64-unknown-linux-gnu
+          #   python-version: '3.12'
+          # - os: windows-latest
+          #   target: x86_64-pc-windows-msvc
+          #   python-version: '3.10'
+          # - os: windows-latest
+          #   target: x86_64-pc-windows-msvc
+          #   python-version: '3.11'
+          # - os: windows-latest
+          #   target: x86_64-pc-windows-msvc
+          #   python-version: '3.12'
+          # - os: macos-latest
+          #   target: x86_64-apple-darwin
+          #   python-version: '3.10'
+          # - os: macos-latest
+          #   target: x86_64-apple-darwin
+          #   python-version: '3.11'
+          # - os: macos-latest
+          #   target: x86_64-apple-darwin
+          #   python-version: '3.12'
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install build dependencies
+      run: pip install "packaging>=24.2"
+
+    - name: Install Rust nightly
+      uses: dtolnay/rust-toolchain@nightly
+      with:
+        targets: ${{ matrix.target }}
+        override: true  # Makes nightly the default toolchain
+
+    - name: Build wheels
+      uses: PyO3/maturin-action@v1
+      with:
+        args: --release --features python --out dist --interpreter python${{ matrix.python-version }} --target ${{ matrix.target }}
+        sccache: 'true'
+        manylinux: auto
+      env:
+        # Use ABI3 forward compatibility to handle version mismatches
+        PYO3_USE_ABI3_FORWARD_COMPATIBILITY: 1
+
+    - name: Upload wheels as artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: wheels-${{ matrix.os }}-${{ matrix.target }}-${{ matrix.python-version }}
+        path: dist
+
+  # Build source distribution on Linux only
+  sdist:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    - name: Install build dependencies
+      run: pip install "packaging>=24.2"
+    - name: Build sdist
+      uses: PyO3/maturin-action@v1
+      with:
+        command: sdist
+        args: --out dist
+    - name: Upload sdist as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: sdist
+        path: dist
+
+  publish:
+    needs: [build, sdist]
+    runs-on: ubuntu-latest
+    environment: pypi  # Use environment protection for PyPI token
+    permissions:
+      id-token: write  # For trusted publishing (optional)
+
+    steps:
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: dist
+        merge-multiple: true
+
+    - name: List built artifacts
+      run: ls -la dist/
+
+    - name: Install upload dependencies
+      run: pip install "packaging>=24.2" --upgrade twine
+
+    - name: Publish to PyPI
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+      run: |
+        twine upload --skip-existing dist/*
