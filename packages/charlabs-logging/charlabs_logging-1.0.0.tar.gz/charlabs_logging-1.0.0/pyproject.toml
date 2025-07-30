@@ -1,0 +1,74 @@
+[project]
+name = "charlabs-logging"
+dynamic = ["version"]
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pydantic-settings>=2.10.1",
+    "pyyaml>=6.0.2",
+]
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.2.0",
+    "pytest>=8.4.1",
+    "pytest-cov>=6.2.1",
+    "python-semantic-release>=10.1.0",
+    "rich>=14.0.0",
+    "ruff>=0.12.0",
+]
+logging = [
+    "python-json-logger>=3.3.0",
+]
+structlog = [
+    "structlog>=25.4.0",
+]
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"*" = ["py.typed"]
+
+[tool.setuptools.dynamic]
+version = {attr = "charlabs.logging.__version__"}
+
+[tool.ruff]
+include = ["src/**/*.py", "tests/**/*.py"]
+
+[tool.ruff.lint]
+preview = true
+extend-select = ["I", "PERF", "E", "W", "PD", "NPY", "S", "FBT", "A", "COM", "DTZ", "ISC", "LOG", "G", "PIE", "T20", "PT", "RET", "SIM", "TID", "PTH", "UP", "DOC"]
+ignore = ["COM812", "E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"**/tests/**" = ["S"]
+
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
+"src".msg = "Do not use src imports. Imports are relative to the src directory and should not include the 'src.' prefix."
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.pyright]
+include = ["src/**/*.py"]
+exclude = ["tests"]
+typeCheckingMode = "strict"
+reportMissingParameterType = true
+reportMissingTypeArgument = true
+reportMissingTypeAnnotation = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--cov=src --cov-fail-under=60"
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+tag_format = "$version"
+version_scheme = "pep440"
+update_changelog_on_bump = true
