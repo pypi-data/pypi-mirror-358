@@ -1,0 +1,58 @@
+Metadata-Version: 2.4
+Name: paypal-rest-api
+Version: 0.1.6
+Summary: PayPal API provides simple client for RESTful APIs
+Author-email: Kalinin Mitko <kalinin.mitko@gmail.com>
+License: MIT License
+        
+        Copyright (c) 2025 Dmitry Kalinin
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+Project-URL: Homepage, https://github.com/null-none/paypal-rest-api
+Keywords: python,paypal,api,rest api
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Provides-Extra: dev
+Requires-Dist: pip-tools; extra == "dev"
+Dynamic: license-file
+
+## paypal-client
+
+
+```bash
+pip install paypal-rest-api
+```
+
+#### Example
+
+```python
+from paypal_client.api import PayPal
+
+paypal = PayPal(APP_CLIENT_ID, APP_SECRET)
+
+product = paypal.create_product(name="Video Streaming Service", description="Video Streaming Service basic plan", type="SERVICE")
+plan = paypal.create_plan(product_id=product["id"], name="Video Streaming Service Plan", description="Video Streaming Service basic plan", frequency="MONTH", price=10)
+subscription = paypal.create_subscription(plan_id=plan["id"])
+print(paypal.show_subscription_details(subscription["id"]))
+```
+
