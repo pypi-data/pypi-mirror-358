@@ -1,0 +1,83 @@
+
+###  CarthageAI Multi-provider AI terminal assistant
+
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![GitHub last commit](https://img.shields.io/github/last-commit/yourusername/CarthageAI)
+
+## 🚀 Features
+
+### AI-Powered Assistance
+
+✔ Multi-Provider Support - (OpenAI/DeepSeek)
+
+✔ File Analysis - Reference files with @file.txt for context-aware responses
+
+✔ Session Persistence - Save/load conversations with !save and !load <id>
+
+✔ Rich Markdown Rendering
+
+### Terminal Productivity
+
+⌨ Interactive CLI - Natural language queries or commands
+
+📂 File Integration - Supports .py, .json, .txt, and 10+ file types
+
+⏱ Real-Time Processing - Loading spinners and timeout handling
+
+### Sysadmin Toolkit (Built-in Commands)
+
+🔌 Test open ports | 📶 Network connectivity check
+
+💽 Disk usage summary | 🔍 Find running processes
+
+🛡 Audit sudo users | 🔐 SSH config analyzer
+
+
+## 📦 Installation
+```bash
+# Clone the repository
+git clone https://github.com/alaadotcom/CarthageAI.git
+cd CarthageAI
+
+# Install dependencies
+pip install -r requirements.txt
+
+🖥️ Usage
+Basic Commands:
+┌──────────────┬─────────────────────────────────────────┐
+│ Command      │ Description                             │
+├──────────────┼─────────────────────────────────────────┤
+│ !help        │ Show help menu                          │
+│ !model       │ Switch AI models                        │
+│ @file.txt    │ Analyze file content                    │
+│ !save        │ Save current conversation               │
+│ !load <id>   │ Load previous session                   │
+└──────────────┴─────────────────────────────────────────┘
+
+Examples:
+
+# Direct query
+python carthage_ai.py "Explain Python decorators"
+
+# File analysis
+python carthage_ai.py "Fix this code" @broken_script.py
+
+# Interactive mode:
+python carthage_ai.py
+> @config.json What's wrong with this configuration?
+
+🛠️ Sysadmin Tools
+
+  _________________________________________
+ / Port Check | Disk Space | Process Find  \
+| SSH Audit   | Ping Test  | Sudo Check    |
+ \________________________________________/
+
+ Example:
+
+!portcheck example.com 80
+!diskspace
+!findproc nginx
+
+API keys stored locally in config.json
