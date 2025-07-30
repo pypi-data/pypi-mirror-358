@@ -1,0 +1,53 @@
+# News Article Extraction Schema
+name: "News Article"
+description: "Extract structured information from news articles"
+
+# System prompt for extraction
+system_prompt: |
+  Extract structured information from the following news article.
+  Focus on identifying:
+  - Main headline and brief summary
+  - Publication details (date and author if mentioned)
+  - Geographic location mentioned in the news
+  - Key people and organizations mentioned
+  - News category and sentiment
+  
+  If information is not explicitly mentioned, leave the field as null.
+
+# JSON Schema definition
+schema:
+  type: object
+  properties:
+    headline:
+      type: string
+      description: "Main headline of the news article"
+    summary:
+      type: string
+      description: "Brief summary of the article"
+    publication_date:
+      type: ["string", "null"]
+      description: "Publication date if mentioned"
+    author:
+      type: ["string", "null"]
+      description: "Author name if mentioned"
+    location:
+      type: ["string", "null"]
+      description: "Geographic location mentioned in the news"
+    key_people:
+      type: array
+      items:
+        type: string
+      description: "Names of key people mentioned in the article"
+    organizations:
+      type: array
+      items:
+        type: string
+      description: "Organizations or companies mentioned"
+    category:
+      type: ["string", "null"]
+      description: "News category (politics, technology, sports, etc.)"
+    sentiment:
+      type: ["string", "null"]
+      description: "Overall sentiment of the article (positive, negative, neutral)"
+  required: ["headline", "summary", "publication_date", "author", "location", "key_people", "organizations", "category", "sentiment"]
+  additionalProperties: false 

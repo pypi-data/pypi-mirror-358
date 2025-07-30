@@ -1,0 +1,62 @@
+# Customer Support Ticket Extraction Schema
+name: "Customer Support Ticket"
+description: "Extract structured information from customer support tickets or emails"
+
+# System prompt for extraction
+system_prompt: |
+  Extract structured information from the following customer support ticket or email.
+  Focus on identifying:
+  - Customer information and contact details
+  - Issue category and priority level
+  - Product or service affected
+  - Detailed problem description
+  - Resolution status and actions taken
+  
+  If information is not explicitly mentioned, leave fields as null or empty.
+
+# JSON Schema definition
+schema:
+  type: object
+  properties:
+    ticket_id:
+      type: ["string", "null"]
+      description: "Support ticket ID if mentioned"
+    customer_name:
+      type: ["string", "null"]
+      description: "Customer's name"
+    customer_email:
+      type: ["string", "null"]
+      description: "Customer's email address"
+    issue_category:
+      type: ["string", "null"]
+      description: "Category of the issue (billing, technical, account, etc.)"
+    priority_level:
+      type: ["string", "null"]
+      description: "Priority level (low, medium, high, urgent)"
+    product_service:
+      type: ["string", "null"]
+      description: "Product or service the issue relates to"
+    issue_summary:
+      type: string
+      description: "Brief summary of the issue"
+    detailed_description:
+      type: string
+      description: "Detailed description of the problem"
+    steps_to_reproduce:
+      type: array
+      items:
+        type: string
+      description: "Steps to reproduce the issue if mentioned"
+    resolution_status:
+      type: ["string", "null"]
+      description: "Current status (open, in-progress, resolved, closed)"
+    actions_taken:
+      type: array
+      items:
+        type: string
+      description: "Actions taken to resolve the issue"
+    escalation_needed:
+      type: ["boolean", "null"]
+      description: "Whether the issue needs escalation"
+  required: ["ticket_id", "customer_name", "customer_email", "issue_category", "priority_level", "product_service", "issue_summary", "detailed_description", "steps_to_reproduce", "resolution_status", "actions_taken", "escalation_needed"]
+  additionalProperties: false 

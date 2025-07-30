@@ -1,0 +1,59 @@
+# Product Review Extraction Schema
+name: "Product Review"
+description: "Extract structured information from product reviews"
+
+# System prompt for extraction
+system_prompt: |
+  Extract structured information from the following product review.
+  Focus on identifying:
+  - Product name and brand
+  - Reviewer information and rating
+  - Key features mentioned (pros and cons)
+  - Purchase details if mentioned
+  - Overall sentiment and recommendation
+  
+  If information is not available, leave fields as null or empty arrays.
+
+# JSON Schema definition
+schema:
+  type: object
+  properties:
+    product_name:
+      type: string
+      description: "Name of the product being reviewed"
+    brand:
+      type: ["string", "null"]
+      description: "Brand or manufacturer name"
+    rating:
+      type: ["number", "null"]
+      description: "Numerical rating (e.g., out of 5 stars)"
+    reviewer_name:
+      type: ["string", "null"]
+      description: "Name of the reviewer if mentioned"
+    review_date:
+      type: ["string", "null"]
+      description: "Date of the review if mentioned"
+    verified_purchase:
+      type: ["boolean", "null"]
+      description: "Whether this is a verified purchase"
+    pros:
+      type: array
+      items:
+        type: string
+      description: "Positive aspects mentioned in the review"
+    cons:
+      type: array
+      items:
+        type: string
+      description: "Negative aspects mentioned in the review"
+    overall_sentiment:
+      type: ["string", "null"]
+      description: "Overall sentiment (positive, negative, neutral, mixed)"
+    would_recommend:
+      type: ["boolean", "null"]
+      description: "Whether the reviewer would recommend the product"
+    price_mentioned:
+      type: ["string", "null"]
+      description: "Price mentioned in the review if any"
+  required: ["product_name", "brand", "rating", "reviewer_name", "review_date", "verified_purchase", "pros", "cons", "overall_sentiment", "would_recommend", "price_mentioned"]
+  additionalProperties: false 
