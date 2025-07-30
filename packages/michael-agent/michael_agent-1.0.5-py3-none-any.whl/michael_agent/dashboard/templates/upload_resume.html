@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Resumes - SmartRecruitAgent</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <header class="bg-dark text-white p-3">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="h3 mb-0">SmartRecruitAgent - Resume Upload</h1>
+                <div>
+                    <a href="/career-portal" class="btn btn-outline-light me-2">Career Portal</a>
+                    <a href="/" class="btn btn-outline-light">Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        Upload Resumes
+                    </div>
+                    <div class="card-body">
+                        <form id="resume-upload-form">
+                            <div class="mb-4">
+                                <label for="job-select" class="form-label">Select Target Job Position*</label>
+                                <select class="form-select" id="job-select" name="job_id" required>
+                                    <option value="" selected>Loading jobs...</option>
+                                </select>
+                                <div class="form-text">Choose the job position these resumes are for</div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label">Upload Resume Files*</label>
+                                <div class="upload-area p-4 border rounded text-center" id="drop-area">
+                                    <i class="bi bi-cloud-arrow-up display-4 text-primary"></i>
+                                    <h5 class="mt-3">Drag & Drop Files Here</h5>
+                                    <p class="text-muted">Or click to browse files</p>
+                                    <input type="file" id="resume-files" name="resume_files" class="d-none" multiple accept=".pdf,.doc,.docx">
+                                    <button type="button" class="btn btn-outline-primary mt-2" id="browse-files">Browse Files</button>
+                                </div>
+                            </div>
+
+                            <div id="file-list-container" class="mb-4" style="display: none;">
+                                <label class="form-label">Selected Files</label>
+                                <div class="list-group" id="file-list">
+                                    <!-- Files will be listed here -->
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="auto-process" name="auto_process" checked>
+                                    <label class="form-check-label" for="auto-process">
+                                        Automatically process resumes after upload
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary" id="upload-btn">
+                                    <span class="spinner-border spinner-border-sm d-none" id="upload-spinner" role="status" aria-hidden="true"></span>
+                                    Upload Resumes
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card mb-4" id="upload-progress-card" style="display: none;">
+                    <div class="card-header bg-info text-white">
+                        Upload Progress
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span id="progress-text">Uploading files...</span>
+                            <span id="progress-percent">0%</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" id="upload-progress-bar" role="progressbar" style="width: 0%"></div>
+                        </div>
+                        <div class="mt-3 small" id="file-status-container">
+                            <!-- Individual file statuses will be shown here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" id="upload-result-card" style="display: none;">
+                    <div class="card-header bg-success text-white">
+                        Upload Complete
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center mb-4">
+                            <i class="bi bi-check-circle-fill text-success display-1"></i>
+                            <h4 class="mt-3">Resumes Uploaded Successfully</h4>
+                            <p id="result-summary">0 files have been uploaded and queued for processing.</p>
+                        </div>
+                        <div class="d-flex justify-content-center gap-3">
+                            <a href="/resume-scoring" class="btn btn-primary">View Processing Results</a>
+                            <button type="button" class="btn btn-outline-secondary" id="upload-more-btn">Upload More Resumes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // File list for tracking uploaded files
+            let selectedFiles = [];
+            
+            // Load job listings for the dropdown
+            fetch('/api/jobs')
+                .then(response => response.json())
+                .then(data => {
+                    const jobSelect = document.getElementById('job-select');
+                    jobSelect.innerHTML = '';
+                    
+                    if (data.jobs.length === 0) {
+                        const option = document.createElement('option');
+                        option.value = '';
+                        option.textContent = 'No jobs available - create a job description first';
+                        jobSelect.appendChild(option);
+                        document.getElementById('upload-btn').disabled = true;
+                    } else {
+                        const defaultOption = document.createElement('option');
+                        defaultOption.value = '';
+                        defaultOption.textContent = 'Select a job position';
+                        jobSelect.appendChild(defaultOption);
+                        
+                        data.jobs.forEach(job => {
+                            const option = document.createElement('option');
+                            option.value = job.id;
+                            option.textContent = job.title;
+                            jobSelect.appendChild(option);
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading jobs:', error);
+                    document.getElementById('job-select').innerHTML = 
+                        '<option value="">Error loading jobs</option>';
+                });
+            
+            // File input handling
+            document.getElementById('browse-files').addEventListener('click', function() {
+                document.getElementById('resume-files').click();
+            });
+            
+            document.getElementById('resume-files').addEventListener('change', function(e) {
+                handleFileSelection(this.files);
+            });
+            
+            // Drag and drop handling
+            const dropArea = document.getElementById('drop-area');
+            
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropArea.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, unhighlight, false);
+            });
+            
+            function highlight() {
+                dropArea.classList.add('border-primary');
+            }
+            
+            function unhighlight() {
+                dropArea.classList.remove('border-primary');
+            }
+            
+            dropArea.addEventListener('drop', function(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handleFileSelection(files);
+            });
+            
+            // Handle selected files
+            function handleFileSelection(files) {
+                if (files.length === 0) return;
+                
+                // Filter only valid file types
+                const validFiles = Array.from(files).filter(file => {
+                    const fileType = file.type.toLowerCase();
+                    return fileType === 'application/pdf' || 
+                           fileType === 'application/msword' || 
+                           fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+                });
+                
+                if (validFiles.length === 0) {
+                    alert('Please select valid resume files (PDF, DOC, DOCX)');
+                    return;
+                }
+                
+                // Add to selected files array
+                selectedFiles = [...selectedFiles, ...validFiles];
+                
+                // Display file list
+                updateFileList();
+            }
+            
+            function updateFileList() {
+                const fileListContainer = document.getElementById('file-list-container');
+                const fileList = document.getElementById('file-list');
+                
+                if (selectedFiles.length === 0) {
+                    fileListContainer.style.display = 'none';
+                    return;
+                }
+                
+                fileListContainer.style.display = 'block';
+                fileList.innerHTML = '';
+                
+                selectedFiles.forEach((file, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'list-group-item d-flex justify-content-between align-items-center';
+                    
+                    const icon = file.type.includes('pdf') ? 'bi-file-earmark-pdf' : 'bi-file-earmark-word';
+                    
+                    item.innerHTML = `
+                        <div>
+                            <i class="bi ${icon} me-2"></i>
+                            <span>${file.name}</span>
+                            <small class="text-muted ms-2">${formatFileSize(file.size)}</small>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-danger remove-file" data-index="${index}">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    `;
+                    
+                    fileList.appendChild(item);
+                });
+                
+                // Add remove handlers
+                document.querySelectorAll('.remove-file').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const index = parseInt(this.getAttribute('data-index'));
+                        selectedFiles.splice(index, 1);
+                        updateFileList();
+                    });
+                });
+            }
+            
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+            
+            // Form submission
+            document.getElementById('resume-upload-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const jobId = document.getElementById('job-select').value;
+                if (!jobId) {
+                    alert('Please select a job position');
+                    return;
+                }
+                
+                if (selectedFiles.length === 0) {
+                    alert('Please select at least one resume file');
+                    return;
+                }
+                
+                // Show upload progress card
+                document.getElementById('upload-progress-card').style.display = 'block';
+                document.getElementById('upload-progress-card').scrollIntoView({ behavior: 'smooth' });
+                
+                // Disable submit button and show spinner
+                const uploadBtn = document.getElementById('upload-btn');
+                const uploadSpinner = document.getElementById('upload-spinner');
+                uploadBtn.disabled = true;
+                uploadSpinner.classList.remove('d-none');
+                
+                // Create FormData for file upload
+                const formData = new FormData();
+                formData.append('job_id', jobId);
+                formData.append('auto_process', document.getElementById('auto-process').checked);
+                
+                // Add all files
+                selectedFiles.forEach((file, index) => {
+                    formData.append('resume_files', file);
+                });
+                
+                // Simulate progress for demo
+                let progress = 0;
+                const progressBar = document.getElementById('upload-progress-bar');
+                const progressText = document.getElementById('progress-text');
+                const progressPercent = document.getElementById('progress-percent');
+                const fileStatusContainer = document.getElementById('file-status-container');
+                
+                // Clear previous file statuses
+                fileStatusContainer.innerHTML = '';
+                
+                // Add file status indicators
+                selectedFiles.forEach(file => {
+                    const statusDiv = document.createElement('div');
+                    statusDiv.className = 'd-flex justify-content-between mb-2';
+                    statusDiv.innerHTML = `
+                        <span>${file.name}</span>
+                        <span class="badge bg-secondary">Pending</span>
+                    `;
+                    fileStatusContainer.appendChild(statusDiv);
+                });
+                
+                // For demonstration, let's simulate the upload with progress
+                const progressInterval = setInterval(() => {
+                    if (progress >= 100) {
+                        clearInterval(progressInterval);
+                        showUploadResults(selectedFiles.length);
+                        return;
+                    }
+                    
+                    progress += 5;
+                    progressBar.style.width = `${progress}%`;
+                    progressPercent.textContent = `${progress}%`;
+                    
+                    // Update file status randomly as we progress
+                    if (progress > 30) {
+                        const statuses = fileStatusContainer.querySelectorAll('.badge');
+                        const randomIndex = Math.floor(Math.random() * statuses.length);
+                        
+                        if (statuses[randomIndex].textContent === 'Pending') {
+                            statuses[randomIndex].textContent = 'Uploading';
+                            statuses[randomIndex].className = 'badge bg-info';
+                        } else if (statuses[randomIndex].textContent === 'Uploading' && progress > 70) {
+                            statuses[randomIndex].textContent = 'Complete';
+                            statuses[randomIndex].className = 'badge bg-success';
+                        }
+                    }
+                    
+                    // When progress is complete, update all remaining badges
+                    if (progress === 100) {
+                        const pendingStatuses = fileStatusContainer.querySelectorAll('.badge:not(.bg-success)');
+                        pendingStatuses.forEach(badge => {
+                            badge.textContent = 'Complete';
+                            badge.className = 'badge bg-success';
+                        });
+                        progressText.textContent = 'Upload complete!';
+                    }
+                }, 200);
+                
+                // Remove simulation code and uncomment the actual implementation
+                fetch('/api/upload-resumes', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showUploadResults(data.uploaded_count);
+                    } else {
+                        alert('Error uploading resumes: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error uploading resumes');
+                })
+                .finally(() => {
+                    uploadBtn.disabled = false;
+                    uploadSpinner.classList.add('d-none');
+                });
+            });
+            
+            function showUploadResults(count) {
+                document.getElementById('result-summary').textContent = 
+                    `${count} files have been uploaded and queued for processing.`;
+                
+                document.getElementById('upload-result-card').style.display = 'block';
+                document.getElementById('upload-result-card').scrollIntoView({ behavior: 'smooth' });
+                
+                // Reset form for new uploads
+                document.getElementById('upload-more-btn').addEventListener('click', function() {
+                    selectedFiles = [];
+                    updateFileList();
+                    document.getElementById('resume-upload-form').reset();
+                    document.getElementById('upload-progress-card').style.display = 'none';
+                    document.getElementById('upload-result-card').style.display = 'none';
+                    document.getElementById('upload-btn').disabled = false;
+                    document.getElementById('upload-spinner').classList.add('d-none');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
