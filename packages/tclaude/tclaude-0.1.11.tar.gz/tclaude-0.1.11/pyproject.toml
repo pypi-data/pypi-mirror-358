@@ -1,0 +1,72 @@
+[tool.black]
+line-length = 160
+
+[tool.isort]
+profile = "black"
+
+[tool.ruff]
+line-length = 160
+
+[tool.basedpyright]
+reportIgnoreCommentWithoutRule = false
+
+[build-system]
+requires = [
+    "setuptools>=61.2.0",
+    "wheel",
+]
+
+[project]
+name = "tclaude"
+dynamic = ["version"]
+description = "A complete terminal implementation of Anthropic's Claude."
+authors = [{name = "Thomas Müller", email = "tom@94.me"}]
+readme = "README.md"
+requires-python = ">=3.11"
+license = "GPL-3.0-only"
+dependencies = [
+    "aiofiles",
+    "aiohttp",
+    "beautifulsoup4",
+    "docstring_parser",
+    "html2text",
+    "humanize",
+    "keyring",
+    "mcp",
+    "oauthlib",
+    "partial-json-parser",
+    "prompt_toolkit",
+    "wcwidth",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",  # 5 - Production/Stable
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "Topic :: Communications :: Chat",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Environment :: Console",
+    "Operating System :: OS Independent",
+    "Natural Language :: English",
+]
+
+[project.urls]
+Repository = "https://github.com/Tom94/tclaude"
+
+[project.scripts]
+tclaude = "tclaude.tclaude:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+tclaude = ["default-config/*.toml"]
+
+[tool.setuptools.dynamic]
+version = {attr = "tclaude.__version__"}
+
