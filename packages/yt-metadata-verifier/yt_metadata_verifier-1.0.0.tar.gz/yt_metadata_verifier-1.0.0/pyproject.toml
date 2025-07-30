@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "yt-metadata-verifier"
+version = "1.0.0"
+description = "CLI tool to fetch and verify YouTube video metadata"
+authors = ["Taj <tajulislamj200@gmail.com>"]
+readme = "README.md"
+license = "MIT"
+homepage = "https://github.com/taj54"
+repository = "https://github.com/taj54/youtube_metadata_verifier"
+packages = [{ include = "yt_metadata_verifier", from = "src" }]
+
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.12.5"
+yt-dlp = "^2025.6.25"
+
+
+[tool.poetry.scripts]
+yt-verify = "yt_metadata_verifier.cli:main"
+
+[tool.pyright]
+useLibraryCodeForTypes = true
+exclude = [".cache"]
+
+
+[tool.ruff]
+select = ["E", "W", "F", "I", "B", "C4", "ARG", "SIM"]
+ignore = ["W291", "W292", "W293"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
