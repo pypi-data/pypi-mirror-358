@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>ConText</title>
+  <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/local.css') }}">
+  <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/hyperscript.org@0.9.14"></script>
+</style>
+</head>
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token() }}"}'>
+
+    <header id="context-header">
+        <h1 id="context-title" hx-post="/default-home" hx-target="#context-main">
+            <a href="/" hx-post="/default-home" hx-target="#context-main">ConText</a>
+        </h1>
+        <div id="context-corpus-detail" hx-trigger="newCorpus from:body" hx-post="/detail">
+        </div>
+        <div id="context-search-form" class="">
+            <form id="search-form" hx-post="/query-context" hx-target="#context-main" hx-swap="innerHTML" hx-trigger="submit">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="text" id="form-search" name="search" placeholder="Enter search term" required>
+                <select id="form-order" name="order" _="on change trigger submit on #search-form
+                                                           on load put '{{ order }}' into my value">
+                    <option value="1R2R3R">Order right (1R, 2R, 3R)</option>
+                    <option value="1L2L3L">Order left (1L, 2L, 3L)</option>
+                    <option value="3L2L1L">Order left (3L, 2L, 1L)</option>
+                    <option value="1L1R2R">Order around (1L, 1R, 2R)</option>
+                    <option value="2L1L1R">Order around (2L, 1L, 1R)</option>
+                </select>
+            </form>
+        </div>
+
+    </header>
+    <main id="context-main">
+        {{ context | safe }}
+    </main>
+
+    <div id="context-settings">
+        <button id="settings-button" _="on click toggle .show-form on #context-settings-form" hx-get="/settings" hx-target="#context-settings-form"><span>Settings</span></button>
+    </div>
+    <div id="context-settings-form">
+    </div>
+    <div id="context-runner" hx-trigger="load" hx-post="/new-corpus"></div>
+
+    <footer id="context-footer">Ford, G. (2025). <a href="#" target="_blank">ConText</a>: a browser based concordancer and language analysis application. ConText is powered by <a href="https://geoffford.nz/conc" target="_blank">Conc</a>.</footer>
+
+    <script type="text/hyperscript">
+    on popstate or load or htmx:pushedIntoHistory
+        set path to window.location.pathname
+        set segments to path.split("/")
+        if segments.length > 2
+            set rawValue to segments[2]
+            set decodedValue to [decodeURIComponent(rawValue)]
+            put decodedValue into #form-search.value
+        else
+            put "" into #form-search.value
+        end
+    end
+
+    on keydown from document
+        if event.key is "F2"
+            halt the event
+            call #form-search.focus()
+            call #form-search.select()
+        end
+    end
+
+    on load or smallscreenresize from body
+        if window.innerHeight < 950 and @screen != 'small'
+            then call htmx.ajax('POST', '/screen/small',  {swap: 'none'})
+                 set @screen to 'small'
+        else if window.innerHeight >= 950 and @screen != 'large'
+            then call htmx.ajax('POST', '/screen/large',  {swap: 'none'})
+                 set @screen to 'large'
+        end
+    end
+    
+    </script>
+
+<script>
+window.addEventListener('resize', function() {
+  document.body.dispatchEvent(new Event('smallscreenresize'));
+});
+</script>
+
+</body>
+</html>
