@@ -1,0 +1,58 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "keplore-mds"
+version = "0.1.0"
+description = "A simple MCP server for addition operations"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+    {name = "Your Name", email = "your.email@example.com"},
+]
+license = {text = "MIT"}
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "datasets>=3.6.0",
+    "fastmcp>=2.9.2",
+    "huggingface-hub>=0.33.1",
+    "mcp>=1.9.4",
+    "pydantic>=2.0.0",
+    "transformers>=4.53.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/kk-xuhj/keplore-mds"
+Repository = "https://github.com/kk-xuhj/keplore-mds.git"
+
+[project.scripts]
+keplore-mds = "mds.main:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "black",
+    "flake8",
+    "mypy",
+    "build",
+    "twine",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["mds"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/mds",
+    "/README.md",
+    "/pyproject.toml"
+]
