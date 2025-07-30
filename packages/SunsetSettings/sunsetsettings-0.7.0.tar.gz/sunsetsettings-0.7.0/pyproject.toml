@@ -1,0 +1,134 @@
+[build-system]
+requires      = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "SunsetSettings"
+description = "A type-safe, extensible INI-style settings library."
+authors = [{ name = "P. Varet", email = "p.varet@gmail.com" }]
+readme = "README.md"
+license = { file = "LICENSE" }
+dynamic = ["version"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+requires-python = ">=3.10"
+
+# Python 3.10 does not have a Self type, but it is available in the typing_extensions
+# module.
+dependencies = ["typing_extensions ; python_version=='3.10'"]
+
+[project.urls]
+Home          = "https://github.com/pvaret/SunsetSettings"
+Documentation = "https://sunsetsettings.readthedocs.io/"
+
+[project.optional-dependencies]
+tests = ["coverage[toml]", "pytest", "pytest-cov", "pytest-mock", "pytest-skip-slow"]
+docs  = ["sphinx", "sphinx_rtd_theme"]
+
+[tool.hatch.build.targets.sdist]
+only-include = ["sunset/", "tests/", "docs/"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["sunset/"]
+
+[tool.pytest.ini_options]
+addopts = "-vv --doctest-modules --doctest-glob=README.md --doctest-glob=docs/*.rst --cov --cov-branch --cov-report=xml"
+
+[tool.coverage.run]
+# Also measure tests. Helps detect tests that are not properly executed.
+source = ["sunset/", "tests/"]
+
+# Measure coverage of conditional branches.
+branch = true
+
+# Tag the coverage file names uniquely to avoid conflicts.
+parallel = true
+
+[tool.coverage.report]
+exclude_also = [
+    "^ *\\.\\.\\.$", # Ignore ellipsis lines.
+    "^ *pass$",      # Ignore pass lines.
+]
+omit = ["tests/demo_*.py"]
+
+[tool.ruff]
+# Use the default line length.
+line-length    = 88
+extend-exclude = ["docs/"]
+
+[tool.ruff.lint]
+# Enable all linting rules by default.
+select = ["ALL"]
+exclude = ["tests/*"]
+ignore = [
+    "COM812", # Can confuse the Ruff formatter.
+    "ISC001", # Can confuse the Ruff formatter.
+    "N802",   # We use camelCase method names.
+    "TC006",  # Obsoleted by PEP 563.
+    "D",      # Ignore docstring style linting for now. Revisit later.
+]
+
+[tool.ruff.format]
+# Don't reformat docstrings, for now. Should probably revisit at some point.
+docstring-code-format = false
+
+[tool.hatch.version]
+path = "sunset/__init__.py"
+
+[tool.hatch.envs.hatch-test]
+# This forces hatch test to use the pytest ini options listed above.
+default-args = []
+
+# This makes this environment use the "tests" optional dependencies above. Hatch
+# installs its own set by default, but explicit is better than implicit.
+
+features = ["tests"]
+
+# Parallelizes test execution.
+parallel = true
+
+[[tool.hatch.envs.hatch-test.matrix]]
+python = ["3.10", "3.11", "3.12", "3.13"]
+
+[tool.hatch.envs.dev]
+# Use this environment for development purposes. I.e. point VSCode to the Python
+# interpreter in this environment.
+
+# Add test-related dependencies to the dev environment.
+features = ["tests"]
+
+# This environment is also where we exercise type checks.
+dependencies = ["pyright"]
+
+# This environment does not need the code built and installed.
+detached = true
+
+[tool.hatch.envs.docs]
+# This makes this environment use the "docs" optional dependencies above.
+features = ["docs"]
+
+# This environment does not need the code built and installed.
+detached = true
+
+[tool.hatch.envs.docs.scripts]
+html = "make -C ./docs html"
+
+[tool.hatch.envs.hatch-static-analysis]
+# Require a version of Ruff that agrees with the linting parameters above.
+dependencies = ["ruff>=0.12.1"]
+
+# Disable Hatch's custom Ruff defaults so that our linting parameters above are the
+# entirety of what is used.
+config-path = "none"
