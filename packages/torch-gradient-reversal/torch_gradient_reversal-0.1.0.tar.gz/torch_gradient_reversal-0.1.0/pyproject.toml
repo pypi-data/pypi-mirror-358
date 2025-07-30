@@ -1,0 +1,16 @@
+[build-system]
+requires        = ["setuptools>=68", "wheel"]
+build-backend   = "setuptools.build_meta"
+
+[project]
+name            = "torch-gradient-reversal"   # PyPI name
+version         = "0.1.0"
+description     = "Gradient Reversal Layer implemented with torch.library"
+readme          = "README.md"
+requires-python = ">=3.9"
+license         = {text = "MIT"}
+authors         = [{name = "Andrew Bistras"}]
+dependencies    = ["torch>=2.7"]              # lone runtime dep
+
+[project.urls]
+Source = "https://github.com/andrewbistras/torch-gradient-reversal"
