@@ -1,0 +1,22 @@
+[project]
+name = "fa-tui"
+version = "0.1.0"
+description = "一个文本TUI工具，用于选择frida进程和JS脚本。适用于Android系统"
+authors = [
+    { name="hongenge", email="hongen.me@gmail.com" }
+]
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "textual>=3.5.0"
+]
+
+[project.scripts]
+fa-tui = "fa_tui.app:main"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project.urls]
+"Homepage" = "https://github.com/hongenge/fa-tui"
