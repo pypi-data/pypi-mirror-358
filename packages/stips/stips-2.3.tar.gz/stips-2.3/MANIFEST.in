@@ -1,0 +1,22 @@
+include *
+recursive-include * *
+exclude *.pyc *.pyo
+
+include README.rst
+include CHANGES.rst
+
+include setup.cfg
+include stips/tests/coveragerc
+
+recursive-include stips *.pyx *.c *.pxd
+recursive-include docs *
+recursive-include licenses *
+recursive-include cextern *
+recursive-include scripts *
+
+prune build
+prune docs/_build
+prune docs/api
+prune dist
+
+global-exclude *.pyc *.o

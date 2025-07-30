@@ -1,0 +1,84 @@
+# This file describes a conda environment that can be used to install STIPS for development and
+# testing purposes. Note that this environment setup installs the STIPS module in
+# editable mode, so any changes you make to the STIPS source will be reflected the next
+# time you run python.
+#
+# Run the following command to set up this environment:
+# $ conda env create -f environment.yml
+#
+# The environment name can be overridden with the following command:
+# $ conda env create -n <custom name> -f environment.yml
+#
+# Run the following command to activate the environment:
+# $ conda activate stips_dev
+#
+# To deactivate the environment run the following command:
+# $ conda deactivate
+#
+# To remove the environment entirely, run the following command:
+# $ conda env remove -n stips
+
+name: stips_dev
+
+channels:
+  - conda-forge
+  - astropy
+
+dependencies:
+  # Base dependencies
+  - pip
+  - python>=3.10
+  - jupyter
+  - Cython
+  - esutil # installed from conda because you need the pre-compiled binaries.
+
+  - pip:
+    #
+    # Special Modules. These are temporary entries and require documentation.
+    #
+    # poppy 1.0.3 fixes a bug with the way poppy was calling factorial with non-integer
+    # values. Currently this is the only way to ensure that stpsf picks up the correct
+    # poppy version. This peg should be removed as soon as stpsf has updated to only
+    # use poppy versions that include this fix.
+    - poppy==1.0.3
+
+    # Core Modules
+    - stpsf>=2.0.0
+    - pandeia.engine>=2024.12
+    - synphot>=1.1.1
+    - stsynphot>=1.1.0
+    - soc_roman_tools
+
+    # Major modules
+    - astropy
+    - photutils
+    - ConfigParser
+    - numpy
+    - scipy
+    - matplotlib
+    - ipython
+
+    # Minor modules
+    - montage-wrapper
+    - pyyaml
+    - mechanize
+
+    # Docs
+    - docutils
+    - sphinx
+    - sphinx_rtd_theme
+    # - stsci_rtd_theme
+    # (install stsci_rtd_theme from master until a post 1.0 release occurs
+    #  to prevent issues with bullets in the documentation)
+    - git+https://github.com/spacetelescope/stsci_rtd_theme.git@master
+    - sphinx_automodapi
+    - sphinx_autoapi
+    - sphinx_astropy
+
+    # Testing
+    - tox
+    - tox-conda
+    - pytest-astropy
+
+    # Current package
+    - -e .

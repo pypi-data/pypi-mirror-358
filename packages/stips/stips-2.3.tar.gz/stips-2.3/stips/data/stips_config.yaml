@@ -1,0 +1,102 @@
+####
+# General Configuration
+####
+
+# Input Location: location of input catalogues and other data files.
+#   - $CWD for run directory.
+input_location : "$CWD"
+
+# Output Location: location where output data should be written.
+#   - $CWD for run directory.
+output_location : "$CWD"
+
+# Catalogue type: type of catalogues to generate. 'ascii.ipac' or 'fits'
+catalogue_type : 'fits'
+
+# Logging Level: string input to python logging module.
+#   CRITICAL/ERROR/WARNING/INFO/DEBUG are valid strings.
+log_level : 'INFO'
+
+# Random Seed.
+#   -1 means use current date/time.
+random_seed : 1234
+
+####
+# Observation Defaults
+####
+
+# Default Background
+#   - can be none/low/avg/high as keywords
+#   - can be 'jbt' to use the JBT background tool. If 'jbt' will return the mean
+#       value. If jbt:val, will return val, where val is one of 
+#       min/mean/median/max
+#   - can be a floating point
+observation_default_background : 0.0
+
+# Include distortion parameters (if available)
+observation_distortion_enable : false
+
+####
+# PSF Convolution Configuration
+####
+
+# Enable PSF cache
+psf_cache_enable : true
+
+# PSF cache location. Only used if psf_cache_enable is true.
+#   Default is "$DATA" for the stips_data directory
+#   Otherwise specify a path directly.
+psf_cache_location : "$DATA"
+
+# PSF cache directory name.
+psf_cache_directory : 'psf_cache'
+
+# PSF Source Magnitude Limits
+# Sources will be psf-convolved as follows:
+#   - magnitude >= psf_bright_limit: use default (45-pixel) PSF
+#   - magnitude < psf_bright_limit, magnitude >= psf_xbright_limit: use bright (91-pixel) PSF
+#   - magnitude < psf_xbright_limit: use extra-bright (181-pixel) PSF
+psf_bright_limit : 14.
+psf_xbright_limit : 3.
+
+####
+# Residual Configuration
+####
+
+# Perform PSF convolution
+residual_convolve_psf : true
+
+# Add Poisson noise
+residual_poisson : true
+
+# Add Readnoise
+residual_readnoise : true
+
+# Add flatfield residual
+residual_flat : true
+
+# Add dark current residual
+residual_dark : true
+
+# Add Cosmic Ray residual
+residual_cosmic : true
+
+####
+# Environment Configuration
+####
+
+# Location of the STIPS data directory
+stips_data : "$local"
+stips_data_name : "stips_data"
+
+# Location of the synphot reference files
+synphot_data : "$local"
+synphot_data_name : "PYSYN_CDBS"
+
+# stpsf data directory
+stpsf_data : "$local"
+stpsf_data_name : "STPSF_PATH"
+
+# pandeia data directory
+pandeia_data : "$local"
+pandeia_data_name : "pandeia_refdata"
